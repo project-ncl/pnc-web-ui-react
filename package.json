@@ -22,7 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
+    "prettier-write": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "prettier-check": "prettier --check '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +49,6 @@
     "prettier": "2.3.1"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"
   }
 }
