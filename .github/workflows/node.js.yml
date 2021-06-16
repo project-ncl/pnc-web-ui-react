@@ -15,7 +15,8 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [14.x, 16.x]
+        # Skipped using 14.x to avoid https://github.com/npm/cli/issues/558#issuecomment-580018468
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,6 +24,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - run: node --version && npm --version
       - run: npm ci
       - run: npm run build
       - run: npm test
