@@ -14,7 +14,7 @@ https://prettier.io/
 - **no** = commit was canceled, files need to be formatted first, choose one option:
   - a) format only _specific files_ using editor
   - b) format only _specific files_ using terminal: `npx prettier --write src/App.tsx`
-  - c) **not recommended**: format _all files_ using terminal `npm run prettier`
+  - c) **not recommended**: format _all files_ using terminal `npm run prettier-write`
 
 ## Editor Integration: `Visual Studio Code`
 
@@ -71,10 +71,11 @@ package-lock.json
 
 ```json
 "scripts": {
-  "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
+  "prettier-write": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+  "prettier-check": "prettier --check '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
 },
 
 "lint-staged": {
-  "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"
+  "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"
 }
 ```
