@@ -20,23 +20,11 @@ interface IAppLayout {
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({
   children,
 }) => {
-  const [isNavOpen, setIsNavOpen] = React.useState(true);
-
-  const onNavToggle = () => {
-    setIsNavOpen(!isNavOpen);
-  };
-
   const AppLogoImage = () => (
     <img src={pncLogoText} alt="Newcastle Build System" />
   );
 
-  const AppHeader = (
-    <PageHeader
-      logo={<AppLogoImage />}
-      showNavToggle
-      onNavToggle={onNavToggle}
-    />
-  );
+  const AppHeader = <PageHeader logo={<AppLogoImage />} showNavToggle />;
 
   const AppNavigation = (
     <Nav>
@@ -56,7 +44,7 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({
     </Nav>
   );
 
-  const AppSidebar = <PageSidebar nav={AppNavigation} isNavOpen={isNavOpen} />;
+  const AppSidebar = <PageSidebar nav={AppNavigation} />;
 
   const AppBreadcrumb = (
     <Breadcrumb>
@@ -70,7 +58,12 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({
   );
 
   return (
-    <Page header={AppHeader} sidebar={AppSidebar} breadcrumb={AppBreadcrumb}>
+    <Page
+      header={AppHeader}
+      sidebar={AppSidebar}
+      breadcrumb={AppBreadcrumb}
+      isManagedSidebar
+    >
       {children}
     </Page>
   );
