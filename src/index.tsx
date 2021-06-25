@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { AppLayout } from './AppLayout';
+import PncPage from './PncPage';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppLayout>
+      <>
+        <div>Custom content</div>
+        <PncPage></PncPage>
+      </>
+    </AppLayout>
   </React.StrictMode>,
   document.getElementById('root')
 );
