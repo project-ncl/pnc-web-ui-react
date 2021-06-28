@@ -6,11 +6,21 @@ import {
   NavItem,
   NavExpandable,
   Page,
+  Button,
+  ButtonVariant,
+  PageHeaderTools,
+  PageHeaderToolsGroup,
+  PageHeaderToolsItem,
   PageHeader,
   Breadcrumb,
   BreadcrumbItem,
   PageSidebar,
 } from '@patternfly/react-core';
+import {
+  CogIcon,
+  OutlinedQuestionCircleIcon,
+  BellIcon,
+} from '@patternfly/react-icons';
 import pncLogoText from './pnc-logo-text.svg';
 
 interface IAppLayout {
@@ -24,7 +34,35 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({
     <img src={pncLogoText} alt="Newcastle Build System" />
   );
 
-  const AppHeader = <PageHeader logo={<AppLogoImage />} showNavToggle />;
+  const AppHeaderTools = (
+    <PageHeaderTools>
+      <PageHeaderToolsGroup>
+        <PageHeaderToolsItem>
+          <Button variant={ButtonVariant.plain}>
+            <CogIcon />
+          </Button>
+        </PageHeaderToolsItem>
+        <PageHeaderToolsItem>
+          <Button variant={ButtonVariant.plain}>
+            <OutlinedQuestionCircleIcon />
+          </Button>
+        </PageHeaderToolsItem>
+        <PageHeaderToolsItem>
+          <Button variant={ButtonVariant.plain}>
+            <BellIcon />
+          </Button>
+        </PageHeaderToolsItem>
+      </PageHeaderToolsGroup>
+    </PageHeaderTools>
+  );
+
+  const AppHeader = (
+    <PageHeader
+      logo={<AppLogoImage />}
+      headerTools={AppHeaderTools}
+      showNavToggle
+    />
+  );
 
   const AppNavigation = (
     <Nav>
