@@ -6,6 +6,7 @@ import {
   NavItem,
   NavExpandable,
   Page,
+  Divider,
   Button,
   ButtonVariant,
   PageHeaderTools,
@@ -15,6 +16,10 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   PageSidebar,
+  PageSection,
+  PageSectionVariants,
+  TextContent,
+  Text,
 } from '@patternfly/react-core';
 import {
   CogIcon,
@@ -102,6 +107,28 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({
       breadcrumb={AppBreadcrumb}
       isManagedSidebar
     >
+      <PageSection variant={PageSectionVariants.light}>
+        <TextContent>
+          <Text component="h1">Primary Title</Text>
+          <Text component="p">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            quos unde, accusantium excepturi ad praesentium.
+          </Text>
+        </TextContent>
+      </PageSection>
+
+      <Divider component="div" />
+
+      <PageSection>
+        <TextContent>
+          <Text component="h2">Secondary Title</Text>
+          <Text component="p">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            quos unde, accusantium excepturi ad praesentium.
+          </Text>
+        </TextContent>
+      </PageSection>
+
       {children}
     </Page>
   );
