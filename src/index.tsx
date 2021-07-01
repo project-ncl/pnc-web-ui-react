@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { AppLayout } from './AppLayout';
-import PncPage from './PncPage';
+import { AppRoutes } from './AppRoutes';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppLayout>
-      <>
-        <div>Custom content</div>
-        <PncPage></PncPage>
-      </>
-    </AppLayout>
+    <Router basename="/pnc-web">
+      <AppLayout>
+        <AppRoutes></AppRoutes>
+      </AppLayout>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
