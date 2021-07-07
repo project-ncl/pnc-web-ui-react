@@ -10,6 +10,7 @@ import { GroupConfigsPage } from './components/GroupConfigsPage/GroupConfigsPage
 import { ProductsPage } from './components/ProductsPage/ProductsPage';
 import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
 import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
+import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 
 export const AppRoutes = () => (
   <Switch>
@@ -22,5 +23,6 @@ export const AppRoutes = () => (
     <Route path="/group-builds" component={GroupBuildsPage} />
     <Route path="/artifacts" component={ArtifactsPage} />
     <Route path="/scm-repositories" component={ScmRepositoriesPage} />
+    <Route path="*" component={NotFoundPage} />
   </Switch>
 );
