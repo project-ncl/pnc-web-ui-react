@@ -1,6 +1,5 @@
-import {} from '@testing-library/react';
-// import { render } from '@testing-library/react';
-// import { PageLayout } from '../PageLayout';
+import { render } from '@testing-library/react';
+import { PageLayout } from '../PageLayout';
 
 test('renders PageLayout', () => {
   // render(<PageLayout />);
