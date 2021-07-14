@@ -1,6 +1,5 @@
-import {} from '@testing-library/react';
-// import { render } from '@testing-library/react';
-// import { ProjectsPage } from '../ProjectsPage';
+import { render } from '@testing-library/react';
+import { ProjectsPage } from '../ProjectsPage';
 
 test('renders ProjectsPage', () => {
   // render(<ProjectsPage />);
