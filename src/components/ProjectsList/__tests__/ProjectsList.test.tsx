@@ -1,6 +1,11 @@
-import { render } from '@testing-library/react';
 import { ProjectsList } from '../ProjectsList';
+import { MemoryRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
 
 test('renders ProjectsList', () => {
-  //   render(<ProjectsList />);a
+  render(
+    <MemoryRouter>
+      <ProjectsList />
+    </MemoryRouter>
+  );
 });
