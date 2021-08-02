@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '@patternfly/react-core/dist/styles/base.css';
 import {
   Nav,
@@ -8,6 +8,9 @@ import {
   Page,
   Button,
   ButtonVariant,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
   PageHeaderTools,
   PageHeaderToolsGroup,
   PageHeaderToolsItem,
@@ -16,7 +19,7 @@ import {
   BreadcrumbItem,*/
   PageSidebar,
 } from '@patternfly/react-core';
-import { CogIcon, OutlinedQuestionCircleIcon, BellIcon } from '@patternfly/react-icons';
+import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
 import { Link, useLocation } from 'react-router-dom';
 import pncLogoText from './pnc-logo-text.svg';
 
@@ -27,29 +30,118 @@ interface IAppLayout {
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
-  const AppHeaderTools = (
-    <PageHeaderTools>
-      <PageHeaderToolsGroup>
-        <PageHeaderToolsItem>
-          <Button variant={ButtonVariant.plain}>
-            <CogIcon />
-          </Button>
-        </PageHeaderToolsItem>
-        <PageHeaderToolsItem>
-          <Button variant={ButtonVariant.plain}>
-            <OutlinedQuestionCircleIcon />
-          </Button>
-        </PageHeaderToolsItem>
-        <PageHeaderToolsItem>
-          <Button variant={ButtonVariant.plain}>
-            <BellIcon />
-          </Button>
-        </PageHeaderToolsItem>
-      </PageHeaderToolsGroup>
-    </PageHeaderTools>
-  );
+  const headerConfigDropdownItems = [
+    <DropdownItem key="variables" href="/admin/variables">
+      Variables
+    </DropdownItem>,
+    <DropdownItem key="administration" href="/admin/administration">
+      Administration
+    </DropdownItem>,
+  ];
 
-  const AppHeader = <PageHeader logo={<AppLogoImage />} headerTools={AppHeaderTools} showNavToggle />;
+  const headerQuestionDropdownItems = [
+    <DropdownItem key="about" href="/pnc-web/about">
+      About
+    </DropdownItem>,
+    <DropdownItem key="users guide" href="https://docs.engineering.redhat.com/display/JP/User%27s+guide">
+      User's guide
+    </DropdownItem>,
+  ];
+
+  const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
+
+  const AppHeaderTools = () => {
+    const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
+    const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
+    const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
+    const [currentUser, setCurrentUser] = useState<any>(null);
+
+    return (
+      <PageHeaderTools>
+        <PageHeaderToolsGroup>
+          <PageHeaderToolsItem isSelected={true}>
+            <Dropdown
+              onSelect={() => {
+                setIsHeaderConfigOpen(!isHeaderConfigOpen);
+              }}
+              toggle={
+                <DropdownToggle
+                  id="toggle-config"
+                  toggleIndicator={null}
+                  onToggle={() => {
+                    setIsHeaderConfigOpen(!isHeaderConfigOpen);
+                  }}
+                >
+                  <CogIcon />
+                  <CaretDownIcon />
+                </DropdownToggle>
+              }
+              isOpen={isHeaderConfigOpen}
+              isPlain
+              dropdownItems={headerConfigDropdownItems}
+            />
+          </PageHeaderToolsItem>
+          <PageHeaderToolsItem>
+            <Dropdown
+              onSelect={() => {
+                setIsHeaderQuestionOpen(!isHeaderQuestionOpen);
+              }}
+              toggle={
+                <DropdownToggle
+                  id="toggle-question"
+                  toggleIndicator={null}
+                  onToggle={() => {
+                    setIsHeaderQuestionOpen(!isHeaderQuestionOpen);
+                  }}
+                >
+                  <OutlinedQuestionCircleIcon />
+                  <CaretDownIcon />
+                </DropdownToggle>
+              }
+              isOpen={isHeaderQuestionOpen}
+              isPlain
+              dropdownItems={headerQuestionDropdownItems}
+            />
+          </PageHeaderToolsItem>
+          <PageHeaderToolsItem>
+            <Button variant={ButtonVariant.plain}>
+              <BellIcon />
+            </Button>
+          </PageHeaderToolsItem>
+          <PageHeaderToolsItem>
+            <Dropdown
+              onSelect={() => {
+                setCurrentUser(null);
+                setIsHeaderUserOpen(false);
+              }}
+              toggle={
+                <DropdownToggle
+                  id="toggle-user-name"
+                  toggleIndicator={null}
+                  icon={<UserIcon />}
+                  onToggle={() => {
+                    if (currentUser) {
+                      setIsHeaderUserOpen(!isHeaderUserOpen);
+                    } else {
+                      setCurrentUser({ userName: 'Jhon Doe' });
+                    }
+                  }}
+                >
+                  {currentUser ? currentUser.userName : 'Login'}
+                  {currentUser && <CaretDownIcon />}
+                </DropdownToggle>
+              }
+              isOpen={isHeaderUserOpen}
+              isPlain
+              dropdownItems={headerUserDropdownItems}
+            />
+          </PageHeaderToolsItem>
+        </PageHeaderToolsGroup>
+      </PageHeaderTools>
+    );
+  };
+
+  const AppHeader = <PageHeader logo={<AppLogoImage />} headerTools={<AppHeaderTools />} showNavToggle />;
 
   const AppNavigation = () => {
     const { pathname } = useLocation();
