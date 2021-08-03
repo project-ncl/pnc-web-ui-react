@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router basename="/pnc-web">
-      <AppLayout>
-        <AppRoutes></AppRoutes>
-      </AppLayout>
+      <ErrorBoundary>
+        <AppLayout>
+          <AppRoutes></AppRoutes>
+        </AppLayout>
+      </ErrorBoundary>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
