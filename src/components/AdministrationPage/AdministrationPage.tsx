@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { CSSProperties, useState } from 'react';
 import {
   Button,
   Divider,
@@ -14,34 +14,37 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
+import { PageLayout } from './../PageLayout/PageLayout';
 
 export const AdministrationPage = () => {
   const [isMaintenanceModeOn, setIsMaintenanceModeOn] = useState(false);
+  const versionButtonStyle: CSSProperties = {
+    marginTop: '5px',
+  };
+
   return (
-    <>
+    <PageLayout title="Administration" description="Administration tools for admin users">
       <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">Administration</Text>
-        </TextContent>
-        <br />
         <Form isHorizontal>
-          <FormGroup label="Pnc System Version" fieldId="horizontal-form-pnc-system-version">
-            <TextInput
-              type="text"
-              id="horizontal-form-pnc-system-version"
-              aria-describedby="horizontal-form-pnc-system-version-helper"
-              name="horizontal-form-pnc-system-version"
-            />
-            <br />
+          <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
+            <TextInput type="text" id="form-pnc-system-version" name="form-pnc-system-version" />
             <Flex>
               <FlexItem align={{ default: 'alignRight' }}>
-                <Button variant="primary">Update</Button>
+                <Button
+                  variant="primary"
+                  id="form-pnc-system-version-update"
+                  name="form-pnc-system-version-update"
+                  style={versionButtonStyle}
+                >
+                  Update
+                </Button>
               </FlexItem>
             </Flex>
           </FormGroup>
-          <FormGroup label="Maintenance Mode" fieldId="horizontal-form-maintenance">
+          <FormGroup label="Maintenance Mode" fieldId="form-maintenance">
             <Switch
-              id="maintenance-switch"
+              id="form-maintenance"
+              name="form-maintenance"
               label="Maintenance Mode On"
               labelOff="Maintenance Mode Off"
               isChecked={isMaintenanceModeOn}
@@ -50,16 +53,13 @@ export const AdministrationPage = () => {
               }}
             />
           </FormGroup>
-          <FormGroup label="Announcement" fieldId="horizontal-form-announcement">
-            <TextArea
-              name="horizontal-form-announcement"
-              id="horizontal-form-announcement"
-              aria-describedby="horizontal-form-announcement-helper"
-            />
-            <br />
+          <FormGroup label="Announcement" fieldId="form-announcement">
+            <TextArea name="form-announcement" id="form-announcement" aria-describedby="form-announcement-helper" />
             <Flex>
               <FlexItem align={{ default: 'alignRight' }}>
-                <Button variant="primary">Update</Button>
+                <Button variant="primary" id="form-announcement-update" name="form-announcement-update">
+                  Update
+                </Button>
               </FlexItem>
             </Flex>
           </FormGroup>
@@ -67,6 +67,6 @@ export const AdministrationPage = () => {
       </PageSection>
 
       <Divider component="div" />
-    </>
+    </PageLayout>
   );
 };
