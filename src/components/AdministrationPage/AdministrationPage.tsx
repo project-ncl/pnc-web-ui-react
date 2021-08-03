@@ -9,8 +9,6 @@ import {
   PageSection,
   PageSectionVariants,
   Switch,
-  Text,
-  TextContent,
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
