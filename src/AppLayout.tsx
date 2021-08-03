@@ -30,76 +30,81 @@ interface IAppLayout {
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
-  const headerConfigDropdownItems = [
-    <DropdownItem key="variables" href="/admin/variables">
-      Variables
-    </DropdownItem>,
-    <DropdownItem key="administration" href="/admin/administration">
-      Administration
-    </DropdownItem>,
-  ];
-
-  const headerQuestionDropdownItems = [
-    <DropdownItem key="about" href="/pnc-web/about">
-      About
-    </DropdownItem>,
-    <DropdownItem key="users guide" href="https://docs.engineering.redhat.com/display/JP/User%27s+guide">
-      User's guide
-    </DropdownItem>,
-  ];
-
-  const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
-
   const AppHeaderTools = () => {
     const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
     const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState<any>(null);
 
+    const headerConfigDropdownItems = [
+      <DropdownItem key="variables" href="/admin/variables">
+        Variables
+      </DropdownItem>,
+      <DropdownItem key="administration" href="/admin/administration">
+        Administration
+      </DropdownItem>,
+    ];
+
+    const headerQuestionDropdownItems = [
+      <DropdownItem key="about" href="/about">
+        About
+      </DropdownItem>,
+      <DropdownItem key="users guide" href="https://docs.engineering.redhat.com/display/JP/User%27s+guide" target="_blank">
+        User's guide
+      </DropdownItem>,
+    ];
+
+    const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
+
+    function processLogin() {
+      if (currentUser) {
+        setIsHeaderUserOpen(!isHeaderUserOpen);
+      } else {
+        setCurrentUser({ userName: 'Jhon Doe' });
+      }
+    }
+
+    function processLogout() {
+      setCurrentUser(null);
+      setIsHeaderUserOpen(false);
+    }
+
     return (
       <PageHeaderTools>
         <PageHeaderToolsGroup>
-          <PageHeaderToolsItem isSelected={true}>
+          <PageHeaderToolsItem>
             <Dropdown
-              onSelect={() => {
-                setIsHeaderConfigOpen(!isHeaderConfigOpen);
-              }}
               toggle={
                 <DropdownToggle
-                  id="toggle-config"
                   toggleIndicator={null}
+                  icon={<CogIcon />}
                   onToggle={() => {
                     setIsHeaderConfigOpen(!isHeaderConfigOpen);
                   }}
                 >
-                  <CogIcon />
                   <CaretDownIcon />
                 </DropdownToggle>
               }
               isOpen={isHeaderConfigOpen}
-              isPlain
+              isPlain={true}
               dropdownItems={headerConfigDropdownItems}
             />
           </PageHeaderToolsItem>
           <PageHeaderToolsItem>
             <Dropdown
-              onSelect={() => {
-                setIsHeaderQuestionOpen(!isHeaderQuestionOpen);
-              }}
               toggle={
                 <DropdownToggle
-                  id="toggle-question"
                   toggleIndicator={null}
+                  icon={<OutlinedQuestionCircleIcon />}
                   onToggle={() => {
                     setIsHeaderQuestionOpen(!isHeaderQuestionOpen);
                   }}
                 >
-                  <OutlinedQuestionCircleIcon />
                   <CaretDownIcon />
                 </DropdownToggle>
               }
               isOpen={isHeaderQuestionOpen}
-              isPlain
+              isPlain={true}
               dropdownItems={headerQuestionDropdownItems}
             />
           </PageHeaderToolsItem>
@@ -110,29 +115,15 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
           </PageHeaderToolsItem>
           <PageHeaderToolsItem>
             <Dropdown
-              onSelect={() => {
-                setCurrentUser(null);
-                setIsHeaderUserOpen(false);
-              }}
+              onSelect={processLogout}
               toggle={
-                <DropdownToggle
-                  id="toggle-user-name"
-                  toggleIndicator={null}
-                  icon={<UserIcon />}
-                  onToggle={() => {
-                    if (currentUser) {
-                      setIsHeaderUserOpen(!isHeaderUserOpen);
-                    } else {
-                      setCurrentUser({ userName: 'Jhon Doe' });
-                    }
-                  }}
-                >
+                <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
                   {currentUser ? currentUser.userName : 'Login'}
                   {currentUser && <CaretDownIcon />}
                 </DropdownToggle>
               }
               isOpen={isHeaderUserOpen}
-              isPlain
+              isPlain={true}
               dropdownItems={headerUserDropdownItems}
             />
           </PageHeaderToolsItem>
