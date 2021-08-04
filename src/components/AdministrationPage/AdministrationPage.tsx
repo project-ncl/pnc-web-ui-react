@@ -39,6 +39,12 @@ export const AdministrationPage = () => {
               </FlexItem>
             </Flex>
           </FormGroup>
+        </Form>
+      </PageSection>
+      <Divider component="div" />
+      <br />
+      <PageSection variant={PageSectionVariants.light}>
+        <Form isHorizontal>
           <FormGroup label="Maintenance Mode" fieldId="form-maintenance">
             <Switch
               id="form-maintenance"
@@ -63,7 +69,6 @@ export const AdministrationPage = () => {
           </FormGroup>
         </Form>
       </PageSection>
-
       <Divider component="div" />
     </PageLayout>
   );
