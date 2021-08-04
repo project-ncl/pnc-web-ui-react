@@ -16,7 +16,6 @@ import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmReposit
 // special pages
 import { VariablesPage } from './components/VariablesPage/VariablesPage';
 import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
-import { AboutPage } from './components/AboutPage/AboutPage';
 import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 
 export const AppRoutes = () => (
@@ -32,7 +31,6 @@ export const AppRoutes = () => (
     <Route path="/group-builds" component={GroupBuildsPage} />
     <Route path="/artifacts" component={ArtifactsPage} />
     <Route path="/scm-repositories" component={ScmRepositoriesPage} />
-    <Route path="/about" component={AboutPage} />
 
     {/* special pages */}
     <Route path="/admin/variables" component={VariablesPage} />
