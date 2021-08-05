@@ -22,13 +22,13 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
         <TextContent>
           <TextList component="dl">
             <TextListItem component="dt">
-              <a href={pncRepositoryUrl} target="_blank">
+              <a href={pncRepositoryUrl} target="_blank" rel="noopener noreferrer">
                 PNC System Version
               </a>
             </TextListItem>
             <TextListItem component="dd">master</TextListItem>
             <TextListItem component="dt">
-              <a href={pncWebUiRepositoryUrl} target="_blank">
+              <a href={pncWebUiRepositoryUrl} target="_blank" rel="noopener noreferrer">
                 PNC Web UI Version
               </a>
             </TextListItem>
