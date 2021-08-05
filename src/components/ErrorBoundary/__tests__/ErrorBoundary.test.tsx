@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import ErrorBoundary from '../ErrorBoundary';
+import { ErrorBoundary } from '../ErrorBoundary';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 
 test('renders ErrorBoundary and fire an error', async () => {
   function BuggyCounter() {
@@ -13,8 +12,9 @@ test('renders ErrorBoundary and fire an error', async () => {
 
     if (counter === 1) {
       // Simulate a JS error
-      throw new Error('I crashed!');
+      throw new Error('SIMULATE INTENTIONAL CRASH CASES -- This is fine :)');
     }
+
     return (
       <h1 id="error-button" onClick={handleClick}>
         Fire Error
@@ -22,12 +22,11 @@ test('renders ErrorBoundary and fire an error', async () => {
     );
   }
   render(
-    <MemoryRouter>
-      <ErrorBoundary>
-        <BuggyCounter />
-      </ErrorBoundary>
-    </MemoryRouter>
+    <ErrorBoundary>
+      <BuggyCounter />
+    </ErrorBoundary>
   );
   await waitFor(() => fireEvent.click(screen.getByText('Fire Error')));
-  expect(screen.getByRole('title')).toHaveTextContent('System Error');
+  //@Todo:
+  expect(screen.getByText('System Error'));
 });

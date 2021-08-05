@@ -1,36 +1,36 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React from 'react';
 import SystemErrorPage from '../SystemErrorPage/SystemErrorPage';
 
-interface Props {
-  children: ReactNode;
+export interface ErrorBoundaryProps {
+  children: React.ReactChild;
+  fallbackUI?: React.FunctionComponent;
+  meta?: any;
 }
 
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false,
-  };
+export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-  public static getDerivedStateFromError(_: Error): State {
-    // Update state so the next render will show the fallback UI.
+  static getDerivedStateFromError(error: any) {
     return { hasError: true };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  componentDidCatch(error: any, errorInfo: any) {
     console.error('Error Boundary - Uncaught error:', error, errorInfo);
     // @Todo: Implement the Error report to the backend, see NCL-6145
   }
 
-  public render() {
+  render() {
     if (this.state.hasError) {
-      return <SystemErrorPage></SystemErrorPage>;
+      return <SystemErrorPage />;
     }
 
     return this.props.children;
   }
 }
-
-export default ErrorBoundary;

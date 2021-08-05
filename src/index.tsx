@@ -5,17 +5,33 @@ import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+function BuggyCounter() {
+  const [counter, setCounter] = useState<any>(0);
 
+  function handleClick() {
+    setCounter(counter + 1);
+  }
+
+  if (counter === 1) {
+    // Simulate a JS error
+    throw new Error('I crashed!');
+  }
+  return (
+    <h1 id="error-button" onClick={handleClick}>
+      Fire Error
+    </h1>
+  );
+}
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename="/pnc-web">
-      <ErrorBoundary>
+    <ErrorBoundary>
+      <Router basename="/pnc-web">
         <AppLayout>
           <AppRoutes></AppRoutes>
         </AppLayout>
-      </ErrorBoundary>
-    </Router>
+      </Router>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );

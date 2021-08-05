@@ -11,9 +11,9 @@ const SystemErrorPage = () => {
       </Title>
       <EmptyStateBody>Unexpected error occurred, report has been sent to the server.</EmptyStateBody>
 
-      <Link to="/" className="pf-c-button pf-m-primary">
+      <a href="/" className="pf-c-button pf-m-primary">
         Return to Dashboard
-      </Link>
+      </a>
     </EmptyState>
   );
 };
