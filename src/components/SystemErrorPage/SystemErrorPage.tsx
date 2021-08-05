@@ -1,7 +1,7 @@
 import { Title, EmptyState, EmptyStateIcon, EmptyStateBody, EmptyStateVariant } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 
-const SystemErrorPage = () => {
+export const SystemErrorPage = () => {
   return (
     <EmptyState variant={EmptyStateVariant.xl} className="pf-u-pt-4xl">
       <EmptyStateIcon icon={CubesIcon} />
@@ -16,5 +16,3 @@ const SystemErrorPage = () => {
     </EmptyState>
   );
 };
-
-export default SystemErrorPage;
