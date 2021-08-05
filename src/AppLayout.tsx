@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '@patternfly/react-core/dist/styles/base.css';
 import {
-  AboutModal,
   Nav,
   NavList,
   NavItem,
@@ -19,25 +18,30 @@ import {
   /*Breadcrumb,
   BreadcrumbItem,*/
   PageSidebar,
-  TextContent,
-  TextList,
-  TextListItem,
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
 import { Link, useLocation } from 'react-router-dom';
 import pncLogoText from './pnc-logo-text.svg';
+import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
+
+// extend the global Window interface
+declare global {
+  interface Window {
+    pnc?: any;
+  }
+}
 
 interface IAppLayout {
   children: React.ReactNode;
 }
 
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
+  const pncWebConfigLoadedFromOrch = window.pnc;
+
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
   const AppHeaderTools = () => {
-    const pncRepositoryUrl = 'https://github.com/project-ncl/pnc';
-    const pncWebUiRepositoryUrl = 'https://github.com/project-ncl/pnc-web-ui-react';
-    const pncUserGuideUrl = 'https://docs.engineering.redhat.com/display/JP/User%27s+guide';
+    const pncUserGuideUrl = pncWebConfigLoadedFromOrch.config.userGuideUrl;
 
     const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
@@ -145,31 +149,12 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
             </PageHeaderToolsItem>
           </PageHeaderToolsGroup>
         </PageHeaderTools>
-        <React.Fragment>
-          <AboutModal
-            isOpen={isAboutModalOpen}
-            onClose={() => {
-              setIsAboutModalOpen(false);
-            }}
-            trademark="Red Hat, Inc. © 2021"
-            brandImageSrc={pncLogoText}
-            brandImageAlt="PNC Logo"
-            productName="Newcastle Build System(PNC)"
-          >
-            <TextContent>
-              <TextList component="dl">
-                <TextListItem component="dt">
-                  <a href={pncRepositoryUrl}>PNC System Version</a>
-                </TextListItem>
-                <TextListItem component="dd">master</TextListItem>
-                <TextListItem component="dt">
-                  <a href={pncWebUiRepositoryUrl}>PNC Web UI Version</a>
-                </TextListItem>
-                <TextListItem component="dd">1.1.1-SNAPSHOT 27 July 2021 Rev: b46a170</TextListItem>
-              </TextList>
-            </TextContent>
-          </AboutModal>
-        </React.Fragment>
+        <AboutModalPage
+          isOpen={isAboutModalOpen}
+          onClose={() => {
+            setIsAboutModalOpen(false);
+          }}
+        />
       </>
     );
   };
