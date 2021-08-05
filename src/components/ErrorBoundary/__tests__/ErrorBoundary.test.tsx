@@ -4,7 +4,7 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 
 test('renders ErrorBoundary and fire an error', async () => {
   function BuggyCounter() {
-    const [counter, setCounter] = useState<any>(0);
+    const [counter, setCounter] = useState<number>(0);
 
     function handleClick() {
       setCounter(counter + 1);
@@ -16,9 +16,9 @@ test('renders ErrorBoundary and fire an error', async () => {
     }
 
     return (
-      <h1 id="error-button" onClick={handleClick}>
+      <button data-testid="error-button" onClick={handleClick}>
         Fire Error
-      </h1>
+      </button>
     );
   }
   render(
@@ -26,7 +26,7 @@ test('renders ErrorBoundary and fire an error', async () => {
       <BuggyCounter />
     </ErrorBoundary>
   );
-  await waitFor(() => fireEvent.click(screen.getByText('Fire Error')));
+  await waitFor(() => fireEvent.click(screen.getByTestId('error-button')));
   //@Todo:
   expect(screen.getByText('System Error'));
 });

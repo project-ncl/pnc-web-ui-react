@@ -3,8 +3,6 @@ import { SystemErrorPage } from '../SystemErrorPage/SystemErrorPage';
 
 export interface ErrorBoundaryProps {
   children: React.ReactChild;
-  fallbackUI?: React.FunctionComponent;
-  meta?: any;
 }
 
 interface ErrorBoundaryState {
