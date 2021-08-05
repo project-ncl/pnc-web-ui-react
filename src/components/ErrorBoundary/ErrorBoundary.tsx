@@ -1,5 +1,5 @@
 import React from 'react';
-import SystemErrorPage from '../SystemErrorPage/SystemErrorPage';
+import { SystemErrorPage } from '../SystemErrorPage/SystemErrorPage';
 
 export interface ErrorBoundaryProps {
   children: React.ReactChild;
