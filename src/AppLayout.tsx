@@ -50,12 +50,12 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
     const [currentUser, setCurrentUser] = useState<any>(null);
 
     const headerConfigDropdownItems = [
-      <DropdownItem key="variables" href="/admin/variables">
-        Variables
-      </DropdownItem>,
-      <DropdownItem key="administration" href="/admin/administration">
-        Administration
-      </DropdownItem>,
+      <Link to="/admin/variables">
+        <DropdownItem key="variables">Variables</DropdownItem>
+      </Link>,
+      <Link to="/admin/administration">
+        <DropdownItem key="administration">Administration</DropdownItem>
+      </Link>,
     ];
 
     const headerQuestionDropdownItems = [
@@ -68,7 +68,7 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
       >
         About
       </DropdownItem>,
-      <DropdownItem key="users guide" href={pncUserGuideUrl} target="_blank">
+      <DropdownItem key="users guide" href={pncUserGuideUrl} target="_blank" rel="noopener noreferrer">
         User's guide
       </DropdownItem>,
     ];
