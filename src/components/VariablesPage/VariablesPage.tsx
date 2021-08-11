@@ -1,21 +1,14 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { CodeBlock, CodeBlockCode, Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
+import { useWebConfig } from '../../services/WebConfigService/WebConfigHook';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
 
 //  WEB CONFIG
-
-// extend the global Window interface
-declare global {
-  interface Window {
-    pnc?: any;
-  }
-}
 const WebConfig = () => {
-  // window.pnc object is loaded in public/index.html from Orch
-  const pncWebConfigLoadedFromOrch = window.pnc;
-  return <>{JSON.stringify(pncWebConfigLoadedFromOrch.config, null, 2)}</>;
+  const webConfigData = useWebConfig();
+  return <>{JSON.stringify(webConfigData.config, null, 2)}</>;
 };
 
 export const VariablesPage = () => {
