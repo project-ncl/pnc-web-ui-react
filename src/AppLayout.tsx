@@ -23,25 +23,19 @@ import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon 
 import { Link, useLocation } from 'react-router-dom';
 import pncLogoText from './pnc-logo-text.svg';
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
-
-// extend the global Window interface
-declare global {
-  interface Window {
-    pnc?: any;
-  }
-}
+import { useWebConfig } from './services/WebConfigService/WebConfigHook';
 
 interface IAppLayout {
   children: React.ReactNode;
 }
 
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
-  const pncWebConfigLoadedFromOrch = window.pnc;
+  const pncWebConfigLoadedFromOrch = useWebConfig();
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
   const AppHeaderTools = () => {
-    const pncUserGuideUrl = pncWebConfigLoadedFromOrch.config.userGuideUrl;
+    const pncUserGuideUrl = pncWebConfigLoadedFromOrch?.config?.userGuideUrl;
 
     const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
