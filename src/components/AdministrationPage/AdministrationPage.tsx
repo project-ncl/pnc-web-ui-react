@@ -52,12 +52,12 @@ export const AdministrationPage = () => {
             <Card>
               <CardBody>
                 <Grid hasGutter>
-                  <GridItem span={12} rowSpan={2}>
-                    <FormGroup label="Maintenance Mode" fieldId="form-maintenance">
+                  <GridItem span={12}>
+                    <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
                       <div style={maintenanceSwitchStyle}>
                         <Switch
-                          id="form-maintenance"
-                          name="form-maintenance"
+                          id="form-maintenance-mode-switch"
+                          name="form-maintenance-mode-switch"
                           label="Maintenance Mode On"
                           labelOff="Maintenance Mode Off"
                           isChecked={isMaintenanceModeOn}
@@ -70,7 +70,7 @@ export const AdministrationPage = () => {
                   </GridItem>
                   <GridItem span={12}>
                     <FormGroup label="Announcement" fieldId="form-announcement">
-                      <TextArea name="form-announcement" id="form-announcement" aria-describedby="form-announcement-helper" />
+                      <TextArea name="form-announcement" id="form-announcement" />
                     </FormGroup>
                   </GridItem>
                   <GridItem span={4}>
