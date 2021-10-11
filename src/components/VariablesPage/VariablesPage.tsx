@@ -1,14 +1,14 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { CodeBlock, CodeBlockCode, Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
-import { useWebConfig } from '../../services/WebConfigService/WebConfigHook';
+import * as WebConfigAPI from '../../services/WebConfigAPI';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
 
 //  WEB CONFIG
 const WebConfig = () => {
-  const webConfigData = useWebConfig();
-  return <>{JSON.stringify(webConfigData.config, null, 2)}</>;
+  const webConfigData = WebConfigAPI.getWebConfig();
+  return <>{JSON.stringify(webConfigData?.config, null, 2)}</>;
 };
 
 export const VariablesPage = () => {
