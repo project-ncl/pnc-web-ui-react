@@ -42,19 +42,17 @@ export interface IWebConfig {
   config: IWebConfigData | null;
 }
 
-export class WebConfigAPI {
-  /**
-   * Return PNC Web Configuration data coming from Orchestrator
-   *
-   * @returns PNC Web Configuration data
-   */
-  public static getWebConfig(): IWebConfig {
-    // window.pnc object is loaded in public/index.html from Orchestrator
-    const pncWebConfigLoadedFromOrch = window.pnc;
+/**
+ * Return PNC Web Configuration data coming from Orchestrator
+ *
+ * @returns PNC Web Configuration data
+ */
+export const getWebConfig = (): IWebConfig => {
+  // window.pnc object is loaded in public/index.html from Orchestrator
+  const pncWebConfigLoadedFromOrch = window.pnc;
 
-    if (!pncWebConfigLoadedFromOrch) {
-      throw new Error(`Web Config does not contain any data: #${pncWebConfigLoadedFromOrch}#`);
-    }
-    return pncWebConfigLoadedFromOrch;
+  if (!pncWebConfigLoadedFromOrch) {
+    throw new Error(`Web Config does not contain any data: #${pncWebConfigLoadedFromOrch}#`);
   }
-}
+  return pncWebConfigLoadedFromOrch;
+};

@@ -6,18 +6,15 @@ import { AppRoutes } from './AppRoutes';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
-import { WebConfigProvider } from './services/WebConfigService/WebConfigContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <WebConfigProvider>
-        <Router basename="/pnc-web">
-          <AppLayout>
-            <AppRoutes></AppRoutes>
-          </AppLayout>
-        </Router>
-      </WebConfigProvider>
+      <Router basename="/pnc-web">
+        <AppLayout>
+          <AppRoutes></AppRoutes>
+        </AppLayout>
+      </Router>
     </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
