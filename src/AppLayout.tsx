@@ -44,12 +44,8 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
     const [currentUser, setCurrentUser] = useState<any>(null);
 
     const headerConfigDropdownItems = [
-      <Link to="/admin/variables">
-        <DropdownItem key="variables">Variables</DropdownItem>
-      </Link>,
-      <Link to="/admin/administration">
-        <DropdownItem key="administration">Administration</DropdownItem>
-      </Link>,
+      <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
+      <DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />,
     ];
 
     const headerQuestionDropdownItems = [
