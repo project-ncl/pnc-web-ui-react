@@ -55,5 +55,9 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
   }
 }
