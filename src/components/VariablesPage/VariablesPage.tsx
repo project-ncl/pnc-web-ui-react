@@ -1,6 +1,6 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { CodeBlock, CodeBlockCode, Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
-import * as WebConfigAPI from '../../services/WebConfigAPI';
+import * as WebConfigAPI from '../../services/WebConfigService';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
