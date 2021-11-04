@@ -23,7 +23,7 @@ import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon 
 import { Link, useLocation } from 'react-router-dom';
 import pncLogoText from './pnc-logo-text.svg';
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
-import * as WebConfigAPI from './services/WebConfigAPI';
+import * as WebConfigAPI from './services/WebConfigService';
 
 interface IAppLayout {
   children: React.ReactNode;

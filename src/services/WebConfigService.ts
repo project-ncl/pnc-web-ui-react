@@ -44,15 +44,28 @@ export interface IWebConfig {
 
 /**
  * Return PNC Web Configuration data coming from Orchestrator
- *
- * @returns PNC Web Configuration data
  */
 export const getWebConfig = (): IWebConfig => {
   // window.pnc object is loaded in public/index.html from Orchestrator
-  const pncWebConfigLoadedFromOrch = window.pnc;
+  const webConfig = window.pnc;
 
-  if (!pncWebConfigLoadedFromOrch) {
-    throw new Error(`Web Config does not contain any data: #${pncWebConfigLoadedFromOrch}#`);
+  if (!webConfig) {
+    throw new Error(
+      `Web Config does not contain any data, check whether internal network resources are reachable: #${webConfig}#`
+    );
   }
-  return pncWebConfigLoadedFromOrch;
+
+  return webConfig;
+};
+
+/**
+ * Return PNC URL endpoint
+ */
+export const getPncUrl = (): string => {
+  const pncUrl = getWebConfig().config?.pncUrl;
+
+  if (!pncUrl) {
+    throw new Error(`PNC URL does not contain any data: #${pncUrl}#`);
+  }
+  return pncUrl;
 };
