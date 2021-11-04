@@ -1,5 +1,6 @@
 import { AboutModal, TextContent, TextList, TextListItem } from '@patternfly/react-core';
 import pncLogoText from '../../pnc-logo-text.svg';
+import { EmptyStateSymbol } from '../EmptyStates/EmptyStateSymbol';
 
 export interface AboutModalPageProps {
   isOpen: boolean;
@@ -26,13 +27,17 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
                 PNC System Version
               </a>
             </TextListItem>
-            <TextListItem component="dd">master</TextListItem>
+            <TextListItem component="dd">todo</TextListItem>
+
             <TextListItem component="dt">
               <a href={pncWebUiRepositoryUrl} target="_blank" rel="noopener noreferrer">
-                PNC Web UI Version
+                PNC Web UI Version (Revision)
               </a>
             </TextListItem>
-            <TextListItem component="dd">1.1.1-SNAPSHOT 27 July 2021 Rev: b46a170</TextListItem>
+            <TextListItem component="dd">
+              {process.env.REACT_APP_VERSION || <EmptyStateSymbol title="Version" />} (
+              {process.env.REACT_APP_GIT_SHORT_SHA || <EmptyStateSymbol title="Revision" />})
+            </TextListItem>
           </TextList>
         </TextContent>
       </AboutModal>
