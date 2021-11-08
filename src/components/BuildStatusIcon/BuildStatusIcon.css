@@ -1,0 +1,66 @@
+@keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-flicker {
+  -webkit-animation: flickerAnimation 3s infinite;
+  -moz-animation: flickerAnimation 3s infinite;
+  -o-animation: flickerAnimation 3s infinite;
+  animation: flickerAnimation 3s infinite;
+}
+
+.added-opacity {
+  filter: brightness(125%) opacity(50%);
+}
+
+.build-status-icon {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  width: min-content;
+  grid-column-gap: 3px;
+}
