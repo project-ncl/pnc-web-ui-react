@@ -13,39 +13,25 @@ import { ReactComponent as IconRed } from './icons/red.svg';
 import { ReactComponent as IconYellow } from './icons/yellow.svg';
 import { ReactComponent as IconNoBuilds } from './icons/no-builds.svg';
 
-export enum IconType {
-  WAITING_FOR_DEPENDENCIES,
-  ENQUEUED,
-  BUILDING,
-  SUCCESS,
-  UNSTABLE,
-  FAILED,
-  NO_REBUILD_REQUIRED,
-  REJECTED_FAILED_DEPENDENCIES,
-  REJECTED,
-  ABORTED,
-  CANCELLED,
-  NEW,
-  SYSTEM_ERROR,
-}
+import { BuildStatusType } from '../../scripts/Build';
 
-const IconData = new Map<IconType, { tooltip: string; icon: FC<SVGProps<SVGSVGElement>>; className?: string }>([
+const IconData = new Map<BuildStatusType, { tooltip: string; icon: FC<SVGProps<SVGSVGElement>>; className?: string }>([
   [
-    IconType.WAITING_FOR_DEPENDENCIES,
+    BuildStatusType.WAITING_FOR_DEPENDENCIES,
     {
       tooltip: 'Waiting for dependencies',
       icon: IconBlue,
     },
   ],
   [
-    IconType.ENQUEUED,
+    BuildStatusType.ENQUEUED,
     {
       tooltip: 'Enqueued',
       icon: IconBlue,
     },
   ],
   [
-    IconType.BUILDING,
+    BuildStatusType.BUILDING,
     {
       tooltip: 'Build in progress',
       icon: IconBlue,
@@ -53,28 +39,28 @@ const IconData = new Map<IconType, { tooltip: string; icon: FC<SVGProps<SVGSVGEl
     },
   ],
   [
-    IconType.SUCCESS,
+    BuildStatusType.SUCCESS,
     {
       tooltip: 'Build completed successfully',
       icon: IconGreen,
     },
   ],
   [
-    IconType.UNSTABLE,
+    BuildStatusType.UNSTABLE,
     {
       tooltip: 'Unstable build',
       icon: IconYellow,
     },
   ],
   [
-    IconType.FAILED,
+    BuildStatusType.FAILED,
     {
       tooltip: 'Build Failed',
       icon: IconRed,
     },
   ],
   [
-    IconType.NO_REBUILD_REQUIRED,
+    BuildStatusType.NO_REBUILD_REQUIRED,
     {
       tooltip: 'No rebuild required',
       icon: IconGreen,
@@ -82,62 +68,68 @@ const IconData = new Map<IconType, { tooltip: string; icon: FC<SVGProps<SVGSVGEl
     },
   ],
   [
-    IconType.REJECTED_FAILED_DEPENDENCIES,
+    BuildStatusType.REJECTED_FAILED_DEPENDENCIES,
     {
       tooltip: 'Build rejected: dependencies failed',
       icon: IconOrange,
     },
   ],
   [
-    IconType.REJECTED,
+    BuildStatusType.REJECTED,
     {
       tooltip: 'Build rejected',
       icon: IconRed,
     },
   ],
   [
-    IconType.ABORTED,
+    BuildStatusType.ABORTED,
     {
       tooltip: 'Build aborted',
       icon: IconGrey,
     },
   ],
   [
-    IconType.CANCELLED,
+    BuildStatusType.CANCELLED,
     {
       tooltip: 'Build cancelled',
       icon: IconGrey,
     },
   ],
   [
-    IconType.NEW,
+    BuildStatusType.NEW,
     {
       tooltip: 'New',
       icon: IconGrey,
     },
   ],
   [
-    IconType.SYSTEM_ERROR,
+    BuildStatusType.SYSTEM_ERROR,
     {
       tooltip: 'A system error occurred',
       icon: IconError,
     },
   ],
+  [
+    BuildStatusType.UNKNOWN,
+    {
+      tooltip: 'Unknown build status',
+      icon: IconNoBuilds,
+    },
+  ],
 ]);
 
-export const BuildStatusIcon: FC<{ iconType: IconType; isCorrupted?: boolean; isTemporary?: boolean }> = ({
-  iconType,
+export const BuildStatusIcon: FC<{ buildStatus: BuildStatusType; isCorrupted?: boolean; isTemporary?: boolean }> = ({
+  buildStatus,
   isCorrupted,
   isTemporary,
 }) => {
-  const SelectedIconComponent = IconData.get(iconType)?.icon ?? IconNoBuilds;
-  const tooltipText = IconData.get(iconType)?.tooltip ?? 'Unknown build status';
-  const className = IconData.get(iconType)?.className ?? '';
+  const selectedIconData = IconData.get(buildStatus) ?? IconData.get(BuildStatusType.UNKNOWN);
+  const SelectedIconComponent = selectedIconData!.icon;
 
   return (
-    <div className="build-status-icon">
-      <Tooltip content={<div>{tooltipText}</div>}>
-        <SelectedIconComponent width="28px" height="28px" className={className} />
+    <span className="build-status-icon">
+      <Tooltip content={<div>{selectedIconData!.tooltip}</div>}>
+        <SelectedIconComponent width="28px" height="28px" className={selectedIconData!.className} />
       </Tooltip>
       {isCorrupted && (
         <Tooltip
@@ -152,6 +144,6 @@ export const BuildStatusIcon: FC<{ iconType: IconType; isCorrupted?: boolean; is
           <OutlinedClockIcon />
         </Tooltip>
       )}
-    </div>
+    </span>
   );
 };

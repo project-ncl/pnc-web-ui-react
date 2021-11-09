@@ -58,9 +58,7 @@
 }
 
 .build-status-icon {
-  display: grid;
-  grid-template-columns: auto auto auto;
+  display: inline-flex;
   align-items: center;
-  width: min-content;
-  grid-column-gap: 3px;
+  column-gap: 3px;
 }

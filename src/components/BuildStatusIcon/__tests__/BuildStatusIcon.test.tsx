@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
-import { BuildStatusIcon, IconType } from '../BuildStatusIcon';
+import { BuildStatusIcon } from '../BuildStatusIcon';
 
 test('renders BuildStatusIcon', () => {
-  for (let iconTypeValue = 0; iconTypeValue < 15; iconTypeValue++) {
-    render(<BuildStatusIcon iconType={iconTypeValue} />);
+  for (let buildStatusTypeValue = 0; buildStatusTypeValue < 15; buildStatusTypeValue++) {
+    render(<BuildStatusIcon buildStatus={buildStatusTypeValue} />);
   }
 });
