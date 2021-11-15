@@ -64,6 +64,10 @@ To update the snapshops of a component:
 
 **1) Run unit test**
 
+```bash
+npm run test   # run tests for those components that was modified.
+```
+
 **Make sure you have `snapshot failed` only from the console output.**
 
 **2) Trigger update snapshots**
