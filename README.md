@@ -48,7 +48,7 @@ not available yet
 
 ## Unit Tests
 
-Unit tests with are integrated with all components, you can follow scripts to run the unit tests for modified components:
+Unit tests are integrated for all components, you can use the following commands to run the unit tests for modified components:
 
 ```bash
 npm run test   # run tests for those components that was modified.
