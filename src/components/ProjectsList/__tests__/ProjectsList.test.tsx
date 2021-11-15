@@ -2,7 +2,7 @@ import { ProjectsList } from '../ProjectsList';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
-describe('display project list page', () => {
+describe('display ProjectList component', () => {
   let mockProjectsRequest: any;
   let mockProjects: any;
 
@@ -15,9 +15,7 @@ describe('display project list page', () => {
     await loadMocks();
   });
 
-  afterEach(async () => {});
-
-  test('renders ProjectList to have the right data and', () => {
+  test('renders ProjectList to have the right data', () => {
     render(
       <MemoryRouter>
         <ProjectsList projects={mockProjects} />
