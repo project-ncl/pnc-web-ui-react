@@ -12,7 +12,7 @@ test('renders ErrorBoundary and fire an error', async () => {
 
     if (counter === 1) {
       // Simulate a JS error
-      throw new Error('SIMULATE INTENTIONAL CRASH CASES -- This is fine :)');
+      throw new Error('✅✅✅✅ SIMULATE INTENTIONAL CRASH CASES -- This is fine :) ✅✅✅✅');
     }
 
     return (
