@@ -45,3 +45,27 @@ npm run build   # builds the app for production to the build folder
 ## Release
 
 not available yet
+
+## Unit Tests
+
+Unit tests with are integrated with all components, you can follow scripts to run the unit tests for modified components:
+
+```bash
+npm run test   # run tests for those components that was modified.
+```
+
+If you want to run all tests, then press `w` to show more(sometime not needed) and press `a` to run all tests.
+
+### Update Snapshots for Unit Test
+
+Snapshot Test was integrated in some components. Update for snapshots is required if the UI layout is changed.
+
+To update the snapshops of a component:
+
+**1) Run unit test**
+
+**Make sure you have `snapshot failed` only from the console output.**
+
+**2) Trigger update snapshots**
+
+Press `w` to show more(sometime not needed) and press `u` to update failing snapshots.

@@ -1,6 +1,7 @@
 import { ProjectsList } from '../ProjectsList';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 
 describe('display ProjectList component', () => {
   let mockProjectsRequest: any;
@@ -27,5 +28,16 @@ describe('display ProjectList component', () => {
     expect(lastProject).toBeInTheDocument();
     const lastProjectCount = screen.getByText(17);
     expect(lastProjectCount).toBeInTheDocument();
+  });
+
+  test('compare snapshot with previous record', () => {
+    const tree = renderer
+      .create(
+        <MemoryRouter>
+          <ProjectsList projects={mockProjects} />
+        </MemoryRouter>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
