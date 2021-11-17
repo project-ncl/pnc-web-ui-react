@@ -62,7 +62,7 @@ export const getWebConfig = (): IWebConfig => {
  * Return PNC URL endpoint
  */
 export const getPncUrl = (): string => {
-  const pncUrl = getWebConfig().config?.pncUrl;
+  const pncUrl = getWebConfig().config?.externalPncUrl;
 
   if (!pncUrl) {
     throw new Error(`PNC URL does not contain any data: #${pncUrl}#`);
