@@ -1,11 +1,12 @@
 import '@patternfly/react-core/dist/styles/base.css';
 
 import { Table, TableHeader, TableBody, cellWidth } from '@patternfly/react-table';
+import { Project } from 'pnc-api-types-ts';
 
 import { Link } from 'react-router-dom';
 
 interface IProjectsList {
-  projects: any;
+  projects: Project[];
 }
 
 /**
@@ -20,12 +21,12 @@ export const ProjectsList = ({ projects }: IProjectsList) => {
     { title: 'Build Configs count', transforms: [cellWidth(15)] },
   ];
 
-  const rows = projects.map((project: any) => [
+  const rows = projects.map((project: Project) => [
     {
       title: <Link to="#">{project.name}</Link>,
     },
     project.description,
-    Object.keys(project.buildConfigs).length,
+    Object.keys(project.buildConfigs || []).length,
   ]);
 
   return (

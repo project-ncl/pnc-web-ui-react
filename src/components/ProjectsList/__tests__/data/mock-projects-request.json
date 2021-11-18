@@ -1,0 +1,279 @@
+{
+  "content": [
+    {
+      "id": "100",
+      "name": "Test Project Name 100",
+      "description": "Test Project Name 100 Desc",
+      "issueTrackerUrl": null,
+      "projectUrl": null,
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {}
+    },
+    {
+      "id": "101",
+      "name": "zz_2021110-101",
+      "description": "zz_2021110-101 desc",
+      "issueTrackerUrl": null,
+      "projectUrl": null,
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {}
+    },
+    {
+      "id": "102",
+      "name": "zz_2021110-102",
+      "description": null,
+      "issueTrackerUrl": null,
+      "projectUrl": null,
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {}
+    },
+    {
+      "id": "103",
+      "name": "zz_2021110-103",
+      "description": null,
+      "issueTrackerUrl": null,
+      "projectUrl": null,
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {}
+    },
+    {
+      "id": "104",
+      "name": "zz_2021110-104",
+      "description": null,
+      "issueTrackerUrl": null,
+      "projectUrl": null,
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {}
+    },
+    {
+      "id": "105",
+      "name": "zz_2021110-105",
+      "description": "zz_2021110-105 description",
+      "issueTrackerUrl": null,
+      "projectUrl": null,
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {}
+    },
+    {
+      "id": "106",
+      "name": "Test Project Name 106",
+      "description": "Test Project Name 106 description",
+      "issueTrackerUrl": null,
+      "projectUrl": "https://github.com/project-ncl/termd",
+      "engineeringTeam": null,
+      "technicalLeader": null,
+      "buildConfigs": {
+        "100": {
+          "id": "100",
+          "name": "pnc-1.0.0.DR1",
+          "description": null,
+          "buildScript": null,
+          "scmRevision": null,
+          "creationTime": "2019-02-15T02:07:35.158Z",
+          "modificationTime": "2021-03-26T10:12:40.901Z",
+          "buildType": "GRADLE",
+          "defaultAlignmentParams": "--info -DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DignoreUnresolvableDependencies=true",
+          "brewPullActive": false
+        },
+        "110": {
+          "id": "110",
+          "name": "foobar-1234",
+          "description": "string",
+          "buildScript": "string 2",
+          "scmRevision": "string",
+          "creationTime": "2019-06-04T12:30:58.776Z",
+          "modificationTime": "2020-03-26T11:38:17.889Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "158": {
+          "id": "158",
+          "name": "20191115153627_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2019-11-15T15:36:27.107Z",
+          "modificationTime": "2019-11-15T15:36:33.239Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "183": {
+          "id": "183",
+          "name": "20200127111359_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-01-27T11:13:59.457Z",
+          "modificationTime": "2020-01-27T11:13:59.458Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "227": {
+          "id": "227",
+          "name": "20200211155151_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-02-11T15:51:51.294Z",
+          "modificationTime": "2020-02-11T15:51:51.295Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "285": {
+          "id": "285",
+          "name": "20200407162420_pnc-1.0.0.DR1",
+          "description": "Test build config for PNC288",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-04-07T16:24:20.502Z",
+          "modificationTime": "2020-04-07T16:24:20.467Z",
+          "buildType": "GRADLE",
+          "defaultAlignmentParams": "--info -DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DignoreUnresolvableDependencies=true",
+          "brewPullActive": false
+        },
+        "292": {
+          "id": "292",
+          "name": "foobar",
+          "description": null,
+          "buildScript": "fail",
+          "scmRevision": "1",
+          "creationTime": "2020-05-04T18:46:42.190Z",
+          "modificationTime": "2020-05-04T18:46:42.177Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "327": {
+          "id": "327",
+          "name": "avibe_test_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-06-10T15:37:36.315Z",
+          "modificationTime": "2020-06-10T15:38:26.325Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "900": {
+          "id": "900",
+          "name": "pnc-1.0.0.DR1",
+          "description": null,
+          "buildScript": null,
+          "scmRevision": null,
+          "creationTime": "2019-02-15T02:07:35.158Z",
+          "modificationTime": "2021-03-26T10:12:40.901Z",
+          "buildType": "GRADLE",
+          "defaultAlignmentParams": "--info -DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DignoreUnresolvableDependencies=true",
+          "brewPullActive": false
+        },
+        "910": {
+          "id": "910",
+          "name": "foobar-1234",
+          "description": "string",
+          "buildScript": "string 2",
+          "scmRevision": "string",
+          "creationTime": "2019-06-04T12:30:58.776Z",
+          "modificationTime": "2020-03-26T11:38:17.889Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "958": {
+          "id": "958",
+          "name": "20191115153627_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2019-11-15T15:36:27.107Z",
+          "modificationTime": "2019-11-15T15:36:33.239Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "983": {
+          "id": "983",
+          "name": "20200127111359_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-01-27T11:13:59.457Z",
+          "modificationTime": "2020-01-27T11:13:59.458Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "926": {
+          "id": "926",
+          "name": "20200211155151_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-02-11T15:51:51.294Z",
+          "modificationTime": "2020-02-11T15:51:51.295Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "985": {
+          "id": "985",
+          "name": "20200407162420_pnc-1.0.0.DR1",
+          "description": "Test build config for PNC288",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-04-07T16:24:20.502Z",
+          "modificationTime": "2020-04-07T16:24:20.467Z",
+          "buildType": "GRADLE",
+          "defaultAlignmentParams": "--info -DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DignoreUnresolvableDependencies=true",
+          "brewPullActive": false
+        },
+        "992": {
+          "id": "992",
+          "name": "foobar",
+          "description": null,
+          "buildScript": "fail",
+          "scmRevision": "1",
+          "creationTime": "2020-05-04T18:46:42.190Z",
+          "modificationTime": "2020-05-04T18:46:42.177Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "927": {
+          "id": "927",
+          "name": "avibe_test_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-06-10T15:37:36.315Z",
+          "modificationTime": "2020-06-10T15:38:26.325Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        },
+        "928": {
+          "id": "928",
+          "name": "avibe_test_pnc-1.0.0.DR1",
+          "description": "Test build config for project newcastle",
+          "buildScript": "mvn deploy -DskipTests=true",
+          "scmRevision": "*/v0.2",
+          "creationTime": "2020-06-10T15:37:36.315Z",
+          "modificationTime": "2020-06-10T15:38:26.325Z",
+          "buildType": "MVN",
+          "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+          "brewPullActive": false
+        }
+      }
+    }
+  ]
+}
