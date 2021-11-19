@@ -1,6 +1,6 @@
 import { Tooltip } from '@patternfly/react-core';
 import { OutlinedClockIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
-import { Build } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import './BuildStatusIcon.css';
 
@@ -12,7 +12,7 @@ import { ReactComponent as IconOrange } from './icons/orange.svg';
 import { ReactComponent as IconRed } from './icons/red.svg';
 import { ReactComponent as IconNoBuilds } from './icons/no-builds.svg';
 
-const iconData: { [statusType: string]: { tooltip: string; icon: any; className?: string } } = {
+const iconData: { [buildStatus: string]: { tooltip: string; icon: any; className?: string } } = {
   SUCCESS: {
     tooltip: 'Build completed successfully',
     icon: IconGreen,
@@ -66,15 +66,17 @@ const iconData: { [statusType: string]: { tooltip: string; icon: any; className?
 };
 
 interface IBuildStatusIcon {
-  build: Build;
+  build: Build | GroupBuild;
+  long?: boolean;
 }
 
-export const BuildStatusIcon = ({ build }: IBuildStatusIcon) => {
+export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
   const selectedIconData = build.status ? iconData[build.status] : iconData.UNKNOWN;
   const SelectedIconComponent = selectedIconData!.icon;
   const isCorrupted =
-    build.attributes?.POST_BUILD_REPO_VALIDATION === 'REPO_SYSTEM_ERROR' ||
-    build.attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL';
+    'attributes' in build &&
+    (build.attributes?.POST_BUILD_REPO_VALIDATION === 'REPO_SYSTEM_ERROR' ||
+      build.attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL');
 
   return (
     <span className="build-status-icon">
@@ -99,6 +101,7 @@ export const BuildStatusIcon = ({ build }: IBuildStatusIcon) => {
           <OutlinedClockIcon />
         </Tooltip>
       )}
+      {long && <span>{build.status}</span>}
     </span>
   );
 };

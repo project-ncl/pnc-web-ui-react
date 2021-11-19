@@ -1,0 +1,70 @@
+[
+  {
+    "id": "0"
+  },
+  {
+    "id": "1",
+    "status": "SUCCESS"
+  },
+  {
+    "id": "1",
+    "status": "FAILED"
+  },
+  {
+    "id": "1",
+    "status": "NO_REBUILD_REQUIRED"
+  },
+  {
+    "id": "1",
+    "status": "ENQUEUED",
+    "attributes": {}
+  },
+  {
+    "id": "1",
+    "status": "WAITING_FOR_DEPENDENCIES",
+    "attributes": {
+      "anything": "really"
+    }
+  },
+  {
+    "id": "1",
+    "status": "BUILDING",
+    "temporaryBuild": false
+  },
+  {
+    "id": "1",
+    "status": "REJECTED",
+    "temporaryBuild": true
+  },
+  {
+    "id": "1",
+    "status": "REJECTED_FAILED_DEPENDENCIES",
+    "attributes": {
+      "POST_BUILD_REPO_VALIDATION": "REPO_SYSTEM_ERROR"
+    }
+  },
+  {
+    "id": "1",
+    "status": "CANCELLED",
+    "attributes": {
+      "PNC_SYSTEM_ERROR": "DISABLED_FIREWALL"
+    }
+  },
+  {
+    "id": "1",
+    "status": "SYSTEM_ERROR",
+    "attributes": {
+      "POST_BUILD_REPO_VALIDATION": "REPO_SYSTEM_ERROR",
+      "PNC_SYSTEM_ERROR": "DISABLED_FIREWALL"
+    }
+  },
+  {
+    "id": "1",
+    "status": "NEW",
+    "attributes": {
+      "POST_BUILD_REPO_VALIDATION": "REPO_SYSTEM_ERROR",
+      "PNC_SYSTEM_ERROR": "DISABLED_FIREWALL"
+    },
+    "temporaryBuild": true
+  }
+]
