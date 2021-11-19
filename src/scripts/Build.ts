@@ -14,10 +14,3 @@ export enum BuildStatusType {
   UNSTABLE,
   WAITING_FOR_DEPENDENCIES,
 }
-
-export interface Build {
-  identifier: string;
-  status: BuildStatusType;
-  user: string;
-  date: Date;
-}

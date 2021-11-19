@@ -1,16 +1,17 @@
-import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-export const BuildName: FC<{ identifier: string; link?: string; additionalIdentifier?: string; additionalLink?: string }> = ({
-  identifier,
-  link,
-  additionalIdentifier,
-  additionalLink,
-}) => {
-  identifier = '#' + identifier;
+interface IBuildName {
+  name: string;
+  link?: string;
+  additionalIdentifier?: string;
+  additionalLink?: string;
+}
+
+export const BuildName = ({ name, link, additionalIdentifier, additionalLink }: IBuildName) => {
+  name = '#' + name;
   return (
     <span>
-      {link ? <Link to={link}>{identifier}</Link> : <span>{identifier}</span>}
+      {link ? <Link to={link}>{name}</Link> : <span>{name}</span>}
       {additionalIdentifier && (
         <> of {additionalLink ? <Link to={additionalLink}>{additionalIdentifier}</Link> : <span>{additionalIdentifier}</span>}</>
       )}
