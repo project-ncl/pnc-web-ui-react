@@ -1,0 +1,18 @@
+[
+  {
+    "id": "0",
+    "submitTime": "2017-12-01T13:17:18.007Z",
+    "buildConfigRevision": {
+      "id": "2",
+      "name": "whatever"
+    }
+  },
+  {
+    "id": "0",
+    "startTime": "2017-12-01T13:17:18.007Z",
+    "groupConfig": {
+      "id": "2",
+      "name": "whatever"
+    }
+  }
+]
