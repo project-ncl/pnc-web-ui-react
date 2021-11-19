@@ -1,5 +1,6 @@
 import { Tooltip } from '@patternfly/react-core';
 import { OutlinedClockIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { Build } from 'pnc-api-types-ts';
 
 import './BuildStatusIcon.css';
 
@@ -9,123 +10,71 @@ import { ReactComponent as IconGreen } from './icons/green.svg';
 import { ReactComponent as IconGrey } from './icons/grey.svg';
 import { ReactComponent as IconOrange } from './icons/orange.svg';
 import { ReactComponent as IconRed } from './icons/red.svg';
-import { ReactComponent as IconYellow } from './icons/yellow.svg';
 import { ReactComponent as IconNoBuilds } from './icons/no-builds.svg';
 
-import { BuildStatusType } from '../../scripts/Build';
-
-const iconData = new Map<BuildStatusType, { tooltip: string; icon: any; className?: string }>([
-  [
-    BuildStatusType.WAITING_FOR_DEPENDENCIES,
-    {
-      tooltip: 'Waiting for dependencies',
-      icon: IconBlue,
-    },
-  ],
-  [
-    BuildStatusType.ENQUEUED,
-    {
-      tooltip: 'Enqueued',
-      icon: IconBlue,
-    },
-  ],
-  [
-    BuildStatusType.BUILDING,
-    {
-      tooltip: 'Build in progress',
-      icon: IconBlue,
-      className: 'animate-flicker',
-    },
-  ],
-  [
-    BuildStatusType.SUCCESS,
-    {
-      tooltip: 'Build completed successfully',
-      icon: IconGreen,
-    },
-  ],
-  [
-    BuildStatusType.UNSTABLE,
-    {
-      tooltip: 'Unstable build',
-      icon: IconYellow,
-    },
-  ],
-  [
-    BuildStatusType.FAILED,
-    {
-      tooltip: 'Build Failed',
-      icon: IconRed,
-    },
-  ],
-  [
-    BuildStatusType.NO_REBUILD_REQUIRED,
-    {
-      tooltip: 'No rebuild required',
-      icon: IconGreen,
-      className: 'added-opacity',
-    },
-  ],
-  [
-    BuildStatusType.REJECTED_FAILED_DEPENDENCIES,
-    {
-      tooltip: 'Build rejected: dependencies failed',
-      icon: IconOrange,
-    },
-  ],
-  [
-    BuildStatusType.REJECTED,
-    {
-      tooltip: 'Build rejected',
-      icon: IconRed,
-    },
-  ],
-  [
-    BuildStatusType.ABORTED,
-    {
-      tooltip: 'Build aborted',
-      icon: IconGrey,
-    },
-  ],
-  [
-    BuildStatusType.CANCELLED,
-    {
-      tooltip: 'Build cancelled',
-      icon: IconGrey,
-    },
-  ],
-  [
-    BuildStatusType.NEW,
-    {
-      tooltip: 'New',
-      icon: IconGrey,
-    },
-  ],
-  [
-    BuildStatusType.SYSTEM_ERROR,
-    {
-      tooltip: 'A system error occurred',
-      icon: IconError,
-    },
-  ],
-  [
-    BuildStatusType.UNKNOWN,
-    {
-      tooltip: 'Unknown build status',
-      icon: IconNoBuilds,
-    },
-  ],
-]);
+const iconData: { [statusType: string]: { tooltip: string; icon: any; className?: string } } = {
+  SUCCESS: {
+    tooltip: 'Build completed successfully',
+    icon: IconGreen,
+  },
+  FAILED: {
+    tooltip: 'Build Failed',
+    icon: IconRed,
+  },
+  NO_REBUILD_REQUIRED: {
+    tooltip: 'No rebuild required',
+    icon: IconGreen,
+    className: 'added-opacity',
+  },
+  ENQUEUED: {
+    tooltip: 'Enqueued',
+    icon: IconBlue,
+  },
+  WAITING_FOR_DEPENDENCIES: {
+    tooltip: 'Waiting for dependencies',
+    icon: IconBlue,
+  },
+  BUILDING: {
+    tooltip: 'Build in progress',
+    icon: IconBlue,
+    className: 'animate-flicker',
+  },
+  REJECTED: {
+    tooltip: 'Build rejected',
+    icon: IconRed,
+  },
+  REJECTED_FAILED_DEPENDENCIES: {
+    tooltip: 'Build rejected: dependencies failed',
+    icon: IconOrange,
+  },
+  CANCELLED: {
+    tooltip: 'Build cancelled',
+    icon: IconGrey,
+  },
+  SYSTEM_ERROR: {
+    tooltip: 'A system error occurred',
+    icon: IconError,
+  },
+  NEW: {
+    tooltip: 'New',
+    icon: IconGrey,
+  },
+  UNKNOWN: {
+    tooltip: 'Unknown build status',
+    icon: IconNoBuilds,
+  },
+};
 
 interface IBuildStatusIcon {
-  buildStatus: BuildStatusType;
-  isCorrupted?: boolean;
-  isTemporary?: boolean;
+  build: Build;
 }
 
-export const BuildStatusIcon = ({ buildStatus, isCorrupted, isTemporary }: IBuildStatusIcon) => {
-  const selectedIconData = iconData.get(buildStatus) ?? iconData.get(BuildStatusType.UNKNOWN);
+export const BuildStatusIcon = ({ build }: IBuildStatusIcon) => {
+  const selectedIconData = build.status ? iconData[build.status] : iconData.UNKNOWN;
   const SelectedIconComponent = selectedIconData!.icon;
+  const isCorrupted =
+    build.attributes?.POST_BUILD_REPO_VALIDATION === 'REPO_SYSTEM_ERROR' ||
+    build.attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL';
 
   return (
     <span className="build-status-icon">
@@ -140,11 +89,11 @@ export const BuildStatusIcon = ({ buildStatus, isCorrupted, isTemporary }: IBuil
           <ExclamationTriangleIcon />
         </Tooltip>
       )}
-      {isTemporary && (
+      {build.temporaryBuild && (
         <Tooltip
           position="right"
           content={
-            <div>Temporary build - test build, which cannot be used for product release and which will be garbage colleted</div>
+            <div>Temporary build - test build, which cannot be used for product release and will be garbage collected</div>
           }
         >
           <OutlinedClockIcon />

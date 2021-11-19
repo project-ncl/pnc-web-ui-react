@@ -1,23 +1,20 @@
+import { Build } from 'pnc-api-types-ts';
+
 import './BuildStatus.css';
 
 import { BuildName } from '../BuildName/BuildName';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 
-import { BuildStatusType } from '../../scripts/Build';
-
 interface IBuildStatus {
-  name: string;
-  status: BuildStatusType;
-  user: string;
-  date: Date;
+  build: Build;
 }
 
-export const BuildStatus = ({ name, status, user, date }: IBuildStatus) => (
+export const BuildStatus = ({ build }: IBuildStatus) => (
   <div className="build-status">
-    <BuildStatusIcon buildStatus={status} />
-    <BuildName name={name} link="to_be_added" />
+    <BuildStatusIcon build={build} />
+    <BuildName build={build} />
     <span>
-      {date.toLocaleDateString('en-US', {
+      {new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -27,7 +24,7 @@ export const BuildStatus = ({ name, status, user, date }: IBuildStatus) => (
       })}
     </span>
     <span>
-      <b>{user}</b>
+      <b>{build.user}</b>
     </span>
   </div>
 );
