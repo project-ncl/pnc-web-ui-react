@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Build } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-const calculateBuildName = (build: Build) => {
-  if (build.submitTime) {
+const calculateBuildName = (build: Build | GroupBuild) => {
+  if ('submitTime' in build && build.submitTime) {
+    // TODO: HOW TO FORMAT GROUP BUILD NAMES?
     const dateObject = new Date(build.submitTime);
     return [
       '#',
@@ -18,20 +19,23 @@ const calculateBuildName = (build: Build) => {
 };
 
 interface IBuildName {
-  build: Build;
+  build: Build | GroupBuild;
+  long?: boolean;
+  includeBuildLink?: boolean;
+  includeConfigLink?: boolean;
 }
 
-export const BuildName = ({ build }: IBuildName) => {
+export const BuildName = ({ build, long, includeBuildLink, includeConfigLink }: IBuildName) => {
   const name = calculateBuildName(build);
-  const link = 'TODO';
-  const additionalIdentifier = 'TODO';
-  const additionalLink = 'TODO';
+  const configName =
+    ('buildConfigRevision' in build ? build.buildConfigRevision : (build as GroupBuild).groupConfig)?.name ??
+    'unknown_build_config';
+  const buildLink = 'TODO'; // TODO: HOW TO FORMAT LINKS?
+  const configLink = 'TODO';
   return (
     <span>
-      {link ? <Link to={link}>{name}</Link> : <span>{name}</span>}
-      {additionalIdentifier && (
-        <> of {additionalLink ? <Link to={additionalLink}>{additionalIdentifier}</Link> : <span>{additionalIdentifier}</span>}</>
-      )}
+      {includeBuildLink ? <Link to={buildLink}>{name}</Link> : <span>{name}</span>}
+      {long && <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : <span>{configName}</span>}</>}
     </span>
   );
 };
