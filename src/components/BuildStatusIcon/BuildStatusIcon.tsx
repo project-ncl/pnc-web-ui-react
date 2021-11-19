@@ -1,6 +1,5 @@
 import { Tooltip } from '@patternfly/react-core';
 import { OutlinedClockIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
-import { FC, SVGProps } from 'react';
 
 import './BuildStatusIcon.css';
 
@@ -15,7 +14,7 @@ import { ReactComponent as IconNoBuilds } from './icons/no-builds.svg';
 
 import { BuildStatusType } from '../../scripts/Build';
 
-const IconData = new Map<BuildStatusType, { tooltip: string; icon: FC<SVGProps<SVGSVGElement>>; className?: string }>([
+const iconData = new Map<BuildStatusType, { tooltip: string; icon: any; className?: string }>([
   [
     BuildStatusType.WAITING_FOR_DEPENDENCIES,
     {
@@ -118,12 +117,14 @@ const IconData = new Map<BuildStatusType, { tooltip: string; icon: FC<SVGProps<S
   ],
 ]);
 
-export const BuildStatusIcon: FC<{ buildStatus: BuildStatusType; isCorrupted?: boolean; isTemporary?: boolean }> = ({
-  buildStatus,
-  isCorrupted,
-  isTemporary,
-}) => {
-  const selectedIconData = IconData.get(buildStatus) ?? IconData.get(BuildStatusType.UNKNOWN);
+interface IBuildStatusIcon {
+  buildStatus: BuildStatusType;
+  isCorrupted?: boolean;
+  isTemporary?: boolean;
+}
+
+export const BuildStatusIcon = ({ buildStatus, isCorrupted, isTemporary }: IBuildStatusIcon) => {
+  const selectedIconData = iconData.get(buildStatus) ?? iconData.get(BuildStatusType.UNKNOWN);
   const SelectedIconComponent = selectedIconData!.icon;
 
   return (
@@ -140,7 +141,12 @@ export const BuildStatusIcon: FC<{ buildStatus: BuildStatusType; isCorrupted?: b
         </Tooltip>
       )}
       {isTemporary && (
-        <Tooltip position="right" content={<div>Temporary build; this will be garbage collected</div>}>
+        <Tooltip
+          position="right"
+          content={
+            <div>Temporary build - test build, which cannot be used for product release and which will be garbage colleted</div>
+          }
+        >
           <OutlinedClockIcon />
         </Tooltip>
       )}

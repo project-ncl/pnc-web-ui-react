@@ -1,16 +1,21 @@
-import { FC } from 'react';
-
 import './BuildStatus.css';
 
 import { BuildName } from '../BuildName/BuildName';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 
-import { Build } from '../../scripts/Build';
+import { BuildStatusType } from '../../scripts/Build';
 
-export const BuildStatus: FC<Build> = ({ identifier, status, user, date }) => (
+interface IBuildStatus {
+  name: string;
+  status: BuildStatusType;
+  user: string;
+  date: Date;
+}
+
+export const BuildStatus = ({ name, status, user, date }: IBuildStatus) => (
   <div className="build-status">
     <BuildStatusIcon buildStatus={status} />
-    <BuildName identifier={identifier} link="to_be_added" />
+    <BuildName name={name} link="to_be_added" />
     <span>
       {date.toLocaleDateString('en-US', {
         year: 'numeric',

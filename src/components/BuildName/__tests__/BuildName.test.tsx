@@ -3,16 +3,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { BuildName } from '../BuildName';
 
 test('renders BuildName', () => {
-  render(<BuildName identifier="test" />);
+  render(<BuildName name="test" />);
   render(
     <BrowserRouter basename="/pnc-web">
-      <BuildName identifier="test" link="/test.com" />
+      <BuildName name="test" link="/test.com" />
     </BrowserRouter>
   );
-  render(<BuildName identifier="test" additionalIdentifier="test2" />);
+  render(<BuildName name="test" additionalIdentifier="test2" />);
   render(
     <BrowserRouter basename="/pnc-web">
-      <BuildName identifier="test" additionalIdentifier="test2" link="/test.com" additionalLink="/test2.com" />
+      <BuildName name="test" additionalIdentifier="test2" link="/test.com" additionalLink="/test2.com" />
     </BrowserRouter>
   );
 });
