@@ -1,4 +1,4 @@
-import { Build } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import './BuildStatus.css';
 
@@ -6,13 +6,14 @@ import { BuildName } from '../BuildName/BuildName';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 
 interface IBuildStatus {
-  build: Build;
+  build: Build | GroupBuild;
+  long?: boolean;
 }
 
-export const BuildStatus = ({ build }: IBuildStatus) => (
+export const BuildStatus = ({ build, long }: IBuildStatus) => (
   <div className="build-status">
     <BuildStatusIcon build={build} />
-    <BuildName build={build} />
+    <BuildName build={build} includeBuildLink long={long} />
     <span>
       {new Date().toLocaleDateString('en-US', {
         year: 'numeric',
@@ -24,7 +25,7 @@ export const BuildStatus = ({ build }: IBuildStatus) => (
       })}
     </span>
     <span>
-      <b>{build.user}</b>
+      <b>{build.user?.username}</b>
     </span>
   </div>
 );
