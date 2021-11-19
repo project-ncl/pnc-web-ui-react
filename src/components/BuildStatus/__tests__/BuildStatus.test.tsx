@@ -1,17 +1,18 @@
 import { render } from '@testing-library/react';
-import { BuildStatusType } from '../../../scripts/Build';
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { BrowserRouter } from 'react-router-dom';
 import { BuildStatus } from '../BuildStatus';
 
-test('renders BuildStatus', () => {
-  render(
-    <BrowserRouter basename="/pnc-web">
-      <BuildStatus
-        name="20180911-1037"
-        status={BuildStatusType.CANCELLED}
-        user="jvanko"
-        date={new Date(2021, 11, 3, 10, 24, 43, 13)}
-      />
-    </BrowserRouter>
-  );
+import mockBuildData from './data/mock-build-data.json';
+
+describe('display BuildStatus component', () => {
+  test('renders all BuildStatus variants', () => {
+    (mockBuildData as (Build | GroupBuild)[]).forEach((build) =>
+      render(
+        <BrowserRouter>
+          <BuildStatus build={build} long />
+        </BrowserRouter>
+      )
+    );
+  });
 });

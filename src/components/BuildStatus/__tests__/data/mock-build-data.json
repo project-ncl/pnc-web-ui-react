@@ -1,0 +1,28 @@
+[
+  {
+    "id": "0",
+    "submitTime": "2017-12-01T13:17:18.007Z",
+    "status": "BUILDING",
+    "buildConfigRevision": {
+      "id": "2",
+      "name": "whatever"
+    },
+    "user": {
+      "id": "3",
+      "username": "robot"
+    }
+  },
+  {
+    "id": "0",
+    "submitTime": "2017-12-01T13:17:18.007Z",
+    "status": "BUILDING",
+    "groupConfig": {
+      "id": "2",
+      "name": "whatever"
+    },
+    "user": {
+      "id": "3",
+      "username": "robot"
+    }
+  }
+]
