@@ -70,6 +70,16 @@ interface IBuildStatusIcon {
   long?: boolean;
 }
 
+/**
+ * Represents a component for displaying the status of a build/groupBuild in form of an icon
+ * There are two versions: short (default) and long
+ *
+ * @remarks
+ * Long version additionally also includes the status in the text format next to the icon
+ *
+ * @param build - Build or GroupBuild
+ * @param long - Whether the component should be of the long version
+ */
 export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
   const selectedIconData = build.status ? iconData[build.status] : iconData.UNKNOWN;
   const SelectedIconComponent = selectedIconData!.icon;
