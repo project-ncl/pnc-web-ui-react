@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { isGroupBuild } from '../../utils/entityRecognition';
+import { isGroupBuild, isBuild } from '../../utils/entityRecognition';
 
 const calculateBuildName = (build: Build | GroupBuild) => {
   if (isGroupBuild(build)) {
@@ -46,8 +46,7 @@ interface IBuildName {
 export const BuildName = ({ build, long, includeBuildLink, includeConfigLink }: IBuildName) => {
   const name = calculateBuildName(build);
   const configName =
-    ('buildConfigRevision' in build ? build.buildConfigRevision : (build as GroupBuild).groupConfig)?.name ??
-    'unknown_build_config';
+    (isBuild(build) ? (build as Build).buildConfigRevision : (build as GroupBuild).groupConfig)?.name ?? 'unknown_build_config';
   const buildLink = 'TODO'; // TODO: FORMAT LINKS HERE
   const configLink = 'TODO';
   return (
