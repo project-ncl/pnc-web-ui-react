@@ -25,6 +25,17 @@ export const calculateBuildName = (build: Build | GroupBuild) => {
   throw new Error('Invalid build: ' + build.id);
 };
 
+interface IConfigAppendix {
+  build: Build | GroupBuild;
+  includeConfigLink?: boolean;
+}
+
+const ConfigAppendix = ({ build, includeConfigLink }: IConfigAppendix) => {
+  const configName = (isBuild(build) ? (build as Build).buildConfigRevision : (build as GroupBuild).groupConfig)!.name;
+  const configLink = 'TODO'; // TODO: FORMAT LINKS HERE
+  return <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : configName}</>;
+};
+
 interface IBuildName {
   build: Build | GroupBuild;
   long?: boolean;
@@ -33,12 +44,11 @@ interface IBuildName {
 }
 
 /**
- * Represents a component for displaying the name of a build/groupBuild
- * There are two versions: short (default) and long
+ * Represents a component for displaying the name of a build/groupBuild.
+ * There are two versions: short (default) and long.
  *
- * @remarks
- * Long version additionally also includes the name of the build config
- * Both "short" and "long" versions can also contain links to the actual build/config
+ * Long version additionally also includes the name of the build config.
+ * Both "short" and "long" versions can also contain links to the actual build/config.
  *
  * @param build - Build or GroupBuild
  * @param long - Whether the component should be of the long version
@@ -47,13 +57,11 @@ interface IBuildName {
  */
 export const BuildName = ({ build, long, includeBuildLink, includeConfigLink }: IBuildName) => {
   const name = calculateBuildName(build);
-  const configName = (isBuild(build) ? (build as Build).buildConfigRevision : (build as GroupBuild).groupConfig)!.name;
   const buildLink = 'TODO'; // TODO: FORMAT LINKS HERE
-  const configLink = 'TODO';
   return (
     <span>
       {includeBuildLink ? <Link to={buildLink}>{name}</Link> : name}
-      {long && <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : configName}</>}
+      {long && <ConfigAppendix includeConfigLink={includeConfigLink} build={build} />}
     </span>
   );
 };

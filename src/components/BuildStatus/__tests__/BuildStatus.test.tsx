@@ -10,7 +10,7 @@ describe('display BuildStatus component', () => {
     (mockBuildData as (Build | GroupBuild)[]).forEach((build) =>
       render(
         <MemoryRouter>
-          <BuildStatus build={build} long />
+          <BuildStatus build={build} long includeBuildLink includeConfigLink />
         </MemoryRouter>
       )
     );
