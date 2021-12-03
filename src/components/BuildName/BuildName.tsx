@@ -3,24 +3,26 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { isGroupBuild, isBuild } from '../../utils/entityRecognition';
 
-const calculateBuildName = (build: Build | GroupBuild) => {
+export const calculateBuildName = (build: Build | GroupBuild) => {
   if (isGroupBuild(build)) {
     return '#' + build.id;
   }
-  if ('submitTime' in build && build.submitTime) {
-    const dateObject = new Date(build.submitTime);
-    return [
-      '#',
-      dateObject.getUTCFullYear(),
-      String(dateObject.getUTCMonth() + 1).padStart(2, '0'),
-      String(dateObject.getUTCDate()).padStart(2, '0'),
-      '-',
-      String(dateObject.getUTCHours()).padStart(2, '0'),
-      String(dateObject.getUTCMinutes()).padStart(2, '0'),
-    ].join('');
+  if (isBuild(build)) {
+    const buildItem = build as Build;
+    if (buildItem.submitTime) {
+      const dateObject = new Date(buildItem.submitTime);
+      return [
+        '#',
+        dateObject.getUTCFullYear(),
+        String(dateObject.getUTCMonth() + 1).padStart(2, '0'),
+        String(dateObject.getUTCDate()).padStart(2, '0'),
+        '-',
+        String(dateObject.getUTCHours()).padStart(2, '0'),
+        String(dateObject.getUTCMinutes()).padStart(2, '0'),
+      ].join('');
+    }
   }
-  console.error('Invalid build: ' + build.id);
-  return '#INVALID_BUILD_NAME';
+  throw new Error('Invalid build: ' + build.id);
 };
 
 interface IBuildName {
@@ -35,7 +37,7 @@ interface IBuildName {
  * There are two versions: short (default) and long
  *
  * @remarks
- * Long version additionally also includes the name of the build configuration
+ * Long version additionally also includes the name of the build config
  * Both "short" and "long" versions can also contain links to the actual build/config
  *
  * @param build - Build or GroupBuild
@@ -45,14 +47,13 @@ interface IBuildName {
  */
 export const BuildName = ({ build, long, includeBuildLink, includeConfigLink }: IBuildName) => {
   const name = calculateBuildName(build);
-  const configName =
-    (isBuild(build) ? (build as Build).buildConfigRevision : (build as GroupBuild).groupConfig)?.name ?? 'unknown_build_config';
+  const configName = (isBuild(build) ? (build as Build).buildConfigRevision : (build as GroupBuild).groupConfig)!.name;
   const buildLink = 'TODO'; // TODO: FORMAT LINKS HERE
   const configLink = 'TODO';
   return (
     <span>
-      {includeBuildLink ? <Link to={buildLink}>{name}</Link> : <span>{name}</span>}
-      {long && <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : <span>{configName}</span>}</>}
+      {includeBuildLink ? <Link to={buildLink}>{name}</Link> : name}
+      {long && <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : configName}</>}
     </span>
   );
 };
