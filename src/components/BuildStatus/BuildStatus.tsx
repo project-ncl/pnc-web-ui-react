@@ -9,19 +9,22 @@ import { isBuild } from '../../utils/entityRecognition';
 interface IBuildStatus {
   build: Build | GroupBuild;
   long?: boolean;
+  includeBuildLink?: boolean;
+  includeConfigLink?: boolean;
 }
 
 /**
- * Represents a component for displaying the status and main information of a build/groupBuild
- * There are two versions: short (default) and long
+ * Represents a component for displaying the status and main information of a build/groupBuild.
+ * There are two versions: short (default) and long.
  *
- * @remarks
- * Long version additionally also includes the name of the build config
+ * Long version additionally also includes the name of the build config.
  *
  * @param build - Build or GroupBuild
  * @param long - Whether the component should be of the long version
+ * @param includeBuildLink - Whether the build name should be a link to the build page
+ * @param includeConfigLink - Whether the build config (in the long version) should be a link to the build config page
  */
-export const BuildStatus = ({ build, long }: IBuildStatus) => {
+export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink }: IBuildStatus) => {
   let dateString, dateTitle;
   if ((dateString = build.endTime)) {
     dateTitle = 'End Time';
@@ -33,7 +36,7 @@ export const BuildStatus = ({ build, long }: IBuildStatus) => {
   return (
     <div className="build-status">
       <BuildStatusIcon build={build} />
-      <BuildName build={build} includeBuildLink long={long} />
+      <BuildName build={build} includeBuildLink={includeBuildLink} includeConfigLink={includeConfigLink} long={long} />
       <span title={dateTitle}>
         {new Date(dateString!).toLocaleDateString('en-US', {
           year: 'numeric',
