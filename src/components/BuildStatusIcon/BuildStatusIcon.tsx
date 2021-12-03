@@ -11,6 +11,7 @@ import { ReactComponent as IconGrey } from './icons/grey.svg';
 import { ReactComponent as IconOrange } from './icons/orange.svg';
 import { ReactComponent as IconRed } from './icons/red.svg';
 import { ReactComponent as IconNoBuilds } from './icons/no-builds.svg';
+import { isBuild } from '../../utils/entityRecognition';
 
 const iconData: { [buildStatus: string]: { tooltip: string; icon: any; className?: string } } = {
   SUCCESS: {
@@ -84,9 +85,9 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
   const selectedIconData = build.status ? iconData[build.status] : iconData.UNKNOWN;
   const SelectedIconComponent = selectedIconData!.icon;
   const isCorrupted =
-    'attributes' in build &&
-    (build.attributes?.POST_BUILD_REPO_VALIDATION === 'REPO_SYSTEM_ERROR' ||
-      build.attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL');
+    isBuild(build) &&
+    ((build as Build).attributes?.POST_BUILD_REPO_VALIDATION === 'REPO_SYSTEM_ERROR' ||
+      (build as Build).attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL');
 
   return (
     <span className="build-status-icon">
@@ -111,7 +112,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
           <OutlinedClockIcon />
         </Tooltip>
       )}
-      {long && <span>{build.status}</span>}
+      {long && build.status}
     </span>
   );
 };
