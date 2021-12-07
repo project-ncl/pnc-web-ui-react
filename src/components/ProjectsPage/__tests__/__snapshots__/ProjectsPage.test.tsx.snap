@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compare snapshot with previous record 1`] = `
+<PageLayout
+  description={
+    <React.Fragment>
+      This page contains a standalone projects like 
+      <Label>
+        Hibernate
+      </Label>
+       or 
+      <Label>
+        JBoss Modules
+      </Label>
+      , usually a project represents one SCM repository and one project may contain multiple Build Configs.
+    </React.Fragment>
+  }
+  title="Projects"
+>
+  <DataContainer
+    error=""
+    loading={true}
+    title="Projects List"
+  >
+    <ProjectsList />
+  </DataContainer>
+</PageLayout>
+`;

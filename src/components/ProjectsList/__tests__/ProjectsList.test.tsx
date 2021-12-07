@@ -1,7 +1,8 @@
 import { ProjectsList } from '../ProjectsList';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import renderer from 'react-test-renderer';
+
+jest.mock('../../../services/projectService');
 
 describe('display ProjectList component', () => {
   let mockProjectsRequest: any;
@@ -31,13 +32,11 @@ describe('display ProjectList component', () => {
   });
 
   test('compare snapshot with previous record', () => {
-    const tree = renderer
-      .create(
-        <MemoryRouter>
-          <ProjectsList projects={mockProjects} />
-        </MemoryRouter>
-      )
-      .toJSON();
+    const tree = render(
+      <MemoryRouter>
+        <ProjectsList projects={mockProjects} />
+      </MemoryRouter>
+    );
     expect(tree).toMatchSnapshot();
   });
 });
