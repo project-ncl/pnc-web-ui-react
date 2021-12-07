@@ -1,13 +1,16 @@
-import { render } from '@testing-library/react';
 import { ProjectsPage } from '../ProjectsPage';
-import { MemoryRouter } from 'react-router-dom';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
-// temporarily disabled
-test('renders ProjectsPage', () => {
-  render(
-    <></>
-    // <MemoryRouter>
-    //   <ProjectsPage />
-    // </MemoryRouter>
-  );
+jest.mock('../../../services/projectService');
+
+test('render ProjectsPage', () => {
+  const renderer = ShallowRenderer.createRenderer();
+  renderer.render(<ProjectsPage />);
+});
+
+test('compare snapshot with previous record', () => {
+  const renderer = ShallowRenderer.createRenderer();
+  let tree: any;
+  tree = renderer.render(<ProjectsPage />);
+  expect(tree).toMatchSnapshot();
 });

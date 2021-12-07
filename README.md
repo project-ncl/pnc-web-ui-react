@@ -54,7 +54,7 @@ Unit tests are integrated for all components, you can use the following commands
 npm run test   # run tests for those components that was modified.
 ```
 
-If you want to run all tests, then press `w` to show more(sometime not needed) and press `a` to run all tests.
+If you want to run all tests, press `a`.
 
 ### Update Snapshots for Unit Test
 
@@ -72,4 +72,4 @@ npm run test   # run tests for those components that was modified.
 
 **2) Trigger update snapshots**
 
-Press `w` to show more(sometime not needed) and press `u` to update failing snapshots.
+Press `u` to update failing snapshots.
