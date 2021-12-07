@@ -9,7 +9,7 @@ describe('display ProjectList component', () => {
   let mockProjects: any;
 
   async function loadMocks() {
-    mockProjectsRequest = await import('./data/mock-projects-request.json');
+    mockProjectsRequest = await import('../../../services/__mocks__/projects-mock.json');
     mockProjects = mockProjectsRequest.content;
   }
 

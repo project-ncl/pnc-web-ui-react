@@ -11,8 +11,7 @@ class ProjectService {
   public getProjects() {
     return new Promise((resolve, rejects) => {
       import('../../services/__mocks__/projects-mock.json').then((mockProjectsRequest) => {
-        let mockProjects = mockProjectsRequest.content;
-        resolve(mockProjects);
+        resolve({ data: mockProjectsRequest });
       });
     });
   }
@@ -24,12 +23,7 @@ class ProjectService {
    * @returns Project
    */
   public getProject(id: string) {
-    return new Promise((resolve, rejects) => {
-      import('../../services/__mocks__/projects-mock.json').then((mockProjectsRequest) => {
-        let mockProjects = mockProjectsRequest.content;
-        resolve(mockProjects[0]);
-      });
-    });
+    return null;
   }
 
   /**
