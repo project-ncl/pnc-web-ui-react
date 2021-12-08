@@ -5,12 +5,11 @@ import { render, screen } from '@testing-library/react';
 jest.mock('../../../services/projectService');
 
 describe('display ProjectList component', () => {
-  let mockProjectsRequest: any;
-  let mockProjects: any;
+  let projectsMock: any;
 
   async function loadMocks() {
-    const mockProjectsRequest = await import('../../../services/__mocks__/projects-mock.json');
-    mockProjects = mockProjectsRequest.content;
+    const projectsRequestMock = await import('../../../services/__mocks__/projects-mock.json');
+    projectsMock = projectsRequestMock.content;
   }
 
   beforeEach(async () => {
@@ -20,12 +19,12 @@ describe('display ProjectList component', () => {
   test('renders ProjectList to have the right data', () => {
     render(
       <MemoryRouter>
-        <ProjectsList projects={mockProjects} />
+        <ProjectsList projects={projectsMock} />
       </MemoryRouter>
     );
-    const firstProject = screen.getByText(mockProjects[0].name);
+    const firstProject = screen.getByText(projectsMock[0].name);
     expect(firstProject).toBeInTheDocument();
-    const lastProject = screen.getByText(mockProjects[6].description);
+    const lastProject = screen.getByText(projectsMock[6].description);
     expect(lastProject).toBeInTheDocument();
     const lastProjectCount = screen.getByText(17);
     expect(lastProjectCount).toBeInTheDocument();
@@ -34,7 +33,7 @@ describe('display ProjectList component', () => {
   test('compare snapshot with previous record', () => {
     const tree = render(
       <MemoryRouter>
-        <ProjectsList projects={mockProjects} />
+        <ProjectsList projects={projectsMock} />
       </MemoryRouter>
     );
     expect(tree).toMatchSnapshot();
