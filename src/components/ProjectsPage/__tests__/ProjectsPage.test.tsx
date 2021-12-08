@@ -6,12 +6,11 @@ import { MemoryRouter } from 'react-router';
 jest.mock('../../../services/projectService');
 
 describe('display ProjectsPage component', () => {
-  let mockProjectsRequest: any;
-  let mockProjects: any;
+  let projectsMock: any;
 
   async function loadMocks() {
-    mockProjectsRequest = await import('../../../services/__mocks__/projects-mock.json');
-    mockProjects = mockProjectsRequest.content;
+    const projectsRequestMock = await import('../../../services/__mocks__/projects-mock.json');
+    projectsMock = projectsRequestMock.content;
   }
 
   beforeEach(async () => {
@@ -26,9 +25,9 @@ describe('display ProjectsPage component', () => {
         </MemoryRouter>
       );
     });
-    const firstProject = screen.getByText(mockProjects[0].name);
+    const firstProject = screen.getByText(projectsMock[0].name);
     expect(firstProject).toBeInTheDocument();
-    const lastProject = screen.getByText(mockProjects[6].description);
+    const lastProject = screen.getByText(projectsMock[6].description);
     expect(lastProject).toBeInTheDocument();
     const lastProjectCount = screen.getByText(17);
     expect(lastProjectCount).toBeInTheDocument();
