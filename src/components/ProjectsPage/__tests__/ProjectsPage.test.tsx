@@ -1,4 +1,4 @@
-import { act } from 'react-dom/test-utils';
+import { act } from '@testing-library/react';
 import { ProjectsPage } from '../ProjectsPage';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';

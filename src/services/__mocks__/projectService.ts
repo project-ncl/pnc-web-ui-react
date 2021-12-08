@@ -1,16 +1,12 @@
-import { rejects } from 'assert';
-
-class ProjectService {
-  path = '/projects';
-
+class ProjectServiceMock {
   /**
    * Gets all Projects.
    *
    * @returns Projects
    */
   public getProjects() {
-    return new Promise((resolve, rejects) => {
-      import('../../services/__mocks__/projects-mock.json').then((mockProjectsRequest) => {
+    return new Promise((resolve) => {
+      import('./projects-mock.json').then((mockProjectsRequest) => {
         resolve({ data: mockProjectsRequest });
       });
     });
@@ -23,7 +19,7 @@ class ProjectService {
    * @returns Project
    */
   public getProject(id: string) {
-    return null;
+    throw new Error('getProject: Not implemented yet');
   }
 
   /**
@@ -33,11 +29,11 @@ class ProjectService {
    * @returns Builds.
    */
   public getProjectBuilds(id: string) {
-    return null;
+    throw new Error('getProjectBuilds: Not implemented yet');
   }
 }
 
 /**
  * Instance of ProjectService providing group of Project related API operations.
  */
-export const projectService = new ProjectService();
+export const projectService = new ProjectServiceMock();
