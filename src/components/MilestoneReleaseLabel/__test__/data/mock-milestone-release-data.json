@@ -1,0 +1,15 @@
+[
+  {
+    "version": "ERP1.2.3",
+    "startingDate": "2000-12-26T05:00:00Z",
+    "plannedEndDate": "2030-12-26T05:00:00Z",
+    "endDate": "2030-12-26T05:00:00Z"
+  },
+  {
+    "version": "ERP1.2.4-C",
+    "startingDate": "2000-12-26T05:00:00Z",
+    "plannedEndDate": "2030-12-26T05:00:00Z",
+    "endDate": "2030-12-26T05:00:00Z"
+  },
+  { "version": "CAM1.2.5", "supportLevel": "EARLYACCESS", "releaseDate": "2021-12-10T05:00:00Z" }
+]
