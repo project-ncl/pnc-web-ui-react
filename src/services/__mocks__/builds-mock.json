@@ -1,0 +1,219 @@
+{
+  "pageIndex": 0,
+  "pageSize": 2,
+  "totalPages": 2,
+  "totalHits": 3,
+  "content": [
+    {
+      "id": "1001",
+      "submitTime": "2020-10-19T00:13:15.752Z",
+      "startTime": "2020-10-19T00:13:15.847Z",
+      "endTime": "2020-10-19T00:15:26.674Z",
+      "progress": "FINISHED",
+      "status": "FAILED",
+      "buildContentId": "build-1001",
+      "temporaryBuild": false,
+      "scmUrl": null,
+      "scmRevision": null,
+      "scmTag": null,
+      "buildOutputChecksum": null,
+      "lastUpdateTime": null,
+      "project": {
+        "id": "106",
+        "name": "Test Project Name 106",
+        "description": null,
+        "issueTrackerUrl": null,
+        "projectUrl": null,
+        "engineeringTeam": null,
+        "technicalLeader": null
+      },
+      "scmRepository": {
+        "id": "10001",
+        "internalUrl": "git+ssh://code.test.storage.com/10001/10001.git",
+        "externalUrl": null,
+        "preBuildSyncEnabled": false
+      },
+      "environment": {
+        "id": "1",
+        "name": "OpenJDK 1.8; Mvn 3.3.9",
+        "description": "OpenJDK 1.8; Mvn 3.3.9 ",
+        "systemImageRepositoryUrl": "test.url/ncl",
+        "systemImageId": "builder-rhel-7-j8-mvn3.3.9:1.0.0",
+        "attributes": {
+          "MAVEN": "3.3.9",
+          "JDK": "1.8.0",
+          "OS": "Linux"
+        },
+        "systemImageType": "DOCKER_IMAGE",
+        "deprecated": true,
+        "hidden": false
+      },
+      "attributes": {},
+      "user": {
+        "id": "111",
+        "username": "tozhou"
+      },
+      "buildConfigRevision": {
+        "id": "469",
+        "rev": 3027,
+        "name": "123",
+        "buildScript": "clean",
+        "scmRevision": "master",
+        "creationTime": "2020-09-16T11:16:18.205Z",
+        "modificationTime": "2020-09-16T11:16:18.152Z",
+        "buildType": "MVN",
+        "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+        "brewPullActive": false
+      },
+      "productMilestone": {
+        "id": "177",
+        "version": "1.0.11",
+        "endDate": null,
+        "startingDate": "2020-09-27T12:00:00Z",
+        "plannedEndDate": "2020-09-28T12:00:00Z"
+      },
+      "groupBuild": null,
+      "noRebuildCause": null
+    },
+    {
+      "id": "1002",
+      "submitTime": "2020-10-27T12:06:09.304Z",
+      "startTime": "2020-10-27T12:06:09.325Z",
+      "endTime": "2020-10-27T12:06:36.261Z",
+      "progress": "FINISHED",
+      "status": "FAILED",
+      "buildContentId": "build-1002",
+      "temporaryBuild": false,
+      "scmUrl": null,
+      "scmRevision": null,
+      "scmTag": null,
+      "buildOutputChecksum": null,
+      "lastUpdateTime": null,
+      "project": {
+        "id": "106",
+        "name": "DnsProjectTest",
+        "description": null,
+        "issueTrackerUrl": null,
+        "projectUrl": null,
+        "engineeringTeam": null,
+        "technicalLeader": null
+      },
+      "scmRepository": {
+        "id": "10002",
+        "internalUrl": "git+ssh://code.test.storage.com/10002/10002.git",
+        "externalUrl": null,
+        "preBuildSyncEnabled": false
+      },
+      "environment": {
+        "id": "1",
+        "name": "OpenJDK 1.8; Mvn 3.3.9",
+        "description": "OpenJDK 1.8; Mvn 3.3.9 ",
+        "systemImageRepositoryUrl": "test.url/ncl",
+        "systemImageId": "builder-rhel-7-j8-mvn3.3.9:1.0.0",
+        "attributes": {
+          "MAVEN": "3.3.9",
+          "JDK": "1.8.0",
+          "OS": "Linux"
+        },
+        "systemImageType": "DOCKER_IMAGE",
+        "deprecated": true,
+        "hidden": false
+      },
+      "attributes": {},
+      "user": {
+        "id": "109",
+        "username": "mkelnar"
+      },
+      "buildConfigRevision": {
+        "id": "469",
+        "rev": 3027,
+        "name": "123",
+        "buildScript": "clean",
+        "scmRevision": "master",
+        "creationTime": "2020-09-16T11:16:18.205Z",
+        "modificationTime": "2020-09-16T11:16:18.152Z",
+        "buildType": "MVN",
+        "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+        "brewPullActive": false
+      },
+      "productMilestone": {
+        "id": "177",
+        "version": "1.0.11",
+        "endDate": null,
+        "startingDate": "2020-09-27T12:00:00Z",
+        "plannedEndDate": "2020-09-28T12:00:00Z"
+      },
+      "groupBuild": null,
+      "noRebuildCause": null
+    },
+    {
+      "id": "AJ4WUBX75VQAA",
+      "submitTime": "2021-05-06T23:41:45.343Z",
+      "startTime": "2021-05-06T23:41:45.352Z",
+      "endTime": "2021-05-06T23:43:02.718Z",
+      "progress": "FINISHED",
+      "status": "FAILED",
+      "buildContentId": "build-178290238553939968",
+      "temporaryBuild": false,
+      "scmUrl": "https://code.test.storage.com/gerrit/matejonnet/test.git",
+      "scmRevision": "111111",
+      "scmTag": "1.0.0.redhat-00031-722f5389",
+      "buildOutputChecksum": "222222",
+      "lastUpdateTime": null,
+      "project": {
+        "id": "303",
+        "name": "DnsProjectTest",
+        "description": null,
+        "issueTrackerUrl": null,
+        "projectUrl": null,
+        "engineeringTeam": null,
+        "technicalLeader": null
+      },
+      "scmRepository": {
+        "id": "169",
+        "internalUrl": "git+ssh://code.test.storage.com/matejonnet/test.git",
+        "externalUrl": "https://testurl.com/test.git",
+        "preBuildSyncEnabled": true
+      },
+      "environment": {
+        "id": "2",
+        "name": "OpenJDK 1.8; Mvn 3.2.3",
+        "description": "OpenJDK 1.8; Mvn 3.2.3 111",
+        "systemImageRepositoryUrl": "test.url/ncl",
+        "systemImageId": "builder-rhel-7-j8-mvn3.2.3:1.0.0",
+        "attributes": {
+          "MAVEN": "3.2.3",
+          "JDK": "1.8.0",
+          "OS": "Linux"
+        },
+        "systemImageType": "DOCKER_IMAGE",
+        "deprecated": true,
+        "hidden": false
+      },
+      "attributes": {
+        "BREW_BUILD_VERSION": "1.0.0.redhat-00031",
+        "BUILD_OUTPUT_OK": "false",
+        "BREW_BUILD_NAME": "com.test:test"
+      },
+      "user": {
+        "id": "111",
+        "username": "tozhou"
+      },
+      "buildConfigRevision": {
+        "id": "645",
+        "rev": 6927,
+        "name": "DnsSSHTest",
+        "buildScript": "mvn clean deploy1",
+        "scmRevision": "master",
+        "creationTime": "2021-05-06T23:41:31.373Z",
+        "modificationTime": "2021-05-06T23:41:31.365Z",
+        "buildType": "MVN",
+        "defaultAlignmentParams": "-DdependencySource=REST -DrepoRemovalBackup=repositories-backup.xml -DversionSuffixStrip= -DreportNonAligned=true",
+        "brewPullActive": false
+      },
+      "productMilestone": null,
+      "groupBuild": null,
+      "noRebuildCause": null
+    }
+  ]
+}
