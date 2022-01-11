@@ -10,9 +10,9 @@ describe('display MilestoneReleaseLabel component', () => {
     let testReleaseDataList = productReleaseMock as unknown as ProductRelease[];
     render(
       <>
-        <MilestoneReleaseLabel milestoneRelease={testMilestoneDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
-        <MilestoneReleaseLabel milestoneRelease={testMilestoneDataList[1]} isCurrent={true}></MilestoneReleaseLabel>
-        <MilestoneReleaseLabel milestoneRelease={testReleaseDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
+        <MilestoneReleaseLabel productMilestoneRelease={testMilestoneDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
+        <MilestoneReleaseLabel productMilestoneRelease={testMilestoneDataList[1]} isCurrent={true}></MilestoneReleaseLabel>
+        <MilestoneReleaseLabel productMilestoneRelease={testReleaseDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
       </>
     );
     const firstLabel = screen.getByText(testMilestoneDataList[0].version as string);
@@ -29,9 +29,9 @@ describe('display MilestoneReleaseLabel component', () => {
 
     const tree = render(
       <>
-        <MilestoneReleaseLabel milestoneRelease={testMilestoneDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
-        <MilestoneReleaseLabel milestoneRelease={testMilestoneDataList[1]} isCurrent={true}></MilestoneReleaseLabel>
-        <MilestoneReleaseLabel milestoneRelease={testReleaseDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
+        <MilestoneReleaseLabel productMilestoneRelease={testMilestoneDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
+        <MilestoneReleaseLabel productMilestoneRelease={testMilestoneDataList[1]} isCurrent={true}></MilestoneReleaseLabel>
+        <MilestoneReleaseLabel productMilestoneRelease={testReleaseDataList[0]} isCurrent={false}></MilestoneReleaseLabel>
       </>
     );
     expect(tree).toMatchSnapshot();
