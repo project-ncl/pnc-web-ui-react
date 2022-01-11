@@ -4,7 +4,7 @@ import * as WebConfigAPI from './WebConfigService';
 /**
  * Utils class managing http client instance, only one instance is created.
  */
-class Client {
+class PncClient {
   private httpClient: AxiosInstance;
   public mathRandom: number = Math.random(); // development and testing purposes
 
@@ -41,4 +41,4 @@ class Client {
   }
 }
 
-export const pncClient = new Client();
+export const pncClient = new PncClient();

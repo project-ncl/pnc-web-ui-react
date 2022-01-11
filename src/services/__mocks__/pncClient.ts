@@ -4,9 +4,9 @@ import buildsRequestMock from './builds-mock.json';
 import projectsRequestMock from './projects-mock.json';
 import projectRequestMock from './project-mock.json';
 
-let mock = new MockAdapter(axios);
+let mockAdapter = new MockAdapter(axios);
 
-class ClientMock {
+class PncClientMock {
   private httpClient: AxiosInstance;
 
   constructor() {
@@ -15,9 +15,9 @@ class ClientMock {
   }
 
   private loadAxiosMock = async () => {
-    mock.onGet('/projects').reply(200, projectsRequestMock);
-    mock.onGet(/\/projects\/\d+$/).reply(200, projectRequestMock);
-    mock.onGet(/\/projects\/\d+\/builds$/).reply(200, buildsRequestMock);
+    mockAdapter.onGet('/projects').reply(200, projectsRequestMock);
+    mockAdapter.onGet(/\/projects\/\d+$/).reply(200, projectRequestMock);
+    mockAdapter.onGet(/\/projects\/\d+\/builds$/).reply(200, buildsRequestMock);
   };
 
   // PUBLIC
@@ -27,4 +27,4 @@ class ClientMock {
   }
 }
 
-export const pncClient = new ClientMock();
+export const pncClient = new PncClientMock();
