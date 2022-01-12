@@ -1,7 +1,7 @@
 import { Button, Tooltip } from '@patternfly/react-core';
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 import { isProductMilestone, isProductRelease } from '../../utils/entityRecognition';
-import './MilestoneReleaseLabel.css';
+import styles from './ProductMilestoneReleaseLabel.module.css';
 
 interface IProductMilestoneReleaseProp {
   productMilestoneRelease: ProductMilestone | ProductRelease;
@@ -9,13 +9,13 @@ interface IProductMilestoneReleaseProp {
 }
 
 /**
- * Show Milestone or Release label with specific text and toolips.
+ * Show Product Milestone or Release label with specific text and toolips.
  *
- * @param milestoneRelease - ProductMilestone or ProductRelease component to be displayed
+ * @param productMilestoneRelease - ProductMilestone or ProductRelease component to be displayed
  *
  * @param isCurrent - If the ProductMilestone is current one
  */
-export const MilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent }: IProductMilestoneReleaseProp) => {
+export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent }: IProductMilestoneReleaseProp) => {
   let tooltipContent;
   let buttonClassName;
   let labelType;
@@ -23,7 +23,7 @@ export const MilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent }: IP
     const productMilestone = productMilestoneRelease as ProductMilestone;
     labelType = 'milestone';
     tooltipContent = (
-      <div className="tooltip-text">
+      <div className={styles.tooltipText}>
         <strong>Start Date: </strong>
         {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(productMilestone.startingDate as string))}
         <br />
@@ -34,12 +34,12 @@ export const MilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent }: IP
         {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(productMilestone.endDate as string))}
       </div>
     );
-    buttonClassName = isCurrent ? 'milestone-label is-current' : 'milestone-label';
+    buttonClassName = isCurrent ? `${styles.milestoneLabel} ${styles.isCurrent}` : `${styles.milestoneLabel}`;
   } else if (isProductRelease(productMilestoneRelease)) {
     labelType = 'release';
     const productRelease = productMilestoneRelease as ProductRelease;
     tooltipContent = (
-      <div className="tooltip-text">
+      <div className={styles.tooltipText}>
         <strong>Release Date: </strong>
         {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(productRelease.releaseDate as string))}
         <br />
@@ -47,10 +47,10 @@ export const MilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent }: IP
         {productRelease.supportLevel}
       </div>
     );
-    buttonClassName = 'release-label';
+    buttonClassName = `${styles.releaseLabel}`;
   }
   return (
-    <span className="label">
+    <span className={styles.label}>
       <Tooltip content={tooltipContent} isContentLeftAligned={true} position="auto">
         <Button isSmall={true} className={buttonClassName} component={labelType === 'milestone' ? 'a' : 'span'} href="#">
           {productMilestoneRelease.version}
