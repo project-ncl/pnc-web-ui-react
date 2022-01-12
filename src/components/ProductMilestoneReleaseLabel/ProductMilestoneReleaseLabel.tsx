@@ -23,7 +23,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     const productMilestone = productMilestoneRelease as ProductMilestone;
     labelType = 'milestone';
     tooltipContent = (
-      <div className={styles.tooltipText}>
+      <div className={styles['tooltip-text']}>
         <strong>Start Date: </strong>
         {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(productMilestone.startingDate as string))}
         <br />
@@ -34,12 +34,12 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
         {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(productMilestone.endDate as string))}
       </div>
     );
-    buttonClassName = isCurrent ? `${styles.milestoneLabel} ${styles.isCurrent}` : `${styles.milestoneLabel}`;
+    buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
   } else if (isProductRelease(productMilestoneRelease)) {
     labelType = 'release';
     const productRelease = productMilestoneRelease as ProductRelease;
     tooltipContent = (
-      <div className={styles.tooltipText}>
+      <div className={styles['toolip-text']}>
         <strong>Release Date: </strong>
         {new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(productRelease.releaseDate as string))}
         <br />
@@ -47,7 +47,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
         {productRelease.supportLevel}
       </div>
     );
-    buttonClassName = `${styles.releaseLabel}`;
+    buttonClassName = `${styles['release-label']}`;
   }
   return (
     <span className={styles.label}>
