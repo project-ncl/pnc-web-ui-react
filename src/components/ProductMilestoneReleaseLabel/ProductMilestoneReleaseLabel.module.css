@@ -2,26 +2,26 @@
   padding: 0px 2px 0px 2px;
 }
 
-.tooltipText {
+.tooltip-text {
   text-align: left;
 }
 
-.milestoneLabel {
+.milestone-label {
   background-color: #9c9c9c !important;
   color: white !important;
 }
-.milestoneLabel:hover {
+.milestone-label:hover {
   background-color: #838383 !important;
 }
 
-.isCurrent {
+.is-current {
   background-color: #39a5dc !important;
 }
-.isCurrent:hover {
+.is-current:hover {
   background-color: #228bc0 !important;
 }
 
-.releaseLabel {
+.release-label {
   background-color: #3f9c35 !important;
   color: white !important;
   cursor: default;

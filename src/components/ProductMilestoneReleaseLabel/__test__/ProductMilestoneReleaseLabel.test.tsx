@@ -27,9 +27,9 @@ describe('display MilestoneReleaseLabel component', () => {
     const firstLabel = screen.getByText(testMilestoneDataList[0].version as string);
     const secondLabel = screen.getByText(testMilestoneDataList[1].version as string);
     const thirdLabel = screen.getByText(testReleaseDataList[0].version as string);
-    expect(firstLabel).toHaveClass('milestoneLabel');
-    expect(secondLabel).toHaveClass('milestoneLabel isCurrent');
-    expect(thirdLabel).toHaveClass('releaseLabel');
+    expect(firstLabel).toHaveClass('milestone-label');
+    expect(secondLabel).toHaveClass('milestone-label is-current');
+    expect(thirdLabel).toHaveClass('release-label');
   });
 
   test('compare snapshot with previous record', () => {
