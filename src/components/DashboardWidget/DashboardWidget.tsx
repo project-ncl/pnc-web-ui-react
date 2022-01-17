@@ -23,7 +23,7 @@ export const DashboardWidget = ({ title, src }: IDashboardWidget) => {
     <Card isCompact>
       <CardTitle>{title}</CardTitle>
       <CardBody>
-        <iframe src={src} style={{ width: '100%', height: '250px' }}></iframe>
+        <iframe src={src} title={title} style={{ width: '100%', height: '250px' }}></iframe>
       </CardBody>
     </Card>
   );
