@@ -1,4 +1,5 @@
 import { Divider, PageSection, PageSectionVariants, TextContent, Text, Grid, GridItem } from '@patternfly/react-core';
+import { PageLayout } from './../PageLayout/PageLayout';
 import { DashboardWidget } from '../DashboardWidget/DashboardWidget';
 import * as WebConfigAPI from '../../services/WebConfigService';
 
@@ -8,11 +9,15 @@ export const DashboardPage = () => {
   const statusMapUrl = webConfigData?.config?.grafana?.statusMapUrl as string;
 
   return (
-    <PageSection variant={PageSectionVariants.light}>
-      <TextContent>
-        <Text component="h1">DashboardPage</Text>
-      </TextContent>
-      <Divider component="div" />
+    <PageLayout
+      title="Dashboard"
+      description={
+        <>
+          The dashboard page contains the status of relevant services and the list of the builds and group builds triggered by the
+          current user.
+        </>
+      }
+    >
       <Grid hasGutter>
         <GridItem span={6}>
           <DashboardWidget title="Service Status" src={trafficLightsUrl}></DashboardWidget>
@@ -21,6 +26,6 @@ export const DashboardPage = () => {
           <DashboardWidget title="Service Status Timeline" src={statusMapUrl}></DashboardWidget>
         </GridItem>
       </Grid>
-    </PageSection>
+    </PageLayout>
   );
 };
