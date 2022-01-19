@@ -15,7 +15,7 @@ interface ILoadingStateCard {
 }
 
 /**
- * Loading Empty State component with delayed render. It will be displayed after defined waiting time
+ * Loading State component with delayed render. It will be displayed after defined waiting time
  * to prevent flashing user experience when spinner is displayed and almost immediately replaced.
  *
  * @param delayMilliseconds - Waiting time before component gets rendered
