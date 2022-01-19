@@ -1,4 +1,4 @@
-import { Divider, PageSection, PageSectionVariants, TextContent, Text, Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { DashboardWidget } from '../DashboardWidget/DashboardWidget';
 import * as WebConfigAPI from '../../services/WebConfigService';
