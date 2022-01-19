@@ -18,8 +18,10 @@ code {
    PatternFly overrides
    ==================== */
 
-/* striped table with hover */
-.pf-c-table tbody tr:nth-child(even) {
+/* 
+ * striped table with hover 
+ */
+.pf-c-table tbody tr:nth-child(odd) {
   background-color: rgb(235, 235, 235);
 }
 .pf-c-table tbody tr:hover {
