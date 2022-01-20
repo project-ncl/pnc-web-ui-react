@@ -1,6 +1,7 @@
 import { EmptyStateCard } from '../../components/EmptyStates/EmptyStateCard';
 import { ErrorStateCard } from '../../components/EmptyStates/ErrorStateCard';
 import { LoadingStateCard } from '../../components/EmptyStates/LoadingStateCard';
+import { RefreshStateCard } from '../../components/EmptyStates/RefreshStateCard';
 
 interface IDataContainer {
   data: any;
@@ -29,15 +30,21 @@ interface IDataContainer {
  * @param children - React children property
  */
 export const DataContainer = ({ data, loading, error, title, children }: React.PropsWithChildren<IDataContainer>) => {
-  // display Loading card when loading
-  if (loading) return <LoadingStateCard title={title} />;
+  // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
+  if (loading && !data) return <LoadingStateCard title={title} />;
 
-  // display Error card when error
+  // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
+  // (the component was rendered at some point before)
+  //  - for example: when page index is changed from page 1 to page 2
+  //  - this will make UI more smooth and it prevents flickering user experience
+  if (loading && data) return <RefreshStateCard>{children}</RefreshStateCard>;
+
+  // Error state: display Error card when error
   if (error) return <ErrorStateCard title={title} error={error} />;
 
-  // display Empty card when request was successfully finished, but no data is available
-  if (!data.length) return <EmptyStateCard title={title} />;
+  // Empty state: display Empty card when request was successfully finished, but no data is available
+  if (!data?.content.length) return <EmptyStateCard title={title} />;
 
-  // display real data when it's loaded successfully and it's not empty
+  // Real data: display real data when it's loaded successfully and it's not empty
   return <>{children}</>;
 };
