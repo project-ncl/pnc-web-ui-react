@@ -18,13 +18,12 @@ interface IDashboardWidget {
  *
  */
 
-export const DashboardWidget = ({ title, src }: IDashboardWidget) => {
-  return (
-    <Card isCompact>
-      <CardTitle>{title}</CardTitle>
-      <CardBody>
-        <iframe src={src} title={title} style={{ width: '100%', height: '250px' }}></iframe>
-      </CardBody>
-    </Card>
-  );
-};
+const cardBodyStyles = { width: '100%', height: '250px' };
+export const DashboardWidget = ({ title, src }: IDashboardWidget) => (
+  <Card isCompact>
+    <CardTitle>{title}</CardTitle>
+    <CardBody>
+      <iframe src={src} title={title} style={cardBodyStyles}></iframe>
+    </CardBody>
+  </Card>
+);
