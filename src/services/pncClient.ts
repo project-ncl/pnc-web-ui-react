@@ -24,7 +24,17 @@ class PncClient {
 
     httpClient.interceptors.request.use((config) => {
       // perform actions before request is sent
-      console.log('axios request interceptor');
+      console.log('axios request interceptor', config);
+
+      /*
+       * Convert pageIndex to zero based to be compatible with Orch API
+       *  - Orch API first page index value is 0
+       *  - UI first page index value is 1
+       */
+      if (config.params.pageIndex) {
+        config.params.pageIndex = Number(config.params.pageIndex) - 1;
+      }
+
       return config;
     });
 

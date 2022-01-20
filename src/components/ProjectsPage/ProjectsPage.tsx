@@ -4,9 +4,19 @@ import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
 import { Label } from '@patternfly/react-core';
+import { Pagination } from '../Pagination/Pagination';
+import { useQueryParamsEffect } from '../../containers/useQueryParamsEffect';
 
-export const ProjectsPage = () => {
-  const dataContainer = useDataContainer(() => projectService.getProjects());
+interface IProjectPage {
+  componentId?: string;
+}
+
+export const ProjectsPage = ({ componentId = 'projectsPage' }: IProjectPage) => {
+  const dataContainer = useDataContainer((requestConfig: Object) => projectService.getProjects(requestConfig));
+
+  useQueryParamsEffect((requestConfig: Object) => {
+    dataContainer.refresh(requestConfig);
+  }, componentId);
 
   return (
     <PageLayout
@@ -19,8 +29,10 @@ export const ProjectsPage = () => {
       }
     >
       <DataContainer {...dataContainer} title="Projects List">
-        <ProjectsList projects={dataContainer.data} />
+        <ProjectsList projects={dataContainer.data?.content} />
       </DataContainer>
+      {/* Pagination need to be outside of DataContainer so that it can initialize Query Params */}
+      <Pagination componentId={componentId} count={dataContainer.data?.totalHits} />
     </PageLayout>
   );
 };

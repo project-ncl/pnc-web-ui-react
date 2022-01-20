@@ -8,8 +8,8 @@ class ProjectService {
    *
    * @returns Projects
    */
-  public getProjects() {
-    return pncClient.getHttpClient().get(this.path);
+  public getProjects(requestConfig = {}) {
+    return pncClient.getHttpClient().get(this.path, requestConfig);
   }
 
   /**
