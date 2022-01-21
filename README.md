@@ -10,9 +10,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Prerequisites
 
-1. `Node.js` version >= 14
-2. `NPM` version >= 7
-3. `Prettier`, see [documentation/prettier.md](./documentation/prettier.md)
+1. See `"engines"` in [package.json](./package.json) for minimum version requirements (for example `node` and `npm`)
+2. `Prettier`, see [documentation/prettier.md](./documentation/prettier.md)
 
 ## Workflows
 
