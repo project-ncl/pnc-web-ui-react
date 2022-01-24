@@ -7,8 +7,8 @@ const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
 
 //  WEB CONFIG
 const WebConfig = () => {
-  const webConfigData = WebConfigAPI.getWebConfig();
-  return <>{JSON.stringify(webConfigData?.config, null, 2)}</>;
+  const webConfig = WebConfigAPI.getWebConfig();
+  return <>{JSON.stringify(webConfig, null, 2)}</>;
 };
 
 export const VariablesPage = () => {
