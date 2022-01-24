@@ -30,12 +30,12 @@ interface IAppLayout {
 }
 
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
-  const webConfigData = WebConfigAPI.getWebConfig();
+  const webConfig = WebConfigAPI.getWebConfig();
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
   const AppHeaderTools = () => {
-    const pncUserGuideUrl = webConfigData?.config?.userGuideUrl;
+    const pncUserGuideUrl = webConfig.userGuideUrl;
 
     const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);

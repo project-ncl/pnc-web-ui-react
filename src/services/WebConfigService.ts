@@ -16,7 +16,7 @@ export interface IWebConfigKeycloak {
   clientId: string;
 }
 
-export interface IWebConfigData {
+export interface IWebConfig {
   bpmUrl: string;
   cartographerUrl: string;
   daUrl: string;
@@ -38,23 +38,32 @@ export interface IWebConfigData {
   internalScmAuthority: string;
 }
 
-export interface IWebConfig {
-  config: IWebConfigData | null;
+export interface IPncConfig {
+  config: IWebConfig;
 }
 
 /**
  * Return PNC Web Configuration data coming from Orchestrator
  */
-export const getWebConfig = (): IWebConfig => {
+export const getPncConfig = (): IPncConfig => {
   // window.pnc object is loaded in public/index.html from Orchestrator
-  const webConfig = window.pnc;
+  const pncConfig = window.pnc;
 
-  if (!webConfig) {
+  if (!pncConfig) {
     throw new Error(
-      `Web Config does not contain any data, check whether internal network resources are reachable: #${webConfig}#`
+      `PNC Config does not contain any data, check whether internal network resources are reachable: #${pncConfig}#`
     );
   }
 
+  return pncConfig;
+};
+
+export const getWebConfig = (): IWebConfig => {
+  const webConfig = getPncConfig().config;
+
+  if (!webConfig) {
+    throw new Error(`Web Config doesn't content required "config" property: #${webConfig}#`);
+  }
   return webConfig;
 };
 
@@ -62,7 +71,7 @@ export const getWebConfig = (): IWebConfig => {
  * Return PNC URL endpoint
  */
 export const getPncUrl = (): string => {
-  const pncUrl = getWebConfig().config?.externalPncUrl;
+  const pncUrl = getWebConfig().externalPncUrl;
 
   if (!pncUrl) {
     throw new Error(`PNC URL does not contain any data: #${pncUrl}#`);
