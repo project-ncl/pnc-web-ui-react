@@ -1,0 +1,24 @@
+{
+  "bpmUrl": "https://localhost/",
+  "cartographerUrl": "https://localhost/",
+  "daUrl": "https://localhost/",
+  "indyUrl": "https://localhost/",
+  "pncUrl": "https://localhost/",
+  "repourUrl": "https://localhost/",
+  "externalBifrostUrl": "https://localhost/",
+  "externalDaUrl": "https://localhost/",
+  "externalCausewayUrl": "https://localhost/",
+  "externalIndyUrl": "https://localhost/",
+  "externalKafkaStoreUrl": "https://localhost/",
+  "externalPncUrl": "https://localhost/",
+  "externalRepourUrl": "https://localhost/",
+  "pncNotificationsUrl": "wss://localhost/",
+  "userGuideUrl": "https://localhost/",
+  "ssoTokenLifespan": 86400000,
+  "keycloak": { "url": "https://localhost/", "realm": "realm", "clientId": "clientId" },
+  "grafana": {
+    "trafficLightsUrl": "https://localhost/",
+    "statusMapUrl": "https://localhost/"
+  },
+  "internalScmAuthority": "localhost"
+}
