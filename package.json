@@ -30,24 +30,12 @@
     "eject": "react-scripts eject",
     "prepare": "husky install",
     "prettier-write": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "prettier-check": "prettier --check '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "prettier-check": "prettier --check '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
     ]
   },
   "browserslist": {
@@ -63,12 +51,6 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.4.4",
-    "@storybook/addon-essentials": "^6.4.4",
-    "@storybook/addon-links": "^6.4.4",
-    "@storybook/node-logger": "^6.4.4",
-    "@storybook/preset-create-react-app": "^3.2.0",
-    "@storybook/react": "^6.4.4",
     "@types/react-test-renderer": "^17.0.1",
     "axios-mock-adapter": "^1.20.0",
     "husky": "^6.0.0",

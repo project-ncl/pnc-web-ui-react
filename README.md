@@ -72,16 +72,3 @@ npm run test   # run tests for those components that was modified.
 **2) Trigger update snapshots**
 
 Press `u` to update failing snapshots.
-
-## Storybook
-
-After installing dependencies using **npm install**, you can use the following command which will build and open storybook:
-
-```bash
-# Starts Storybook in development mode
-npm run storybook
-```
-
-Component stories are to be added into the **\_\_stories\_\_** folder of the specified component. An example of such story can be found for BuildStatus at [ ./src/components/BuildStatus/\_\_stories\_\_/BuildStatus.stories.tsx](./src/components/BuildStatus/__stories__/BuildStatus.stories.tsx).
-
-To learn more about storybook in this project, visit [documentation/storybook.md](./documentation/storybook.md).
