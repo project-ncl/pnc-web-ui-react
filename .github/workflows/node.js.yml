@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        # Skipped using 14.x to avoid https://github.com/npm/cli/issues/558#issuecomment-580018468
         node-version: [16.x]
 
     steps:
@@ -29,3 +28,24 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npm run prettier-check
+
+  clean-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: node --version && npm --version
+      - run: ls
+      - run: rm -v package-lock.json
+      - run: ls
+      - run: npm install
+      - run: npm run build
