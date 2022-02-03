@@ -1,4 +1,4 @@
-import { History } from 'history';
+import { NavigateFunction, Location } from 'react-router-dom';
 
 /*
  * URL Query Params are considered to be the Single Point of Truth.
@@ -64,8 +64,13 @@ export const parseQueryParamsToObject = (queryParamsString: string): IQueryParam
  * @param componentId - Component string identifier to distinguish individual Query Params
  * @param history - React Router history object
  */
-export const updateQueryParamsInURL = (queryParamsObject: IQueryParamsObject, componentId: string, history: History) => {
-  let searchParams = new URLSearchParams(history.location.search);
+export const updateQueryParamsInURL = (
+  queryParamsObject: IQueryParamsObject,
+  componentId: string,
+  location: Location,
+  navigate: NavigateFunction
+) => {
+  let searchParams = new URLSearchParams(location.search);
 
   // add componentId prefix to all keys
   for (const [key, value] of Object.entries(queryParamsObject)) {
@@ -74,7 +79,7 @@ export const updateQueryParamsInURL = (queryParamsObject: IQueryParamsObject, co
   }
 
   // #render
-  history.push({
+  navigate({
     search: searchParams.toString(),
   });
 };

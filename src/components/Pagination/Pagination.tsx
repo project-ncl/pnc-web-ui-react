@@ -1,6 +1,6 @@
 import { Pagination as PaginationPF, PaginationVariant } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getComponentQueryParamsObject, updateQueryParamsInURL } from '../../utils/queryParamsHelper';
 import './Pagination.css';
 
@@ -11,7 +11,8 @@ interface IPagination {
 }
 
 export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagination) => {
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(pageSizeDefault);
@@ -20,14 +21,14 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
   // Query Params coming from the URL are the single point of truth.
   useEffect(() => {
     // add pageIndex or pageSize when it's not available in the URL
-    const componentQueryParamsObject = getComponentQueryParamsObject(history.location.search, componentId);
+    const componentQueryParamsObject = getComponentQueryParamsObject(location.search, componentId);
     if (!(componentQueryParamsObject.pageIndex && componentQueryParamsObject.pageSize)) {
-      updateQueryParamsInURL({ pageIndex: 1, pageSize: pageSizeDefault }, componentId, history);
+      updateQueryParamsInURL({ pageIndex: 1, pageSize: pageSizeDefault }, componentId, location, navigate);
     } else {
       setPageIndex(Number(componentQueryParamsObject.pageIndex));
       setPageSize(Number(componentQueryParamsObject.pageSize));
     }
-  }, [history.location.search, history, componentId, pageSizeDefault]); // primary: history.location.search
+  }, [location.search, location, componentId, pageSizeDefault, navigate]); // primary: history.location.search
 
   // RENDERING
 
@@ -44,11 +45,11 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
         perPage={pageSize}
         page={pageIndex}
         onSetPage={(_event, pageIndex) => {
-          updateQueryParamsInURL({ pageIndex }, componentId, history);
+          updateQueryParamsInURL({ pageIndex }, componentId, location, navigate);
           setPageIndex(pageIndex);
         }}
         onPerPageSelect={(_event, pageSize) => {
-          updateQueryParamsInURL({ pageSize }, componentId, history);
+          updateQueryParamsInURL({ pageSize }, componentId, location, navigate);
           setPageSize(pageSize);
         }}
         variant={PaginationVariant.bottom}
