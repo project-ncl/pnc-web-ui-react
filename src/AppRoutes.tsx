@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 // homepage
 import { DashboardPage } from './components/DashboardPage/DashboardPage';
@@ -19,22 +19,21 @@ import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 
 export const AppRoutes = () => (
-  <Switch>
-    <Route path="/" exact component={DashboardPage} />
-
+  <Routes>
+    <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
-    <Route path="/products" component={ProductsPage} />
-    <Route path="/projects" component={ProjectsPage} />
-    <Route path="/build-configs" component={BuildConfigsPage} />
-    <Route path="/group-configs" component={GroupConfigsPage} />
-    <Route path="/builds" component={BuildsPage} />
-    <Route path="/group-builds" component={GroupBuildsPage} />
-    <Route path="/artifacts" component={ArtifactsPage} />
-    <Route path="/scm-repositories" component={ScmRepositoriesPage} />
+    <Route path="products" element={<ProductsPage />} />
+    <Route path="projects" element={<ProjectsPage />} />
+    <Route path="build-configs" element={<BuildConfigsPage />} />
+    <Route path="group-configs" element={<GroupConfigsPage />} />
+    <Route path="builds" element={<BuildsPage />} />
+    <Route path="group-builds" element={<GroupBuildsPage />} />
+    <Route path="artifacts" element={<ArtifactsPage />} />
+    <Route path="scm-repositories" element={<ScmRepositoriesPage />} />
 
     {/* special pages */}
-    <Route path="/admin/variables" component={VariablesPage} />
-    <Route path="/admin/administration" component={AdministrationPage} />
-    <Route path="*" component={NotFoundPage} />
-  </Switch>
+    <Route path="admin/variables" element={<VariablesPage />} />
+    <Route path="admin/administration" element={<AdministrationPage />} />
+    <Route path="*" element={<NotFoundPage />} />
+  </Routes>
 );
