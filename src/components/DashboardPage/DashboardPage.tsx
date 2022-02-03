@@ -1,13 +1,12 @@
 import { Grid, GridItem } from '@patternfly/react-core';
-import { IWebConfig } from '../../services/WebConfigService';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { DashboardWidget } from '../DashboardWidget/DashboardWidget';
 import * as WebConfigAPI from '../../services/WebConfigService';
 
 export const DashboardPage = () => {
-  const webConfigData = WebConfigAPI.getWebConfig() as IWebConfig;
-  const trafficLightsUrl = webConfigData.grafana.trafficLightsUrl as string;
-  const statusMapUrl = webConfigData.grafana.statusMapUrl as string;
+  const webConfig = WebConfigAPI.getWebConfig();
+  const trafficLightsUrl = webConfig.grafana.trafficLightsUrl;
+  const statusMapUrl = webConfig.grafana.statusMapUrl;
 
   return (
     <PageLayout
