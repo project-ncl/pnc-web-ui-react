@@ -20,7 +20,7 @@
     "react-scripts": "4.0.3",
     "react-test-renderer": "^17.0.2",
     "typescript": "^4.3.2",
-    "web-vitals": "^1.1.2",
+    "web-vitals": "^2.1.4",
     "pnc-api-types-ts": "project-ncl/pnc-api-types-ts#semver:^2.1.0"
   },
   "scripts": {
