@@ -23,7 +23,9 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
     // add pageIndex or pageSize when it's not available in the URL
     const componentQueryParamsObject = getComponentQueryParamsObject(location.search, componentId);
     if (!(componentQueryParamsObject.pageIndex && componentQueryParamsObject.pageSize)) {
-      updateQueryParamsInURL({ pageIndex: 1, pageSize: pageSizeDefault }, componentId, location, navigate);
+      // replace the current entry on the history stack, otherwise back button would not be working because of the redirection
+      // from page without params to page with params
+      updateQueryParamsInURL({ pageIndex: 1, pageSize: pageSizeDefault }, componentId, location, navigate, true);
     } else {
       setPageIndex(Number(componentQueryParamsObject.pageIndex));
       setPageSize(Number(componentQueryParamsObject.pageSize));
