@@ -49,8 +49,10 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
           setPageIndex(pageIndex);
         }}
         onPerPageSelect={(_event, pageSize) => {
-          updateQueryParamsInURL({ pageSize }, componentId, location, navigate);
+          const pageIndexDefault = 1;
+          updateQueryParamsInURL({ pageIndex: pageIndexDefault, pageSize }, componentId, location, navigate);
           setPageSize(pageSize);
+          setPageIndex(pageIndexDefault);
         }}
         variant={PaginationVariant.bottom}
       />
