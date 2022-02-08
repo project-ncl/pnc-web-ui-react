@@ -62,13 +62,16 @@ export const parseQueryParamsToObject = (queryParamsString: string): IQueryParam
  *
  * @param queryParamsObject - URL Query Params in object representation
  * @param componentId - Component string identifier to distinguish individual Query Params
- * @param history - React Router history object
+ * @param location - Location interface from the history library, see https://reactrouter.com/docs/en/v6/api#location
+ * @param navigate - Function that lets you navigate programmatically, see https://reactrouter.com/docs/en/v6/api#usenavigate
+ * @param replace - When true it replaces the current entry on the history stack, otherwise it pushes a new entry onto the history stack by default
  */
 export const updateQueryParamsInURL = (
   queryParamsObject: IQueryParamsObject,
   componentId: string,
   location: Location,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  replace: boolean = false
 ) => {
   let searchParams = new URLSearchParams(location.search);
 
@@ -79,9 +82,12 @@ export const updateQueryParamsInURL = (
   }
 
   // #render
-  navigate({
-    search: searchParams.toString(),
-  });
+  navigate(
+    {
+      search: searchParams.toString(),
+    },
+    { replace }
+  );
 };
 
 /**
