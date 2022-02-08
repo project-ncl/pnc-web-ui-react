@@ -4,17 +4,17 @@ import './index.css';
 import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <Router basename="/pnc-web">
+      <BrowserRouter basename="/pnc-web">
         <AppLayout>
           <AppRoutes></AppRoutes>
         </AppLayout>
-      </Router>
+      </BrowserRouter>
     </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
