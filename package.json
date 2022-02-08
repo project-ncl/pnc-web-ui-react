@@ -52,7 +52,7 @@
   "devDependencies": {
     "@types/react-test-renderer": "^17.0.1",
     "axios-mock-adapter": "^1.20.0",
-    "husky": "^6.0.0",
+    "husky": "^7.0.4",
     "lint-staged": "^11.0.0",
     "prettier": "2.3.1"
   },
