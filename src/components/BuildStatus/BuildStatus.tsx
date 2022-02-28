@@ -5,7 +5,7 @@ import './BuildStatus.css';
 import { BuildName } from '../BuildName/BuildName';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 import { isBuild } from '../../utils/entityRecognition';
-import { createDateTime } from '../../utils/dateTime';
+import { createDateTime } from '../../utils/utils';
 
 interface IBuildStatus {
   build: Build | GroupBuild;
@@ -38,7 +38,7 @@ export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink }
     <div className="build-status">
       <BuildStatusIcon build={build} />
       <BuildName build={build} includeBuildLink={includeBuildLink} includeConfigLink={includeConfigLink} long={long} />
-      <span title={dateTitle}>{createDateTime(dateString!, long)}</span>
+      <span title={dateTitle}>{createDateTime({ date: dateString! })}</span>
       <b>{build.user?.username}</b>
     </div>
   );

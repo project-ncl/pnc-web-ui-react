@@ -3,7 +3,7 @@ import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 import { isProductMilestone, isProductRelease } from '../../utils/entityRecognition';
 import styles from './ProductMilestoneReleaseLabel.module.css';
 
-import { createDateTime } from '../../utils/dateTime';
+import { createDateTime } from '../../utils/utils';
 
 interface IProductMilestoneReleaseProp {
   productMilestoneRelease: ProductMilestone | ProductRelease;
@@ -27,13 +27,13 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['tooltip-text']}>
         <strong>Start Date: </strong>
-        {createDateTime(productMilestone.startingDate!)}
+        {createDateTime({ date: productMilestone.startingDate!, includeTime: false })}
         <br />
         <strong>Planned End Date: </strong>
-        {createDateTime(productMilestone.plannedEndDate!)}
+        {createDateTime({ date: productMilestone.plannedEndDate!, includeTime: false })}
         <br />
         <strong>End Date: </strong>
-        {createDateTime(productMilestone.endDate!)}
+        {createDateTime({ date: productMilestone.endDate!, includeTime: false })}
       </div>
     );
     buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
@@ -43,7 +43,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['toolip-text']}>
         <strong>Release Date: </strong>
-        {createDateTime(productRelease.releaseDate!)}
+        {createDateTime({ date: productRelease.releaseDate!, includeTime: false })}
         <br />
         <strong>Support Level: </strong>
         {productRelease.supportLevel}
