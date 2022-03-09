@@ -162,11 +162,11 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
           </NavItem>
 
           <NavItem isActive={pathname.includes('/products')}>
-            <Link to="/products">Products</Link>
+            <Link to="/pnc-web/products">Products</Link>
           </NavItem>
 
           <NavItem isActive={pathname.includes('/projects')}>
-            <Link to="/projects">Projects</Link>
+            <Link to="/pnc-web/projects">Projects</Link>
           </NavItem>
 
           <NavExpandable
@@ -175,11 +175,11 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
             isActive={pathname.includes('/build-configs') || pathname.includes('/group-configs')}
           >
             <NavItem groupId="grp-configs" itemId="grp-configs_build-configs" isActive={pathname.includes('/build-configs')}>
-              <Link to="/build-configs">Build Configs</Link>
+              <Link to="/pnc-web/build-configs">Build Configs</Link>
             </NavItem>
 
             <NavItem groupId="grp-configs" itemId="grp-configs_group-configs" isActive={pathname.includes('/group-configs')}>
-              <Link to="/group-configs">Group Configs</Link>
+              <Link to="/pnc-web/group-configs">Group Configs</Link>
             </NavItem>
           </NavExpandable>
 
@@ -189,20 +189,20 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
             isActive={pathname.includes('/builds') || pathname.includes('/group-builds')}
           >
             <NavItem groupId="grp-builds" itemId="grp-builds_builds" isActive={pathname.includes('/builds')}>
-              <Link to="/builds">Builds</Link>
+              <Link to="/pnc-web/builds">Builds</Link>
             </NavItem>
 
             <NavItem groupId="grp-builds" itemId="grp-builds_group-builds" isActive={pathname.includes('/group-builds')}>
-              <Link to="/group-builds">Group Builds</Link>
+              <Link to="/pnc-web/group-builds">Group Builds</Link>
             </NavItem>
           </NavExpandable>
 
           <NavItem isActive={pathname.includes('/artifacts')}>
-            <Link to="/artifacts">Artifacts</Link>
+            <Link to="/pnc-web/artifacts">Artifacts</Link>
           </NavItem>
 
           <NavItem isActive={pathname.includes('/scm-repositories')}>
-            <Link to="/scm-repositories">SCM Repositories</Link>
+            <Link to="/pnc-web/scm-repositories">SCM Repositories</Link>
           </NavItem>
         </NavList>
       </Nav>

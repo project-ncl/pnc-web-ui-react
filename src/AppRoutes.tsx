@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 // homepage
 import { DashboardPage } from './components/DashboardPage/DashboardPage';
@@ -20,20 +20,21 @@ import { AdministrationPage } from './components/AdministrationPage/Administrati
 
 export const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<DashboardPage />} />
+    <Route path="/" element={<Navigate to="/pnc-web" />} />
+    <Route path="/pnc-web" element={<DashboardPage />} />
     {/* entity pages */}
-    <Route path="products" element={<ProductsPage />} />
-    <Route path="projects" element={<ProjectsPage />} />
-    <Route path="build-configs" element={<BuildConfigsPage />} />
-    <Route path="group-configs" element={<GroupConfigsPage />} />
-    <Route path="builds" element={<BuildsPage />} />
-    <Route path="group-builds" element={<GroupBuildsPage />} />
-    <Route path="artifacts" element={<ArtifactsPage />} />
-    <Route path="scm-repositories" element={<ScmRepositoriesPage />} />
+    <Route path="/pnc-web/products" element={<ProductsPage />} />
+    <Route path="/pnc-web/projects" element={<ProjectsPage />} />
+    <Route path="/pnc-web/build-configs" element={<BuildConfigsPage />} />
+    <Route path="/pnc-web/group-configs" element={<GroupConfigsPage />} />
+    <Route path="/pnc-web/builds" element={<BuildsPage />} />
+    <Route path="/pnc-web/group-builds" element={<GroupBuildsPage />} />
+    <Route path="/pnc-web/artifacts" element={<ArtifactsPage />} />
+    <Route path="/pnc-web/scm-repositories" element={<ScmRepositoriesPage />} />
 
     {/* special pages */}
-    <Route path="admin/variables" element={<VariablesPage />} />
-    <Route path="admin/administration" element={<AdministrationPage />} />
+    <Route path="/pnc-web/admin/variables" element={<VariablesPage />} />
+    <Route path="/pnc-web/admin/administration" element={<AdministrationPage />} />
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );

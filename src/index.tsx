@@ -10,7 +10,7 @@ import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <BrowserRouter basename="/pnc-web">
+      <BrowserRouter>
         <AppLayout>
           <AppRoutes></AppRoutes>
         </AppLayout>
