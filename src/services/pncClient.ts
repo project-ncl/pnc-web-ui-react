@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import * as WebConfigAPI from './WebConfigService';
+import { keycloakService } from './keycloakService';
 
 /**
  * Utils class managing http client instance, only one instance is created.
@@ -24,7 +25,11 @@ class PncClient {
 
     httpClient.interceptors.request.use((config) => {
       // perform actions before request is sent
-      console.log('axios request interceptor', config);
+      const token = keycloakService.getToken();
+      if (token) {
+        config.headers = config.headers ?? {};
+        config.headers.Authorization = `Bearer ` + token;
+      }
 
       /*
        * Convert pageIndex to zero based to be compatible with Orch API
@@ -37,7 +42,6 @@ class PncClient {
 
       return config;
     });
-
     return httpClient;
   };
 

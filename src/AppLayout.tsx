@@ -24,6 +24,7 @@ import { Link, useLocation } from 'react-router-dom';
 import pncLogoText from './pnc-logo-text.svg';
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
 import * as WebConfigAPI from './services/WebConfigService';
+import { keycloakService } from './services/keycloakService';
 
 interface IAppLayout {
   children: React.ReactNode;
@@ -31,6 +32,8 @@ interface IAppLayout {
 
 export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   const webConfig = WebConfigAPI.getWebConfig();
+
+  const user = keycloakService.getUser();
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -41,7 +44,6 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
     const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
     const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
-    const [currentUser, setCurrentUser] = useState<any>(null);
 
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
@@ -67,15 +69,17 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
     const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
 
     function processLogin() {
-      if (currentUser) {
+      if (user) {
         setIsHeaderUserOpen(!isHeaderUserOpen);
       } else {
-        setCurrentUser({ userName: 'Jhon Doe' });
+        keycloakService.login().catch(() => {
+          throw new Error('Keycloak login failed.');
+        });
       }
     }
 
     function processLogout() {
-      setCurrentUser(null);
+      keycloakService.logout();
       setIsHeaderUserOpen(false);
     }
 
@@ -129,8 +133,8 @@ export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => 
                 onSelect={processLogout}
                 toggle={
                   <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
-                    {currentUser ? currentUser.userName : 'Login'}
-                    {currentUser && <CaretDownIcon />}
+                    {user ? user : 'Login'}
+                    {user && <CaretDownIcon />}
                   </DropdownToggle>
                 }
                 isOpen={isHeaderUserOpen}

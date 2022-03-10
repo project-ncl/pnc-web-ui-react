@@ -18,6 +18,27 @@ import { DemoPage } from './components/DemoPage/DemoPage';
 import { VariablesPage } from './components/VariablesPage/VariablesPage';
 import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
+import { keycloakService, AUTH_ROLE } from './services/keycloakService';
+
+interface IProtectedRouteProps {
+  role: AUTH_ROLE;
+}
+
+const ProtectedRoute = ({ children, role }: React.PropsWithChildren<IProtectedRouteProps>) => {
+  if (keycloakService.isAuthenticated()) {
+    if (keycloakService.hasRealmRole(role)) {
+      return <>{children}</>;
+    } else {
+      return <div>User not allowed</div>;
+    }
+  } else {
+    keycloakService.login().catch(() => {
+      throw new Error('Keycloak login failed.');
+    });
+  }
+
+  return <div>Redirecting to keycloak...</div>;
+};
 
 export const AppRoutes = () => (
   <Routes>
@@ -35,7 +56,14 @@ export const AppRoutes = () => (
     {/* special pages */}
     <Route path="admin/demo" element={<DemoPage />} />
     <Route path="admin/variables" element={<VariablesPage />} />
-    <Route path="admin/administration" element={<AdministrationPage />} />
+    <Route
+      path="admin/administration"
+      element={
+        <ProtectedRoute role={AUTH_ROLE.Admin}>
+          <AdministrationPage />
+        </ProtectedRoute>
+      }
+    />
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );
