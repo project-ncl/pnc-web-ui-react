@@ -16,17 +16,15 @@ export interface IQueryParamsObject {
  * Transforms URL Query Params from string to object.
  *
  * @example
- * ```ts
  * // from:
- *   ?component1-pageIndex=1&component2-pageSize=10
+ * ?component1-pageIndex=1&component2-pageSize=10
  * // to:
- *   { 'component1-pageIndex': 1, 'component2-pageSize': 10}
- * ```
+ * { 'component1-pageIndex': 1, 'component2-pageSize': 10 }
  *
  * @param queryParamsString - URL Query Params in string representation
  * @returns URL Query Params in object representation
  */
-export const parseQueryParamsToObject = (queryParamsString: string): IQueryParamsObject => {
+const parseQueryParamsToObject = (queryParamsString: string): IQueryParamsObject => {
   const searchParams = new URLSearchParams(queryParamsString);
   const queryParamsObject: IQueryParamsObject = {};
 
@@ -53,12 +51,10 @@ export const parseQueryParamsToObject = (queryParamsString: string): IQueryParam
  * Update Query Params contained in the URL.
  *
  * @example
- * ```ts
  * // from:
- *   { 'pageIndex': 1 }
+ * { 'pageIndex': 1 }
  * // to (for component1):
- *   ?component1-pageIndex=1
- * ```
+ * ?component1-pageIndex=1
  *
  * @param queryParamsObject - URL Query Params in object representation
  * @param componentId - Component string identifier to distinguish individual Query Params
@@ -73,33 +69,43 @@ export const updateQueryParamsInURL = (
   navigate: NavigateFunction,
   replace: boolean = false
 ) => {
-  let searchParams = new URLSearchParams(location.search);
+  const currentQueryParamsString = location.search;
+  const searchParams = new URLSearchParams(currentQueryParamsString);
 
   // add componentId prefix to all keys
   for (const [key, value] of Object.entries(queryParamsObject)) {
     // set Query Params and delete duplicates if any
-    searchParams.set(`${componentId}-${key}`, String(value));
+    if (value !== '') {
+      searchParams.set(`${componentId}-${key}`, String(value));
+    }
+    // remove attribute if value is falsy
+    else {
+      searchParams.delete(`${componentId}-${key}`);
+    }
   }
 
-  // #render
-  navigate(
-    {
-      search: searchParams.toString(),
-    },
-    { replace }
-  );
+  const newQueryParamsString = searchParams.toString();
+
+  // Prevent from placing the identical record to the history. It would result in "empty" back / front button action.
+  if (currentQueryParamsString !== `?${newQueryParamsString}`) {
+    // #render
+    navigate(
+      {
+        search: newQueryParamsString,
+      },
+      { replace }
+    );
+  }
 };
 
 /**
  * Return Query Params object without componentId prefixes retrieved from the URL for given component.
  *
  * @example
- * ```ts
  * // from:
- *   ?component1-pageIndex=1&component2-pageSize=10
+ * ?component1-pageIndex=1&component2-pageSize=10
  * // to (for component1):
- *   { 'pageIndex': 1}
- * ```
+ * { 'pageIndex': 1}
  *
  * @param queryParamsString - URL Query Params in string representation
  * @param componentId - Component string identifier to distinguish individual component related Query Params
@@ -123,6 +129,29 @@ export const getComponentQueryParamsObject = (queryParamsString: string, compone
   });
 
   return componentQueryParamsObject;
+};
+
+/**
+ * The same as {@link getComponentQueryParamsObject}, but
+ *  - it returns just single value (for specific component and key combination) in string
+ *  - performance is better
+ *
+ * @example
+ * // from:
+ * ?component1-pageIndex=1&component2-pageIndex=3&component2-pageSize=10
+ * // to (for component2 and pageIndex):
+ * '3'
+ * @param queryParamsString - URL Query Params in string representation
+ * @param queryParamKey - URL Query Params key without component prefix
+ * @param componentId - Component string identifier to distinguish individual component related Query Params
+ */
+export const getComponentQueryParamValue = (
+  queryParamsString: string,
+  queryParamKey: string,
+  componentId: string
+): string | null => {
+  const searchParams = new URLSearchParams(queryParamsString);
+  return searchParams.get(`${componentId}-${queryParamKey}`);
 };
 
 /**
