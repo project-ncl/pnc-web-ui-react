@@ -203,7 +203,8 @@ export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
        * Update Query Params only if some new meaningful q param is returned.
        */
       if (q) {
-        updateQueryParamsInURL({ q }, componentId, location, navigate);
+        // update Q param and reset pageIndex
+        updateQueryParamsInURL({ q, pageIndex: 1 }, componentId, location, navigate);
       }
     }
   };
