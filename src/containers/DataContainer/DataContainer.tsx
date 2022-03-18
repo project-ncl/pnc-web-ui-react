@@ -42,8 +42,14 @@ export const DataContainer = ({ data, loading, error, title, children }: React.P
   // Error state: display Error card when error
   if (error) return <ErrorStateCard title={title} error={error} />;
 
-  // Empty state: display Empty card when request was successfully finished, but no data is available
-  if (!data?.content.length) return <EmptyStateCard title={title} />;
+  // Invalid state, Error state should be triggered before this
+  if (!data) throw new Error('DataContainer invalid state: when no data are available, error state should be returned');
+
+  // Empty state: display Empty card when
+  //  - request was successfully finished,
+  //  - content property is available (= content property means table data with pagination are expected),
+  //  - but no items are available
+  if (data.content && !data.content.length) return <EmptyStateCard title={title} />;
 
   // Real data: display real data when it's loaded successfully and it's not empty
   return <>{children}</>;

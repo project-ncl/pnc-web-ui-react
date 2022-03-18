@@ -55,6 +55,8 @@ export const useDataContainer = (service: Function) => {
             setError(error.toString());
           });
         }
+        // #log
+        console.error(error);
       })
       .finally(() => {
         loadingCount.current--;
