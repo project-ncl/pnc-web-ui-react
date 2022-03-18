@@ -36,8 +36,13 @@ class PncClient {
        *  - Orch API first page index value is 0
        *  - UI first page index value is 1
        */
-      if (config.params.pageIndex) {
-        config.params.pageIndex = Number(config.params.pageIndex) - 1;
+      if (config.params?.pageIndex) {
+        const pageIndex = config.params.pageIndex;
+        if (Number.isInteger(+pageIndex)) {
+          config.params.pageIndex = Number(pageIndex) - 1;
+        } else {
+          throw new Error(`Invalid pageIndex: ${pageIndex}, canceling HTTP request`);
+        }
       }
 
       return config;
