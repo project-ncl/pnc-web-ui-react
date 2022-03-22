@@ -13,6 +13,7 @@ import { ProductsPage } from './components/ProductsPage/ProductsPage';
 import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
 import { ProjectCreateEditPage } from './components/ProjectCreateEditPage/ProjectCreateEditPage';
 import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
+import { ProjectDetailPage } from './components/ProjectDetailPage/ProjectDetailPage';
 
 // special pages
 import { DemoPage } from './components/DemoPage/DemoPage';
