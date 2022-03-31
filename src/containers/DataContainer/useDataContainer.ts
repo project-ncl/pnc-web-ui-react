@@ -1,5 +1,18 @@
+import { AxiosRequestConfig } from 'axios';
 import { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
+
+export interface IService<T = {}> {
+  /**
+   * Service data, eg { id: '2' }
+   */
+  serviceData?: T;
+
+  /**
+   * Axios based request config, eg { signal: <abortingSignal> }
+   */
+  requestConfig: AxiosRequestConfig;
+}
 
 /**
  * React hook to manage data, loading and error states when data is being loaded. See also {@link DataContainer}.
@@ -18,7 +31,7 @@ export const useDataContainer = (service: Function) => {
   const loadingCount = useRef<number>(0);
   const lastAbortController = useRef<AbortController>();
 
-  const invokeService = (serviceArguments: any = {}) => {
+  const invokeService = ({ serviceData = null, requestConfig = {} }: IService<any>) => {
     loadingCount.current++;
 
     // set delayed (delayed to prevent flashing experience and unnecessary renders) loading state
@@ -33,9 +46,9 @@ export const useDataContainer = (service: Function) => {
 
     // create abort signal for new request
     lastAbortController.current = new AbortController();
-    serviceArguments.signal = lastAbortController.current.signal;
+    requestConfig.signal = lastAbortController.current.signal;
 
-    service(serviceArguments)
+    service({ serviceData, requestConfig })
       .then((response: any) => {
         // In a future React version (potentially in React 17) this could be removed as it will be default behavior
         // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
