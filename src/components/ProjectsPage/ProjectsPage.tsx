@@ -1,7 +1,7 @@
 import { ProjectsList } from './../ProjectsList/ProjectsList';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { useDataContainer } from '../../containers/DataContainer/useDataContainer';
+import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
 import { Label, ToolbarItem } from '@patternfly/react-core';
 import { Pagination } from '../Pagination/Pagination';
@@ -14,7 +14,7 @@ interface IProjectPage {
 }
 
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
-  const dataContainer = useDataContainer((requestConfig: Object) => projectService.getProjects(requestConfig));
+  const dataContainer = useDataContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
 
   // keeping also not supported operations for testing purposes
   const filterOptions: IFilterOptions = {
@@ -50,7 +50,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
   };
 
   useQueryParamsEffect((requestConfig: Object) => {
-    dataContainer.refresh(requestConfig);
+    dataContainer.refresh({ requestConfig });
   }, componentId);
 
   return (
