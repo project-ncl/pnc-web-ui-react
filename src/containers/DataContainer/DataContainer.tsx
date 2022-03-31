@@ -51,6 +51,14 @@ export const DataContainer = ({ data, loading, error, title, children }: React.P
   //  - but no items are available
   if (data.content && !data.content.length) return <EmptyStateCard title={title} />;
 
+  // Empty state: display Empty card when
+  //  - request was successfully finished,
+  //  - data is array
+  //  - but no items are available
+  //
+  // Used for example for kafka service.
+  if (Array.isArray(data) && !data.length) return <EmptyStateCard title={title} />;
+
   // Real data: display real data when it's loaded successfully and it's not empty
   return <>{children}</>;
 };
