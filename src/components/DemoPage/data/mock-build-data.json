@@ -1,0 +1,70 @@
+[
+  {
+    "id": "AQSXEDCOMNAAA",
+    "submitTime": "2022-03-01T13:26:36.521Z",
+    "startTime": "2022-03-01T13:26:36.530Z",
+    "endTime": "2022-03-01T13:27:56.739Z",
+    "buildConfigRevision": {
+      "id": "3695",
+      "rev": 304980,
+      "creationTime": "2021-07-13T11:17:19.053Z",
+      "modificationTime": "2022-03-01T13:26:34.046Z"
+    }
+  },
+  {
+    "id": "AQSV66MM4NAAA",
+    "submitTime": "2022-03-01T13:26:36.521Z",
+    "startTime": "2022-03-01T13:26:36.530Z",
+    "endTime": "2022-03-01T13:27:56.739Z",
+    "buildConfigRevision": {
+      "id": "3695",
+      "creationTime": "2021-07-13T11:17:19.053Z",
+      "modificationTime": "2022-03-01T13:26:34.046Z"
+    }
+  },
+  {
+    "id": "AQSVYX4DMNAAA",
+    "submitTime": "2022-03-05T13:26:36.521Z",
+    "startTime": "2022-03-05T13:26:36.530Z",
+    "endTime": "2022-03-05T13:27:56.739Z",
+    "buildConfigRevision": {
+      "id": "3695",
+      "creationTime": "2021-07-13T11:17:19.053Z",
+      "modificationTime": "2022-03-01T13:26:34.046Z"
+    }
+  },
+  {
+    "id": "AQSUYN6LENAAA",
+    "submitTime": "2022-03-01T13:26:36.521Z",
+    "startTime": "2022-03-01T13:26:36.530Z",
+    "endTime": "2022-03-01T13:27:56.739Z",
+    "buildConfigRevision": {
+      "id": "3695",
+      "rev": 304980,
+      "creationTime": "2021-07-13T11:17:19.053Z",
+      "modificationTime": "2022-03-01T13:26:34.046Z"
+    }
+  },
+  {
+    "id": "AQSUVNLJ4NAAA",
+    "submitTime": "2022-03-01T13:26:36.521Z",
+    "startTime": "2022-03-01T13:26:36.530Z",
+    "endTime": "2022-03-01T13:27:56.739Z",
+    "buildConfigRevision": {
+      "id": "3695",
+      "creationTime": "2021-07-13T11:17:19.053Z",
+      "modificationTime": "2022-03-01T13:26:34.046Z"
+    }
+  },
+  {
+    "id": "AQQY3LIVMNAAA",
+    "submitTime": "2022-03-05T13:26:36.521Z",
+    "startTime": "2022-03-05T13:26:36.530Z",
+    "endTime": "2022-03-05T13:27:56.739Z",
+    "buildConfigRevision": {
+      "id": "3695",
+      "creationTime": "2021-07-13T11:17:19.053Z",
+      "modificationTime": "2022-03-01T13:26:34.046Z"
+    }
+  }
+]
