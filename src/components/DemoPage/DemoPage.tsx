@@ -293,7 +293,7 @@ export const DemoPage = () => {
             <CardBody>
               <BuildMetrics builds={buildRes} chartType="line" componentId="BMTEST1"></BuildMetrics>
               <br />
-              <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
+              {/* <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics> */}
             </CardBody>
           </Card>
         </FlexItem>

@@ -48,7 +48,7 @@ export const useDataContainer = (service: Function) => {
     lastAbortController.current = new AbortController();
     requestConfig.signal = lastAbortController.current.signal;
 
-    service({ serviceData, requestConfig })
+    return service({ serviceData, requestConfig })
       .then((response: any) => {
         // In a future React version (potentially in React 17) this could be removed as it will be default behavior
         // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
@@ -57,6 +57,7 @@ export const useDataContainer = (service: Function) => {
           setData(response.data);
           setError(ERROR_INIT);
         });
+        return response;
       })
       .catch((error: Error) => {
         // execute only for last request
@@ -70,6 +71,7 @@ export const useDataContainer = (service: Function) => {
         }
         // #log
         console.error(error);
+        throw error;
       })
       .finally(() => {
         loadingCount.current--;
