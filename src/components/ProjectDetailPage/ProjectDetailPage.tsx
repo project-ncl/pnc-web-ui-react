@@ -31,7 +31,7 @@ export const ProjectDetailPage = () => {
           <FlexItem>
             <Card>
               <CardTitle>
-                <ActionHeader actionType="edit" text="Attributes" />
+                <ActionHeader actionType="edit">Attributes</ActionHeader>
               </CardTitle>
               <CardBody>
                 <Grid span={5} hasGutter component={'span'}>
@@ -47,7 +47,7 @@ export const ProjectDetailPage = () => {
           <FlexItem>
             <Card>
               <CardTitle>
-                <ActionHeader actionType="create" text="Build Configs" />
+                <ActionHeader actionType="create">Build Configs</ActionHeader>
               </CardTitle>
               <CardBody>
                 <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
