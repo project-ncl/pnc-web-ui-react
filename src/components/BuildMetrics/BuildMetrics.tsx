@@ -8,8 +8,6 @@ import { buildService } from '../../services/buildService';
 import styles from './BuildMetrics.module.css';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { EmptyStateCard } from '../EmptyStates/EmptyStateCard';
-import { LoadingStateCard } from '../EmptyStates/LoadingStateCard';
 import { AxiosResponse } from 'axios';
 
 interface IBuildMetricsProps {
@@ -512,7 +510,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       }
       setIsInit(false);
     }
-  }, [buildMetrics, chartType, componentId]);
+  }, [buildMetrics, chartType, componentId, barChartConfig, lineChartConfig, isInit, updateChartConfig]);
   return <canvas id={componentId} ref={chartRef} />;
 });
 
@@ -534,7 +532,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const [refresh, setRefresh] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
-  const [loading, setLoading] = useState<boolean>(false);
   const dataContainer = useDataContainer(({ serviceData, requestConfig }: IService<Array<Build>>) =>
     serviceData ? buildService.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig) : null
   );
@@ -545,7 +542,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
 
   /* Load data according to the current filter */
   const loadData = () => {
-    setLoading(true);
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
     dataContainer.refresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
       setBuildMetrics({
@@ -553,7 +549,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
         buildMetricsData: res.data,
       });
       canvasRef.current.updateCanvas(chartType);
-      setLoading(false);
     });
   };
 
@@ -593,7 +588,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                 <div className={`${styles['pnc-build-metrics-help']} ${styles['pnc-build-metrics-help--right']}`}>
                   <small>
                     Metrics Descriptions
-                    <a>
+                    <a href="/#">
                       &nbsp;
                       <InfoCircleIcon />
                     </a>
@@ -637,7 +632,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                 showClose={false}
               >
                 <small>
-                  <a>
+                  <a href="/#">
                     &nbsp;
                     <InfoCircleIcon />
                   </a>
