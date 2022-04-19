@@ -1,4 +1,4 @@
-import { Button, Flex } from '@patternfly/react-core';
+import { Button } from '@patternfly/react-core';
 import { TrashIcon, PencilAltIcon, FileIcon } from '@patternfly/react-icons';
 
 import styles from './ActionButton.module.css';
@@ -9,26 +9,12 @@ const actionIcons = {
   delete: <TrashIcon />,
 };
 
-interface IActionButton {
+export interface IActionButtonProps {
   actionType: 'create' | 'edit' | 'delete';
 }
 
-export const ActionButton = ({ actionType }: IActionButton) => {
-  return (
-    <Button variant="tertiary" isSmall className={styles['action-button']} icon={actionIcons[actionType]}>
-      {actionType}
-    </Button>
-  );
-};
-
-interface IActionHeader extends IActionButton {
-  text: string;
-}
-
-export const ActionHeader = ({ text, ...actionButtonProps }: IActionHeader) => {
-  return (
-    <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-      {text} <ActionButton {...actionButtonProps} />
-    </Flex>
-  );
-};
+export const ActionButton = ({ actionType }: IActionButtonProps) => (
+  <Button variant="tertiary" isSmall className={styles['action-button']} icon={actionIcons[actionType]}>
+    {actionType}
+  </Button>
+);
