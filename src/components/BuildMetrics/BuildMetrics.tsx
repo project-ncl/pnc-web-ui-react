@@ -510,7 +510,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       }
       setIsInit(false);
     }
-  }, [buildMetrics, chartType, componentId, barChartConfig, lineChartConfig, isInit, updateChartConfig]);
+  }, [buildMetrics, chartType, componentId, barChartConfig, lineChartConfig, isInit, chartRef, updateChartConfig]);
   return <canvas id={componentId} ref={chartRef} />;
 });
 
@@ -557,7 +557,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
       loadData();
       setRefresh(false);
     }
-  }, [refresh, dataContainer.data]);
+  }, [refresh, dataContainer.data, loadData]);
 
   const onToggle = () => {
     setIsOpen(!isOpen);
