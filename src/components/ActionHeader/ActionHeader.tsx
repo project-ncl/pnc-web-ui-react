@@ -2,11 +2,11 @@ import { Flex } from '@patternfly/react-core';
 import { ActionButton, IActionButtonProps } from '../ActionButton/ActionButton';
 
 interface IActionHeaderProps extends IActionButtonProps {
-  text: string;
+  children?: React.ReactNode;
 }
 
-export const ActionHeader = ({ text, ...actionButtonProps }: IActionHeaderProps) => (
+export const ActionHeader = ({ actionType, children }: IActionHeaderProps) => (
   <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-    {text} <ActionButton {...actionButtonProps} />
+    {children} <ActionButton actionType={actionType} />
   </Flex>
 );
