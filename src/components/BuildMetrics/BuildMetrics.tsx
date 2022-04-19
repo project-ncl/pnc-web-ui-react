@@ -568,7 +568,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     setIsOpen(!isOpen);
   };
   const onSelect = (event: any, value: any) => {
-    console.log('onSelect');
     setSelected(value);
     setRefresh(true);
     setIsOpen(false);
