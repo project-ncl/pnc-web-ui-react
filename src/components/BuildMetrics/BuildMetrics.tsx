@@ -274,22 +274,23 @@ const MetricsPopoverContent = (metricsTooltipList: Array<IMetricsTooltip>) => {
 
 const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }: IBuildMetricsCanvasProps, ref) => {
   useImperativeHandle(ref, () => ({
-    updateCanvas() {
+    updateCanvas(chartType: string) {
       updateChartConfig();
-      if (lineChart) {
-        lineChart.config.data = chartConfig.data;
-        lineChart.config.options = chartConfig.options;
+      if (chartType === 'line' && lineChart) {
+        lineChart.config.data = lineChartConfig.data;
+        lineChart.config.options = lineChartConfig.options;
         lineChart.update();
-      } else if (barChart) {
-        barChart.config.data = chartConfig.data;
-        barChart.config.options = chartConfig.options;
+      } else if (chartType === 'horizontalBar' && barChart) {
+        barChart.config.data = barChartConfig.data;
+        barChart.config.options = barChartConfig.options;
         barChart.update();
       }
     },
   }));
   const [isInit, setIsInit] = useState<boolean>(true);
   const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
-  let chartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] } };
+  const lineChartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] } };
+  const barChartConfig: ChartConfiguration = { type: 'bar', data: { datasets: [] } };
   _chartType = chartType;
 
   const updateChartConfig = () => {
@@ -326,7 +327,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       metricOthersData.push(metricOther > 0 ? metricOther : 0);
     }
 
-    let otherData = buildMetricsData.datasets.find((data) => data.name === 'OTHER');
+    const otherData = buildMetricsData.datasets.find((data) => data.name === 'OTHER');
     if (otherData) {
       otherData.data = metricOthersData;
     } else {
@@ -345,7 +346,6 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
     });
 
     if (chartType === 'line') {
-      chartConfig.type = 'line';
       for (let i = 0; i < buildMetricsData.datasets.length; i++) {
         adaptedMetric = adaptMetric(buildMetricsData.datasets[i].name);
 
@@ -364,7 +364,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
           pointRadius: 4,
         });
       }
-      chartConfig.options = {
+      lineChartConfig.options = {
         maintainAspectRatio: false,
         elements: {
           line: {
@@ -389,7 +389,6 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
         },
       };
     } else if (chartType === 'horizontalBar') {
-      chartConfig.type = 'bar';
       for (let j = 0; j < buildMetricsData.datasets.length; j++) {
         adaptedMetric = adaptMetric(buildMetricsData.datasets[j].name);
         Object.assign(buildMetricsData.datasets[j], {
@@ -398,7 +397,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
         });
       }
 
-      chartConfig.options = {
+      barChartConfig.options = {
         indexAxis: 'y' as const,
         plugins: {
           tooltip: {
@@ -434,7 +433,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
 
     const isSingleBuild = buildMetricsData.datasets[0].data.length === 1;
 
-    Object.assign(chartConfig.options, {
+    const commonChartConfig = {
       layout: {
         padding: {
           top: 20,
@@ -460,11 +459,8 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
           },
         },
       },
-    });
-    chartConfig.data = buildMetricsData;
-
-    // increase space between legend and chart
-    chartConfig.plugins = [
+    };
+    const commonChartPlugins = [
       {
         id: '',
         beforeInit: (chart: any) => {
@@ -474,19 +470,26 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
         },
       },
     ];
+    lineChartConfig.data = buildMetricsData;
+    barChartConfig.data = buildMetricsData;
 
+    // increase space between legend and chart
     let heightTmp = 0;
     const MIN_HEIGHT = 290;
     const MIN_HEIGHT_SINGLE_BUILD = 400;
 
     if (chartType === 'horizontalBar') {
+      Object.assign(barChartConfig.options, commonChartConfig);
+      barChartConfig.plugins = commonChartPlugins;
       heightTmp = buildMetricsData.datasets[0].data.length * 30;
       chartRef.current!.parentElement!.style.height =
         (heightTmp < MIN_HEIGHT ? (isSingleBuild ? MIN_HEIGHT_SINGLE_BUILD : MIN_HEIGHT) : heightTmp) + 'px';
       if (isSingleBuild) {
-        chartConfig.options!.layout!.padding = 50;
+        barChartConfig.options!.layout!.padding = 50;
       }
     } else {
+      Object.assign(lineChartConfig.options, commonChartConfig);
+      lineChartConfig.plugins = commonChartPlugins;
       chartRef.current!.parentElement!.style.height = '300px';
     }
   };
@@ -495,21 +498,21 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
     if (isInit) {
       updateChartConfig();
       if (chartType === 'line') {
-        const ctx = chartRef.current?.getContext('2d');
-        if (!ctx) {
+        const lineCtx = chartRef.current?.getContext('2d');
+        if (!lineCtx) {
           throw new Error('Chart.JS: Failed to get 2D context');
         }
-        lineChart = new Chart(ctx, chartConfig);
+        lineChart = new Chart(lineCtx, lineChartConfig);
       } else if (chartType === 'horizontalBar') {
-        const ctx = chartRef.current?.getContext('2d');
-        if (!ctx) {
+        const barCtx = chartRef.current?.getContext('2d');
+        if (!barCtx) {
           throw new Error('Chart.JS: Failed to get 2D context');
         }
-        barChart = new Chart(ctx, chartConfig);
+        barChart = new Chart(barCtx, barChartConfig);
       }
       setIsInit(false);
     }
-  });
+  }, [buildMetrics, chartType, componentId]);
   return <canvas id={componentId} ref={chartRef} />;
 });
 
@@ -542,28 +545,24 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
 
   /* Load data according to the current filter */
   const loadData = () => {
-    console.log('loadData start');
     setLoading(true);
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
     dataContainer.refresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
-      console.log('dataContainer.refresh', res);
       setBuildMetrics({
         builds: currentFilteredBuilds,
         buildMetricsData: res.data,
       });
-      canvasRef.current.updateCanvas();
-      console.log('loadData end');
+      canvasRef.current.updateCanvas(chartType);
       setLoading(false);
     });
   };
 
   useEffect(() => {
-    console.log('useEffect', dataContainer.data);
     if (refresh) {
       loadData();
       setRefresh(false);
     }
-  });
+  }, [refresh, dataContainer.data]);
 
   const onToggle = () => {
     setIsOpen(!isOpen);
@@ -613,9 +612,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                   ref={canvasRef}
                 ></BuildMetricsCanvas>
               )}
-              {/* {!(buildMetrics && buildMetrics.builds && buildMetrics.buildMetricsData && !refresh) && (
-                <EmptyStateCard title={'Build Metrics'} />
-              )} */}
             </div>
           </div>
           <form className={styles['pnc-build-metric-navigation']}>
