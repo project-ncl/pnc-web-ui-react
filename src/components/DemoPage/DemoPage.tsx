@@ -287,7 +287,8 @@ export const DemoPage = () => {
             </CardBody>
           </Card>
         </FlexItem>
-        <FlexItem>
+        {/* Need to be implemented until the unit test for build Metrics finished so that to mock the kafka service */}
+        {/* <FlexItem>
           <Card>
             <CardTitle>BuildMetrics</CardTitle>
             <CardBody>
@@ -296,7 +297,7 @@ export const DemoPage = () => {
               <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
             </CardBody>
           </Card>
-        </FlexItem>
+        </FlexItem> */}
       </Flex>
     </PageLayout>
   );
