@@ -2,27 +2,27 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid, Card, CardTitle, CardBody, FlexItem, Flex } from '@patternfly/react-core';
 import { PageLayout } from './../PageLayout/PageLayout';
-import { useDataContainer } from '../../containers/DataContainer/useDataContainer';
+import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { ActionHeader } from '../ActionButton/ActionButton';
+import { ActionHeader } from '../ActionHeader/ActionHeader';
 
-const ProjectAttribute = ({ attribute, value }: { attribute: string; value: string }) => {
-  return (
-    <>
-      <span style={{ fontWeight: 'bold' }}>{attribute}</span>
-      <span style={{ ...(!value && { color: 'grey', fontStyle: 'italic' }) }}>{value ?? 'Empty'}</span>
-    </>
-  );
-};
+const ProjectAttribute = ({ attribute, value }: { attribute: string; value: string }) => (
+  <>
+    <span style={{ fontWeight: 'bold' }}>{attribute}</span>
+    <span style={{ ...(!value && { color: 'grey', fontStyle: 'italic' }) }}>{value ?? 'Empty'}</span>
+  </>
+);
 
 export const ProjectDetailPage = () => {
   const { id } = useParams();
 
-  const dataContainer = useDataContainer((requestConfig: Object) => projectService.getProject(requestConfig, id!));
+  const dataContainer = useDataContainer(({ requestConfig }: IService) =>
+    projectService.getProject({ id: id as string }, requestConfig)
+  );
 
   // TODO: Create a better solution than disabling the next line
-  useEffect(() => dataContainer.refresh({ id }), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dataContainer.refresh({ serviceData: { id }, requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <DataContainer {...dataContainer} title="Project Details">
