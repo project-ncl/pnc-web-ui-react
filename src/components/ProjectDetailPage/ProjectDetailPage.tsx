@@ -6,13 +6,7 @@ import { IService, useDataContainer } from '../../containers/DataContainer/useDa
 import { projectService } from '../../services/projectService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { ActionHeader } from '../ActionHeader/ActionHeader';
-
-const ProjectAttribute = ({ attribute, value }: { attribute: string; value: string }) => (
-  <>
-    <span style={{ fontWeight: 'bold' }}>{attribute}</span>
-    <span style={{ ...(!value && { color: 'grey', fontStyle: 'italic' }) }}>{value ?? 'Empty'}</span>
-  </>
-);
+import { NameValueText } from '../NameValueText/NameValueText';
 
 export const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -35,10 +29,10 @@ export const ProjectDetailPage = () => {
               </CardTitle>
               <CardBody>
                 <Grid span={5} hasGutter component={'span'}>
-                  <ProjectAttribute attribute="Project URL" value={dataContainer.data?.projectUrl} />
-                  <ProjectAttribute attribute="Issue Tracker URL" value={dataContainer.data?.issueTrackerUrl} />
-                  <ProjectAttribute attribute="Engineering Team" value={dataContainer.data?.engineeringTeam} />
-                  <ProjectAttribute attribute="Technical Leader" value={dataContainer.data?.technicalLeader} />
+                  <NameValueText name="Project URL" value={dataContainer.data?.projectUrl} />
+                  <NameValueText name="Issue Tracker URL" value={dataContainer.data?.issueTrackerUrl} />
+                  <NameValueText name="Engineering Team" value={dataContainer.data?.engineeringTeam} />
+                  <NameValueText name="Technical Leader" value={dataContainer.data?.technicalLeader} />
                 </Grid>
               </CardBody>
             </Card>
