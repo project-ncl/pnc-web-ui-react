@@ -1,14 +1,14 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
-import { Build } from 'pnc-api-types-ts';
+// import { Build } from 'pnc-api-types-ts';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
-import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
+// import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
 import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
-import mockBuildData from './data/mock-build-data.json';
+// import mockBuildData from './data/mock-build-data.json';
 
-const buildRes: Build[] = mockBuildData;
+// const buildRes: Build[] = mockBuildData;
 
 export const DemoPage = () => {
   return (
@@ -287,7 +287,7 @@ export const DemoPage = () => {
             </CardBody>
           </Card>
         </FlexItem>
-        {/* Need to be implemented until the unit test for build Metrics finished so that to mock the kafka service */}
+        {/* Need to be implemented until the unit test for build Metrics finished so that to mock the kafka service[NCL-7024] */}
         {/* <FlexItem>
           <Card>
             <CardTitle>BuildMetrics</CardTitle>
