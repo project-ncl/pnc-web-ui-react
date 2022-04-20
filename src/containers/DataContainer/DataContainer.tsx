@@ -3,7 +3,7 @@ import { ErrorStateCard } from '../../components/EmptyStates/ErrorStateCard';
 import { LoadingStateCard } from '../../components/EmptyStates/LoadingStateCard';
 import { RefreshStateCard } from '../../components/EmptyStates/RefreshStateCard';
 
-interface IDataContainer {
+export interface IDataContainer {
   data: any;
   loading: boolean;
   error?: string;

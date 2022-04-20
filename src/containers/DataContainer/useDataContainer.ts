@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export interface IService<T = {}> {
@@ -11,21 +11,22 @@ export interface IService<T = {}> {
   /**
    * Axios based request config, eg { signal: <abortingSignal> }
    */
-  requestConfig: AxiosRequestConfig;
+  requestConfig?: AxiosRequestConfig;
 }
 
 /**
  * React hook to manage data, loading and error states when data is being loaded. See also {@link DataContainer}.
  *
  * @param service - Service to be executed to load data
+ * @param config - Config object, initLoadingState (provides init values for loading state)
  * @returns Object with data, loading and error property
  */
-export const useDataContainer = (service: Function) => {
+export const useDataContainer = (service: Function, { initLoadingState = true }: { initLoadingState?: boolean } = {}) => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time
   const [data, setData] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(initLoadingState);
   const [error, setError] = useState<string>(ERROR_INIT);
 
   const loadingCount = useRef<number>(0);
@@ -48,7 +49,7 @@ export const useDataContainer = (service: Function) => {
     lastAbortController.current = new AbortController();
     requestConfig.signal = lastAbortController.current.signal;
 
-    service({ serviceData, requestConfig })
+    return service({ serviceData, requestConfig })
       .then((response: any) => {
         // In a future React version (potentially in React 17) this could be removed as it will be default behavior
         // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
@@ -57,19 +58,26 @@ export const useDataContainer = (service: Function) => {
           setData(response.data);
           setError(ERROR_INIT);
         });
+        return response;
       })
-      .catch((error: Error) => {
+      .catch((error: any) => {
         // execute only for last request
         if (loadingCount.current <= 1) {
           // In a future React version (potentially in React 17) this could be removed as it will be default behavior
           // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
           ReactDOM.unstable_batchedUpdates(() => {
             setLoading(false);
-            setError(error.toString());
+
+            // prefer errorMessage if exists
+            const errorMessage = error.response?.data?.errorMessage;
+            if (errorMessage) {
+              setError(errorMessage);
+            } else {
+              setError(error.toString());
+            }
           });
         }
-        // #log
-        console.error(error);
+        throw error;
       })
       .finally(() => {
         loadingCount.current--;
@@ -80,6 +88,6 @@ export const useDataContainer = (service: Function) => {
     data: data,
     loading: loading,
     error: error,
-    refresh: invokeService,
+    refresh: useCallback(invokeService, [service]),
   };
 };
