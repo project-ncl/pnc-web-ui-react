@@ -1,3 +1,5 @@
+import styles from './NameValueText.module.css';
+
 interface INameValueTextProps {
   name: string;
   value: string;
@@ -5,7 +7,7 @@ interface INameValueTextProps {
 
 export const NameValueText = ({ name, value }: INameValueTextProps) => (
   <>
-    <span style={{ fontWeight: 'bold' }}>{name}</span>
-    <span style={{ ...(!value && { color: 'grey', fontStyle: 'italic' }) }}>{value ?? 'Empty'}</span>
+    <span className={styles['name']}>{name}</span>
+    <span className={value ? '' : styles['value']}>{value ?? 'Empty'}</span>
   </>
 );

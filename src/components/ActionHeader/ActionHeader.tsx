@@ -5,8 +5,10 @@ interface IActionHeaderProps extends IActionButtonProps {
   children?: React.ReactNode;
 }
 
+const flexJustifyContent = { default: 'justifyContentSpaceBetween' };
+
 export const ActionHeader = ({ actionType, children }: IActionHeaderProps) => (
-  <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+  <Flex justifyContent={flexJustifyContent as { default: 'justifyContentSpaceBetween' }}>
     {children} <ActionButton actionType={actionType} />
   </Flex>
 );
