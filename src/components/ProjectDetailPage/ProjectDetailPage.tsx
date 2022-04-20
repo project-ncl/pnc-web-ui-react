@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Grid, Card, CardTitle, CardBody, FlexItem, Flex } from '@patternfly/react-core';
+import { Card, CardTitle, CardBody, FlexItem, Flex } from '@patternfly/react-core';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { ActionHeader } from '../ActionHeader/ActionHeader';
-import { NameValueText } from '../NameValueText/NameValueText';
+import { KeyValueTable } from '../KeyValueTable/KeyValueTable';
 
 const flexDirection = { default: 'column' };
 
@@ -20,6 +20,13 @@ export const ProjectDetailPage = () => {
   // TODO: Create a better solution than disabling the next line
   useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const attributes = {
+    'Project URL': dataContainer.data?.projectUrl,
+    'Issue Tracker URL': dataContainer.data?.issueTrackerUrl,
+    'Engineering Team': dataContainer.data?.engineeringTeam,
+    'Technical Leader': dataContainer.data?.technicalLeader,
+  };
+
   return (
     <DataContainer {...dataContainer} title="Project Details">
       <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
@@ -30,12 +37,7 @@ export const ProjectDetailPage = () => {
                 <ActionHeader actionType="edit">Attributes</ActionHeader>
               </CardTitle>
               <CardBody>
-                <Grid span={5} hasGutter component={'span'}>
-                  <NameValueText name="Project URL" value={dataContainer.data?.projectUrl} />
-                  <NameValueText name="Issue Tracker URL" value={dataContainer.data?.issueTrackerUrl} />
-                  <NameValueText name="Engineering Team" value={dataContainer.data?.engineeringTeam} />
-                  <NameValueText name="Technical Leader" value={dataContainer.data?.technicalLeader} />
-                </Grid>
+                <KeyValueTable keyValueObject={attributes} />
               </CardBody>
             </Card>
           </FlexItem>
