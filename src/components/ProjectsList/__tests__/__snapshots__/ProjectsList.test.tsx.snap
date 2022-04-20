@@ -46,6 +46,14 @@ Object {
             >
               Build Configs count
             </th>
+            <th
+              class=""
+              data-key="3"
+              data-label="Actions"
+              scope="col"
+            >
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody
@@ -83,6 +91,17 @@ Object {
             >
               0
             </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/100/edit"
+              >
+                edit
+              </a>
+            </td>
           </tr>
           <tr
             class=""
@@ -115,6 +134,17 @@ Object {
             >
               0
             </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/101/edit"
+              >
+                edit
+              </a>
+            </td>
           </tr>
           <tr
             class=""
@@ -144,6 +174,17 @@ Object {
               data-label="Build Configs count"
             >
               0
+            </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/102/edit"
+              >
+                edit
+              </a>
             </td>
           </tr>
           <tr
@@ -175,6 +216,17 @@ Object {
             >
               0
             </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/103/edit"
+              >
+                edit
+              </a>
+            </td>
           </tr>
           <tr
             class=""
@@ -204,6 +256,17 @@ Object {
               data-label="Build Configs count"
             >
               0
+            </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/104/edit"
+              >
+                edit
+              </a>
             </td>
           </tr>
           <tr
@@ -237,6 +300,17 @@ Object {
             >
               0
             </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/105/edit"
+              >
+                edit
+              </a>
+            </td>
           </tr>
           <tr
             class=""
@@ -268,6 +342,17 @@ Object {
               data-label="Build Configs count"
             >
               17
+            </td>
+            <td
+              class=""
+              data-key="3"
+              data-label="Actions"
+            >
+              <a
+                href="/projects/106/edit"
+              >
+                edit
+              </a>
             </td>
           </tr>
         </tbody>
@@ -316,6 +401,14 @@ Object {
           >
             Build Configs count
           </th>
+          <th
+            class=""
+            data-key="3"
+            data-label="Actions"
+            scope="col"
+          >
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody
@@ -353,6 +446,17 @@ Object {
           >
             0
           </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/100/edit"
+            >
+              edit
+            </a>
+          </td>
         </tr>
         <tr
           class=""
@@ -385,6 +489,17 @@ Object {
           >
             0
           </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/101/edit"
+            >
+              edit
+            </a>
+          </td>
         </tr>
         <tr
           class=""
@@ -414,6 +529,17 @@ Object {
             data-label="Build Configs count"
           >
             0
+          </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/102/edit"
+            >
+              edit
+            </a>
           </td>
         </tr>
         <tr
@@ -445,6 +571,17 @@ Object {
           >
             0
           </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/103/edit"
+            >
+              edit
+            </a>
+          </td>
         </tr>
         <tr
           class=""
@@ -474,6 +611,17 @@ Object {
             data-label="Build Configs count"
           >
             0
+          </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/104/edit"
+            >
+              edit
+            </a>
           </td>
         </tr>
         <tr
@@ -507,6 +655,17 @@ Object {
           >
             0
           </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/105/edit"
+            >
+              edit
+            </a>
+          </td>
         </tr>
         <tr
           class=""
@@ -538,6 +697,17 @@ Object {
             data-label="Build Configs count"
           >
             17
+          </td>
+          <td
+            class=""
+            data-key="3"
+            data-label="Actions"
+          >
+            <a
+              href="/projects/106/edit"
+            >
+              edit
+            </a>
           </td>
         </tr>
       </tbody>
