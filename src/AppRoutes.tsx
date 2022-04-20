@@ -11,6 +11,7 @@ import { GroupBuildsPage } from './components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigsPage } from './components/GroupConfigsPage/GroupConfigsPage';
 import { ProductsPage } from './components/ProductsPage/ProductsPage';
 import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
+import { ProjectCreateEditPage } from './components/ProjectCreateEditPage/ProjectCreateEditPage';
 import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
 
 // special pages
@@ -21,10 +22,10 @@ import { AdministrationPage } from './components/AdministrationPage/Administrati
 import { keycloakService, AUTH_ROLE } from './services/keycloakService';
 
 interface IProtectedRouteProps {
-  role: AUTH_ROLE;
+  role?: AUTH_ROLE;
 }
 
-const ProtectedRoute = ({ children, role }: React.PropsWithChildren<IProtectedRouteProps>) => {
+const ProtectedRoute = ({ children, role = AUTH_ROLE.User }: React.PropsWithChildren<IProtectedRouteProps>) => {
   if (keycloakService.isAuthenticated()) {
     if (keycloakService.hasRealmRole(role)) {
       return <>{children}</>;
@@ -45,7 +46,25 @@ export const AppRoutes = () => (
     <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
     <Route path="products" element={<ProductsPage />} />
-    <Route path="projects" element={<ProjectsPage />} />
+    <Route path="projects">
+      <Route index element={<ProjectsPage />} />
+      <Route
+        path="create"
+        element={
+          <ProtectedRoute>
+            <ProjectCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path=":projectId/edit"
+        element={
+          <ProtectedRoute>
+            <ProjectCreateEditPage editPage={true} />
+          </ProtectedRoute>
+        }
+      />
+    </Route>
     <Route path="build-configs" element={<BuildConfigsPage />} />
     <Route path="group-configs" element={<GroupConfigsPage />} />
     <Route path="builds" element={<BuildsPage />} />
@@ -54,16 +73,18 @@ export const AppRoutes = () => (
     <Route path="scm-repositories" element={<ScmRepositoriesPage />} />
 
     {/* special pages */}
-    <Route path="admin/demo" element={<DemoPage />} />
-    <Route path="admin/variables" element={<VariablesPage />} />
-    <Route
-      path="admin/administration"
-      element={
-        <ProtectedRoute role={AUTH_ROLE.Admin}>
-          <AdministrationPage />
-        </ProtectedRoute>
-      }
-    />
+    <Route path="admin">
+      <Route path="demo" element={<DemoPage />} />
+      <Route path="variables" element={<VariablesPage />} />
+      <Route
+        path="administration"
+        element={
+          <ProtectedRoute role={AUTH_ROLE.Admin}>
+            <AdministrationPage />
+          </ProtectedRoute>
+        }
+      />
+    </Route>
     <Route path="*" element={<NotFoundPage />} />
   </Routes>
 );

@@ -19,6 +19,7 @@ export const ProjectsList = ({ projects }: IProjectsList) => {
     { title: 'Name', transforms: [cellWidth(30)] },
     'Description',
     { title: 'Build Configs count', transforms: [cellWidth(15)] },
+    'Actions',
   ];
 
   const rows = projects.map((project: Project) => [
@@ -27,6 +28,9 @@ export const ProjectsList = ({ projects }: IProjectsList) => {
     },
     project.description,
     Object.keys(project.buildConfigs || []).length,
+    {
+      title: <Link to={`/projects/${project.id}/edit`}>edit</Link>,
+    },
   ]);
 
   return (
