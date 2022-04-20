@@ -8,6 +8,8 @@ import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { ActionHeader } from '../ActionHeader/ActionHeader';
 import { NameValueText } from '../NameValueText/NameValueText';
 
+const flexDirection = { default: 'column' };
+
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
@@ -21,7 +23,7 @@ export const ProjectDetailPage = () => {
   return (
     <DataContainer {...dataContainer} title="Project Details">
       <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
-        <Flex direction={{ default: 'column' }}>
+        <Flex direction={flexDirection as { default: 'column' }}>
           <FlexItem>
             <Card>
               <CardTitle>
@@ -45,7 +47,7 @@ export const ProjectDetailPage = () => {
               </CardTitle>
               <CardBody>
                 <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
-                  TODO: Add Build Config table here
+                  TODO: Add Build Config table here and remove the style object
                 </div>
               </CardBody>
             </Card>

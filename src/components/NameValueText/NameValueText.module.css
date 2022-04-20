@@ -1,0 +1,8 @@
+.name {
+  font-weight: bold;
+}
+
+.value {
+  color: grey;
+  font-style: italic;
+}
