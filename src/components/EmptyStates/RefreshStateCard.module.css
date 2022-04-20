@@ -1,5 +1,6 @@
 .refresh-state-card {
   position: relative;
+  pointer-events: none;
 }
 
 .refresh-state-card__indicator {
