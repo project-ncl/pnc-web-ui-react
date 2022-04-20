@@ -60,3 +60,11 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+.pnc-build-metric-info-icon {
+  color: var(--pf-global--link--Color);
+  text-decoration: var(--pf-global--link--TextDecoration);
+}
+.pnc-build-metric-info-icon:hover {
+  color: var(--pf-global--link--Color--hover);
+  text-decoration: var(--pf-global--link--TextDecoration--hover);
+}

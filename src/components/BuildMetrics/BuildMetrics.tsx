@@ -587,11 +587,10 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
               >
                 <div className={`${styles['pnc-build-metrics-help']} ${styles['pnc-build-metrics-help--right']}`}>
                   <small>
-                    Metrics Descriptions
-                    <a href="/#">
-                      &nbsp;
+                    Metrics Descriptions &nbsp;
+                    <span className={styles['pnc-build-metric-info-icon']}>
                       <InfoCircleIcon />
-                    </a>
+                    </span>
                   </small>
                 </div>
               </Popover>
@@ -632,10 +631,10 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                 showClose={false}
               >
                 <small>
-                  <a href="/#">
-                    &nbsp;
+                  &nbsp;
+                  <span className={styles['pnc-build-metric-info-icon']}>
                     <InfoCircleIcon />
-                  </a>
+                  </span>
                 </small>
               </Popover>
             </div>
