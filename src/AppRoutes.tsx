@@ -65,6 +65,7 @@ export const AppRoutes = () => (
           </ProtectedRoute>
         }
       />
+      <Route path=":projectId" element={<ProjectDetailPage />} />
     </Route>
     <Route path="build-configs" element={<BuildConfigsPage />} />
     <Route path="group-configs" element={<GroupConfigsPage />} />

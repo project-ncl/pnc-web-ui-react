@@ -9,14 +9,14 @@ import { ActionHeader } from '../ActionHeader/ActionHeader';
 import { NameValueText } from '../NameValueText/NameValueText';
 
 export const ProjectDetailPage = () => {
-  const { id } = useParams();
+  const { projectId } = useParams();
 
   const dataContainer = useDataContainer(({ requestConfig }: IService) =>
-    projectService.getProject({ id: id as string }, requestConfig)
+    projectService.getProject({ id: projectId as string }, requestConfig)
   );
 
   // TODO: Create a better solution than disabling the next line
-  useEffect(() => dataContainer.refresh({ serviceData: { id }, requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <DataContainer {...dataContainer} title="Project Details">
