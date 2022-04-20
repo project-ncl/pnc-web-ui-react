@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { Project } from 'pnc-api-types-ts';
 import { pncClient } from './pncClient';
 
 export interface IProjectServiceData {
@@ -6,8 +7,6 @@ export interface IProjectServiceData {
 }
 
 class ProjectService {
-  path = '/projects';
-
   /**
    * Gets all Projects.
    *
@@ -15,7 +14,7 @@ class ProjectService {
    * @returns Projects
    */
   public getProjects(requestConfig: AxiosRequestConfig = {}) {
-    return pncClient.getHttpClient().get(this.path, requestConfig);
+    return pncClient.getHttpClient().get('/projects', requestConfig);
   }
 
   /**
@@ -26,7 +25,18 @@ class ProjectService {
    * @returns Project
    */
   public getProject({ id }: IProjectServiceData, requestConfig: AxiosRequestConfig = {}) {
-    return pncClient.getHttpClient().get(`${this.path}/${id}`, requestConfig);
+    return pncClient.getHttpClient().get(`/projects/${id}`, requestConfig);
+  }
+
+  /**
+   * Creates a new Project.
+   *
+   * @param data - object containing new Project data
+   * @param requestConfig  - Axios based request config
+   * @returns Created Project
+   */
+  public createProject(data: Omit<Project, 'id'>, requestConfig: AxiosRequestConfig = {}) {
+    return pncClient.getHttpClient().post('/projects', data, requestConfig);
   }
 
   /**
@@ -37,7 +47,7 @@ class ProjectService {
    * @returns Builds
    */
   public getProjectBuilds({ id }: IProjectServiceData, requestConfig: AxiosRequestConfig = {}) {
-    return pncClient.getHttpClient().get(`${this.path}/${id}/builds`, requestConfig);
+    return pncClient.getHttpClient().get(`/projects/${id}/builds`, requestConfig);
   }
 }
 
