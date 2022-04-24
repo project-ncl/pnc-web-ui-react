@@ -143,7 +143,7 @@ export const BuildStartButtonGroup = ({ buildConfig, groupConfig, size = 'md' }:
       setKeepPodOnFailure(false);
       setBuildDependencies(true);
     }
-  }, []);
+  }, [buildConfig]);
 
   const triggerBuild = () => {
     setIsDropdownOpen(false);
