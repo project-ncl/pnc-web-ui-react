@@ -4,6 +4,7 @@ import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { BuildStartButtonGroup } from '../BuildStartButtonGroup/BuildStartButtonGroup';
 
 export const DemoPage = () => {
   return (
@@ -279,6 +280,21 @@ export const DemoPage = () => {
                 }}
                 isCurrent={true}
               />
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>BuildStartButtonGroup</CardTitle>
+            <CardBody>
+              <BuildStartButtonGroup
+                buildConfig={{
+                  buildType: 'MVN',
+                  id: 'demoId',
+                  name: 'Demo Name',
+                }}
+              ></BuildStartButtonGroup>
             </CardBody>
           </Card>
         </FlexItem>
