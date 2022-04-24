@@ -295,6 +295,16 @@ export const DemoPage = () => {
                   name: 'Demo Name',
                 }}
               ></BuildStartButtonGroup>
+              Build Config Verison
+              <br />
+              <br />
+              <BuildStartButtonGroup
+                groupConfig={{
+                  id: 'demoId',
+                  name: 'Demo Name',
+                }}
+              ></BuildStartButtonGroup>
+              Group Config Version
             </CardBody>
           </Card>
         </FlexItem>
