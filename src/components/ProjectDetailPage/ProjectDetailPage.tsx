@@ -30,31 +30,26 @@ export const ProjectDetailPage = () => {
   return (
     <DataContainer {...dataContainer} title="Project Details">
       <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
-        <Flex direction={flexDirection as { default: 'column' }}>
-          <FlexItem>
-            <Card>
-              <CardTitle>
-                <ActionHeader actionType="edit">Attributes</ActionHeader>
-              </CardTitle>
-              <CardBody>
-                <KeyValueTable keyValueObject={attributes} />
-              </CardBody>
-            </Card>
-          </FlexItem>
-
-          <FlexItem>
-            <Card>
-              <CardTitle>
-                <ActionHeader actionType="create">Build Configs</ActionHeader>
-              </CardTitle>
-              <CardBody>
-                <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
-                  TODO: Add Build Config table here and remove the style object
-                </div>
-              </CardBody>
-            </Card>
-          </FlexItem>
-        </Flex>
+        <ActionHeader actionType="edit" link="edit"></ActionHeader>
+        <div className="m-b-25">
+          <Card>
+            <CardBody>
+              <KeyValueTable keyValueObject={attributes} />
+            </CardBody>
+          </Card>
+        </div>
+        <ActionHeader actionType="create" link="../create">
+          Build Configs
+        </ActionHeader>
+        <div className="m-b-25">
+          <Card>
+            <CardBody>
+              <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
+                TODO: Add Build Config table here and remove the style object
+              </div>
+            </CardBody>
+          </Card>
+        </div>
       </PageLayout>
     </DataContainer>
   );

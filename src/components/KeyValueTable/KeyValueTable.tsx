@@ -27,7 +27,7 @@ interface IKeyValueTableProps {
 export const KeyValueTable = ({ keyValueObject }: IKeyValueTableProps) => (
   <Grid hasGutter>
     {Object.entries(keyValueObject).map(([key, value]) => (
-      <KeyValueEntry name={key} value={value} />
+      <KeyValueEntry key={key} name={key} value={value} />
     ))}
   </Grid>
 );
