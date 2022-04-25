@@ -2,6 +2,7 @@ import '@patternfly/react-core/dist/styles/base.css';
 
 import { Table, TableHeader, TableBody, cellWidth } from '@patternfly/react-table';
 import { Project } from 'pnc-api-types-ts';
+import { Link } from 'react-router-dom';
 
 import { ProjectLink } from '../ProjectLink/ProjectLink';
 
@@ -29,7 +30,7 @@ export const ProjectsList = ({ projects }: IProjectsList) => {
     project.description,
     Object.keys(project.buildConfigs || []).length,
     {
-      title: <Link to={`/projects/${project.id}/edit`}>edit</Link>,
+      title: <Link to={`${project.id}/edit`}>edit</Link>,
     },
   ]);
 
