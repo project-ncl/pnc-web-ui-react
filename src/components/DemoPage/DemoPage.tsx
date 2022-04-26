@@ -4,7 +4,7 @@ import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
-import { BuildStartButtonGroup } from '../BuildStartButtonGroup/BuildStartButtonGroup';
+import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 
 export const DemoPage = () => {
   return (
@@ -288,22 +288,22 @@ export const DemoPage = () => {
           <Card>
             <CardTitle>BuildStartButtonGroup</CardTitle>
             <CardBody>
-              <BuildStartButtonGroup
+              <BuildStartButton
                 buildConfig={{
                   buildType: 'MVN',
                   id: 'demoId',
                   name: 'Demo Name',
                 }}
-              ></BuildStartButtonGroup>
+              ></BuildStartButton>
               Build Config Verison
               <br />
               <br />
-              <BuildStartButtonGroup
+              <BuildStartButton
                 groupConfig={{
                   id: 'demoId',
                   name: 'Demo Name',
                 }}
-              ></BuildStartButtonGroup>
+              ></BuildStartButton>
               Group Config Version
             </CardBody>
           </Card>

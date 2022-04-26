@@ -1,10 +1,10 @@
-import { Button, Checkbox, Divider, Dropdown, DropdownToggle, Popover, Radio } from '@patternfly/react-core';
+import { Button, Checkbox, Divider, Dropdown, DropdownToggle, List, ListItem, Popover, Radio } from '@patternfly/react-core';
 import { InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 import { useEffect, useState } from 'react';
-import styles from './BuildStartButtonGroup.module.css';
+import styles from './BuildStartButton.module.css';
 
-interface IBuildStartButtonGroupProp {
+interface IBuildStartButtonProp {
   /**
    * Object: The configuration representing Build Config
    */
@@ -75,51 +75,64 @@ const buildDependenciesPopoverText = 'Build also dependencies of this build conf
 const descriptionTextPopoverText =
   'Not implicit (automatically captured) ones - those are used only to determine if the rebuild is required';
 const alignmentPreferencePopoverText = (
-  <div>
+  <>
     <p>Select temporary build dependency alignment preferences:</p>
     <br />
-    <p>
+    <div>
       <b>Persistent</b>
-      <li>Prefers latest persistent build version</li>
-    </p>
+      <List>
+        <ListItem>Prefers latest persistent build version</ListItem>
+      </List>
+    </div>
     <br />
-    <p>
+    <div>
       <b>Temporary</b>
-      <li>Prefers latest temporary build version</li>
-    </p>
-  </div>
+      <List>
+        <ListItem>Prefers latest temporary build version</ListItem>
+      </List>
+    </div>
+  </>
 );
 const rebuildModePopoverText = (
-  <div>
+  <>
     <p>Rebuild a previously successful build config when:</p>
     <br />
-    <p>
+    <div>
       <b>Explicit</b>
-      <li>The build config has been modified since the last successful build</li>
-      <li>A build config, explicitly defined as a dependency of this one, has been modified</li>
-      <li>since the last successful build</li>
-      <li>There exists a newer, successful build of a build config explicitly defined as a dependency of this one</li>
-    </p>
+      <List>
+        <ListItem>The build config has been modified since the last successful build</ListItem>
+        <ListItem>
+          A build config, explicitly defined as a dependency of this one, has been modified since the last successful build
+        </ListItem>
+        <ListItem>
+          There exists a newer, successful build of a build config explicitly defined as a dependency of this one
+        </ListItem>
+      </List>
+    </div>
     <br />
-    <p>
+    <div>
       <b>Implicit</b>
-      <li>
-        <b>Explicit</b> criteria plus:
-      </li>
-      <li>
-        There exists a newer version of an implicit dependency (automatically captured from sources such as Indy, MRRC or Maven
-        Central)
-      </li>
-    </p>
+      <List>
+        <ListItem>
+          <b>Explicit</b> criteria plus:
+        </ListItem>
+        <ListItem>
+          There exists a newer version of an implicit dependency (automatically captured from sources such as Indy, MRRC or Maven
+          Central)
+        </ListItem>
+      </List>
+    </div>
     <br />
-    <p>
+    <div>
       <b>Force</b>
-      <li>Always</li>
-    </p>
-  </div>
+      <List>
+        <ListItem>Always</ListItem>
+      </List>
+    </div>
+  </>
 );
 
-export const BuildStartButtonGroup = ({ buildConfig, groupConfig, size = 'md' }: IBuildStartButtonGroupProp) => {
+export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBuildStartButtonProp) => {
   const [isTempBuild, setIsTempBuild] = useState(false);
   const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(
     alignmentPreferences[ALIGNMENT_PREFERENCE_DEFAULT_INDEX]
@@ -129,7 +142,7 @@ export const BuildStartButtonGroup = ({ buildConfig, groupConfig, size = 'md' }:
   const [buildDependencies, setBuildDependencies] = useState<boolean>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  let params: IParams = {
+  const params: IParams = {
     id: '',
     temporaryBuild: false,
     alignmentPreference: '',
@@ -157,13 +170,9 @@ export const BuildStartButtonGroup = ({ buildConfig, groupConfig, size = 'md' }:
     params.keepPodOnFailure = keepPodOnFailure;
     params.buildDependencies = buildDependencies;
     if (buildConfig) {
-      // @Todo: change to $log.debug()
-      console.log('pncBuildStart: Initiating build of: %O', buildConfig);
       params.id = buildConfig.id;
       // @Todo: BuildConfigService.build(params);
     } else if (groupConfig) {
-      // @Todo: change to $log.debug()
-      console.log('pncBuildStart: Initiating build of: %O', groupConfig);
       params.id = groupConfig.id;
       // @Todo: GroupConfigService.build(params);
     }
@@ -175,9 +184,10 @@ export const BuildStartButtonGroup = ({ buildConfig, groupConfig, size = 'md' }:
         Build
       </Button>
       <Dropdown
+        alignments={{ sm: 'right', md: 'right', lg: 'right' }}
         toggle={
           <DropdownToggle onToggle={() => setIsDropdownOpen(!isDropdownOpen)} id="dropdown-toggle">
-            {isTempBuild ? 'Temporary' : 'Persistent'}
+            {size !== 'sm' ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
           </DropdownToggle>
         }
         isOpen={isDropdownOpen}
