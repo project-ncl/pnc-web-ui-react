@@ -1,5 +1,5 @@
 import { Button, Checkbox, Divider, Dropdown, DropdownToggle, List, ListItem, Popover, Radio } from '@patternfly/react-core';
-import { InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
+import { InfoCircleIcon, WarningTriangleIcon, BuildIcon } from '@patternfly/react-icons';
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 import { useEffect, useState } from 'react';
 import styles from './BuildStartButton.module.css';
@@ -180,7 +180,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
 
   return (
     <>
-      <Button variant="primary" isSmall={size === 'sm'} isLarge={size === 'lg'} onClick={triggerBuild}>
+      <Button icon={<BuildIcon />} variant="primary" isSmall={size === 'sm'} isLarge={size === 'lg'} onClick={triggerBuild}>
         Build
       </Button>
       <Dropdown
