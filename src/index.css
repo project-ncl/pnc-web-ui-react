@@ -31,3 +31,15 @@ code {
 .pf-c-table tbody tr:hover {
   background-color: #d2d2d2;
 }
+
+/* ====================
+   PNC Global Styles
+   ==================== */
+
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
+}
