@@ -285,7 +285,6 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       }
     },
   }));
-  const [isInit, setIsInit] = useState<boolean>(true);
   const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
   const lineChartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] } };
   const barChartConfig: ChartConfiguration = { type: 'bar', data: { datasets: [] } };
@@ -493,24 +492,21 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
   };
 
   useEffect(() => {
-    if (isInit) {
-      updateChartConfig();
-      if (chartType === 'line') {
-        const lineCtx = chartRef.current?.getContext('2d');
-        if (!lineCtx) {
-          throw new Error('Chart.JS: Failed to get 2D context');
-        }
-        lineChart = new Chart(lineCtx, lineChartConfig);
-      } else if (chartType === 'horizontalBar') {
-        const barCtx = chartRef.current?.getContext('2d');
-        if (!barCtx) {
-          throw new Error('Chart.JS: Failed to get 2D context');
-        }
-        barChart = new Chart(barCtx, barChartConfig);
+    updateChartConfig();
+    if (chartType === 'line') {
+      const lineCtx = chartRef.current?.getContext('2d');
+      if (!lineCtx) {
+        throw new Error('Chart.JS: Failed to get 2D context');
       }
-      setIsInit(false);
+      lineChart = new Chart(lineCtx, lineChartConfig);
+    } else if (chartType === 'horizontalBar') {
+      const barCtx = chartRef.current?.getContext('2d');
+      if (!barCtx) {
+        throw new Error('Chart.JS: Failed to get 2D context');
+      }
+      barChart = new Chart(barCtx, barChartConfig);
     }
-  }, [buildMetrics, chartType, componentId, barChartConfig, lineChartConfig, isInit, chartRef, updateChartConfig]);
+  }, []);
   return <canvas id={componentId} ref={chartRef} />;
 });
 
