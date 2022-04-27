@@ -72,7 +72,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/100"
               >
                 Test Project Name 100
               </a>
@@ -97,7 +97,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/100/edit"
+                href="/100/edit"
               >
                 edit
               </a>
@@ -115,7 +115,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/101"
               >
                 zz_2021110-101
               </a>
@@ -140,7 +140,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/101/edit"
+                href="/101/edit"
               >
                 edit
               </a>
@@ -158,7 +158,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/102"
               >
                 zz_2021110-102
               </a>
@@ -181,7 +181,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/102/edit"
+                href="/102/edit"
               >
                 edit
               </a>
@@ -199,7 +199,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/103"
               >
                 zz_2021110-103
               </a>
@@ -222,7 +222,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/103/edit"
+                href="/103/edit"
               >
                 edit
               </a>
@@ -240,7 +240,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/104"
               >
                 zz_2021110-104
               </a>
@@ -263,7 +263,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/104/edit"
+                href="/104/edit"
               >
                 edit
               </a>
@@ -281,7 +281,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/105"
               >
                 zz_2021110-105
               </a>
@@ -306,7 +306,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/105/edit"
+                href="/105/edit"
               >
                 edit
               </a>
@@ -324,7 +324,7 @@ Object {
               data-label="Name"
             >
               <a
-                href="/"
+                href="/106"
               >
                 Test Project Name 106
               </a>
@@ -349,7 +349,7 @@ Object {
               data-label="Actions"
             >
               <a
-                href="/projects/106/edit"
+                href="/106/edit"
               >
                 edit
               </a>
@@ -427,7 +427,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/100"
             >
               Test Project Name 100
             </a>
@@ -452,7 +452,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/100/edit"
+              href="/100/edit"
             >
               edit
             </a>
@@ -470,7 +470,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/101"
             >
               zz_2021110-101
             </a>
@@ -495,7 +495,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/101/edit"
+              href="/101/edit"
             >
               edit
             </a>
@@ -513,7 +513,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/102"
             >
               zz_2021110-102
             </a>
@@ -536,7 +536,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/102/edit"
+              href="/102/edit"
             >
               edit
             </a>
@@ -554,7 +554,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/103"
             >
               zz_2021110-103
             </a>
@@ -577,7 +577,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/103/edit"
+              href="/103/edit"
             >
               edit
             </a>
@@ -595,7 +595,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/104"
             >
               zz_2021110-104
             </a>
@@ -618,7 +618,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/104/edit"
+              href="/104/edit"
             >
               edit
             </a>
@@ -636,7 +636,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/105"
             >
               zz_2021110-105
             </a>
@@ -661,7 +661,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/105/edit"
+              href="/105/edit"
             >
               edit
             </a>
@@ -679,7 +679,7 @@ Object {
             data-label="Name"
           >
             <a
-              href="/"
+              href="/106"
             >
               Test Project Name 106
             </a>
@@ -704,7 +704,7 @@ Object {
             data-label="Actions"
           >
             <a
-              href="/projects/106/edit"
+              href="/106/edit"
             >
               edit
             </a>

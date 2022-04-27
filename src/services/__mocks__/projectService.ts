@@ -8,7 +8,11 @@ class ProjectServiceMock {
   }
 
   public getProject(id: string) {
-    throw new Error('getProject: Not implemented yet');
+    return new Promise((resolve) => {
+      import('./project-mock.json').then((mockProjectRequest) => {
+        resolve({ data: mockProjectRequest });
+      });
+    });
   }
 
   public getProjectBuilds(id: string) {
