@@ -24,6 +24,11 @@ interface IKeyValueTableProps {
   };
 }
 
+/**
+ * Represents a stylized key-value table component.
+ *
+ * @param keyValueObject - dictionary object with keys and values
+ */
 export const KeyValueTable = ({ keyValueObject }: IKeyValueTableProps) => (
   <Grid hasGutter>
     {Object.entries(keyValueObject).map(([key, value]) => (
