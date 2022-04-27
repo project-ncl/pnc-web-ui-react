@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardTitle, CardBody, FlexItem, Flex } from '@patternfly/react-core';
+import { Card, CardBody } from '@patternfly/react-core';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { ActionHeader } from '../ActionHeader/ActionHeader';
 import { KeyValueTable } from '../KeyValueTable/KeyValueTable';
-
-const flexDirection = { default: 'column' };
 
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
