@@ -1,4 +1,15 @@
-import { Button, Checkbox, Divider, Dropdown, DropdownToggle, List, ListItem, Popover, Radio } from '@patternfly/react-core';
+import {
+  Button,
+  Checkbox,
+  Divider,
+  Dropdown,
+  DropdownProps,
+  DropdownToggle,
+  List,
+  ListItem,
+  Popover,
+  Radio,
+} from '@patternfly/react-core';
 import { InfoCircleIcon, WarningTriangleIcon, BuildIcon } from '@patternfly/react-icons';
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 import { useEffect, useState } from 'react';
@@ -133,30 +144,22 @@ const rebuildModePopoverText = (
 );
 
 export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBuildStartButtonProp) => {
-  const [isTempBuild, setIsTempBuild] = useState(false);
+  const [isTempBuild, setIsTempBuild] = useState<boolean>(false);
   const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(
     alignmentPreferences[ALIGNMENT_PREFERENCE_DEFAULT_INDEX]
   );
-  const [rebuildMode, setRebuildMode] = useState(rebuildModes[REBUILD_MODE_DEFAULT_INDEX]);
-  const [keepPodOnFailure, setKeepPodOnFailure] = useState<boolean>();
-  const [buildDependencies, setBuildDependencies] = useState<boolean>();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [rebuildMode, setRebuildMode] = useState<IParamOption>(rebuildModes[REBUILD_MODE_DEFAULT_INDEX]);
+  const [keepPodOnFailure, setKeepPodOnFailure] = useState<boolean>(false);
+  const [buildDependencies, setBuildDependencies] = useState<boolean>(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownAlignmentsDirection: DropdownProps['alignments'] = { sm: 'right', md: 'right', lg: 'right' };
 
   const params: IParams = {
     id: '',
     temporaryBuild: false,
     alignmentPreference: '',
     rebuildMode: '',
-    keepPodOnFailure: false,
-    buildDependencies: false,
   };
-
-  useEffect(() => {
-    if (buildConfig) {
-      setKeepPodOnFailure(false);
-      setBuildDependencies(true);
-    }
-  }, [buildConfig]);
 
   const triggerBuild = () => {
     setIsDropdownOpen(false);
@@ -167,9 +170,9 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
     params.temporaryBuild = isTempBuild;
     params.alignmentPreference = alignmentPreference ? alignmentPreference.value : undefined;
     params.rebuildMode = rebuildMode.value;
-    params.keepPodOnFailure = keepPodOnFailure;
-    params.buildDependencies = buildDependencies;
     if (buildConfig) {
+      params.keepPodOnFailure = keepPodOnFailure;
+      params.buildDependencies = buildDependencies;
       params.id = buildConfig.id;
       // @Todo: BuildConfigService.build(params);
     } else if (groupConfig) {
@@ -184,7 +187,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
         Build
       </Button>
       <Dropdown
-        alignments={{ sm: 'right', md: 'right', lg: 'right' }}
+        alignments={dropdownAlignmentsDirection}
         toggle={
           <DropdownToggle onToggle={() => setIsDropdownOpen(!isDropdownOpen)} id="dropdown-toggle">
             {size !== 'sm' ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
@@ -201,7 +204,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               label="Persistent"
               id="isTempBuild-false-radio"
             />
-            <span className={'pnc-info-icon'}>
+            <span className="pnc-info-icon">
               <Popover bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <InfoCircleIcon />
