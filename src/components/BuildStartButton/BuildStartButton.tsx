@@ -220,7 +220,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               label="Temporary"
               id="isTempBuild-true-radio"
             />
-            <span className={'pnc-warning-icon'}>
+            <span className="pnc-warning-icon">
               <Popover bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <WarningTriangleIcon />
@@ -233,7 +233,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
             <>
               <div>
                 Alignment Preference
-                <span className={'pnc-info-icon'}>
+                <span className="pnc-info-icon">
                   <Popover bodyContent={alignmentPreferencePopoverText} showClose={false} enableFlip={false} position="auto">
                     <small>
                       <InfoCircleIcon />
@@ -264,7 +264,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
           )}
           <div>
             Rebuild Mode
-            <span className={'pnc-info-icon'}>
+            <span className="pnc-info-icon">
               <Popover bodyContent={rebuildModePopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <InfoCircleIcon />
@@ -310,7 +310,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
                   id="keepPodOnFailure-check"
                   name="keepPodOnFailure-check"
                 />
-                <span className={'pnc-info-icon'}>
+                <span className="pnc-info-icon">
                   <Popover bodyContent={keepPodOnFailureAPopoverText} showClose={false} enableFlip={false} position="auto">
                     <small>
                       <InfoCircleIcon />
@@ -326,7 +326,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
                   id="buildDependencies-check"
                   name="buildDependencies-check"
                 />
-                <span className={'pnc-info-icon'}>
+                <span className="pnc-info-icon">
                   <Popover bodyContent={buildDependenciesPopoverText} showClose={false} enableFlip={false} position="auto">
                     <small>
                       <InfoCircleIcon />
@@ -345,7 +345,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               <span>
                 <p>
                   Applying the same Rebuild Mode also to explicitly defined dependencies
-                  <span className={'pnc-info-icon'}>
+                  <span className="pnc-info-icon">
                     <Popover bodyContent={descriptionTextPopoverText} showClose={false} enableFlip={false} position="auto">
                       <InfoCircleIcon />
                     </Popover>
