@@ -12,7 +12,7 @@ import {
 } from '@patternfly/react-core';
 import { InfoCircleIcon, WarningTriangleIcon, BuildIcon } from '@patternfly/react-icons';
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './BuildStartButton.module.css';
 
 interface IBuildStartButtonProp {
