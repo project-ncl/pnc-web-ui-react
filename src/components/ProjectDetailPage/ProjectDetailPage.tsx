@@ -19,8 +19,16 @@ export const ProjectDetailPage = () => {
   useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const attributes = {
-    'Project URL': dataContainer.data?.projectUrl,
-    'Issue Tracker URL': dataContainer.data?.issueTrackerUrl,
+    'Project URL': dataContainer.data?.projectUrl && (
+      <a href={dataContainer.data?.projectUrl} target="_blank" rel="noopener noreferrer">
+        {dataContainer.data?.projectUrl}
+      </a>
+    ),
+    'Issue Tracker URL': dataContainer.data?.issueTrackerUrl && (
+      <a href={dataContainer.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
+        {dataContainer.data?.issueTrackerUrl}
+      </a>
+    ),
     'Engineering Team': dataContainer.data?.engineeringTeam,
     'Technical Leader': dataContainer.data?.technicalLeader,
   };

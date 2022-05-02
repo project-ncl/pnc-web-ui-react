@@ -1,12 +1,12 @@
-import { Flex, Text, TextVariants, TextContent } from '@patternfly/react-core';
+import { Flex, Text, TextVariants, TextContent, FlexProps } from '@patternfly/react-core';
 import { ActionButton, IActionButtonProps } from '../ActionButton/ActionButton';
 
 interface IActionHeaderProps extends IActionButtonProps {
   children?: React.ReactNode;
 }
 
-const flexJustifyContent = { default: 'justifyContentSpaceBetween' };
-const flexAlignItems = { default: 'alignItemsCenter' };
+const flexJustifyContent: FlexProps['justifyContent'] = { default: 'justifyContentSpaceBetween' };
+const flexAlignItems: FlexProps['alignItems'] = { default: 'alignItemsCenter' };
 
 /**
  * Component for using the action button in combination with header text.
@@ -16,11 +16,7 @@ const flexAlignItems = { default: 'alignItemsCenter' };
  * @param children - the content of the (textual) header
  */
 export const ActionHeader = ({ actionType, link, children }: IActionHeaderProps) => (
-  <Flex
-    justifyContent={flexJustifyContent as { default: 'justifyContentSpaceBetween' }}
-    alignItems={flexAlignItems as { default: 'alignItemsCenter' }}
-    className="m-b-10"
-  >
+  <Flex justifyContent={flexJustifyContent} alignItems={flexAlignItems} className="m-b-10">
     <TextContent>
       <Text component={TextVariants.h2}>{children}</Text>
     </TextContent>

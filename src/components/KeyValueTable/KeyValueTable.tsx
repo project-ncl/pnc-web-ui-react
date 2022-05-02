@@ -4,15 +4,15 @@ import styles from './KeyValueTable.module.css';
 
 interface IKeyValueEntryProps {
   name: string;
-  value: string | undefined;
+  value: React.ReactNode;
 }
 
 const KeyValueEntry = ({ name, value }: IKeyValueEntryProps) => (
   <>
-    <GridItem span={6} className={styles['key']}>
+    <GridItem md={3} sm={12} className={styles['key']}>
       {name}
     </GridItem>
-    <GridItem span={6} className={value ? '' : styles['value']}>
+    <GridItem md={9} sm={12} className={value ? '' : styles['value']}>
       {value ?? 'Empty'}
     </GridItem>
   </>
@@ -20,7 +20,7 @@ const KeyValueEntry = ({ name, value }: IKeyValueEntryProps) => (
 
 interface IKeyValueTableProps {
   keyValueObject: {
-    [key: string]: string | undefined;
+    [key: string]: React.ReactNode;
   };
 }
 
