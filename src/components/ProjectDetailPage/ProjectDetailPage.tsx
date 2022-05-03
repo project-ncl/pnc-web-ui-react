@@ -5,8 +5,9 @@ import { PageLayout } from './../PageLayout/PageLayout';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { ActionHeader } from '../ActionHeader/ActionHeader';
+import { SectionHeader } from '../SectionHeader/SectionHeader';
 import { KeyValueTable } from '../KeyValueTable/KeyValueTable';
+import { ActionButton } from '../ActionButton/ActionButton';
 
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -18,35 +19,39 @@ export const ProjectDetailPage = () => {
   // TODO: Create a better solution than disabling the next line
   useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const attributes = {
-    'Project URL': dataContainer.data?.projectUrl && (
-      <a href={dataContainer.data?.projectUrl} target="_blank" rel="noopener noreferrer">
-        {dataContainer.data?.projectUrl}
-      </a>
-    ),
-    'Issue Tracker URL': dataContainer.data?.issueTrackerUrl && (
-      <a href={dataContainer.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
-        {dataContainer.data?.issueTrackerUrl}
-      </a>
-    ),
-    'Engineering Team': dataContainer.data?.engineeringTeam,
-    'Technical Leader': dataContainer.data?.technicalLeader,
-  };
+  const attributes = [
+    {
+      key: 'Project URL',
+      value: dataContainer.data?.projectUrl && (
+        <a href={dataContainer.data?.projectUrl} target="_blank" rel="noopener noreferrer">
+          {dataContainer.data?.projectUrl}
+        </a>
+      ),
+    },
+    {
+      key: 'Issue Tracker URL',
+      value: dataContainer.data?.issueTrackerUrl && (
+        <a href={dataContainer.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
+          {dataContainer.data?.issueTrackerUrl}
+        </a>
+      ),
+    },
+    { key: 'Engineering Team', value: dataContainer.data?.engineeringTeam },
+    { key: 'Technical Leader', value: dataContainer.data?.technicalLeader },
+  ];
 
   return (
     <DataContainer {...dataContainer} title="Project Details">
       <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
-        <ActionHeader actionType="edit" link="edit"></ActionHeader>
+        <SectionHeader sideComponent={<ActionButton link="edit" actionType="edit" />} />
         <div className="m-b-25">
           <Card>
             <CardBody>
-              <KeyValueTable keyValueObject={attributes} />
+              <KeyValueTable keyValueArray={attributes} />
             </CardBody>
           </Card>
         </div>
-        <ActionHeader actionType="create" link="../create">
-          Build Configs
-        </ActionHeader>
+        <SectionHeader sideComponent={<ActionButton link="../create" actionType="create" />}>Build Configs</SectionHeader>
         <div className="m-b-25">
           <Card>
             <CardBody>
