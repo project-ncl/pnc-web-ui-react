@@ -3,7 +3,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import styles from './KeyValueTable.module.css';
 
 interface IKeyValueEntryProps {
-  name: string;
+  name: React.ReactNode;
   value: React.ReactNode;
 }
 
@@ -19,20 +19,19 @@ const KeyValueEntry = ({ name, value }: IKeyValueEntryProps) => (
 );
 
 interface IKeyValueTableProps {
-  keyValueObject: {
-    [key: string]: React.ReactNode;
-  };
+  keyValueArray: {
+    key: React.ReactNode;
+    value: React.ReactNode;
+  }[];
 }
 
 /**
  * Represents a stylized key-value table component.
  *
- * @param keyValueObject - dictionary object with keys and values
+ * @param keyValueArray - array of key-value objects
  */
-export const KeyValueTable = ({ keyValueObject }: IKeyValueTableProps) => (
+export const KeyValueTable = ({ keyValueArray }: IKeyValueTableProps) => (
   <Grid hasGutter>
-    {Object.entries(keyValueObject).map(([key, value]) => (
-      <KeyValueEntry key={key} name={key} value={value} />
-    ))}
+    {keyValueArray && keyValueArray.map(({ key, value }) => <KeyValueEntry key={key?.toString()} name={key} value={value} />)}
   </Grid>
 );

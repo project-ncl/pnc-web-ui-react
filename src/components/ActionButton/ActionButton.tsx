@@ -13,6 +13,7 @@ const actionIcons = {
 export interface IActionButtonProps {
   actionType: 'create' | 'edit' | 'delete';
   link?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 interface IConditionalLinkWrapperProps {
@@ -28,10 +29,11 @@ const ConditionalLinkWrapper = ({ link, children }: IConditionalLinkWrapperProps
  *
  * @param actionType - specifies the icon of the button, possible options are 'create' | 'edit' | 'delete'
  * @param link - optional prop if the button should serve as a Link component (will redirect to the specified link)
+ * @param onClick - function to perform on clicking the button
  */
-export const ActionButton = ({ actionType, link }: IActionButtonProps) => (
+export const ActionButton = ({ actionType, link, onClick }: IActionButtonProps) => (
   <ConditionalLinkWrapper link={link}>
-    <Button variant="secondary" isSmall className={styles['action-button']} icon={actionIcons[actionType]}>
+    <Button variant="secondary" isSmall className={styles['action-button']} icon={actionIcons[actionType]} onClick={onClick}>
       {actionType}
     </Button>
   </ConditionalLinkWrapper>
