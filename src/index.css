@@ -43,3 +43,23 @@ code {
 .pull-right {
   float: right !important;
 }
+.pnc-info-icon {
+  color: var(--pf-global--link--Color);
+  text-decoration: var(--pf-global--link--TextDecoration);
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.pnc-info-icon:hover {
+  color: var(--pf-global--link--Color--hover);
+  text-decoration: var(--pf-global--link--TextDecoration--hover);
+}
+.pnc-warning-icon {
+  color: #ec7a08;
+  text-decoration: var(--pf-global--link--TextDecoration);
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.pnc-warning-icon:hover {
+  color: #ac5701;
+  text-decoration: var(--pf-global--link--TextDecoration--hover);
+}

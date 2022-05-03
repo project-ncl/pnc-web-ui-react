@@ -1,0 +1,13 @@
+.dropdown-panel {
+  min-width: 220px;
+  padding: 5px 15px;
+  font-size: 14px;
+}
+
+.dropdown-icon-item > div {
+  float: left;
+}
+
+.description-text {
+  text-align: center;
+}

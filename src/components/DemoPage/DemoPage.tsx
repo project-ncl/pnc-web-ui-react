@@ -6,6 +6,7 @@ import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
 import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
@@ -294,6 +295,31 @@ export const DemoPage = () => {
               <BuildMetrics builds={buildRes} chartType="line" componentId="BMTEST1"></BuildMetrics>
               <br />
               <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>BuildStartButtonGroup</CardTitle>
+            <CardBody>
+              <BuildStartButton
+                buildConfig={{
+                  buildType: 'MVN',
+                  id: 'demoId',
+                  name: 'Demo Name',
+                }}
+              ></BuildStartButton>
+              Build Config Verison
+              <br />
+              <br />
+              <BuildStartButton
+                groupConfig={{
+                  id: 'demoId',
+                  name: 'Demo Name',
+                }}
+              ></BuildStartButton>
+              Group Config Version
             </CardBody>
           </Card>
         </FlexItem>
