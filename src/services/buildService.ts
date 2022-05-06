@@ -9,8 +9,10 @@ class BuildService {
    *
    * @returns BuildMetrics
    */
-  public getBuildMetrics(buildIds: Array<string>, requestConfig: AxiosRequestConfig = {}) {
-    return kafkaClient.getHttpClient().post(`${this.path}`, { buildIds }, requestConfig);
+  public getBuildMetrics(buildIds?: Array<string>, requestConfig: AxiosRequestConfig = {}) {
+    if (buildIds) {
+      return kafkaClient.getHttpClient().post(`${this.path}`, { buildIds }, requestConfig);
+    }
   }
 }
 
