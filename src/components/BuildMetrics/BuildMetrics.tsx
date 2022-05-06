@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState, forwardRef, useCallback } from 'react';
 import Chart, { ChartConfiguration } from 'chart.js/auto';
 import { calculateBuildName } from '../BuildName/BuildName';
 import { Select, SelectOption, Popover, SelectVariant } from '@patternfly/react-core';
@@ -212,23 +212,21 @@ const navigationOptions = [
   { id: 10, name: '10th' },
 ];
 
-const getNavigationIdByName = (name: string) => {
-  return navigationOptions.find((option) => option.name === name)?.id!;
-};
+const getNavigationIdByName = (name: string) => navigationOptions.find((option) => option.name === name)?.id!;
 
-const generateBuildTitle = (buildName: string) => {
-  return '#' + buildName;
-};
+const generateBuildTitle = (buildName: string) => '#' + buildName;
 
 /**
  * Load Build Metrics for specified builds.
  *
  * @param {Object[]} builds - List of Builds.
  */
-const transferBuildsToBuildId = (builds: Array<Build>) => {
-  return builds.map((build) => {
-    return build.id.toString();
-  });
+const transferBuildsToBuildId = (builds?: Array<Build>) => {
+  if (builds) {
+    return builds.map((build) => {
+      return build.id.toString();
+    });
+  }
 };
 
 const MetricsPopoverContent = (metricsTooltipList: Array<IMetricsTooltip>) => {
@@ -250,13 +248,7 @@ const MetricsPopoverContent = (metricsTooltipList: Array<IMetricsTooltip>) => {
 };
 
 const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }: IBuildMetricsCanvasProps, ref) => {
-  useImperativeHandle(ref, () => ({
-    updateCanvas() {
-      setIsCanvasUpdate(true);
-    },
-  }));
-  const [isCanvasInit, setIsCanvasInit] = useState<boolean>(true);
-  const [isCanvasUpdate, setIsCanvasUpdate] = useState<boolean>(false);
+  const [isCanvasInit, setIsCanvasInit] = useState<boolean>(true); //useRef
   const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
 
   useEffect(() => {
@@ -412,9 +404,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
         maintainAspectRatio: false,
         tooltips: {
           callbacks: {
-            title: (tooltipItems: Array<any>) => {
-              return generateBuildTitle(tooltipItems[0].label);
-            },
+            title: (tooltipItems: Array<any>) => generateBuildTitle(tooltipItems[0].label),
             label: (tooltipItem: any, data: any) => {
               let label = data.datasets[tooltipItem.datasetIndex].label || '';
 
@@ -462,17 +452,15 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
         chartRef.current!.parentElement!.style.height = '300px';
       }
     };
-    if (isCanvasUpdate) {
-      updateChartConfig();
-      if (chartType === 'line' && lineChart) {
-        lineChart.config.data = lineChartConfig.data;
-        lineChart.config.options = lineChartConfig.options;
-        lineChart.update();
-      } else if (chartType === 'horizontalBar' && barChart) {
-        barChart.config.data = barChartConfig.data;
-        barChart.config.options = barChartConfig.options;
-        barChart.update();
-      }
+    updateChartConfig();
+    if (chartType === 'line' && lineChart) {
+      lineChart.config.data = lineChartConfig.data;
+      lineChart.config.options = lineChartConfig.options;
+      lineChart.update();
+    } else if (chartType === 'horizontalBar' && barChart) {
+      barChart.config.data = barChartConfig.data;
+      barChart.config.options = barChartConfig.options;
+      barChart.update();
     }
     if (isCanvasInit) {
       updateChartConfig();
@@ -491,7 +479,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       }
       setIsCanvasInit(false);
     }
-  }, [chartRef, isCanvasInit, isCanvasUpdate, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
+  }, [chartRef, isCanvasInit, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
   return <canvas id={componentId} ref={chartRef} />;
 });
 
@@ -510,15 +498,17 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
  */
 export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [refresh, setRefresh] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
-  const dataContainer = useDataContainer(({ serviceData, requestConfig }: IService<Array<Build>>) =>
-    serviceData ? buildService.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig) : null
+  const dataContainer = useDataContainer(
+    useCallback(({ serviceData, requestConfig }: IService<Array<Build>>) => {
+      return buildService.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
+    }, [])
   );
-  const navigationSelectOptions: Array<any> = navigationOptions.map((option) => {
-    return <SelectOption key={option.id} value={option.name} />;
-  });
+  const dataContainerRefresh = dataContainer.refresh;
+  const navigationSelectOptions: Array<any> = navigationOptions.map((option) => (
+    <SelectOption key={option.id} value={option.name} />
+  ));
   const canvasRef: React.Ref<any> = useRef();
 
   useEffect(() => {
@@ -535,32 +525,23 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
         result.push(array[i]);
       }
 
-      if (chartType === 'line') {
-        return result.slice(0, max);
-      } else {
-        return result.slice(0, max);
-      }
+      return result.slice(0, max);
     };
-    if (refresh) {
-      /* Load data according to the current filter */
-      const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
-      dataContainer.refresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
-        setBuildMetrics({
-          builds: currentFilteredBuilds,
-          buildMetricsData: res.data,
-        });
-        canvasRef.current.updateCanvas();
+    /* Load data according to the current filter */
+    const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
+    dataContainerRefresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
+      setBuildMetrics({
+        builds: currentFilteredBuilds,
+        buildMetricsData: res.data,
       });
-      setRefresh(false);
-    }
-  }, [refresh, dataContainer.data, builds, chartType, dataContainer, selected]);
+    });
+  }, [builds, selected, dataContainerRefresh]);
 
   const onToggle = () => {
     setIsOpen(!isOpen);
   };
   const onSelect = (event: any, value: any) => {
     setSelected(value);
-    setRefresh(true);
     setIsOpen(false);
   };
 
