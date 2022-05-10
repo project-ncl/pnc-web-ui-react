@@ -248,7 +248,7 @@ const MetricsPopoverContent = (metricsTooltipList: Array<IMetricsTooltip>) => {
 };
 
 const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }: IBuildMetricsCanvasProps, ref) => {
-  const [isCanvasInit, setIsCanvasInit] = useState<boolean>(true); //useRef
+  const isCanvasInit = useRef<boolean>(true);
   const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
 
   useEffect(() => {
@@ -462,7 +462,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       barChart.config.options = barChartConfig.options;
       barChart.update();
     }
-    if (isCanvasInit) {
+    if (isCanvasInit.current) {
       updateChartConfig();
       if (chartType === 'line') {
         const lineCtx = chartRef.current?.getContext('2d');
@@ -477,7 +477,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
         }
         barChart = new Chart(barCtx, barChartConfig);
       }
-      setIsCanvasInit(false);
+      isCanvasInit.current = false;
     }
   }, [chartRef, isCanvasInit, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
   return <canvas id={componentId} ref={chartRef} />;
