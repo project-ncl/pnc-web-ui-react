@@ -479,7 +479,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
       }
       isCanvasInit.current = false;
     }
-  }, [chartRef, isCanvasInit, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
+  }, [chartRef, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
   return <canvas id={componentId} ref={chartRef} />;
 });
 
