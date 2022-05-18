@@ -1,8 +1,21 @@
 import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { ActionButton } from '../ActionButton';
 
 test('renders all ActionButton', () => {
-  render(<ActionButton actionType={'create'} />);
-  render(<ActionButton actionType={'edit'} />);
-  render(<ActionButton actionType={'delete'} />);
+  render(
+    <MemoryRouter>
+      <ActionButton actionType={'create'} />
+    </MemoryRouter>
+  );
+  render(
+    <MemoryRouter>
+      <ActionButton actionType={'edit'} />
+    </MemoryRouter>
+  );
+  render(
+    <MemoryRouter>
+      <ActionButton actionType={'delete'} />
+    </MemoryRouter>
+  );
 });
