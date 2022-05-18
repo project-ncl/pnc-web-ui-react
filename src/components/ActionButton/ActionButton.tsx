@@ -1,6 +1,6 @@
 import { Button } from '@patternfly/react-core';
 import { TrashIcon, PencilAltIcon, FileIcon } from '@patternfly/react-icons';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './ActionButton.module.css';
 
@@ -16,13 +16,6 @@ export interface IActionButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-interface IConditionalLinkWrapperProps {
-  link?: string;
-  children: React.ReactElement;
-}
-const ConditionalLinkWrapper = ({ link, children }: IConditionalLinkWrapperProps) =>
-  link ? <Link to={link}>{children}</Link> : children;
-
 /**
  * Represents a button component with a predefined icon.
  * Can also serve as a Link (if link prop is specified).
@@ -31,10 +24,18 @@ const ConditionalLinkWrapper = ({ link, children }: IConditionalLinkWrapperProps
  * @param link - optional prop if the button should serve as a Link component (will redirect to the specified link)
  * @param onClick - function to perform on clicking the button
  */
-export const ActionButton = ({ actionType, link, onClick }: IActionButtonProps) => (
-  <ConditionalLinkWrapper link={link}>
-    <Button variant="secondary" isSmall className={styles['action-button']} icon={actionIcons[actionType]} onClick={onClick}>
+export const ActionButton = ({ actionType, link, onClick }: IActionButtonProps) => {
+  let navigate = useNavigate();
+
+  return (
+    <Button
+      variant="secondary"
+      isSmall
+      className={styles['action-button']}
+      icon={actionIcons[actionType]}
+      onClick={link ? () => navigate(link, { replace: true }) : onClick}
+    >
       {actionType}
     </Button>
-  </ConditionalLinkWrapper>
-);
+  );
+};
