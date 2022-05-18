@@ -6,7 +6,7 @@ import { IService, useDataContainer } from '../../containers/DataContainer/useDa
 import { projectService } from '../../services/projectService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { SectionHeader } from '../SectionHeader/SectionHeader';
-import { KeyValueTable } from '../KeyValueTable/KeyValueTable';
+import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { ActionButton } from '../ActionButton/ActionButton';
 
 export const ProjectDetailPage = () => {
@@ -21,7 +21,7 @@ export const ProjectDetailPage = () => {
 
   const attributes = [
     {
-      key: 'Project URL',
+      name: 'Project URL',
       value: dataContainer.data?.projectUrl && (
         <a href={dataContainer.data?.projectUrl} target="_blank" rel="noopener noreferrer">
           {dataContainer.data?.projectUrl}
@@ -29,29 +29,29 @@ export const ProjectDetailPage = () => {
       ),
     },
     {
-      key: 'Issue Tracker URL',
+      name: 'Issue Tracker URL',
       value: dataContainer.data?.issueTrackerUrl && (
         <a href={dataContainer.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
           {dataContainer.data?.issueTrackerUrl}
         </a>
       ),
     },
-    { key: 'Engineering Team', value: dataContainer.data?.engineeringTeam },
-    { key: 'Technical Leader', value: dataContainer.data?.technicalLeader },
+    { name: 'Engineering Team', value: dataContainer.data?.engineeringTeam },
+    { name: 'Technical Leader', value: dataContainer.data?.technicalLeader },
   ];
 
   return (
     <DataContainer {...dataContainer} title="Project Details">
       <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
-        <SectionHeader sideComponent={<ActionButton link="edit" actionType="edit" />} />
+        <SectionHeader actions={<ActionButton link="edit" actionType="edit" />} />
         <div className="m-b-25">
           <Card>
             <CardBody>
-              <KeyValueTable keyValueArray={attributes} />
+              <AttributesItems attributes={attributes} />
             </CardBody>
           </Card>
         </div>
-        <SectionHeader sideComponent={<ActionButton link="../create" actionType="create" />}>Build Configs</SectionHeader>
+        <SectionHeader actions={<ActionButton link="../create" actionType="create" />}>Build Configs</SectionHeader>
         <div className="m-b-25">
           <Card>
             <CardBody>
