@@ -13,7 +13,7 @@ const actionIcons = {
 export interface IActionButtonProps {
   actionType: 'create' | 'edit' | 'delete';
   link?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  action?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 /**
@@ -22,10 +22,10 @@ export interface IActionButtonProps {
  *
  * @param actionType - specifies the icon of the button, possible options are 'create' | 'edit' | 'delete'
  * @param link - optional prop if the button should serve as a Link component (will redirect to the specified link)
- * @param onClick - function to perform on clicking the button
+ * @param action - function to perform on clicking the button
  */
-export const ActionButton = ({ actionType, link, onClick }: IActionButtonProps) => {
-  let navigate = useNavigate();
+export const ActionButton = ({ actionType, link, action }: IActionButtonProps) => {
+  const navigate = useNavigate();
 
   return (
     <Button
@@ -33,7 +33,7 @@ export const ActionButton = ({ actionType, link, onClick }: IActionButtonProps) 
       isSmall
       className={styles['action-button']}
       icon={actionIcons[actionType]}
-      onClick={link ? () => navigate(link, { replace: true }) : onClick}
+      onClick={link ? () => navigate(link, { replace: true }) : action}
     >
       {actionType}
     </Button>
