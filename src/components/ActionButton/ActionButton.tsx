@@ -19,6 +19,7 @@ export interface IActionButtonProps {
 /**
  * Represents a button component with a predefined icon.
  * Can also serve as a Link (if link prop is specified).
+ * Only either action or link should be specified.
  *
  * @param actionType - specifies the icon of the button, possible options are 'create' | 'edit' | 'delete'
  * @param link - optional prop if the button should serve as a Link component (will redirect to the specified link)

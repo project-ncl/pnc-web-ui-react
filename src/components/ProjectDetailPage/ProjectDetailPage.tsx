@@ -51,7 +51,9 @@ export const ProjectDetailPage = () => {
             </CardBody>
           </Card>
         </div>
-        <SectionHeader actions={<ActionButton link="../create" actionType="create" />}>Build Configs</SectionHeader>
+        <SectionHeader actions={<ActionButton action={() => console.log('Not implemented yet!')} actionType="create" />}>
+          Build Configs
+        </SectionHeader>
         <div className="m-b-25">
           <Card>
             <CardBody>
