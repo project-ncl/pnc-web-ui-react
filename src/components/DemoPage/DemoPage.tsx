@@ -1,7 +1,6 @@
 import { PageLayout } from '../PageLayout/PageLayout';
-import { Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
-import { Build } from 'pnc-api-types-ts';
 import { Card, CardTitle, CardBody, Flex, FlexItem, Tooltip } from '@patternfly/react-core';
+import { Build } from 'pnc-api-types-ts';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
