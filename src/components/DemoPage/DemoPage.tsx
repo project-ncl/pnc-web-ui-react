@@ -1,12 +1,15 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
 import { Build } from 'pnc-api-types-ts';
+import { Card, CardTitle, CardBody, Flex, FlexItem, Tooltip } from '@patternfly/react-core';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
 import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
 import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
+import { AttributesItems } from '../AttributesItems/AttributesItems';
+import { FileIcon } from '@patternfly/react-icons';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
@@ -320,6 +323,37 @@ export const DemoPage = () => {
                 }}
               ></BuildStartButton>
               Group Config Version
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>AttributesItems</CardTitle>
+            <CardBody>
+              <AttributesItems
+                attributes={[
+                  {
+                    name: 'Project URL',
+                    value: (
+                      <a href={'demo'} target="_blank" rel="noopener noreferrer">
+                        Text Example
+                      </a>
+                    ),
+                  },
+                  {
+                    name: (
+                      <span>
+                        Icon has Tooltip{' '}
+                        <Tooltip content={<div>This icon has a tooltip!</div>}>
+                          <FileIcon />
+                        </Tooltip>
+                      </span>
+                    ),
+                    value: undefined,
+                  },
+                ]}
+              />
             </CardBody>
           </Card>
         </FlexItem>

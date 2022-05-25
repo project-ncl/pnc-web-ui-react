@@ -1,0 +1,6 @@
+.action-button {
+  min-width: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-transform: capitalize;
+}
