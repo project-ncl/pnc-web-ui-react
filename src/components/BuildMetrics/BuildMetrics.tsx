@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, forwardRef, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Chart, { ChartConfiguration } from 'chart.js/auto';
 import { calculateBuildName } from '../BuildName/BuildName';
 import { Select, SelectOption, Popover, SelectVariant } from '@patternfly/react-core';
@@ -247,7 +247,7 @@ const MetricsPopoverContent = (metricsTooltipList: Array<IMetricsTooltip>) => {
   );
 };
 
-const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }: IBuildMetricsCanvasProps, ref) => {
+const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetricsCanvasProps) => {
   const isCanvasInit = useRef<boolean>(true);
   const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
 
@@ -481,7 +481,7 @@ const BuildMetricsCanvas = forwardRef(({ buildMetrics, chartType, componentId }:
     }
   }, [chartRef, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
   return <canvas id={componentId} ref={chartRef} />;
-});
+};
 
 /**
  * The component representing Build Metric charts.
@@ -509,7 +509,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const navigationSelectOptions: Array<any> = navigationOptions.map((option) => (
     <SelectOption key={option.id} value={option.name} />
   ));
-  const canvasRef: React.Ref<any> = useRef();
 
   useEffect(() => {
     /**
@@ -579,7 +578,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                   buildMetrics={buildMetrics!}
                   chartType={chartType}
                   componentId={componentId}
-                  ref={canvasRef}
                 ></BuildMetricsCanvas>
               )}
             </div>
