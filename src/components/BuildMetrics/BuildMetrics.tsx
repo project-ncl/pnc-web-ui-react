@@ -252,8 +252,8 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
   const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
 
   useEffect(() => {
-    const lineChartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] } };
-    const barChartConfig: ChartConfiguration = { type: 'bar', data: { datasets: [] } };
+    const lineChartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] }, options: {} };
+    const barChartConfig: ChartConfiguration = { type: 'bar', data: { datasets: [] }, options: {} };
     const updateChartConfig = () => {
       // Chart is pointing to single instance of chartConfig declared on the Controller level and providing later updates based on it's changes.
       let adaptedMetric;
@@ -438,7 +438,7 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
       const MIN_HEIGHT_SINGLE_BUILD = 400;
 
       if (chartType === 'horizontalBar') {
-        Object.assign(barChartConfig.options, commonChartConfig);
+        Object.assign(barChartConfig.options!, commonChartConfig);
         barChartConfig.plugins = commonChartPlugins;
         heightTmp = buildMetricsData.datasets[0].data.length * 30;
         chartRef.current!.parentElement!.style.height =
@@ -447,7 +447,7 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
           barChartConfig.options!.layout!.padding = 50;
         }
       } else {
-        Object.assign(lineChartConfig.options, commonChartConfig);
+        Object.assign(lineChartConfig.options!, commonChartConfig);
         lineChartConfig.plugins = commonChartPlugins;
         chartRef.current!.parentElement!.style.height = '300px';
       }
