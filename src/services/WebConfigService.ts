@@ -78,3 +78,15 @@ export const getPncUrl = (): string => {
   }
   return pncUrl;
 };
+
+/**
+ * Return Kafka URL endpoint
+ */
+export const getKafkaUrl = (): string => {
+  const kafkaUrl = getWebConfig().externalKafkaStoreUrl;
+
+  if (!kafkaUrl) {
+    throw new Error(`Kafka URL does not contain any data: #${kafkaUrl}#`);
+  }
+  return kafkaUrl;
+};

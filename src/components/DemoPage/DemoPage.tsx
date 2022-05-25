@@ -1,12 +1,17 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { Card, CardTitle, CardBody, Flex, FlexItem, Tooltip } from '@patternfly/react-core';
+import { Build } from 'pnc-api-types-ts';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
+import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
 import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { FileIcon } from '@patternfly/react-icons';
+import mockBuildData from './data/mock-build-data.json';
+
+const buildRes: Build[] = mockBuildData;
 
 export const DemoPage = () => {
   return (
@@ -282,6 +287,16 @@ export const DemoPage = () => {
                 }}
                 isCurrent={true}
               />
+            </CardBody>
+          </Card>
+        </FlexItem>
+        <FlexItem>
+          <Card>
+            <CardTitle>BuildMetrics</CardTitle>
+            <CardBody>
+              <BuildMetrics builds={buildRes} chartType="line" componentId="BMTEST1"></BuildMetrics>
+              <br />
+              <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
             </CardBody>
           </Card>
         </FlexItem>
