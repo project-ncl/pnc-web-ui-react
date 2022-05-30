@@ -115,6 +115,7 @@ export const DemoPage = () => {
                     POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
                     PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
                   },
+                  alignmentPreference: 'PREFER_PERSISTENT',
                 }}
               />
               <br />
@@ -132,6 +133,7 @@ export const DemoPage = () => {
                     username: 'robot',
                   },
                   temporaryBuild: true,
+                  alignmentPreference: 'PREFER_TEMPORARY',
                 }}
               />
               <br />

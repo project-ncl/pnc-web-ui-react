@@ -66,6 +66,24 @@ const iconData: { [buildStatus: string]: { tooltip: string; icon: any; className
   },
 };
 
+const alignmentData = {
+  PREFER_TEMPORARY: {
+    tooltip: `Test build, which cannot be used for product release and which will be garbage collected during automatic cleaning. 
+    Latest temporary dependencies' versions were preferred in alignment.`,
+    className: 'icon-color-info',
+  },
+  PREFER_PERSISTENT: {
+    tooltip: `Test build, which cannot be used for product release and which will be garbage collected during automatic cleaning. 
+    Latest persistent dependencies' versions were preferred in alignment.`,
+    className: 'icon-color-warning',
+  },
+  NOT_SPECIFIED: {
+    tooltip: `Test build, which cannot be used for product release and which will be garbage collected during automatic
+    cleaning. Alignment Preference was not defined.`,
+    className: 'icon-color-info',
+  },
+};
+
 interface IBuildStatusIcon {
   build: Build | GroupBuild;
   long?: boolean;
@@ -102,19 +120,14 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
       {isCorrupted && (
         <Tooltip
           position="right"
-          content={<div>The build may have completed successfully but has since been corrupted by a system error</div>}
+          content={<div>The build may have completed successfully but has since been corrupted by a system error.</div>}
         >
           <ExclamationTriangleIcon />
         </Tooltip>
       )}
       {build.temporaryBuild && (
-        <Tooltip
-          position="right"
-          content={
-            <div>Temporary build - test build, which cannot be used for product release and will be garbage collected</div>
-          }
-        >
-          <OutlinedClockIcon />
+        <Tooltip position="right" content={<div>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</div>}>
+          <OutlinedClockIcon className={alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className} />
         </Tooltip>
       )}
       {long && build.status}
