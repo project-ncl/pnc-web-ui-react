@@ -62,3 +62,11 @@
   align-items: center;
   column-gap: 3px;
 }
+
+.icon-color-info {
+  fill: var(--pf-global--info-color--200);
+}
+
+.icon-color-warning {
+  fill: var(--pf-global--warning-color--200);
+}
