@@ -463,7 +463,6 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
       barChart.update();
     }
     if (isCanvasInit.current) {
-      updateChartConfig();
       if (chartType === 'line') {
         const lineCtx = chartRef.current?.getContext('2d');
         if (!lineCtx) {
