@@ -2,7 +2,7 @@ import { Tooltip } from '@patternfly/react-core';
 import { OutlinedClockIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import './BuildStatusIcon.css';
+import styles from './BuildStatusIcon.module.css';
 
 import iconBlue from './icons/blue.svg';
 import iconError from './icons/error.svg';
@@ -107,13 +107,13 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
       (build as Build).attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL');
 
   return (
-    <span className="build-status-icon">
+    <span className={styles['build-status-icon']}>
       <Tooltip content={<div>{selectedIconData.tooltip}</div>}>
         <img
           src={selectedIconImage}
           width="28px"
           height="28px"
-          className={selectedIconData.className}
+          className={selectedIconData.className && styles[selectedIconData.className]}
           alt={selectedIconData.tooltip}
         />
       </Tooltip>
@@ -127,7 +127,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
       )}
       {build.temporaryBuild && (
         <Tooltip position="right" content={<div>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</div>}>
-          <OutlinedClockIcon className={alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className} />
+          <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
         </Tooltip>
       )}
       {long && build.status}
