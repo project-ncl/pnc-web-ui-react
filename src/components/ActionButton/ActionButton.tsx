@@ -1,42 +1,51 @@
 import { Button } from '@patternfly/react-core';
-import { TrashIcon, PencilAltIcon, FileIcon } from '@patternfly/react-icons';
+import {
+  TrashIcon,
+  PencilAltIcon,
+  FileIcon,
+  CopyIcon,
+  TagIcon,
+  ExternalLinkAltIcon,
+  LockIcon,
+  FlagIcon,
+} from '@patternfly/react-icons';
 import { useNavigate } from 'react-router-dom';
 
-import styles from './ActionButton.module.css';
-
-const actionIcons = {
+const iconDictionary = {
   create: <FileIcon />,
   edit: <PencilAltIcon />,
   delete: <TrashIcon />,
-};
+  clone: <CopyIcon />,
+  quality: <TagIcon />,
+  external: <ExternalLinkAltIcon />,
+  close: <LockIcon />,
+  mark: <FlagIcon />,
+} as const;
 
 export interface IActionButtonProps {
-  actionType: 'create' | 'edit' | 'delete';
+  iconType: keyof typeof iconDictionary;
+  children?: React.ReactNode;
   link?: string;
   action?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 /**
  * Represents a button component with a predefined icon.
- * Can also serve as a Link (if link prop is specified).
- * Only either action or link should be specified.
+ * Can also serve as a link (if link prop is specified).
+ * Only either action or link prop should be specified.
+ * Most often will be used together with SectionHeader.
  *
- * @param actionType - specifies the icon of the button, possible options are 'create' | 'edit' | 'delete'
- * @param link - optional prop if the button should serve as a Link component (will redirect to the specified link)
+ * @param iconType - specifies the icon of the button (view typescript definition for all possible options)
+ * @param link - optional prop if the button should serve as a link component (will redirect to the specified link)
  * @param action - function to perform on clicking the button
+ * @param children - the inner components of the button (usually a textual description)
  */
-export const ActionButton = ({ actionType, link, action }: IActionButtonProps) => {
+export const ActionButton = ({ iconType, link, action, children }: IActionButtonProps) => {
   const navigate = useNavigate();
 
   return (
-    <Button
-      variant="secondary"
-      isSmall
-      className={styles['action-button']}
-      icon={actionIcons[actionType]}
-      onClick={link ? () => navigate(link, { replace: true }) : action}
-    >
-      {actionType}
+    <Button variant="secondary" isSmall icon={iconDictionary[iconType]} onClick={link ? () => navigate(link) : action}>
+      {children}
     </Button>
   );
 };

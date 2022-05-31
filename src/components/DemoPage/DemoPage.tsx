@@ -9,6 +9,7 @@ import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/Pr
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { FileIcon } from '@patternfly/react-icons';
+import { ActionButton } from '../ActionButton/ActionButton';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
@@ -355,6 +356,33 @@ export const DemoPage = () => {
                   },
                 ]}
               />
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>ActionButton</CardTitle>
+            <CardBody>
+              <ActionButton iconType="create" link="/projects">
+                Button with create icon
+              </ActionButton>
+              <span>On click, move to the specified web link (this one links to projects)</span>
+              <br />
+              <ActionButton iconType="edit" action={() => alert('Hello this is actionbutton!')}>
+                Edit
+              </ActionButton>
+              <span>On click, performs a function (this one creates an alert)</span>
+              <br />
+              <ActionButton iconType="delete">Delete</ActionButton>
+              <br />
+              <ActionButton iconType="clone">Clone</ActionButton>
+              <br />
+              <ActionButton iconType="quality">Quality</ActionButton>
+              <br />
+              <ActionButton iconType="external">External, set text such as Push to Brew</ActionButton>
+              <br />
+              <ActionButton iconType="mark">Mark as current</ActionButton>
             </CardBody>
           </Card>
         </FlexItem>
