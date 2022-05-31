@@ -43,7 +43,13 @@ export const ProjectDetailPage = () => {
   return (
     <DataContainer {...dataContainer} title="Project Details">
       <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
-        <SectionHeader actions={<ActionButton link="edit" actionType="edit" />} />
+        <SectionHeader
+          actions={
+            <ActionButton link="edit" iconType="edit">
+              Edit
+            </ActionButton>
+          }
+        />
         <div className="m-b-25">
           <Card>
             <CardBody>
@@ -51,7 +57,13 @@ export const ProjectDetailPage = () => {
             </CardBody>
           </Card>
         </div>
-        <SectionHeader actions={<ActionButton action={() => console.log('Not implemented yet!')} actionType="create" />}>
+        <SectionHeader
+          actions={
+            <ActionButton action={() => console.log('Not implemented yet!')} iconType="create">
+              Create
+            </ActionButton>
+          }
+        >
           Build Configs
         </SectionHeader>
         <div className="m-b-25">
