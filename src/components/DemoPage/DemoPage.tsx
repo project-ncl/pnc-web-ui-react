@@ -383,6 +383,8 @@ export const DemoPage = () => {
               <ActionButton iconType="external">External, set text such as Push to Brew</ActionButton>
               <br />
               <ActionButton iconType="mark">Mark as current</ActionButton>
+              <br />
+              <ActionButton>No Icon</ActionButton>
             </CardBody>
           </Card>
         </FlexItem>
