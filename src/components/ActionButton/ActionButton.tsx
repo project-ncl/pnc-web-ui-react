@@ -23,7 +23,7 @@ const iconDictionary = {
 } as const;
 
 export interface IActionButtonProps {
-  iconType: keyof typeof iconDictionary;
+  iconType?: keyof typeof iconDictionary;
   link?: string;
   action?: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -43,7 +43,12 @@ export const ActionButton = ({ iconType, link, action, children }: React.PropsWi
   const navigate = useNavigate();
 
   return (
-    <Button variant="secondary" isSmall icon={iconDictionary[iconType]} onClick={link ? () => navigate(link) : action}>
+    <Button
+      variant="secondary"
+      isSmall
+      icon={iconType ? iconDictionary[iconType] : null}
+      onClick={link ? () => navigate(link) : action}
+    >
       {children}
     </Button>
   );
