@@ -1,3 +1,8 @@
+.button-build {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
 .dropdown-panel {
   min-width: 220px;
   padding: 5px 15px;
