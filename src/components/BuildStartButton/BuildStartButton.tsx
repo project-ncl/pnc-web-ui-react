@@ -183,7 +183,14 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
 
   return (
     <>
-      <Button icon={<BuildIcon />} variant="primary" isSmall={size === 'sm'} isLarge={size === 'lg'} onClick={triggerBuild}>
+      <Button
+        icon={<BuildIcon />}
+        variant="primary"
+        isSmall={size === 'sm'}
+        isLarge={size === 'lg'}
+        onClick={triggerBuild}
+        className={styles['button-build']}
+      >
         Build
       </Button>
       <Dropdown
