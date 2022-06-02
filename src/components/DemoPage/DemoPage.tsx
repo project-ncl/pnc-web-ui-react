@@ -8,7 +8,7 @@ import { BuildName } from '../BuildName/BuildName';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import { AttributesItems } from '../AttributesItems/AttributesItems';
-import { FileIcon } from '@patternfly/react-icons';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { ActionButton } from '../ActionButton/ActionButton';
 import mockBuildData from './data/mock-build-data.json';
 
@@ -348,7 +348,7 @@ export const DemoPage = () => {
                       <span>
                         Icon has Tooltip{' '}
                         <Tooltip content={<div>This icon has a tooltip!</div>}>
-                          <FileIcon />
+                          <InfoCircleIcon />
                         </Tooltip>
                       </span>
                     ),
