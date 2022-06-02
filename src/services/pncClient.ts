@@ -25,10 +25,10 @@ class PncClient {
 
     httpClient.interceptors.request.use((config) => {
       // perform actions before request is sent
-      const token = keycloakService.getToken();
-      if (token) {
+
+      if (keycloakService.isAuthenticated()) {
         config.headers = config.headers ?? {};
-        config.headers.Authorization = `Bearer ` + token;
+        config.headers.Authorization = `Bearer ` + keycloakService.getToken();
       }
 
       /*

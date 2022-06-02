@@ -22,6 +22,8 @@ class KeycloakService {
   //We can't get KeycloakInstance type because of dynamic loading of keycloak library
   private keycloakAuth: any;
 
+  private KEYCLOAK_TOKEN_MIN_EXP = 86400; // Default: 24 Hours
+
   private isKeycloakInitialized;
 
   constructor() {
@@ -36,7 +38,7 @@ class KeycloakService {
   private init(): Promise<any> {
     const keycloakConfig = WebConfigAPI.getWebConfig().keycloak;
 
-    this.keycloakAuth = window.Keycloak({
+    this.keycloakAuth = new window.Keycloak({
       url: keycloakConfig.url,
       realm: keycloakConfig.realm,
       clientId: keycloakConfig.clientId,
@@ -94,7 +96,55 @@ class KeycloakService {
    * @returns String with token if user is logged in or returns undefined when not.
    */
   public getToken(): String {
+    this.updateToken()
+      .then((isTokenRefreshed: boolean) => {
+        if (isTokenRefreshed) {
+          console.log('Token refreshed.');
+        } else {
+          //console.log('Token not refreshed, valid for: \n' + this.getTokenValidity()); //dev purpose, too much spam
+        }
+      })
+      .catch(() => {
+        throw new Error('Failed to refresh token');
+      });
+
     return this.keycloakAuth.token;
+  }
+
+  public getTokenValidity(): String {
+    if (!this.keycloakAuth.tokenParsed) {
+      return 'Not authenticated';
+    }
+
+    let validity =
+      'Token Expires:\t\t' +
+      new Date((this.keycloakAuth.tokenParsed.exp + this.keycloakAuth.timeSkew) * 1000).toLocaleString() +
+      '\n';
+    validity +=
+      'Token Expires in:\t' +
+      Math.round(this.keycloakAuth.tokenParsed.exp + this.keycloakAuth.timeSkew - new Date().getTime() / 1000) +
+      ' seconds\n';
+
+    if (this.keycloakAuth.refreshTokenParsed) {
+      validity +=
+        'Refresh Token Expires:\t' +
+        new Date((this.keycloakAuth.refreshTokenParsed.exp + this.keycloakAuth.timeSkew) * 1000).toLocaleString() +
+        '\n';
+      validity +=
+        'Refresh Expires in:\t' +
+        Math.round(this.keycloakAuth.refreshTokenParsed.exp + this.keycloakAuth.timeSkew - new Date().getTime() / 1000) +
+        ' seconds';
+    }
+
+    return validity;
+  }
+
+  public isTokenExpired(): boolean {
+    return this.keycloakAuth.isTokenExpired(this.KEYCLOAK_TOKEN_MIN_EXP);
+  }
+
+  public updateToken(): Promise<boolean> {
+    return this.keycloakAuth.updateToken(this.KEYCLOAK_TOKEN_MIN_EXP);
   }
 
   /**
