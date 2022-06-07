@@ -1,9 +1,5 @@
 import * as WebConfigAPI from '../services/WebConfigService';
-declare global {
-  interface Window {
-    Keycloak?: any;
-  }
-}
+import { Keycloak } from '../services/keycloakHolder';
 /**
  * Enum with possible authentication roles in keycloak.
  *
@@ -38,7 +34,7 @@ class KeycloakService {
   private init(): Promise<any> {
     const keycloakConfig = WebConfigAPI.getWebConfig().keycloak;
 
-    this.keycloakAuth = new window.Keycloak({
+    this.keycloakAuth = new Keycloak({
       url: keycloakConfig.url,
       realm: keycloakConfig.realm,
       clientId: keycloakConfig.clientId,
