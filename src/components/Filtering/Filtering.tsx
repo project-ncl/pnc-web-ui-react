@@ -169,7 +169,7 @@ export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
         isNegated = true;
       }
 
-      // %ab_c% -> ab?c (custom param is not wrapped by " characters)
+      // %abc% -> abc (custom param is not wrapped by " characters)
       if (filterAttribute.isCustomParam) {
         filterValue = filterValue.substring(1, filterValue.length - 1);
       }
