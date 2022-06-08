@@ -17,9 +17,8 @@ export const constructCustomFilterParam = (attribute: IFilterAttribute, value: s
       value = value.substring(1);
     }
 
-    // convert ab?c to %ab_c%
-    // backend service does not support ? characters for custom param
-    value = '%' + value.replaceAll('?', '_') + '%';
+    // convert abc to %abc%
+    value = '%' + value + '%';
 
     // when negated: convert %ab_c% to !%ab_c%
     if (isNegated) {
