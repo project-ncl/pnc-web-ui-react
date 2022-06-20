@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react';
 import { ProjectsPage } from '../ProjectsPage';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('../../../services/projectService');
 
