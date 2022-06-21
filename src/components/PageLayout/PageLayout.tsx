@@ -1,7 +1,7 @@
 import { Divider, PageSection, PageSectionVariants, TextContent, Text } from '@patternfly/react-core';
+import React from 'react';
 
-interface IAppLayout {
-  children: React.ReactNode;
+interface IAppLayoutProps {
   title: string;
   description?: React.ReactNode; // not just string, also components can be used
 }
@@ -24,7 +24,7 @@ interface IAppLayout {
  * ```
  * 
  */
-export const PageLayout: React.FunctionComponent<IAppLayout> = ({ children, title, description }) => {
+export const PageLayout = ({ children, title, description }: React.PropsWithChildren<IAppLayoutProps>) => {
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>

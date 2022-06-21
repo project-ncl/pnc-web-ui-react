@@ -26,11 +26,9 @@ import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
 import * as WebConfigAPI from './services/WebConfigService';
 import { keycloakService } from './services/keycloakService';
 
-interface IAppLayout {
-  children: React.ReactNode;
-}
+interface IAppLayoutProps {}
 
-export const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
+export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
   const webConfig = WebConfigAPI.getWebConfig();
 
   const user = keycloakService.getUser();
