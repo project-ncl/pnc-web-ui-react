@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Title, EmptyState, EmptyStateIcon, EmptyStateBody, EmptyStateVariant } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
+import { useTitle } from '../../containers/useTitle';
 
 export const NotFoundPage = () => {
+  useTitle('Not Found');
   return (
     <EmptyState variant={EmptyStateVariant.xl} className="pf-u-pt-4xl">
       <EmptyStateIcon icon={CubesIcon} />

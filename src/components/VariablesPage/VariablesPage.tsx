@@ -1,6 +1,7 @@
 import { PageLayout } from '../PageLayout/PageLayout';
 import { CodeBlock, CodeBlockCode, Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
 import * as WebConfigAPI from '../../services/WebConfigService';
+import { useTitle } from '../../containers/useTitle';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
@@ -12,6 +13,7 @@ const WebConfig = () => {
 };
 
 export const VariablesPage = () => {
+  useTitle('Variables');
   return (
     <PageLayout title="Variables" description="Variables page intended for administrators and debugging purposes.">
       <Flex direction={{ default: 'column' }}>

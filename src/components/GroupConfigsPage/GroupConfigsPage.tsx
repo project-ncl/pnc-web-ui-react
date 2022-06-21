@@ -1,6 +1,9 @@
 import { Divider, PageSection, PageSectionVariants, TextContent, Text } from '@patternfly/react-core';
+import { PageTitles } from '../../utils/PageTitles';
+import { useTitle } from '../../containers/useTitle';
 
 export const GroupConfigsPage = () => {
+  useTitle(PageTitles.groupConfig);
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>

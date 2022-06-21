@@ -8,6 +8,8 @@ import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { SectionHeader } from '../SectionHeader/SectionHeader';
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { ActionButton } from '../ActionButton/ActionButton';
+import { useTitle } from '../../containers/useTitle';
+import { PageTitles } from '../../utils/PageTitles';
 
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -15,6 +17,8 @@ export const ProjectDetailPage = () => {
   const dataContainer = useDataContainer(({ requestConfig }: IService) =>
     projectService.getProject({ id: projectId as string }, requestConfig)
   );
+
+  useTitle(`${dataContainer.data?.name} | ${PageTitles.projects}`);
 
   // TODO: Create a better solution than disabling the next line
   useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps

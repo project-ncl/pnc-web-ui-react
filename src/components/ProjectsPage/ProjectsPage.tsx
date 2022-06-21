@@ -8,6 +8,8 @@ import { Pagination } from '../Pagination/Pagination';
 import { useQueryParamsEffect } from '../../containers/useQueryParamsEffect';
 import { Filtering, IFilterOptions } from '../Filtering/Filtering';
 import { Toolbar } from '../Toolbar/Toolbar';
+import { useTitle } from '../../containers/useTitle';
+import { PageTitles } from '../../utils/PageTitles';
 
 interface IProjectPage {
   componentId?: string;
@@ -15,6 +17,8 @@ interface IProjectPage {
 
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
   const dataContainer = useDataContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
+
+  useTitle(PageTitles.projects);
 
   // keeping also not supported operations for testing purposes
   const filterOptions: IFilterOptions = {

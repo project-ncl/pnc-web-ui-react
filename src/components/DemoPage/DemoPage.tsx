@@ -11,10 +11,12 @@ import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { ActionButton } from '../ActionButton/ActionButton';
 import mockBuildData from './data/mock-build-data.json';
+import { useTitle } from '../../containers/useTitle';
 
 const buildRes: Build[] = mockBuildData;
 
 export const DemoPage = () => {
+  useTitle('Demo');
   return (
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>

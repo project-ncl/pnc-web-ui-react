@@ -14,6 +14,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { PageLayout } from './../PageLayout/PageLayout';
+import { useTitle } from '../../containers/useTitle';
 
 export const AdministrationPage = () => {
   const [isMaintenanceModeOn, setIsMaintenanceModeOn] = useState(false);
@@ -23,6 +24,8 @@ export const AdministrationPage = () => {
     paddingRight: '8px',
     paddingBottom: '5px',
   };
+
+  useTitle('Administration');
 
   return (
     <PageLayout title="Administration" description="Administration tools for admin users">

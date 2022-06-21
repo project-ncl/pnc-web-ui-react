@@ -2,11 +2,14 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { DashboardWidget } from '../DashboardWidget/DashboardWidget';
 import * as WebConfigAPI from '../../services/WebConfigService';
+import { useTitle } from '../../containers/useTitle';
 
 export const DashboardPage = () => {
   const webConfig = WebConfigAPI.getWebConfig();
   const trafficLightsUrl = webConfig.grafana.trafficLightsUrl;
   const statusMapUrl = webConfig.grafana.statusMapUrl;
+
+  useTitle('Dashboard');
 
   return (
     <PageLayout
