@@ -1,6 +1,9 @@
 import { Divider, PageSection, PageSectionVariants, TextContent, Text } from '@patternfly/react-core';
+import { useTitle } from '../../containers/useTitle';
+import { PageTitles } from '../../utils/PageTitles';
 
 export const ScmRepositoriesPage = () => {
+  useTitle(PageTitles.repositories);
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>

@@ -17,9 +17,11 @@ import {
 import { Project } from 'pnc-api-types-ts';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { PageTitles } from '../../utils/PageTitles';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { ServiceContainerCreating } from '../../containers/DataContainer/ServiceContainerCreating';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
+import { useTitle } from '../../containers/useTitle';
 import { projectService } from '../../services/projectService';
 import { PageLayout } from '../PageLayout/PageLayout';
 
@@ -59,6 +61,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     }, [])
   );
   const editRefresh = dataContainerCreateEdit.refresh;
+
+  useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
   useEffect(() => {
     if (editPage) {
