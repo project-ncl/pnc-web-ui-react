@@ -12,7 +12,7 @@
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
-    "axios": "^0.25.0",
+    "axios": "^0.27.2",
     "chart.js": "^3.7.1",
     "pnc-api-types-ts": "project-ncl/pnc-api-types-ts#v2.3.0-pnc-2.3.0",
     "react": "^17.0.2",
