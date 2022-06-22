@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { kafkaClient } from './kafkaClient';
+import { pncClient } from './pncClient';
 
 class BuildService {
   path = '/builds';
@@ -13,6 +14,10 @@ class BuildService {
     if (buildIds) {
       return kafkaClient.getHttpClient().post(`${this.path}`, { buildIds }, requestConfig);
     }
+  }
+
+  public getBuildCount(requestConfig: AxiosRequestConfig = {}) {
+    return pncClient.getHttpClient().get(`${this.path}/count`, requestConfig);
   }
 }
 
