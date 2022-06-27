@@ -16,6 +16,11 @@ class BuildService {
     }
   }
 
+  /**
+   * Gets Build Counts for enqueued, running, and waiting for dependencies builds.
+   *
+   * @returns numbers for "enqueued", "running", "waitingForDependencies"
+   */
   public getBuildCount(requestConfig: AxiosRequestConfig = {}) {
     return pncClient.getHttpClient().get(`${this.path}/count`, requestConfig);
   }
