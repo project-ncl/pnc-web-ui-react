@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -12,7 +12,6 @@ import {
   Switch,
   TextArea,
   TextInput,
-  useInterval,
 } from '@patternfly/react-core';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { useTitle } from '../../containers/useTitle';
@@ -20,6 +19,7 @@ import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { buildService } from '../../services/buildService';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
+import { useInterval } from '../../utils/useInterval';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 
@@ -31,23 +31,33 @@ export const AdministrationPage = () => {
     paddingRight: '8px',
     paddingBottom: '5px',
   };
-  const [secondsUntilReload, setSecondsUntilReload] = useState(REFRESH_INTERVAL_SECONDS);
-  const dataContainer = useDataContainer(({ requestConfig }: IService) => buildService.getBuildCount(requestConfig));
-
+  const [secondsUntilReload, setSecondsUntilReload] = useState<number>(REFRESH_INTERVAL_SECONDS);
+  const dataContainer = useDataContainer(
+    useCallback(({ requestConfig }: IService) => buildService.getBuildCount(requestConfig), [])
+  );
+  const dataContainerRefresh = dataContainer.refresh;
   // TODO: Create a better solution than disabling the next line
-  useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
-  useInterval(() => {
-    setSecondsUntilReload(secondsUntilReload - 1);
-    if (secondsUntilReload <= 1) {
-      dataContainer.refresh({ requestConfig: {} });
-      setSecondsUntilReload(REFRESH_INTERVAL_SECONDS);
-    }
-  }, 1000);
+  useEffect(() => dataContainer.refresh({}), []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const refreshBuildCounts = useCallback(() => {
+    dataContainerRefresh({});
+    setSecondsUntilReload(REFRESH_INTERVAL_SECONDS);
+  }, [dataContainerRefresh]);
+
+  useInterval(
+    useCallback(() => {
+      setSecondsUntilReload(secondsUntilReload - 1);
+      if (secondsUntilReload <= 1) {
+        refreshBuildCounts();
+      }
+    }, [secondsUntilReload, refreshBuildCounts]),
+    1000
+  );
 
   useTitle('Administration');
 
   return (
-    <PageLayout title="Administration" description={'Administration tools for admin users'}>
+    <PageLayout title="Administration" description="Administration tools for admin users">
       <Flex direction={{ default: 'column' }}>
         <FlexItem>
           <Form isHorizontal>
@@ -74,7 +84,7 @@ export const AdministrationPage = () => {
             <CardBody>
               <Grid hasGutter>
                 <GridItem span={12}>
-                  <DataContainer {...dataContainer} title="Build Count">
+                  <DataContainer {...dataContainer} title="Builds Count">
                     <AttributesItems
                       attributes={[
                         {
@@ -94,13 +104,7 @@ export const AdministrationPage = () => {
                   </DataContainer>
                 </GridItem>
                 <GridItem span={4}>
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      dataContainer.refresh({ requestConfig: {} });
-                      setSecondsUntilReload(REFRESH_INTERVAL_SECONDS);
-                    }}
-                  >
+                  <Button variant="primary" onClick={refreshBuildCounts}>
                     Refresh ({secondsUntilReload} s)
                   </Button>
                 </GridItem>
