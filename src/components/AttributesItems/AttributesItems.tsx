@@ -9,10 +9,10 @@ interface IAttributesItemProps {
 
 const AttributesItem = ({ name, value }: IAttributesItemProps) => (
   <>
-    <GridItem md={6} sm={12} className={styles['name']}>
+    <GridItem xl={3} lg={4} md={6} sm={12} className={styles['name']}>
       {name}
     </GridItem>
-    <GridItem md={6} sm={12} className={value != null ? '' : styles['value-empty']}>
+    <GridItem xl={9} lg={8} md={6} sm={12} className={value !== null && value !== undefined ? '' : styles['value-empty']}>
       {value ?? 'Empty'}
     </GridItem>
   </>
