@@ -24,6 +24,8 @@ import { IService, useDataContainer } from '../../containers/DataContainer/useDa
 import { useTitle } from '../../containers/useTitle';
 import { projectService } from '../../services/projectService';
 import { PageLayout } from '../PageLayout/PageLayout';
+import { useForm } from '../../containers/useForm';
+import { validateProjectName, validateUrl } from '../../utils/formValidationHelpers';
 
 interface IProjectCreateEditPageProps {
   editPage?: boolean;
@@ -36,15 +38,6 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const [id, setId] = useState<string>('');
   const navigate = useNavigate();
   const urlPathParams = useParams();
-
-  // FIELDS
-  const [name, setName] = useState<string>('');
-  const [nameValidated, setNameValidated] = useState<TextInputProps['validated']>('default');
-  const [description, setDescription] = useState<string>('');
-  const [projectUrl, setProjectUrl] = useState<string>('');
-  const [issueTrackerUrl, setIssueTrackerUrl] = useState<string>('');
-  const [engineeringTeam, setEngineeringTeam] = useState<string>('');
-  const [technicalLeader, setTechnicalLeader] = useState<string>('');
 
   // create page
   const dataContainerCreate = useDataContainer(
@@ -64,44 +57,11 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
-  useEffect(() => {
-    if (editPage) {
-      if (urlPathParams.projectId) {
-        editRefresh({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
-          const project: Project = response.data;
-
-          setId(project.id);
-          setName(project.name || '');
-          setDescription(project.description || '');
-          setProjectUrl(project.projectUrl || '');
-          setIssueTrackerUrl(project.issueTrackerUrl || '');
-          setEngineeringTeam(project.engineeringTeam || '');
-          setTechnicalLeader(project.technicalLeader || '');
-        });
-      } else {
-        throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
-      }
-    }
-  }, [editPage, urlPathParams.projectId, editRefresh]);
-
-  const validateName = (name: String) => {
-    if (name !== '') {
-      setNameValidated('success');
-    } else {
-      setNameValidated('error');
-    }
-  };
-
-  const submitCreate = () => {
+  const submitCreate = (data: any) => {
     dataContainerCreate
       .refresh({
         serviceData: {
-          name,
-          description,
-          projectUrl,
-          issueTrackerUrl,
-          engineeringTeam,
-          technicalLeader,
+          ...data,
         },
       })
       .then((response: any) => {
@@ -111,21 +71,57 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         }
         // temporarily navigate to edit page until detail page is finished
         navigate(`/projects/${projectId}/edit`, { replace: true });
-      });
+      })
+      .catch((error: any) => {});
   };
 
-  const submitUpdate = () => {
+  const submitUpdate = (data: any) => {
     // PATCH method should be used
     console.log('not implemented yet', {
       id,
-      name,
-      description,
-      projectUrl,
-      issueTrackerUrl,
-      engineeringTeam,
-      technicalLeader,
+      ...data,
     });
   };
+
+  const { fieldValues, fieldErrors, fieldStates, isFormValid, onChange, setFieldValues, onSubmit } = useForm(
+    {
+      name: '',
+      description: '',
+      projectUrl: '',
+      issueTrackerUrl: '',
+      engineeringTeam: '',
+      technicalLeader: '',
+    },
+    {
+      name: validateProjectName,
+      projectUrl: validateUrl,
+      issueTrackerUrl: validateUrl,
+    },
+    editPage ? submitUpdate : submitCreate
+  );
+
+  useEffect(() => {
+    if (editPage) {
+      if (urlPathParams.projectId) {
+        editRefresh({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
+          const project: Project = response.data;
+
+          setId(project.id);
+          setFieldValues({
+            id: project.id || '',
+            name: project.name || '',
+            description: project.description || '',
+            projectUrl: project.projectUrl || '',
+            issueTrackerUrl: project.issueTrackerUrl || '',
+            engineeringTeam: project.engineeringTeam || '',
+            technicalLeader: project.technicalLeader || '',
+          });
+        });
+      } else {
+        throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
+      }
+    }
+  }, [editPage, urlPathParams.projectId, editRefresh]);
 
   const formComponent = (
     <Card>
@@ -141,49 +137,75 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Name"
               fieldId="name"
               helperText={
-                <FormHelperText isHidden={nameValidated !== 'error'} isError>
-                  Required field
+                <FormHelperText isHidden={fieldStates.name !== 'error'} isError>
+                  {fieldErrors.name}
                 </FormHelperText>
               }
             >
               <TextInput
                 isRequired
-                validated={nameValidated}
+                validated={fieldStates.name}
                 type="text"
                 id="name"
                 name="name"
-                value={name}
+                value={fieldValues.name}
                 autoComplete="off"
-                onChange={(name) => {
-                  setName(name);
-                }}
-                onBlur={() => {
-                  validateName(name);
+                onChange={(name, event) => {
+                  onChange(event);
                 }}
               />
             </FormGroup>
             <FormGroup label="Description" fieldId="description">
-              <TextArea id="description" name="description" value={description} onChange={setDescription} autoResize />
+              <TextArea
+                id="description"
+                name="description"
+                value={fieldValues.description}
+                onChange={(description, event) => {
+                  onChange(event);
+                }}
+                autoResize
+              />
             </FormGroup>
-            <FormGroup label="Project URL" fieldId="projectUrl">
+            <FormGroup
+              label="Project URL"
+              fieldId="projectUrl"
+              helperText={
+                <FormHelperText isHidden={fieldStates.projectUrl !== 'error'} isError>
+                  {fieldErrors.projectUrl}
+                </FormHelperText>
+              }
+            >
               <TextInput
-                isRequired
+                validated={fieldStates.projectUrl}
                 type="url"
                 id="projectUrl"
                 name="projectUrl"
                 autoComplete="off"
-                value={projectUrl}
-                onChange={setProjectUrl}
+                value={fieldValues.projectUrl}
+                onChange={(url, event) => {
+                  onChange(event);
+                }}
               />
             </FormGroup>
-            <FormGroup label="Issue Tracker URL" fieldId="issueTrackerUrl">
+            <FormGroup
+              label="Issue Tracker URL"
+              fieldId="issueTrackerUrl"
+              helperText={
+                <FormHelperText isHidden={fieldStates.issueTrackerUrl !== 'error'} isError>
+                  {fieldErrors.projectUrl}
+                </FormHelperText>
+              }
+            >
               <TextInput
+                validated={fieldStates.issueTrackerUrl}
                 type="url"
                 id="issueTrackerUrl"
                 name="issueTrackerUrl"
                 autoComplete="off"
-                value={issueTrackerUrl}
-                onChange={setIssueTrackerUrl}
+                value={fieldValues.issueTrackerUrl}
+                onChange={(url, event) => {
+                  onChange(event);
+                }}
               />
             </FormGroup>
             <FormGroup label="Engineering Team" fieldId="engineeringTeam">
@@ -192,8 +214,10 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="engineeringTeam"
                 name="engineeringTeam"
                 autoComplete="off"
-                value={engineeringTeam}
-                onChange={setEngineeringTeam}
+                value={fieldValues.engineeringTeam}
+                onChange={(engineeringTeam, event) => {
+                  onChange(event);
+                }}
               />
             </FormGroup>
             <FormGroup label="Technical Leader" fieldId="technicalLeader">
@@ -202,19 +226,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="technicalLeader"
                 name="technicalLeader"
                 autoComplete="off"
-                value={technicalLeader}
-                onChange={setTechnicalLeader}
+                value={fieldValues.technicalLeader}
+                onChange={(url, event) => {
+                  onChange(event);
+                }}
               />
             </FormGroup>
             <ActionGroup>
               <Button
                 variant="primary"
+                isDisabled={!isFormValid}
                 onClick={() => {
-                  if (editPage) {
-                    submitUpdate();
-                  } else {
-                    submitCreate();
-                  }
+                  onSubmit();
                 }}
               >
                 {editPage ? 'Update' : 'Create'}
