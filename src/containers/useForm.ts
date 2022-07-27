@@ -4,7 +4,7 @@ interface IFieldValues {
   [key: string]: string;
 }
 
-interface IFieldErros {
+interface IFieldErrors {
   [key: string]: string | undefined;
 }
 
@@ -32,7 +32,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   // input values
   const [fieldValues, setFieldValues] = useState<IFieldValues>(initValues);
   // input error messages
-  const [fieldErrors, setFieldErrors] = useState<IFieldErros>({});
+  const [fieldErrors, setFieldErrors] = useState<IFieldErrors>({});
   // inpur validation functons
   const [fieldValidators, setFieldValidators] = useState<IFieldValidators>(validators);
 
@@ -47,6 +47,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   const [fieldStates, setFieldStates] = useState<any>(initFieldStates);
 
   useEffect(() => {
+    console.log(Object.keys(fieldErrors).length);
     if (!Object.keys(fieldErrors).length && hasChanged) {
       setIsFormValid(true);
       if (isSubmitting) {
@@ -59,7 +60,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
     }
 
     setIsSubmitting(false);
-  }, [fieldErrors]);
+  }, [fieldErrors, hasChanged]);
 
   const onChange = (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => {
     const fieldName = event.currentTarget.name;
@@ -86,6 +87,21 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   };
 
   const onSubmit = () => {
+    let errors: IFieldErrors = {};
+
+    // check all validated inputs before submit
+    for (const key in fieldValidators) {
+      const error = fieldValidators[key](fieldValues[key]);
+      if (error) errors[key] = error;
+    }
+
+    setFieldErrors(errors);
+    const fieldStates = { ...errors };
+    Object.keys(fieldStates).forEach((key) => {
+      fieldStates[key] = 'error';
+    });
+    setFieldStates(fieldStates);
+
     setIsSubmitting(true);
   };
 
