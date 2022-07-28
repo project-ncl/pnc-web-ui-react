@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { copyAndSetValues } from '../utils/utils';
 
 interface IFieldValues {
   [key: string]: string;
@@ -57,10 +58,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   // inpur validation functions
   const [fieldValidators, setFieldValidators] = useState<IFieldValidators>(validators);
 
-  const initFieldStates = { ...initValues };
-  Object.keys(initFieldStates).forEach((key) => {
-    initFieldStates[key] = 'default';
-  });
+  const initFieldStates = copyAndSetValues(initValues, 'default');
   // input states - 'default' | 'success' | 'error'
   const [fieldStates, setFieldStates] = useState<any>(initFieldStates);
 
