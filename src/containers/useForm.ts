@@ -46,6 +46,9 @@ interface IValidator {
 export const useForm = (initValues: IFieldValues, validators: IFieldValidators, callback: Function) => {
   // is submit button disabled?
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
+  // has any field been changed?
+  // important for edit page (do not submit until any new content)
+  const [hasChanged, setHasChanged] = useState<boolean>(false);
 
   // input values
   const [fieldValues, setFieldValues] = useState<IFieldValues>(initValues);
@@ -62,7 +65,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   const [fieldStates, setFieldStates] = useState<any>(initFieldStates);
 
   useEffect(() => {
-    if (isFormValid() && areRequiredFilled()) {
+    if (isFormValid() && areRequiredFilled() && hasChanged) {
       setIsSubmitDisabled(false);
     } else {
       setIsSubmitDisabled(true);
@@ -89,9 +92,10 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   const onChange = (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => {
     const fieldName = event.currentTarget.name;
     const fieldValue = event.currentTarget.value;
-    setFieldValues({ ...fieldValues, [fieldName]: fieldValue });
 
+    setFieldValues({ ...fieldValues, [fieldName]: fieldValue });
     validate(fieldName, fieldValue);
+    setHasChanged(true);
   };
 
   // validate field
