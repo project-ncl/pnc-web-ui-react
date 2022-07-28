@@ -12,7 +12,6 @@ import {
   Label,
   TextArea,
   TextInput,
-  TextInputProps,
 } from '@patternfly/react-core';
 import { Project } from 'pnc-api-types-ts';
 import { useCallback, useEffect, useState } from 'react';
@@ -121,7 +120,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-  }, [editPage, urlPathParams.projectId, editRefresh]);
+  }, [editPage, urlPathParams.projectId, editRefresh, setFieldValues]);
 
   const formComponent = (
     <Card>

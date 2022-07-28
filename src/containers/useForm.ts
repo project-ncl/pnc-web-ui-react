@@ -56,19 +56,11 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   // input error messages
   const [fieldErrors, setFieldErrors] = useState<IFieldErrors>({});
   // inpur validation functions
-  const [fieldValidators, setFieldValidators] = useState<IFieldValidators>(validators);
+  const [fieldValidators] = useState<IFieldValidators>(validators);
 
   const initFieldStates = copyAndSetValues(initValues, 'default');
   // input states - 'default' | 'success' | 'error'
   const [fieldStates, setFieldStates] = useState<any>(initFieldStates);
-
-  useEffect(() => {
-    if (isFormValid() && areRequiredFilled() && hasChanged) {
-      setIsSubmitDisabled(false);
-    } else {
-      setIsSubmitDisabled(true);
-    }
-  }, [fieldValues]);
 
   // are all validated inputs valid?
   const isFormValid = () => {
@@ -137,6 +129,14 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
     setFieldStates(initFieldStates);
     setIsSubmitDisabled(true);
   };
+
+  useEffect(() => {
+    if (isFormValid() && areRequiredFilled() && hasChanged) {
+      setIsSubmitDisabled(false);
+    } else {
+      setIsSubmitDisabled(true);
+    }
+  }, [fieldValues, hasChanged, isFormValid, areRequiredFilled]);
 
   return { fieldValues, fieldErrors, fieldStates, isSubmitDisabled, onChange, setFieldValues, onSubmit };
 };
