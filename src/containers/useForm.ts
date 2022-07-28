@@ -136,7 +136,8 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
     } else {
       setIsSubmitDisabled(true);
     }
-  }, [fieldValues, hasChanged, isFormValid, areRequiredFilled]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldValues]);
 
   return { fieldValues, fieldErrors, fieldStates, isSubmitDisabled, onChange, setFieldValues, onSubmit };
 };
