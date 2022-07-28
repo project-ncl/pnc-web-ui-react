@@ -25,7 +25,7 @@ import { useTitle } from '../../containers/useTitle';
 import { projectService } from '../../services/projectService';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { useForm } from '../../containers/useForm';
-import { validateProjectName, validateUrl } from '../../utils/formValidationHelpers';
+import { validateUrl } from '../../utils/formValidationHelpers';
 
 interface IProjectCreateEditPageProps {
   editPage?: boolean;
@@ -83,7 +83,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     });
   };
 
-  const { fieldValues, fieldErrors, fieldStates, isFormValid, onChange, setFieldValues, onSubmit } = useForm(
+  const { fieldValues, fieldErrors, fieldStates, isSubmitDisabled, onChange, setFieldValues, onSubmit } = useForm(
     {
       name: '',
       description: '',
@@ -93,9 +93,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       technicalLeader: '',
     },
     {
-      name: validateProjectName,
-      projectUrl: validateUrl,
-      issueTrackerUrl: validateUrl,
+      name: { isRequired: true },
+      projectUrl: { validator: validateUrl },
+      issueTrackerUrl: { validator: validateUrl },
     },
     editPage ? submitUpdate : submitCreate
   );
@@ -192,7 +192,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               fieldId="issueTrackerUrl"
               helperText={
                 <FormHelperText isHidden={fieldStates.issueTrackerUrl !== 'error'} isError>
-                  {fieldErrors.projectUrl}
+                  {fieldErrors.issueTrackerUrl}
                 </FormHelperText>
               }
             >
@@ -235,7 +235,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
             <ActionGroup>
               <Button
                 variant="primary"
-                isDisabled={!isFormValid}
+                isDisabled={isSubmitDisabled}
                 onClick={() => {
                   onSubmit();
                 }}
