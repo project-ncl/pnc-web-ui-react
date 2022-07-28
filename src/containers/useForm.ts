@@ -47,7 +47,6 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   const [fieldStates, setFieldStates] = useState<any>(initFieldStates);
 
   useEffect(() => {
-    console.log(Object.keys(fieldErrors).length);
     if (!Object.keys(fieldErrors).length && hasChanged) {
       setIsFormValid(true);
       if (isSubmitting) {
@@ -64,17 +63,18 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
 
   const onChange = (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => {
     const fieldName = event.currentTarget.name;
-    setFieldValues({ ...fieldValues, [fieldName]: event.currentTarget.value });
+    const fieldValue = event.currentTarget.value;
+    setFieldValues({ ...fieldValues, [fieldName]: fieldValue });
     setHasChanged(true);
 
     // if has any validator
     if (fieldValidators[fieldName]) {
-      const error = fieldValidators[fieldName](event.currentTarget.value);
-      setError(fieldName, error);
+      const error = fieldValidators[fieldName](fieldValue);
+      setError(fieldName, fieldValue, error);
     }
   };
 
-  const setError = (fieldName: string, error: string) => {
+  const setError = (fieldName: string, fieldValue: string, error: string) => {
     if (error) {
       setFieldErrors({ ...fieldErrors, [fieldName]: error });
       setFieldStates({ ...fieldStates, [fieldName]: 'error' });
@@ -82,7 +82,11 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
       const newErrors = { ...fieldErrors };
       delete newErrors[fieldName];
       setFieldErrors(newErrors);
-      setFieldStates({ ...fieldStates, [fieldName]: 'success' });
+      if (fieldValue) {
+        setFieldStates({ ...fieldStates, [fieldName]: 'success' });
+      } else {
+        setFieldStates({ ...fieldStates, [fieldName]: 'default' });
+      }
     }
   };
 
