@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { copyAndSetValues } from '../utils/utils';
 
 interface IFieldValues {
@@ -63,12 +63,12 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
   const [fieldStates, setFieldStates] = useState<any>(initFieldStates);
 
   // are all validated inputs valid?
-  const isFormValid = () => {
+  const isFormValid = useCallback(() => {
     return !Object.keys(fieldErrors).length;
-  };
+  }, [fieldErrors]);
 
   // are all required inputs filled?
-  const areRequiredFilled = () => {
+  const areRequiredFilled = useCallback(() => {
     for (const key in fieldValidators) {
       if (fieldValidators[key].isRequired && !fieldValues[key]) {
         return false;
@@ -76,7 +76,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
     }
 
     return true;
-  };
+  }, [fieldValidators, fieldValues]);
 
   // callback (on change of input)
   const onChange = (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => {
@@ -136,8 +136,7 @@ export const useForm = (initValues: IFieldValues, validators: IFieldValidators, 
     } else {
       setIsSubmitDisabled(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fieldValues]);
+  }, [fieldValues, hasChanged, isFormValid, areRequiredFilled]);
 
   return { fieldValues, fieldErrors, fieldStates, isSubmitDisabled, onChange, setFieldValues, onSubmit };
 };
