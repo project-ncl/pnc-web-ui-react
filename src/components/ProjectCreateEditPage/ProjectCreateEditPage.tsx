@@ -56,11 +56,16 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
-  const submitCreate = (data: any) => {
-    dataContainerCreate
+  const submitCreate = () => {
+    return dataContainerCreate
       .refresh({
         serviceData: {
-          ...data,
+          name: form.name.value,
+          description: form.description.value,
+          projectUrl: form.projectUrl.value,
+          issueTrackerUrl: form.issueTrackerUrl.value,
+          engineeringTeam: form.engineeringTeam.value,
+          technicalLeader: form.technicalLeader.value,
         },
       })
       .then((response: any) => {
@@ -70,8 +75,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         }
         // temporarily navigate to edit page until detail page is finished
         navigate(`/projects/${projectId}/edit`, { replace: true });
-      })
-      .catch((error: any) => {});
+      });
   };
 
   const submitUpdate = (data: any) => {
@@ -82,19 +86,29 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     });
   };
 
-  const { fieldValues, fieldErrors, fieldStates, isSubmitDisabled, onChange, setFieldValues, onSubmit } = useForm(
+  const { form, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
     {
-      name: '',
-      description: '',
-      projectUrl: '',
-      issueTrackerUrl: '',
-      engineeringTeam: '',
-      technicalLeader: '',
-    },
-    {
-      name: { isRequired: true },
-      projectUrl: { validator: validateUrl },
-      issueTrackerUrl: { validator: validateUrl },
+      name: {
+        value: '',
+        validator: { isRequired: true },
+      },
+      description: {
+        value: '',
+      },
+      projectUrl: {
+        value: '',
+        validator: { check: validateUrl },
+      },
+      issueTrackerUrl: {
+        value: '',
+        validator: { check: validateUrl },
+      },
+      engineeringTeam: {
+        value: '',
+      },
+      technicalLeader: {
+        value: '',
+      },
     },
     editPage ? submitUpdate : submitCreate
   );
@@ -106,8 +120,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
           const project: Project = response.data;
 
           setId(project.id);
-          setFieldValues({
-            id: project.id || '',
+          applyValues({
             name: project.name || '',
             description: project.description || '',
             projectUrl: project.projectUrl || '',
@@ -120,7 +133,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-  }, [editPage, urlPathParams.projectId, editRefresh, setFieldValues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editPage]);
 
   const formComponent = (
     <Card>
@@ -136,18 +150,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Name"
               fieldId="name"
               helperText={
-                <FormHelperText isHidden={fieldStates.name !== 'error'} isError>
-                  {fieldErrors.name}
+                <FormHelperText isHidden={form.name.state !== 'error'} isError>
+                  {form.name.errorMessage}
                 </FormHelperText>
               }
             >
               <TextInput
                 isRequired
-                validated={fieldStates.name}
+                validated={form.name.state}
                 type="text"
                 id="name"
                 name="name"
-                value={fieldValues.name}
+                value={form.name.value}
                 autoComplete="off"
                 onChange={(name, event) => {
                   onChange(event);
@@ -158,7 +172,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               <TextArea
                 id="description"
                 name="description"
-                value={fieldValues.description}
+                value={form.description.value}
                 onChange={(description, event) => {
                   onChange(event);
                 }}
@@ -169,18 +183,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Project URL"
               fieldId="projectUrl"
               helperText={
-                <FormHelperText isHidden={fieldStates.projectUrl !== 'error'} isError>
-                  {fieldErrors.projectUrl}
+                <FormHelperText isHidden={form.projectUrl.state !== 'error'} isError>
+                  {form.projectUrl.errorMessage}
                 </FormHelperText>
               }
             >
               <TextInput
-                validated={fieldStates.projectUrl}
+                validated={form.projectUrl.state}
                 type="url"
                 id="projectUrl"
                 name="projectUrl"
                 autoComplete="off"
-                value={fieldValues.projectUrl}
+                value={form.projectUrl.value}
                 onChange={(url, event) => {
                   onChange(event);
                 }}
@@ -190,18 +204,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Issue Tracker URL"
               fieldId="issueTrackerUrl"
               helperText={
-                <FormHelperText isHidden={fieldStates.issueTrackerUrl !== 'error'} isError>
-                  {fieldErrors.issueTrackerUrl}
+                <FormHelperText isHidden={form.issueTrackerUrl.state !== 'error'} isError>
+                  {form.issueTrackerUrl.errorMessage}
                 </FormHelperText>
               }
             >
               <TextInput
-                validated={fieldStates.issueTrackerUrl}
+                validated={form.issueTrackerUrl.state}
                 type="url"
                 id="issueTrackerUrl"
                 name="issueTrackerUrl"
                 autoComplete="off"
-                value={fieldValues.issueTrackerUrl}
+                value={form.issueTrackerUrl.value}
                 onChange={(url, event) => {
                   onChange(event);
                 }}
@@ -213,7 +227,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="engineeringTeam"
                 name="engineeringTeam"
                 autoComplete="off"
-                value={fieldValues.engineeringTeam}
+                value={form.engineeringTeam.value}
                 onChange={(engineeringTeam, event) => {
                   onChange(event);
                 }}
@@ -225,7 +239,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="technicalLeader"
                 name="technicalLeader"
                 autoComplete="off"
-                value={fieldValues.technicalLeader}
+                value={form.technicalLeader.value}
                 onChange={(url, event) => {
                   onChange(event);
                 }}
