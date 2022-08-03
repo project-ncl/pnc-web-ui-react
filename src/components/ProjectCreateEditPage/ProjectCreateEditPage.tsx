@@ -89,26 +89,23 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const { form, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
     {
       name: {
-        value: '',
-        validator: { isRequired: true },
+        validation: {
+          isRequired: true,
+        },
       },
-      description: {
-        value: '',
-      },
+      description: {},
       projectUrl: {
-        value: '',
-        validator: { check: validateUrl },
+        validation: {
+          validators: [{ check: validateUrl, errorMessage: 'Invalid URL format.' }],
+        },
       },
       issueTrackerUrl: {
-        value: '',
-        validator: { check: validateUrl },
+        validation: {
+          validators: [{ check: validateUrl, errorMessage: 'Invalid URL format.' }],
+        },
       },
-      engineeringTeam: {
-        value: '',
-      },
-      technicalLeader: {
-        value: '',
-      },
+      engineeringTeam: {},
+      technicalLeader: {},
     },
     editPage ? submitUpdate : submitCreate
   );
@@ -151,7 +148,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               fieldId="name"
               helperText={
                 <FormHelperText isHidden={form.name.state !== 'error'} isError>
-                  {form.name.errorMessage}
+                  {form.name.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
@@ -184,7 +181,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               fieldId="projectUrl"
               helperText={
                 <FormHelperText isHidden={form.projectUrl.state !== 'error'} isError>
-                  {form.projectUrl.errorMessage}
+                  {form.projectUrl.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
@@ -205,7 +202,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               fieldId="issueTrackerUrl"
               helperText={
                 <FormHelperText isHidden={form.issueTrackerUrl.state !== 'error'} isError>
-                  {form.issueTrackerUrl.errorMessage}
+                  {form.issueTrackerUrl.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
