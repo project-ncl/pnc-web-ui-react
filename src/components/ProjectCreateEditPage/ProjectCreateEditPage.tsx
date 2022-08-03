@@ -96,12 +96,12 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       description: {},
       projectUrl: {
         validation: {
-          validators: [{ check: validateUrl, errorMessage: 'Invalid URL format.' }],
+          validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
         },
       },
       issueTrackerUrl: {
         validation: {
-          validators: [{ check: validateUrl, errorMessage: 'Invalid URL format.' }],
+          validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
         },
       },
       engineeringTeam: {},

@@ -5,7 +5,7 @@ export interface IFieldValues {
 }
 
 interface IValidator {
-  check: Function;
+  validator: Function;
   errorMessage: string;
 }
 
@@ -56,7 +56,7 @@ export interface IFormState {
  *    -> validation:    -- means of validation
  *      -> isRequired   -- is field required?
  *      -> validators:  -- validation functions and their error messages
- *        -> check        -- validation function
+ *        -> validator    -- validation function
  *        -> errorMessage -- error message that should be set in a case of an error
  */
 export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'>, callback: Function) => {
@@ -114,7 +114,7 @@ export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'
     }
     if (validation?.validators) {
       for (const validator of validation.validators) {
-        const error = validator.check(fieldState.value) ? '' : validator.errorMessage;
+        const error = validator.validator(fieldState.value) ? '' : validator.errorMessage;
         addError(fieldState, error);
       }
       setState(fieldState);
