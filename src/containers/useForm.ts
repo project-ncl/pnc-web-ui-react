@@ -5,15 +5,20 @@ export interface IFieldValues {
 }
 
 interface IValidator {
+  check: Function;
+  errorMessage: string;
+}
+
+interface IValidation {
   isRequired?: boolean;
-  check?: Function;
+  validators?: IValidator[];
 }
 
 interface IFieldState {
-  value: string;
-  errorMessage?: string;
+  value?: string;
+  errorMessages?: string[];
   state?: any;
-  validator?: IValidator;
+  validation?: IValidation;
 }
 
 export interface IFormState {
@@ -33,29 +38,29 @@ export interface IFormState {
  * @param initForm - Init form state (just values and validators)
  * @param callback - Function to call when submitting user input data
  *
+ * initForm has to specify all inputs (keys to IFormState) - even if just empty objects.
+ *
  * @returns form states and access functions
  *  -> form             - whole form state
  *  -> applyValues      - set all field values
  *  -> onChange         - callback for input fields on change
  *  -> onSubmit         - callback for submit button
- *  -> isSubmitDisabled - submit disabled or not
+ *  -> isSubmitDisabled - is submit button disabled?
  *
  * initForm and form objects hold whole state of a form.
  * their structure:
  *  -> [key]:   -- input field ID
  *    -> value  -- field value
- *    -> errorMessage -- error message (in case of a error)
+ *    -> errorMessage -- actual error messages (in case of an error)
  *    -> state  -- state of a field ('default', 'success', 'error')
- *    -> validator:   -- means of validation
- *      -> isRequired -- is field required?
- *      -> check      -- function to check format of an input
+ *    -> validation:    -- means of validation
+ *      -> isRequired   -- is field required?
+ *      -> validators:  -- validation functions and their error messages
+ *        -> check        -- validation function
+ *        -> errorMessage -- error message that should be set in a case of an error
  */
 export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'>, callback: Function) => {
-  const defaultForm = { ...initForm };
-  for (const key in defaultForm) {
-    defaultForm[key].state = 'default';
-  }
-  const [form, setForm] = useState<IFormState>(defaultForm);
+  const [form, setForm] = useState<IFormState>(initForm);
 
   // is submit button disabled?
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
@@ -66,7 +71,7 @@ export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'
   // are all validated inputs valid?
   const isFormValid = useCallback(() => {
     for (const key in form) {
-      if (form[key].errorMessage) return false;
+      if (form[key].errorMessages?.length) return false;
     }
 
     return true;
@@ -75,57 +80,64 @@ export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'
   // are all required inputs filled?
   const areRequiredFilled = useCallback(() => {
     for (const key in form) {
-      const validator = form[key].validator;
-      if (validator) {
-        if (validator.isRequired && !form[key].value) {
-          return false;
-        }
+      const validation = form[key].validation;
+      if (validation?.isRequired && !form[key].value) {
+        return false;
       }
     }
 
     return true;
   }, [form]);
 
-  // callback (on change of input)
+  // callback (on change of an input)
   const onChange = (fieldName: any, fieldValue: any) => {
-    const newFieldState = { ...form[fieldName], value: fieldValue };
-    const validatedFieldState = validate(newFieldState);
-    setForm({ ...form, [fieldName]: validatedFieldState });
+    // also delete old error messages, new checks are going to be done
+    const newFieldState = { ...form[fieldName], value: fieldValue, errorMessages: [], state: 'default' };
+    validate(newFieldState);
+    setForm({ ...form, [fieldName]: newFieldState });
 
     setHasChanged(true);
   };
 
-  // validate field state and return new with errors / new state
-  const validate = (fieldState: IFieldState): IFieldState => {
-    const validator = fieldState.validator;
-    if (validator) {
-      if (validator.isRequired) {
-        const error = fieldState.value ? '' : 'Field must be filled!';
-        return setError(fieldState, error);
-      } else if (validator.check) {
-        const error = validator.check(fieldState.value);
-        return setError(fieldState, error);
-      }
+  // validate field state and change error messages / state
+  const validate = (fieldState: IFieldState) => {
+    const validation = fieldState.validation;
+    if (validation?.isRequired) {
+      const error = fieldState.value ? '' : 'Field must be filled.';
+      addError(fieldState, error);
+      setState(fieldState);
     }
-
-    return { ...fieldState };
+    if (validation?.validators) {
+      for (const validator of validation.validators) {
+        const error = validator.check(fieldState.value) ? '' : validator.errorMessage;
+        addError(fieldState, error);
+      }
+      setState(fieldState);
+    }
   };
 
-  // create new field state and apply errors / state and return it
-  const setError = (fieldState: IFieldState, error: string): IFieldState => {
+  // add error message to field state
+  const addError = (fieldState: IFieldState, error: string) => {
     if (error) {
-      return { ...fieldState, errorMessage: error, state: 'error' };
+      fieldState.errorMessages?.push(error);
+    }
+  };
+
+  // set state of a field (errors should have been set before)
+  const setState = (fieldState: IFieldState) => {
+    if (fieldState.errorMessages?.length) {
+      fieldState.state = 'error';
     } else {
       // display success state only if not empty
       if (fieldState.value) {
-        return { ...fieldState, errorMessage: error, state: 'success' };
+        fieldState.state = 'success';
       } else {
-        return { ...fieldState, errorMessage: error, state: 'default' };
+        fieldState.state = 'default';
       }
     }
   };
 
-  // callback (on submit of form)
+  // callback (on submit of a form)
   const onSubmit = () => {
     callback().catch((error: any) => {
       // backend error, just log it at the moment
@@ -146,7 +158,7 @@ export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'
       formCopy[key].state = 'default';
     }
     setForm(formCopy);
-    setIsSubmitDisabled(true);
+    setHasChanged(false);
   };
 
   // set all input field to values (used for edit form)
@@ -155,6 +167,7 @@ export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'
       const newForm = { ...form };
       for (const key in fieldValues) {
         newForm[key].value = fieldValues[key];
+        newForm[key].state = 'default';
       }
 
       setForm(newForm);

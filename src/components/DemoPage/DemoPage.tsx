@@ -47,14 +47,14 @@ export const DemoPage = () => {
     {
       inputFieldA: {
         value: '',
-        validator: { isRequired: true },
+        validation: { isRequired: true },
       },
       textAreaA: {
         value: '',
       },
       selectA: {
         value: '',
-        validator: { isRequired: true },
+        validation: { isRequired: true },
       },
     },
     submitForm
@@ -86,7 +86,7 @@ export const DemoPage = () => {
               fieldId="inputFieldA"
               helperText={
                 <FormHelperText isHidden={form.inputFieldA.state !== 'error'} isError>
-                  {form.inputFieldA.errorMessage}
+                  {form.inputFieldA.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
@@ -120,7 +120,7 @@ export const DemoPage = () => {
               fieldId="selectA"
               helperText={
                 <FormHelperText isHidden={form.selectA.state !== 'error'} isError>
-                  {form.selectA.errorMessage}
+                  {form.selectA.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
