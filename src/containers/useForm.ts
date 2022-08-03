@@ -62,7 +62,7 @@ export interface IFormState {
 export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'>, callback: Function) => {
   const defaultForm = { ...initForm };
   for (const key in defaultForm) {
-    defaultForm[key].value = '';
+    if (!defaultForm[key].value) defaultForm[key].value = '';
     defaultForm[key].state = 'default';
   }
   const [form, setForm] = useState<IFormState>(defaultForm);
