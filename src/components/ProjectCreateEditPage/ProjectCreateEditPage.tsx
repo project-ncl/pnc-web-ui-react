@@ -163,8 +163,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 name="name"
                 value={form.name.value}
                 autoComplete="off"
-                onChange={(name, event) => {
-                  onChange(event);
+                onChange={(name) => {
+                  onChange('name', name);
                 }}
               />
             </FormGroup>
@@ -173,8 +173,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="description"
                 name="description"
                 value={form.description.value}
-                onChange={(description, event) => {
-                  onChange(event);
+                onChange={(description) => {
+                  onChange('description', description);
                 }}
                 autoResize
               />
@@ -195,8 +195,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 name="projectUrl"
                 autoComplete="off"
                 value={form.projectUrl.value}
-                onChange={(url, event) => {
-                  onChange(event);
+                onChange={(url) => {
+                  onChange('projectUrl', url);
                 }}
               />
             </FormGroup>
@@ -216,8 +216,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 name="issueTrackerUrl"
                 autoComplete="off"
                 value={form.issueTrackerUrl.value}
-                onChange={(url, event) => {
-                  onChange(event);
+                onChange={(url) => {
+                  onChange('issueTrackerUrl', url);
                 }}
               />
             </FormGroup>
@@ -228,8 +228,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 name="engineeringTeam"
                 autoComplete="off"
                 value={form.engineeringTeam.value}
-                onChange={(engineeringTeam, event) => {
-                  onChange(event);
+                onChange={(engineeringTeam) => {
+                  onChange('engineeringTeam', engineeringTeam);
                 }}
               />
             </FormGroup>
@@ -240,8 +240,8 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 name="technicalLeader"
                 autoComplete="off"
                 value={form.technicalLeader.value}
-                onChange={(url, event) => {
-                  onChange(event);
+                onChange={(technicalLeader) => {
+                  onChange('technicalLeader', technicalLeader);
                 }}
               />
             </FormGroup>

@@ -87,10 +87,7 @@ export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'
   }, [form]);
 
   // callback (on change of input)
-  const onChange = (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => {
-    const fieldName = event.currentTarget.name;
-    const fieldValue = event.currentTarget.value;
-
+  const onChange = (fieldName: any, fieldValue: any) => {
     const newFieldState = { ...form[fieldName], value: fieldValue };
     const validatedFieldState = validate(newFieldState);
     setForm({ ...form, [fieldName]: validatedFieldState });
