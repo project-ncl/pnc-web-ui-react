@@ -60,7 +60,12 @@ export interface IFormState {
  *        -> errorMessage -- error message that should be set in a case of an error
  */
 export const useForm = (initForm: Omit<Omit<IFormState, 'errorMessage'>, 'state'>, callback: Function) => {
-  const [form, setForm] = useState<IFormState>(initForm);
+  const defaultForm = { ...initForm };
+  for (const key in defaultForm) {
+    defaultForm[key].value = '';
+    defaultForm[key].state = 'default';
+  }
+  const [form, setForm] = useState<IFormState>(defaultForm);
 
   // is submit button disabled?
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
