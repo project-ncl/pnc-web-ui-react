@@ -47,14 +47,14 @@ export const DemoPage = () => {
     {
       inputFieldA: {
         value: '',
-        validation: { isRequired: true },
+        isRequired: true,
       },
       textAreaA: {
         value: '',
       },
       selectA: {
         value: '',
-        validation: { isRequired: true },
+        isRequired: true,
       },
     },
     submitForm

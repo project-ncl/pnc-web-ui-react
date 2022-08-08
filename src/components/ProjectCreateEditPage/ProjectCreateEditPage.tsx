@@ -89,20 +89,14 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const { form, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
     {
       name: {
-        validation: {
-          isRequired: true,
-        },
+        isRequired: true,
       },
       description: {},
       projectUrl: {
-        validation: {
-          validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
-        },
+        validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
       },
       issueTrackerUrl: {
-        validation: {
-          validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
-        },
+        validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
       },
       engineeringTeam: {},
       technicalLeader: {},
