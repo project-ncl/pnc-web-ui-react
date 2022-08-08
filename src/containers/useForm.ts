@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { TextInputProps } from '@patternfly/react-core';
 
 export interface IFieldValues {
   [key: string]: string;
@@ -12,7 +13,7 @@ interface IValidator {
 interface IField {
   value?: string;
   errorMessages?: string[];
-  state?: any;
+  state?: TextInputProps['validated'];
   isRequired?: boolean;
   validators?: IValidator[];
 }
@@ -92,7 +93,12 @@ export const useForm = (initForm: Omit<Omit<IForm, 'errorMessage'>, 'state'>, ca
   // callback (on change of an input)
   const onChange = (fieldName: any, fieldValue: any) => {
     // also delete old error messages, new checks are going to be done
-    const newFieldState = { ...form[fieldName], value: fieldValue, errorMessages: [], state: 'default' };
+    const newFieldState = {
+      ...form[fieldName],
+      value: fieldValue,
+      errorMessages: [],
+      state: 'default' as TextInputProps['validated'],
+    };
     validate(newFieldState);
     setForm({ ...form, [fieldName]: newFieldState });
 
