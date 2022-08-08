@@ -101,7 +101,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     });
   };
 
-  const { fields, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
+  const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
     formConfig,
     editPage ? submitUpdate : submitCreate
   );
@@ -113,7 +113,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
           const project: Project = response.data;
 
           setId(project.id);
-          applyValues({
+          reinitialize({
             name: project.name || '',
             description: project.description || '',
             projectUrl: project.projectUrl || '',
@@ -126,8 +126,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editPage]);
+  }, [editPage, urlPathParams.projectId, editRefresh, reinitialize]);
 
   const formComponent = (
     <Card>
