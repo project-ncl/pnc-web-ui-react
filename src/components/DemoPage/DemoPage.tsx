@@ -31,6 +31,7 @@ import { ActionButton } from '../ActionButton/ActionButton';
 import mockBuildData from './data/mock-build-data.json';
 import { useTitle } from '../../containers/useTitle';
 import { useForm } from '../../containers/useForm';
+import { minLength, maxLength } from '../../utils/formValidationHelpers';
 
 const buildRes: Build[] = mockBuildData;
 
@@ -48,6 +49,13 @@ export const DemoPage = () => {
       inputFieldA: {
         value: '',
         isRequired: true,
+        validators: [
+          { validator: minLength(2), errorMessage: 'Text must be at least two characters long.' },
+          {
+            validator: maxLength(10),
+            errorMessage: 'Text cannot be longer than 10 characters.',
+          },
+        ],
       },
       textAreaA: {
         value: '',
