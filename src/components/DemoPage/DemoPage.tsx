@@ -35,6 +35,27 @@ import { minLength, maxLength } from '../../utils/formValidationHelpers';
 
 const buildRes: Build[] = mockBuildData;
 
+const formConfig = {
+  inputFieldA: {
+    value: '',
+    isRequired: true,
+    validators: [
+      { validator: minLength(2), errorMessage: 'Text must be at least two characters long.' },
+      {
+        validator: maxLength(10),
+        errorMessage: 'Text cannot be longer than 10 characters.',
+      },
+    ],
+  },
+  textAreaA: {
+    value: '',
+  },
+  selectA: {
+    value: '',
+    isRequired: true,
+  },
+};
+
 export const DemoPage = () => {
   useTitle('Demo Page');
 
@@ -44,29 +65,7 @@ export const DemoPage = () => {
     });
   };
 
-  const { fields, onChange, onSubmit, isSubmitDisabled } = useForm(
-    {
-      inputFieldA: {
-        value: '',
-        isRequired: true,
-        validators: [
-          { validator: minLength(2), errorMessage: 'Text must be at least two characters long.' },
-          {
-            validator: maxLength(10),
-            errorMessage: 'Text cannot be longer than 10 characters.',
-          },
-        ],
-      },
-      textAreaA: {
-        value: '',
-      },
-      selectA: {
-        value: '',
-        isRequired: true,
-      },
-    },
-    submitForm
-  );
+  const { fields, onChange, onSubmit, isSubmitDisabled } = useForm(formConfig, submitForm);
 
   const defaultSelectOptions = [{ value: 'Build' }, { value: 'Option' }, { value: 'Project' }, { value: 'Version' }];
 

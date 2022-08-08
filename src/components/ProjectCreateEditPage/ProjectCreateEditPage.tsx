@@ -30,6 +30,21 @@ interface IProjectCreateEditPageProps {
   editPage?: boolean;
 }
 
+const formConfig = {
+  name: {
+    isRequired: true,
+  },
+  description: {},
+  projectUrl: {
+    validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
+  },
+  issueTrackerUrl: {
+    validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
+  },
+  engineeringTeam: {},
+  technicalLeader: {},
+};
+
 export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPageProps) => {
   const flexDirection: FlexProps['direction'] = { default: 'column' };
 
@@ -87,20 +102,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   };
 
   const { fields, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
-    {
-      name: {
-        isRequired: true,
-      },
-      description: {},
-      projectUrl: {
-        validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
-      },
-      issueTrackerUrl: {
-        validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
-      },
-      engineeringTeam: {},
-      technicalLeader: {},
-    },
+    formConfig,
     editPage ? submitUpdate : submitCreate
   );
 
