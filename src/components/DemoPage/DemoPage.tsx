@@ -40,11 +40,11 @@ export const DemoPage = () => {
 
   const submitForm = () => {
     console.log('form state when submitted:', {
-      ...form,
+      ...fields,
     });
   };
 
-  const { form, onChange, onSubmit, isSubmitDisabled } = useForm(
+  const { fields, onChange, onSubmit, isSubmitDisabled } = useForm(
     {
       inputFieldA: {
         value: '',
@@ -93,18 +93,18 @@ export const DemoPage = () => {
               label="Input Field"
               fieldId="inputFieldA"
               helperText={
-                <FormHelperText isHidden={form.inputFieldA.state !== 'error'} isError>
-                  {form.inputFieldA.errorMessages?.join(' ')}
+                <FormHelperText isHidden={fields.inputFieldA.state !== 'error'} isError>
+                  {fields.inputFieldA.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
               <TextInput
                 isRequired
-                validated={form.inputFieldA.state}
+                validated={fields.inputFieldA.state}
                 type="text"
                 id="inputFieldA"
                 name="inputFieldA"
-                value={form.inputFieldA.value}
+                value={fields.inputFieldA.value}
                 autoComplete="off"
                 onChange={(text) => {
                   onChange('inputFieldA', text);
@@ -115,7 +115,7 @@ export const DemoPage = () => {
               <TextArea
                 id="textAreaA"
                 name="textAreaA"
-                value={form.textAreaA.value}
+                value={fields.textAreaA.value}
                 onChange={(text) => {
                   onChange('textAreaA', text);
                 }}
@@ -127,13 +127,13 @@ export const DemoPage = () => {
               label="Filtered Select"
               fieldId="selectA"
               helperText={
-                <FormHelperText isHidden={form.selectA.state !== 'error'} isError>
-                  {form.selectA.errorMessages?.join(' ')}
+                <FormHelperText isHidden={fields.selectA.state !== 'error'} isError>
+                  {fields.selectA.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
               <Select
-                validated={form.selectA.state}
+                validated={fields.selectA.state}
                 id="selectA"
                 variant={SelectVariant.typeahead}
                 typeAheadAriaLabel="Select an option"
@@ -148,7 +148,7 @@ export const DemoPage = () => {
                   }
                 }}
                 onClear={clearSelection}
-                selections={form.selectA.value}
+                selections={fields.selectA.value}
                 isOpen={isSelectOpen}
                 aria-labelledby={'selectA'}
                 placeholderText="Select an option"
