@@ -60,12 +60,12 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     return dataContainerCreate
       .refresh({
         serviceData: {
-          name: form.name.value,
-          description: form.description.value,
-          projectUrl: form.projectUrl.value,
-          issueTrackerUrl: form.issueTrackerUrl.value,
-          engineeringTeam: form.engineeringTeam.value,
-          technicalLeader: form.technicalLeader.value,
+          name: fields.name.value,
+          description: fields.description.value,
+          projectUrl: fields.projectUrl.value,
+          issueTrackerUrl: fields.issueTrackerUrl.value,
+          engineeringTeam: fields.engineeringTeam.value,
+          technicalLeader: fields.technicalLeader.value,
         },
       })
       .then((response: any) => {
@@ -86,7 +86,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     });
   };
 
-  const { form, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
+  const { fields, onChange, applyValues, onSubmit, isSubmitDisabled } = useForm(
     {
       name: {
         isRequired: true,
@@ -141,18 +141,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Name"
               fieldId="name"
               helperText={
-                <FormHelperText isHidden={form.name.state !== 'error'} isError>
-                  {form.name.errorMessages?.join(' ')}
+                <FormHelperText isHidden={fields.name.state !== 'error'} isError>
+                  {fields.name.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
               <TextInput
                 isRequired
-                validated={form.name.state}
+                validated={fields.name.state}
                 type="text"
                 id="name"
                 name="name"
-                value={form.name.value}
+                value={fields.name.value}
                 autoComplete="off"
                 onChange={(name) => {
                   onChange('name', name);
@@ -163,7 +163,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               <TextArea
                 id="description"
                 name="description"
-                value={form.description.value}
+                value={fields.description.value}
                 onChange={(description) => {
                   onChange('description', description);
                 }}
@@ -174,18 +174,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Project URL"
               fieldId="projectUrl"
               helperText={
-                <FormHelperText isHidden={form.projectUrl.state !== 'error'} isError>
-                  {form.projectUrl.errorMessages?.join(' ')}
+                <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
+                  {fields.projectUrl.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
               <TextInput
-                validated={form.projectUrl.state}
+                validated={fields.projectUrl.state}
                 type="url"
                 id="projectUrl"
                 name="projectUrl"
                 autoComplete="off"
-                value={form.projectUrl.value}
+                value={fields.projectUrl.value}
                 onChange={(url) => {
                   onChange('projectUrl', url);
                 }}
@@ -195,18 +195,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               label="Issue Tracker URL"
               fieldId="issueTrackerUrl"
               helperText={
-                <FormHelperText isHidden={form.issueTrackerUrl.state !== 'error'} isError>
-                  {form.issueTrackerUrl.errorMessages?.join(' ')}
+                <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
+                  {fields.issueTrackerUrl.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
               <TextInput
-                validated={form.issueTrackerUrl.state}
+                validated={fields.issueTrackerUrl.state}
                 type="url"
                 id="issueTrackerUrl"
                 name="issueTrackerUrl"
                 autoComplete="off"
-                value={form.issueTrackerUrl.value}
+                value={fields.issueTrackerUrl.value}
                 onChange={(url) => {
                   onChange('issueTrackerUrl', url);
                 }}
@@ -218,7 +218,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="engineeringTeam"
                 name="engineeringTeam"
                 autoComplete="off"
-                value={form.engineeringTeam.value}
+                value={fields.engineeringTeam.value}
                 onChange={(engineeringTeam) => {
                   onChange('engineeringTeam', engineeringTeam);
                 }}
@@ -230,7 +230,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 id="technicalLeader"
                 name="technicalLeader"
                 autoComplete="off"
-                value={form.technicalLeader.value}
+                value={fields.technicalLeader.value}
                 onChange={(technicalLeader) => {
                   onChange('technicalLeader', technicalLeader);
                 }}

@@ -18,7 +18,7 @@ interface IField {
   validators?: IValidator[];
 }
 
-export interface IForm {
+export interface IFields {
   [key: string]: IField;
 }
 
@@ -56,13 +56,13 @@ export interface IForm {
  *        -> validator    -- validation function
  *        -> errorMessage -- error message that should be set in a case of an error
  */
-export const useForm = (initForm: Omit<Omit<IForm, 'errorMessage'>, 'state'>, callback: Function) => {
+export const useForm = (initForm: Omit<Omit<IFields, 'errorMessage'>, 'state'>, callback: Function) => {
   const defaultForm = { ...initForm };
   for (const key in defaultForm) {
     if (!defaultForm[key].value) defaultForm[key].value = '';
     defaultForm[key].state = 'default';
   }
-  const [form, setForm] = useState<IForm>(defaultForm);
+  const [fields, setFields] = useState<IFields>(defaultForm);
 
   // is submit button disabled?
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
@@ -72,35 +72,35 @@ export const useForm = (initForm: Omit<Omit<IForm, 'errorMessage'>, 'state'>, ca
 
   // are all validated inputs valid?
   const isFormValid = useCallback(() => {
-    for (const key in form) {
-      if (form[key].errorMessages?.length) return false;
+    for (const key in fields) {
+      if (fields[key].errorMessages?.length) return false;
     }
 
     return true;
-  }, [form]);
+  }, [fields]);
 
   // are all required inputs filled?
   const areRequiredFilled = useCallback(() => {
-    for (const key in form) {
-      if (form[key].isRequired && !form[key].value) {
+    for (const key in fields) {
+      if (fields[key].isRequired && !fields[key].value) {
         return false;
       }
     }
 
     return true;
-  }, [form]);
+  }, [fields]);
 
   // callback (on change of an input)
   const onChange = (fieldName: any, fieldValue: any) => {
     // also delete old error messages, new checks are going to be done
     const newFieldState = {
-      ...form[fieldName],
+      ...fields[fieldName],
       value: fieldValue,
       errorMessages: [],
       state: 'default' as TextInputProps['validated'],
     };
     validate(newFieldState);
-    setForm({ ...form, [fieldName]: newFieldState });
+    setFields({ ...fields, [fieldName]: newFieldState });
 
     setHasChanged(true);
   };
@@ -158,26 +158,26 @@ export const useForm = (initForm: Omit<Omit<IForm, 'errorMessage'>, 'state'>, ca
     });
 
     // reset state to 'default' (valid inputs wont be highlighted)
-    const formCopy = { ...form };
+    const formCopy = { ...fields };
     for (const key in formCopy) {
       formCopy[key].state = 'default';
     }
-    setForm(formCopy);
+    setFields(formCopy);
     setHasChanged(false);
   };
 
   // set all input field to values (used for edit form)
   const applyValues = useCallback(
     (fieldValues: IFieldValues) => {
-      const newForm = { ...form };
+      const newForm = { ...fields };
       for (const key in fieldValues) {
         newForm[key].value = fieldValues[key];
         newForm[key].state = 'default';
       }
 
-      setForm(newForm);
+      setFields(newForm);
     },
-    [form]
+    [fields]
   );
 
   // on change of a input, check whether submit button should be disabled
@@ -187,7 +187,7 @@ export const useForm = (initForm: Omit<Omit<IForm, 'errorMessage'>, 'state'>, ca
     } else {
       setIsSubmitDisabled(true);
     }
-  }, [form, hasChanged, isFormValid, areRequiredFilled]);
+  }, [fields, hasChanged, isFormValid, areRequiredFilled]);
 
-  return { form, applyValues, onChange, onSubmit, isSubmitDisabled };
+  return { fields, applyValues, onChange, onSubmit, isSubmitDisabled };
 };
