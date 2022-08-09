@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { TextInputProps } from '@patternfly/react-core';
 
-export interface IFieldValues {
-  [key: string]: string;
+interface IFieldValues {
+  [key: string]: string | undefined;
 }
 
 interface IValidator {
@@ -18,7 +18,7 @@ interface IField {
   validators?: IValidator[];
 }
 
-export interface IFields {
+interface IFields {
   [key: string]: IField;
 }
 
@@ -56,10 +56,10 @@ export interface IFields {
  *        -> validator    -- validation function
  *        -> errorMessage -- error message that should be set in a case of an error
  */
-export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'>, callback: Function) => {
+export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'>, submitCallback: Function) => {
   const transformFormData = useCallback(
     (values?: IFieldValues): IFields => {
-      let defaultFields: IFields = {};
+      const defaultFields: IFields = {};
       for (const key in initFields) {
         defaultFields[key] = {};
 
@@ -112,60 +112,61 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
   }, [fields]);
 
   // callback (on change of an input)
-  const onChange = (fieldName: any, fieldValue: any) => {
+  const onChange = (fieldName: string, fieldValue: any) => {
     // also delete old error messages, new checks are going to be done
-    const newFieldState = {
+
+    const newField = {
       ...fields[fieldName],
-      value: fieldValue,
+      value: fieldValue ? fieldValue : '',
       errorMessages: [],
       state: 'default' as TextInputProps['validated'],
     };
-    validate(newFieldState);
-    setFields({ ...fields, [fieldName]: newFieldState });
+    validate(newField);
+    setFields({ ...fields, [fieldName]: newField });
 
     setHasChanged(true);
   };
 
   // validate field state and change error messages / state
-  const validate = (fieldState: IField) => {
-    if (fieldState.isRequired) {
-      const error = fieldState.value ? '' : 'Field must be filled.';
-      addError(fieldState, error);
-      setState(fieldState);
+  const validate = (field: IField) => {
+    if (field.isRequired) {
+      const error = field.value ? '' : 'Field must be filled.';
+      addError(field, error);
+      setState(field);
     }
-    if (fieldState.validators) {
-      for (const validator of fieldState.validators) {
-        const error = validator.validator(fieldState.value) ? '' : validator.errorMessage;
-        addError(fieldState, error);
+    if (field.validators) {
+      for (const validator of field.validators) {
+        const error = validator.validator(field.value) ? '' : validator.errorMessage;
+        addError(field, error);
       }
-      setState(fieldState);
+      setState(field);
     }
   };
 
   // add error message to field state
-  const addError = (fieldState: IField, error: string) => {
+  const addError = (field: IField, error: string) => {
     if (error) {
-      fieldState.errorMessages?.push(error);
+      field.errorMessages?.push(error);
     }
   };
 
   // set state of a field (errors should have been set before)
-  const setState = (fieldState: IField) => {
-    if (fieldState.errorMessages?.length) {
-      fieldState.state = 'error';
+  const setState = (field: IField) => {
+    if (field.errorMessages?.length) {
+      field.state = 'error';
     } else {
       // display success state only if not empty
-      if (fieldState.value) {
-        fieldState.state = 'success';
+      if (field.value) {
+        field.state = 'success';
       } else {
-        fieldState.state = 'default';
+        field.state = 'default';
       }
     }
   };
 
   // callback (on submit of a form)
   const onSubmit = () => {
-    callback().catch((error: any) => {
+    submitCallback().catch((error: any) => {
       // backend error, just log it at the moment
       console.error(error);
 
