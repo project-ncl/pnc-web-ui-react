@@ -93,11 +93,11 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       });
   };
 
-  const submitUpdate = (data: any) => {
+  const submitUpdate = () => {
     // PATCH method should be used
     console.log('not implemented yet', {
       id,
-      ...data,
+      ...fields,
     });
   };
 
@@ -114,12 +114,12 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
           setId(project.id);
           reinitialize({
-            name: project.name || '',
-            description: project.description || '',
-            projectUrl: project.projectUrl || '',
-            issueTrackerUrl: project.issueTrackerUrl || '',
-            engineeringTeam: project.engineeringTeam || '',
-            technicalLeader: project.technicalLeader || '',
+            name: project.name,
+            description: project.description,
+            projectUrl: project.projectUrl,
+            issueTrackerUrl: project.issueTrackerUrl,
+            engineeringTeam: project.engineeringTeam,
+            technicalLeader: project.technicalLeader,
           });
         });
       } else {
