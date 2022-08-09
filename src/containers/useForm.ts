@@ -24,39 +24,41 @@ export interface IFields {
 
 /**
  * Hook to manage input values, validation and states of a form.
- * All validation is done on change of input.
+ * All validation is done on change of an input.
  * Submit button is firstly disabled. In order to enable button:
  *  -> at least one change must be done (not possible to submit unchanged edit form)
  *  -> all required fields must not be empty
  *  -> all validated inputs must be valid
  *
+ * Input strings are trimmed.
+ *
  * See also {@link ProjectCreateEditPage}
  *
- * @param initForm - Init form state (just values and validators)
- * @param callback - Function to call when submitting user input data
+ * @param initFields - Init form state (just values and validators)
+ * @param submitCallback - Function to call when submitting user input data
  *
- * initForm has to specify all inputs (keys to IFormState) - even if just empty objects.
+ * initFields has to specify all inputs (keys to IFields) - even if just empty objects.
  *
  * @returns form states and access functions
- *  -> form             - whole form state
- *  -> applyValues      - set all field values
+ *  -> fields           - whole form state
+ *  -> reinitialize     - set all field values
  *  -> onChange         - callback for input fields on change
  *  -> onSubmit         - callback for submit button
  *  -> isSubmitDisabled - is submit button disabled?
  *
- * initForm and form objects hold whole state of a form.
+ * initFields and fields objects hold whole state of a form.
  * their structure:
  *  -> [key]:   -- input field ID
  *    -> value  -- field value
- *    -> errorMessage -- actual error messages (in case of an error)
- *    -> state  -- state of a field ('default', 'success', 'error')
- *    -> validation:    -- means of validation
- *      -> isRequired   -- is field required?
- *      -> validators:  -- validation functions and their error messages
- *        -> validator    -- validation function
- *        -> errorMessage -- error message that should be set in a case of an error
+ *    -> errorMessages -- actual error messages (in case of an error)
+ *    -> state  -- state of a field ('default', 'success', 'error') (check out: https://www.patternfly.org/v4/components/text-input/)
+ *    -> isRequired   -- is field required?
+ *    -> validators:  -- validation functions and their error messages
+ *      -> validator    -- validation function
+ *      -> errorMessage -- error message that should be set in a case of an error
  */
 export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'>, submitCallback: Function) => {
+  // transform init data (add default data + possibly apply new values)
   const transformFormData = useCallback(
     (values?: IFieldValues): IFields => {
       const defaultFields: IFields = {};
@@ -93,7 +95,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
 
   // callback (on change of an input)
   const onChange = (fieldName: string, fieldValue: any) => {
-    // also delete old error messages, new checks are going to be done(
+    // also delete old error messages, new checks are going to be done
     const newField = {
       ...fields[fieldName],
       value: fieldValue ? fieldValue : '',
@@ -147,32 +149,32 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
 
   // callback (on submit of a form)
   const onSubmit = () => {
-    const formCopy = { ...fields };
-    for (const key in formCopy) {
+    const fieldsCopy = { ...fields };
+    for (const key in fieldsCopy) {
       // trim just strings
-      formCopy[key].value = typeof formCopy[key].value === 'string' ? formCopy[key].value?.trim() : formCopy[key].value;
+      fieldsCopy[key].value = typeof fieldsCopy[key].value === 'string' ? fieldsCopy[key].value?.trim() : fieldsCopy[key].value;
       // reset state to 'default' (valid inputs wont be highlighted)
-      formCopy[key].state = 'default';
+      fieldsCopy[key].state = 'default';
     }
 
-    submitCallback(formCopy).catch((error: any) => {
+    submitCallback(fieldsCopy).catch((error: any) => {
       // backend error, just log it at the moment
       console.error(error);
 
       // FUTURE IMPLEMENTATION:
-      // const formCopy = { ...form };
+      // const fieldsCopy = { ...fields };
       // for (const key in error.details.validation) {
-      //   const newField = { ...form[key], error: error.details.validation[key].errorMessage, state: 'error' };
-      //   formCopy[key] = newField;
+      //   const newField = { ...fields[key], error: error.details.validation[key].errorMessage, state: 'error' };
+      //   fieldsCopy[key] = newField;
       // }
-      // setForm(formCopy);
+      // setFields(fieldsCopy);
     });
 
-    setFields(formCopy);
+    setFields(fieldsCopy);
     setHasChanged(false);
   };
 
-  // set all input field to values (used for edit form)
+  // set all input fields to values (used for edit form)
   const reinitialize = useCallback(
     (fieldValues: IFieldValues) => {
       setFields(transformFormData(fieldValues));
@@ -180,7 +182,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     [transformFormData]
   );
 
-  // on change of a input, check whether submit button should be disabled
+  // on change of an input, check whether submit button should be disabled
   useEffect(() => {
     // are all validated inputs valid?
     const isFormValid = () => {
@@ -194,7 +196,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     // are all required inputs filled?
     const areRequiredFilled = () => {
       for (const key in fields) {
-        if (fields[key].isRequired && !fields[key].value) {
+        if (fields[key].isRequired && !fields[key].value?.trim()) {
           return false;
         }
       }
