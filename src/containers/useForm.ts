@@ -93,11 +93,14 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
 
   // callback (on change of an input)
   const onChange = (fieldName: string, fieldValue: any) => {
-    // also delete old error messages, new checks are going to be done
+    // also delete old error messages, new checks are going to be done(
+
+    // trim just strings
+    const editedFieldValue = typeof fieldValue == 'string' ? fieldValue.trim() : fieldValue;
 
     const newField = {
       ...fields[fieldName],
-      value: fieldValue ? fieldValue : '',
+      value: editedFieldValue,
       errorMessages: [],
       state: 'default' as TextInputProps['validated'],
     };
@@ -203,7 +206,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     } else {
       setIsSubmitDisabled(true);
     }
-  }, [fields, hasChanged, isFormValid, areRequiredFilled]);
+  }, [fields, hasChanged]);
 
   return { fields, reinitialize, onChange, onSubmit, isSubmitDisabled };
 };
