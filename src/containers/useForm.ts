@@ -109,14 +109,16 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
   // validate field state and change error messages / state
   const validate = (field: IField) => {
     if (field.isRequired) {
-      const error = field.value?.trim() ? '' : 'Field must be filled.';
-      addError(field, error);
+      if (!field.value?.trim()) {
+        addError(field, 'Field must be filled.');
+      }
       setState(field);
     }
     if (field.validators) {
       for (const validator of field.validators) {
-        const error = validator.validator(field.value) ? '' : validator.errorMessage;
-        addError(field, error);
+        if (!validator.validator(field.value)) {
+          addError(field, validator.errorMessage);
+        }
       }
       setState(field);
     }
