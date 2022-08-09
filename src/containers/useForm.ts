@@ -91,26 +91,6 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
   // important for edit page (do not submit until any new content)
   const [hasChanged, setHasChanged] = useState<boolean>(false);
 
-  // are all validated inputs valid?
-  const isFormValid = useCallback(() => {
-    for (const key in fields) {
-      if (fields[key].errorMessages?.length) return false;
-    }
-
-    return true;
-  }, [fields]);
-
-  // are all required inputs filled?
-  const areRequiredFilled = useCallback(() => {
-    for (const key in fields) {
-      if (fields[key].isRequired && !fields[key].value) {
-        return false;
-      }
-    }
-
-    return true;
-  }, [fields]);
-
   // callback (on change of an input)
   const onChange = (fieldName: string, fieldValue: any) => {
     // also delete old error messages, new checks are going to be done
@@ -198,6 +178,26 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
 
   // on change of a input, check whether submit button should be disabled
   useEffect(() => {
+    // are all validated inputs valid?
+    const isFormValid = () => {
+      for (const key in fields) {
+        if (fields[key].errorMessages?.length) return false;
+      }
+
+      return true;
+    };
+
+    // are all required inputs filled?
+    const areRequiredFilled = () => {
+      for (const key in fields) {
+        if (fields[key].isRequired && !fields[key].value) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
     if (isFormValid() && areRequiredFilled() && hasChanged) {
       setIsSubmitDisabled(false);
     } else {
