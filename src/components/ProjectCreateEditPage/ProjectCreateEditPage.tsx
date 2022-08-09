@@ -23,7 +23,7 @@ import { IService, useDataContainer } from '../../containers/DataContainer/useDa
 import { useTitle } from '../../containers/useTitle';
 import { projectService } from '../../services/projectService';
 import { PageLayout } from '../PageLayout/PageLayout';
-import { useForm } from '../../containers/useForm';
+import { IFields, useForm } from '../../containers/useForm';
 import { validateUrl } from '../../utils/formValidationHelpers';
 
 interface IProjectCreateEditPageProps {
@@ -71,16 +71,16 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
-  const submitCreate = () => {
+  const submitCreate = (data: IFields) => {
     return dataContainerCreate
       .refresh({
         serviceData: {
-          name: fields.name.value,
-          description: fields.description.value,
-          projectUrl: fields.projectUrl.value,
-          issueTrackerUrl: fields.issueTrackerUrl.value,
-          engineeringTeam: fields.engineeringTeam.value,
-          technicalLeader: fields.technicalLeader.value,
+          name: data.name.value,
+          description: data.description.value,
+          projectUrl: data.projectUrl.value,
+          issueTrackerUrl: data.issueTrackerUrl.value,
+          engineeringTeam: data.engineeringTeam.value,
+          technicalLeader: data.technicalLeader.value,
         },
       })
       .then((response: any) => {
@@ -93,11 +93,11 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       });
   };
 
-  const submitUpdate = () => {
+  const submitUpdate = (data: IFields) => {
     // PATCH method should be used
     console.log('not implemented yet', {
       id,
-      ...fields,
+      ...data,
     });
   };
 

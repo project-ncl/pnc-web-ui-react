@@ -18,7 +18,7 @@ interface IField {
   validators?: IValidator[];
 }
 
-interface IFields {
+export interface IFields {
   [key: string]: IField;
 }
 
@@ -94,13 +94,9 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
   // callback (on change of an input)
   const onChange = (fieldName: string, fieldValue: any) => {
     // also delete old error messages, new checks are going to be done(
-
-    // trim just strings
-    const editedFieldValue = typeof fieldValue == 'string' ? fieldValue.trim() : fieldValue;
-
     const newField = {
       ...fields[fieldName],
-      value: editedFieldValue,
+      value: fieldValue ? fieldValue : '',
       errorMessages: [],
       state: 'default' as TextInputProps['validated'],
     };
@@ -113,7 +109,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
   // validate field state and change error messages / state
   const validate = (field: IField) => {
     if (field.isRequired) {
-      const error = field.value ? '' : 'Field must be filled.';
+      const error = field.value?.trim() ? '' : 'Field must be filled.';
       addError(field, error);
       setState(field);
     }
@@ -149,7 +145,15 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
 
   // callback (on submit of a form)
   const onSubmit = () => {
-    submitCallback().catch((error: any) => {
+    const formCopy = { ...fields };
+    for (const key in formCopy) {
+      // trim just strings
+      formCopy[key].value = typeof formCopy[key].value === 'string' ? formCopy[key].value?.trim() : formCopy[key].value;
+      // reset state to 'default' (valid inputs wont be highlighted)
+      formCopy[key].state = 'default';
+    }
+
+    submitCallback(formCopy).catch((error: any) => {
       // backend error, just log it at the moment
       console.error(error);
 
@@ -162,11 +166,6 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
       // setForm(formCopy);
     });
 
-    // reset state to 'default' (valid inputs wont be highlighted)
-    const formCopy = { ...fields };
-    for (const key in formCopy) {
-      formCopy[key].state = 'default';
-    }
     setFields(formCopy);
     setHasChanged(false);
   };
