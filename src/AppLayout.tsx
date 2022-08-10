@@ -18,20 +18,23 @@ import {
   /*Breadcrumb,
   BreadcrumbItem,*/
   PageSidebar,
+  Flex,
+  FlexItem,
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
 import { Link, useLocation } from 'react-router-dom';
 import pncLogoText from './pnc-logo-text.svg';
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
 import * as WebConfigAPI from './services/WebConfigService';
-import { keycloakService } from './services/keycloakService';
+import { AUTH_ROLE, keycloakService } from './services/keycloakService';
+import styles from './AppLayout.module.css';
 
 interface IAppLayoutProps {}
 
 export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
   const webConfig = WebConfigAPI.getWebConfig();
 
-  const user = keycloakService.getUser();
+  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : '';
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -46,7 +49,9 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
       <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
-      <DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />,
+      ...(keycloakService.isKeycloakAvailable && keycloakService.hasRealmRole(AUTH_ROLE.Admin)
+        ? [<DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />]
+        : []),
     ];
 
     const headerQuestionDropdownItems = [
@@ -127,18 +132,29 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
               </Button>
             </PageHeaderToolsItem>
             <PageHeaderToolsItem>
-              <Dropdown
-                onSelect={processLogout}
-                toggle={
-                  <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
-                    {user ? user : 'Login'}
-                    {user && <CaretDownIcon />}
-                  </DropdownToggle>
-                }
-                isOpen={isHeaderUserOpen}
-                isPlain={true}
-                dropdownItems={headerUserDropdownItems}
-              />
+              {keycloakService.isKeycloakAvailable ? (
+                <Dropdown
+                  onSelect={processLogout}
+                  toggle={
+                    <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
+                      {user ? user : 'Unknown User'}
+                      {user && <CaretDownIcon />}
+                    </DropdownToggle>
+                  }
+                  isOpen={isHeaderUserOpen}
+                  isPlain={true}
+                  dropdownItems={headerUserDropdownItems}
+                />
+              ) : (
+                <Button isDisabled={true} variant={ButtonVariant.plain}>
+                  <Flex>
+                    <FlexItem>
+                      <UserIcon />
+                    </FlexItem>
+                    <FlexItem>KEYCLOAK UNAVAILABLE</FlexItem>
+                  </Flex>
+                </Button>
+              )}
             </PageHeaderToolsItem>
           </PageHeaderToolsGroup>
         </PageHeaderTools>
@@ -228,8 +244,13 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   */
 
   return (
-    <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
-      {children}
-    </Page>
+    <>
+      {!keycloakService.isKeycloakAvailable && (
+        <div className={styles['top-level-error']}>RESTRICTED MODE - Keycloak could not be initialized</div>
+      )}
+      <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
+        {children}
+      </Page>
+    </>
   );
 };

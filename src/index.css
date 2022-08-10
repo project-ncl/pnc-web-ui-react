@@ -75,3 +75,8 @@ code {
   color: #ac5701;
   text-decoration: var(--pf-global--link--TextDecoration--hover);
 }
+
+.disabled-content {
+  pointer-events: none;
+  color: #6a6e73;
+}
