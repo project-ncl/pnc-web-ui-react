@@ -1,5 +1,15 @@
 {
   "singleQuote": true,
   "trailingComma": "es5",
-  "printWidth": 130
+  "printWidth": 130,
+  "importOrder": [
+    "^pnc",
+    "^/?(((.*)/)*)containers/(.*)$",
+    "^/?(((.*)/)*)components/(.*)$",
+    "^/?(((.*)/)*)services/(.*)$",
+    "^/?(((.*)/)*)utils/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
