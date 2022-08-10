@@ -12,6 +12,7 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 import { ActionButton } from '../ActionButton/ActionButton';
 import mockBuildData from './data/mock-build-data.json';
 import { useTitle } from '../../containers/useTitle';
+import { DependencyTree } from '../DependencyTree/DependencyTree';
 
 const buildRes: Build[] = mockBuildData;
 
@@ -387,6 +388,53 @@ export const DemoPage = () => {
               <ActionButton iconType="mark">Mark as current</ActionButton>
               <br />
               <ActionButton>No Icon</ActionButton>
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>DependencyTree - Build</CardTitle>
+            <CardBody>
+              <DependencyTree
+                build={{
+                  // id: 'AK6RXP3XBYYAA',
+                  id: 'AK6RXP3XBYYAA',
+                  submitTime: '2017-12-01T13:17:18.007Z',
+                  status: 'REJECTED_FAILED_DEPENDENCIES',
+                  progress: 'FINISHED',
+                  buildConfigRevision: {
+                    id: '182',
+                    name: 'DNS-buildTree-5',
+                  },
+                  user: {
+                    id: '3',
+                    username: 'robot',
+                  },
+                }}
+              ></DependencyTree>
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>DependencyTree - Group Build</CardTitle>
+            <CardBody>
+              <DependencyTree
+                groupBuild={{
+                  id: '754',
+                  status: 'REJECTED_FAILED_DEPENDENCIES',
+                  groupConfig: {
+                    id: '166',
+                    name: 'DnsGCProductVersion2208',
+                  },
+                  user: {
+                    id: '3',
+                    username: 'robot',
+                  },
+                }}
+              ></DependencyTree>
             </CardBody>
           </Card>
         </FlexItem>
