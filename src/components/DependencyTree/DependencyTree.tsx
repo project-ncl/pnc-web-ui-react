@@ -233,7 +233,7 @@ export const DependencyTree = ({ build, groupBuild, dependencyGraph }: IDependen
                 <strong>Direct Parents</strong>
               </div>
               {dependentStructure && dependentStructure.length > 0 ? (
-                <TreeView data={dependentStructure} allExpanded={allExpanded} />
+                <TreeView data={dependentStructure} allExpanded={allExpanded} hasGuides={true} />
               ) : (
                 <div className={styles['no-data-text']}>No direct parent</div>
               )}
@@ -257,7 +257,7 @@ export const DependencyTree = ({ build, groupBuild, dependencyGraph }: IDependen
               Expand All Failed
             </Button>
           </div>
-          {visible && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} />}
+          {visible && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
         </div>
       </DataContainer>
     </>
