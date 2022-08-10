@@ -32,7 +32,6 @@ export interface IDependencyGraph {
 export interface IDependencyTreeProps {
   build?: Build;
   groupBuild?: GroupBuild;
-  dependencyGraph?: IDependencyGraph;
 }
 
 export interface IServiceDataProps {
@@ -56,8 +55,10 @@ export interface IDependencyDataItem extends TreeViewDataItem {
  * Display a dependency tree for builds or group builds.
  *
  * @param build - The current build of the dependency tree
+ * @param groupBuild - The current group build of the dependency tree
+ *
  */
-export const DependencyTree = ({ build, groupBuild, dependencyGraph }: IDependencyTreeProps) => {
+export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const [visible, setVisible] = useState<boolean>(true);
   const [dependentStructure, setDependentStructure] = useState<Array<IDependencyDataItem>>();
   const [dependencyStructure, setDependencyStructure] = useState<IDependencyDataItem>();
