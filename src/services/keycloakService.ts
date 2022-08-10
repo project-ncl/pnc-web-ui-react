@@ -22,8 +22,15 @@ class KeycloakService {
 
   private isKeycloakInitialized;
 
+  // false if keycloak could not be loaded / initialized
+  private _isKeycloakAvailable: boolean = false;
+
   constructor() {
     this.isKeycloakInitialized = this.init();
+  }
+
+  public get isKeycloakAvailable(): boolean {
+    return this._isKeycloakAvailable;
   }
 
   /**
@@ -34,22 +41,27 @@ class KeycloakService {
   private init(): Promise<any> {
     const keycloakConfig = WebConfigAPI.getWebConfig().keycloak;
 
-    this.keycloakAuth = new Keycloak({
-      url: keycloakConfig.url,
-      realm: keycloakConfig.realm,
-      clientId: keycloakConfig.clientId,
-    });
+    if (window.Keycloak) {
+      this.keycloakAuth = new Keycloak({
+        url: keycloakConfig.url,
+        realm: keycloakConfig.realm,
+        clientId: keycloakConfig.clientId,
+      });
 
-    return new Promise((resolve, reject) => {
-      this.keycloakAuth
-        .init({ onLoad: 'check-sso' })
-        .then(() => {
-          resolve('success');
-        })
-        .catch((errorData: any) => {
-          reject(errorData);
-        });
-    });
+      return new Promise((resolve, reject) => {
+        this.keycloakAuth
+          .init({ onLoad: 'check-sso' })
+          .then(() => {
+            this._isKeycloakAvailable = true;
+            resolve('success');
+          })
+          .catch((errorData: any) => {
+            reject(errorData);
+          });
+      });
+    } else {
+      return Promise.reject('Keycloak library not available');
+    }
   }
   /**
    * Returns promise of keycloak initialization.

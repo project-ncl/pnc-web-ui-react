@@ -27,7 +27,7 @@ const App = () => {
       });
   }, []);
 
-  if (isKeycloakInitiated) {
+  if (isKeycloakInitiated || isKeycloakInitFail) {
     return (
       <ErrorBoundary>
         <BrowserRouter basename="/pnc-web">
@@ -37,10 +37,6 @@ const App = () => {
         </BrowserRouter>
       </ErrorBoundary>
     );
-  }
-
-  if (isKeycloakInitFail) {
-    return <div>Keycloak initialization failed</div>;
   }
 
   if (isKeycloakInitInProcess) {

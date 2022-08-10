@@ -18,20 +18,25 @@ import { ProjectDetailPage } from './components/ProjectDetailPage/ProjectDetailP
 // special pages
 import { DemoPage } from './components/DemoPage/DemoPage';
 import { VariablesPage } from './components/VariablesPage/VariablesPage';
-import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 import { keycloakService, AUTH_ROLE } from './services/keycloakService';
+import { ErrorPage } from './components/ErrorPage/ErrorPage';
 
 interface IProtectedRouteProps {
+  title?: string;
   role?: AUTH_ROLE;
 }
 
-const ProtectedRoute = ({ children, role = AUTH_ROLE.User }: React.PropsWithChildren<IProtectedRouteProps>) => {
+const ProtectedRoute = ({ children, title, role = AUTH_ROLE.User }: React.PropsWithChildren<IProtectedRouteProps>) => {
+  if (!keycloakService.isKeycloakAvailable) {
+    return <ErrorPage pageTitle={title} errorDescription="Keycloak uninitialized."></ErrorPage>;
+  }
+
   if (keycloakService.isAuthenticated()) {
     if (keycloakService.hasRealmRole(role)) {
       return <>{children}</>;
     } else {
-      return <div>User not allowed</div>;
+      return <ErrorPage pageTitle={title} errorDescription="User not allowed to enter this page."></ErrorPage>;
     }
   } else {
     keycloakService.login().catch(() => {
@@ -52,7 +57,7 @@ export const AppRoutes = () => (
       <Route
         path="create"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute title="Create Project">
             <ProjectCreateEditPage />
           </ProtectedRoute>
         }
@@ -60,7 +65,7 @@ export const AppRoutes = () => (
       <Route
         path=":projectId/edit"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute title="Update Project">
             <ProjectCreateEditPage editPage={true} />
           </ProtectedRoute>
         }
@@ -81,12 +86,12 @@ export const AppRoutes = () => (
       <Route
         path="administration"
         element={
-          <ProtectedRoute role={AUTH_ROLE.Admin}>
+          <ProtectedRoute title="Administration" role={AUTH_ROLE.Admin}>
             <AdministrationPage />
           </ProtectedRoute>
         }
       />
     </Route>
-    <Route path="*" element={<NotFoundPage />} />
+    <Route path="*" element={<ErrorPage errorDescription="The requested resource could not be found."></ErrorPage>} />
   </Routes>
 );
