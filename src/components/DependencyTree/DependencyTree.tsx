@@ -101,7 +101,6 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       dependStructure.data.status!
     );
     dependStructure.children?.forEach((child) => setExpandFailed(child));
-    console.log(dependStructure);
     if (dependStructure.level === 0) {
       refreshComponent();
     }
@@ -115,7 +114,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
     }
   };
 
-  const treeItem = (build: IDependencyBuild) =>
+  const generateTreeItem = (build: IDependencyBuild) =>
     build && (
       <span className={styles['tree-item']}>
         <BuildStatusIcon build={build} />
@@ -154,7 +153,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
         const rootNodes: Array<string> = level === 1 ? getRootNodes(edgesData, nodesData) : [];
         const targetChildren = rootNodes.map((rootNode) => ({
           id: rootNode,
-          name: treeItem(nodesData?.get(rootNode)!),
+          name: generateTreeItem(nodesData?.get(rootNode)!),
           data: nodesData?.get(rootNode)!,
           defaultExpanded: false,
           level: level,
@@ -170,7 +169,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
           .forEach((edge) => {
             const targetChild = {
               id: edge.target,
-              name: treeItem(nodesData?.get(edge.target)!),
+              name: generateTreeItem(nodesData?.get(edge.target)!),
               data: nodesData?.get(edge.target)!,
               defaultExpanded: false,
               level: level,
@@ -196,7 +195,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
 
     const _dependencyStructure: IDependencyDataItem = {
       id: buildItem?.id,
-      name: treeItem(buildItem!),
+      name: generateTreeItem(buildItem!),
       data: buildItem!,
       defaultExpanded: true,
       level: 0,
@@ -213,7 +212,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
         _dependentStructure.push({
           data: nodesData.get(edge.source)!,
           id: edge.target,
-          name: treeItem(nodesData.get(edge.source)!),
+          name: generateTreeItem(nodesData.get(edge.source)!),
           defaultExpanded: false,
           level: 0,
         });
