@@ -30,7 +30,7 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 import { ActionButton } from '../ActionButton/ActionButton';
 import mockBuildData from './data/mock-build-data.json';
 import { useTitle } from '../../containers/useTitle';
-import { useForm } from '../../containers/useForm';
+import { IFields, useForm } from '../../containers/useForm';
 import { minLength, maxLength } from '../../utils/formValidationHelpers';
 
 const buildRes: Build[] = mockBuildData;
@@ -59,9 +59,9 @@ const formConfig = {
 export const DemoPage = () => {
   useTitle('Demo Page');
 
-  const submitForm = () => {
+  const submitForm = (data: IFields) => {
     console.log('form state when submitted:', {
-      ...fields,
+      ...data,
     });
   };
 
