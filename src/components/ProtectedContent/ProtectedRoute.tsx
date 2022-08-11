@@ -1,5 +1,6 @@
 import { AUTH_ROLE } from '../../services/__mocks__/keycloakService';
-import { ProtectedContent, PROTECTED_TYPE } from './ProtectedContent';
+
+import { PROTECTED_TYPE, ProtectedContent } from './ProtectedContent';
 
 interface IProtectedRouteProps {
   role?: AUTH_ROLE;

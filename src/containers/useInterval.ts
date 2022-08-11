@@ -1,4 +1,4 @@
-import { useRef, useEffect, MutableRefObject, useCallback } from 'react';
+import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
 
 /**
  * React hook for setting up and using intervals.

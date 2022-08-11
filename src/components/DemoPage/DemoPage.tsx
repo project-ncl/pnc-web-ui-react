@@ -1,37 +1,41 @@
-import { PageLayout } from '../PageLayout/PageLayout';
-import { useState } from 'react';
 import {
   ActionGroup,
   Button,
   Card,
-  CardTitle,
   CardBody,
+  CardTitle,
   Flex,
+  FlexItem,
   Form,
   FormGroup,
   FormHelperText,
-  FlexItem,
   Select,
   SelectOption,
   SelectVariant,
-  Tooltip,
   TextArea,
   TextInput,
+  Tooltip,
 } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
+import { useState } from 'react';
+
 import { Build } from 'pnc-api-types-ts';
-import { BuildStatus } from '../BuildStatus/BuildStatus';
-import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
+
+import { IFields, useForm } from '../../containers/useForm';
+import { useTitle } from '../../containers/useTitle';
+
+import { maxLength, minLength } from '../../utils/formValidationHelpers';
+
+import { ActionButton } from '../ActionButton/ActionButton';
+import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
 import { BuildName } from '../BuildName/BuildName';
-import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
-import { AttributesItems } from '../AttributesItems/AttributesItems';
-import { InfoCircleIcon } from '@patternfly/react-icons';
-import { ActionButton } from '../ActionButton/ActionButton';
+import { BuildStatus } from '../BuildStatus/BuildStatus';
+import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
+import { PageLayout } from '../PageLayout/PageLayout';
+import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import mockBuildData from './data/mock-build-data.json';
-import { useTitle } from '../../containers/useTitle';
-import { IFields, useForm } from '../../containers/useForm';
-import { minLength, maxLength } from '../../utils/formValidationHelpers';
 
 const buildRes: Build[] = mockBuildData;
 

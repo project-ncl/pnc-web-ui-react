@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import { DashboardWidget } from '../DashboardWidget';
 
 test('renders Dashboard Widget', () => {

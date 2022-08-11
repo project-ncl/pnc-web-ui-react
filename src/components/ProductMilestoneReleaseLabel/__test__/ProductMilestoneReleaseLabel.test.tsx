@@ -1,5 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
+
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel';
 import productMilestoneMock from './data/product-milestones-mock.json';
 import productReleaseMock from './data/product-releases-mock.json';

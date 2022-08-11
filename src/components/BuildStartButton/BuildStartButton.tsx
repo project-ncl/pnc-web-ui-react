@@ -10,9 +10,11 @@ import {
   Popover,
   Radio,
 } from '@patternfly/react-core';
-import { InfoCircleIcon, WarningTriangleIcon, BuildIcon } from '@patternfly/react-icons';
-import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
+import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
 import { useState } from 'react';
+
+import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
+
 import styles from './BuildStartButton.module.css';
 
 interface IBuildStartButtonProp {

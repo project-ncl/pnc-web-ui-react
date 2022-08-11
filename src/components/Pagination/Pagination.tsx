@@ -1,7 +1,9 @@
 import { Pagination as PaginationPF, PaginationVariant } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { getComponentQueryParamsObject, updateQueryParamsInURL } from '../../utils/queryParamsHelper';
+
 import './Pagination.css';
 
 interface IPagination {

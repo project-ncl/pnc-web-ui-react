@@ -1,13 +1,13 @@
 import { Button } from '@patternfly/react-core';
 import {
-  TrashIcon,
-  PencilAltIcon,
-  FileIcon,
   CopyIcon,
-  TagIcon,
   ExternalLinkAltIcon,
-  LockIcon,
+  FileIcon,
   FlagIcon,
+  LockIcon,
+  PencilAltIcon,
+  TagIcon,
+  TrashIcon,
 } from '@patternfly/react-icons';
 import { useNavigate } from 'react-router-dom';
 

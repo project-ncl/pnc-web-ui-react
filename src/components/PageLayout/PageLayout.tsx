@@ -1,4 +1,4 @@
-import { Divider, PageSection, PageSectionVariants, TextContent, Text } from '@patternfly/react-core';
+import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
 import React from 'react';
 
 interface IAppLayoutProps {

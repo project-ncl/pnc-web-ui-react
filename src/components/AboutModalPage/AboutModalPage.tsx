@@ -1,4 +1,5 @@
 import { AboutModal, TextContent, TextList, TextListItem } from '@patternfly/react-core';
+
 import pncLogoText from '../../pnc-logo-text.svg';
 import { EmptyStateSymbol } from '../EmptyStates/EmptyStateSymbol';
 

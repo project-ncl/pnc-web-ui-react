@@ -1,11 +1,11 @@
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import './BuildStatus.css';
+import { isBuild } from '../../utils/entityRecognition';
+import { createDateTime } from '../../utils/utils';
 
 import { BuildName } from '../BuildName/BuildName';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
-import { isBuild } from '../../utils/entityRecognition';
-import { createDateTime } from '../../utils/utils';
+import './BuildStatus.css';
 
 interface IBuildStatus {
   build: Build | GroupBuild;

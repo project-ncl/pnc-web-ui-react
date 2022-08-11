@@ -1,9 +1,11 @@
 import { CubesIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
+
 import { PageTitles } from '../../utils/PageTitles';
+
+import '../../index.css';
 import { StateCard } from '../EmptyStates/StateCard';
 import { PageLayout } from '../PageLayout/PageLayout';
-import '../../index.css';
 
 interface IErrorPageProps {
   pageTitle: string;

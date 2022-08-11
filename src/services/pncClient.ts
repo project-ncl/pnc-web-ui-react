@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+
 import * as WebConfigAPI from './WebConfigService';
 import { keycloakService } from './keycloakService';
 
