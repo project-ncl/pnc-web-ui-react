@@ -563,7 +563,7 @@ export const DemoPage = () => {
             <CardBody>
               <DependencyTree
                 build={{
-                  id: 'ATFE6B5WMTIAA',
+                  id: 'ATFZH3MH4TIBC',
                   submitTime: '2017-12-01T13:17:18.007Z',
                   status: 'REJECTED_FAILED_DEPENDENCIES',
                   progress: 'FINISHED',
