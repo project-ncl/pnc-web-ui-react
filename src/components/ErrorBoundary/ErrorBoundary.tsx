@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { SystemErrorPage } from '../SystemErrorPage/SystemErrorPage';
 
 export interface ErrorBoundaryProps {

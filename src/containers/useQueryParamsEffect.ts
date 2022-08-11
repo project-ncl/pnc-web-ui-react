@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { queryParamsObjectsAreEqual, getComponentQueryParamsObject } from '../utils/queryParamsHelper';
+
+import { getComponentQueryParamsObject, queryParamsObjectsAreEqual } from '../utils/queryParamsHelper';
 
 export const useQueryParamsEffect = (service: Function, componentId: string) => {
   const lastQueryParams = useRef({});

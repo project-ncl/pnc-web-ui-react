@@ -1,4 +1,5 @@
 import { AUTH_ROLE, keycloakService } from '../../services/keycloakService';
+
 import { ErrorPage } from '../ErrorPage/ErrorPage';
 import styles from './ProtectedContent.module.css';
 

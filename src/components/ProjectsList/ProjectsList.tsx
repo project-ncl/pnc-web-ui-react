@@ -1,8 +1,8 @@
 import '@patternfly/react-core/dist/styles/base.css';
-
-import { Table, TableHeader, TableBody, cellWidth } from '@patternfly/react-table';
-import { Project } from 'pnc-api-types-ts';
+import { Table, TableBody, TableHeader, cellWidth } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
+
+import { Project } from 'pnc-api-types-ts';
 
 import { ProjectLink } from '../ProjectLink/ProjectLink';
 import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';

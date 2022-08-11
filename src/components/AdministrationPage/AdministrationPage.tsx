@@ -1,4 +1,3 @@
-import { CSSProperties, useCallback, useState } from 'react';
 import {
   Button,
   Card,
@@ -13,13 +12,17 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
-import { PageLayout } from './../PageLayout/PageLayout';
-import { useTitle } from '../../containers/useTitle';
-import { AttributesItems } from '../AttributesItems/AttributesItems';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { buildService } from '../../services/buildService';
+import { CSSProperties, useCallback, useState } from 'react';
+
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
+import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { useInterval } from '../../containers/useInterval';
+import { useTitle } from '../../containers/useTitle';
+
+import { buildService } from '../../services/buildService';
+
+import { AttributesItems } from '../AttributesItems/AttributesItems';
+import { PageLayout } from './../PageLayout/PageLayout';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 

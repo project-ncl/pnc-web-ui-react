@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+
+import { keycloakService } from './services/keycloakService';
+
 import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
-import { keycloakService } from './services/keycloakService';
 
 const App = () => {
   const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);

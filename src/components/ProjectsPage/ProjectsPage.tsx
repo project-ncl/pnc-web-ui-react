@@ -1,17 +1,21 @@
-import { ProjectsList } from './../ProjectsList/ProjectsList';
-import { PageLayout } from './../PageLayout/PageLayout';
+import { Label, ToolbarItem } from '@patternfly/react-core';
+
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { projectService } from '../../services/projectService';
-import { Flex, FlexItem, Label, ToolbarItem } from '@patternfly/react-core';
-import { Pagination } from '../Pagination/Pagination';
 import { useQueryParamsEffect } from '../../containers/useQueryParamsEffect';
-import { Filtering, IFilterOptions } from '../Filtering/Filtering';
-import { Toolbar } from '../Toolbar/Toolbar';
 import { useTitle } from '../../containers/useTitle';
+
+import { projectService } from '../../services/projectService';
+
 import { PageTitles } from '../../utils/PageTitles';
+
 import { ActionButton } from '../ActionButton/ActionButton';
+import { Filtering, IFilterOptions } from '../Filtering/Filtering';
+import { Pagination } from '../Pagination/Pagination';
 import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
+import { Toolbar } from '../Toolbar/Toolbar';
+import { PageLayout } from './../PageLayout/PageLayout';
+import { ProjectsList } from './../ProjectsList/ProjectsList';
 
 interface IProjectPage {
   componentId?: string;

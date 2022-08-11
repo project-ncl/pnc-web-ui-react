@@ -1,5 +1,6 @@
 import { AUTH_ROLE } from '../../services/keycloakService';
-import { ProtectedContent, PROTECTED_TYPE } from './ProtectedContent';
+
+import { PROTECTED_TYPE, ProtectedContent } from './ProtectedContent';
 
 interface IProtectedComponentProps {
   role?: AUTH_ROLE;

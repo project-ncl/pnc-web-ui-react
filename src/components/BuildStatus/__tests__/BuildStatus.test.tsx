@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react';
-import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { MemoryRouter } from 'react-router-dom';
-import { BuildStatus } from '../BuildStatus';
 
+import { Build, GroupBuild } from 'pnc-api-types-ts';
+
+import { BuildStatus } from '../BuildStatus';
 import mockBuildData from './data/mock-build-data.json';
 
 describe('display BuildStatus component', () => {

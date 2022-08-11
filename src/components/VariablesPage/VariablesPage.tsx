@@ -1,7 +1,10 @@
-import { PageLayout } from '../PageLayout/PageLayout';
-import { CodeBlock, CodeBlockCode, Card, CardTitle, CardBody, Flex, FlexItem } from '@patternfly/react-core';
-import * as WebConfigAPI from '../../services/WebConfigService';
+import { Card, CardBody, CardTitle, CodeBlock, CodeBlockCode, Flex, FlexItem } from '@patternfly/react-core';
+
 import { useTitle } from '../../containers/useTitle';
+
+import * as WebConfigAPI from '../../services/WebConfigService';
+
+import { PageLayout } from '../PageLayout/PageLayout';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;

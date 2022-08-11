@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react';
-import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { MemoryRouter } from 'react-router-dom';
-import { BuildName } from '../BuildName';
 
+import { Build, GroupBuild } from 'pnc-api-types-ts';
+
+import { BuildName } from '../BuildName';
 import mockBuildData from './data/mock-build-data.json';
 
 describe('display BuildName component', () => {

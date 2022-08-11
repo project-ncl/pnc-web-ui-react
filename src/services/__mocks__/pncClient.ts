@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+
 import buildsRequestMock from './builds-mock.json';
-import projectsRequestMock from './projects-mock.json';
 import projectRequestMock from './project-mock.json';
+import projectsRequestMock from './projects-mock.json';
 
 let mockAdapter = new MockAdapter(axios);
 

@@ -1,5 +1,7 @@
-import { Divider, PageSection, PageSectionVariants, TextContent, Text } from '@patternfly/react-core';
+import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
+
 import { useTitle } from '../../containers/useTitle';
+
 import { PageTitles } from '../../utils/PageTitles';
 
 export const ArtifactsPage = () => {

@@ -1,5 +1,6 @@
+import { ToolbarContent, Toolbar as ToolbarPF } from '@patternfly/react-core';
 import React from 'react';
-import { Toolbar as ToolbarPF, ToolbarContent } from '@patternfly/react-core';
+
 import styles from './Toolbar.module.css';
 
 interface IToolbarProps {}

@@ -13,18 +13,23 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
-import { Project } from 'pnc-api-types-ts';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PageTitles } from '../../utils/PageTitles';
+
+import { Project } from 'pnc-api-types-ts';
+
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { ServiceContainerCreating } from '../../containers/DataContainer/ServiceContainerCreating';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { useTitle } from '../../containers/useTitle';
-import { projectService } from '../../services/projectService';
-import { PageLayout } from '../PageLayout/PageLayout';
 import { IFields, useForm } from '../../containers/useForm';
+import { useTitle } from '../../containers/useTitle';
+
+import { projectService } from '../../services/projectService';
+
+import { PageTitles } from '../../utils/PageTitles';
 import { validateUrl } from '../../utils/formValidationHelpers';
+
+import { PageLayout } from '../PageLayout/PageLayout';
 
 interface IProjectCreateEditPageProps {
   editPage?: boolean;

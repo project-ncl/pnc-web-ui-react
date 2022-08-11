@@ -1,4 +1,4 @@
-import { Title, EmptyState, EmptyStateIcon, EmptyStateBody, EmptyStateVariant } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 
 export const SystemErrorPage = () => {

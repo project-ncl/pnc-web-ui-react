@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
 import { TextInputProps } from '@patternfly/react-core';
+import { useCallback, useEffect, useState } from 'react';
 
 interface IFieldValues {
   [key: string]: string | undefined;

@@ -1,17 +1,18 @@
 import { Tooltip } from '@patternfly/react-core';
-import { OutlinedClockIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon, OutlinedClockIcon } from '@patternfly/react-icons';
+
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import styles from './BuildStatusIcon.module.css';
+import { isBuild } from '../../utils/entityRecognition';
 
+import styles from './BuildStatusIcon.module.css';
 import iconBlue from './icons/blue.svg';
 import iconError from './icons/error.svg';
 import iconGreen from './icons/green.svg';
 import iconGrey from './icons/grey.svg';
+import iconNoBuilds from './icons/no-builds.svg';
 import iconOrange from './icons/orange.svg';
 import iconRed from './icons/red.svg';
-import iconNoBuilds from './icons/no-builds.svg';
-import { isBuild } from '../../utils/entityRecognition';
 
 const iconData: { [buildStatus: string]: { tooltip: string; icon: any; className?: string } } = {
   SUCCESS: {

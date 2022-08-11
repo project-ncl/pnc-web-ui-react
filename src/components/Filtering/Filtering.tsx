@@ -1,9 +1,11 @@
 import { Button, Chip, ChipGroup, InputGroup, Select, SelectOption, SelectVariant, TextInput } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { constructCustomFilterParam } from '../../utils/customParamHelper';
-import { addQParamItem, IQParamOperators, parseQParamDeep, removeQParamItem } from '../../utils/qParamHelper';
+import { IQParamOperators, addQParamItem, parseQParamDeep, removeQParamItem } from '../../utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from '../../utils/queryParamsHelper';
+
 import styles from './Filtering.module.css';
 
 /**

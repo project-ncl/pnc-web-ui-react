@@ -1,28 +1,25 @@
 import { Route, Routes } from 'react-router-dom';
 
-// homepage
-import { DashboardPage } from './components/DashboardPage/DashboardPage';
-
-// entity pages
+import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 import { ArtifactsPage } from './components/ArtifactsPage/ArtifactsPage';
 import { BuildConfigsPage } from './components/BuildConfigsPage/BuildConfigsPage';
 import { BuildsPage } from './components/BuildsPage/BuildsPage';
+import { DashboardPage } from './components/DashboardPage/DashboardPage';
+import { DemoPage } from './components/DemoPage/DemoPage';
+import { ErrorPage } from './components/ErrorPage/ErrorPage';
 import { GroupBuildsPage } from './components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigsPage } from './components/GroupConfigsPage/GroupConfigsPage';
 import { ProductsPage } from './components/ProductsPage/ProductsPage';
-import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
 import { ProjectCreateEditPage } from './components/ProjectCreateEditPage/ProjectCreateEditPage';
-import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
 import { ProjectDetailPage } from './components/ProjectDetailPage/ProjectDetailPage';
-
-// special pages
-import { DemoPage } from './components/DemoPage/DemoPage';
-import { VariablesPage } from './components/VariablesPage/VariablesPage';
-import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
-import { AUTH_ROLE } from './services/keycloakService';
-import { ErrorPage } from './components/ErrorPage/ErrorPage';
-import { PageTitles } from './utils/PageTitles';
+import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
 import { ProtectedRoute } from './components/ProtectedContent/ProtectedRoute';
+import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
+import { VariablesPage } from './components/VariablesPage/VariablesPage';
+
+import { AUTH_ROLE } from './services/keycloakService';
+
+import { PageTitles } from './utils/PageTitles';
 
 export const AppRoutes = () => (
   <Routes>

@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { ProjectDetailPage } from '../ProjectDetailPage';
 import { MemoryRouter } from 'react-router-dom';
+
+import { ProjectDetailPage } from '../ProjectDetailPage';
 
 jest.mock('../../../services/projectService');
 

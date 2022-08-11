@@ -1,6 +1,7 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useState } from 'react';
+
 import { ErrorBoundary } from '../ErrorBoundary';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 
 test('renders ErrorBoundary and fire an error', async () => {
   function BuggyCounter() {

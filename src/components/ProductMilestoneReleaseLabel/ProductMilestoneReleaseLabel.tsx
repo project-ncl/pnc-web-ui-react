@@ -1,9 +1,11 @@
 import { Button, Tooltip } from '@patternfly/react-core';
-import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
-import { isProductMilestone, isProductRelease } from '../../utils/entityRecognition';
-import styles from './ProductMilestoneReleaseLabel.module.css';
 
+import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
+
+import { isProductMilestone, isProductRelease } from '../../utils/entityRecognition';
 import { createDateTime } from '../../utils/utils';
+
+import styles from './ProductMilestoneReleaseLabel.module.css';
 
 interface IProductMilestoneReleaseProp {
   productMilestoneRelease: ProductMilestone | ProductRelease;

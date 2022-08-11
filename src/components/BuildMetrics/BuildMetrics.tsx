@@ -1,14 +1,18 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import Chart, { ChartConfiguration } from 'chart.js/auto';
-import { calculateBuildName } from '../BuildName/BuildName';
-import { Select, SelectOption, Popover, SelectVariant } from '@patternfly/react-core';
+import { Popover, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { Build } from 'pnc-api-types-ts';
-import { buildService } from '../../services/buildService';
-import styles from './BuildMetrics.module.css';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { AxiosResponse } from 'axios';
+import Chart, { ChartConfiguration } from 'chart.js/auto';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+import { Build } from 'pnc-api-types-ts';
+
+import { DataContainer } from '../../containers/DataContainer/DataContainer';
+import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
+
+import { buildService } from '../../services/buildService';
+
+import { calculateBuildName } from '../BuildName/BuildName';
+import styles from './BuildMetrics.module.css';
 
 interface IBuildMetricsProps {
   builds: Array<Build>;

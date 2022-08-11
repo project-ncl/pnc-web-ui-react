@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
 import {
-  Nav,
-  NavList,
-  NavItem,
-  NavExpandable,
-  Page,
   Button,
   ButtonVariant,
   Dropdown,
   DropdownItem,
   DropdownToggle,
+  Flex,
+  FlexItem,
+  Nav,
+  NavExpandable,
+  NavItem,
+  NavList,
+  Page,
+  PageHeader,
   PageHeaderTools,
   PageHeaderToolsGroup,
   PageHeaderToolsItem,
-  PageHeader,
   /*Breadcrumb,
-  BreadcrumbItem,*/
+BreadcrumbItem,*/
   PageSidebar,
-  Flex,
-  FlexItem,
 } from '@patternfly/react-core';
+import '@patternfly/react-core/dist/styles/base.css';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import pncLogoText from './pnc-logo-text.svg';
+
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
+import { ProtectedComponent } from './components/ProtectedContent/ProtectedComponent';
+
 import * as WebConfigAPI from './services/WebConfigService';
 import { AUTH_ROLE, keycloakService } from './services/keycloakService';
+
 import styles from './AppLayout.module.css';
-import { ProtectedComponent } from './components/ProtectedContent/ProtectedComponent';
+import pncLogoText from './pnc-logo-text.svg';
 
 interface IAppLayoutProps {}
 

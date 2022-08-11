@@ -1,4 +1,4 @@
-import { Flex, Text, TextVariants, TextContent, FlexProps } from '@patternfly/react-core';
+import { Flex, FlexProps, Text, TextContent, TextVariants } from '@patternfly/react-core';
 
 interface ISectionHeaderProps {
   children?: React.ReactNode;
