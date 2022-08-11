@@ -24,6 +24,16 @@ class BuildService {
   public getBuildCount(requestConfig: AxiosRequestConfig = {}) {
     return pncClient.getHttpClient().get(`${this.path}/count`, requestConfig);
   }
+
+  /**
+   * Gets dependency graph for a build.
+   * @returns DependencyGraph
+   */
+  public getDependencyGraph(id: string, requestConfig: AxiosRequestConfig = {}) {
+    if (id) {
+      return pncClient.getHttpClient().get(`${this.path}/${id}/dependency-graph`, requestConfig);
+    }
+  }
 }
 
 /**
