@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
+import styles from './AppLayout.module.css';
+import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
+import pncLogoText from './pnc-logo-text.svg';
+import * as WebConfigAPI from './services/WebConfigService';
+import { AUTH_ROLE, keycloakService } from './services/keycloakService';
 import {
   Nav,
   NavList,
@@ -16,25 +19,22 @@ import {
   PageHeaderToolsItem,
   PageHeader,
   /*Breadcrumb,
-  BreadcrumbItem,*/
+BreadcrumbItem,*/
   PageSidebar,
   Flex,
   FlexItem,
 } from '@patternfly/react-core';
+import '@patternfly/react-core/dist/styles/base.css';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import pncLogoText from './pnc-logo-text.svg';
-import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
-import * as WebConfigAPI from './services/WebConfigService';
-import { AUTH_ROLE, keycloakService } from './services/keycloakService';
-import styles from './AppLayout.module.css';
 
 interface IAppLayoutProps {}
 
 export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
   const webConfig = WebConfigAPI.getWebConfig();
 
-  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : '';
+  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -137,7 +137,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
                   onSelect={processLogout}
                   toggle={
                     <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
-                      {user ? user : 'Unknown User'}
+                      {user ? user : 'Login'}
                       {user && <CaretDownIcon />}
                     </DropdownToggle>
                   }
@@ -246,7 +246,9 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   return (
     <>
       {!keycloakService.isKeycloakAvailable && (
-        <div className={styles['top-level-error']}>RESTRICTED MODE - Keycloak could not be initialized</div>
+        <div className={styles['top-level-error']}>
+          RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
+        </div>
       )}
       <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
         {children}

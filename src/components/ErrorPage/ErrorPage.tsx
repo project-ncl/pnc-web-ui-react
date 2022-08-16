@@ -1,7 +1,7 @@
+import '../../index.css';
 import { PageTitles } from '../../utils/PageTitles';
 import { StateCard } from '../EmptyStates/StateCard';
 import { PageLayout } from '../PageLayout/PageLayout';
-import styles from './ErrorPage.module.css';
 import { CubesIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ export const ErrorPage = ({ pageTitle, errorDescription }: IErrorPageProps) => {
         icon={CubesIcon}
       >
         <pre>{errorDescription}</pre>
-        <Link className={`${styles['return-button-margin']} pf-c-button pf-m-primary`} to="/">
+        <Link className="m-t-15 pf-c-button pf-m-primary" to="/">
           Return to Dashboard
         </Link>
       </StateCard>
