@@ -1,29 +1,27 @@
-import { Route, Routes } from 'react-router-dom';
-
-// homepage
-import { DashboardPage } from './components/DashboardPage/DashboardPage';
-
+import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 // entity pages
 import { ArtifactsPage } from './components/ArtifactsPage/ArtifactsPage';
 import { BuildConfigsPage } from './components/BuildConfigsPage/BuildConfigsPage';
 import { BuildsPage } from './components/BuildsPage/BuildsPage';
+// homepage
+import { DashboardPage } from './components/DashboardPage/DashboardPage';
+// special pages
+import { DemoPage } from './components/DemoPage/DemoPage';
+import { ErrorPage } from './components/ErrorPage/ErrorPage';
 import { GroupBuildsPage } from './components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigsPage } from './components/GroupConfigsPage/GroupConfigsPage';
 import { ProductsPage } from './components/ProductsPage/ProductsPage';
-import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
 import { ProjectCreateEditPage } from './components/ProjectCreateEditPage/ProjectCreateEditPage';
-import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
 import { ProjectDetailPage } from './components/ProjectDetailPage/ProjectDetailPage';
-
-// special pages
-import { DemoPage } from './components/DemoPage/DemoPage';
+import { ProjectsPage } from './components/ProjectsPage/ProjectsPage';
+import { ScmRepositoriesPage } from './components/ScmRepositoriesPage/ScmRepositoriesPage';
 import { VariablesPage } from './components/VariablesPage/VariablesPage';
-import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 import { keycloakService, AUTH_ROLE } from './services/keycloakService';
-import { ErrorPage } from './components/ErrorPage/ErrorPage';
+import { PageTitles } from './utils/PageTitles';
+import { Route, Routes } from 'react-router-dom';
 
 interface IProtectedRouteProps {
-  title?: string;
+  title: string;
   role?: AUTH_ROLE;
 }
 
@@ -57,7 +55,7 @@ export const AppRoutes = () => (
       <Route
         path="create"
         element={
-          <ProtectedRoute title="Create Project">
+          <ProtectedRoute title={PageTitles.projectCreate}>
             <ProjectCreateEditPage />
           </ProtectedRoute>
         }
@@ -65,7 +63,7 @@ export const AppRoutes = () => (
       <Route
         path=":projectId/edit"
         element={
-          <ProtectedRoute title="Update Project">
+          <ProtectedRoute title={PageTitles.projectEdit}>
             <ProjectCreateEditPage editPage={true} />
           </ProtectedRoute>
         }
@@ -92,6 +90,11 @@ export const AppRoutes = () => (
         }
       />
     </Route>
-    <Route path="*" element={<ErrorPage errorDescription="The requested resource could not be found."></ErrorPage>} />
+    <Route
+      path="*"
+      element={
+        <ErrorPage pageTitle={PageTitles.pageNotFound} errorDescription="The requested resource could not be found."></ErrorPage>
+      }
+    />
   </Routes>
 );
