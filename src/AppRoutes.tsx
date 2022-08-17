@@ -19,34 +19,10 @@ import { ProjectDetailPage } from './components/ProjectDetailPage/ProjectDetailP
 import { DemoPage } from './components/DemoPage/DemoPage';
 import { VariablesPage } from './components/VariablesPage/VariablesPage';
 import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
-import { keycloakService, AUTH_ROLE } from './services/keycloakService';
+import { AUTH_ROLE } from './services/keycloakService';
 import { ErrorPage } from './components/ErrorPage/ErrorPage';
 import { PageTitles } from './utils/PageTitles';
-
-interface IProtectedRouteProps {
-  title: string;
-  role?: AUTH_ROLE;
-}
-
-const ProtectedRoute = ({ children, title, role = AUTH_ROLE.User }: React.PropsWithChildren<IProtectedRouteProps>) => {
-  if (!keycloakService.isKeycloakAvailable) {
-    return <ErrorPage pageTitle={title} errorDescription="Keycloak uninitialized."></ErrorPage>;
-  }
-
-  if (keycloakService.isAuthenticated()) {
-    if (keycloakService.hasRealmRole(role)) {
-      return <>{children}</>;
-    } else {
-      return <ErrorPage pageTitle={title} errorDescription="User not allowed to enter this page."></ErrorPage>;
-    }
-  } else {
-    keycloakService.login().catch(() => {
-      throw new Error('Keycloak login failed.');
-    });
-  }
-
-  return <div>Redirecting to keycloak...</div>;
-};
+import { ProtectedRoute } from './components/ProtectedContent/ProtectedRoute';
 
 export const AppRoutes = () => (
   <Routes>
