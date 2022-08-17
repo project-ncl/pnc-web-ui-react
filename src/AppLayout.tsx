@@ -34,7 +34,7 @@ interface IAppLayoutProps {}
 export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
   const webConfig = WebConfigAPI.getWebConfig();
 
-  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : '';
+  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -137,7 +137,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
                   onSelect={processLogout}
                   toggle={
                     <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
-                      {user ? user : 'Unknown User'}
+                      {user ? user : 'Login'}
                       {user && <CaretDownIcon />}
                     </DropdownToggle>
                   }
@@ -246,7 +246,9 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   return (
     <>
       {!keycloakService.isKeycloakAvailable && (
-        <div className={styles['top-level-error']}>RESTRICTED MODE - Keycloak could not be initialized</div>
+        <div className={styles['top-level-error']}>
+          RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
+        </div>
       )}
       <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
         {children}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { PageTitles } from '../../utils/PageTitles';
 import { StateCard } from '../EmptyStates/StateCard';
 import { PageLayout } from '../PageLayout/PageLayout';
-import styles from './ErrorPage.module.css';
+import '../../index.css';
 
 interface IErrorPageProps {
   pageTitle: string;
@@ -18,7 +18,7 @@ export const ErrorPage = ({ pageTitle, errorDescription }: IErrorPageProps) => {
         icon={CubesIcon}
       >
         <pre>{errorDescription}</pre>
-        <Link className={`${styles['return-button-margin']} pf-c-button pf-m-primary`} to="/">
+        <Link className="m-t-15 pf-c-button pf-m-primary" to="/">
           Return to Dashboard
         </Link>
       </StateCard>

@@ -22,7 +22,14 @@ class KeycloakService {
 
   private isKeycloakInitialized;
 
-  // false if keycloak could not be loaded / initialized
+  /*
+  false if: 
+  - Keycloak library is not loaded,
+  or library is loaded, but:
+  - was not initialized yet
+  - is initializing
+  - initialization failed
+  */
   private _isKeycloakAvailable: boolean = false;
 
   constructor() {
@@ -41,7 +48,7 @@ class KeycloakService {
   private init(): Promise<any> {
     const keycloakConfig = WebConfigAPI.getWebConfig().keycloak;
 
-    if (window.Keycloak) {
+    if (Keycloak) {
       this.keycloakAuth = new Keycloak({
         url: keycloakConfig.url,
         realm: keycloakConfig.realm,
