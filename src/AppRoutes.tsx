@@ -21,9 +21,10 @@ import { VariablesPage } from './components/VariablesPage/VariablesPage';
 import { AdministrationPage } from './components/AdministrationPage/AdministrationPage';
 import { keycloakService, AUTH_ROLE } from './services/keycloakService';
 import { ErrorPage } from './components/ErrorPage/ErrorPage';
+import { PageTitles } from './utils/PageTitles';
 
 interface IProtectedRouteProps {
-  title?: string;
+  title: string;
   role?: AUTH_ROLE;
 }
 
@@ -57,7 +58,7 @@ export const AppRoutes = () => (
       <Route
         path="create"
         element={
-          <ProtectedRoute title="Create Project">
+          <ProtectedRoute title={PageTitles.projectCreate}>
             <ProjectCreateEditPage />
           </ProtectedRoute>
         }
@@ -65,7 +66,7 @@ export const AppRoutes = () => (
       <Route
         path=":projectId/edit"
         element={
-          <ProtectedRoute title="Update Project">
+          <ProtectedRoute title={PageTitles.projectEdit}>
             <ProjectCreateEditPage editPage={true} />
           </ProtectedRoute>
         }
@@ -92,6 +93,11 @@ export const AppRoutes = () => (
         }
       />
     </Route>
-    <Route path="*" element={<ErrorPage errorDescription="The requested resource could not be found."></ErrorPage>} />
+    <Route
+      path="*"
+      element={
+        <ErrorPage pageTitle={PageTitles.pageNotFound} errorDescription="The requested resource could not be found."></ErrorPage>
+      }
+    />
   </Routes>
 );
