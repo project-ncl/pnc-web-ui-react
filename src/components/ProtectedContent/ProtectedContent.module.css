@@ -1,0 +1,8 @@
+.disabled-content {
+  pointer-events: none;
+}
+
+.disabled-content a {
+  pointer-events: none;
+  color: #6a6e73;
+}
