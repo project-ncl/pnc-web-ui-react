@@ -96,11 +96,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/100/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/100/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
           <tr
@@ -139,11 +143,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/101/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/101/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
           <tr
@@ -180,11 +188,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/102/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/102/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
           <tr
@@ -221,11 +233,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/103/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/103/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
           <tr
@@ -262,11 +278,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/104/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/104/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
           <tr
@@ -305,11 +325,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/105/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/105/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
           <tr
@@ -348,11 +372,15 @@ Object {
               data-key="3"
               data-label="Actions"
             >
-              <a
-                href="/106/edit"
+              <div
+                class="disabled-content"
               >
-                edit
-              </a>
+                <a
+                  href="/106/edit"
+                >
+                  edit
+                </a>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -451,11 +479,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/100/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/100/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
         <tr
@@ -494,11 +526,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/101/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/101/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
         <tr
@@ -535,11 +571,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/102/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/102/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
         <tr
@@ -576,11 +616,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/103/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/103/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
         <tr
@@ -617,11 +661,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/104/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/104/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
         <tr
@@ -660,11 +708,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/105/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/105/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
         <tr
@@ -703,11 +755,15 @@ Object {
             data-key="3"
             data-label="Actions"
           >
-            <a
-              href="/106/edit"
+            <div
+              class="disabled-content"
             >
-              edit
-            </a>
+              <a
+                href="/106/edit"
+              >
+                edit
+              </a>
+            </div>
           </td>
         </tr>
       </tbody>

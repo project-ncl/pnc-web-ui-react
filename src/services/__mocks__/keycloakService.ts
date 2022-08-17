@@ -1,3 +1,10 @@
+export enum AUTH_ROLE {
+  Admin = 'admin',
+  User = 'user',
+  System = 'system-user',
+  Power = 'power-user',
+}
+
 class KeycloakServiceMock {
   private initialized: boolean = false;
   private user: any;
