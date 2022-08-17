@@ -81,10 +81,10 @@ class KeycloakService {
   /**
    * Returns if user is authenticated.
    *
-   * @returns true if user is authenticated, otherwise returns false.
+   * @returns true if Keycloak is available and user is authenticated. false otherwise.
    */
   public isAuthenticated(): boolean {
-    return this.keycloakAuth.authenticated!;
+    return this.isKeycloakAvailable && this.keycloakAuth.authenticated!;
   }
 
   /**
@@ -101,7 +101,7 @@ class KeycloakService {
    *
    * @param redirectUri - uri to redirect after logout
    */
-  public logout(redirectUri?: String): void {
+  public logout(redirectUri?: string): void {
     this.keycloakAuth.logout({ redirectUri });
   }
 
@@ -110,7 +110,7 @@ class KeycloakService {
    *
    * @returns String with token if user is logged in or returns undefined when not.
    */
-  public getToken(): String {
+  public getToken(): string {
     this.updateToken()
       .then((isTokenRefreshed: boolean) => {
         if (isTokenRefreshed) {
@@ -126,8 +126,8 @@ class KeycloakService {
     return this.keycloakAuth.token;
   }
 
-  public getTokenValidity(): String {
-    if (!this.keycloakAuth.tokenParsed) {
+  public getTokenValidity(): string {
+    if (!this.isKeycloakAvailable || !this.keycloakAuth.tokenParsed) {
       return 'Not authenticated';
     }
 
@@ -155,7 +155,7 @@ class KeycloakService {
   }
 
   public isTokenExpired(): boolean {
-    return this.keycloakAuth.isTokenExpired(this.KEYCLOAK_TOKEN_MIN_EXP);
+    return this.isKeycloakAvailable && this.keycloakAuth.isTokenExpired(this.KEYCLOAK_TOKEN_MIN_EXP);
   }
 
   public updateToken(): Promise<boolean> {
@@ -165,9 +165,13 @@ class KeycloakService {
   /**
    * Gets user name from keycloak.
    *
-   * @returns String with username if user is logged in or returns undefined when not.
+   * @returns string with username if Keycloak is available and user is logged in. null otherwise.
    */
-  public getUser(): String {
+  public getUser(): string | null {
+    if (!this.isKeycloakAvailable) {
+      return null;
+    }
+
     return this.keycloakAuth.idTokenParsed?.preferred_username;
   }
 
@@ -175,10 +179,10 @@ class KeycloakService {
    * Checks if user has required auth role.
    *
    * @param role AUTH_ROLE
-   * @returns true when user is logged in and has required role for access, otherwise return false.
+   * @returns true when Keycloak is available and user is logged in and has required role for access. false otherwise.
    */
   public hasRealmRole(role: AUTH_ROLE): boolean {
-    return this.keycloakAuth.hasRealmRole(role);
+    return this.isKeycloakAvailable && this.keycloakAuth.hasRealmRole(role);
   }
 }
 /**
