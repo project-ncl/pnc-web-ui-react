@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('../../../services/projectService');
+jest.mock('../../../services/keycloakService');
 
 describe('display ProjectsPage component', () => {
   let projectsMock: any;

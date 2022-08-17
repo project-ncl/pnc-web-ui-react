@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 jest.mock('../../../services/projectService');
+jest.mock('../../../services/keycloakService');
 
 describe('display ProjectList component', () => {
   let projectsMock: any;
