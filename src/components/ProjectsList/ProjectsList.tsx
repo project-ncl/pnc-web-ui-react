@@ -6,7 +6,7 @@ import { Project } from 'pnc-api-types-ts';
 import { Link } from 'react-router-dom';
 
 import { ProjectLink } from '../ProjectLink/ProjectLink';
-import { ProtectedContent } from '../ProtectedContent/ProtectedContent';
+import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
 
 interface IProjectsList {
   projects: Project[];
@@ -33,9 +33,9 @@ export const ProjectsList = ({ projects }: IProjectsList) => {
     Object.keys(project.buildConfigs || []).length,
     {
       title: (
-        <ProtectedContent>
+        <ProtectedComponent>
           <Link to={`${project.id}/edit`}>edit</Link>
-        </ProtectedContent>
+        </ProtectedComponent>
       ),
     },
   ]);
