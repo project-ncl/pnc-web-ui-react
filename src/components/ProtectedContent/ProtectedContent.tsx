@@ -11,6 +11,7 @@ interface IProtectedContentProps {
   type: PROTECTED_TYPE;
   role?: AUTH_ROLE;
   title?: string;
+  hideOnError?: boolean;
 }
 
 export const ProtectedContent = ({
@@ -18,9 +19,12 @@ export const ProtectedContent = ({
   type,
   role = AUTH_ROLE.User,
   title,
+  hideOnError = false,
 }: React.PropsWithChildren<IProtectedContentProps>) => {
   const ErrorPageComponent = <ErrorPage pageTitle={title as string} errorDescription="User not allowed to enter this page." />;
-  const DisabledContentComponent = <div className={styles['disabled-content']}>{children}</div>;
+  const DisabledContentComponent = (
+    <div className={hideOnError ? styles['hidden-content'] : styles['disabled-content']}>{children}</div>
+  );
 
   if (!keycloakService.isKeycloakAvailable) {
     switch (type) {
@@ -52,6 +56,6 @@ export const ProtectedContent = ({
 
       return <div>Redirecting to keycloak...</div>;
     case PROTECTED_TYPE.Component:
-      return <>{children}</>;
+      return hideOnError ? DisabledContentComponent : <>{children}</>;
   }
 };
