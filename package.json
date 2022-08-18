@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@patternfly/react-core": "^4.135.0",
+    "@patternfly/react-log-viewer": "^4.69.1",
     "@patternfly/react-table": "^4.29.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",

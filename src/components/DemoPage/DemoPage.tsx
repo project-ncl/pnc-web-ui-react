@@ -14,6 +14,7 @@ import {
   SelectVariant,
   TextArea,
   TextInput,
+  ToolbarItem,
   Tooltip,
 } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
@@ -26,6 +27,7 @@ import { useTitle } from '../../containers/useTitle';
 
 import { maxLength, minLength } from '../../utils/formValidationHelpers';
 
+import '../../index.css';
 import { ActionButton } from '../ActionButton/ActionButton';
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
@@ -33,8 +35,10 @@ import { BuildName } from '../BuildName/BuildName';
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
+import { LogViewer } from '../LogViewer/LogViewer';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { Toolbar } from '../Toolbar/Toolbar';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
@@ -60,8 +64,46 @@ const formConfig = {
   },
 };
 
+const initLogData = [
+  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+];
+
 export const DemoPage = () => {
   useTitle('Demo Page');
+
+  const [logLine, setLogLine] = useState<any>('');
+  const [logData, setLogData] = useState<any>(initLogData);
 
   const submitForm = (data: IFields) => {
     console.log('form state when submitted:', {
@@ -181,6 +223,37 @@ export const DemoPage = () => {
   return (
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>
+        <FlexItem>
+          <Card>
+            <Toolbar>
+              <ToolbarItem>
+                <TextInput
+                  id="log-input"
+                  value={logLine}
+                  onChange={(value) => {
+                    setLogLine(value);
+                  }}
+                ></TextInput>
+              </ToolbarItem>
+              <ToolbarItem>
+                <Button
+                  onClick={() => {
+                    setLogData([...logData, logLine]);
+                    setLogLine('');
+                  }}
+                  variant="control"
+                >
+                  Send log line
+                </Button>
+              </ToolbarItem>
+            </Toolbar>
+
+            <div className="p-15">
+              <LogViewer data={logData} follow={false} />
+            </div>
+          </Card>
+        </FlexItem>
+
         <FlexItem>
           <Card>
             <CardTitle>Form Demo</CardTitle>
