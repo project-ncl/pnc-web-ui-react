@@ -10,12 +10,12 @@ import { isBuild } from '../../utils/entityRecognition';
 import styles from './DependencyTree.module.css';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 
-export interface IGraphEdge {
+interface IGraphEdge {
   source: string;
   target: string;
 }
 
-export interface IGraphVertic {
+interface IGraphVertic {
   name: string;
   dataType: string;
   data: Build | GroupBuild;
@@ -23,28 +23,23 @@ export interface IGraphVertic {
   _dependentBuildIds: Array<string>;
 }
 
-export interface IDependencyGraph {
-  edges: Array<IGraphEdge>;
-  vertices: Map<string, IGraphVertic>;
-}
-
-export interface IDependencyTreeProps {
+interface IDependencyTreeProps {
   build?: Build;
   groupBuild?: GroupBuild;
 }
 
-export interface IServiceDataProps {
+interface IServiceDataProps {
   build?: Build;
   groupBuild?: GroupBuild;
 }
 
-export interface IDependencyBuild extends Build, GroupBuild {
+interface IDependencyBuild extends Build, GroupBuild {
   _buildIds?: Array<string>;
   _dependencyBuildIds?: Array<string>;
   _dependentBuildIds?: Array<string>;
 }
 
-export interface IDependencyDataItem extends TreeViewDataItem {
+interface IDependencyDataItem extends TreeViewDataItem {
   data: IDependencyBuild;
   children?: IDependencyDataItem[];
   level: number;
@@ -66,9 +61,9 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const dataContainer = useDataContainer(
     useCallback(({ serviceData, requestConfig }: IService<IServiceDataProps>) => {
       if (serviceData!.build) {
-        return buildService.getDependencyGraph(serviceData!.build!.id, requestConfig);
+        return buildService.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);
       } else {
-        return groupBuildService.getDependencyGraph(serviceData!.groupBuild!.id, requestConfig);
+        return groupBuildService.getDependencyGraph({ id: serviceData!.groupBuild!.id }, requestConfig);
       }
     }, [])
   );
