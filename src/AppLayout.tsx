@@ -34,7 +34,7 @@ interface IAppLayoutProps {}
 export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
   const webConfig = WebConfigAPI.getWebConfig();
 
-  const user = keycloakService.getUser();
+  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -49,7 +49,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
       <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
-      ...(keycloakService.hasRealmRole(AUTH_ROLE.Admin)
+      ...(keycloakService.isKeycloakAvailable && keycloakService.hasRealmRole(AUTH_ROLE.Admin)
         ? [<DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />]
         : []),
     ];
