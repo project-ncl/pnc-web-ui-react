@@ -28,6 +28,7 @@ import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
 import * as WebConfigAPI from './services/WebConfigService';
 import { AUTH_ROLE, keycloakService } from './services/keycloakService';
 import styles from './AppLayout.module.css';
+import { ProtectedComponent } from './components/ProtectedContent/ProtectedComponent';
 
 interface IAppLayoutProps {}
 
@@ -49,9 +50,9 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
       <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
-      ...(keycloakService.isKeycloakAvailable && keycloakService.hasRealmRole(AUTH_ROLE.Admin)
-        ? [<DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />]
-        : []),
+      <ProtectedComponent role={AUTH_ROLE.Admin} hideOnError={true}>
+        <DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />
+      </ProtectedComponent>,
     ];
 
     const headerQuestionDropdownItems = [
