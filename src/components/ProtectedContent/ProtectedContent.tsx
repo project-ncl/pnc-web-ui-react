@@ -1,5 +1,4 @@
 import { AUTH_ROLE, keycloakService } from '../../services/keycloakService';
-import { PageTitles } from '../../utils/PageTitles';
 import { ErrorPage } from '../ErrorPage/ErrorPage';
 import styles from './ProtectedContent.module.css';
 
@@ -20,12 +19,15 @@ export const ProtectedContent = ({
   role = AUTH_ROLE.User,
   title,
 }: React.PropsWithChildren<IProtectedContentProps>) => {
+  const ErrorPageComponent = <ErrorPage pageTitle={title as string} errorDescription="User not allowed to enter this page." />;
+  const DisabledContentComponent = <div className={styles['disabled-content']}>{children}</div>;
+
   if (!keycloakService.isKeycloakAvailable) {
     switch (type) {
       case PROTECTED_TYPE.Route:
-        return <ErrorPage pageTitle={title ? title : PageTitles.pageNotFound} errorDescription="Keycloak uninitialized." />;
+        return ErrorPageComponent;
       case PROTECTED_TYPE.Component:
-        return <div className={styles['disabled-content']}>{children}</div>;
+        return DisabledContentComponent;
     }
   }
 
@@ -35,14 +37,9 @@ export const ProtectedContent = ({
     } else {
       switch (type) {
         case PROTECTED_TYPE.Route:
-          return (
-            <ErrorPage
-              pageTitle={title ? title : PageTitles.pageNotFound}
-              errorDescription="User not allowed to enter this page."
-            />
-          );
+          return ErrorPageComponent;
         case PROTECTED_TYPE.Component:
-          return <div className={styles['disabled-content']}>{children}</div>;
+          return DisabledContentComponent;
       }
     }
   }
