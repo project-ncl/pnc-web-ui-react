@@ -21,10 +21,11 @@ export const ProtectedContent = ({
   title,
 }: React.PropsWithChildren<IProtectedContentProps>) => {
   if (!keycloakService.isKeycloakAvailable) {
-    if (type === PROTECTED_TYPE.Route) {
-      return <ErrorPage pageTitle={title ? title : PageTitles.pageNotFound} errorDescription="Keycloak uninitialized." />;
-    } else if (type === PROTECTED_TYPE.Component) {
-      return <div className={styles['disabled-content']}>{children}</div>;
+    switch (type) {
+      case PROTECTED_TYPE.Route:
+        return <ErrorPage pageTitle={title ? title : PageTitles.pageNotFound} errorDescription="Keycloak uninitialized." />;
+      case PROTECTED_TYPE.Component:
+        return <div className={styles['disabled-content']}>{children}</div>;
     }
   }
 
@@ -32,26 +33,28 @@ export const ProtectedContent = ({
     if (keycloakService.hasRealmRole(role)) {
       return <>{children}</>;
     } else {
-      if (type === PROTECTED_TYPE.Route) {
-        return (
-          <ErrorPage
-            pageTitle={title ? title : PageTitles.pageNotFound}
-            errorDescription="User not allowed to enter this page."
-          />
-        );
-      } else if (type === PROTECTED_TYPE.Component) {
-        return <div className={styles['disabled-content']}>{children}</div>;
+      switch (type) {
+        case PROTECTED_TYPE.Route:
+          return (
+            <ErrorPage
+              pageTitle={title ? title : PageTitles.pageNotFound}
+              errorDescription="User not allowed to enter this page."
+            />
+          );
+        case PROTECTED_TYPE.Component:
+          return <div className={styles['disabled-content']}>{children}</div>;
       }
     }
   }
 
-  if (type === PROTECTED_TYPE.Route) {
-    keycloakService.login().catch(() => {
-      throw new Error('Keycloak login failed.');
-    });
+  switch (type) {
+    case PROTECTED_TYPE.Route:
+      keycloakService.login().catch(() => {
+        throw new Error('Keycloak login failed.');
+      });
 
-    return <div>Redirecting to keycloak...</div>;
-  } else {
-    return <>{children}</>;
+      return <div>Redirecting to keycloak...</div>;
+    case PROTECTED_TYPE.Component:
+      return <>{children}</>;
   }
 };
