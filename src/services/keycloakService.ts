@@ -1,7 +1,7 @@
 import * as WebConfigAPI from '../services/WebConfigService';
 import { Keycloak } from '../services/keycloakHolder';
 /**
- * Enum with possible authentication roles in keycloak.
+ * Enum with possible authentication roles in Keycloak.
  *
  */
 export enum AUTH_ROLE {
@@ -15,8 +15,8 @@ export enum AUTH_ROLE {
  * Class managing authentication functionality.
  */
 class KeycloakService {
-  //We can't get KeycloakInstance type because of dynamic loading of keycloak library
-  private keycloakAuth: any;
+  //We can't get KeycloakInstance type because of dynamic loading of Keycloak library
+  private keycloakAuth: any = null;
 
   private KEYCLOAK_TOKEN_MIN_EXP = 86400; // Default: 24 Hours
 
@@ -41,9 +41,9 @@ class KeycloakService {
   }
 
   /**
-   * Initialize keycloak and create instance.
+   * Initialize Keycloak and create instance.
    *
-   * @returns Promise
+   * @returns promise.
    */
   private init(): Promise<any> {
     const keycloakConfig = WebConfigAPI.getWebConfig().keycloak;
@@ -71,9 +71,9 @@ class KeycloakService {
     }
   }
   /**
-   * Returns promise of keycloak initialization.
+   * Returns promise of Keycloak initialization.
    *
-   * @returns Promise
+   * @returns promise.
    */
   public isInitialized(): Promise<any> {
     return this.isKeycloakInitialized;
@@ -81,36 +81,52 @@ class KeycloakService {
   /**
    * Returns if user is authenticated.
    *
-   * @returns true if Keycloak is available and user is authenticated. false otherwise.
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns true if user is authenticated. false otherwise.
    */
   public isAuthenticated(): boolean {
-    return this.isKeycloakAvailable && this.keycloakAuth.authenticated!;
+    this.tryKeycloakAvailable();
+
+    return this.keycloakAuth.authenticated!;
   }
 
   /**
    * Initiate login process in keycloak.
    *
-   * @returns Promise
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns promise.
    */
   public login(): Promise<any> {
+    this.tryKeycloakAvailable();
+
     return this.keycloakAuth.login();
   }
 
   /**
    * Initiate logout process in keycloak.
    *
-   * @param redirectUri - uri to redirect after logout
+   * Throws exception if Keycloak is not available.
+   *
+   * @param redirectUri - uri to redirect after logout.
    */
   public logout(redirectUri?: string): void {
+    this.tryKeycloakAvailable();
+
     this.keycloakAuth.logout({ redirectUri });
   }
 
   /**
    * Gets keycloak token.
    *
-   * @returns String with token if user is logged in or returns undefined when not.
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns string with token if user is logged in. undefined otherwise.
    */
   public getToken(): string {
+    this.tryKeycloakAvailable();
+
     this.updateToken()
       .then((isTokenRefreshed: boolean) => {
         if (isTokenRefreshed) {
@@ -126,8 +142,17 @@ class KeycloakService {
     return this.keycloakAuth.token;
   }
 
+  /**
+   * Returns token validity string.
+   *
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns token validity string.
+   */
   public getTokenValidity(): string {
-    if (!this.isKeycloakAvailable || !this.keycloakAuth.tokenParsed) {
+    this.tryKeycloakAvailable();
+
+    if (!this.keycloakAuth.tokenParsed) {
       return 'Not authenticated';
     }
 
@@ -154,23 +179,41 @@ class KeycloakService {
     return validity;
   }
 
+  /**
+   * Returns whether is token expired.
+   *
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns true if token is expired. false otherwise.
+   */
   public isTokenExpired(): boolean {
-    return this.isKeycloakAvailable && this.keycloakAuth.isTokenExpired(this.KEYCLOAK_TOKEN_MIN_EXP);
+    this.tryKeycloakAvailable();
+
+    return this.keycloakAuth.isTokenExpired(this.KEYCLOAK_TOKEN_MIN_EXP);
   }
 
+  /**
+   * Updates token.
+   *
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns promise.
+   */
   public updateToken(): Promise<boolean> {
+    this.tryKeycloakAvailable();
+
     return this.keycloakAuth.updateToken(this.KEYCLOAK_TOKEN_MIN_EXP);
   }
 
   /**
    * Gets user name from keycloak.
    *
-   * @returns string with username if Keycloak is available and user is logged in. null otherwise.
+   * Throws exception if Keycloak is not available.
+   *
+   * @returns string with username if user is logged in. undefined otherwise.
    */
   public getUser(): string | null {
-    if (!this.isKeycloakAvailable) {
-      return null;
-    }
+    this.tryKeycloakAvailable();
 
     return this.keycloakAuth.idTokenParsed?.preferred_username;
   }
@@ -178,13 +221,27 @@ class KeycloakService {
   /**
    * Checks if user has required auth role.
    *
+   * Throws exception if Keycloak is not available.
+   *
    * @param role AUTH_ROLE
-   * @returns true when Keycloak is available and user is logged in and has required role for access. false otherwise.
+   * @returns true when user is logged in and has required role for access. false otherwise.
    */
   public hasRealmRole(role: AUTH_ROLE): boolean {
-    return this.isKeycloakAvailable && this.keycloakAuth.hasRealmRole(role);
+    this.tryKeycloakAvailable();
+
+    return this.keycloakAuth.hasRealmRole(role);
+  }
+
+  /**
+   * Checks Keycloak availability and throws exception if Keycloak is not available.
+   */
+  private tryKeycloakAvailable() {
+    if (!this.isKeycloakAvailable) {
+      throw new Error('KeycloakAuth not available! Please check Keycloak availability before using Keycloak service method.');
+    }
   }
 }
+
 /**
  * Instance of KeycloakService providing group of Keycloak related API operations.
  */
