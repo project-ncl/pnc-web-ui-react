@@ -7,6 +7,11 @@
   color: #6a6e73;
 }
 
-.hidden-content {
-  display: none;
+.disabled-content button {
+  pointer-events: none;
+  color: #6a6e73 !important;
+}
+
+.disabled-content button::after {
+  border-color: #6a6e73;
 }

@@ -3,15 +3,15 @@ import { PageLayout } from './../PageLayout/PageLayout';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { projectService } from '../../services/projectService';
-import { Button, Flex, FlexItem, Label, ToolbarItem } from '@patternfly/react-core';
+import { Flex, FlexItem, Label, ToolbarItem } from '@patternfly/react-core';
 import { Pagination } from '../Pagination/Pagination';
 import { useQueryParamsEffect } from '../../containers/useQueryParamsEffect';
 import { Filtering, IFilterOptions } from '../Filtering/Filtering';
 import { Toolbar } from '../Toolbar/Toolbar';
 import { useTitle } from '../../containers/useTitle';
 import { PageTitles } from '../../utils/PageTitles';
-import { useNavigate } from 'react-router-dom';
-import { keycloakService } from '../../services/keycloakService';
+import { ActionButton } from '../ActionButton/ActionButton';
+import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
 
 interface IProjectPage {
   componentId?: string;
@@ -19,7 +19,6 @@ interface IProjectPage {
 
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
   const dataContainer = useDataContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
-  const navigate = useNavigate();
 
   useTitle(PageTitles.projects);
 
@@ -77,15 +76,9 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
               <Filtering filterOptions={filterOptions} componentId={componentId} />
             </FlexItem>
             <FlexItem>
-              <Button
-                onClick={() => {
-                  navigate('create');
-                }}
-                isDisabled={!keycloakService.isKeycloakAvailable}
-                variant="primary"
-              >
-                Create
-              </Button>
+              <ProtectedComponent>
+                <ActionButton link="create">Create</ActionButton>
+              </ProtectedComponent>
             </FlexItem>
           </Flex>
         </ToolbarItem>

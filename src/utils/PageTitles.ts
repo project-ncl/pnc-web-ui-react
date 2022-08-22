@@ -11,5 +11,5 @@ export const PageTitles = {
   artifacts: 'Artifacts',
   repositories: 'SCM Repositories',
   administration: 'Administration',
-  pageNotFound: 'Page not found',
+  pageNotFound: 'Page Not Found',
 };
