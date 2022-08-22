@@ -8,6 +8,32 @@ interface ILogViewerProps {
   follow: boolean;
 }
 
+interface IOnScrollProps {
+  scrollOffsetToBottom: number;
+  scrollUpdateWasRequested: boolean;
+}
+
+/**
+ * Log viewer component to display logs.
+ * Log viewer is considered to be paused when it is not scrolled to the bottom.
+ * Whe log viewer is paused, data are not rendered (but still stored). When paused, 'resume' button will appear so user can scroll to the bottom.
+ * Resume button also displays number of lines not rendered (if any).
+ * After scrolling to the bottom, all data not rendered yet will be rendered.
+ *
+ * User can use 'Top' button to scroll to the top and 'Bottom' button to scroll to the bottom.
+ * There is also a switch, which can be used to change default 'follow' value.
+ * When log viewer is following and new data are inputted, log viewer will automatically scroll to the bottom.
+ *
+ * See an example use {@link DemoPage}
+ *
+ * @example
+ * ```tsx
+ * <LogViewer data={logData} follow={false} />
+ * ```
+ *
+ * @param data - data log viewer will render
+ * @param follow - should log viewer be scrolled to the bottom on update of data? (default value)
+ */
 export const LogViewer = ({ data, follow }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
@@ -41,7 +67,7 @@ export const LogViewer = ({ data, follow }: ILogViewerProps) => {
     }
   }, [isFollowing, data]);
 
-  const onScroll = ({ scrollOffsetToBottom, scrollDirection, scrollUpdateWasRequested }: any) => {
+  const onScroll = ({ scrollOffsetToBottom, scrollUpdateWasRequested }: IOnScrollProps) => {
     if (!scrollUpdateWasRequested) {
       if (scrollOffsetToBottom > 0) {
         setIsPaused(true);
