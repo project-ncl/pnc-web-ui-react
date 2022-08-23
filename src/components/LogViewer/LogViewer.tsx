@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 interface ILogViewerProps {
   data: string | string[];
   follow: boolean;
+  isTextWrapped?: boolean;
 }
 
 interface IOnScrollProps {
@@ -33,8 +34,9 @@ interface IOnScrollProps {
  *
  * @param data - data log viewer will render
  * @param follow - should log viewer be scrolled to the bottom on update of data? (default value)
+ * @param isTextWrapped - should too long line be wrapped?
  */
-export const LogViewer = ({ data, follow }: ILogViewerProps) => {
+export const LogViewer = ({ data, follow, isTextWrapped = false }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
   // data that are actually rendered
@@ -133,6 +135,7 @@ export const LogViewer = ({ data, follow }: ILogViewerProps) => {
       onScroll={onScroll}
       toolbar={<HeaderToolbar />}
       footer={isPaused && <FooterButton />}
+      isTextWrapped={isTextWrapped}
     />
   );
 };
