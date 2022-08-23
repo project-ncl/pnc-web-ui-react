@@ -1,4 +1,4 @@
-import { Label, ToolbarItem } from '@patternfly/react-core';
+import { Flex, FlexItem, Label, ToolbarItem } from '@patternfly/react-core';
 
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
