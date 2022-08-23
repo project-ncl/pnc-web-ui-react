@@ -77,7 +77,9 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
             </FlexItem>
             <FlexItem>
               <ProtectedComponent>
-                <ActionButton link="create">Create</ActionButton>
+                <ActionButton iconType="create" link="create">
+                  Create
+                </ActionButton>
               </ProtectedComponent>
             </FlexItem>
           </Flex>
