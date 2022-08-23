@@ -1,5 +1,5 @@
 import { Button, Switch, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
-import { CaretDownIcon, CaretUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
+import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
 import { useEffect, useRef, useState } from 'react';
 
@@ -89,7 +89,7 @@ export const LogViewer = ({ data, follow }: ILogViewerProps) => {
               }
             }}
             variant="control"
-            icon={<CaretUpIcon />}
+            icon={<LongArrowAltUpIcon />}
           >
             Top
           </Button>
@@ -100,7 +100,7 @@ export const LogViewer = ({ data, follow }: ILogViewerProps) => {
               setIsPaused(false);
             }}
             variant="control"
-            icon={<CaretDownIcon />}
+            icon={<LongArrowAltDownIcon />}
           >
             Bottom
           </Button>
