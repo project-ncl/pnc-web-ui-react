@@ -83,8 +83,10 @@ export const LogViewer = ({ data, follow }: ILogViewerProps) => {
         <ToolbarItem>
           <Button
             onClick={() => {
-              setIsPaused(true);
-              logViewerRef?.current?.scrollTo(0, 0);
+              if (logViewerRef?.current.state.scrollOffset) {
+                setIsPaused(true);
+                logViewerRef?.current?.scrollTo(0, 0);
+              }
             }}
             variant="control"
             icon={<CaretUpIcon />}
