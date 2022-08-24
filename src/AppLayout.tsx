@@ -26,11 +26,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
 import { ProtectedComponent } from './components/ProtectedContent/ProtectedComponent';
+import { TopBarError } from './components/TopBar/TopBarError';
 
 import * as WebConfigAPI from './services/WebConfigService';
 import { AUTH_ROLE, keycloakService } from './services/keycloakService';
 
-import styles from './AppLayout.module.css';
 import pncLogoText from './pnc-logo-text.svg';
 
 interface IAppLayoutProps {}
@@ -250,9 +250,9 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   return (
     <>
       {!keycloakService.isKeycloakAvailable && (
-        <div className={styles['top-level-error']}>
+        <TopBarError>
           RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
-        </div>
+        </TopBarError>
       )}
       <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
         {children}

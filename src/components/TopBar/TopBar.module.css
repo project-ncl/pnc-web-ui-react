@@ -1,0 +1,36 @@
+.top-bar {
+  padding: 8px;
+}
+
+.top-bar-error {
+  color: white;
+  background-color: var(--pf-global--danger-color--200);
+}
+
+.top-bar-warning {
+  color: black;
+  background-color: var(--pf-global--warning-color--100);
+}
+
+.top-bar-info {
+  color: black;
+  background-color: var(--pf-global--info-color--100);
+}
+
+.top-bar-error .close-icon {
+  color: white;
+}
+
+.top-bar-error button:hover > .close-icon {
+  color: var(--pf-global--Color--light-300);
+}
+
+.top-bar-warning .close-icon,
+.top-bar-info .close-icon {
+  color: black;
+}
+
+.top-bar-warning button:hover > .close-icon,
+.top-bar-info button:hover > .close-icon {
+  color: var(--pf-global--palette--black-700);
+}
