@@ -35,6 +35,25 @@ code {
 }
 
 /* ====================
+   Global colors
+   ==================== */
+
+:root {
+  --c-error-primary: var(--pf-global--danger-color--200);
+  --c-error-text: white;
+  --c-error-close-icon: white;
+  --c-error-close-icon-hover: var(--pf-global--Color--light-300);
+  --c-warning-primary: var(--pf-global--warning-color--100);
+  --c-warning-text: black;
+  --c-warning-close-icon: black;
+  --c-warning-close-icon-hover: var(--pf-global--palette--black-700);
+  --c-info-primary: var(--pf-global--info-color--100);
+  --c-info-text: black;
+  --c-info-close-icon: black;
+  --c-info-close-icon-hover: var(--pf-global--palette--black-700);
+}
+
+/* ====================
    PatternFly overrides
    ==================== */
 
