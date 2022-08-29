@@ -1,7 +1,7 @@
 import { TextInputProps } from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
 
-interface IFieldValues {
+export interface IFieldValues {
   [key: string]: string | undefined;
 }
 
@@ -157,18 +157,16 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
       fieldsCopy[key].state = 'default';
     }
 
-    submitCallback(fieldsCopy).catch((error: any) => {
-      // backend error, just log it at the moment
-      console.error(error);
-
-      // FUTURE IMPLEMENTATION:
-      // const fieldsCopy = { ...fields };
-      // for (const key in error.details.validation) {
-      //   const newField = { ...fields[key], error: error.details.validation[key].errorMessage, state: 'error' };
-      //   fieldsCopy[key] = newField;
-      // }
-      // setFields(fieldsCopy);
-    });
+    submitCallback(fieldsCopy);
+    // .catch((error: any) => {
+    // FUTURE IMPLEMENTATION (backend error):
+    // const fieldsCopy = { ...fields };
+    // for (const key in error.details.validation) {
+    //   const newField = { ...fields[key], error: error.details.validation[key].errorMessage, state: 'error' };
+    //   fieldsCopy[key] = newField;
+    // }
+    // setFields(fieldsCopy);
+    // });
 
     setFields(fieldsCopy);
     setHasChanged(false);

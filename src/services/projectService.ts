@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { Operation } from 'fast-json-patch';
 
 import { Project } from 'pnc-api-types-ts';
 
@@ -39,6 +40,18 @@ class ProjectService {
    */
   public createProject(data: Omit<Project, 'id'>, requestConfig: AxiosRequestConfig = {}) {
     return pncClient.getHttpClient().post('/projects', data, requestConfig);
+  }
+
+  /**
+   * Patch a Project.
+   *
+   * @param id - project ID
+   * @param patch - array of changes in JSON patch format
+   * @param requestConfig - Axios based request config
+   * @returns Updated Project
+   */
+  public patchProject(id: string, patch: Operation[], requestConfig: AxiosRequestConfig = {}) {
+    return pncClient.getHttpClient().patch(`/projects/${id}`, patch, requestConfig);
   }
 
   /**
