@@ -13,6 +13,7 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
+import { Operation } from 'fast-json-patch';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ import { projectService } from '../../services/projectService';
 
 import { PageTitles } from '../../utils/PageTitles';
 import { validateUrl } from '../../utils/formValidationHelpers';
+import { createPatchData, createSafePatch } from '../../utils/patchHelper';
 
 import { PageLayout } from '../PageLayout/PageLayout';
 
@@ -53,7 +55,9 @@ const formConfig = {
 export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPageProps) => {
   const flexDirection: FlexProps['direction'] = { default: 'column' };
 
-  // edit page
+  // edit page:
+  // on edit page, use patch data container (or get data container)?
+  const [usePatchDataContainer, setUsePatchDataContainer] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
   const navigate = useNavigate();
   const urlPathParams = useParams();
@@ -66,13 +70,27 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     }
   );
 
-  // edit page
-  const dataContainerCreateEdit = useDataContainer(
+  // edit page - get method
+  const dataContainerEditGet = useDataContainer(
     useCallback(({ serviceData }: IService<Project>) => {
       return projectService.getProject(serviceData!);
     }, [])
   );
-  const editRefresh = dataContainerCreateEdit.refresh;
+  const editRefreshGet = dataContainerEditGet.refresh;
+
+  // edit page - patch method
+  const dataContainerEditPatch = useDataContainer(
+    useCallback(
+      ({ serviceData }: IService<Operation[]>) => {
+        return projectService.patchProject(id, serviceData!);
+      },
+      [id]
+    ),
+    {
+      initLoadingState: false,
+    }
+  );
+  const editRefreshPatch = dataContainerEditPatch.refresh;
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
@@ -93,17 +111,20 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         if (!projectId) {
           throw new Error(`Invalid projectId coming from Orch POST response: ${projectId}`);
         }
-        // temporarily navigate to edit page until detail page is finished
-        navigate(`/projects/${projectId}/edit`, { replace: true });
-      });
+        navigate(`/projects/${projectId}`);
+      })
+      .catch((e: any) => {});
   };
 
   const submitUpdate = (data: IFields) => {
-    // PATCH method should be used
-    console.log('not implemented yet', {
-      id,
-      ...data,
-    });
+    const patchData = createPatchData(data);
+    const patch = createSafePatch(dataContainerEditGet.data, patchData);
+
+    editRefreshPatch({ serviceData: patch })
+      .then((response: any) => {
+        navigate(`/projects/${id}`);
+      })
+      .catch((e: any) => {});
   };
 
   const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
@@ -114,9 +135,10 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   useEffect(() => {
     if (editPage) {
       if (urlPathParams.projectId) {
-        editRefresh({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
+        editRefreshGet({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
           const project: Project = response.data;
 
+          setUsePatchDataContainer(true);
           setId(project.id);
           reinitialize({
             name: project.name,
@@ -131,7 +153,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-  }, [editPage, urlPathParams.projectId, editRefresh, reinitialize]);
+  }, [editPage, urlPathParams.projectId, editRefreshGet, reinitialize]);
 
   const formComponent = (
     <Card>
@@ -276,9 +298,14 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       <Flex direction={flexDirection}>
         <FlexItem>
           {editPage ? (
-            <DataContainer {...dataContainerCreateEdit} title="Edit Project">
-              {formComponent}
-            </DataContainer>
+            usePatchDataContainer ? (
+              <ServiceContainerCreating {...dataContainerEditPatch} title="Edit Project">
+                {formComponent}
+              </ServiceContainerCreating>
+            ) : (
+              /* used just to GET project data, after that is immediately switched to patch container */
+              <DataContainer {...dataContainerEditGet} title="Edit Project"></DataContainer>
+            )
           ) : (
             <ServiceContainerCreating {...dataContainerCreate} title="Create Project">
               {formComponent}
