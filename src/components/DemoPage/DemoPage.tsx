@@ -374,7 +374,7 @@ export const DemoPage = () => {
             </Toolbar>
 
             <div className="p-15">
-              <LogViewer data={logData} follow={false} />
+              <LogViewer data={logData} />
             </div>
           </Card>
         </FlexItem>
