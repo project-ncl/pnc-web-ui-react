@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 
 interface ILogViewerProps {
   data: string | string[];
-  follow: boolean;
-  wrapLines?: boolean;
 }
 
 interface IOnScrollProps {
@@ -33,18 +31,16 @@ interface IOnScrollProps {
  * ```
  *
  * @param data - data log viewer will render
- * @param follow - should log viewer be scrolled to the bottom on update of data? (default value)
- * @param wrapLines - should too long lines be wrapped?
  */
-export const LogViewer = ({ data, follow, wrapLines = true }: ILogViewerProps) => {
+export const LogViewer = ({ data }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
   // data that are actually rendered
   const [renderedData, setRenderedData] = useState(data);
   // is log viewer currently following new data input?
-  const [isFollowing, setIsFollowing] = useState<boolean>(follow);
+  const [isFollowing, setIsFollowing] = useState<boolean>();
   // are lines wrapped?
-  const [areLinesWrapped, setAreLinesWrapped] = useState<boolean>(wrapLines);
+  const [areLinesWrapped, setAreLinesWrapped] = useState<boolean>();
   // is log viewer paused? (data are still stored, but not rendered)
   const [isPaused, setIsPaused] = useState(true);
   // count of rendered lines
@@ -52,6 +48,13 @@ export const LogViewer = ({ data, follow, wrapLines = true }: ILogViewerProps) =
   const [lineCount, setLineCount] = useState(0);
   // if paused, how many lines were not rendered?
   const [linesBehind, setLinesBehind] = useState(0);
+
+  useEffect(() => {
+    const shouldFollow = window.localStorage.getItem('log-viewer-following') === 'true';
+    const shouldWrap = window.localStorage.getItem('log-viewer-wrapping') === 'true';
+    setIsFollowing(shouldFollow);
+    setAreLinesWrapped(shouldWrap);
+  }, []);
 
   useEffect(() => {
     if (!isPaused && data.length > 0) {
@@ -116,6 +119,7 @@ export const LogViewer = ({ data, follow, wrapLines = true }: ILogViewerProps) =
             isChecked={isFollowing}
             onChange={(checked) => {
               setIsFollowing(checked);
+              window.localStorage.setItem('log-viewer-following', `${checked}`);
             }}
           />
         </ToolbarItem>
@@ -127,6 +131,7 @@ export const LogViewer = ({ data, follow, wrapLines = true }: ILogViewerProps) =
             onChange={(checked) => {
               setIsPaused(true);
               setAreLinesWrapped(checked);
+              window.localStorage.setItem('log-viewer-wrapping', `${checked}`);
             }}
           />
         </ToolbarItem>
