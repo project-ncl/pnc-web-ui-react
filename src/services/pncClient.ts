@@ -46,6 +46,12 @@ class PncClient {
         }
       }
 
+      // PATCH method uses JSON patch format of its data
+      if (config.method === 'patch') {
+        config.headers = config.headers ?? {};
+        config.headers['Content-Type'] = 'application/json-patch+json';
+      }
+
       return config;
     });
     return httpClient;
