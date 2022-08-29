@@ -1,11 +1,11 @@
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
-import { TopBar } from './TopBar';
+import { TOPBAR_TYPE, TopBar } from './TopBar';
 
 interface ITopErrorProps {}
 
 export const TopBarError = ({ children }: React.PropsWithChildren<ITopErrorProps>) => (
-  <TopBar topBarClass="top-bar-error" icon={<ExclamationCircleIcon />}>
+  <TopBar type={TOPBAR_TYPE.Error} icon={<ExclamationCircleIcon />}>
     {children}
   </TopBar>
 );
