@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 interface ILogViewerProps {
   data: string | string[];
   follow: boolean;
-  isTextWrapped?: boolean;
+  wrapLines?: boolean;
 }
 
 interface IOnScrollProps {
@@ -34,15 +34,17 @@ interface IOnScrollProps {
  *
  * @param data - data log viewer will render
  * @param follow - should log viewer be scrolled to the bottom on update of data? (default value)
- * @param isTextWrapped - should too long line be wrapped?
+ * @param wrapLines - should too long lines be wrapped?
  */
-export const LogViewer = ({ data, follow, isTextWrapped = false }: ILogViewerProps) => {
+export const LogViewer = ({ data, follow, wrapLines = true }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
   // data that are actually rendered
   const [renderedData, setRenderedData] = useState(data);
   // is log viewer currently following new data input?
   const [isFollowing, setIsFollowing] = useState<boolean>(follow);
+  // are lines wrapped?
+  const [areLinesWrapped, setAreLinesWrapped] = useState<boolean>(wrapLines);
   // is log viewer paused? (data are still stored, but not rendered)
   const [isPaused, setIsPaused] = useState(true);
   // count of rendered lines
@@ -109,11 +111,22 @@ export const LogViewer = ({ data, follow, isTextWrapped = false }: ILogViewerPro
         </ToolbarItem>
         <ToolbarItem>
           <Switch
-            label="Following"
-            labelOff="Not Following"
+            label="Force Following"
+            labelOff="Force Following"
             isChecked={isFollowing}
             onChange={(checked) => {
               setIsFollowing(checked);
+            }}
+          />
+        </ToolbarItem>
+        <ToolbarItem>
+          <Switch
+            label="Wrap Lines"
+            labelOff="Wrap Lines"
+            isChecked={areLinesWrapped}
+            onChange={(checked) => {
+              setIsPaused(true);
+              setAreLinesWrapped(checked);
             }}
           />
         </ToolbarItem>
@@ -135,7 +148,7 @@ export const LogViewer = ({ data, follow, isTextWrapped = false }: ILogViewerPro
       onScroll={onScroll}
       toolbar={<HeaderToolbar />}
       footer={isPaused && <FooterButton />}
-      isTextWrapped={isTextWrapped}
+      isTextWrapped={areLinesWrapped}
     />
   );
 };
