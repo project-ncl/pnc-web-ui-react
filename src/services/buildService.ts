@@ -3,6 +3,10 @@ import { AxiosRequestConfig } from 'axios';
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
 
+interface IBuildServiceData {
+  id: string;
+}
+
 class BuildService {
   path = '/builds';
 
@@ -24,6 +28,17 @@ class BuildService {
    */
   public getBuildCount(requestConfig: AxiosRequestConfig = {}) {
     return pncClient.getHttpClient().get(`${this.path}/count`, requestConfig);
+  }
+
+  /**
+   * Gets dependency graph for a build.
+   *
+   * @param data - object containing ID of the Build
+   * @param requestConfig - Axios based request config
+   * @returns DependencyGraph
+   */
+  public getDependencyGraph({ id }: IBuildServiceData, requestConfig: AxiosRequestConfig = {}) {
+    return pncClient.getHttpClient().get(`${this.path}/${id}/dependency-graph`, requestConfig);
   }
 }
 

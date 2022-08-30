@@ -1,0 +1,27 @@
+/*
+ * pnc-dependency-tree
+ */
+.build-tree-component {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+
+.sub-title-bar > button {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.sub-title-bar > strong {
+  margin-right: 2px;
+}
+
+.no-data-text {
+  text-align: center;
+  color: grey;
+}
