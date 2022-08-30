@@ -217,7 +217,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
     setDependentStructure(_dependentStructure);
 
     // Generate children dependency
-    setDependencyStructure(attachChildFromEdges(_dependencyStructure, edgesData, nodesData, 0));
+    setDependencyStructure(attachChildFromEdges(_dependencyStructure, edgesData, nodesData, 1));
   }, [dataContainer.data, buildItem]);
 
   return (
