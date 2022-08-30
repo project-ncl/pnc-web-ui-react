@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
 
-export interface IBuildServiceData {
+interface IBuildServiceData {
   id: string;
 }
 

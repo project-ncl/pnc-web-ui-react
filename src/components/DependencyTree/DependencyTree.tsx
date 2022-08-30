@@ -15,7 +15,7 @@ interface IGraphEdge {
   target: string;
 }
 
-interface IGraphVertic {
+interface IGraphVertex {
   name: string;
   dataType: string;
   data: Build | GroupBuild;
@@ -51,9 +51,14 @@ interface IDependencyDataItem extends TreeViewDataItem {
  * @param build - The current build of the dependency tree
  * @param groupBuild - The current group build of the dependency tree
  *
+ * @example
+ * ```tsx
+ * <DependencyTree build={buildObject}></DependencyTree>
+ * `
+ *
  */
 export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
-  const [visible, setVisible] = useState<boolean>(true);
+  const [display, setDisplay] = useState<boolean>(true);
   const [dependentStructure, setDependentStructure] = useState<Array<IDependencyDataItem>>();
   const [dependencyStructure, setDependencyStructure] = useState<IDependencyDataItem>();
   const [buildItem, setBuildItem] = useState<IDependencyBuild>();
@@ -71,9 +76,9 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const refreshDataContainer = dataContainer.refresh;
 
   const refreshComponent = () => {
-    setVisible(false);
+    setDisplay(false);
     setTimeout(() => {
-      setVisible(true);
+      setDisplay(true);
     }, 0);
   };
 
@@ -105,17 +110,13 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       'BUILDING',
     ].includes(dependStructure.data.status!);
     dependStructure.children?.forEach((child) => setExpandFailed(child));
-    if (dependStructure.level === 0) {
-      refreshComponent();
-    }
+    dependStructure.level === 0 && refreshComponent();
   };
 
   const setDefaultExpandByLevel = (level: number, dependStructure: IDependencyDataItem) => {
     dependStructure.defaultExpanded = dependStructure.level < level;
     dependStructure.children?.forEach((child) => setDefaultExpandByLevel(level, child));
-    if (dependStructure.level === 0) {
-      refreshComponent();
-    }
+    dependStructure.level === 0 && refreshComponent();
   };
 
   const generateTreeItem = (build: IDependencyBuild) =>
@@ -143,11 +144,10 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       currentNode: IDependencyDataItem,
       edgesData: Array<IGraphEdge>,
       nodesData: Map<string, IDependencyBuild>,
-      level: number
+      level: number = 1
     ) => {
-      level = level ? level : 1;
       if (level === 1 && !isBuild(buildItem)) {
-        const rootNodes: Array<string> = level === 1 ? getRootNodes(edgesData, nodesData) : [];
+        const rootNodes: Array<string> = getRootNodes(edgesData, nodesData);
         const targetChildren = rootNodes.map((rootNode) => ({
           id: rootNode,
           name: generateTreeItem(nodesData?.get(rootNode)!),
@@ -162,7 +162,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
         }
       } else {
         edgesData!
-          .filter((edge) => (level === 1 && !isBuild(buildItem)) || edge.source === currentNode.id)
+          .filter((edge) => edge.source === currentNode.id)
           .forEach((edge) => {
             const targetChild = {
               id: edge.target,
@@ -185,8 +185,8 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       return;
     }
     const nodesData: Map<string, IDependencyBuild> = new Map();
-    const verticesData = new Map<string, IGraphVertic>(Object.entries(dataContainer.data.vertices));
-    verticesData.forEach((vertex: IGraphVertic) => {
+    const verticesData = new Map<string, IGraphVertex>(Object.entries(dataContainer.data.vertices));
+    verticesData.forEach((vertex: IGraphVertex) => {
       nodesData.set(vertex.name, vertex.data);
     });
 
@@ -229,7 +229,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
               <div className={styles['sub-title-bar']}>
                 <strong>Direct Parents</strong>
               </div>
-              {dependentStructure && dependentStructure.length > 0 ? (
+              {dependentStructure?.length ? (
                 <TreeView data={dependentStructure} allExpanded={allExpanded} hasGuides={true} />
               ) : (
                 <div className={styles['no-data-text']}>No direct parent</div>
@@ -254,7 +254,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
               Expand All Failed
             </Button>
           </div>
-          {visible && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
+          {display && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
         </div>
       </DataContainer>
     </>

@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { pncClient } from './pncClient';
 
-export interface IGroupBuildServiceData {
+interface IGroupBuildServiceData {
   id: string;
 }
 
