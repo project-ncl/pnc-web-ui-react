@@ -35,6 +35,7 @@ import { BuildName } from '../BuildName/BuildName';
 import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
+import { DependencyTree } from '../DependencyTree/DependencyTree';
 import { LogViewer } from '../LogViewer/LogViewer';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
@@ -302,6 +303,52 @@ export const DemoPage = () => {
   return (
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>
+        <FlexItem>
+          <Card>
+            <CardTitle>DependencyTree - Build</CardTitle>
+            <CardBody>
+              <DependencyTree
+                build={{
+                  id: 'ATFZH3MH4TIAG',
+                  submitTime: '2017-12-01T13:17:18.007Z',
+                  status: 'REJECTED_FAILED_DEPENDENCIES',
+                  progress: 'FINISHED',
+                  buildConfigRevision: {
+                    id: '182',
+                    name: 'DNS-buildTree-5',
+                  },
+                  user: {
+                    id: '3',
+                    username: 'robot',
+                  },
+                }}
+              ></DependencyTree>
+            </CardBody>
+          </Card>
+        </FlexItem>
+
+        {/* <FlexItem>
+          <Card>
+            <CardTitle>DependencyTree - Group Build</CardTitle>
+            <CardBody>
+              <DependencyTree
+                groupBuild={{
+                  id: '754',
+                  status: 'REJECTED_FAILED_DEPENDENCIES',
+                  groupConfig: {
+                    id: '166',
+                    name: 'DnsGCProductVersion2208',
+                  },
+                  user: {
+                    id: '3',
+                    username: 'robot',
+                  },
+                }}
+              ></DependencyTree>
+            </CardBody>
+          </Card>
+        </FlexItem> */}
+
         <FlexItem>
           <Card>
             <Toolbar>
