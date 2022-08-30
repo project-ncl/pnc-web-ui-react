@@ -20,7 +20,7 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
-import { Build } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { IFields, useForm } from '../../containers/useForm';
 import { useTitle } from '../../containers/useTitle';
@@ -159,6 +159,33 @@ const initLogData = [
   '[2022-08-15T14:11:37.015Z] Response status: 202',
   '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
 ];
+
+const DEPENDENCY_TREE_ROOT_BUILD: Build = {
+  id: 'ATFZH3MH4TIAG',
+  submitTime: '2017-12-01T13:17:18.007Z',
+  status: 'REJECTED_FAILED_DEPENDENCIES',
+  buildConfigRevision: {
+    id: '2',
+    name: 'whatever',
+  },
+  user: {
+    id: '3',
+    username: 'robot',
+  },
+};
+
+const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
+  id: '754',
+  status: 'REJECTED_FAILED_DEPENDENCIES',
+  groupConfig: {
+    id: '166',
+    name: 'DnsGCProductVersion2208',
+  },
+  user: {
+    id: '3',
+    username: 'robot',
+  },
+};
 
 export const DemoPage = () => {
   useTitle('Demo Page');
@@ -307,47 +334,19 @@ export const DemoPage = () => {
           <Card>
             <CardTitle>DependencyTree - Build</CardTitle>
             <CardBody>
-              <DependencyTree
-                build={{
-                  id: 'ATFZH3MH4TIAG',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'REJECTED_FAILED_DEPENDENCIES',
-                  progress: 'FINISHED',
-                  buildConfigRevision: {
-                    id: '182',
-                    name: 'DNS-buildTree-5',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                }}
-              ></DependencyTree>
+              <DependencyTree build={DEPENDENCY_TREE_ROOT_BUILD}></DependencyTree>
             </CardBody>
           </Card>
         </FlexItem>
 
-        {/* <FlexItem>
+        <FlexItem>
           <Card>
             <CardTitle>DependencyTree - Group Build</CardTitle>
             <CardBody>
-              <DependencyTree
-                groupBuild={{
-                  id: '754',
-                  status: 'REJECTED_FAILED_DEPENDENCIES',
-                  groupConfig: {
-                    id: '166',
-                    name: 'DnsGCProductVersion2208',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                }}
-              ></DependencyTree>
+              <DependencyTree groupBuild={DEPENDENCY_TREE_ROOT_GROUP_BUILD}></DependencyTree>
             </CardBody>
           </Card>
-        </FlexItem> */}
+        </FlexItem>
 
         <FlexItem>
           <Card>
