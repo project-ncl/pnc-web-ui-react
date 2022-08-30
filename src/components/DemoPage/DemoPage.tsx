@@ -11,13 +11,15 @@ import {
   FormHelperText,
   Select,
   SelectOption,
+  SelectOptionObject,
   SelectVariant,
   TextArea,
   TextInput,
   Tooltip,
 } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { AxiosRequestConfig } from 'axios';
+import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { unstable_batchedUpdates } from 'react-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -25,6 +27,8 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { useDataBuffer } from '../../containers/useDataBuffer';
 import { IFields, useForm } from '../../containers/useForm';
 import { useTitle } from '../../containers/useTitle';
+
+import { projectService } from '../../services/projectService';
 
 import { maxLength, minLength } from '../../utils/formValidationHelpers';
 import { timestampHiglighter } from '../../utils/preprocessorHelper';
@@ -41,6 +45,7 @@ import { DependencyTree } from '../DependencyTree/DependencyTree';
 import { LogViewer } from '../LogViewer/LogViewer';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { SearchSelect } from '../SearchSelect/SearchSelect';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
@@ -197,6 +202,10 @@ export const DemoPage = () => {
 
   const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
 
+  const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig) => {
+    return projectService.getProjects(requestConfig);
+  }, []);
+
   useEffect(() => {
     savedTimer.current = setInterval(() => {
       // In a future React version (potentially in React 17) this could be removed as it will be default behavior
@@ -336,6 +345,25 @@ export const DemoPage = () => {
   return (
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>
+        <FlexItem>
+          <Card>
+            <CardBody>
+              <Form>
+                <FormGroup label="Select project name (dynamic search select)">
+                  <SearchSelect
+                    fetchCallback={searchSelectCallback}
+                    attribute="name"
+                    shouldDisplayDescription={true}
+                    onSelect={(value: string | SelectOptionObject) => {
+                      console.log(`DYNAMIC SELECT> ${value}`);
+                    }}
+                  />
+                </FormGroup>
+              </Form>
+            </CardBody>
+          </Card>
+        </FlexItem>
+
         <FlexItem>
           <Card>
             <CardTitle>DependencyTree - Build</CardTitle>
