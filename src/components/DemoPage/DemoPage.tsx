@@ -28,11 +28,11 @@ import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { ActionButton } from '../ActionButton/ActionButton';
-import mockBuildData from './data/mock-build-data.json';
 import { useTitle } from '../../containers/useTitle';
 import { DependencyTree } from '../DependencyTree/DependencyTree';
 import { IFields, useForm } from '../../containers/useForm';
 import { minLength, maxLength } from '../../utils/formValidationHelpers';
+import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
 
