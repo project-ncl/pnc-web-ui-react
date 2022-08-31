@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { ProductsPage } from '../ProductsPage';
+import { ProductsPage } from 'components/ProductsPage/ProductsPage';
 
 test('renders ProductsPage', () => {
   render(<ProductsPage />);

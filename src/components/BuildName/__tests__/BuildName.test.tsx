@@ -3,7 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { BuildName } from '../BuildName';
+import { BuildName } from 'components/BuildName/BuildName';
+
 import mockBuildData from './data/mock-build-data.json';
 
 describe('display BuildName component', () => {

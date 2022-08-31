@@ -1,5 +1,5 @@
-import * as WebConfigAPI from '../services/WebConfigService';
-import { Keycloak } from '../services/keycloakHolder';
+import * as WebConfigAPI from './WebConfigService';
+import { Keycloak } from './keycloakHolder';
 
 /**
  * Enum with possible authentication roles in Keycloak.

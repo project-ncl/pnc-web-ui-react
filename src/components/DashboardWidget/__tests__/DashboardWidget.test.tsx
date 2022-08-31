@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { DashboardWidget } from '../DashboardWidget';
+import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
 
 test('renders Dashboard Widget', () => {
   render(<DashboardWidget title="TEST TITLE" src="https://localhost/" />);

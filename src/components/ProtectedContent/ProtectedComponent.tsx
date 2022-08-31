@@ -1,4 +1,4 @@
-import { AUTH_ROLE } from '../../services/keycloakService';
+import { AUTH_ROLE } from 'services/keycloakService';
 
 import { PROTECTED_TYPE, ProtectedContent } from './ProtectedContent';
 

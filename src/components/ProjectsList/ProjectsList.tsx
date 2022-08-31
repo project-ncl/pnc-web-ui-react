@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
-import { ProjectLink } from '../ProjectLink/ProjectLink';
-import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
+import { ProjectLink } from 'components/ProjectLink/ProjectLink';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
 interface IProjectsList {
   projects: Project[];

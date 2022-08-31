@@ -2,16 +2,16 @@ import { act } from '@testing-library/react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { ProjectsPage } from '../ProjectsPage';
+import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';
 
-jest.mock('../../../services/projectService');
-jest.mock('../../../services/keycloakService');
+jest.mock('services/projectService');
+jest.mock('services/keycloakService');
 
 describe('display ProjectsPage component', () => {
   let projectsMock: any;
 
   async function loadMocks() {
-    const projectsRequestMock = await import('../../../services/__mocks__/projects-mock.json');
+    const projectsRequestMock = await import('services/__mocks__/projects-mock.json');
     projectsMock = projectsRequestMock.content;
   }
 

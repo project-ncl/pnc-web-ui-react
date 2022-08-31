@@ -1,7 +1,7 @@
 import { Operation, compare } from 'fast-json-patch';
 import { merge } from 'lodash';
 
-import { IFieldValues, IFields } from '../containers/useForm';
+import { IFieldValues, IFields } from 'containers/useForm';
 
 /**
  * Transforms form state object into object of just form input values.

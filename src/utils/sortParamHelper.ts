@@ -1,4 +1,4 @@
-import { ISortOptions } from '../components/Sorting/Sorting';
+import { ISortOptions } from 'components/Sorting/Sorting';
 
 export const validateSortParam = (sortParam: string, sortOptions: ISortOptions) => {
   if (sortParam === 'none') {

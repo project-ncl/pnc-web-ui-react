@@ -24,28 +24,29 @@ import { unstable_batchedUpdates } from 'react-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { useDataBuffer } from '../../containers/useDataBuffer';
-import { IFields, useForm } from '../../containers/useForm';
-import { useTitle } from '../../containers/useTitle';
+import { useDataBuffer } from 'containers/useDataBuffer';
+import { IFields, useForm } from 'containers/useForm';
+import { useTitle } from 'containers/useTitle';
 
-import { projectService } from '../../services/projectService';
+import { ActionButton } from 'components/ActionButton/ActionButton';
+import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { BuildMetrics } from 'components/BuildMetrics/BuildMetrics';
+import { BuildName } from 'components/BuildName/BuildName';
+import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
+import { BuildStatus } from 'components/BuildStatus/BuildStatus';
+import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
+import { DependencyTree } from 'components/DependencyTree/DependencyTree';
+import { LogViewer } from 'components/LogViewer/LogViewer';
+import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 
-import { maxLength, minLength } from '../../utils/formValidationHelpers';
-import { timestampHiglighter } from '../../utils/preprocessorHelper';
+import * as projectService from 'services/projectService';
+
+import { maxLength, minLength } from 'utils/formValidationHelpers';
+import { timestampHiglighter } from 'utils/preprocessorHelper';
 
 import '../../index.css';
-import { ActionButton } from '../ActionButton/ActionButton';
-import { AttributesItems } from '../AttributesItems/AttributesItems';
-import { BuildMetrics } from '../BuildMetrics/BuildMetrics';
-import { BuildName } from '../BuildName/BuildName';
-import { BuildStartButton } from '../BuildStartButton/BuildStartButton';
-import { BuildStatus } from '../BuildStatus/BuildStatus';
-import { BuildStatusIcon } from '../BuildStatusIcon/BuildStatusIcon';
-import { DependencyTree } from '../DependencyTree/DependencyTree';
-import { LogViewer } from '../LogViewer/LogViewer';
-import { PageLayout } from '../PageLayout/PageLayout';
-import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
-import { SearchSelect } from '../SearchSelect/SearchSelect';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;

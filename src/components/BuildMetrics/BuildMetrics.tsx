@@ -6,12 +6,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
 
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
+import { DataContainer } from 'containers/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
 
-import * as buildService from '../../services/buildService';
+import { calculateBuildName } from 'components/BuildName/BuildName';
 
-import { calculateBuildName } from '../BuildName/BuildName';
+import * as buildService from 'services/buildService';
+
 import styles from './BuildMetrics.module.css';
 
 interface IBuildMetricsProps {

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { AttributesItems } from '../AttributesItems';
+import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 
 test('renders AttributesItems', () => {
   const attributes = [

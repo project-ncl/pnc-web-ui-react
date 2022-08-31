@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { ProjectDetailPage } from '../ProjectDetailPage';
+import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPage';
 
-jest.mock('../../../services/projectService');
+jest.mock('services/projectService');
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
@@ -16,7 +16,7 @@ describe('display ProjectDetailPage component', () => {
   let projectMock: any;
 
   async function loadMocks() {
-    const projectRequestMock = await import('../../../services/__mocks__/project-mock.json');
+    const projectRequestMock = await import('services/__mocks__/project-mock.json');
     projectMock = projectRequestMock;
   }
 

@@ -3,8 +3,8 @@ import { SortAmountDownAltIcon, SortAmountDownIcon, TimesIcon } from '@patternfl
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { getComponentQueryParamValue, updateQueryParamsInURL } from '../../utils/queryParamsHelper';
-import { validateSortParam } from '../../utils/sortParamHelper';
+import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
+import { validateSortParam } from 'utils/sortParamHelper';
 
 import '../../index.css';
 

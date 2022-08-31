@@ -1,7 +1,7 @@
-import { EmptyStateCard } from '../../components/EmptyStates/EmptyStateCard';
-import { ErrorStateCard } from '../../components/EmptyStates/ErrorStateCard';
-import { LoadingStateCard } from '../../components/EmptyStates/LoadingStateCard';
-import { RefreshStateCard } from '../../components/EmptyStates/RefreshStateCard';
+import { EmptyStateCard } from 'components/EmptyStates/EmptyStateCard';
+import { ErrorStateCard } from 'components/EmptyStates/ErrorStateCard';
+import { LoadingStateCard } from 'components/EmptyStates/LoadingStateCard';
+import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 
 export interface IDataContainer {
   data: any;

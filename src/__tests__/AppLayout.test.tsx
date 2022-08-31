@@ -3,8 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { AppLayout } from '../AppLayout';
 
-jest.mock('../services/keycloakService');
-jest.mock('../services/genericSettingsService');
+jest.mock('services/keycloakService');
+jest.mock('services/genericSettingsService');
 
 window.pnc = {
   config: {

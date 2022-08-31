@@ -2,18 +2,18 @@ import { Card, CardBody } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { useTitle } from '../../containers/useTitle';
+import { DataContainer } from 'containers/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
+import { useTitle } from 'containers/useTitle';
 
-import * as projectService from '../../services/projectService';
+import { ActionButton } from 'components/ActionButton/ActionButton';
+import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { PageLayout } from 'components/PageLayout/PageLayout';
+import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
-import { PageTitles } from '../../utils/PageTitles';
+import * as projectService from 'services/projectService';
 
-import { ActionButton } from '../ActionButton/ActionButton';
-import { AttributesItems } from '../AttributesItems/AttributesItems';
-import { SectionHeader } from '../SectionHeader/SectionHeader';
-import { PageLayout } from './../PageLayout/PageLayout';
+import { PageTitles } from 'utils/PageTitles';
 
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();

@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 
-import { AdministrationPage } from '../AdministrationPage';
+import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 
-jest.mock('../../../services/buildService');
-jest.mock('../../../services/genericSettingsService');
+jest.mock('services/buildService');
+jest.mock('services/genericSettingsService');
 
 test('renders AdministrationPage', () => {
   render(<AdministrationPage />);

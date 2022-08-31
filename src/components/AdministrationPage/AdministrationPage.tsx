@@ -14,17 +14,17 @@ import {
 } from '@patternfly/react-core';
 import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { ServiceContainerCreatingUpdating } from '../../containers/DataContainer/ServiceContainerCreatingUpdating';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { useInterval } from '../../containers/useInterval';
-import { useTitle } from '../../containers/useTitle';
+import { DataContainer } from 'containers/DataContainer/DataContainer';
+import { ServiceContainerCreatingUpdating } from 'containers/DataContainer/ServiceContainerCreatingUpdating';
+import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
+import { useInterval } from 'containers/useInterval';
+import { useTitle } from 'containers/useTitle';
 
-import * as buildService from '../../services/buildService';
-import * as genericSettingsService from '../../services/genericSettingsService';
+import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import { AttributesItems } from '../AttributesItems/AttributesItems';
-import { PageLayout } from './../PageLayout/PageLayout';
+import * as buildService from 'services/buildService';
+import * as genericSettingsService from 'services/genericSettingsService';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 
