@@ -3,7 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { BuildStatus } from '../BuildStatus';
+import { BuildStatus } from 'components/BuildStatus/BuildStatus';
+
 import mockBuildData from './data/mock-build-data.json';
 
 describe('display BuildStatus component', () => {

@@ -3,7 +3,7 @@ import { ExclamationTriangleIcon, OutlinedClockIcon } from '@patternfly/react-ic
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { isBuild } from '../../utils/entityRecognition';
+import { isBuild } from 'utils/entityRecognition';
 
 import styles from './BuildStatusIcon.module.css';
 import iconBlue from './icons/blue.svg';

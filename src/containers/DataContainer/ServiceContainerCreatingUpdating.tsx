@@ -1,7 +1,7 @@
 import { Alert } from '@patternfly/react-core';
 import React from 'react';
 
-import { RefreshStateCard } from '../../components/EmptyStates/RefreshStateCard';
+import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 
 import { IDataContainer } from './DataContainer';
 

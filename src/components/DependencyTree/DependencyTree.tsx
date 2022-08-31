@@ -4,15 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
+import { DataContainer } from 'containers/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
 
-import * as buildService from '../../services/buildService';
-import * as groupBuildService from '../../services/groupBuildService';
+import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 
-import { isBuild } from '../../utils/entityRecognition';
+import * as buildService from 'services/buildService';
+import * as groupBuildService from 'services/groupBuildService';
 
-import { BuildStatus } from '../BuildStatus/BuildStatus';
+import { isBuild } from 'utils/entityRecognition';
+
 import styles from './DependencyTree.module.css';
 
 interface IGraphEdge {

@@ -1,6 +1,7 @@
-import { AUTH_ROLE, keycloakService } from '../../services/keycloakService';
+import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 
-import { ErrorPage } from '../ErrorPage/ErrorPage';
+import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
+
 import styles from './ProtectedContent.module.css';
 
 export enum PROTECTED_TYPE {

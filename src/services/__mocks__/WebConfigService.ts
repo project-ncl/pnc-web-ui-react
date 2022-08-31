@@ -1,4 +1,5 @@
-import { IWebConfig } from './../WebConfigService';
+import { IWebConfig } from 'services/WebConfigService';
+
 import webConfigDataMock from './web-config-data-mock.json';
 
 export const getWebConfig = (): IWebConfig => webConfigDataMock;

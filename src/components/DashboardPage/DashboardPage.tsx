@@ -1,11 +1,11 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 
-import { useTitle } from '../../containers/useTitle';
+import { useTitle } from 'containers/useTitle';
 
-import * as WebConfigAPI from '../../services/WebConfigService';
+import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import { DashboardWidget } from '../DashboardWidget/DashboardWidget';
-import { PageLayout } from '../PageLayout/PageLayout';
+import * as WebConfigAPI from 'services/WebConfigService';
 
 export const DashboardPage = () => {
   const webConfig = WebConfigAPI.getWebConfig();

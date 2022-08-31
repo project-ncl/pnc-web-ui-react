@@ -19,19 +19,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { ServiceContainerCreatingUpdating } from '../../containers/DataContainer/ServiceContainerCreatingUpdating';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { IFields, useForm } from '../../containers/useForm';
-import { useTitle } from '../../containers/useTitle';
+import { DataContainer } from 'containers/DataContainer/DataContainer';
+import { ServiceContainerCreatingUpdating } from 'containers/DataContainer/ServiceContainerCreatingUpdating';
+import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
+import { IFields, useForm } from 'containers/useForm';
+import { useTitle } from 'containers/useTitle';
 
-import * as projectService from '../../services/projectService';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import { PageTitles } from '../../utils/PageTitles';
-import { validateUrl } from '../../utils/formValidationHelpers';
-import { createSafePatch, transformFormToValues } from '../../utils/patchHelper';
+import * as projectService from 'services/projectService';
 
-import { PageLayout } from '../PageLayout/PageLayout';
+import { PageTitles } from 'utils/PageTitles';
+import { validateUrl } from 'utils/formValidationHelpers';
+import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
 
 interface IProjectCreateEditPageProps {
   editPage?: boolean;

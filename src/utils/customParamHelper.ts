@@ -1,4 +1,4 @@
-import { IFilterAttribute } from '../components/Filtering/Filtering';
+import { IFilterAttribute } from 'components/Filtering/Filtering';
 
 /**
  * Construct custom filter param, for example buildConfigName.

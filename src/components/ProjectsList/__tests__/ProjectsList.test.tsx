@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { ProjectsList } from '../ProjectsList';
+import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 
-jest.mock('../../../services/projectService');
-jest.mock('../../../services/keycloakService');
+jest.mock('services/projectService');
+jest.mock('services/keycloakService');
 
 describe('display ProjectList component', () => {
   let projectsMock: any;
 
   async function loadMocks() {
-    const projectsRequestMock = await import('../../../services/__mocks__/projects-mock.json');
+    const projectsRequestMock = await import('services/__mocks__/projects-mock.json');
     projectsMock = projectsRequestMock.content;
   }
 

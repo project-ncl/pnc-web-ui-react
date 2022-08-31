@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { isBuild, isGroupBuild } from '../../utils/entityRecognition';
+import { isBuild, isGroupBuild } from 'utils/entityRecognition';
 
 export const calculateBuildName = (build: Build | GroupBuild) => {
   if (isGroupBuild(build)) {

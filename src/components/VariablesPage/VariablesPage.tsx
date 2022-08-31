@@ -1,10 +1,10 @@
 import { Card, CardBody, CardTitle, CodeBlock, CodeBlockCode, Flex, FlexItem } from '@patternfly/react-core';
 
-import { useTitle } from '../../containers/useTitle';
+import { useTitle } from 'containers/useTitle';
 
-import * as WebConfigAPI from '../../services/WebConfigService';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import { PageLayout } from '../PageLayout/PageLayout';
+import * as WebConfigAPI from 'services/WebConfigService';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;

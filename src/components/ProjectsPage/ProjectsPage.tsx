@@ -1,22 +1,22 @@
 import { Flex, FlexItem, FlexProps, Label } from '@patternfly/react-core';
 
-import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
-import { useQueryParamsEffect } from '../../containers/useQueryParamsEffect';
-import { useTitle } from '../../containers/useTitle';
+import { DataContainer } from 'containers/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
+import { useQueryParamsEffect } from 'containers/useQueryParamsEffect';
+import { useTitle } from 'containers/useTitle';
 
-import * as projectService from '../../services/projectService';
+import { ActionButton } from 'components/ActionButton/ActionButton';
+import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { ListToolbar } from 'components/ListToolbar/ListToolbar';
+import { PageLayout } from 'components/PageLayout/PageLayout';
+import { Pagination } from 'components/Pagination/Pagination';
+import { ProjectsList } from 'components/ProjectsList/ProjectsList';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
 
-import { PageTitles } from '../../utils/PageTitles';
+import * as projectService from 'services/projectService';
 
-import { ActionButton } from '../ActionButton/ActionButton';
-import { Filtering, IFilterOptions } from '../Filtering/Filtering';
-import { ListToolbar } from '../ListToolbar/ListToolbar';
-import { Pagination } from '../Pagination/Pagination';
-import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
-import { ISortOptions, Sorting } from '../Sorting/Sorting';
-import { PageLayout } from './../PageLayout/PageLayout';
-import { ProjectsList } from './../ProjectsList/ProjectsList';
+import { PageTitles } from 'utils/PageTitles';
 
 // keeping also not supported operations for testing purposes
 const filterOptions: IFilterOptions = {

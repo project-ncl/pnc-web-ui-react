@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
-import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
-import { keycloakService } from './services/keycloakService';
+import { keycloakService } from 'services/keycloakService';
 
 import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';

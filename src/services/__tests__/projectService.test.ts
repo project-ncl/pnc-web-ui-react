@@ -1,6 +1,6 @@
-import * as projectService from '../../services/projectService';
+import * as projectService from 'services/projectService';
 
-jest.mock('../pncClient');
+jest.mock('services/pncClient');
 
 describe('test all functions of the project service', () => {
   test('get projects', async () => {

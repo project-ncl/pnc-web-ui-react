@@ -1,4 +1,4 @@
-jest.mock('../WebConfigService');
+jest.mock('services/WebConfigService');
 
 const mockInit = jest.fn(() => {
   return Promise.resolve();
@@ -10,7 +10,7 @@ const mockIsTokenExpired = jest.fn();
 const mockUpdateToken = jest.fn();
 const mockHasRealmRole = jest.fn();
 
-jest.mock('../keycloakHolder', () => {
+jest.mock('services/keycloakHolder', () => {
   return {
     Keycloak: jest.fn().mockImplementation(() => ({
       init: mockInit,
@@ -29,7 +29,7 @@ jest.mock('../keycloakHolder', () => {
 });
 
 describe('keycloakService works properly', () => {
-  const { keycloakService } = require('../../services/keycloakService');
+  const { keycloakService } = require('services/keycloakService');
 
   test('isInitialized() returns correct value', () => {
     expect(keycloakService.isInitialized()).resolves.toBe('success');

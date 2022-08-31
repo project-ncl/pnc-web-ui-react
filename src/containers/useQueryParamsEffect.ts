@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAreEqual } from '../utils/queryParamsHelper';
+import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAreEqual } from 'utils/queryParamsHelper';
 
 interface IMandatoryParams {
   pagination?: boolean;
