@@ -12,14 +12,16 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
-import { CSSProperties, useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
+import { ServiceContainerCreatingUpdating } from '../../containers/DataContainer/ServiceContainerCreatingUpdating';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { useInterval } from '../../containers/useInterval';
 import { useTitle } from '../../containers/useTitle';
 
 import { buildService } from '../../services/buildService';
+import { genericSettingsService } from '../../services/genericSettingsService';
 
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { PageLayout } from './../PageLayout/PageLayout';
@@ -34,6 +36,26 @@ export const AdministrationPage = () => {
     paddingRight: '8px',
     paddingBottom: '5px',
   };
+
+  const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+  const dataContainerAnnouncement = useDataContainer(
+    ({ serviceData }: IService<string>) => genericSettingsService.setAnnouncementBanner(serviceData as string),
+    {
+      initLoadingState: false,
+    }
+  );
+
+  useEffect(() => {
+    genericSettingsService
+      .getAnnouncementBanner()
+      .then((response: any) => {
+        setAnnouncementMessage(response.data.banner);
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
+  }, []);
+
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
   const dataContainer = useDataContainer(
     useCallback(({ requestConfig }: IService) => buildService.getBuildCount(requestConfig), [])
@@ -125,29 +147,45 @@ export const AdministrationPage = () => {
             <Card>
               <CardBody>
                 <Grid hasGutter>
-                  <GridItem span={12}>
-                    <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
-                      <div style={maintenanceSwitchStyle}>
-                        <Switch
-                          id="form-maintenance-mode-switch"
-                          name="form-maintenance-mode-switch"
-                          label="Maintenance Mode On"
-                          labelOff="Maintenance Mode Off"
-                          isChecked={isMaintenanceModeOn}
-                          onChange={() => {
-                            setIsMaintenanceModeOn(!isMaintenanceModeOn);
+                  <ServiceContainerCreatingUpdating {...dataContainerAnnouncement} title="Announcement">
+                    <GridItem span={12}>
+                      <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
+                        <div style={maintenanceSwitchStyle}>
+                          <Switch
+                            id="form-maintenance-mode-switch"
+                            name="form-maintenance-mode-switch"
+                            label="Maintenance Mode On"
+                            labelOff="Maintenance Mode Off"
+                            isChecked={isMaintenanceModeOn}
+                            onChange={() => {
+                              setIsMaintenanceModeOn(!isMaintenanceModeOn);
+                            }}
+                          />
+                        </div>
+                      </FormGroup>
+                    </GridItem>
+                    <GridItem span={12}>
+                      <FormGroup label="Announcement" fieldId="form-announcement">
+                        <TextArea
+                          name="form-announcement"
+                          id="form-announcement"
+                          value={announcementMessage}
+                          onChange={(value: string) => {
+                            setAnnouncementMessage(value);
                           }}
                         />
-                      </div>
-                    </FormGroup>
-                  </GridItem>
-                  <GridItem span={12}>
-                    <FormGroup label="Announcement" fieldId="form-announcement">
-                      <TextArea name="form-announcement" id="form-announcement" />
-                    </FormGroup>
-                  </GridItem>
+                      </FormGroup>
+                    </GridItem>
+                  </ServiceContainerCreatingUpdating>
                   <GridItem span={4}>
-                    <Button variant="primary" id="form-announcement-update" name="form-announcement-update">
+                    <Button
+                      variant="primary"
+                      id="form-announcement-update"
+                      name="form-announcement-update"
+                      onClick={() => {
+                        dataContainerAnnouncement.refresh({ serviceData: announcementMessage });
+                      }}
+                    >
                       Update
                     </Button>
                   </GridItem>
