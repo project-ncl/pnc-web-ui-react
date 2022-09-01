@@ -21,14 +21,16 @@ BreadcrumbItem,*/
 } from '@patternfly/react-core';
 import '@patternfly/react-core/dist/styles/base.css';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { AboutModalPage } from './components/AboutModalPage/AboutModalPage';
 import { ProtectedComponent } from './components/ProtectedContent/ProtectedComponent';
 import { TopBarError } from './components/TopBar/TopBarError';
+import { TopBarInfo } from './components/TopBar/TopBarInfo';
 
 import * as WebConfigAPI from './services/WebConfigService';
+import { genericSettingsService } from './services/genericSettingsService';
 import { AUTH_ROLE, keycloakService } from './services/keycloakService';
 
 import pncLogoText from './pnc-logo-text.svg';
@@ -39,6 +41,19 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   const webConfig = WebConfigAPI.getWebConfig();
 
   const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
+
+  const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+
+  useEffect(() => {
+    genericSettingsService
+      .getAnnouncementBanner()
+      .then((response: any) => {
+        setAnnouncementMessage(response.data.banner);
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
+  }, []);
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -249,6 +264,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
 
   return (
     <>
+      {announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}
       {!keycloakService.isKeycloakAvailable && (
         <TopBarError>
           RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
