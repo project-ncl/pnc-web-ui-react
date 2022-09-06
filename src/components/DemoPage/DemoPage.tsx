@@ -14,14 +14,15 @@ import {
   SelectVariant,
   TextArea,
   TextInput,
-  ToolbarItem,
   Tooltip,
 } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
+import { useDataBuffer } from '../../containers/useDataBuffer';
 import { IFields, useForm } from '../../containers/useForm';
 import { useTitle } from '../../containers/useTitle';
 
@@ -39,7 +40,6 @@ import { DependencyTree } from '../DependencyTree/DependencyTree';
 import { LogViewer } from '../LogViewer/LogViewer';
 import { PageLayout } from '../PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from '../ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
-import { Toolbar } from '../Toolbar/Toolbar';
 import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
@@ -66,98 +66,98 @@ const formConfig = {
 };
 
 const initLogData = [
-  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.929Z] Push 1 started.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 1 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.929Z] Push 2 started.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 2 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.929Z] Push 3 started.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 3 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.929Z] Push 4 started.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
-  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
-  '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
-  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
-  '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
-  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
-  '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
-  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
-  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
-  '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 4 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 5 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.929Z] Push 6 started.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
-  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
-  '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
-  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
-  '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
-  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
-  '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
-  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
-  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
-  '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 7 ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 8 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 10 ACCEPTED.',
   '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
   '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
   '[2022-08-15T14:11:38.91Z] Brew push completed.',
-  '[2022-08-15T14:11:36.929Z] Push started.',
+  '[2022-08-15T14:11:36.929Z] Push 11 started.',
   '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
   '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
   '[2022-08-15T14:11:37.015Z] Response status: 202',
-  '[2022-08-15T14:11:37.018Z] Push ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 12 ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 13 ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push 14 ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.929Z] Push 15 started.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push 15 ACCEPTED.',
+  '[2022-08-15T14:11:37.018Z] Push 16 ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push 17 ACCEPTED.',
+  '[2022-08-15T14:11:37.958Z] Applying tag fb-1.0-pnc on build org.jboss.modules-jboss-modules-1.5.0.Final_temporary_redhat_00033-1.',
+  '[2022-08-15T14:11:38.884Z] Sending callback to http://orch-master-devel.psi.redhat.com/pnc-rest/v2/builds/ATINBQK54TIAA/brew-push/complete.',
+  '[2022-08-15T14:11:38.91Z] Brew push completed.',
+  '[2022-08-15T14:11:36.929Z] Push 18 started.',
+  '[2022-08-15T14:11:36.986Z] Making POST request to http://causeway-master-devel.psi.redhat.com/causeway/rest/import/build.',
+  '[2022-08-15T14:11:37.014Z] Importing external build ATINBQK54TIAA to tag fb-1.0-pnc.',
+  '[2022-08-15T14:11:37.015Z] Response status: 202',
+  '[2022-08-15T14:11:37.018Z] Push 18 ACCEPTED.',
 ];
 
 const DEPENDENCY_TREE_ROOT_BUILD: Build = {
@@ -187,30 +187,46 @@ const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
   },
 };
 
+const preprocessorExample = (lines: string[]) => {
+  const preprocessed: string[] = [];
+
+  lines.forEach((value: string, index: number) => {
+    const i = value.indexOf(']') + 1;
+    preprocessed.push(`\u001b[38;5;231m\u001b[40;1m${value.slice(0, i)}\u001b[38;5;0m\u001b[0m${value.slice(i)}`);
+  });
+
+  return preprocessed;
+};
+
 export const DemoPage = () => {
   useTitle('Demo Page');
 
-  const [logLine, setLogLine] = useState<string>('');
-  const [logData, setLogData] = useState<string[]>([]);
-  const [currentLineCount, setCurrentLineCount] = useState<number>(1);
+  const [previousLineCount, setPreviousLineCount] = useState<number>(0);
+  const [currentLineCount, setCurrentLineCount] = useState<number>(0);
   const savedTimer: MutableRefObject<NodeJS.Timer | undefined> = useRef();
+
+  const [buffer, addLines] = useDataBuffer(1500, preprocessorExample);
 
   useEffect(() => {
     savedTimer.current = setInterval(() => {
-      setCurrentLineCount((currentLineCount) => currentLineCount + 3);
-    }, 1000);
+      // In a future React version (potentially in React 17) this could be removed as it will be default behavior
+      // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
+      unstable_batchedUpdates(() => {
+        setPreviousLineCount(currentLineCount);
+        setCurrentLineCount((currentLineCount) => currentLineCount + ((Math.random() * 1000) % 6));
+      });
+    }, 10);
     return () => {
       clearInterval(savedTimer.current);
     };
-  }, []);
+  }, [currentLineCount]);
 
   useEffect(() => {
     if (currentLineCount > initLogData.length) {
       clearInterval(savedTimer.current);
-    } else {
-      setLogData(initLogData.slice(0, currentLineCount));
     }
-  }, [currentLineCount]);
+    addLines(initLogData.slice(previousLineCount, currentLineCount));
+  }, [currentLineCount, previousLineCount, addLines]);
 
   const submitForm = (data: IFields) => {
     console.log('form state when submitted:', {
@@ -350,31 +366,8 @@ export const DemoPage = () => {
 
         <FlexItem>
           <Card>
-            <Toolbar>
-              <ToolbarItem>
-                <TextInput
-                  id="log-input"
-                  value={logLine}
-                  onChange={(value) => {
-                    setLogLine(value);
-                  }}
-                ></TextInput>
-              </ToolbarItem>
-              <ToolbarItem>
-                <Button
-                  onClick={() => {
-                    setLogData([...logData, logLine]);
-                    setLogLine('');
-                  }}
-                  variant="control"
-                >
-                  Send log line
-                </Button>
-              </ToolbarItem>
-            </Toolbar>
-
             <div className="p-15">
-              <LogViewer data={logData} />
+              <LogViewer data={buffer} />
             </div>
           </Card>
         </FlexItem>
