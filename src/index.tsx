@@ -6,6 +6,8 @@ import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from './services/keycloakService';
 
+import './utils/basename-prefix';
+
 import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
 import './index.css';
