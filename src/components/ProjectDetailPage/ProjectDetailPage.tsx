@@ -1,5 +1,5 @@
 import { Card, CardBody } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
@@ -18,14 +18,14 @@ import { PageLayout } from './../PageLayout/PageLayout';
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
-  const dataContainer = useDataContainer(({ requestConfig }: IService) =>
-    projectService.getProject({ id: projectId as string }, requestConfig)
+  const dataContainer = useDataContainer(
+    useCallback(({ requestConfig }: IService) => projectService.getProject({ id: projectId! }, requestConfig), [projectId])
   );
+  const dataContainerRefresh = dataContainer.refresh;
 
   useTitle(`${dataContainer.data?.name} | ${PageTitles.projects}`);
 
-  // TODO: Create a better solution than disabling the next line
-  useEffect(() => dataContainer.refresh({ requestConfig: {} }), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => dataContainerRefresh({ requestConfig: {} }), [dataContainerRefresh]);
 
   const attributes = [
     {
