@@ -13,6 +13,7 @@ import { ActionButton } from '../ActionButton/ActionButton';
 import { Filtering, IFilterOptions } from '../Filtering/Filtering';
 import { Pagination } from '../Pagination/Pagination';
 import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
+import { ISortOptions, Sorting } from '../Sorting/Sorting';
 import { Toolbar } from '../Toolbar/Toolbar';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { ProjectsList } from './../ProjectsList/ProjectsList';
@@ -55,6 +56,17 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
     },
   };
 
+  const sortOptions: ISortOptions = {
+    name: {
+      id: 'name',
+      title: 'Name',
+    },
+    description: {
+      id: 'description',
+      title: 'Description',
+    },
+  };
+
   const ToolbarItemWidths = {
     default: '100%',
   };
@@ -76,9 +88,14 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
       <Toolbar>
         <ToolbarItem widths={ToolbarItemWidths}>
           <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-            <FlexItem>
-              <Filtering filterOptions={filterOptions} componentId={componentId} />
-            </FlexItem>
+            <Flex spaceItems={{ default: 'spaceItems2xl' }}>
+              <FlexItem>
+                <Filtering filterOptions={filterOptions} componentId={componentId} />
+              </FlexItem>
+              <FlexItem>
+                <Sorting sortOptions={sortOptions} componentId={componentId} />
+              </FlexItem>
+            </Flex>
             <FlexItem>
               <ProtectedComponent>
                 <ActionButton iconType="create" link="create">

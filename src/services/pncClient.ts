@@ -52,6 +52,13 @@ class PncClient {
         config.headers['Content-Type'] = 'application/json-patch+json';
       }
 
+      /**
+       * If sorting is set to 'none', delete it from config.
+       */
+      if (config.params?.sort === 'none') {
+        config.params.sort = '';
+      }
+
       return config;
     });
     return httpClient;
