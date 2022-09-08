@@ -8,7 +8,7 @@ interface IMandatoryParams {
   sorting?: boolean;
 }
 
-const defaultMandatoryParams: IMandatoryParams = { pagination: true, sorting: false };
+const defaultMandatoryParams: IMandatoryParams = { pagination: true, sorting: true };
 
 const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryParams, componentQueryParamsObject: IQueryParamsObject) => {
   if (mandatoryParams.pagination && (!componentQueryParamsObject.pageIndex || !componentQueryParamsObject.pageSize)) {
