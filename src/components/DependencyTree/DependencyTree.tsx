@@ -107,6 +107,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const setExpandFailed = (dependStructure: IDependencyDataItem) => {
     dependStructure.defaultExpanded = [
       'FAILED',
+      'CANCELLED',
       'REJECTED',
       'REJECTED_FAILED_DEPENDENCIES',
       'SYSTEM_ERROR',
@@ -145,6 +146,17 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       return rootNodes;
     };
 
+    const addSuffixToDependencyId = (dependencyDataStructure: IDependencyDataItem) => {
+      dependencyDataStructure.id = dependencyDataStructure.id! + '-' + Math.floor(Math.random() * 1000);
+      dependencyDataStructure.children?.map((child) => addSuffixToDependencyId(child));
+      return dependencyDataStructure;
+    };
+    const addSuffixToDependentId = (dependentDataStructure: IDependencyDataItem[]) => {
+      return dependentDataStructure.map((dependentData) => {
+        dependentData.id = dependentData.id + '-' + Math.floor(Math.random() * 1000);
+        return dependentData;
+      });
+    };
     const attachChildFromEdges = (
       currentNode: IDependencyDataItem,
       edgesData: Array<IGraphEdge>,
@@ -219,10 +231,10 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
           level: 0,
         });
       });
-    setDependentStructure(_dependentStructure);
+    setDependentStructure(addSuffixToDependentId(_dependentStructure));
 
     // Generate children dependency
-    setDependencyStructure(attachChildFromEdges(_dependencyStructure, edgesData, nodesData, 1));
+    setDependencyStructure(addSuffixToDependencyId(attachChildFromEdges(_dependencyStructure, edgesData, nodesData, 1)));
   }, [dataContainer.data, buildItem]);
 
   return (
