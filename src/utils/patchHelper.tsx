@@ -10,13 +10,11 @@ import { IFieldValues, IFields } from '../containers/useForm';
  * @param data - form state
  * @returns Object of non-empty form values
  */
-export const createPatchData = (data: IFields): IFieldValues => {
+export const transformFormToValues = (data: IFields): IFieldValues => {
   return Object.fromEntries(
     Object.entries(data)
       .filter(([k, v]) => v.value !== '')
-      .map(([k, v]) => {
-        return [k, v.value];
-      })
+      .map(([k, v]) => [k, v.value])
   );
 };
 

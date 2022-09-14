@@ -29,7 +29,7 @@ import { projectService } from '../../services/projectService';
 
 import { PageTitles } from '../../utils/PageTitles';
 import { validateUrl } from '../../utils/formValidationHelpers';
-import { createPatchData, createSafePatch } from '../../utils/patchHelper';
+import { createSafePatch, transformFormToValues } from '../../utils/patchHelper';
 
 import { PageLayout } from '../PageLayout/PageLayout';
 
@@ -57,7 +57,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   // edit page:
   // on edit page, use patch data container (or get data container)?
-  const [usePatchDataContainer, setUsePatchDataContainer] = useState<boolean>(false);
+  const [isPatching, setIsPatching] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
   const navigate = useNavigate();
   const urlPathParams = useParams();
@@ -117,7 +117,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   };
 
   const submitUpdate = (data: IFields) => {
-    const patchData = createPatchData(data);
+    const patchData = transformFormToValues(data);
     const patch = createSafePatch(dataContainerEditGet.data, patchData);
 
     editRefreshPatch({ serviceData: patch })
@@ -138,7 +138,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         editRefreshGet({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
           const project: Project = response.data;
 
-          setUsePatchDataContainer(true);
+          setIsPatching(true);
           setId(project.id);
           reinitialize({
             name: project.name,
@@ -298,13 +298,15 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       <Flex direction={flexDirection}>
         <FlexItem>
           {editPage ? (
-            usePatchDataContainer ? (
+            isPatching ? (
               <ServiceContainerCreating {...dataContainerEditPatch} title="Edit Project">
                 {formComponent}
               </ServiceContainerCreating>
             ) : (
               /* used just to GET project data, after that is immediately switched to patch container */
-              <DataContainer {...dataContainerEditGet} title="Edit Project"></DataContainer>
+              <DataContainer {...dataContainerEditGet} title="Edit Project">
+                {/* no content is needed */}
+              </DataContainer>
             )
           ) : (
             <ServiceContainerCreating {...dataContainerCreate} title="Create Project">
