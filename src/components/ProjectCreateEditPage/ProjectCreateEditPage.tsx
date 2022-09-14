@@ -113,7 +113,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         }
         navigate(`/projects/${projectId}`);
       })
-      .catch((e: any) => {});
+      .catch((e: any) => {
+        throw new Error('Failed to create project.');
+      });
   };
 
   const submitUpdate = (data: IFields) => {
@@ -124,7 +126,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       .then((response: any) => {
         navigate(`/projects/${id}`);
       })
-      .catch((e: any) => {});
+      .catch((e: any) => {
+        throw new Error('Failed to edit project.');
+      });
   };
 
   const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
