@@ -151,6 +151,18 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
     resetSortFilter,
   ]);
 
+  /**
+   * Check sort options validity.
+   */
+  useEffect(() => {
+    Object.entries(sortOptions).forEach(([k, v]) => {
+      if (k !== v.id) {
+        console.error('sortOptions: ', sortOptions);
+        throw new Error(`sortOptions have invalid format, object key (${k}) has to match id field (${v.id})!`);
+      }
+    });
+  }, [sortOptions]);
+
   return (
     <InputGroup>
       <Select
