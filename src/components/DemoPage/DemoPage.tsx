@@ -27,6 +27,7 @@ import { IFields, useForm } from '../../containers/useForm';
 import { useTitle } from '../../containers/useTitle';
 
 import { maxLength, minLength } from '../../utils/formValidationHelpers';
+import { timestampHiglighter } from '../../utils/preprocessorHelper';
 
 import '../../index.css';
 import { ActionButton } from '../ActionButton/ActionButton';
@@ -187,17 +188,6 @@ const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
   },
 };
 
-const preprocessorExample = (lines: string[]) => {
-  const preprocessed: string[] = [];
-
-  lines.forEach((value: string, index: number) => {
-    const i = value.indexOf(']') + 1;
-    preprocessed.push(`\u001b[38;5;231m\u001b[40;1m${value.slice(0, i)}\u001b[38;5;0m\u001b[0m${value.slice(i)}`);
-  });
-
-  return preprocessed;
-};
-
 export const DemoPage = () => {
   useTitle('Demo Page');
 
@@ -205,7 +195,7 @@ export const DemoPage = () => {
   const [currentLineCount, setCurrentLineCount] = useState<number>(0);
   const savedTimer: MutableRefObject<NodeJS.Timer | undefined> = useRef();
 
-  const [buffer, addLines] = useDataBuffer(1500, preprocessorExample);
+  const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
 
   useEffect(() => {
     savedTimer.current = setInterval(() => {
