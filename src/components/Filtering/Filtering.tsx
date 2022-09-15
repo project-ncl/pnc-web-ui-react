@@ -255,23 +255,29 @@ export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
     const currentQParam = getComponentQueryParamValue(location.search, 'q', componentId) || '';
     const appliedFilters: IAppliedFilters = parseQParamDeep(currentQParam);
 
-    for (const [key, value] of Object.entries(filterOptions.filterAttributes)) {
-      // check filter attributes validity
-      if (key !== value.id) {
-        console.error('filterAttributes: ', filterOptions.filterAttributes);
-        throw new Error(`filterAttributes have invalid format, object key (${key}) has to match id field (${value.id})!`);
-      }
-
-      if (value.isCustomParam) {
-        const customParamValue = getComponentQueryParamValue(location.search, key, componentId);
+    Object.entries(filterOptions.filterAttributes).forEach(([k, v]) => {
+      if (v.isCustomParam) {
+        const customParamValue = getComponentQueryParamValue(location.search, k, componentId);
         if (customParamValue) {
-          appliedFilters[key] = [customParamValue];
+          appliedFilters[k] = [customParamValue];
         }
       }
-    }
+    });
 
     setAppliedFilters(appliedFilters);
   }, [location.search, location, componentId, navigate, filterOptions.filterAttributes]); // primary: history.location.search
+
+  /**
+   * Check filter attributes validity.
+   */
+  useEffect(() => {
+    Object.entries(filterOptions.filterAttributes).forEach(([k, v]) => {
+      if (k !== v.id) {
+        console.error('filterAttributes: ', filterOptions.filterAttributes);
+        throw new Error(`filterAttributes have invalid format, object key (${k}) has to match id field (${v.id})!`);
+      }
+    });
+  }, [filterOptions.filterAttributes]);
 
   return (
     <>
