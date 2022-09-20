@@ -32,6 +32,10 @@ export const useDataContainer = (service: Function, { initLoadingState = true }:
   const loadingCount = useRef<number>(0);
   const lastAbortController = useRef<AbortController>();
 
+  const abortService = () => {
+    lastAbortController.current?.abort();
+  };
+
   const invokeService = ({ serviceData = null, requestConfig = {} }: IService<any>) => {
     loadingCount.current++;
 
@@ -89,5 +93,6 @@ export const useDataContainer = (service: Function, { initLoadingState = true }:
     loading: loading,
     error: error,
     refresh: useCallback(invokeService, [service]),
+    abort: useCallback(abortService, []),
   };
 };
