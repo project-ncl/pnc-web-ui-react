@@ -2,7 +2,9 @@ import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patter
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-type FetchCallbackFunction = (requstConfig: AxiosRequestConfig) => Promise<AxiosResponse<any, any>>;
+import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
+
+type FetchCallbackFunction = (requstConfig?: AxiosRequestConfig) => Promise<AxiosResponse<any, any>>;
 type OnSelectFunction = (value: string | SelectOptionObject) => void;
 
 interface ISearchSelectProps {
@@ -46,52 +48,49 @@ export const SearchSelect = ({
   // currenyly selected option
   const [selected, setSelected] = useState<string | undefined>();
 
-  // loading state
-  const [loading, setLoading] = useState<boolean>(false);
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   // used to fetch data after delay
   const timeout = useRef<NodeJS.Timeout>();
-  const lastAbortController = useRef<AbortController>();
+
+  const dataContainer = useDataContainer(
+    useCallback(
+      ({ requestConfig }: IService<any>) => {
+        return fetchCallback(requestConfig);
+      },
+      [fetchCallback]
+    )
+  );
+  const refreshDataContainer = dataContainer.refresh;
 
   // fetch data and save them
   // if filterText string is empty, default data are saved
   const fetchData = useCallback(
     (filterText: string = '') => {
-      const requstConfig: AxiosRequestConfig = { params: { pageSize } };
+      const requestConfig: AxiosRequestConfig = { params: { pageSize } };
       if (filterText) {
-        requstConfig.params.q = `${attribute}=like="%${filterText}%"`;
+        requestConfig.params.q = `${attribute}=like="%${filterText}%"`;
       }
 
-      // abort previous request
-      lastAbortController.current?.abort();
-      // create abort signal for new request
-      lastAbortController.current = new AbortController();
-      requstConfig.signal = lastAbortController.current.signal;
-
-      setLoading(true);
-
-      fetchCallback(requstConfig)
-        .then((response: any) => {
-          const data = response.data.content;
-          setCurrentData(data);
-          if (filterText === '') setDefaultData(data);
-          setLoading(false);
-        })
-        .catch((error: any) => {
-          // if no other request is processed
-          if (lastAbortController.current?.signal.aborted) {
-            setLoading(false);
-          }
-        });
+      refreshDataContainer({ requestConfig }).then((response: any) => {
+        const data = response.data.content;
+        setCurrentData(data);
+        if (filterText === '') setDefaultData(data);
+      });
     },
-    [fetchCallback, attribute, pageSize]
+    [refreshDataContainer, attribute, pageSize]
   );
 
   // load first / default data
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // set default options and abort request
+  const setDefaults = () => {
+    dataContainer.abort();
+    setCurrentData(defaultData);
+  };
 
   // filtering of select
   const filterSelect = (value: string) => {
@@ -102,9 +101,8 @@ export const SearchSelect = ({
     if (value !== '') {
       timeout.current = setTimeout(() => fetchData(value), delay);
     } else {
-      // if filter is empty string, set default options and abort request
-      setCurrentData(defaultData);
-      lastAbortController.current?.abort();
+      // if filter is empty string, set default options
+      setDefaults();
     }
   };
 
@@ -140,10 +138,9 @@ export const SearchSelect = ({
 
   // on clear, set default values
   const clearSelect = () => {
-    setCurrentData(defaultData);
+    setDefaults();
     setIsSelectOpen(false);
     clearSelection();
-    lastAbortController.current?.abort();
   };
 
   return (
@@ -158,7 +155,7 @@ export const SearchSelect = ({
         // filtering is not done here
         return undefined;
       }}
-      loadingVariant={loading ? 'spinner' : undefined}
+      loadingVariant={dataContainer.loading ? 'spinner' : undefined}
       onClear={clearSelect}
       selections={selected}
       isOpen={isSelectOpen}
