@@ -202,7 +202,7 @@ export const DemoPage = () => {
 
   const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
 
-  const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig) => {
+  const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig = {}) => {
     return projectService.getProjects(requestConfig);
   }, []);
 
