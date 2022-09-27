@@ -348,17 +348,25 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
           )}
           <small className={styles['description-text']}>
             <p>
-              Press Build button to start {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build
+              Press <i>Build</i> button to start
             </p>
             {buildDependencies && (
               <span>
                 <p>
-                  Applying the same Rebuild Mode also to explicitly defined dependencies
+                  {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
+                  explicitly defined dependencies
                   <span className="pnc-info-icon">
                     <Popover bodyContent={descriptionTextPopoverText} showClose={false} enableFlip={false} position="auto">
                       <InfoCircleIcon />
                     </Popover>
                   </span>
+                </p>
+              </span>
+            )}
+            {!buildDependencies && (
+              <span>
+                <p>
+                  {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build
                 </p>
               </span>
             )}
