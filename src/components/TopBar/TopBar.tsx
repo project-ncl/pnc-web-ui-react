@@ -1,6 +1,6 @@
 import { Button, Flex, FlexItem } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 import styles from './TopBar.module.css';
 
@@ -30,7 +30,6 @@ interface ITopBarProps {
  */
 export const TopBar = ({ children, type, icon }: React.PropsWithChildren<ITopBarProps>) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
-  const firstRender = useRef(true);
 
   useEffect(() => {
     const topBarState = window.sessionStorage.getItem(type);
@@ -38,11 +37,13 @@ export const TopBar = ({ children, type, icon }: React.PropsWithChildren<ITopBar
   }, [type]);
 
   useEffect(() => {
-    if (!firstRender.current) {
+    const topBarTextOld = window.sessionStorage.getItem(`${type}-text`) || '';
+    const topbarTextNew = JSON.stringify(children);
+
+    if (topbarTextNew !== topBarTextOld) {
       window.sessionStorage.setItem(type, 'open');
+      window.sessionStorage.setItem(`${type}-text`, topbarTextNew);
       setIsOpen(true);
-    } else {
-      firstRender.current = false;
     }
   }, [children, type]);
 
