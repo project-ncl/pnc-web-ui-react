@@ -46,7 +46,7 @@ class ProjectService {
    * Patch a Project.
    *
    * @param id - project ID
-   * @param patchData - array of changes in JSON patch format
+   * @param patchData - array of changes in JSON-Patch format
    * @param requestConfig - Axios based request config
    * @returns Updated Project
    */

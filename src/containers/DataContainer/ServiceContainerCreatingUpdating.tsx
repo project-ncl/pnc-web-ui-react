@@ -5,7 +5,7 @@ import { RefreshStateCard } from '../../components/EmptyStates/RefreshStateCard'
 
 import { IDataContainer } from './DataContainer';
 
-export const ServiceContainerCreating = ({ loading, error, children }: React.PropsWithChildren<IDataContainer>) => {
+export const ServiceContainerCreatingUpdating = ({ loading, error, children }: React.PropsWithChildren<IDataContainer>) => {
   if (loading) {
     return (
       <RefreshStateCard>

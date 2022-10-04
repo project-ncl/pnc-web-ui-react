@@ -20,7 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Project } from 'pnc-api-types-ts';
 
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
-import { ServiceContainerCreating } from '../../containers/DataContainer/ServiceContainerCreating';
+import { ServiceContainerCreatingUpdating } from '../../containers/DataContainer/ServiceContainerCreatingUpdating';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { IFields, useForm } from '../../containers/useForm';
 import { useTitle } from '../../containers/useTitle';
@@ -303,9 +303,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         <FlexItem>
           {editPage ? (
             isPatching ? (
-              <ServiceContainerCreating {...dataContainerEditPatch} title="Edit Project">
+              <ServiceContainerCreatingUpdating {...dataContainerEditPatch} title="Edit Project">
                 {formComponent}
-              </ServiceContainerCreating>
+              </ServiceContainerCreatingUpdating>
             ) : (
               /* used just to GET project data, after that is immediately switched to patch container */
               <DataContainer {...dataContainerEditGet} title="Edit Project">
@@ -313,9 +313,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               </DataContainer>
             )
           ) : (
-            <ServiceContainerCreating {...dataContainerCreate} title="Create Project">
+            <ServiceContainerCreatingUpdating {...dataContainerCreate} title="Create Project">
               {formComponent}
-            </ServiceContainerCreating>
+            </ServiceContainerCreatingUpdating>
           )}
         </FlexItem>
       </Flex>
