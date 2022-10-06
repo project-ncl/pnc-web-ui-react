@@ -3,6 +3,8 @@
   "trailingComma": "es5",
   "printWidth": 130,
   "importOrder": [
+    "base.css",
+    "<THIRD_PARTY_MODULES>",
     "^pnc",
     "^/?(((.*)/)*)containers/(.*)$",
     "^/?(((.*)/)*)components/(.*)$",

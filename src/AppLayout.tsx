@@ -19,7 +19,6 @@ import {
 BreadcrumbItem,*/
   PageSidebar,
 } from '@patternfly/react-core';
-import '@patternfly/react-core/dist/styles/base.css';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
