@@ -67,8 +67,8 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
       <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
-      <ProtectedComponent role={AUTH_ROLE.Admin} hide={true}>
-        <DropdownItem component={<Link to="/admin/administration">Administration</Link>} key="administration" />
+      <ProtectedComponent role={AUTH_ROLE.Admin} hide={true} key="administration">
+        <DropdownItem component={<Link to="/admin/administration">Administration</Link>} />
       </ProtectedComponent>,
     ];
 
