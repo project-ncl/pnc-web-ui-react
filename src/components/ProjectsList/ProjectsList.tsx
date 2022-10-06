@@ -1,4 +1,3 @@
-import '@patternfly/react-core/dist/styles/base.css';
 import { Table, TableBody, TableHeader, cellWidth } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
 

@@ -1,3 +1,5 @@
+import '@patternfly/react-core/dist/styles/base.css';
+
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
