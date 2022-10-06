@@ -30,6 +30,16 @@ const App = () => {
       });
   }, []);
 
+  // see also https://github.com/remix-run/react-router/issues/8427#issuecomment-1056988913
+  const URL_BASE_PATH = '/pnc-web';
+  if (process.env.NODE_ENV === 'development' && !window.location.pathname.startsWith(URL_BASE_PATH)) {
+    const message = `Redirection to ${URL_BASE_PATH}/...`;
+    console.log(message);
+    window.location.href = URL_BASE_PATH + window.location.pathname;
+
+    return <div>{message}</div>;
+  }
+
   if (isKeycloakInitiated || isKeycloakInitFail) {
     return (
       <ErrorBoundary>
