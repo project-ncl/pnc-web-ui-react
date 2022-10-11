@@ -18,6 +18,50 @@ import { Toolbar } from '../Toolbar/Toolbar';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { ProjectsList } from './../ProjectsList/ProjectsList';
 
+// keeping also not supported operations for testing purposes
+const filterOptions: IFilterOptions = {
+  filterAttributes: {
+    name: {
+      id: 'name',
+      title: 'Name',
+      placeholder: 'string | !string | s?ring | st*ng',
+      operator: '=like=',
+    },
+    description: {
+      id: 'description',
+      title: 'Description',
+      operator: '=like=',
+    },
+    customb: {
+      id: 'customb',
+      title: 'Custom',
+      isCustomParam: true,
+      operator: '=like=',
+    },
+    status: {
+      id: 'status',
+      title: 'Status',
+      filterValues: ['SUCCESS', 'REJECTED', 'FAILED', 'CANCELLED', 'BUILDING', 'NO_REBUILD_REQUIRED', 'SYSTEM_ERROR'],
+      operator: '==',
+    },
+  },
+};
+
+const sortOptions: ISortOptions = {
+  name: {
+    id: 'name',
+    title: 'Name',
+  },
+  description: {
+    id: 'description',
+    title: 'Description',
+  },
+};
+
+const ToolbarItemWidths = {
+  default: '100%',
+};
+
 interface IProjectPage {
   componentId?: string;
 }
@@ -27,57 +71,13 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
 
   useTitle(PageTitles.projects);
 
-  // keeping also not supported operations for testing purposes
-  const filterOptions: IFilterOptions = {
-    filterAttributes: {
-      name: {
-        id: 'name',
-        title: 'Name',
-        placeholder: 'string | !string | s?ring | st*ng',
-        operator: '=like=',
-      },
-      description: {
-        id: 'description',
-        title: 'Description',
-        operator: '=like=',
-      },
-      customb: {
-        id: 'customb',
-        title: 'Custom',
-        isCustomParam: true,
-        operator: '=like=',
-      },
-      status: {
-        id: 'status',
-        title: 'Status',
-        filterValues: ['SUCCESS', 'REJECTED', 'FAILED', 'CANCELLED', 'BUILDING', 'NO_REBUILD_REQUIRED', 'SYSTEM_ERROR'],
-        operator: '==',
-      },
-    },
-  };
-
-  const sortOptions: ISortOptions = {
-    name: {
-      id: 'name',
-      title: 'Name',
-    },
-    description: {
-      id: 'description',
-      title: 'Description',
-    },
-  };
-
-  const ToolbarItemWidths = {
-    default: '100%',
-  };
-
   useQueryParamsEffect((requestConfig: Object) => {
     dataContainer.refresh({ requestConfig });
   }, componentId);
 
   return (
     <PageLayout
-      title="Projects"
+      title="ProjecdataContainer.refreshts"
       description={
         <>
           This page contains a standalone projects like <Label>Hibernate</Label> or <Label>JBoss Modules</Label>, usually a
