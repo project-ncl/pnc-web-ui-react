@@ -84,7 +84,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const defaultAttributeKey = Object.entries(sortOptions).filter(([_, v]) => v.isDefault)[0]?.[0];
+  const defaultAttributeKey = Object.entries(sortOptions).find(([_, v]) => v.isDefault)?.[0] || '';
   const defaultSortOrder = sortOptions[defaultAttributeKey]?.defaultSortOrder || SORT_ORDER.Asc;
 
   // attribute by which list is sorted
@@ -145,8 +145,18 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
    * Check sort options validity.
    */
   useEffect(() => {
-    Object.entries(sortOptions).forEach(([k, v]) => {
+    const sortOptionsArray = Object.entries(sortOptions);
+
+    const defaultSortOptionsArray = sortOptionsArray.filter(([_, v]) => v.isDefault);
+    if (defaultSortOptionsArray.length > 1) {
+      const defaultSortOptionsKeysString = defaultSortOptionsArray.map((arr) => arr[0]).join(', ');
+      // #log
+      console.warn('Sorting: More than one sorting options were specified:', defaultSortOptionsKeysString);
+    }
+
+    sortOptionsArray.forEach(([k, v]) => {
       if (k !== v.id) {
+        // #log
         console.error('sortOptions: ', sortOptions);
         throw new Error(`sortOptions have invalid format, object key (${k}) has to match id field (${v.id})!`);
       }
