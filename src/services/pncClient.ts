@@ -56,7 +56,7 @@ class PncClient {
        * If sorting is set to 'none', delete it from config.
        */
       if (config.params?.sort === 'none') {
-        config.params.sort = '';
+        delete config.params.sort;
       }
 
       return config;
