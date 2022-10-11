@@ -23,14 +23,14 @@ export enum SORT_ORDER {
  * {
  *   id: 'description',
  *   title: 'Description',
- *   isDefaultAttribute: true
+ *   isDefault: true
  * }
  *
  * @example
  * {
  *   id: 'description',
  *   title: 'Description',
- *   isDefaultAttribute: true,
+ *   isDefault: true,
  *   defaultSortOrder: SORT_ODER.Desc
  * }
  */
@@ -47,7 +47,7 @@ interface ISortAttribute {
    * Should be sorted by default by this attribute?
    * Maximally one attribute should be default.
    */
-  isDefaultAttribute?: boolean;
+  isDefault?: boolean;
   /**
    * If sorted by default by this attribute, which order is used?
    * If omitted, ascending order is assumed.
@@ -73,7 +73,7 @@ interface ISortingProps {
 
 /**
  * Component allowing to sort lists.
- * It's possible to choose either ascending or descending order of sorting, and also disable sorting completely.
+ * Sorting options: asc, desc, none.
  * sortOptions are used to choose which attributes will be sortable.
  * One attribute can be sorted by default. Also default sorting order of default attribute can be specified.
  *
@@ -84,7 +84,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const defaultAttributeKey = Object.entries(sortOptions).filter(([_, v]) => v.isDefaultAttribute)[0]?.[0];
+  const defaultAttributeKey = Object.entries(sortOptions).filter(([_, v]) => v.isDefault)[0]?.[0];
   const defaultSortOrder = sortOptions[defaultAttributeKey]?.defaultSortOrder || SORT_ORDER.Asc;
 
   // attribute by which list is sorted
@@ -115,7 +115,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
   );
 
   /**
-   * Sychronize UI with the URL sort param.
+   * Synchronize UI with the URL sort param.
    */
   useEffect(() => {
     const currentSortParam = getComponentQueryParamValue(location.search, 'sort', componentId);
@@ -139,17 +139,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
         resetSortFilter(true);
       }
     }
-  }, [
-    location.search,
-    location,
-    componentId,
-    navigate,
-    sortOptions,
-    defaultAttributeKey,
-    defaultSortOrder,
-    addSortFilter,
-    resetSortFilter,
-  ]);
+  }, [location.search, componentId, sortOptions, defaultAttributeKey, defaultSortOrder, addSortFilter, resetSortFilter]);
 
   /**
    * Check sort options validity.
@@ -191,15 +181,17 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
         ]}
       </Select>
 
-      <Button
-        className="p-l-10 p-r-10"
-        variant="plain"
-        isDisabled={!sortAttribute}
-        onClick={() => {
-          addSortFilter(sortAttribute!.id, sortOrder === SORT_ORDER.Asc ? SORT_ORDER.Desc : SORT_ORDER.Asc);
-        }}
-        icon={sortOrder === SORT_ORDER.Asc ? <SortAmountDownAltIcon /> : <SortAmountDownIcon />}
-      />
+      <Tooltip content={sortOrder === SORT_ORDER.Asc ? 'Asc' : 'Desc'}>
+        <Button
+          className="p-l-10 p-r-10"
+          variant="plain"
+          isDisabled={!sortAttribute}
+          onClick={() => {
+            addSortFilter(sortAttribute!.id, sortOrder === SORT_ORDER.Asc ? SORT_ORDER.Desc : SORT_ORDER.Asc);
+          }}
+          icon={sortOrder === SORT_ORDER.Asc ? <SortAmountDownAltIcon /> : <SortAmountDownIcon />}
+        />
+      </Tooltip>
 
       {sortAttribute && (
         <Tooltip content="Remove sorting">
