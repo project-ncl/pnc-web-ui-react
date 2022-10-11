@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getComponentQueryParamValue, updateQueryParamsInURL } from '../../utils/queryParamsHelper';
+import { validateSortParam } from '../../utils/sortParamHelper';
 
 import '../../index.css';
 
@@ -120,14 +121,15 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
   useEffect(() => {
     const currentSortParam = getComponentQueryParamValue(location.search, 'sort', componentId);
 
-    // if URL contains sort param
-    if (currentSortParam) {
+    // if URL contains valid sort param
+    if (currentSortParam && validateSortParam(currentSortParam, sortOptions)) {
       if (currentSortParam === 'none') {
         setSortAttribute(undefined);
       } else {
-        const urlSortOrder = currentSortParam.split('=')?.[1];
-        const urlSortAttributeKey = currentSortParam.split('=')?.[2];
+        const currentSortParamSplitted = currentSortParam.split('=');
+        currentSortParamSplitted.shift(); // remove empty string
 
+        const [urlSortOrder, urlSortAttributeKey] = currentSortParamSplitted;
         setSortOrder(urlSortOrder as SORT_ORDER);
         setSortAttribute(sortOptions[urlSortAttributeKey]);
       }
