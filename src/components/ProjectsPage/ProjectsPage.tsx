@@ -1,4 +1,4 @@
-import { Flex, FlexItem, Label } from '@patternfly/react-core';
+import { Flex, FlexItem, FlexProps, Label } from '@patternfly/react-core';
 
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
@@ -58,6 +58,9 @@ const sortOptions: ISortOptions = {
   },
 };
 
+const flexJustifyContent: FlexProps['justifyContent'] = { default: 'justifyContentSpaceBetween' };
+const flexSpaceItems: FlexProps['spaceItems'] = { default: 'spaceItems2xl' };
+
 interface IProjectPage {
   componentId?: string;
 }
@@ -82,8 +85,8 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
       }
     >
       <ListToolbar>
-        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-          <Flex spaceItems={{ default: 'spaceItems2xl' }}>
+        <Flex justifyContent={flexJustifyContent}>
+          <Flex spaceItems={flexSpaceItems}>
             <FlexItem>
               <Filtering filterOptions={filterOptions} componentId={componentId} />
             </FlexItem>
