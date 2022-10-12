@@ -1,4 +1,4 @@
-import { Flex, FlexItem, Label, ToolbarItem } from '@patternfly/react-core';
+import { Flex, FlexItem, Label } from '@patternfly/react-core';
 
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
@@ -11,10 +11,10 @@ import { PageTitles } from '../../utils/PageTitles';
 
 import { ActionButton } from '../ActionButton/ActionButton';
 import { Filtering, IFilterOptions } from '../Filtering/Filtering';
+import { ListToolbar } from '../ListToolbar/ListToolbar';
 import { Pagination } from '../Pagination/Pagination';
 import { ProtectedComponent } from '../ProtectedContent/ProtectedComponent';
 import { ISortOptions, Sorting } from '../Sorting/Sorting';
-import { Toolbar } from '../Toolbar/Toolbar';
 import { PageLayout } from './../PageLayout/PageLayout';
 import { ProjectsList } from './../ProjectsList/ProjectsList';
 
@@ -58,10 +58,6 @@ const sortOptions: ISortOptions = {
   },
 };
 
-const ToolbarItemWidths = {
-  default: '100%',
-};
-
 interface IProjectPage {
   componentId?: string;
 }
@@ -77,7 +73,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
 
   return (
     <PageLayout
-      title="ProjecdataContainer.refreshts"
+      title="Projects"
       description={
         <>
           This page contains a standalone projects like <Label>Hibernate</Label> or <Label>JBoss Modules</Label>, usually a
@@ -85,27 +81,25 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </>
       }
     >
-      <Toolbar>
-        <ToolbarItem widths={ToolbarItemWidths}>
-          <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-            <Flex spaceItems={{ default: 'spaceItems2xl' }}>
-              <FlexItem>
-                <Filtering filterOptions={filterOptions} componentId={componentId} />
-              </FlexItem>
-              <FlexItem>
-                <Sorting sortOptions={sortOptions} componentId={componentId} />
-              </FlexItem>
-            </Flex>
+      <ListToolbar>
+        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
+          <Flex spaceItems={{ default: 'spaceItems2xl' }}>
             <FlexItem>
-              <ProtectedComponent>
-                <ActionButton iconType="create" link="create">
-                  Create
-                </ActionButton>
-              </ProtectedComponent>
+              <Filtering filterOptions={filterOptions} componentId={componentId} />
+            </FlexItem>
+            <FlexItem>
+              <Sorting sortOptions={sortOptions} componentId={componentId} />
             </FlexItem>
           </Flex>
-        </ToolbarItem>
-      </Toolbar>
+          <FlexItem>
+            <ProtectedComponent>
+              <ActionButton iconType="create" link="create">
+                Create
+              </ActionButton>
+            </ProtectedComponent>
+          </FlexItem>
+        </Flex>
+      </ListToolbar>
 
       <DataContainer {...dataContainer} title="Projects List">
         <ProjectsList projects={dataContainer.data?.content} />
