@@ -1,0 +1,6 @@
+.search-select-spinner {
+  position: absolute !important;
+  right: 90px;
+  top: 9px;
+  z-index: 100;
+}
