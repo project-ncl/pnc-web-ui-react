@@ -18,6 +18,14 @@ code {
    Generics
    ==================== */
 
+.position-relative {
+  position: relative !important;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
 .w-70 {
   width: 70%;
 }

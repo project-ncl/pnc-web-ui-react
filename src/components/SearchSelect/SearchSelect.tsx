@@ -1,8 +1,11 @@
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant, Spinner } from '@patternfly/react-core';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
+
+import '../../index.css';
+import styles from './SearchSelect.module.css';
 
 type FetchCallbackFunction = (requstConfig?: AxiosRequestConfig) => Promise<AxiosResponse<any, any>>;
 type OnSelectFunction = (value: string | SelectOptionObject) => void;
@@ -72,11 +75,15 @@ export const SearchSelect = ({
         requestConfig.params.q = `${attribute}=like="%${filterText}%"`;
       }
 
-      refreshDataContainer({ requestConfig }).then((response: any) => {
-        const data = response.data.content;
-        setCurrentData(data);
-        if (filterText === '') setDefaultData(data);
-      });
+      refreshDataContainer({ requestConfig })
+        .then((response: any) => {
+          const data = response.data.content;
+          setCurrentData(data);
+          if (filterText === '') setDefaultData(data);
+        })
+        .catch(() => {
+          setCurrentData([]);
+        });
     },
     [refreshDataContainer, attribute, pageSize]
   );
@@ -144,27 +151,30 @@ export const SearchSelect = ({
   };
 
   return (
-    <Select
-      variant={SelectVariant.typeahead}
-      onToggle={(isOpen) => {
-        setIsSelectOpen(isOpen);
-      }}
-      onTypeaheadInputChanged={filterSelect}
-      onSelect={onSelectInner}
-      onFilter={() => {
-        // filtering is not done here
-        return undefined;
-      }}
-      loadingVariant={dataContainer.loading ? 'spinner' : undefined}
-      onClear={clearSelect}
-      selections={selected}
-      isOpen={isSelectOpen}
-      isInputValuePersisted={true}
-      isInputFilterPersisted={true}
-    >
-      {currentData.map((option: any, index: number) => (
-        <SelectOption key={index} value={option[attribute]} description={shouldDisplayDescription && option.description} />
-      ))}
-    </Select>
+    <div className="position-relative">
+      {dataContainer.loading && dataContainer.data && <Spinner size="md" className={styles['search-select-spinner']} />}
+      <Select
+        variant={SelectVariant.typeahead}
+        onToggle={(isOpen) => {
+          setIsSelectOpen(isOpen);
+        }}
+        onTypeaheadInputChanged={filterSelect}
+        onSelect={onSelectInner}
+        onFilter={() => {
+          // filtering is not done here
+          return undefined;
+        }}
+        onClear={clearSelect}
+        selections={selected}
+        isOpen={isSelectOpen}
+        isInputValuePersisted={true}
+        isInputFilterPersisted={true}
+        noResultsFoundText={dataContainer.error ? dataContainer.error : 'No results were found'}
+      >
+        {currentData.map((option: any, index: number) => (
+          <SelectOption key={index} value={option[attribute]} description={shouldDisplayDescription && option.description} />
+        ))}
+      </Select>
+    </div>
   );
 };
