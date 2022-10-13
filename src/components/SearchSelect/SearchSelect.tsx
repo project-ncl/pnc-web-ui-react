@@ -169,6 +169,7 @@ export const SearchSelect = ({
         isOpen={isSelectOpen}
         isInputValuePersisted={true}
         isInputFilterPersisted={true}
+        placeholderText="string | !string | s?ring | st*ng"
         noResultsFoundText={dataContainer.error ? dataContainer.error : 'No results were found'}
       >
         {currentData.map((option: any, index: number) => (
