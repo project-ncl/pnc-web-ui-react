@@ -58,8 +58,8 @@
     "@types/lodash": "^4.14.184",
     "@types/react-test-renderer": "^18.0.0",
     "axios-mock-adapter": "^1.21.2",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "2.7.1"
   },
   "lint-staged": {
