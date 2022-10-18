@@ -1,6 +1,13 @@
 .search-select-spinner {
   position: absolute !important;
-  right: 90px;
   top: 9px;
   z-index: 100;
+}
+
+.search-select-spinner-filtered {
+  right: 90px;
+}
+
+.search-select-spinner-nofilter {
+  right: 55px;
 }

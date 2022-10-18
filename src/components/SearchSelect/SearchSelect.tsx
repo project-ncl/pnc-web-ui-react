@@ -70,6 +70,11 @@ export const SearchSelect = ({
   );
   const refreshDataContainer = dataContainer.refresh;
 
+  // return text of select filter
+  const getFilterText = useCallback(() => {
+    return selectRef.current?.['inputRef'].current.value || '';
+  }, []);
+
   // fetch data and save them
   const fetchData = useCallback(
     (filterText: string = '', pageIndex: number = pageIndexDefault) => {
@@ -103,10 +108,9 @@ export const SearchSelect = ({
   // fetch data with same filtering string as currently set
   const refetchData = useCallback(
     (pageIndex: number = pageIndexDefault) => {
-      const filterText = selectRef.current?.['inputRef'].current.value || '';
-      fetchData(filterText, pageIndex);
+      fetchData(getFilterText(), pageIndex);
     },
-    [fetchData]
+    [fetchData, getFilterText]
   );
 
   // load first data
@@ -166,7 +170,14 @@ export const SearchSelect = ({
 
   return (
     <div className="position-relative">
-      {dataContainer.loading && dataContainer.data && <Spinner size="md" className={styles['search-select-spinner']} />}
+      {dataContainer.loading && dataContainer.data && (
+        <Spinner
+          size="md"
+          className={`${styles['search-select-spinner']} ${
+            getFilterText() ? styles['search-select-spinner-filtered'] : styles['search-select-spinner-nofilter']
+          }`}
+        />
+      )}
       <Select
         ref={selectRef}
         variant={SelectVariant.typeahead}
