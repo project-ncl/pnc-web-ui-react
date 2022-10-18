@@ -12,6 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 1. See `"engines"` in [package.json](./package.json) for minimum version requirements (for example `node` and `npm`)
 2. `Prettier`, see [documentation/prettier.md](./documentation/prettier.md)
+3. `EditorConfig`, see [documentation/editor-config.md](./documentation/editor-config.md) (optional)
 
 ## Workflows
 
