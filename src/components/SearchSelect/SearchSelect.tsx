@@ -12,36 +12,39 @@ type OnSelectFunction = (value: string | SelectOptionObject) => void;
 
 interface ISearchSelectProps {
   fetchCallback: FetchCallbackFunction;
-  attribute: string;
+  titleAttribute: string;
+  descriptionAttribute?: string;
   onSelect: OnSelectFunction;
   delay?: number;
   pageSizeDefault?: number;
-  shouldDisplayDescription?: boolean;
 }
 
 /**
  * Filtered select with data dynamically fetched from backend.
  * Select options data are fetched:
  *  -> when select is firstly loaded
- *  -> when filter input text is changed (by typing or selecting option)
- *    -> these are filtered by attribute equality to current filter text value (=like= operator)
+ *  -> when filter input text is changed (by typing or selecting an option)
+ *
+ * Filtering is done by titleAttribute equality to current filter text value (=like= operator).
+ * If descriptionAttribute is defined, descriptionAttribute equality to current filter operation is also appended
+ * by OR operator.
  *
  * onSelect callback is used so selected option is accessible from outside.
  *
  * @param fetchCallback - function to fetch the data from backend
- * @param attribute - which attribute will be filtered
+ * @param titleAttribute - which attribute will be filtered
+ * @param descriptionAttribute - which attribute in fetched data is displayed as description (and included in filtering)
  * @param onSelect - function to be called when option is selected (value is passed in)
  * @param delay - delay after which data are fetched when filter input is changed
  * @param pageSizeDefault - count of entries fetched defaultly
- * @param shouldDisplayDescription - should options display description? (if any)
  */
 export const SearchSelect = ({
   fetchCallback,
-  attribute,
+  titleAttribute,
+  descriptionAttribute,
   onSelect,
   delay = 200,
   pageSizeDefault = 20,
-  shouldDisplayDescription = false,
 }: ISearchSelectProps) => {
   // filtered data downloaded using callback
   const [currentData, setCurrentData] = useState<any[]>([]);
@@ -72,7 +75,10 @@ export const SearchSelect = ({
     (filterText: string = '', pageIndex: number = pageIndexDefault) => {
       const requestConfig: AxiosRequestConfig = { params: { pageIndex, pageSize: pageSizeDefault } };
       if (filterText) {
-        requestConfig.params.q = `${attribute}=like="%${filterText}%"`;
+        const titleFilter = `${titleAttribute}=like="%${filterText}%"`;
+        const descriptionFilter = `${descriptionAttribute}=like="%${filterText}%"`;
+
+        requestConfig.params.q = `${titleFilter}${descriptionAttribute && `,${descriptionFilter}`}`;
       }
 
       setPageIndex(pageIndex);
@@ -91,7 +97,7 @@ export const SearchSelect = ({
           setCurrentData([]);
         });
     },
-    [refreshDataContainer, attribute, pageSizeDefault]
+    [refreshDataContainer, titleAttribute, descriptionAttribute, pageSizeDefault]
   );
 
   // fetch data with same filtering string as currently set
@@ -187,7 +193,11 @@ export const SearchSelect = ({
         {...(dataContainer.loading && { loadingVariant: 'spinner' })}
       >
         {currentData.map((option: any, index: number) => (
-          <SelectOption key={index} value={option[attribute]} description={shouldDisplayDescription && option.description} />
+          <SelectOption
+            key={index}
+            value={option[titleAttribute]}
+            description={descriptionAttribute && option[descriptionAttribute]}
+          />
         ))}
       </Select>
     </div>

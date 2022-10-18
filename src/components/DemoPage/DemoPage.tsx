@@ -352,8 +352,8 @@ export const DemoPage = () => {
                 <FormGroup label="Select project name (dynamic search select)">
                   <SearchSelect
                     fetchCallback={searchSelectCallback}
-                    attribute="name"
-                    shouldDisplayDescription={true}
+                    titleAttribute="name"
+                    descriptionAttribute="description"
                     onSelect={(value: string | SelectOptionObject) => {
                       console.log(`DYNAMIC SELECT> ${value}`);
                     }}
