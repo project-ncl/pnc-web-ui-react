@@ -15,7 +15,7 @@ interface ISearchSelectProps {
   attribute: string;
   onSelect: OnSelectFunction;
   delay?: number;
-  pageSize?: number;
+  pageSizeDefault?: number;
   shouldDisplayDescription?: boolean;
 }
 
@@ -23,7 +23,6 @@ interface ISearchSelectProps {
  * Filtered select with data dynamically fetched from backend.
  * Select options data are fetched:
  *  -> when select is firstly loaded
- *    -> these are buffered so they are not refetched
  *  -> when filter input text is changed (by typing or selecting option)
  *    -> these are filtered by attribute equality to current filter text value (=like= operator)
  *
@@ -33,7 +32,7 @@ interface ISearchSelectProps {
  * @param attribute - which attribute will be filtered
  * @param onSelect - function to be called when option is selected (value is passed in)
  * @param delay - delay after which data are fetched when filter input is changed
- * @param pageSize - count of entries fetched
+ * @param pageSizeDefault - count of entries fetched defaultly
  * @param shouldDisplayDescription - should options display description? (if any)
  */
 export const SearchSelect = ({
@@ -41,18 +40,20 @@ export const SearchSelect = ({
   attribute,
   onSelect,
   delay = 200,
-  pageSize = 20,
+  pageSizeDefault = 20,
   shouldDisplayDescription = false,
 }: ISearchSelectProps) => {
-  // newest (filtered) data downloaded using callback
+  // filtered data downloaded using callback
   const [currentData, setCurrentData] = useState<any[]>([]);
-  // data downloaded on first load
-  const [defaultData, setDefaultData] = useState<any[]>([]);
+  const pageIndexDefault = 1;
+  // current page index
+  const [pageIndex, setPageIndex] = useState<number>(pageIndexDefault);
   // currenyly selected option
   const [selected, setSelected] = useState<string | undefined>();
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
+  const selectRef = useRef<Select>(null);
   // used to fetch data after delay
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -67,37 +68,45 @@ export const SearchSelect = ({
   const refreshDataContainer = dataContainer.refresh;
 
   // fetch data and save them
-  // if filterText string is empty, default data are saved
   const fetchData = useCallback(
-    (filterText: string = '') => {
-      const requestConfig: AxiosRequestConfig = { params: { pageSize } };
+    (filterText: string = '', pageIndex: number = pageIndexDefault) => {
+      const requestConfig: AxiosRequestConfig = { params: { pageIndex, pageSize: pageSizeDefault } };
       if (filterText) {
         requestConfig.params.q = `${attribute}=like="%${filterText}%"`;
       }
 
+      setPageIndex(pageIndex);
+
       refreshDataContainer({ requestConfig })
         .then((response: any) => {
           const data = response.data.content;
-          setCurrentData(data);
-          if (filterText === '') setDefaultData(data);
+          if (pageIndex === pageIndexDefault) {
+            setCurrentData(data);
+          } else {
+            setCurrentData((currentData) => [...currentData, ...data]);
+          }
         })
         .catch(() => {
+          setPageIndex(pageIndexDefault);
           setCurrentData([]);
         });
     },
-    [refreshDataContainer, attribute, pageSize]
+    [refreshDataContainer, attribute, pageSizeDefault]
   );
 
-  // load first / default data
+  // fetch data with same filtering string as currently set
+  const refetchData = useCallback(
+    (pageIndex: number = pageIndexDefault) => {
+      const filterText = selectRef.current?.['inputRef'].current.value || '';
+      fetchData(filterText, pageIndex);
+    },
+    [fetchData]
+  );
+
+  // load first data
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  // set default options and abort request
-  const setDefaults = () => {
-    dataContainer.abort();
-    setCurrentData(defaultData);
-  };
 
   // filtering of select
   const filterSelect = (value: string) => {
@@ -105,12 +114,7 @@ export const SearchSelect = ({
     clearSelection();
 
     clearTimeout(timeout?.current);
-    if (value !== '') {
-      timeout.current = setTimeout(() => fetchData(value), delay);
-    } else {
-      // if filter is empty string, set default options
-      setDefaults();
-    }
+    timeout.current = setTimeout(() => fetchData(value), delay);
   };
 
   // selecting an option
@@ -143,17 +147,22 @@ export const SearchSelect = ({
     }
   };
 
-  // on clear, set default values
+  // on clear, set empty filter
   const clearSelect = () => {
-    setDefaults();
+    fetchData();
     setIsSelectOpen(false);
     clearSelection();
+  };
+
+  const onViewMoreClick = () => {
+    refetchData(pageIndex + 1);
   };
 
   return (
     <div className="position-relative">
       {dataContainer.loading && dataContainer.data && <Spinner size="md" className={styles['search-select-spinner']} />}
       <Select
+        ref={selectRef}
         variant={SelectVariant.typeahead}
         onToggle={(isOpen) => {
           setIsSelectOpen(isOpen);
@@ -171,6 +180,11 @@ export const SearchSelect = ({
         isInputFilterPersisted={true}
         placeholderText="string | !string | s?ring | st*ng"
         noResultsFoundText={dataContainer.error ? dataContainer.error : 'No results were found'}
+        {...(!dataContainer.loading &&
+          pageIndex < dataContainer.data.totalPages && {
+            loadingVariant: { text: 'View more', onClick: onViewMoreClick },
+          })}
+        {...(dataContainer.loading && { loadingVariant: 'spinner' })}
       >
         {currentData.map((option: any, index: number) => (
           <SelectOption key={index} value={option[attribute]} description={shouldDisplayDescription && option.description} />
