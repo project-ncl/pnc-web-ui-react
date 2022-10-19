@@ -7,8 +7,8 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 
-import { buildService } from '../../services/buildService';
-import { groupBuildService } from '../../services/groupBuildService';
+import * as buildService from '../../services/buildService';
+import * as groupBuildService from '../../services/groupBuildService';
 
 import { isBuild } from '../../utils/entityRecognition';
 

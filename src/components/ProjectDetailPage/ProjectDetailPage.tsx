@@ -6,7 +6,7 @@ import { DataContainer } from '../../containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from '../../containers/DataContainer/useDataContainer';
 import { useTitle } from '../../containers/useTitle';
 
-import { projectService } from '../../services/projectService';
+import * as projectService from '../../services/projectService';
 
 import { PageTitles } from '../../utils/PageTitles';
 

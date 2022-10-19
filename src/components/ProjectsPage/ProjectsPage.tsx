@@ -5,7 +5,7 @@ import { IService, useDataContainer } from '../../containers/DataContainer/useDa
 import { useQueryParamsEffect } from '../../containers/useQueryParamsEffect';
 import { useTitle } from '../../containers/useTitle';
 
-import { projectService } from '../../services/projectService';
+import * as projectService from '../../services/projectService';
 
 import { PageTitles } from '../../utils/PageTitles';
 

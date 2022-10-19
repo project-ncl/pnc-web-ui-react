@@ -20,8 +20,8 @@ import { IService, useDataContainer } from '../../containers/DataContainer/useDa
 import { useInterval } from '../../containers/useInterval';
 import { useTitle } from '../../containers/useTitle';
 
-import { buildService } from '../../services/buildService';
-import { genericSettingsService } from '../../services/genericSettingsService';
+import * as buildService from '../../services/buildService';
+import * as genericSettingsService from '../../services/genericSettingsService';
 
 import { AttributesItems } from '../AttributesItems/AttributesItems';
 import { PageLayout } from './../PageLayout/PageLayout';

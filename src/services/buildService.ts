@@ -7,42 +7,33 @@ interface IBuildServiceData {
   id: string;
 }
 
-class BuildService {
-  path = '/builds';
-
-  /**
-   * Gets Build Metrics by a list of build Ids.
-   *
-   * @returns BuildMetrics
-   */
-  public getBuildMetrics(buildIds?: Array<string>, requestConfig: AxiosRequestConfig = {}) {
-    if (buildIds) {
-      return kafkaClient.getHttpClient().post(`${this.path}`, { buildIds }, requestConfig);
-    }
+/**
+ * Gets Build Metrics by a list of build Ids.
+ *
+ * @returns BuildMetrics
+ */
+export const getBuildMetrics = (buildIds?: Array<string>, requestConfig: AxiosRequestConfig = {}) => {
+  if (buildIds) {
+    return kafkaClient.getHttpClient().post('/builds', { buildIds }, requestConfig);
   }
-
-  /**
-   * Gets Build Counts for enqueued, running, and waiting for dependencies builds.
-   *
-   * @returns numbers for "enqueued", "running", "waitingForDependencies"
-   */
-  public getBuildCount(requestConfig: AxiosRequestConfig = {}) {
-    return pncClient.getHttpClient().get(`${this.path}/count`, requestConfig);
-  }
-
-  /**
-   * Gets dependency graph for a build.
-   *
-   * @param data - object containing ID of the Build
-   * @param requestConfig - Axios based request config
-   * @returns DependencyGraph
-   */
-  public getDependencyGraph({ id }: IBuildServiceData, requestConfig: AxiosRequestConfig = {}) {
-    return pncClient.getHttpClient().get(`${this.path}/${id}/dependency-graph`, requestConfig);
-  }
-}
+};
 
 /**
- * Instance of BuildService providing group of Build related API operations.
+ * Gets Build Counts for enqueued, running, and waiting for dependencies builds.
+ *
+ * @returns numbers for "enqueued", "running", "waitingForDependencies"
  */
-export const buildService = new BuildService();
+export const getBuildCount = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get('/builds/count', requestConfig);
+};
+
+/**
+ * Gets dependency graph for a build.
+ *
+ * @param data - object containing ID of the Build
+ * @param requestConfig - Axios based request config
+ * @returns DependencyGraph
+ */
+export const getDependencyGraph = ({ id }: IBuildServiceData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get(`/builds/${id}/dependency-graph`, requestConfig);
+};
