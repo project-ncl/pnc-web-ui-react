@@ -29,7 +29,7 @@ import { TopBarError } from './components/TopBar/TopBarError';
 import { TopBarInfo } from './components/TopBar/TopBarInfo';
 
 import * as WebConfigAPI from './services/WebConfigService';
-import { genericSettingsService } from './services/genericSettingsService';
+import * as genericSettingsService from './services/genericSettingsService';
 import { AUTH_ROLE, keycloakService } from './services/keycloakService';
 
 import pncLogoText from './pnc-logo-text.svg';

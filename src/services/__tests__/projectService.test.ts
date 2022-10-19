@@ -1,4 +1,4 @@
-import { projectService } from '../../services/projectService';
+import * as projectService from '../../services/projectService';
 
 jest.mock('../pncClient');
 
