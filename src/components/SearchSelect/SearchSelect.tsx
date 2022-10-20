@@ -15,7 +15,7 @@ interface ISearchSelectProps {
   titleAttribute: string;
   descriptionAttribute?: string;
   onSelect: OnSelectFunction;
-  delay?: number;
+  delayMilliseconds?: number;
   pageSizeDefault?: number;
 }
 
@@ -35,7 +35,7 @@ interface ISearchSelectProps {
  * @param titleAttribute - which attribute will be filtered
  * @param descriptionAttribute - which attribute in fetched data is displayed as description (and included in filtering)
  * @param onSelect - function to be called when option is selected (value is passed in)
- * @param delay - delay after which data are fetched when filter input is changed
+ * @param delayMilliseconds - delay after which data are fetched when filter input is changed
  * @param pageSizeDefault - count of entries fetched defaultly
  */
 export const SearchSelect = ({
@@ -43,7 +43,7 @@ export const SearchSelect = ({
   titleAttribute,
   descriptionAttribute,
   onSelect,
-  delay = 200,
+  delayMilliseconds = 200,
   pageSizeDefault = 20,
 }: ISearchSelectProps) => {
   // filtered data downloaded using callback
@@ -52,7 +52,7 @@ export const SearchSelect = ({
   // current page index
   const [pageIndex, setPageIndex] = useState<number>(pageIndexDefault);
   // currenyly selected option
-  const [selected, setSelected] = useState<string | undefined>();
+  const [selectedItem, setSelectedItem] = useState<string | undefined>();
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
@@ -121,19 +121,19 @@ export const SearchSelect = ({
   // filtering of select
   const filterSelect = (value: string) => {
     // if text filter changed, unselect
-    clearSelection();
+    clearSelectedItem();
 
     clearTimeout(timeout?.current);
-    timeout.current = setTimeout(() => fetchData(value), delay);
+    timeout.current = setTimeout(() => fetchData(value), delayMilliseconds);
   };
 
   // selecting an option
-  const onSelectInner = (
+  const selectItem = (
     event: React.MouseEvent<Element, MouseEvent> | React.ChangeEvent<Element>,
     selection: string | SelectOptionObject,
     isPlaceholder: boolean | undefined
   ) => {
-    if (isPlaceholder) clearSelect();
+    if (isPlaceholder) clear();
     else {
       if (event) {
         // do this only when select option is clicked
@@ -144,24 +144,24 @@ export const SearchSelect = ({
         fetchData(selection as string);
         onSelect(selection);
       }
-      setSelected(selection as string);
+      setSelectedItem(selection as string);
       setIsSelectOpen(false);
     }
   };
 
   // if anything was selected, unselect it
-  const clearSelection = () => {
-    if (selected) {
-      setSelected(undefined);
+  const clearSelectedItem = () => {
+    if (selectedItem) {
+      setSelectedItem(undefined);
       onSelect('');
     }
   };
 
   // on clear, set empty filter
-  const clearSelect = () => {
+  const clear = () => {
     fetchData();
     setIsSelectOpen(false);
-    clearSelection();
+    clearSelectedItem();
   };
 
   const onViewMoreClick = () => {
@@ -185,13 +185,13 @@ export const SearchSelect = ({
           setIsSelectOpen(isOpen);
         }}
         onTypeaheadInputChanged={filterSelect}
-        onSelect={onSelectInner}
+        onSelect={selectItem}
         onFilter={() => {
           // filtering is not done here
           return undefined;
         }}
-        onClear={clearSelect}
-        selections={selected}
+        onClear={clear}
+        selections={selectedItem}
         isOpen={isSelectOpen}
         isInputValuePersisted={true}
         isInputFilterPersisted={true}
