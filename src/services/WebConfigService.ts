@@ -90,3 +90,15 @@ export const getKafkaUrl = (): string => {
   }
   return kafkaUrl;
 };
+
+export const getUILoggerUrl = (): string => {
+  // url should be contained in web config, but is still missing
+  // for the time being, use environement variable
+  const uiLoggerUrl = process.env.REACT_APP_UILOGGER_URL;
+
+  if (!uiLoggerUrl) {
+    throw new Error(`UI Logger URL does not contain any data: #${uiLoggerUrl}#`);
+  }
+
+  return uiLoggerUrl;
+};
