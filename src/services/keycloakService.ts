@@ -1,5 +1,6 @@
-import * as WebConfigAPI from './WebConfigService';
-import { Keycloak } from './keycloakHolder';
+import * as WebConfigAPI from 'services/WebConfigService';
+import { Keycloak } from 'services/keycloakHolder';
+import { userService } from 'services/userService';
 
 /**
  * Enum with possible authentication roles in Keycloak.
@@ -61,7 +62,13 @@ class KeycloakService {
           .init({ onLoad: 'check-sso' })
           .then(() => {
             this._isKeycloakAvailable = true;
-            resolve('success');
+            if (this.isAuthenticated()) {
+              userService.fetchUser().finally(() => {
+                resolve('success');
+              });
+            } else {
+              resolve('success');
+            }
           })
           .catch((errorData: any) => {
             reject(errorData);
