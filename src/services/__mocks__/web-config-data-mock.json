@@ -21,5 +21,6 @@
     "trafficLightsUrl": "https://localhost/",
     "statusMapUrl": "https://localhost/"
   },
-  "internalScmAuthority": "localhost"
+  "internalScmAuthority": "localhost",
+  "uiLoggerUrl": "https://localhost/"
 }
