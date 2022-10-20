@@ -198,6 +198,7 @@ export const SearchSelect = ({
         placeholderText="string | !string | s?ring | st*ng"
         noResultsFoundText={dataContainer.error ? dataContainer.error : 'No results were found'}
         {...(!dataContainer.loading &&
+          !dataContainer.error &&
           pageIndex < dataContainer.data.totalPages && {
             loadingVariant: { text: 'View more', onClick: onViewMoreClick },
           })}
