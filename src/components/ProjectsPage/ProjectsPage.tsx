@@ -108,7 +108,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
       </ListToolbar>
 
       <DataContainer {...dataContainer} title="Projects List">
-        <ProjectsList projects={dataContainer.data?.content} />
+        <ProjectsList sorting={sorting} componentId={componentId} projects={dataContainer.data?.content} />
       </DataContainer>
       {/* Pagination need to be outside of DataContainer so that it can initialize Query Params */}
       <Pagination componentId={componentId} count={dataContainer.data?.totalHits} />
