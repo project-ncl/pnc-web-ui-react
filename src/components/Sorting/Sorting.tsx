@@ -1,10 +1,11 @@
 import { Button, InputGroup, Select, SelectOption, SelectVariant, Tooltip } from '@patternfly/react-core';
 import { SortAmountDownAltIcon, SortAmountDownIcon, TimesIcon } from '@patternfly/react-icons';
-import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
-import { validateSortParam } from 'utils/sortParamHelper';
+import { useSorting } from 'containers/useSorting';
+
+import { getComponentQueryParamValue } from 'utils/queryParamsHelper';
 
 import '../../index.css';
 
@@ -70,6 +71,7 @@ export interface ISortOptions {
 interface ISortingProps {
   sortOptions: ISortOptions;
   componentId: string;
+  sorting: ReturnType<typeof useSorting>;
 }
 
 /**
@@ -80,40 +82,17 @@ interface ISortingProps {
  *
  * @param sortOptions - options / settings of sorting
  * @param componentId - url id of component
+ * @param sorting     - object returned by useSorting hook
  */
-export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
+export const Sorting = ({ sortOptions, componentId, sorting }: ISortingProps) => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const defaultAttributeKey = Object.entries(sortOptions).find(([_, v]) => v.isDefault)?.[0] || '';
-  const defaultSortOrder = sortOptions[defaultAttributeKey]?.defaultSortOrder || SORT_ORDER.Asc;
 
   // attribute by which list is sorted
   const [sortAttribute, setSortAttribute] = useState<ISortAttribute>();
   const [sortOrder, setSortOrder] = useState<SORT_ORDER>(SORT_ORDER.Asc);
   const [isSortSelectOpen, setIsSortSelectOpen] = useState<boolean>(false);
 
-  /**
-   * Add sort param by updating URL.
-   */
-  const addSortFilter = useCallback(
-    (sortAttributeKey: string, order: SORT_ORDER, replace: boolean = false) => {
-      updateQueryParamsInURL({ sort: `=${order}=${sortAttributeKey}`, pageIndex: 1 }, componentId, location, navigate, replace);
-    },
-    [componentId, location, navigate]
-  );
-
-  /**
-   * Set sort param in URL to 'none'.
-   *
-   * When request is send to server, and sort param equals to 'none', it is deleted from request.
-   */
-  const resetSortFilter = useCallback(
-    (replace: boolean = false) => {
-      updateQueryParamsInURL({ sort: 'none', pageIndex: 1 }, componentId, location, navigate, replace);
-    },
-    [componentId, location, navigate]
-  );
+  // const { addSortFilter, resetSortFilter } = useSorting(componentId);
 
   /**
    * Synchronize UI with the URL sort param.
@@ -121,8 +100,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
   useEffect(() => {
     const currentSortParam = getComponentQueryParamValue(location.search, 'sort', componentId);
 
-    // if URL contains valid sort param
-    if (currentSortParam && validateSortParam(currentSortParam, sortOptions)) {
+    if (currentSortParam) {
       if (currentSortParam === 'none') {
         setSortAttribute(undefined);
       } else {
@@ -133,37 +111,8 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
         setSortOrder(urlSortOrder as SORT_ORDER);
         setSortAttribute(sortOptions[urlSortAttributeKey]);
       }
-    } else {
-      // if default sorting is available, use it, otherwise set it to 'none'
-      if (defaultAttributeKey) {
-        addSortFilter(defaultAttributeKey, defaultSortOrder, true);
-      } else {
-        resetSortFilter(true);
-      }
     }
-  }, [location.search, componentId, sortOptions, defaultAttributeKey, defaultSortOrder, addSortFilter, resetSortFilter]);
-
-  /**
-   * Check sort options validity.
-   */
-  useEffect(() => {
-    const sortOptionsArray = Object.entries(sortOptions);
-
-    const defaultSortOptionsArray = sortOptionsArray.filter(([_, v]) => v.isDefault);
-    if (defaultSortOptionsArray.length > 1) {
-      const defaultSortOptionsKeysString = defaultSortOptionsArray.map((arr) => arr[0]).join(', ');
-      // #log
-      console.warn('Sorting: More than one sorting options were specified:', defaultSortOptionsKeysString);
-    }
-
-    sortOptionsArray.forEach(([k, v]) => {
-      if (k !== v.id) {
-        // #log
-        console.error('sortOptions: ', sortOptions);
-        throw new Error(`sortOptions have invalid format, object key (${k}) has to match id field (${v.id})!`);
-      }
-    });
-  }, [sortOptions]);
+  }, [location.search, componentId, sortOptions]);
 
   return (
     <InputGroup>
@@ -177,7 +126,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
         }}
         onSelect={(_, selection) => {
           setIsSortSelectOpen(false);
-          addSortFilter((selection as ISortAttribute)?.id, sortOrder);
+          sorting.addSortFilter((selection as ISortAttribute)?.id, sortOrder);
         }}
         selections={sortAttribute}
         isOpen={isSortSelectOpen}
@@ -199,7 +148,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
           variant="plain"
           isDisabled={!sortAttribute}
           onClick={() => {
-            addSortFilter(sortAttribute!.id, sortOrder === SORT_ORDER.Asc ? SORT_ORDER.Desc : SORT_ORDER.Asc);
+            sorting.addSortFilter(sortAttribute!.id, sortOrder === SORT_ORDER.Asc ? SORT_ORDER.Desc : SORT_ORDER.Asc);
           }}
           icon={sortOrder === SORT_ORDER.Asc ? <SortAmountDownAltIcon /> : <SortAmountDownIcon />}
         />
@@ -212,7 +161,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
             variant="plain"
             icon={<TimesIcon />}
             onClick={() => {
-              resetSortFilter();
+              sorting.resetSortFilter();
             }}
           />
         </Tooltip>

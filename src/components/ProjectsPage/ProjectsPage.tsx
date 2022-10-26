@@ -3,6 +3,7 @@ import { Flex, FlexItem, FlexProps, Label } from '@patternfly/react-core';
 import { DataContainer } from 'containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
 import { useQueryParamsEffect } from 'containers/useQueryParamsEffect';
+import { useSorting } from 'containers/useSorting';
 import { useTitle } from 'containers/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -68,6 +69,8 @@ interface IProjectPage {
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
   const dataContainer = useDataContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
 
+  const sorting = useSorting(sortOptions, componentId);
+
   useTitle(PageTitles.projects);
 
   useQueryParamsEffect((requestConfig: Object) => {
@@ -91,7 +94,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
               <Filtering filterOptions={filterOptions} componentId={componentId} />
             </FlexItem>
             <FlexItem>
-              <Sorting sortOptions={sortOptions} componentId={componentId} />
+              <Sorting sorting={sorting} sortOptions={sortOptions} componentId={componentId} />
             </FlexItem>
           </Flex>
           <FlexItem>
