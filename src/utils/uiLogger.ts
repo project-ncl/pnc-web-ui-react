@@ -1,6 +1,6 @@
 // import Bowser from 'bowser';
 import * as uiLoggerService from 'services/uiLoggerService';
-import { userService } from 'services/userService';
+import { userManager } from 'services/userManager';
 
 interface ExtendedError extends Error {
   fileName: string;
@@ -57,7 +57,7 @@ const createData = (message?: string, error?: Error, additionalData?: Object): I
     user: {
       browser: navigator.userAgent, // does not specify browser directly
       language: navigator.language,
-      userId: userService.getUserId(),
+      userId: userManager.getUserId(),
     },
     url: window.location.href,
     data: additionalData,
