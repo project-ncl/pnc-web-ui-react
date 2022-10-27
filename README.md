@@ -14,6 +14,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. `Prettier`, see [documentation/prettier.md](./documentation/prettier.md)
 3. `EditorConfig`, see [documentation/editor-config.md](./documentation/editor-config.md) (optional)
 
+## Code Editor
+
+Preferred code editor is `Visual Studio Code`. Settings config file is also included in `.vscode` directory.
+
 ## Workflows
 
 Contribute using [GitHub flow](https://guides.github.com/introduction/flow/), once new Pull request is created, [GitHub Workflows](https://github.com/project-ncl/pnc-web-ui-react/tree/main/.github/workflows) are started and jobs consisting of building and testing are executed.
