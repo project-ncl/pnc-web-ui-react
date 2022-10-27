@@ -1,6 +1,6 @@
 import * as WebConfigAPI from 'services/WebConfigService';
 import { Keycloak } from 'services/keycloakHolder';
-import { userService } from 'services/userService';
+import { userManager } from 'services/userManager';
 
 /**
  * Enum with possible authentication roles in Keycloak.
@@ -63,7 +63,7 @@ class KeycloakService {
           .then(() => {
             this._isKeycloakAvailable = true;
             if (this.isAuthenticated()) {
-              userService.fetchUser().finally(() => {
+              userManager.fetchUser().finally(() => {
                 resolve('success');
               });
             } else {
