@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardBody,
+  DatePicker,
   Flex,
   FlexItem,
   Form,
@@ -38,6 +39,7 @@ export const AdministrationPage = () => {
   };
 
   const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+  const [etaTime, setEtaTime] = useState<string>();
   const dataContainerAnnouncement = useDataContainer(
     ({ serviceData }: IService<string>) => genericSettingsService.setAnnouncementBanner(serviceData as string),
     {
@@ -172,6 +174,40 @@ export const AdministrationPage = () => {
                           value={announcementMessage}
                           onChange={(value: string) => {
                             setAnnouncementMessage(value);
+                          }}
+                        />
+                      </FormGroup>
+                    </GridItem>
+                    <GridItem span={12}>
+                      <FormGroup label="ETA Time" fieldId="eta-time">
+                        <DatePicker
+                          isDisabled={!isMaintenanceModeOn}
+                          name="form-etaTime"
+                          id="eta-time"
+                          placeholder="yyyy-MM-dd hh:mm:ss (UTC)"
+                          dateFormat={(date: Date) => {
+                            const year = date.getFullYear();
+                            const month = date.getMonth() + 1;
+                            const day = date.getDate();
+                            const hour = date.getHours();
+                            const minute = date.getMinutes();
+                            const second = date.getSeconds();
+                            const monthString = month < 10 ? `0${month}` : month;
+                            const dayString = day < 10 ? `0${day}` : day;
+                            const hourString = hour < 10 ? `0${hour}` : hour;
+                            const minuteString = minute < 10 ? `0${minute}` : minute;
+                            const secondString = second < 10 ? `0${second}` : second;
+                            return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}:${secondString}`;
+                          }}
+                          dateParse={(dateString) => {
+                            return new Date(dateString);
+                          }}
+                          value={etaTime}
+                          onBlur={(value: string) => {
+                            setEtaTime(value);
+                          }}
+                          onChange={(value: string) => {
+                            setEtaTime(value);
                           }}
                         />
                       </FormGroup>
