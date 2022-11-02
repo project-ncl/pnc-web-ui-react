@@ -1,4 +1,4 @@
-import { Flex, FlexItem, FlexProps, Label } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 
 import { DataContainer } from 'containers/DataContainer/DataContainer';
 import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
@@ -13,6 +13,7 @@ import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as projectService from 'services/projectService';
 
@@ -58,9 +59,6 @@ const sortOptions: ISortOptions = {
   },
 };
 
-const flexJustifyContent: FlexProps['justifyContent'] = { default: 'justifyContentSpaceBetween' };
-const flexSpaceItems: FlexProps['spaceItems'] = { default: 'spaceItems2xl' };
-
 interface IProjectPage {
   componentId?: string;
 }
@@ -85,23 +83,19 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
       }
     >
       <Toolbar>
-        <Flex justifyContent={flexJustifyContent}>
-          <Flex spaceItems={flexSpaceItems}>
-            <FlexItem>
-              <Filtering filterOptions={filterOptions} componentId={componentId} />
-            </FlexItem>
-            <FlexItem>
-              <Sorting sortOptions={sortOptions} componentId={componentId} />
-            </FlexItem>
-          </Flex>
-          <FlexItem>
-            <ProtectedComponent>
-              <ActionButton iconType="create" link="create">
-                Create
-              </ActionButton>
-            </ProtectedComponent>
-          </FlexItem>
-        </Flex>
+        <ToolbarItem>
+          <Filtering filterOptions={filterOptions} componentId={componentId} />
+        </ToolbarItem>
+        <ToolbarItem>
+          <Sorting sortOptions={sortOptions} componentId={componentId} />
+        </ToolbarItem>
+        <ToolbarItem alignRight={true}>
+          <ProtectedComponent>
+            <ActionButton iconType="create" link="create">
+              Create
+            </ActionButton>
+          </ProtectedComponent>
+        </ToolbarItem>
       </Toolbar>
 
       <DataContainer {...dataContainer} title="Projects List">
