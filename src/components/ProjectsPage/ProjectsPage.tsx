@@ -12,7 +12,7 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
-import { ListToolbar } from 'components/Toolbar/Toolbar';
+import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as projectService from 'services/projectService';
 
@@ -84,7 +84,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </>
       }
     >
-      <ListToolbar>
+      <Toolbar>
         <Flex justifyContent={flexJustifyContent}>
           <Flex spaceItems={flexSpaceItems}>
             <FlexItem>
@@ -102,7 +102,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
             </ProtectedComponent>
           </FlexItem>
         </Flex>
-      </ListToolbar>
+      </Toolbar>
 
       <DataContainer {...dataContainer} title="Projects List">
         <ProjectsList projects={dataContainer.data?.content} />
