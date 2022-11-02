@@ -74,7 +74,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
 
   return (
     <PageLayout
-      title="Projects"
+      title={PageTitles.projects}
       description={
         <>
           This page contains a standalone projects like <Label>Hibernate</Label> or <Label>JBoss Modules</Label>, usually a
@@ -98,7 +98,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </ToolbarItem>
       </Toolbar>
 
-      <DataContainer {...dataContainer} title="Projects List">
+      <DataContainer {...dataContainer} title={`${PageTitles.projects} List`}>
         <ProjectsList projects={dataContainer.data?.content} />
       </DataContainer>
       {/* Pagination need to be outside of DataContainer so that it can initialize Query Params */}
