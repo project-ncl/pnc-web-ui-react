@@ -1,11 +1,11 @@
 import { Card, CardBody } from '@patternfly/react-core';
 
-const listToolbarStyle = { marginBottom: '15px' };
+const toolbarStyle = { marginBottom: '15px' };
 
-interface IListToolbarProps {}
+interface IToolbarProps {}
 
-export const ListToolbar = ({ children }: React.PropsWithChildren<IListToolbarProps>) => (
-  <Card style={listToolbarStyle}>
+export const Toolbar = ({ children }: React.PropsWithChildren<IToolbarProps>) => (
+  <Card style={toolbarStyle}>
     <CardBody>{children}</CardBody>
   </Card>
 );
