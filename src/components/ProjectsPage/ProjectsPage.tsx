@@ -7,12 +7,12 @@ import { useTitle } from 'containers/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
-import { ListToolbar } from 'components/ListToolbar/ListToolbar';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
+import { ListToolbar } from 'components/Toolbar/Toolbar';
 
 import * as projectService from 'services/projectService';
 
