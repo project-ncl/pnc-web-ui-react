@@ -1,6 +1,7 @@
 import * as WebConfigAPI from 'services/WebConfigService';
 import { Keycloak } from 'services/keycloakHolder';
-import { userManager } from 'services/userManager';
+
+import { userManager } from 'utils/userManager';
 
 /**
  * Enum with possible authentication roles in Keycloak.

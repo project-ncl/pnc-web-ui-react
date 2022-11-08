@@ -1,6 +1,7 @@
 // import Bowser from 'bowser';
 import * as uiLoggerService from 'services/uiLoggerService';
-import { userManager } from 'services/userManager';
+
+import { userManager } from 'utils/userManager';
 
 interface ExtendedError extends Error {
   fileName: string;

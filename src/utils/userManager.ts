@@ -9,10 +9,6 @@ class UserManager {
   // null means user information is not available
   private user: User | null = null;
 
-  public removeUser() {
-    this.user = null;
-  }
-
   public fetchUser() {
     return userService
       .getCurrentUser()
