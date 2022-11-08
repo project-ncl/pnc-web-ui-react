@@ -6,8 +6,7 @@ import * as userService from 'services/userService';
  * Class managing information about user.
  */
 class UserManager {
-  // null means user information is not available
-  private user: User | null = null;
+  private user: User = { id: 'anonymous' };
 
   public fetchUser() {
     return userService
@@ -15,14 +14,14 @@ class UserManager {
       .then((response: any) => {
         this.user = response.data;
       })
-      .catch((error: any) => {
-        this.user = null;
+      .catch(() => {
+        this.user = { id: 'error' };
         console.error('User Manager: Could not fetch current user.');
       });
   }
 
   public getUserId() {
-    return this.user?.id || null;
+    return this.user.id;
   }
 }
 
