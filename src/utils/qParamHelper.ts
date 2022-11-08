@@ -13,6 +13,7 @@
  * status!=CANCELLED;
  *
  */
+import { uiLogger } from 'utils/uiLogger';
 
 /**
  * Operator =like= is converted to =notlike= automatically when qValue starts with ! character,
@@ -101,8 +102,7 @@ export const removeQParamItem = (id: string, value: string, operator: IQParamOpe
   if (removeItemIndex > -1) {
     qParamItems.splice(removeItemIndex, 1);
   } else {
-    // #log
-    console.error(`${removeItem} removing failed, it does not exist`);
+    uiLogger.error(`${removeItem} removing failed, it does not exist`);
   }
 
   return qParamItems.join(';');
@@ -147,8 +147,7 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
       }
     }
     if (!isOperatorFound) {
-      // #log
-      console.error(
+      uiLogger.error(
         `${qParamItems[i]} does not contain any valid operator, supported operators are: ${qParamSupportedOperators}`
       );
     }
