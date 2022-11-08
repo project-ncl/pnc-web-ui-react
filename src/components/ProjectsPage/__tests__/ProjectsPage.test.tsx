@@ -6,6 +6,7 @@ import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';
 
 jest.mock('services/projectService');
 jest.mock('services/keycloakService');
+jest.mock('utils/uiLogger');
 
 describe('display ProjectsPage component', () => {
   let projectsMock: any;
