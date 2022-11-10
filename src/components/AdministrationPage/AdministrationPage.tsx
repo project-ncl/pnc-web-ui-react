@@ -29,6 +29,8 @@ import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 import * as buildService from 'services/buildService';
 import * as genericSettingsService from 'services/genericSettingsService';
 
+import { transDateFormat } from 'utils/utils';
+
 const REFRESH_INTERVAL_SECONDS = 90;
 
 export const AdministrationPage = () => {
@@ -64,19 +66,6 @@ export const AdministrationPage = () => {
 
   const invalidEtaTime = () => {
     return isMaintenanceModeOn && etaTouched && !isEtaNa && (!etaTime || etaTime === '');
-  };
-
-  const transDateFormat = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    const monthString = month < 10 ? `0${month}` : month;
-    const dayString = day < 10 ? `0${day}` : day;
-    const hourString = hour < 10 ? `0${hour}` : hour;
-    const minuteString = minute < 10 ? `0${minute}` : minute;
-    return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}`;
   };
 
   useEffect(() => {
