@@ -66,6 +66,19 @@ export const AdministrationPage = () => {
     return isMaintenanceModeOn && etaTouched && !isEtaNa && (!etaTime || etaTime === '');
   };
 
+  const transDateFormat = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const monthString = month < 10 ? `0${month}` : month;
+    const dayString = day < 10 ? `0${day}` : day;
+    const hourString = hour < 10 ? `0${hour}` : hour;
+    const minuteString = minute < 10 ? `0${minute}` : minute;
+    return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}`;
+  };
+
   useEffect(() => {
     genericSettingsService
       .getAnnouncementBanner()
@@ -235,18 +248,7 @@ export const AdministrationPage = () => {
                             name="form-etaTime"
                             id="eta-time"
                             placeholder="yyyy-MM-dd hh:mm (UTC)"
-                            dateFormat={(date: Date) => {
-                              const year = date.getFullYear();
-                              const month = date.getMonth() + 1;
-                              const day = date.getDate();
-                              const hour = date.getHours();
-                              const minute = date.getMinutes();
-                              const monthString = month < 10 ? `0${month}` : month;
-                              const dayString = day < 10 ? `0${day}` : day;
-                              const hourString = hour < 10 ? `0${hour}` : hour;
-                              const minuteString = minute < 10 ? `0${minute}` : minute;
-                              return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}`;
-                            }}
+                            dateFormat={transDateFormat}
                             onClick={() => {
                               setEtaTouched(true);
                             }}
