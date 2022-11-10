@@ -638,7 +638,7 @@ Object {
             data-ouia-component-id="OUIA-Generated-Pagination-bottom-2"
             data-ouia-component-type="PF4/Pagination"
             data-ouia-safe="true"
-            id="pagination-options-menu-1"
+            id="options-menu-bottom-pagination"
             style="--pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
           >
             <div
@@ -674,7 +674,7 @@ Object {
                   data-ouia-component-id="OUIA-Generated-DropdownToggle-2"
                   data-ouia-component-type="PF4/DropdownToggle"
                   data-ouia-safe="true"
-                  id="pagination-options-menu-toggle-1"
+                  id="options-menu-bottom-toggle"
                   type="button"
                 >
                   <span
@@ -1477,7 +1477,7 @@ Object {
           data-ouia-component-id="OUIA-Generated-Pagination-bottom-2"
           data-ouia-component-type="PF4/Pagination"
           data-ouia-safe="true"
-          id="pagination-options-menu-1"
+          id="options-menu-bottom-pagination"
           style="--pf-c-pagination__nav-page-select--c-form-control--width-chars: 2;"
         >
           <div
@@ -1513,7 +1513,7 @@ Object {
                 data-ouia-component-id="OUIA-Generated-DropdownToggle-2"
                 data-ouia-component-type="PF4/DropdownToggle"
                 data-ouia-safe="true"
-                id="pagination-options-menu-toggle-1"
+                id="options-menu-bottom-toggle"
                 type="button"
               >
                 <span
