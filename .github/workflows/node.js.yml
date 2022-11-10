@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -56,7 +56,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
       - uses: actions/checkout@v2
