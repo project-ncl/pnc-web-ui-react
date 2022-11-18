@@ -32,6 +32,7 @@ import * as genericSettingsService from 'services/genericSettingsService';
 import { transDateFormat } from 'utils/utils';
 
 const REFRESH_INTERVAL_SECONDS = 90;
+const N_A = 'N/A';
 
 export const AdministrationPage = () => {
   const [isMaintenanceModeOn, setIsMaintenanceModeOn] = useState(false);
@@ -57,14 +58,14 @@ export const AdministrationPage = () => {
   const validateForm = () => {
     setAnnouncementTouched(true);
     setEtaTouched(true);
-    return !invalidAnnouncement() && !invalidEtaTime();
+    return !isAnnouncementInvalid() && !isEtaTimeInvalid();
   };
 
-  const invalidAnnouncement = () => {
+  const isAnnouncementInvalid = () => {
     return isMaintenanceModeOn && announcementTouched && (!announcementMessage || announcementMessage === '');
   };
 
-  const invalidEtaTime = () => {
+  const isEtaTimeInvalid = () => {
     return isMaintenanceModeOn && etaTouched && !isEtaNa && (!etaTime || etaTime === '');
   };
 
@@ -76,7 +77,7 @@ export const AdministrationPage = () => {
         const rawAnnouncementSet: Array<string> = rawAnnouncement ? rawAnnouncement.split(', ETA: ') : [];
         setAnnouncementMessage(rawAnnouncementSet[0]);
         if (rawAnnouncementSet[1]) {
-          if (rawAnnouncementSet[1] !== 'N/A') {
+          if (rawAnnouncementSet[1] !== N_A) {
             setEtaTime(rawAnnouncementSet[1]);
             setIsEtaNa(false);
           } else {
@@ -203,9 +204,10 @@ export const AdministrationPage = () => {
                     </GridItem>
                     <GridItem span={12}>
                       <FormGroup
-                        label={(isMaintenanceModeOn ? '* ' : '') + 'Announcement'}
+                        label="Announcement"
+                        isRequired={isMaintenanceModeOn}
                         fieldId="form-announcement"
-                        helperTextInvalid={invalidAnnouncement() ? 'Required field.' : null}
+                        helperTextInvalid={isAnnouncementInvalid() ? 'Required field.' : null}
                         helperTextInvalidIcon={<ExclamationCircleIcon />}
                         validated={'error'}
                       >
@@ -225,17 +227,18 @@ export const AdministrationPage = () => {
                     {isMaintenanceModeOn && (
                       <GridItem span={12}>
                         <FormGroup
-                          label="* ETA Time"
-                          fieldId="eta-time"
-                          helperTextInvalid={invalidEtaTime() ? 'Required field.' : null}
+                          label="ETA Time"
+                          isRequired={true}
+                          fieldId="form-eta-time"
+                          helperTextInvalid={isEtaTimeInvalid() ? 'Required field.' : null}
                           helperTextInvalidIcon={<ExclamationCircleIcon />}
                           validated={'error'}
                         >
                           <DatePicker
                             required
                             isDisabled={!isMaintenanceModeOn || isEtaNa}
-                            name="form-etaTime"
-                            id="eta-time"
+                            name="form-eta-time"
+                            id="form-eta-time"
                             placeholder="yyyy-MM-dd hh:mm (UTC)"
                             dateFormat={transDateFormat}
                             onClick={() => {
@@ -251,17 +254,18 @@ export const AdministrationPage = () => {
                             onChange={(value: string) => {
                               setEtaTime(value);
                             }}
-                            aria-invalid={invalidEtaTime()}
+                            aria-invalid={isEtaTimeInvalid()}
                           />
                           &nbsp;&nbsp;
                           <Switch
-                            id="eta-na-switch"
+                            id="form-eta-na-switch"
                             label=" N/A:"
                             labelOff=" N/A:"
                             hasCheckIcon
                             isChecked={isEtaNa}
                             onChange={() => {
                               setIsEtaNa(!isEtaNa);
+                              setEtaTime(undefined);
                               setEtaTouched(true);
                             }}
                             isReversed
@@ -271,15 +275,15 @@ export const AdministrationPage = () => {
                     )}
                     {isMaintenanceModeOn && (
                       <GridItem span={12}>
-                        <FormGroup label="Example" fieldId="eta-time">
-                          {isMaintenanceModeOn && (
-                            <TopBarInfo>
-                              Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted.
-                              Reason: {announcementMessage ? announcementMessage : 'N/A'}, ETA: {etaTime ? etaTime : 'N/A'}
-                            </TopBarInfo>
-                          )}
-                          {!isMaintenanceModeOn && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}
-                        </FormGroup>
+                        {isMaintenanceModeOn && (
+                          <TopBarInfo hideCloseButton={true}>
+                            Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
+                            {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
+                          </TopBarInfo>
+                        )}
+                        {!isMaintenanceModeOn && (
+                          <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
+                        )}
                       </GridItem>
                     )}
                   </ServiceContainerCreatingUpdating>
@@ -291,8 +295,7 @@ export const AdministrationPage = () => {
                       onClick={() => {
                         validateForm() &&
                           dataContainerAnnouncement.refresh({
-                            serviceData:
-                              announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : 'N/A') : ''),
+                            serviceData: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
                           });
                       }}
                     >

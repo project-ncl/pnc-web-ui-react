@@ -13,6 +13,7 @@ export enum TOPBAR_TYPE {
 interface ITopBarProps {
   type: TOPBAR_TYPE;
   icon: ReactElement;
+  hideCloseButton?: boolean;
 }
 
 /**
@@ -28,7 +29,7 @@ interface ITopBarProps {
  * @param type - class to style top bar with
  * @param icon - icon displayed on the left side next to the top bar text
  */
-export const TopBar = ({ children, type, icon }: React.PropsWithChildren<ITopBarProps>) => {
+export const TopBar = ({ children, type, icon, hideCloseButton = false }: React.PropsWithChildren<ITopBarProps>) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   useEffect(() => {
@@ -56,17 +57,19 @@ export const TopBar = ({ children, type, icon }: React.PropsWithChildren<ITopBar
             <FlexItem>{children}</FlexItem>
           </Flex>
         </FlexItem>
-        <FlexItem>
-          <Button
-            onClick={() => {
-              setIsOpen(false);
-              window.sessionStorage.setItem(type, 'closed');
-            }}
-            variant="plain"
-          >
-            <TimesIcon className={styles['close-icon']} />
-          </Button>
-        </FlexItem>
+        {!hideCloseButton && (
+          <FlexItem>
+            <Button
+              onClick={() => {
+                setIsOpen(false);
+                window.sessionStorage.setItem(type, 'closed');
+              }}
+              variant="plain"
+            >
+              <TimesIcon className={styles['close-icon']} />
+            </Button>
+          </FlexItem>
+        )}
       </Flex>
     </div>
   ) : null;
