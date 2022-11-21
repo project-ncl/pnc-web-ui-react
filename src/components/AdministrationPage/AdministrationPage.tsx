@@ -29,7 +29,7 @@ import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 import * as buildService from 'services/buildService';
 import * as genericSettingsService from 'services/genericSettingsService';
 
-import { transDateFormat } from 'utils/utils';
+import { transformateDateFormat } from 'utils/utils';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 const N_A = 'N/A';
@@ -240,7 +240,7 @@ export const AdministrationPage = () => {
                             name="form-eta-time"
                             id="form-eta-time"
                             placeholder="yyyy-MM-dd hh:mm (UTC)"
-                            dateFormat={transDateFormat}
+                            dateFormat={transformateDateFormat}
                             onClick={() => {
                               setEtaTouched(true);
                             }}

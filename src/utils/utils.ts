@@ -20,7 +20,7 @@ export const createDateTime = ({ date, includeDate = true, includeTime = true }:
     ...(includeTime && { timeStyle: 'medium' }),
   }).format(typeof date === 'string' ? new Date(date) : date);
 
-export const transDateFormat = (date: Date) => {
+export const transformateDateFormat = (date: Date) => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
