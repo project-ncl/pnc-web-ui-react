@@ -236,7 +236,7 @@ export const AdministrationPage = () => {
                         >
                           <DatePicker
                             required
-                            isDisabled={!isMaintenanceModeOn || isEtaNa}
+                            isDisabled={isEtaNa}
                             name="form-eta-time"
                             id="form-eta-time"
                             placeholder="yyyy-MM-dd hh:mm (UTC)"
@@ -273,19 +273,17 @@ export const AdministrationPage = () => {
                         </FormGroup>
                       </GridItem>
                     )}
-                    {isMaintenanceModeOn && (
-                      <GridItem span={12}>
-                        {isMaintenanceModeOn && (
-                          <TopBarInfo hideCloseButton={true}>
-                            Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
-                            {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
-                          </TopBarInfo>
-                        )}
-                        {!isMaintenanceModeOn && (
-                          <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
-                        )}
-                      </GridItem>
-                    )}
+                    <GridItem span={12}>
+                      {isMaintenanceModeOn && (
+                        <TopBarInfo hideCloseButton={true}>
+                          Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
+                          {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
+                        </TopBarInfo>
+                      )}
+                      {!isMaintenanceModeOn && (
+                        <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
+                      )}
+                    </GridItem>
                   </ServiceContainerCreatingUpdating>
                   <GridItem span={4}>
                     <Button

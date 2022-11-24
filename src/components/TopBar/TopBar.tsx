@@ -28,6 +28,7 @@ interface ITopBarProps {
  *
  * @param type - class to style top bar with
  * @param icon - icon displayed on the left side next to the top bar text
+ * @param hideCloseButton - whether to hide close button
  */
 export const TopBar = ({ children, type, icon, hideCloseButton = false }: React.PropsWithChildren<ITopBarProps>) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
