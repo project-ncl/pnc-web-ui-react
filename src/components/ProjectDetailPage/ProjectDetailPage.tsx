@@ -2,7 +2,6 @@ import { Card, CardBody } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -10,6 +9,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
+import { DataContainer } from 'components/ServiceContainers/DataContainer';
 
 import * as projectService from 'services/projectService';
 
