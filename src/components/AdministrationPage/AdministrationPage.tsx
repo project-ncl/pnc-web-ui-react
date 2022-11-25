@@ -16,11 +16,11 @@ import {
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
-import { DataContainer } from 'containers/DataContainer/DataContainer';
-import { ServiceContainerCreatingUpdating } from 'containers/DataContainer/ServiceContainerCreatingUpdating';
-import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
-import { useInterval } from 'containers/useInterval';
-import { useTitle } from 'containers/useTitle';
+import { DataContainer } from 'hooks/DataContainer/DataContainer';
+import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
+import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { useInterval } from 'hooks/useInterval';
+import { useTitle } from 'hooks/useTitle';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { PageLayout } from 'components/PageLayout/PageLayout';

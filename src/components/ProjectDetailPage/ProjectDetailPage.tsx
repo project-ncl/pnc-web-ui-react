@@ -2,9 +2,9 @@ import { Card, CardBody } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { DataContainer } from 'containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
-import { useTitle } from 'containers/useTitle';
+import { DataContainer } from 'hooks/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';

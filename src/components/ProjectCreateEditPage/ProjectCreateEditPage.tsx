@@ -19,11 +19,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
-import { DataContainer } from 'containers/DataContainer/DataContainer';
-import { ServiceContainerCreatingUpdating } from 'containers/DataContainer/ServiceContainerCreatingUpdating';
-import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
-import { IFields, useForm } from 'containers/useForm';
-import { useTitle } from 'containers/useTitle';
+import { DataContainer } from 'hooks/DataContainer/DataContainer';
+import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
+import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { IFields, useForm } from 'hooks/useForm';
+import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 

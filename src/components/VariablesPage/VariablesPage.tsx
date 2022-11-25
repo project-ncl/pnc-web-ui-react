@@ -1,6 +1,6 @@
 import { Card, CardBody, CardTitle, CodeBlock, CodeBlockCode, Flex, FlexItem } from '@patternfly/react-core';
 
-import { useTitle } from 'containers/useTitle';
+import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 

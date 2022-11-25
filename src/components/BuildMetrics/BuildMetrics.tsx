@@ -6,8 +6,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
 
-import { DataContainer } from 'containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
+import { DataContainer } from 'hooks/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
 

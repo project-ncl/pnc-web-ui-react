@@ -1,6 +1,6 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 
-import { useTitle } from 'containers/useTitle';
+import { useTitle } from 'hooks/useTitle';
 
 import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
 import { PageLayout } from 'components/PageLayout/PageLayout';
