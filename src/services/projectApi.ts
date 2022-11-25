@@ -5,7 +5,7 @@ import { Project } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
-export interface IProjectServiceData {
+export interface IProjectApiData {
   id: string;
 }
 
@@ -26,7 +26,7 @@ export const getProjects = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  * @returns Project
  */
-export const getProject = ({ id }: IProjectServiceData, requestConfig: AxiosRequestConfig = {}) => {
+export const getProject = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get(`/projects/${id}`, requestConfig);
 };
 
@@ -60,6 +60,6 @@ export const patchProject = (id: string, patchData: Operation[], requestConfig: 
  * @param requestConfig - Axios based request config
  * @returns Builds
  */
-export const getProjectBuilds = ({ id }: IProjectServiceData, requestConfig: AxiosRequestConfig = {}) => {
+export const getProjectBuilds = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get(`/projects/${id}/builds`, requestConfig);
 };

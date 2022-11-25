@@ -27,7 +27,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
-import * as projectService from 'services/projectService';
+import * as projectApi from 'services/projectApi';
 
 import { PageTitles } from 'utils/PageTitles';
 import { validateUrl } from 'utils/formValidationHelpers';
@@ -64,7 +64,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   // create page
   const serviceContainerCreatePage = useServiceContainer(
-    ({ serviceData }: IService<Omit<Project, 'id'>>) => projectService.createProject(serviceData!),
+    ({ serviceData }: IService<Omit<Project, 'id'>>) => projectApi.createProject(serviceData!),
     {
       initLoadingState: false,
     }
@@ -73,7 +73,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   // edit page - get method
   const serviceContainerEditPageGet = useServiceContainer(
     useCallback(({ serviceData }: IService<Project>) => {
-      return projectService.getProject(serviceData!);
+      return projectApi.getProject(serviceData!);
     }, [])
   );
   const serviceContainerEditPageGetRefresh = serviceContainerEditPageGet.refresh;
@@ -82,7 +82,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const serviceContainerEditPagePatch = useServiceContainer(
     useCallback(
       ({ serviceData }: IService<Operation[]>) => {
-        return projectService.patchProject(id, serviceData!);
+        return projectApi.patchProject(id, serviceData!);
       },
       [id]
     ),
