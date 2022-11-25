@@ -63,7 +63,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const urlPathParams = useParams();
 
   // create page
-  const dataContainerCreate = useServiceContainer(
+  const serviceContainerCreatePage = useServiceContainer(
     ({ serviceData }: IService<Omit<Project, 'id'>>) => projectService.createProject(serviceData!),
     {
       initLoadingState: false,
@@ -71,15 +71,15 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   );
 
   // edit page - get method
-  const dataContainerEditGet = useServiceContainer(
+  const serviceContainerEditPageGet = useServiceContainer(
     useCallback(({ serviceData }: IService<Project>) => {
       return projectService.getProject(serviceData!);
     }, [])
   );
-  const editRefreshGet = dataContainerEditGet.refresh;
+  const serviceContainerEditPageGetRefresh = serviceContainerEditPageGet.refresh;
 
   // edit page - patch method
-  const dataContainerEditPatch = useServiceContainer(
+  const serviceContainerEditPagePatch = useServiceContainer(
     useCallback(
       ({ serviceData }: IService<Operation[]>) => {
         return projectService.patchProject(id, serviceData!);
@@ -90,12 +90,12 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       initLoadingState: false,
     }
   );
-  const editRefreshPatch = dataContainerEditPatch.refresh;
+  const serviceContainerEditPagePatchRefresh = serviceContainerEditPagePatch.refresh;
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
   const submitCreate = (data: IFields) => {
-    return dataContainerCreate
+    return serviceContainerCreatePage
       .refresh({
         serviceData: {
           name: data.name.value,
@@ -120,9 +120,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   const submitUpdate = (data: IFields) => {
     const patchData = transformFormToValues(data);
-    const patch = createSafePatch(dataContainerEditGet.data, patchData);
+    const patch = createSafePatch(serviceContainerEditPageGet.data, patchData);
 
-    editRefreshPatch({ serviceData: patch })
+    serviceContainerEditPagePatchRefresh({ serviceData: patch })
       .then((response: any) => {
         navigate(`/projects/${id}`);
       })
@@ -139,7 +139,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   useEffect(() => {
     if (editPage) {
       if (urlPathParams.projectId) {
-        editRefreshGet({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
+        serviceContainerEditPageGetRefresh({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
           const project: Project = response.data;
 
           setIsPatching(true);
@@ -157,7 +157,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-  }, [editPage, urlPathParams.projectId, editRefreshGet, reinitialize]);
+  }, [editPage, urlPathParams.projectId, serviceContainerEditPageGetRefresh, reinitialize]);
 
   const formComponent = (
     <Card>
@@ -303,17 +303,17 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         <FlexItem>
           {editPage ? (
             isPatching ? (
-              <ServiceContainerCreatingUpdating {...dataContainerEditPatch} title="Edit Project">
+              <ServiceContainerCreatingUpdating {...serviceContainerEditPagePatch} title="Edit Project">
                 {formComponent}
               </ServiceContainerCreatingUpdating>
             ) : (
               /* used just to GET project data, after that is immediately switched to patch container */
-              <DataContainer {...dataContainerEditGet} title="Edit Project">
+              <DataContainer {...serviceContainerEditPageGet} title="Edit Project">
                 {/* no content is needed */}
               </DataContainer>
             )
           ) : (
-            <ServiceContainerCreatingUpdating {...dataContainerCreate} title="Create Project">
+            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} title="Create Project">
               {formComponent}
             </ServiceContainerCreatingUpdating>
           )}

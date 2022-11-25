@@ -64,12 +64,14 @@ interface IProjectPage {
 }
 
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
-  const dataContainer = useServiceContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
+  const serviceContainerProjects = useServiceContainer(({ requestConfig }: IService) =>
+    projectService.getProjects(requestConfig)
+  );
 
   useTitle(PageTitles.projects);
 
   useQueryParamsEffect((requestConfig: Object) => {
-    dataContainer.refresh({ requestConfig });
+    serviceContainerProjects.refresh({ requestConfig });
   }, componentId);
 
   return (
@@ -98,11 +100,11 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </ToolbarItem>
       </Toolbar>
 
-      <DataContainer {...dataContainer} title={`${PageTitles.projects} List`}>
-        <ProjectsList projects={dataContainer.data?.content} />
+      <DataContainer {...serviceContainerProjects} title={`${PageTitles.projects} List`}>
+        <ProjectsList projects={serviceContainerProjects.data?.content} />
       </DataContainer>
       {/* Pagination need to be outside of DataContainer so that it can initialize Query Params */}
-      <Pagination componentId={componentId} count={dataContainer.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerProjects.data?.totalHits} />
     </PageLayout>
   );
 };

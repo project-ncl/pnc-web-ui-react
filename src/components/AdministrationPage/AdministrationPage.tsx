@@ -48,7 +48,7 @@ export const AdministrationPage = () => {
   const [isEtaNa, setIsEtaNa] = useState<boolean>(false);
   const [announcementTouched, setAnnouncementTouched] = useState<boolean>(false);
   const [etaTouched, setEtaTouched] = useState<boolean>(false);
-  const dataContainerAnnouncement = useServiceContainer(
+  const serviceContainerAnnouncement = useServiceContainer(
     ({ serviceData }: IService<string>) => genericSettingsService.setAnnouncementBanner(serviceData as string),
     {
       initLoadingState: false,
@@ -93,15 +93,15 @@ export const AdministrationPage = () => {
   }, []);
 
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
-  const dataContainer = useServiceContainer(
+  const serviceContainerBuildCount = useServiceContainer(
     useCallback(({ requestConfig }: IService) => buildService.getBuildCount(requestConfig), [])
   );
-  const dataContainerRefresh = dataContainer.refresh;
+  const serviceContainerBuildCountRefresh = serviceContainerBuildCount.refresh;
 
   const refreshBuildCounts = useCallback(() => {
-    dataContainerRefresh({});
+    serviceContainerBuildCountRefresh({});
     setSecondsUntilReload(REFRESH_INTERVAL_SECONDS);
-  }, [dataContainerRefresh]);
+  }, [serviceContainerBuildCountRefresh]);
 
   const restartInterval = useInterval(
     useCallback(() => {
@@ -144,20 +144,20 @@ export const AdministrationPage = () => {
             <CardBody>
               <Grid hasGutter>
                 <GridItem span={12}>
-                  <DataContainer {...dataContainer} title="Builds Count">
+                  <DataContainer {...serviceContainerBuildCount} title="Builds Count">
                     <AttributesItems
                       attributes={[
                         {
                           name: 'Running builds count',
-                          value: dataContainer.data?.running,
+                          value: serviceContainerBuildCount.data?.running,
                         },
                         {
                           name: 'Enqueued builds count',
-                          value: dataContainer.data?.enqueued,
+                          value: serviceContainerBuildCount.data?.enqueued,
                         },
                         {
                           name: 'Waiting for dependencies builds count',
-                          value: dataContainer.data?.waitingForDependencies,
+                          value: serviceContainerBuildCount.data?.waitingForDependencies,
                         },
                       ]}
                     />
@@ -183,7 +183,7 @@ export const AdministrationPage = () => {
             <Card>
               <CardBody>
                 <Grid hasGutter>
-                  <ServiceContainerCreatingUpdating {...dataContainerAnnouncement} title="Announcement">
+                  <ServiceContainerCreatingUpdating {...serviceContainerAnnouncement} title="Announcement">
                     <GridItem span={12}>
                       <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
                         <div style={maintenanceSwitchStyle}>
@@ -292,7 +292,7 @@ export const AdministrationPage = () => {
                       name="form-announcement-update"
                       onClick={() => {
                         validateForm() &&
-                          dataContainerAnnouncement.refresh({
+                          serviceContainerAnnouncement.refresh({
                             serviceData: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
                           });
                       }}

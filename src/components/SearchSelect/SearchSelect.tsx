@@ -60,7 +60,7 @@ export const SearchSelect = ({
   // used to fetch data after delay
   const timeout = useRef<NodeJS.Timeout>();
 
-  const dataContainer = useServiceContainer(
+  const serviceContainer = useServiceContainer(
     useCallback(
       ({ requestConfig }: IService<any>) => {
         return fetchCallback(requestConfig);
@@ -68,7 +68,7 @@ export const SearchSelect = ({
       [fetchCallback]
     )
   );
-  const refreshDataContainer = dataContainer.refresh;
+  const serviceContainerRefresh = serviceContainer.refresh;
 
   // return text of select filter
   const getFilterText = useCallback(() => {
@@ -88,7 +88,7 @@ export const SearchSelect = ({
 
       setPageIndex(pageIndex);
 
-      refreshDataContainer({ requestConfig })
+      serviceContainerRefresh({ requestConfig })
         .then((response: any) => {
           const data = response.data.content;
           if (pageIndex === pageIndexDefault) {
@@ -102,7 +102,7 @@ export const SearchSelect = ({
           setCurrentData([]);
         });
     },
-    [refreshDataContainer, titleAttribute, descriptionAttribute, pageSizeDefault]
+    [serviceContainerRefresh, titleAttribute, descriptionAttribute, pageSizeDefault]
   );
 
   // fetch data with same filtering string as currently set
@@ -170,7 +170,7 @@ export const SearchSelect = ({
 
   return (
     <div className="position-relative">
-      {dataContainer.loading && dataContainer.data && (
+      {serviceContainer.loading && serviceContainer.data && (
         <Spinner
           size="md"
           className={`${styles['search-select-spinner']} ${
@@ -196,13 +196,13 @@ export const SearchSelect = ({
         isInputValuePersisted={true}
         isInputFilterPersisted={true}
         placeholderText="string | !string | s?ring | st*ng"
-        noResultsFoundText={dataContainer.error ? dataContainer.error : 'No results were found'}
-        {...(!dataContainer.loading &&
-          !dataContainer.error &&
-          pageIndex < dataContainer.data.totalPages && {
+        noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
+        {...(!serviceContainer.loading &&
+          !serviceContainer.error &&
+          pageIndex < serviceContainer.data.totalPages && {
             loadingVariant: { text: 'View more', onClick: onViewMoreClick },
           })}
-        {...(dataContainer.loading && { loadingVariant: 'spinner' })}
+        {...(serviceContainer.loading && { loadingVariant: 'spinner' })}
       >
         {currentData.map((option: any, index: number) => (
           <SelectOption
