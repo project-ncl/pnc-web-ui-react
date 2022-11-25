@@ -85,7 +85,7 @@ export const AdministrationPage = () => {
             setIsEtaNa(true);
           }
         }
-        setIsMaintenanceModeOn(rawAnnouncementSet[1] ? true : false);
+        setIsMaintenanceModeOn(!!rawAnnouncementSet[1]);
       })
       .catch((error: any) => {
         console.error(error);
@@ -280,7 +280,7 @@ export const AdministrationPage = () => {
                           {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
                         </TopBarInfo>
                       )}
-                      {!isMaintenanceModeOn && (
+                      {!isMaintenanceModeOn && announcementMessage && (
                         <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
                       )}
                     </GridItem>
