@@ -4,14 +4,14 @@ import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import * as WebConfigAPI from 'services/WebConfigService';
+import * as webConfigService from 'services/webConfigService';
 
 // ENVIRONMENTS
 const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
 
 //  WEB CONFIG
 const WebConfig = () => {
-  const webConfig = WebConfigAPI.getWebConfig();
+  const webConfig = webConfigService.getWebConfig();
   return <>{JSON.stringify(webConfig, null, 2)}</>;
 };
 

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import * as WebConfigAPI from './WebConfigService';
+import * as webConfigService from './webConfigService';
 
 /**
  * Utils class managing http client instance, only one instance is created.
@@ -20,7 +20,7 @@ class KafkaClient {
    */
   private createHttpClient = (): AxiosInstance => {
     const httpClient = axios.create({
-      baseURL: WebConfigAPI.getKafkaUrl(),
+      baseURL: webConfigService.getKafkaUrl(),
     });
 
     return httpClient;

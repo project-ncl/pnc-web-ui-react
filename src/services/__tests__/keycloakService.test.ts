@@ -1,4 +1,4 @@
-jest.mock('services/WebConfigService');
+jest.mock('services/webConfigService');
 
 const mockInit = jest.fn(() => {
   return Promise.resolve();

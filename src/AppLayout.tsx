@@ -28,16 +28,16 @@ import { ProtectedComponent } from 'components/ProtectedContent/ProtectedCompone
 import { TopBarError } from 'components/TopBar/TopBarError';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
-import * as WebConfigAPI from 'services/WebConfigService';
 import * as genericSettingsApi from 'services/genericSettingsApi';
 import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
+import * as webConfigService from 'services/webConfigService';
 
 import pncLogoText from './pnc-logo-text.svg';
 
 interface IAppLayoutProps {}
 
 export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
-  const webConfig = WebConfigAPI.getWebConfig();
+  const webConfig = webConfigService.getWebConfig();
 
   const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
 

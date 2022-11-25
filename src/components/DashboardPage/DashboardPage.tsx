@@ -5,10 +5,10 @@ import { useTitle } from 'hooks/useTitle';
 import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import * as WebConfigAPI from 'services/WebConfigService';
+import * as webConfigService from 'services/webConfigService';
 
 export const DashboardPage = () => {
-  const webConfig = WebConfigAPI.getWebConfig();
+  const webConfig = webConfigService.getWebConfig();
   const trafficLightsUrl = webConfig.grafana.trafficLightsUrl;
   const statusMapUrl = webConfig.grafana.statusMapUrl;
 

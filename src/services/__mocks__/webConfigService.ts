@@ -1,4 +1,4 @@
-import { IWebConfig } from 'services/WebConfigService';
+import { IWebConfig } from 'services/webConfigService';
 
 import webConfigDataMock from './web-config-data-mock.json';
 
