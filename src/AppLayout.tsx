@@ -29,7 +29,7 @@ import { TopBarError } from 'components/TopBar/TopBarError';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
 import * as WebConfigAPI from 'services/WebConfigService';
-import * as genericSettingsService from 'services/genericSettingsService';
+import * as genericSettingsApi from 'services/genericSettingsApi';
 import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 
 import pncLogoText from './pnc-logo-text.svg';
@@ -44,7 +44,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   const [announcementMessage, setAnnouncementMessage] = useState<string>('');
 
   useEffect(() => {
-    genericSettingsService
+    genericSettingsApi
       .getAnnouncementBanner()
       .then((response: any) => {
         setAnnouncementMessage(response.data.banner);
