@@ -1,9 +1,9 @@
 import { Label } from '@patternfly/react-core';
 
-import { DataContainer } from 'containers/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'containers/DataContainer/useDataContainer';
-import { useQueryParamsEffect } from 'containers/useQueryParamsEffect';
-import { useTitle } from 'containers/useTitle';
+import { DataContainer } from 'hooks/DataContainer/DataContainer';
+import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
