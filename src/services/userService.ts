@@ -5,7 +5,7 @@ import * as userApi from 'services/userApi';
 /**
  * Class managing information about user.
  */
-class UserManager {
+class UserService {
   private user: User = { id: 'anonymous' };
 
   public fetchUser() {
@@ -26,6 +26,6 @@ class UserManager {
 }
 
 /**
- * Instance of userManager providing group of User related API operations.
+ * Instance of UserService providing group of User related operations.
  */
-export const userManager = new UserManager();
+export const userService = new UserService();
