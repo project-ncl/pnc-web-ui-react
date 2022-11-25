@@ -9,7 +9,7 @@ import { Build } from 'pnc-api-types-ts';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
-import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildService from 'services/buildService';
 
@@ -550,7 +550,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
 
   return (
     <>
-      <DataContainer {...serviceContainerBuildMetrics} title="Build Metrics">
+      <ServiceContainerLoading {...serviceContainerBuildMetrics} title="Build Metrics">
         <div className={styles['pnc-build-metrics']}>
           <div className={styles['pnc-build-metrics-body']}>
             <div className={styles['pnc-build-metrics-help']}>
@@ -619,7 +619,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
             </div>
           </form>
         </div>
-      </DataContainer>
+      </ServiceContainerLoading>
     </>
   );
 };

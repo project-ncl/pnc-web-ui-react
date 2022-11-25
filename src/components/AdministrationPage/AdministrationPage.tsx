@@ -23,7 +23,7 @@ import { useTitle } from 'hooks/useTitle';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
-import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
 import * as buildService from 'services/buildService';
@@ -144,7 +144,7 @@ export const AdministrationPage = () => {
             <CardBody>
               <Grid hasGutter>
                 <GridItem span={12}>
-                  <DataContainer {...serviceContainerBuildCount} title="Builds Count">
+                  <ServiceContainerLoading {...serviceContainerBuildCount} title="Builds Count">
                     <AttributesItems
                       attributes={[
                         {
@@ -161,7 +161,7 @@ export const AdministrationPage = () => {
                         },
                       ]}
                     />
-                  </DataContainer>
+                  </ServiceContainerLoading>
                 </GridItem>
                 <GridItem span={4}>
                   <Button

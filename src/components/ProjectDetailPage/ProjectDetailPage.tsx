@@ -9,7 +9,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
-import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as projectService from 'services/projectService';
 
@@ -49,7 +49,7 @@ export const ProjectDetailPage = () => {
   ];
 
   return (
-    <DataContainer {...serviceContainerProject} title="Project Details">
+    <ServiceContainerLoading {...serviceContainerProject} title="Project Details">
       <PageLayout title={serviceContainerProject.data?.name} description={serviceContainerProject.data?.description}>
         <SectionHeader
           actions={
@@ -84,6 +84,6 @@ export const ProjectDetailPage = () => {
           </Card>
         </div>
       </PageLayout>
-    </DataContainer>
+    </ServiceContainerLoading>
   );
 };

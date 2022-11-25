@@ -25,7 +25,7 @@ import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
-import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as projectService from 'services/projectService';
 
@@ -56,7 +56,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const flexDirection: FlexProps['direction'] = { default: 'column' };
 
   // edit page:
-  // on edit page, use patch data container (or get data container)?
+  // on edit page, use ServiceContainerCreatingUpdating or ServiceContainerLoading ?
   const [isPatching, setIsPatching] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
   const navigate = useNavigate();
@@ -308,9 +308,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               </ServiceContainerCreatingUpdating>
             ) : (
               /* used just to GET project data, after that is immediately switched to patch container */
-              <DataContainer {...serviceContainerEditPageGet} title="Edit Project">
+              <ServiceContainerLoading {...serviceContainerEditPageGet} title="Edit Project">
                 {/* no content is needed */}
-              </DataContainer>
+              </ServiceContainerLoading>
             )
           ) : (
             <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} title="Create Project">

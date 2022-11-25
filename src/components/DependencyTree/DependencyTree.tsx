@@ -7,7 +7,7 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
-import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildService from 'services/buildService';
 import * as groupBuildService from 'services/groupBuildService';
@@ -240,7 +240,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
 
   return (
     <>
-      <DataContainer {...serviceContainerDependencyGraph} title="Dependency Tree">
+      <ServiceContainerLoading {...serviceContainerDependencyGraph} title="Dependency Tree">
         {buildItem && isBuild(buildItem) && (
           <>
             <div className={styles['build-tree-component']}>
@@ -274,7 +274,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
           </div>
           {display && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
         </div>
-      </DataContainer>
+      </ServiceContainerLoading>
     </>
   );
 };

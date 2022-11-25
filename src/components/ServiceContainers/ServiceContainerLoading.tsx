@@ -3,7 +3,7 @@ import { ErrorStateCard } from 'components/EmptyStates/ErrorStateCard';
 import { LoadingStateCard } from 'components/EmptyStates/LoadingStateCard';
 import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 
-export interface IDataContainer {
+export interface IServiceContainerProps {
   data: any;
   loading: boolean;
   error?: string;
@@ -17,11 +17,11 @@ export interface IDataContainer {
  *
  * @example
  * ```ts
- * // DataContainer component can be typically used together with useServiceContainer hook:
+ * // ServiceContainerLoading component can be typically used together with useServiceContainer hook:
  * const serviceContainer = useServiceContainer(() => projectService.getProjects());
- * <DataContainer {...serviceContainer} title="Projects List">
+ * <ServiceContainerLoading {...serviceContainer} title="Projects List">
  *   <ProjectsList projects={serviceContainer.data} />
- * </DataContainer>
+ * </ServiceContainerLoading>
  * ```
  *
  * @param data - Real data to be displayed when its fully loaded
@@ -29,7 +29,13 @@ export interface IDataContainer {
  * @param error - Error description when data loading was not successful
  * @param children - React children property
  */
-export const DataContainer = ({ data, loading, error, title, children }: React.PropsWithChildren<IDataContainer>) => {
+export const ServiceContainerLoading = ({
+  data,
+  loading,
+  error,
+  title,
+  children,
+}: React.PropsWithChildren<IServiceContainerProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
   if (loading && !data) return <LoadingStateCard title={title} />;
 
@@ -43,7 +49,7 @@ export const DataContainer = ({ data, loading, error, title, children }: React.P
   if (error) return <ErrorStateCard title={title} error={error} />;
 
   // Invalid state, Error state should be triggered before this
-  if (!data) throw new Error('DataContainer invalid state: when no data are available, error state should be returned');
+  if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
 
   // Empty state: display Empty card when
   //  - request was successfully finished,
