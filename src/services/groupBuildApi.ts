@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { pncClient } from './pncClient';
 
-interface IGroupBuildServiceData {
+interface IGroupBuildApiData {
   id: string;
 }
 
@@ -12,6 +12,6 @@ interface IGroupBuildServiceData {
  * @param requestConfig - Axios based request config
  * @returns DependencyGraph
  */
-export const getDependencyGraph = ({ id }: IGroupBuildServiceData, requestConfig: AxiosRequestConfig = {}) => {
+export const getDependencyGraph = ({ id }: IGroupBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get(`/group-builds/${id}/dependency-graph`, requestConfig);
 };

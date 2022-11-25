@@ -10,7 +10,7 @@ import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildApi from 'services/buildApi';
-import * as groupBuildService from 'services/groupBuildService';
+import * as groupBuildApi from 'services/groupBuildApi';
 
 import { isBuild } from 'utils/entityRecognition';
 
@@ -74,7 +74,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       if (serviceData!.build) {
         return buildApi.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);
       } else {
-        return groupBuildService.getDependencyGraph({ id: serviceData!.groupBuild!.id }, requestConfig);
+        return groupBuildApi.getDependencyGraph({ id: serviceData!.groupBuild!.id }, requestConfig);
       }
     }, [])
   );
