@@ -18,8 +18,8 @@ import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
-import { IService, useDataContainer } from 'hooks/useDataContainer';
 import { useInterval } from 'hooks/useInterval';
+import { IService, useDataContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';

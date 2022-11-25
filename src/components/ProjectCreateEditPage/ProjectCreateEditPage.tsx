@@ -21,8 +21,8 @@ import { Project } from 'pnc-api-types-ts';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
-import { IService, useDataContainer } from 'hooks/useDataContainer';
 import { IFields, useForm } from 'hooks/useForm';
+import { IService, useDataContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
