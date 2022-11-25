@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from 'axios';
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
 
-interface IBuildServiceData {
+interface IBuildApiData {
   id: string;
 }
 
@@ -34,6 +34,6 @@ export const getBuildCount = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  * @returns DependencyGraph
  */
-export const getDependencyGraph = ({ id }: IBuildServiceData, requestConfig: AxiosRequestConfig = {}) => {
+export const getDependencyGraph = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get(`/builds/${id}/dependency-graph`, requestConfig);
 };

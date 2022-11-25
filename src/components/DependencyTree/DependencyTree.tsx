@@ -9,7 +9,7 @@ import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
-import * as buildService from 'services/buildService';
+import * as buildApi from 'services/buildApi';
 import * as groupBuildService from 'services/groupBuildService';
 
 import { isBuild } from 'utils/entityRecognition';
@@ -72,7 +72,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const serviceContainerDependencyGraph = useServiceContainer(
     useCallback(({ serviceData, requestConfig }: IService<IServiceDataProps>) => {
       if (serviceData!.build) {
-        return buildService.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);
+        return buildApi.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);
       } else {
         return groupBuildService.getDependencyGraph({ id: serviceData!.groupBuild!.id }, requestConfig);
       }
