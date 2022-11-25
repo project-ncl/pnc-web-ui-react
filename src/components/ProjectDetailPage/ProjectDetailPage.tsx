@@ -18,39 +18,39 @@ import { PageTitles } from 'utils/PageTitles';
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
-  const dataContainer = useServiceContainer(
+  const serviceContainerProject = useServiceContainer(
     useCallback(({ requestConfig }: IService) => projectService.getProject({ id: projectId! }, requestConfig), [projectId])
   );
-  const dataContainerRefresh = dataContainer.refresh;
+  const serviceContainerProjectRefresh = serviceContainerProject.refresh;
 
-  useTitle(`${dataContainer.data?.name} | ${PageTitles.projects}`);
+  useTitle(`${serviceContainerProject.data?.name} | ${PageTitles.projects}`);
 
-  useEffect(() => dataContainerRefresh({ requestConfig: {} }), [dataContainerRefresh]);
+  useEffect(() => serviceContainerProjectRefresh({ requestConfig: {} }), [serviceContainerProjectRefresh]);
 
   const attributes = [
     {
       name: 'Project URL',
-      value: dataContainer.data?.projectUrl && (
-        <a href={dataContainer.data?.projectUrl} target="_blank" rel="noopener noreferrer">
-          {dataContainer.data?.projectUrl}
+      value: serviceContainerProject.data?.projectUrl && (
+        <a href={serviceContainerProject.data?.projectUrl} target="_blank" rel="noopener noreferrer">
+          {serviceContainerProject.data?.projectUrl}
         </a>
       ),
     },
     {
       name: 'Issue Tracker URL',
-      value: dataContainer.data?.issueTrackerUrl && (
-        <a href={dataContainer.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
-          {dataContainer.data?.issueTrackerUrl}
+      value: serviceContainerProject.data?.issueTrackerUrl && (
+        <a href={serviceContainerProject.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
+          {serviceContainerProject.data?.issueTrackerUrl}
         </a>
       ),
     },
-    { name: 'Engineering Team', value: dataContainer.data?.engineeringTeam },
-    { name: 'Technical Leader', value: dataContainer.data?.technicalLeader },
+    { name: 'Engineering Team', value: serviceContainerProject.data?.engineeringTeam },
+    { name: 'Technical Leader', value: serviceContainerProject.data?.technicalLeader },
   ];
 
   return (
-    <DataContainer {...dataContainer} title="Project Details">
-      <PageLayout title={dataContainer.data?.name} description={dataContainer.data?.description}>
+    <DataContainer {...serviceContainerProject} title="Project Details">
+      <PageLayout title={serviceContainerProject.data?.name} description={serviceContainerProject.data?.description}>
         <SectionHeader
           actions={
             <ActionButton link="edit" iconType="edit">

@@ -69,7 +69,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const [dependencyStructure, setDependencyStructure] = useState<IDependencyDataItem>();
   const [buildItem, setBuildItem] = useState<IDependencyBuild>();
   const [allExpanded, setAllExpanded] = useState<boolean | undefined>(undefined);
-  const dataContainer = useServiceContainer(
+  const serviceContainerDependencyGraph = useServiceContainer(
     useCallback(({ serviceData, requestConfig }: IService<IServiceDataProps>) => {
       if (serviceData!.build) {
         return buildService.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);
@@ -79,7 +79,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
     }, [])
   );
 
-  const refreshDataContainer = dataContainer.refresh;
+  const serviceContainerDependencyGraphRefresh = serviceContainerDependencyGraph.refresh;
 
   const refreshComponent = () => {
     setDisplay(false);
@@ -135,8 +135,8 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
 
   useEffect(() => {
     setBuildItem(build ? build : groupBuild);
-    refreshDataContainer({ serviceData: { build: build, groupBuild: groupBuild } });
-  }, [build, groupBuild, refreshDataContainer]);
+    serviceContainerDependencyGraphRefresh({ serviceData: { build: build, groupBuild: groupBuild } });
+  }, [build, groupBuild, serviceContainerDependencyGraphRefresh]);
 
   useEffect(() => {
     const getRootNodes = (edgesData: Array<IGraphEdge>, nodesData: Map<string, IDependencyBuild>) => {
@@ -199,11 +199,11 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       currentNode.children?.forEach((child) => attachChildFromEdges(child, edgesData, nodesData, level + 1));
       return currentNode;
     };
-    if (!dataContainer.data) {
+    if (!serviceContainerDependencyGraph.data) {
       return;
     }
     const nodesData: Map<string, IDependencyBuild> = new Map();
-    const verticesData = new Map<string, IGraphVertex>(Object.entries(dataContainer.data.vertices));
+    const verticesData = new Map<string, IGraphVertex>(Object.entries(serviceContainerDependencyGraph.data.vertices));
     verticesData.forEach((vertex: IGraphVertex) => {
       nodesData.set(vertex.name, vertex.data);
     });
@@ -218,7 +218,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
     const _dependentStructure: Array<IDependencyDataItem> = [];
 
     const edgesData: Array<IGraphEdge> = [];
-    Object.assign(edgesData, dataContainer.data.edges);
+    Object.assign(edgesData, serviceContainerDependencyGraph.data.edges);
 
     // Generate parent dependents
     edgesData
@@ -236,11 +236,11 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
 
     // Generate children dependency
     setDependencyStructure(addSuffixToDependencyId(attachChildFromEdges(_dependencyStructure, edgesData, nodesData, 1)));
-  }, [dataContainer.data, buildItem]);
+  }, [serviceContainerDependencyGraph.data, buildItem]);
 
   return (
     <>
-      <DataContainer {...dataContainer} title="Dependency Tree">
+      <DataContainer {...serviceContainerDependencyGraph} title="Dependency Tree">
         {buildItem && isBuild(buildItem) && (
           <>
             <div className={styles['build-tree-component']}>

@@ -504,12 +504,12 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
-  const dataContainer = useServiceContainer(
+  const serviceContainerBuildMetrics = useServiceContainer(
     useCallback(({ serviceData, requestConfig }: IService<Array<Build>>) => {
       return buildService.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
     }, [])
   );
-  const dataContainerRefresh = dataContainer.refresh;
+  const serviceContainerBuildMetricsRefresh = serviceContainerBuildMetrics.refresh;
   const navigationSelectOptions: Array<any> = navigationOptions.map((option) => (
     <SelectOption key={option.id} value={option.name} />
   ));
@@ -532,13 +532,13 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     };
     /* Load data according to the current filter */
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
-    dataContainerRefresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
+    serviceContainerBuildMetricsRefresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
       setBuildMetrics({
         builds: currentFilteredBuilds,
         buildMetricsData: res.data,
       });
     });
-  }, [builds, selected, dataContainerRefresh]);
+  }, [builds, selected, serviceContainerBuildMetricsRefresh]);
 
   const onToggle = () => {
     setIsOpen(!isOpen);
@@ -550,7 +550,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
 
   return (
     <>
-      <DataContainer {...dataContainer} title="Build Metrics">
+      <DataContainer {...serviceContainerBuildMetrics} title="Build Metrics">
         <div className={styles['pnc-build-metrics']}>
           <div className={styles['pnc-build-metrics-body']}>
             <div className={styles['pnc-build-metrics-help']}>
