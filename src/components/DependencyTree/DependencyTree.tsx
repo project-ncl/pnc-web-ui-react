@@ -7,7 +7,7 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
-import { DataContainer } from 'components/ServiceContainers/DataContainer';
+import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildService from 'services/buildService';
 import * as groupBuildService from 'services/groupBuildService';

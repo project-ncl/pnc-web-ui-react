@@ -24,8 +24,8 @@ import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { DataContainer } from 'components/ServiceContainers/DataContainer';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as projectService from 'services/projectService';
 

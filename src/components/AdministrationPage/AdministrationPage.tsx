@@ -22,8 +22,8 @@ import { useTitle } from 'hooks/useTitle';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { DataContainer } from 'components/ServiceContainers/DataContainer';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
 import * as buildService from 'services/buildService';

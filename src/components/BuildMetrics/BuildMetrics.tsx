@@ -9,7 +9,7 @@ import { Build } from 'pnc-api-types-ts';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
-import { DataContainer } from 'components/ServiceContainers/DataContainer';
+import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildService from 'services/buildService';
 

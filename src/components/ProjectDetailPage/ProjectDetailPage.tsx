@@ -9,7 +9,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
-import { DataContainer } from 'components/ServiceContainers/DataContainer';
+import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as projectService from 'services/projectService';
 
