@@ -1,8 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
+import { IUILog } from 'services/uiLogger';
 import { uiLoggerClient } from 'services/uiLoggerClient';
-
-import { IUILog } from 'utils/uiLogger';
 
 /**
  * Creates new UI log.

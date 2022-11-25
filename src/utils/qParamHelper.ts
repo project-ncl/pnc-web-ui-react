@@ -13,7 +13,7 @@
  * status!=CANCELLED;
  *
  */
-import { uiLogger } from 'utils/uiLogger';
+import { uiLogger } from 'services/uiLogger';
 
 /**
  * Operator =like= is converted to =notlike= automatically when qValue starts with ! character,

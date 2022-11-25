@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
-jest.mock('utils/uiLogger');
+jest.mock('services/uiLogger');
 
 test('renders ErrorBoundary and fire an error', async () => {
   function BuggyCounter() {
