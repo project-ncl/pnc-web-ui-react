@@ -11,7 +11,7 @@ import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { calculateBuildName } from 'components/BuildName/BuildName';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
-import * as buildService from 'services/buildService';
+import * as buildApi from 'services/buildApi';
 
 import styles from './BuildMetrics.module.css';
 
@@ -506,7 +506,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
   const serviceContainerBuildMetrics = useServiceContainer(
     useCallback(({ serviceData, requestConfig }: IService<Array<Build>>) => {
-      return buildService.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
+      return buildApi.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
     }, [])
   );
   const serviceContainerBuildMetricsRefresh = serviceContainerBuildMetrics.refresh;

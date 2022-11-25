@@ -26,7 +26,7 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
-import * as buildService from 'services/buildService';
+import * as buildApi from 'services/buildApi';
 import * as genericSettingsService from 'services/genericSettingsService';
 
 import { transformateDateFormat } from 'utils/utils';
@@ -94,7 +94,7 @@ export const AdministrationPage = () => {
 
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
   const serviceContainerBuildCount = useServiceContainer(
-    useCallback(({ requestConfig }: IService) => buildService.getBuildCount(requestConfig), [])
+    useCallback(({ requestConfig }: IService) => buildApi.getBuildCount(requestConfig), [])
   );
   const serviceContainerBuildCountRefresh = serviceContainerBuildCount.refresh;
 
