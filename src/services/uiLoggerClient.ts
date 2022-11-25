@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import * as WebConfigAPI from 'services/WebConfigService';
+import * as webConfigService from 'services/webConfigService';
 
 /**
  * Utils class managing http client instance, only one instance is created.
@@ -19,7 +19,7 @@ class UILoggerClient {
    */
   private createHttpClient = (): AxiosInstance =>
     axios.create({
-      baseURL: WebConfigAPI.getUILoggerUrl(),
+      baseURL: webConfigService.getUILoggerUrl(),
     });
 
   // PUBLIC

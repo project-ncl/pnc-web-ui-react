@@ -1,5 +1,5 @@
-import * as WebConfigAPI from 'services/WebConfigService';
 import { Keycloak } from 'services/keycloakHolder';
+import * as webConfigService from 'services/webConfigService';
 
 import { userManager } from 'utils/userManager';
 
@@ -49,7 +49,7 @@ class KeycloakService {
    * @returns Promise.
    */
   private init(): Promise<any> {
-    const keycloakConfig = WebConfigAPI.getWebConfig().keycloak;
+    const keycloakConfig = webConfigService.getWebConfig().keycloak;
 
     if (Keycloak) {
       this.keycloakAuth = new Keycloak({

@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
-import * as WebConfigAPI from './WebConfigService';
 import { keycloakService } from './keycloakService';
+import * as webConfigService from './webConfigService';
 
 /**
  * Utils class managing http client instance, only one instance is created.
@@ -21,7 +21,7 @@ class PncClient {
    */
   private createHttpClient = (): AxiosInstance => {
     const httpClient = axios.create({
-      baseURL: WebConfigAPI.getPncUrl(),
+      baseURL: webConfigService.getPncUrl(),
     });
 
     httpClient.interceptors.request.use((config) => {
