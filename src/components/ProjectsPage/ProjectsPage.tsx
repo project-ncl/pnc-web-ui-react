@@ -1,7 +1,7 @@
 import { Label } from '@patternfly/react-core';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { IService, useDataContainer } from 'hooks/useDataContainer';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useTitle } from 'hooks/useTitle';
 

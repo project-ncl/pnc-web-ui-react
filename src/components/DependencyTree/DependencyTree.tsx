@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { IService, useDataContainer } from 'hooks/useDataContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 
