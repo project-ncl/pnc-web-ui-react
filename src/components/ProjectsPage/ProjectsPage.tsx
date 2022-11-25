@@ -1,6 +1,5 @@
 import { Label } from '@patternfly/react-core';
 
-import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -11,6 +10,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { DataContainer } from 'components/ServiceContainers/DataContainer';
 import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';

@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
+import { DataContainer } from 'components/ServiceContainers/DataContainer';
 
 import * as buildService from 'services/buildService';
 import * as groupBuildService from 'services/groupBuildService';
