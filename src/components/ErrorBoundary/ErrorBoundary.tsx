@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SystemErrorPage } from 'components/SystemErrorPage/SystemErrorPage';
 
-import { uiLogger } from 'utils/uiLogger';
+import { uiLogger } from 'services/uiLogger';
 
 export interface ErrorBoundaryProps {
   children: React.ReactChild;
