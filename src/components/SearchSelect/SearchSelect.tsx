@@ -2,7 +2,7 @@ import { Select, SelectOption, SelectOptionObject, SelectVariant, Spinner } from
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { IService, useDataContainer } from 'hooks/DataContainer/useDataContainer';
+import { IService, useDataContainer } from 'hooks/useDataContainer';
 
 import '../../index.css';
 import styles from './SearchSelect.module.css';
