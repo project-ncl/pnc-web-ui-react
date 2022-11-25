@@ -1,5 +1,5 @@
 // import Bowser from 'bowser';
-import * as uiLoggerService from 'services/uiLoggerService';
+import * as uiLoggerApi from 'services/uiLoggerApi';
 
 import { userManager } from 'utils/userManager';
 
@@ -73,7 +73,7 @@ const createData = (message?: string, error?: Error, additionalData?: Object): I
 
 const log = (message: string, error?: Error, additionalData?: Object) => {
   const uiLogData = createData(message, error, additionalData);
-  uiLoggerService.createUILog(uiLogData).catch((error: Error) => {
+  uiLoggerApi.createUILog(uiLogData).catch((error: Error) => {
     console.error(`UI Logger: log could not be created: ${error.message}`);
   });
 };
