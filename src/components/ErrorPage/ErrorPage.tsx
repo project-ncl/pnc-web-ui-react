@@ -1,10 +1,9 @@
 import { CubesIcon } from '@patternfly/react-icons';
+import { PageTitles } from 'PageTitles';
 import { Link } from 'react-router-dom';
 
 import { StateCard } from 'components/EmptyStates/StateCard';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-
-import { PageTitles } from 'utils/PageTitles';
 
 import '../../index.css';
 

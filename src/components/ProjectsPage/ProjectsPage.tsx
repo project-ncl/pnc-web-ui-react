@@ -1,4 +1,5 @@
 import { Label } from '@patternfly/react-core';
+import { PageTitles } from 'PageTitles';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
@@ -16,8 +17,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as projectApi from 'services/projectApi';
-
-import { PageTitles } from 'utils/PageTitles';
 
 // keeping also not supported operations for testing purposes
 const filterOptions: IFilterOptions = {

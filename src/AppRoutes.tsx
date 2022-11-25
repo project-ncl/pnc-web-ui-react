@@ -1,3 +1,4 @@
+import { PageTitles } from 'PageTitles';
 import { Route, Routes } from 'react-router-dom';
 
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
@@ -18,8 +19,6 @@ import { ScmRepositoriesPage } from 'components/ScmRepositoriesPage/ScmRepositor
 import { VariablesPage } from 'components/VariablesPage/VariablesPage';
 
 import { AUTH_ROLE } from 'services/keycloakService';
-
-import { PageTitles } from 'utils/PageTitles';
 
 export const AppRoutes = () => (
   <Routes>

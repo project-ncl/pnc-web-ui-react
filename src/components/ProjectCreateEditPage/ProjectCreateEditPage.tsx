@@ -13,6 +13,7 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
+import { PageTitles } from 'PageTitles';
 import { Operation } from 'fast-json-patch';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -29,7 +30,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as projectApi from 'services/projectApi';
 
-import { PageTitles } from 'utils/PageTitles';
 import { validateUrl } from 'utils/formValidationHelpers';
 import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
 

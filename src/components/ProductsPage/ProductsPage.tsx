@@ -1,8 +1,7 @@
 import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
+import { PageTitles } from 'PageTitles';
 
 import { useTitle } from 'hooks/useTitle';
-
-import { PageTitles } from 'utils/PageTitles';
 
 export const ProductsPage = () => {
   useTitle(PageTitles.products);
