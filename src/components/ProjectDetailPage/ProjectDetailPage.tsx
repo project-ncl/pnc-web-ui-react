@@ -11,7 +11,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
-import * as projectService from 'services/projectService';
+import * as projectApi from 'services/projectApi';
 
 import { PageTitles } from 'utils/PageTitles';
 
@@ -19,7 +19,7 @@ export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
   const serviceContainerProject = useServiceContainer(
-    useCallback(({ requestConfig }: IService) => projectService.getProject({ id: projectId! }, requestConfig), [projectId])
+    useCallback(({ requestConfig }: IService) => projectApi.getProject({ id: projectId! }, requestConfig), [projectId])
   );
   const serviceContainerProjectRefresh = serviceContainerProject.refresh;
 

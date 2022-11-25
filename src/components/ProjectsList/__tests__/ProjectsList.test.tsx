@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 
-jest.mock('services/projectService');
+jest.mock('services/projectApi');
 jest.mock('services/keycloakService');
 
 describe('display ProjectList component', () => {

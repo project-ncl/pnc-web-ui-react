@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';
 
-jest.mock('services/projectService');
+jest.mock('services/projectApi');
 jest.mock('services/keycloakService');
 jest.mock('utils/uiLogger');
 

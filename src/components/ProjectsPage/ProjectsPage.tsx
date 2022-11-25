@@ -15,7 +15,7 @@ import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
-import * as projectService from 'services/projectService';
+import * as projectApi from 'services/projectApi';
 
 import { PageTitles } from 'utils/PageTitles';
 
@@ -64,9 +64,7 @@ interface IProjectPage {
 }
 
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
-  const serviceContainerProjects = useServiceContainer(({ requestConfig }: IService) =>
-    projectService.getProjects(requestConfig)
-  );
+  const serviceContainerProjects = useServiceContainer(({ requestConfig }: IService) => projectApi.getProjects(requestConfig));
 
   useTitle(PageTitles.projects);
 

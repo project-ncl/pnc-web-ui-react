@@ -41,7 +41,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 
-import * as projectService from 'services/projectService';
+import * as projectApi from 'services/projectApi';
 
 import { maxLength, minLength } from 'utils/formValidationHelpers';
 import { timestampHiglighter } from 'utils/preprocessorHelper';
@@ -204,7 +204,7 @@ export const DemoPage = () => {
   const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
 
   const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig = {}) => {
-    return projectService.getProjects(requestConfig);
+    return projectApi.getProjects(requestConfig);
   }, []);
 
   useEffect(() => {
