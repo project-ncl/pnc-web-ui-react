@@ -20,12 +20,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Project } from 'pnc-api-types-ts';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
-import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
 import { IFields, useForm } from 'hooks/useForm';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 
 import * as projectService from 'services/projectService';
 

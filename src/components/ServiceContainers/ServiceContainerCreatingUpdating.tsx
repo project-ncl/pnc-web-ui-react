@@ -1,9 +1,9 @@
 import { Alert } from '@patternfly/react-core';
 import React from 'react';
 
-import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
+import { IDataContainer } from 'hooks/DataContainer/DataContainer';
 
-import { IDataContainer } from './DataContainer';
+import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 
 export const ServiceContainerCreatingUpdating = ({ loading, error, children }: React.PropsWithChildren<IDataContainer>) => {
   if (loading) {
