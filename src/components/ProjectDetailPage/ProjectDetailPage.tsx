@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -18,7 +18,7 @@ import { PageTitles } from 'utils/PageTitles';
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
-  const dataContainer = useDataContainer(
+  const dataContainer = useServiceContainer(
     useCallback(({ requestConfig }: IService) => projectService.getProject({ id: projectId! }, requestConfig), [projectId])
   );
   const dataContainerRefresh = dataContainer.refresh;

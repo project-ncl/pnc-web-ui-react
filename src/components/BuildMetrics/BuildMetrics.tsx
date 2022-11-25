@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Build } from 'pnc-api-types-ts';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
 
@@ -504,7 +504,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
-  const dataContainer = useDataContainer(
+  const dataContainer = useServiceContainer(
     useCallback(({ serviceData, requestConfig }: IService<Array<Build>>) => {
       return buildService.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
     }, [])

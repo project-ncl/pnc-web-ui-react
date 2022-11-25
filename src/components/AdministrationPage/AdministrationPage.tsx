@@ -19,7 +19,7 @@ import { CSSProperties, useCallback, useEffect, useState } from 'react';
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
 import { useInterval } from 'hooks/useInterval';
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
@@ -48,7 +48,7 @@ export const AdministrationPage = () => {
   const [isEtaNa, setIsEtaNa] = useState<boolean>(false);
   const [announcementTouched, setAnnouncementTouched] = useState<boolean>(false);
   const [etaTouched, setEtaTouched] = useState<boolean>(false);
-  const dataContainerAnnouncement = useDataContainer(
+  const dataContainerAnnouncement = useServiceContainer(
     ({ serviceData }: IService<string>) => genericSettingsService.setAnnouncementBanner(serviceData as string),
     {
       initLoadingState: false,
@@ -93,7 +93,7 @@ export const AdministrationPage = () => {
   }, []);
 
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
-  const dataContainer = useDataContainer(
+  const dataContainer = useServiceContainer(
     useCallback(({ requestConfig }: IService) => buildService.getBuildCount(requestConfig), [])
   );
   const dataContainerRefresh = dataContainer.refresh;

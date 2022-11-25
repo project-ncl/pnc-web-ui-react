@@ -21,7 +21,7 @@ export interface IService<T = {}> {
  * @param config - Config object, initLoadingState (provides init values for loading state)
  * @returns Object with data, loading and error property
  */
-export const useDataContainer = (service: Function, { initLoadingState = true }: { initLoadingState?: boolean } = {}) => {
+export const useServiceContainer = (service: Function, { initLoadingState = true }: { initLoadingState?: boolean } = {}) => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time
