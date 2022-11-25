@@ -27,7 +27,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
 import * as buildApi from 'services/buildApi';
-import * as genericSettingsService from 'services/genericSettingsService';
+import * as genericSettingsApi from 'services/genericSettingsApi';
 
 import { transformateDateFormat } from 'utils/utils';
 
@@ -49,7 +49,7 @@ export const AdministrationPage = () => {
   const [announcementTouched, setAnnouncementTouched] = useState<boolean>(false);
   const [etaTouched, setEtaTouched] = useState<boolean>(false);
   const serviceContainerAnnouncement = useServiceContainer(
-    ({ serviceData }: IService<string>) => genericSettingsService.setAnnouncementBanner(serviceData as string),
+    ({ serviceData }: IService<string>) => genericSettingsApi.setAnnouncementBanner(serviceData as string),
     {
       initLoadingState: false,
     }
@@ -70,7 +70,7 @@ export const AdministrationPage = () => {
   };
 
   useEffect(() => {
-    genericSettingsService
+    genericSettingsApi
       .getAnnouncementBanner()
       .then((response: any) => {
         const rawAnnouncement: string = response.data.banner;
