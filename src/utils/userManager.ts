@@ -1,6 +1,6 @@
 import { User } from 'pnc-api-types-ts';
 
-import * as userService from 'services/userService';
+import * as userApi from 'services/userApi';
 
 /**
  * Class managing information about user.
@@ -9,7 +9,7 @@ class UserManager {
   private user: User = { id: 'anonymous' };
 
   public fetchUser() {
-    return userService
+    return userApi
       .getCurrentUser()
       .then((response: any) => {
         this.user = response.data;
