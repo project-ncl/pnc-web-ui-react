@@ -2,7 +2,7 @@ import { Label } from '@patternfly/react-core';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -64,7 +64,7 @@ interface IProjectPage {
 }
 
 export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
-  const dataContainer = useDataContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
+  const dataContainer = useServiceContainer(({ requestConfig }: IService) => projectService.getProjects(requestConfig));
 
   useTitle(PageTitles.projects);
 

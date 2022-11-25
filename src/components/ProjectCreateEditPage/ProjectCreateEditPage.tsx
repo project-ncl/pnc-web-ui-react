@@ -22,7 +22,7 @@ import { Project } from 'pnc-api-types-ts';
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
 import { ServiceContainerCreatingUpdating } from 'hooks/DataContainer/ServiceContainerCreatingUpdating';
 import { IFields, useForm } from 'hooks/useForm';
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -63,7 +63,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const urlPathParams = useParams();
 
   // create page
-  const dataContainerCreate = useDataContainer(
+  const dataContainerCreate = useServiceContainer(
     ({ serviceData }: IService<Omit<Project, 'id'>>) => projectService.createProject(serviceData!),
     {
       initLoadingState: false,
@@ -71,7 +71,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   );
 
   // edit page - get method
-  const dataContainerEditGet = useDataContainer(
+  const dataContainerEditGet = useServiceContainer(
     useCallback(({ serviceData }: IService<Project>) => {
       return projectService.getProject(serviceData!);
     }, [])
@@ -79,7 +79,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const editRefreshGet = dataContainerEditGet.refresh;
 
   // edit page - patch method
-  const dataContainerEditPatch = useDataContainer(
+  const dataContainerEditPatch = useServiceContainer(
     useCallback(
       ({ serviceData }: IService<Operation[]>) => {
         return projectService.patchProject(id, serviceData!);

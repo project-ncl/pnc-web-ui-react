@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { DataContainer } from 'hooks/DataContainer/DataContainer';
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 
@@ -69,7 +69,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const [dependencyStructure, setDependencyStructure] = useState<IDependencyDataItem>();
   const [buildItem, setBuildItem] = useState<IDependencyBuild>();
   const [allExpanded, setAllExpanded] = useState<boolean | undefined>(undefined);
-  const dataContainer = useDataContainer(
+  const dataContainer = useServiceContainer(
     useCallback(({ serviceData, requestConfig }: IService<IServiceDataProps>) => {
       if (serviceData!.build) {
         return buildService.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);

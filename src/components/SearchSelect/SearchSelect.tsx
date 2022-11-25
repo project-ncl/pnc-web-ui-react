@@ -2,7 +2,7 @@ import { Select, SelectOption, SelectOptionObject, SelectVariant, Spinner } from
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { IService, useDataContainer } from 'hooks/useServiceContainer';
+import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 
 import '../../index.css';
 import styles from './SearchSelect.module.css';
@@ -60,7 +60,7 @@ export const SearchSelect = ({
   // used to fetch data after delay
   const timeout = useRef<NodeJS.Timeout>();
 
-  const dataContainer = useDataContainer(
+  const dataContainer = useServiceContainer(
     useCallback(
       ({ requestConfig }: IService<any>) => {
         return fetchCallback(requestConfig);

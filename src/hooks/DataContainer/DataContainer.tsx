@@ -13,14 +13,14 @@ export interface IDataContainer {
 /**
  * Container component handling loading, error and empty data states. If one of those states
  * is valid then proper state component is displayed instead of the (children) component displaying
- * real data. See also {@link useDataContainer}.
+ * real data. See also {@link useServiceContainer}.
  *
  * @example
  * ```ts
- * // DataContainer component can be typically used together with useDataContainer hook:
- * const dataContainer = useDataContainer(() => projectService.getProjects());
- * <DataContainer {...dataContainer} title="Projects List">
- *   <ProjectsList projects={dataContainer.data} />
+ * // DataContainer component can be typically used together with useServiceContainer hook:
+ * const serviceContainer = useServiceContainer(() => projectService.getProjects());
+ * <DataContainer {...serviceContainer} title="Projects List">
+ *   <ProjectsList projects={serviceContainer.data} />
  * </DataContainer>
  * ```
  *
