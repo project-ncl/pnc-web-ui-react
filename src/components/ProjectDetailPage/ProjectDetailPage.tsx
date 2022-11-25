@@ -1,5 +1,5 @@
 import { Card, CardBody } from '@patternfly/react-core';
-import { PageTitles } from 'PageTitles';
+import { PageTitles } from 'constants';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 

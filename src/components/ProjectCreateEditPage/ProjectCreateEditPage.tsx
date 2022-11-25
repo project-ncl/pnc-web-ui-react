@@ -13,7 +13,7 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
-import { PageTitles } from 'PageTitles';
+import { PageTitles } from 'constants';
 import { Operation } from 'fast-json-patch';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

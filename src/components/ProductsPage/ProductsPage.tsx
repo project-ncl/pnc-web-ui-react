@@ -1,5 +1,5 @@
 import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
-import { PageTitles } from 'PageTitles';
+import { PageTitles } from 'constants';
 
 import { useTitle } from 'hooks/useTitle';
 

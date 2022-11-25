@@ -1,4 +1,4 @@
-import { PageTitles } from 'PageTitles';
+import { PageTitles } from 'constants';
 import { Route, Routes } from 'react-router-dom';
 
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
