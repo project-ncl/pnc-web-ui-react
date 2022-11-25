@@ -2,9 +2,13 @@ import { Alert } from '@patternfly/react-core';
 import React from 'react';
 
 import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
-import { IDataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { IServiceContainerProps } from 'components/ServiceContainers/ServiceContainerLoading';
 
-export const ServiceContainerCreatingUpdating = ({ loading, error, children }: React.PropsWithChildren<IDataContainer>) => {
+export const ServiceContainerCreatingUpdating = ({
+  loading,
+  error,
+  children,
+}: React.PropsWithChildren<IServiceContainerProps>) => {
   if (loading) {
     return (
       <RefreshStateCard>

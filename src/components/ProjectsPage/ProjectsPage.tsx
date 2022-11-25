@@ -10,7 +10,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { DataContainer } from 'components/ServiceContainers/ServiceContainerLoading';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -100,10 +100,10 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </ToolbarItem>
       </Toolbar>
 
-      <DataContainer {...serviceContainerProjects} title={`${PageTitles.projects} List`}>
+      <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects} List`}>
         <ProjectsList projects={serviceContainerProjects.data?.content} />
-      </DataContainer>
-      {/* Pagination need to be outside of DataContainer so that it can initialize Query Params */}
+      </ServiceContainerLoading>
+      {/* Pagination need to be outside of ServiceContainerLoading so that it can initialize Query Params */}
       <Pagination componentId={componentId} count={serviceContainerProjects.data?.totalHits} />
     </PageLayout>
   );

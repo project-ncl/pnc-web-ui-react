@@ -15,7 +15,7 @@ export interface IService<T = {}> {
 }
 
 /**
- * React hook to manage data, loading and error states when data is being loaded. See also {@link DataContainer}.
+ * React hook to manage data, loading and error states when data is being loaded. See also {@link ServiceContainerLoading} and {@link ServiceContainerCreatingUpdating}.
  *
  * @param service - Service to be executed to load data
  * @param config - Config object, initLoadingState (provides init values for loading state)
