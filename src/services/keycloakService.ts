@@ -1,5 +1,5 @@
 import { Keycloak } from 'services/keycloakHolder';
-import { userManager } from 'services/userManager';
+import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
 
 /**
@@ -63,7 +63,7 @@ class KeycloakService {
           .then(() => {
             this._isKeycloakAvailable = true;
             if (this.isAuthenticated()) {
-              userManager.fetchUser().finally(() => {
+              userService.fetchUser().finally(() => {
                 resolve('success');
               });
             } else {
