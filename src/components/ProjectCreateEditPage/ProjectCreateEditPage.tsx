@@ -19,6 +19,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
+import { PageTitles } from 'common/PageTitles';
+
 import { IFields, useForm } from 'hooks/useForm';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -29,7 +31,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as projectApi from 'services/projectApi';
 
-import { PageTitles } from 'utils/PageTitles';
 import { validateUrl } from 'utils/formValidationHelpers';
 import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
 

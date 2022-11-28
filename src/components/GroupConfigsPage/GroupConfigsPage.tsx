@@ -1,8 +1,8 @@
 import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
 
-import { useTitle } from 'hooks/useTitle';
+import { PageTitles } from 'common/PageTitles';
 
-import { PageTitles } from 'utils/PageTitles';
+import { useTitle } from 'hooks/useTitle';
 
 export const GroupConfigsPage = () => {
   useTitle(PageTitles.groupConfig);
