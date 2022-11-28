@@ -1,6 +1,6 @@
 import { Label } from '@patternfly/react-core';
 
-import { PageTitles } from 'common/PageTitles';
+import { PageTitles } from 'common/constants';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';

@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { PageTitles } from 'common/PageTitles';
+import { PageTitles } from 'common/constants';
 
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';

@@ -19,7 +19,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
-import { PageTitles } from 'common/PageTitles';
+import { PageTitles } from 'common/constants';
 
 import { IFields, useForm } from 'hooks/useForm';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
