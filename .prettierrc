@@ -6,6 +6,7 @@
     "base.css",
     "<THIRD_PARTY_MODULES>",
     "^pnc",
+    "^common/(.*)$",
     "^hooks/(.*)$",
     "^components/(.*)$",
     "^services/(.*)$",

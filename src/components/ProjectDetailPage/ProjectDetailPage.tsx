@@ -2,6 +2,8 @@ import { Card, CardBody } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { PageTitles } from 'common/PageTitles';
+
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -12,8 +14,6 @@ import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as projectApi from 'services/projectApi';
-
-import { PageTitles } from 'utils/PageTitles';
 
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
