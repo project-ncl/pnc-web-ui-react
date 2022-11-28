@@ -1,7 +1,7 @@
 import { CubesIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
 
-import { PageTitles } from 'common/PageTitles';
+import { PageTitles } from 'common/constants';
 
 import { StateCard } from 'components/EmptyStates/StateCard';
 import { PageLayout } from 'components/PageLayout/PageLayout';

@@ -2,7 +2,7 @@ import { Card, CardBody } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { PageTitles } from 'common/PageTitles';
+import { PageTitles } from 'common/constants';
 
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
