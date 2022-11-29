@@ -12,6 +12,7 @@
   "externalKafkaStoreUrl": "https://localhost/",
   "externalPncUrl": "https://localhost/",
   "externalRepourUrl": "https://localhost/",
+  "externalUiLoggerUrl": "https://localhost",
   "kafkaUrl": "https://localhost/",
   "pncNotificationsUrl": "wss://localhost/",
   "userGuideUrl": "https://localhost/",
