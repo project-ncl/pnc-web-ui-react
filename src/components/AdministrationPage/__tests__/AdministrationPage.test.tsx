@@ -4,6 +4,7 @@ import { AdministrationPage } from 'components/AdministrationPage/Administration
 
 jest.mock('services/buildApi');
 jest.mock('services/genericSettingsApi');
+jest.mock('services/uiLogger');
 
 test('renders AdministrationPage', () => {
   render(<AdministrationPage />);

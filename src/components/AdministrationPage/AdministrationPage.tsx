@@ -2,14 +2,17 @@ import {
   Button,
   Card,
   CardBody,
+  CardTitle,
   DatePicker,
   Flex,
   FlexItem,
+  FlexProps,
   Form,
   FormGroup,
   Grid,
   GridItem,
   Switch,
+  Text,
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
@@ -28,11 +31,15 @@ import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
 import * as buildApi from 'services/buildApi';
 import * as genericSettingsApi from 'services/genericSettingsApi';
+import { uiLogger } from 'services/uiLogger';
 
 import { transformateDateFormat } from 'utils/utils';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 const N_A = 'N/A';
+
+const spaceItemsXs: FlexProps['spaceItems'] = { default: 'spaceItemsXs' };
+const directionColumn: FlexProps['direction'] = { default: 'column' };
 
 export const AdministrationPage = () => {
   const [isMaintenanceModeOn, setIsMaintenanceModeOn] = useState(false);
@@ -118,7 +125,7 @@ export const AdministrationPage = () => {
 
   return (
     <PageLayout title="Administration" description="Administration tools for admin users">
-      <Flex direction={{ default: 'column' }}>
+      <Flex direction={directionColumn}>
         <FlexItem>
           <Form isHorizontal>
             <Card>
@@ -304,6 +311,29 @@ export const AdministrationPage = () => {
               </CardBody>
             </Card>
           </Form>
+        </FlexItem>
+
+        <FlexItem>
+          <Card>
+            <CardTitle>Test UI Logger</CardTitle>
+            <CardBody>
+              <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
+                <FlexItem>
+                  <Text>Sends UI log to the UI Logger service - use for testing purposes.</Text>
+                </FlexItem>
+                <FlexItem>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      uiLogger.error('Test Log', new Error('Created for testing purposes.'));
+                    }}
+                  >
+                    Send UI Log
+                  </Button>
+                </FlexItem>
+              </Flex>
+            </CardBody>
+          </Card>
         </FlexItem>
       </Flex>
     </PageLayout>
