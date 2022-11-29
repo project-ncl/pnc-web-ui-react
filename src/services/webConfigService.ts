@@ -30,6 +30,7 @@ export interface IWebConfig {
   externalKafkaStoreUrl: string;
   externalPncUrl: string;
   externalRepourUrl: string;
+  externalUiLoggerUrl: string;
   pncNotificationsUrl: string;
   userGuideUrl: string;
   ssoTokenLifespan: number;
@@ -92,9 +93,7 @@ export const getKafkaUrl = (): string => {
 };
 
 export const getUILoggerUrl = (): string => {
-  // url should be contained in web config, but is still missing
-  // for the time being, use environement variable
-  const uiLoggerUrl = process.env.REACT_APP_UILOGGER_URL;
+  const uiLoggerUrl = getWebConfig().externalUiLoggerUrl;
 
   if (!uiLoggerUrl) {
     throw new Error(`UI Logger URL does not contain any data: #${uiLoggerUrl}#`);
