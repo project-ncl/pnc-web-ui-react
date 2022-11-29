@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version && npm --version
+      - run: npm install -g npm@^9.1.0
+      - run: npm --version
       - run: npm ci
       - run: npm run build
       - run: npm test
@@ -44,6 +46,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version && npm --version
+      - run: npm install -g npm@^9.1.0
+      - run: npm --version
       - run: ls
       - run: rm -v package-lock.json
       - run: ls
@@ -65,6 +69,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version && npm --version
+      - run: npm install -g npm@^9.1.0
+      - run: npm --version
       - run: npm install
       - name: Fail if npm install changed package-lock.json
         run: git diff --exit-code package-lock.json
