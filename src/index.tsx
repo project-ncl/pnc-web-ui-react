@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from 'services/keycloakService';
+import * as webConfigService from 'services/webConfigService';
 
 import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
@@ -31,6 +32,25 @@ const App = () => {
         setIsKeycloakInitInProcess(false);
       });
   }, []);
+
+  const pncUrl = webConfigService.getPncUrl();
+  if (!pncUrl.startsWith(window.location.origin) && window.location.hostname !== 'localhost') {
+    console.error('Wrong Global Configuration is provided');
+    return (
+      <div>
+        Wrong Global Configuration is provided, contact PNC administrators.
+        <br />
+        <br />
+        Global Configuration is pointing to:
+        <br />
+        <code>{pncUrl}</code>
+        <br />
+        but currently used deployment is:
+        <br />
+        <code>{window.location.origin}</code>
+      </div>
+    );
+  }
 
   // see also https://github.com/remix-run/react-router/issues/8427#issuecomment-1056988913
   const URL_BASE_PATH = '/pnc-web';
