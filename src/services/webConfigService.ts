@@ -101,3 +101,13 @@ export const getUILoggerUrl = (): string => {
 
   return uiLoggerUrl;
 };
+
+export const getPncNotificationsUrl = (): string => {
+  const pncNotificationsUrl = getWebConfig().pncNotificationsUrl;
+
+  if (!pncNotificationsUrl) {
+    throw new Error(`PNC notifications URL does not contain any data: #${pncNotificationsUrl}#`);
+  }
+
+  return pncNotificationsUrl;
+};

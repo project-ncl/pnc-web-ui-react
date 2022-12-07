@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from 'services/keycloakService';
+import { messageBusClient } from 'services/messageBusClient';
 import * as webConfigService from 'services/webConfigService';
 
 import { AppLayout } from './AppLayout';
@@ -30,6 +31,7 @@ const App = () => {
       })
       .finally(() => {
         setIsKeycloakInitInProcess(false);
+        messageBusClient.connect();
       });
   }, []);
 
