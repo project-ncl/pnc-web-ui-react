@@ -3,7 +3,7 @@ describe('When page is opened', () => {
   beforeEach(() => {
     cy.fixture('env').then(function (env) {
       this.env = env;
-      cy.visit(this.env.PNC_UI_URL);
+      cy.visit(`/`);
     });
   });
 
