@@ -33,12 +33,39 @@ const App = () => {
       });
   }, []);
 
+  // Prevent using incompatible environment and deployment
   const pncUrl = webConfigService.getPncUrl();
-  if (!pncUrl.startsWith(window.location.origin) && window.location.hostname !== 'localhost') {
+  if (
+    // https://example.com
+    !pncUrl.startsWith(window.location.origin) &&
+    process.env.REACT_APP_WEB_UI_URL !== window.location.origin &&
+    // example.com
+    window.location.hostname !== 'localhost'
+  ) {
     console.error('Wrong Global Configuration is provided');
     return (
       <div>
         Wrong Global Configuration is provided, contact PNC administrators.
+        <br />
+        <br />
+        Global Configuration is pointing to:
+        <br />
+        <code>{pncUrl}</code>
+        <br />
+        but currently used deployment is:
+        <br />
+        <code>{window.location.origin}</code>
+      </div>
+    );
+  }
+
+  // Prevent using production environment from localhost
+  const pncUrlParsed = new URL(pncUrl);
+  if (window.location.hostname === 'localhost' && pncUrlParsed.hostname.split('.')[0] === 'orch') {
+    return (
+      <div>
+        You are trying to use <b>production</b> environment from <code>localhost</code>. Disable temporarily this check if it's
+        intended.
         <br />
         <br />
         Global Configuration is pointing to:
