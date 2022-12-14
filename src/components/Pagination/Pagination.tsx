@@ -36,7 +36,7 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
 
   // pagination is rendered for the first time
   if (count === undefined) {
-    return <div>pagination initializing...</div>;
+    return null;
   }
 
   // pagination was already rendered
