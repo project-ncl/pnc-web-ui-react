@@ -347,43 +347,42 @@ export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
       </InputGroup>
 
       {/* APPLIED FILTERS */}
-      <div className={styles['applied-filters']}>
-        {appliedFilters && (
-          <>
-            {/* FILTER CHIPS */}
-            {Object.keys(appliedFilters).map((filterAttributeKey) => (
-              <ChipGroup
-                className={styles['chip-group']}
-                key={filterAttributeKey}
-                categoryName={filterOptions.filterAttributes[filterAttributeKey].title}
-              >
-                {appliedFilters[filterAttributeKey].map((filterValueItem) => (
-                  <Chip
-                    key={filterValueItem}
-                    onClick={() => {
-                      removeFilter(filterAttributeKey, filterValueItem);
-                    }}
-                  >
-                    {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
-                  </Chip>
-                ))}
-              </ChipGroup>
-            ))}
+      {/* using > 0 is necessary otherwise 0 (falsy expression) would be explicitly printed, see https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator */}
+      {appliedFilters && Object.keys(appliedFilters).length > 0 && (
+        <div className={styles['applied-filters']}>
+          {/* FILTER CHIPS */}
+          {Object.keys(appliedFilters).map((filterAttributeKey) => (
+            <ChipGroup
+              className={styles['chip-group']}
+              key={filterAttributeKey}
+              categoryName={filterOptions.filterAttributes[filterAttributeKey].title}
+            >
+              {appliedFilters[filterAttributeKey].map((filterValueItem) => (
+                <Chip
+                  key={filterValueItem}
+                  onClick={() => {
+                    removeFilter(filterAttributeKey, filterValueItem);
+                  }}
+                >
+                  {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
+                </Chip>
+              ))}
+            </ChipGroup>
+          ))}
 
-            {/* CLEAR ALL */}
-            {Object.keys(appliedFilters).length !== 0 && (
-              <Button
-                onClick={() => {
-                  removeAllFilters();
-                }}
-                variant="link"
-              >
-                Clear all filters
-              </Button>
-            )}
-          </>
-        )}
-      </div>
+          {/* CLEAR ALL */}
+          {Object.keys(appliedFilters).length !== 0 && (
+            <Button
+              onClick={() => {
+                removeAllFilters();
+              }}
+              variant="link"
+            >
+              Clear all filters
+            </Button>
+          )}
+        </div>
+      )}
     </>
   );
 };
