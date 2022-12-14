@@ -4,8 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getComponentQueryParamsObject, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
-import './Pagination.css';
-
 interface IPagination {
   componentId: string;
   count: number;
@@ -43,7 +41,7 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
 
   // pagination was already rendered
   return (
-    <div className="pagination">
+    <div className="border-t">
       <PaginationPF
         itemCount={count}
         perPage={pageSize}

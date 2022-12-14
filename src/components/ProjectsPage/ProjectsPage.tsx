@@ -89,11 +89,9 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         <ToolbarItem>
           <Sorting sortOptions={sortOptions} componentId={componentId} />
         </ToolbarItem>
-        <ToolbarItem alignRight={true}>
+        <ToolbarItem>
           <ProtectedComponent>
-            <ActionButton iconType="create" link="create">
-              Create
-            </ActionButton>
+            <ActionButton link="create">Create Project</ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>

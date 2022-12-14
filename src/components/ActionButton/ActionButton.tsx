@@ -44,7 +44,7 @@ export const ActionButton = ({ iconType, link, action, children }: React.PropsWi
 
   return (
     <Button
-      variant="secondary"
+      variant="primary"
       isSmall
       icon={iconType ? iconDictionary[iconType] : null}
       onClick={link ? () => navigate(link) : action}
