@@ -7,7 +7,7 @@ interface IRefreshStateCard {}
  */
 export const RefreshStateCard = ({ children }: React.PropsWithChildren<IRefreshStateCard>) => (
   <div className={styles['refresh-state-card']}>
-    <div className={styles['refresh-state-card__indicator']}></div>
     <div className={styles['refresh-state-card__body']}>{children}</div>
+    <div className={styles['refresh-state-card__indicator']}></div>
   </div>
 );
