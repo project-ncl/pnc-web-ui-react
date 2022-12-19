@@ -51,7 +51,7 @@ export const ProjectDetailPage = () => {
   ];
 
   return (
-    <ServiceContainerLoading {...serviceContainerProject} title="Project Details">
+    <ServiceContainerLoading {...serviceContainerProject} title="Project details">
       <PageLayout
         title={serviceContainerProject.data?.name}
         description={serviceContainerProject.data?.description}

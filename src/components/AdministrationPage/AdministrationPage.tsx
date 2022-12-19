@@ -140,7 +140,7 @@ export const AdministrationPage = () => {
         </FlexItem>
         <FlexItem>
           <ContentBox>
-            <ServiceContainerLoading {...serviceContainerBuildCount} loadingDelayMilliseconds={0} title="Builds Count">
+            <ServiceContainerLoading {...serviceContainerBuildCount} loadingDelayMilliseconds={0} title="Builds count">
               <div className="p-global">
                 <AttributesItems
                   attributes={[

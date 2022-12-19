@@ -20,7 +20,7 @@ export interface IServiceContainerProps {
  * ```ts
  * // ServiceContainerLoading component can be typically used together with useServiceContainer hook:
  * const serviceContainer = useServiceContainer(() => projectApi.getProjects());
- * <ServiceContainerLoading {...serviceContainer} title="Projects List">
+ * <ServiceContainerLoading {...serviceContainer} title="Projects list">
  *   <ProjectsList projects={serviceContainer.data} />
  * </ServiceContainerLoading>
  * ```
