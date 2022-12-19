@@ -1,8 +1,6 @@
 import {
   ActionGroup,
   Button,
-  Card,
-  CardBody,
   Flex,
   FlexItem,
   FlexProps,
@@ -25,6 +23,7 @@ import { IFields, useForm } from 'hooks/useForm';
 import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -161,129 +160,127 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   }, [editPage, urlPathParams.projectId, serviceContainerEditPageGetRefresh, reinitialize]);
 
   const formComponent = (
-    <Card>
-      <CardBody>
-        <div className="w-70">
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
+    <ContentBox padding>
+      <div className="w-70">
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <FormGroup
+            isRequired
+            label="Name"
+            fieldId="name"
+            helperText={
+              <FormHelperText isHidden={fields.name.state !== 'error'} isError>
+                {fields.name.errorMessages?.join(' ')}
+              </FormHelperText>
+            }
           >
-            <FormGroup
+            <TextInput
               isRequired
-              label="Name"
-              fieldId="name"
-              helperText={
-                <FormHelperText isHidden={fields.name.state !== 'error'} isError>
-                  {fields.name.errorMessages?.join(' ')}
-                </FormHelperText>
-              }
+              validated={fields.name.state}
+              type="text"
+              id="name"
+              name="name"
+              value={fields.name.value}
+              autoComplete="off"
+              onChange={(name) => {
+                onChange('name', name);
+              }}
+            />
+          </FormGroup>
+          <FormGroup label="Description" fieldId="description">
+            <TextArea
+              id="description"
+              name="description"
+              value={fields.description.value}
+              onChange={(description) => {
+                onChange('description', description);
+              }}
+              autoResize
+            />
+          </FormGroup>
+          <FormGroup
+            label="Project URL"
+            fieldId="projectUrl"
+            helperText={
+              <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
+                {fields.projectUrl.errorMessages?.join(' ')}
+              </FormHelperText>
+            }
+          >
+            <TextInput
+              validated={fields.projectUrl.state}
+              type="url"
+              id="projectUrl"
+              name="projectUrl"
+              autoComplete="off"
+              value={fields.projectUrl.value}
+              onChange={(url) => {
+                onChange('projectUrl', url);
+              }}
+            />
+          </FormGroup>
+          <FormGroup
+            label="Issue Tracker URL"
+            fieldId="issueTrackerUrl"
+            helperText={
+              <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
+                {fields.issueTrackerUrl.errorMessages?.join(' ')}
+              </FormHelperText>
+            }
+          >
+            <TextInput
+              validated={fields.issueTrackerUrl.state}
+              type="url"
+              id="issueTrackerUrl"
+              name="issueTrackerUrl"
+              autoComplete="off"
+              value={fields.issueTrackerUrl.value}
+              onChange={(url) => {
+                onChange('issueTrackerUrl', url);
+              }}
+            />
+          </FormGroup>
+          <FormGroup label="Engineering Team" fieldId="engineeringTeam">
+            <TextInput
+              type="text"
+              id="engineeringTeam"
+              name="engineeringTeam"
+              autoComplete="off"
+              value={fields.engineeringTeam.value}
+              onChange={(engineeringTeam) => {
+                onChange('engineeringTeam', engineeringTeam);
+              }}
+            />
+          </FormGroup>
+          <FormGroup label="Technical Leader" fieldId="technicalLeader">
+            <TextInput
+              type="text"
+              id="technicalLeader"
+              name="technicalLeader"
+              autoComplete="off"
+              value={fields.technicalLeader.value}
+              onChange={(technicalLeader) => {
+                onChange('technicalLeader', technicalLeader);
+              }}
+            />
+          </FormGroup>
+          <ActionGroup>
+            <Button
+              variant="primary"
+              isDisabled={isSubmitDisabled}
+              onClick={() => {
+                onSubmit();
+              }}
             >
-              <TextInput
-                isRequired
-                validated={fields.name.state}
-                type="text"
-                id="name"
-                name="name"
-                value={fields.name.value}
-                autoComplete="off"
-                onChange={(name) => {
-                  onChange('name', name);
-                }}
-              />
-            </FormGroup>
-            <FormGroup label="Description" fieldId="description">
-              <TextArea
-                id="description"
-                name="description"
-                value={fields.description.value}
-                onChange={(description) => {
-                  onChange('description', description);
-                }}
-                autoResize
-              />
-            </FormGroup>
-            <FormGroup
-              label="Project URL"
-              fieldId="projectUrl"
-              helperText={
-                <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
-                  {fields.projectUrl.errorMessages?.join(' ')}
-                </FormHelperText>
-              }
-            >
-              <TextInput
-                validated={fields.projectUrl.state}
-                type="url"
-                id="projectUrl"
-                name="projectUrl"
-                autoComplete="off"
-                value={fields.projectUrl.value}
-                onChange={(url) => {
-                  onChange('projectUrl', url);
-                }}
-              />
-            </FormGroup>
-            <FormGroup
-              label="Issue Tracker URL"
-              fieldId="issueTrackerUrl"
-              helperText={
-                <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
-                  {fields.issueTrackerUrl.errorMessages?.join(' ')}
-                </FormHelperText>
-              }
-            >
-              <TextInput
-                validated={fields.issueTrackerUrl.state}
-                type="url"
-                id="issueTrackerUrl"
-                name="issueTrackerUrl"
-                autoComplete="off"
-                value={fields.issueTrackerUrl.value}
-                onChange={(url) => {
-                  onChange('issueTrackerUrl', url);
-                }}
-              />
-            </FormGroup>
-            <FormGroup label="Engineering Team" fieldId="engineeringTeam">
-              <TextInput
-                type="text"
-                id="engineeringTeam"
-                name="engineeringTeam"
-                autoComplete="off"
-                value={fields.engineeringTeam.value}
-                onChange={(engineeringTeam) => {
-                  onChange('engineeringTeam', engineeringTeam);
-                }}
-              />
-            </FormGroup>
-            <FormGroup label="Technical Leader" fieldId="technicalLeader">
-              <TextInput
-                type="text"
-                id="technicalLeader"
-                name="technicalLeader"
-                autoComplete="off"
-                value={fields.technicalLeader.value}
-                onChange={(technicalLeader) => {
-                  onChange('technicalLeader', technicalLeader);
-                }}
-              />
-            </FormGroup>
-            <ActionGroup>
-              <Button
-                variant="primary"
-                isDisabled={isSubmitDisabled}
-                onClick={() => {
-                  onSubmit();
-                }}
-              >
-                {editPage ? 'Update' : 'Create'}
-              </Button>
-            </ActionGroup>
-          </Form>
-        </div>
-      </CardBody>
-    </Card>
+              {editPage ? 'Update' : 'Create'}
+            </Button>
+          </ActionGroup>
+        </Form>
+      </div>
+    </ContentBox>
   );
 
   return (

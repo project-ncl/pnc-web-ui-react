@@ -1,16 +1,12 @@
 import {
+  ActionGroup,
   Button,
-  Card,
-  CardBody,
-  CardTitle,
   DatePicker,
   Flex,
   FlexItem,
   FlexProps,
   Form,
   FormGroup,
-  Grid,
-  GridItem,
   Switch,
   Text,
   TextArea,
@@ -24,6 +20,7 @@ import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -127,213 +124,193 @@ export const AdministrationPage = () => {
     <PageLayout title="Administration" description="Administration tools for admin users">
       <Flex direction={directionColumn}>
         <FlexItem>
-          <Form isHorizontal>
-            <Card>
-              <CardBody>
-                <Grid hasGutter>
-                  <GridItem span={12}>
-                    <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
-                      <TextInput type="text" id="form-pnc-system-version" name="form-pnc-system-version" />
-                    </FormGroup>
-                  </GridItem>
-                  <GridItem span={4}>
-                    <Button variant="primary" id="form-pnc-system-version-update" name="form-pnc-system-version-update">
-                      Update
-                    </Button>
-                  </GridItem>
-                </Grid>
-              </CardBody>
-            </Card>
-          </Form>
+          <ContentBox padding>
+            <Form>
+              <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
+                <TextInput type="text" id="form-pnc-system-version" name="form-pnc-system-version" />
+              </FormGroup>
+
+              <ActionGroup>
+                <Button variant="primary" id="form-pnc-system-version-update" name="form-pnc-system-version-update">
+                  Update
+                </Button>
+              </ActionGroup>
+            </Form>
+          </ContentBox>
         </FlexItem>
         <FlexItem>
-          <Card>
-            <CardBody>
-              <Grid hasGutter>
-                <GridItem span={12}>
-                  <ServiceContainerLoading {...serviceContainerBuildCount} title="Builds Count">
-                    <AttributesItems
-                      attributes={[
-                        {
-                          name: 'Running builds count',
-                          value: serviceContainerBuildCount.data?.running,
-                        },
-                        {
-                          name: 'Enqueued builds count',
-                          value: serviceContainerBuildCount.data?.enqueued,
-                        },
-                        {
-                          name: 'Waiting for dependencies builds count',
-                          value: serviceContainerBuildCount.data?.waitingForDependencies,
-                        },
-                      ]}
-                    />
-                  </ServiceContainerLoading>
-                </GridItem>
-                <GridItem span={4}>
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      refreshBuildCounts();
-                      restartInterval();
-                    }}
-                  >
-                    Refresh ({secondsUntilReload} s)
-                  </Button>
-                </GridItem>
-              </Grid>
-            </CardBody>
-          </Card>
+          <ContentBox>
+            <ServiceContainerLoading {...serviceContainerBuildCount} title="Builds Count">
+              <div className="p-global">
+                <AttributesItems
+                  attributes={[
+                    {
+                      name: 'Running builds count',
+                      value: serviceContainerBuildCount.data?.running,
+                    },
+                    {
+                      name: 'Enqueued builds count',
+                      value: serviceContainerBuildCount.data?.enqueued,
+                    },
+                    {
+                      name: 'Waiting for dependencies builds count',
+                      value: serviceContainerBuildCount.data?.waitingForDependencies,
+                    },
+                  ]}
+                />
+              </div>
+            </ServiceContainerLoading>
+
+            <div className="p-global p-t-0">
+              <Button
+                variant="primary"
+                onClick={() => {
+                  refreshBuildCounts();
+                  restartInterval();
+                }}
+              >
+                Refresh ({secondsUntilReload} s)
+              </Button>
+            </div>
+          </ContentBox>
         </FlexItem>
         <FlexItem>
-          <Form isHorizontal>
-            <Card>
-              <CardBody>
-                <Grid hasGutter>
-                  <ServiceContainerCreatingUpdating {...serviceContainerAnnouncement} title="Announcement">
-                    <GridItem span={12}>
-                      <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
-                        <div style={maintenanceSwitchStyle}>
-                          <Switch
-                            id="form-maintenance-mode-switch"
-                            name="form-maintenance-mode-switch"
-                            label="Maintenance Mode On"
-                            labelOff="Maintenance Mode Off"
-                            isChecked={isMaintenanceModeOn}
-                            onChange={() => {
-                              setAnnouncementTouched(false);
-                              isMaintenanceModeOn && setEtaTime(undefined);
-                              setIsMaintenanceModeOn(!isMaintenanceModeOn);
-                            }}
-                          />
-                        </div>
-                      </FormGroup>
-                    </GridItem>
-                    <GridItem span={12}>
-                      <FormGroup
-                        label="Announcement"
-                        isRequired={isMaintenanceModeOn}
-                        fieldId="form-announcement"
-                        helperTextInvalid={isAnnouncementInvalid() ? 'Required field.' : null}
-                        helperTextInvalidIcon={<ExclamationCircleIcon />}
-                        validated={'error'}
-                      >
-                        <TextArea
-                          name="form-announcement"
-                          id="form-announcement"
-                          value={announcementMessage}
-                          onChange={(value: string) => {
-                            setAnnouncementMessage(value);
-                          }}
-                          onBlur={() => {
-                            setAnnouncementTouched(true);
-                          }}
-                        />
-                      </FormGroup>
-                    </GridItem>
-                    {isMaintenanceModeOn && (
-                      <GridItem span={12}>
-                        <FormGroup
-                          label="ETA Time"
-                          isRequired={true}
-                          fieldId="form-eta-time"
-                          helperTextInvalid={isEtaTimeInvalid() ? 'Required field.' : null}
-                          helperTextInvalidIcon={<ExclamationCircleIcon />}
-                          validated={'error'}
-                        >
-                          <DatePicker
-                            required
-                            isDisabled={isEtaNa}
-                            name="form-eta-time"
-                            id="form-eta-time"
-                            placeholder="yyyy-MM-dd hh:mm (UTC)"
-                            dateFormat={transformateDateFormat}
-                            onClick={() => {
-                              setEtaTouched(true);
-                            }}
-                            dateParse={(dateString) => {
-                              return new Date(dateString);
-                            }}
-                            value={etaTime}
-                            onBlur={(value: string) => {
-                              setEtaTime(value);
-                            }}
-                            onChange={(value: string) => {
-                              setEtaTime(value);
-                            }}
-                            aria-invalid={isEtaTimeInvalid()}
-                          />
-                          &nbsp;&nbsp;
-                          <Switch
-                            id="form-eta-na-switch"
-                            label=" N/A:"
-                            labelOff=" N/A:"
-                            hasCheckIcon
-                            isChecked={isEtaNa}
-                            onChange={() => {
-                              setIsEtaNa(!isEtaNa);
-                              setEtaTime(undefined);
-                              setEtaTouched(true);
-                            }}
-                            isReversed
-                          />
-                        </FormGroup>
-                      </GridItem>
-                    )}
-                    <GridItem span={12}>
-                      {isMaintenanceModeOn && (
-                        <TopBarInfo hideCloseButton={true}>
-                          Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
-                          {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
-                        </TopBarInfo>
-                      )}
-                      {!isMaintenanceModeOn && announcementMessage && (
-                        <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
-                      )}
-                    </GridItem>
-                  </ServiceContainerCreatingUpdating>
-                  <GridItem span={4}>
-                    <Button
-                      variant="primary"
-                      id="form-announcement-update"
-                      name="form-announcement-update"
-                      onClick={() => {
-                        validateForm() &&
-                          serviceContainerAnnouncement.refresh({
-                            serviceData: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
-                          });
+          <ContentBox padding>
+            <Form>
+              <ServiceContainerCreatingUpdating {...serviceContainerAnnouncement} title="Announcement">
+                <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
+                  <div style={maintenanceSwitchStyle}>
+                    <Switch
+                      id="form-maintenance-mode-switch"
+                      name="form-maintenance-mode-switch"
+                      label="Maintenance Mode On"
+                      labelOff="Maintenance Mode Off"
+                      isChecked={isMaintenanceModeOn}
+                      onChange={() => {
+                        setAnnouncementTouched(false);
+                        isMaintenanceModeOn && setEtaTime(undefined);
+                        setIsMaintenanceModeOn(!isMaintenanceModeOn);
                       }}
-                    >
-                      Update
-                    </Button>
-                  </GridItem>
-                </Grid>
-              </CardBody>
-            </Card>
-          </Form>
+                    />
+                  </div>
+                </FormGroup>
+
+                <FormGroup
+                  label="Announcement"
+                  isRequired={isMaintenanceModeOn}
+                  fieldId="form-announcement"
+                  helperTextInvalid={isAnnouncementInvalid() ? 'Required field.' : null}
+                  helperTextInvalidIcon={<ExclamationCircleIcon />}
+                  validated={'error'}
+                >
+                  <TextArea
+                    name="form-announcement"
+                    id="form-announcement"
+                    value={announcementMessage}
+                    onChange={(value: string) => {
+                      setAnnouncementMessage(value);
+                    }}
+                    onBlur={() => {
+                      setAnnouncementTouched(true);
+                    }}
+                  />
+                </FormGroup>
+
+                {isMaintenanceModeOn && (
+                  <FormGroup
+                    label="ETA Time"
+                    isRequired={true}
+                    fieldId="form-eta-time"
+                    helperTextInvalid={isEtaTimeInvalid() ? 'Required field.' : null}
+                    helperTextInvalidIcon={<ExclamationCircleIcon />}
+                    validated={'error'}
+                  >
+                    <DatePicker
+                      required
+                      isDisabled={isEtaNa}
+                      name="form-eta-time"
+                      id="form-eta-time"
+                      placeholder="yyyy-MM-dd hh:mm (UTC)"
+                      dateFormat={transformateDateFormat}
+                      onClick={() => {
+                        setEtaTouched(true);
+                      }}
+                      dateParse={(dateString) => {
+                        return new Date(dateString);
+                      }}
+                      value={etaTime}
+                      onBlur={(value: string) => {
+                        setEtaTime(value);
+                      }}
+                      onChange={(value: string) => {
+                        setEtaTime(value);
+                      }}
+                      aria-invalid={isEtaTimeInvalid()}
+                    />
+                    &nbsp;&nbsp;
+                    <Switch
+                      id="form-eta-na-switch"
+                      label=" N/A:"
+                      labelOff=" N/A:"
+                      hasCheckIcon
+                      isChecked={isEtaNa}
+                      onChange={() => {
+                        setIsEtaNa(!isEtaNa);
+                        setEtaTime(undefined);
+                        setEtaTouched(true);
+                      }}
+                      isReversed
+                    />
+                  </FormGroup>
+                )}
+
+                {isMaintenanceModeOn && (
+                  <TopBarInfo hideCloseButton={true}>
+                    Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
+                    {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
+                  </TopBarInfo>
+                )}
+                {!isMaintenanceModeOn && announcementMessage && (
+                  <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
+                )}
+              </ServiceContainerCreatingUpdating>
+              <ActionGroup>
+                <Button
+                  variant="primary"
+                  id="form-announcement-update"
+                  name="form-announcement-update"
+                  onClick={() => {
+                    validateForm() &&
+                      serviceContainerAnnouncement.refresh({
+                        serviceData: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
+                      });
+                  }}
+                >
+                  Update
+                </Button>
+              </ActionGroup>
+            </Form>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>Test UI Logger</CardTitle>
-            <CardBody>
-              <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
-                <FlexItem>
-                  <Text>Sends UI log to the UI Logger service - use for testing purposes.</Text>
-                </FlexItem>
-                <FlexItem>
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      uiLogger.error('Test Log', new Error('Created for testing purposes.'));
-                    }}
-                  >
-                    Send UI Log
-                  </Button>
-                </FlexItem>
-              </Flex>
-            </CardBody>
-          </Card>
+          <ContentBox padding title="Test UI Logger">
+            <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
+              <FlexItem>
+                <Text>Sends UI log to the UI Logger service - use for testing purposes.</Text>
+              </FlexItem>
+              <FlexItem>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    uiLogger.error('Test Log', new Error('Created for testing purposes.'));
+                  }}
+                >
+                  Send UI Log
+                </Button>
+              </FlexItem>
+            </Flex>
+          </ContentBox>
         </FlexItem>
       </Flex>
     </PageLayout>

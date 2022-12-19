@@ -1,4 +1,3 @@
-import { Card, CardBody } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -9,6 +8,7 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -58,31 +58,20 @@ export const ProjectDetailPage = () => {
             </ActionButton>
           }
         />
-        <div className="m-b-25">
-          <Card>
-            <CardBody>
-              <AttributesItems attributes={attributes} />
-            </CardBody>
-          </Card>
-        </div>
+        <ContentBox padding marginBottom>
+          <AttributesItems attributes={attributes} />
+        </ContentBox>
+
         <SectionHeader
-          actions={
-            <ActionButton action={() => console.log('Not implemented yet!')} iconType="create">
-              Create
-            </ActionButton>
-          }
+          actions={<ActionButton action={() => console.log('Not implemented yet!')}>Create Build Config</ActionButton>}
         >
           Build Configs
         </SectionHeader>
-        <div className="m-b-25">
-          <Card>
-            <CardBody>
-              <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
-                TODO: Add Build Config table here and remove the style object
-              </div>
-            </CardBody>
-          </Card>
-        </div>
+        <ContentBox borderTop>
+          <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
+            TODO: Add Build Config table here and remove the style object
+          </div>
+        </ContentBox>
       </PageLayout>
     </ServiceContainerLoading>
   );

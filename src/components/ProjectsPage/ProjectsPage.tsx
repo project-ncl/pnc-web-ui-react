@@ -7,6 +7,7 @@ import { IService, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -96,9 +97,12 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </ToolbarItem>
       </Toolbar>
 
-      <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects} List`}>
-        <ProjectsList projects={serviceContainerProjects.data?.content} />
-      </ServiceContainerLoading>
+      <ContentBox borderTop>
+        <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects} List`}>
+          <ProjectsList projects={serviceContainerProjects.data?.content} />
+        </ServiceContainerLoading>
+      </ContentBox>
+
       {/* Pagination need to be outside of ServiceContainerLoading so that it can initialize Query Params */}
       <Pagination componentId={componentId} count={serviceContainerProjects.data?.totalHits} />
     </PageLayout>
