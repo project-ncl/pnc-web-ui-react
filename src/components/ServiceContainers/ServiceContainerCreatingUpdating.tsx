@@ -10,12 +10,7 @@ export const ServiceContainerCreatingUpdating = ({
   children,
 }: React.PropsWithChildren<IServiceContainerProps>) => {
   if (loading) {
-    return (
-      <RefreshStateCard>
-        <br />
-        {children}
-      </RefreshStateCard>
-    );
+    return <RefreshStateCard>{children}</RefreshStateCard>;
   }
 
   if (error) {
