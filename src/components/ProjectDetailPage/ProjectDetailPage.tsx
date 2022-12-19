@@ -50,14 +50,11 @@ export const ProjectDetailPage = () => {
 
   return (
     <ServiceContainerLoading {...serviceContainerProject} title="Project Details">
-      <PageLayout title={serviceContainerProject.data?.name} description={serviceContainerProject.data?.description}>
-        <SectionHeader
-          actions={
-            <ActionButton link="edit" iconType="edit">
-              Edit
-            </ActionButton>
-          }
-        />
+      <PageLayout
+        title={serviceContainerProject.data?.name}
+        description={serviceContainerProject.data?.description}
+        actions={<ActionButton link="edit">Edit Project</ActionButton>}
+      >
         <ContentBox padding marginBottom>
           <AttributesItems attributes={attributes} />
         </ContentBox>
