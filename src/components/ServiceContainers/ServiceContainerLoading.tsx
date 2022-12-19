@@ -8,6 +8,7 @@ export interface IServiceContainerProps {
   loading: boolean;
   error?: string;
   title: string;
+  loadingDelayMilliseconds?: number;
 }
 
 /**
@@ -27,6 +28,7 @@ export interface IServiceContainerProps {
  * @param data - Real data to be displayed when its fully loaded
  * @param loading - True if a request is pending, false when a request is successfully finished or when a request resulted in error
  * @param error - Error description when data loading was not successful
+ * @param loadingDelayMilliseconds - Waiting time before loading component gets rendered
  * @param children - React children property
  */
 export const ServiceContainerLoading = ({
@@ -34,10 +36,11 @@ export const ServiceContainerLoading = ({
   loading,
   error,
   title,
+  loadingDelayMilliseconds,
   children,
 }: React.PropsWithChildren<IServiceContainerProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
-  if (loading && !data) return <LoadingStateCard title={title} />;
+  if (loading && !data) return <LoadingStateCard delayMilliseconds={loadingDelayMilliseconds} title={title} />;
 
   // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
   // (the component was rendered at some point before)
