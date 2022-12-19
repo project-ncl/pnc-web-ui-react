@@ -275,7 +275,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 onSubmit();
               }}
             >
-              {editPage ? 'Update' : 'Create'}
+              {editPage ? 'Update' : 'Create'} Project
             </Button>
           </ActionGroup>
         </Form>
@@ -306,12 +306,12 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
               </ServiceContainerCreatingUpdating>
             ) : (
               /* used just to GET project data, after that is immediately switched to patch container */
-              <ServiceContainerLoading {...serviceContainerEditPageGet} title="Edit Project">
+              <ServiceContainerLoading {...serviceContainerEditPageGet} title="Project edit form">
                 {/* no content is needed */}
               </ServiceContainerLoading>
             )
           ) : (
-            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} title="Create Project">
+            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} title="Project create form">
               {formComponent}
             </ServiceContainerCreatingUpdating>
           )}

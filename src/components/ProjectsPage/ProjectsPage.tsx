@@ -98,7 +98,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects} List`}>
+        <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects} list`}>
           <ProjectsList projects={serviceContainerProjects.data?.content} />
         </ServiceContainerLoading>
       </ContentBox>
