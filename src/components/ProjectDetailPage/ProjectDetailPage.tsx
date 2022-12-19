@@ -1,3 +1,4 @@
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -10,8 +11,9 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as projectApi from 'services/projectApi';
 
@@ -59,13 +61,18 @@ export const ProjectDetailPage = () => {
           <AttributesItems attributes={attributes} />
         </ContentBox>
 
-        <SectionHeader
-          actions={<ActionButton action={() => console.log('Not implemented yet!')}>Create Build Config</ActionButton>}
-        >
-          Build Configs
-        </SectionHeader>
+        <Toolbar>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Build Configs</Text>
+            </TextContent>
+          </ToolbarItem>
+          <ToolbarItem>
+            <ActionButton action={() => console.log('Not implemented yet!')}>Create Build Config</ActionButton>
+          </ToolbarItem>
+        </Toolbar>
         <ContentBox borderTop>
-          <div style={{ backgroundColor: 'yellow', width: '100%', height: '30vh', textAlign: 'center' }}>
+          <div style={{ width: '100%', height: '30vh', textAlign: 'center', paddingTop: '30px' }}>
             TODO: Add Build Config table here and remove the style object
           </div>
         </ContentBox>

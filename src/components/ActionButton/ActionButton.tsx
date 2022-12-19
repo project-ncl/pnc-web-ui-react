@@ -32,7 +32,6 @@ export interface IActionButtonProps {
  * Represents a button component with a predefined icon.
  * Can also serve as a link (if link prop is specified).
  * Only either action or link prop should be specified.
- * Most often will be used together with SectionHeader.
  *
  * @param iconType - specifies the icon of the button (view typescript definition for all possible options)
  * @param link - optional prop if the button should serve as a link component (will redirect to the specified link)
