@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle } from '@patternfly/react-core';
+import { ContentBox } from 'components/ContentBox/ContentBox';
 
 interface IDashboardWidget {
   title: string;
@@ -20,10 +20,7 @@ interface IDashboardWidget {
 
 const cardBodyStyles = { width: '100%', height: '250px' };
 export const DashboardWidget = ({ title, src }: IDashboardWidget) => (
-  <Card isCompact>
-    <CardTitle>{title}</CardTitle>
-    <CardBody>
-      <iframe src={src} title={title} style={cardBodyStyles}></iframe>
-    </CardBody>
-  </Card>
+  <ContentBox padding title={title}>
+    <iframe src={src} title={title} style={cardBodyStyles}></iframe>
+  </ContentBox>
 );

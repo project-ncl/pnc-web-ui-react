@@ -1,7 +1,8 @@
-import { Card, CardBody, CardTitle, CodeBlock, CodeBlockCode, Flex, FlexItem } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Flex, FlexItem } from '@patternfly/react-core';
 
 import { useTitle } from 'hooks/useTitle';
 
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
 import * as webConfigService from 'services/webConfigService';
@@ -21,29 +22,23 @@ export const VariablesPage = () => {
     <PageLayout title="Variables" description="Variables page intended for administrators and debugging purposes.">
       <Flex direction={{ default: 'column' }}>
         <FlexItem>
-          <Card>
-            <CardTitle>process.env</CardTitle>
-            <CardBody>
-              <CodeBlock>
-                <CodeBlockCode id="process-env">
-                  <ProcessEnv />
-                </CodeBlockCode>
-              </CodeBlock>
-            </CardBody>
-          </Card>
+          <ContentBox padding title="process.env">
+            <CodeBlock>
+              <CodeBlockCode id="process-env">
+                <ProcessEnv />
+              </CodeBlockCode>
+            </CodeBlock>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>Web Config</CardTitle>
-            <CardBody>
-              <CodeBlock>
-                <CodeBlockCode id="web-config">
-                  <WebConfig />
-                </CodeBlockCode>
-              </CodeBlock>
-            </CardBody>
-          </Card>
+          <ContentBox padding title="Web Config">
+            <CodeBlock>
+              <CodeBlockCode id="web-config">
+                <WebConfig />
+              </CodeBlockCode>
+            </CodeBlock>
+          </ContentBox>
         </FlexItem>
       </Flex>
     </PageLayout>

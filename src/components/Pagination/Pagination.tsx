@@ -2,6 +2,8 @@ import { Pagination as PaginationPF, PaginationVariant } from '@patternfly/react
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ContentBox } from 'components/ContentBox/ContentBox';
+
 import { getComponentQueryParamsObject, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
 interface IPagination {
@@ -41,7 +43,7 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
 
   // pagination was already rendered
   return (
-    <div className="border-t">
+    <ContentBox borderTop>
       <PaginationPF
         itemCount={count}
         perPage={pageSize}
@@ -58,6 +60,6 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
         }}
         variant={PaginationVariant.bottom}
       />
-    </div>
+    </ContentBox>
   );
 };
