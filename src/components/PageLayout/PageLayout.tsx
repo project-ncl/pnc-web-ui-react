@@ -4,6 +4,7 @@ import React from 'react';
 interface IAppLayoutProps {
   title: string;
   description?: React.ReactNode; // not just string, also components can be used
+  actions?: React.ReactNode;
 }
 
 /**
@@ -24,14 +25,15 @@ interface IAppLayoutProps {
  * ```
  * 
  */
-export const PageLayout = ({ children, title, description }: React.PropsWithChildren<IAppLayoutProps>) => {
+export const PageLayout = ({ children, title, description, actions }: React.PropsWithChildren<IAppLayoutProps>) => {
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
+        <TextContent className={actions ? 'pull-left' : ''}>
           <Text component="h1">{title}</Text>
           <Text component="p">{description}</Text>
         </TextContent>
+        {actions && <div className="pull-right">{actions}</div>}
       </PageSection>
 
       <Divider component="div" />
