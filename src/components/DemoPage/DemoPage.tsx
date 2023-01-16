@@ -1,9 +1,6 @@
 import {
   ActionGroup,
   Button,
-  Card,
-  CardBody,
-  CardTitle,
   Flex,
   FlexItem,
   Form,
@@ -35,6 +32,7 @@ import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -248,526 +246,489 @@ export const DemoPage = () => {
   };
 
   const formComponent = (
-    <Card>
-      <CardBody>
-        <div className="w-70">
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
+    <ContentBox padding>
+      <div className="w-70">
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <FormGroup
+            isRequired
+            label="Input Field"
+            fieldId="inputFieldA"
+            helperText={
+              <FormHelperText isHidden={fields.inputFieldA.state !== 'error'} isError>
+                {fields.inputFieldA.errorMessages?.join(' ')}
+              </FormHelperText>
+            }
           >
-            <FormGroup
+            <TextInput
               isRequired
-              label="Input Field"
-              fieldId="inputFieldA"
-              helperText={
-                <FormHelperText isHidden={fields.inputFieldA.state !== 'error'} isError>
-                  {fields.inputFieldA.errorMessages?.join(' ')}
-                </FormHelperText>
-              }
+              validated={fields.inputFieldA.state}
+              type="text"
+              id="inputFieldA"
+              name="inputFieldA"
+              value={fields.inputFieldA.value}
+              autoComplete="off"
+              onChange={(text) => {
+                onChange('inputFieldA', text);
+              }}
+            />
+          </FormGroup>
+          <FormGroup label="Text Area" fieldId="textAreaA">
+            <TextArea
+              id="textAreaA"
+              name="textAreaA"
+              value={fields.textAreaA.value}
+              onChange={(text) => {
+                onChange('textAreaA', text);
+              }}
+              autoResize
+            />
+          </FormGroup>
+          <FormGroup
+            isRequired
+            label="Filtered Select"
+            fieldId="selectA"
+            helperText={
+              <FormHelperText isHidden={fields.selectA.state !== 'error'} isError>
+                {fields.selectA.errorMessages?.join(' ')}
+              </FormHelperText>
+            }
+          >
+            <Select
+              validated={fields.selectA.state}
+              id="selectA"
+              variant={SelectVariant.typeahead}
+              typeAheadAriaLabel="Select an option"
+              onToggle={(isOpen) => {
+                setIsSelectOpen(isOpen);
+              }}
+              onSelect={(event, selection, isPlaceholder) => {
+                if (isPlaceholder) clearSelection();
+                else {
+                  onChange('selectA', selection);
+                  setIsSelectOpen(false);
+                }
+              }}
+              onClear={clearSelection}
+              selections={fields.selectA.value}
+              isOpen={isSelectOpen}
+              aria-labelledby={'selectA'}
+              placeholderText="Select an option"
             >
-              <TextInput
-                isRequired
-                validated={fields.inputFieldA.state}
-                type="text"
-                id="inputFieldA"
-                name="inputFieldA"
-                value={fields.inputFieldA.value}
-                autoComplete="off"
-                onChange={(text) => {
-                  onChange('inputFieldA', text);
-                }}
-              />
-            </FormGroup>
-            <FormGroup label="Text Area" fieldId="textAreaA">
-              <TextArea
-                id="textAreaA"
-                name="textAreaA"
-                value={fields.textAreaA.value}
-                onChange={(text) => {
-                  onChange('textAreaA', text);
-                }}
-                autoResize
-              />
-            </FormGroup>
-            <FormGroup
-              isRequired
-              label="Filtered Select"
-              fieldId="selectA"
-              helperText={
-                <FormHelperText isHidden={fields.selectA.state !== 'error'} isError>
-                  {fields.selectA.errorMessages?.join(' ')}
-                </FormHelperText>
-              }
+              {selectOptions.map((option: any, index: any) => (
+                <SelectOption key={index} value={option.value} />
+              ))}
+            </Select>
+          </FormGroup>
+          <ActionGroup>
+            <Button
+              variant="primary"
+              isDisabled={isSubmitDisabled}
+              onClick={() => {
+                onSubmit();
+              }}
             >
-              <Select
-                validated={fields.selectA.state}
-                id="selectA"
-                variant={SelectVariant.typeahead}
-                typeAheadAriaLabel="Select an option"
-                onToggle={(isOpen) => {
-                  setIsSelectOpen(isOpen);
-                }}
-                onSelect={(event, selection, isPlaceholder) => {
-                  if (isPlaceholder) clearSelection();
-                  else {
-                    onChange('selectA', selection);
-                    setIsSelectOpen(false);
-                  }
-                }}
-                onClear={clearSelection}
-                selections={fields.selectA.value}
-                isOpen={isSelectOpen}
-                aria-labelledby={'selectA'}
-                placeholderText="Select an option"
-              >
-                {selectOptions.map((option: any, index: any) => (
-                  <SelectOption key={index} value={option.value} />
-                ))}
-              </Select>
-            </FormGroup>
-            <ActionGroup>
-              <Button
-                variant="primary"
-                isDisabled={isSubmitDisabled}
-                onClick={() => {
-                  onSubmit();
-                }}
-              >
-                Submit
-              </Button>
-            </ActionGroup>
-          </Form>
-        </div>
-      </CardBody>
-    </Card>
+              Submit
+            </Button>
+          </ActionGroup>
+        </Form>
+      </div>
+    </ContentBox>
   );
 
   return (
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>
         <FlexItem>
-          <Card>
-            <CardBody>
-              <Form>
-                <FormGroup label="Select project name (dynamic search select)">
-                  <SearchSelect
-                    fetchCallback={searchSelectCallback}
-                    titleAttribute="name"
-                    descriptionAttribute="description"
-                    onSelect={(value: string | SelectOptionObject) => {
-                      console.log(`DYNAMIC SELECT> ${value}`);
-                    }}
-                  />
-                </FormGroup>
-              </Form>
-            </CardBody>
-          </Card>
+          <ContentBox padding>
+            <Form>
+              <FormGroup label="Select project name (dynamic search select)">
+                <SearchSelect
+                  fetchCallback={searchSelectCallback}
+                  titleAttribute="name"
+                  descriptionAttribute="description"
+                  onSelect={(value: string | SelectOptionObject) => {
+                    console.log(`DYNAMIC SELECT> ${value}`);
+                  }}
+                />
+              </FormGroup>
+            </Form>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>DependencyTree - Build</CardTitle>
-            <CardBody>
-              <DependencyTree build={DEPENDENCY_TREE_ROOT_BUILD}></DependencyTree>
-            </CardBody>
-          </Card>
+          <ContentBox title="DependencyTree - Build" padding>
+            <DependencyTree build={DEPENDENCY_TREE_ROOT_BUILD}></DependencyTree>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>DependencyTree - Group Build</CardTitle>
-            <CardBody>
-              <DependencyTree groupBuild={DEPENDENCY_TREE_ROOT_GROUP_BUILD}></DependencyTree>
-            </CardBody>
-          </Card>
+          <ContentBox title="DependencyTree - Group Build" padding>
+            <DependencyTree groupBuild={DEPENDENCY_TREE_ROOT_GROUP_BUILD}></DependencyTree>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <div className="p-15">
-              <LogViewer data={buffer} />
-            </div>
-          </Card>
+          <ContentBox padding>
+            <LogViewer data={buffer} />
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>Form Demo</CardTitle>
-            <CardBody>{formComponent}</CardBody>
-          </Card>
+          <ContentBox title="Form Demo" padding>
+            {formComponent}
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>BuildStatus</CardTitle>
-            <CardBody>
-              <BuildStatus
-                long
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'BUILDING',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  attributes: {
-                    POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
-                    PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
-                  },
-                }}
-              />
-              <BuildStatus
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'SUCCESS',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                }}
-              />
-              <BuildStatus
-                long
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'FAILED',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                }}
-              />
-              <BuildStatus
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'REJECTED_FAILED_DEPENDENCIES',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                }}
-              />
-            </CardBody>
-          </Card>
+          <ContentBox title="BuildStatus" padding>
+            <BuildStatus
+              long
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'BUILDING',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                attributes: {
+                  POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
+                  PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
+                },
+              }}
+            />
+            <BuildStatus
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'SUCCESS',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+              }}
+            />
+            <BuildStatus
+              long
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'FAILED',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+              }}
+            />
+            <BuildStatus
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'REJECTED_FAILED_DEPENDENCIES',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+              }}
+            />
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>BuildStatusIcon</CardTitle>
-            <CardBody>
-              <BuildStatusIcon
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'BUILDING',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  attributes: {
-                    POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
-                    PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
-                  },
-                  alignmentPreference: 'PREFER_PERSISTENT',
-                }}
-              />
-              <br />
-              <BuildStatusIcon
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'SYSTEM_ERROR',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  alignmentPreference: 'PREFER_TEMPORARY',
-                }}
-              />
-              <br />
-              <BuildStatusIcon
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'REJECTED_FAILED_DEPENDENCIES',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                }}
-              />
-            </CardBody>
-          </Card>
+          <ContentBox title="BuildStatusIcon" padding>
+            <BuildStatusIcon
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'BUILDING',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                attributes: {
+                  POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
+                  PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
+                },
+                alignmentPreference: 'PREFER_PERSISTENT',
+              }}
+            />
+            <br />
+            <BuildStatusIcon
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'SYSTEM_ERROR',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                alignmentPreference: 'PREFER_TEMPORARY',
+              }}
+            />
+            <br />
+            <BuildStatusIcon
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'REJECTED_FAILED_DEPENDENCIES',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+              }}
+            />
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>BuildName</CardTitle>
-            <CardBody>
-              <BuildName
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'BUILDING',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  attributes: {
-                    POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
-                    PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
-                  },
-                }}
-                long
-                includeBuildLink
-                includeConfigLink
-              />
-              <br />
-              <BuildName
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'BUILDING',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  attributes: {
-                    POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
-                    PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
-                  },
-                }}
-                long
-                includeConfigLink
-              />
-              <br />
-              <BuildName
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'BUILDING',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  attributes: {
-                    POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
-                    PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
-                  },
-                }}
-                includeBuildLink
-                includeConfigLink
-              />
-              <br />
-              <BuildName
-                build={{
-                  id: '0',
-                  submitTime: '2017-12-01T13:17:18.007Z',
-                  status: 'BUILDING',
-                  buildConfigRevision: {
-                    id: '2',
-                    name: 'whatever',
-                  },
-                  user: {
-                    id: '3',
-                    username: 'robot',
-                  },
-                  temporaryBuild: true,
-                  attributes: {
-                    POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
-                    PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
-                  },
-                }}
-              />
-            </CardBody>
-          </Card>
+          <ContentBox title="BuildName" padding>
+            <BuildName
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'BUILDING',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                attributes: {
+                  POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
+                  PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
+                },
+              }}
+              long
+              includeBuildLink
+              includeConfigLink
+            />
+            <br />
+            <BuildName
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'BUILDING',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                attributes: {
+                  POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
+                  PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
+                },
+              }}
+              long
+              includeConfigLink
+            />
+            <br />
+            <BuildName
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'BUILDING',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                attributes: {
+                  POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
+                  PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
+                },
+              }}
+              includeBuildLink
+              includeConfigLink
+            />
+            <br />
+            <BuildName
+              build={{
+                id: '0',
+                submitTime: '2017-12-01T13:17:18.007Z',
+                status: 'BUILDING',
+                buildConfigRevision: {
+                  id: '2',
+                  name: 'whatever',
+                },
+                user: {
+                  id: '3',
+                  username: 'robot',
+                },
+                temporaryBuild: true,
+                attributes: {
+                  POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
+                  PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
+                },
+              }}
+            />
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>ProductMilestoneReleaseLabel</CardTitle>
-            <CardBody>
-              <ProductMilestoneReleaseLabel
-                productMilestoneRelease={{
-                  id: '5',
-                  version: 'ERP1.2.3',
-                  startingDate: '2000-12-26T05:00:00Z',
-                  plannedEndDate: '2030-12-26T05:00:00Z',
-                  endDate: '2030-12-26T05:00:00Z',
-                }}
-                isCurrent={false}
-              />
-              <br />
-              <ProductMilestoneReleaseLabel
-                productMilestoneRelease={{
-                  id: '5',
-                  version: 'ERP1.2.4-C',
-                  startingDate: '2000-12-26T05:00:00Z',
-                  plannedEndDate: '2030-12-26T05:00:00Z',
-                  endDate: '2030-12-26T05:00:00Z',
-                }}
-                isCurrent={true}
-              />
-              <br />
-              <ProductMilestoneReleaseLabel
-                productMilestoneRelease={{
-                  id: '5',
-                  version: 'CAM1.2.5',
-                  supportLevel: 'EARLYACCESS',
-                  releaseDate: '2021-12-10T05:00:00Z',
-                }}
-                isCurrent={true}
-              />
-            </CardBody>
-          </Card>
+          <ContentBox title="ProductMilestoneReleaseLabel" padding>
+            <ProductMilestoneReleaseLabel
+              productMilestoneRelease={{
+                id: '5',
+                version: 'ERP1.2.3',
+                startingDate: '2000-12-26T05:00:00Z',
+                plannedEndDate: '2030-12-26T05:00:00Z',
+                endDate: '2030-12-26T05:00:00Z',
+              }}
+              isCurrent={false}
+            />
+            <br />
+            <ProductMilestoneReleaseLabel
+              productMilestoneRelease={{
+                id: '5',
+                version: 'ERP1.2.4-C',
+                startingDate: '2000-12-26T05:00:00Z',
+                plannedEndDate: '2030-12-26T05:00:00Z',
+                endDate: '2030-12-26T05:00:00Z',
+              }}
+              isCurrent={true}
+            />
+            <br />
+            <ProductMilestoneReleaseLabel
+              productMilestoneRelease={{
+                id: '5',
+                version: 'CAM1.2.5',
+                supportLevel: 'EARLYACCESS',
+                releaseDate: '2021-12-10T05:00:00Z',
+              }}
+              isCurrent={true}
+            />
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>BuildMetrics</CardTitle>
-            <CardBody>
-              <BuildMetrics builds={buildRes} chartType="line" componentId="BMTEST1"></BuildMetrics>
-              <br />
-              <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
-            </CardBody>
-          </Card>
+          <ContentBox title="BuildMetrics" padding>
+            <BuildMetrics builds={buildRes} chartType="line" componentId="BMTEST1"></BuildMetrics>
+            <br />
+            <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>BuildStartButtonGroup</CardTitle>
-            <CardBody>
-              <BuildStartButton
-                buildConfig={{
-                  buildType: 'MVN',
-                  id: 'demoId',
-                  name: 'Demo Name',
-                }}
-              ></BuildStartButton>
-              Build Config Verison
-              <br />
-              <br />
-              <BuildStartButton
-                groupConfig={{
-                  id: 'demoId',
-                  name: 'Demo Name',
-                }}
-              ></BuildStartButton>
-              Group Config Version
-            </CardBody>
-          </Card>
+          <ContentBox title="BuildStartButtonGroup" padding>
+            <BuildStartButton
+              buildConfig={{
+                buildType: 'MVN',
+                id: 'demoId',
+                name: 'Demo Name',
+              }}
+            ></BuildStartButton>
+            Build Config Verison
+            <br />
+            <br />
+            <BuildStartButton
+              groupConfig={{
+                id: 'demoId',
+                name: 'Demo Name',
+              }}
+            ></BuildStartButton>
+            Group Config Version
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>AttributesItems</CardTitle>
-            <CardBody>
-              <AttributesItems
-                attributes={[
-                  {
-                    name: 'Project URL',
-                    value: (
-                      <a href={'demo'} target="_blank" rel="noopener noreferrer">
-                        Text Example
-                      </a>
-                    ),
-                  },
-                  {
-                    name: (
-                      <span>
-                        Icon has Tooltip{' '}
-                        <Tooltip removeFindDomNode content={<div>This icon has a tooltip!</div>}>
-                          <InfoCircleIcon />
-                        </Tooltip>
-                      </span>
-                    ),
-                    value: undefined,
-                  },
-                ]}
-              />
-            </CardBody>
-          </Card>
+          <ContentBox title="AttributesItems" padding>
+            <AttributesItems
+              attributes={[
+                {
+                  name: 'Project URL',
+                  value: (
+                    <a href={'demo'} target="_blank" rel="noopener noreferrer">
+                      Text Example
+                    </a>
+                  ),
+                },
+                {
+                  name: (
+                    <span>
+                      Icon has Tooltip{' '}
+                      <Tooltip removeFindDomNode content={<div>This icon has a tooltip!</div>}>
+                        <InfoCircleIcon />
+                      </Tooltip>
+                    </span>
+                  ),
+                  value: undefined,
+                },
+              ]}
+            />
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <Card>
-            <CardTitle>ActionButton</CardTitle>
-            <CardBody>
-              <ActionButton iconType="create" link="/projects">
-                Button with create icon
-              </ActionButton>
-              <span>On click, move to the specified web link (this one links to projects)</span>
-              <br />
-              <ActionButton iconType="edit" action={() => alert('Hello this is actionbutton!')}>
-                Edit
-              </ActionButton>
-              <span>On click, performs a function (this one creates an alert)</span>
-              <br />
-              <ActionButton iconType="delete">Delete</ActionButton>
-              <br />
-              <ActionButton iconType="clone">Clone</ActionButton>
-              <br />
-              <ActionButton iconType="quality">Quality</ActionButton>
-              <br />
-              <ActionButton iconType="external">External, set text such as Push to Brew</ActionButton>
-              <br />
-              <ActionButton iconType="mark">Mark as current</ActionButton>
-              <br />
-              <ActionButton>No Icon</ActionButton>
-            </CardBody>
-          </Card>
+          <ContentBox title="ActionButton" padding>
+            <ActionButton iconType="create" link="/projects">
+              Button with create icon
+            </ActionButton>
+            <span>On click, move to the specified web link (this one links to projects)</span>
+            <br />
+            <ActionButton iconType="edit" action={() => alert('Hello this is actionbutton!')}>
+              Edit
+            </ActionButton>
+            <span>On click, performs a function (this one creates an alert)</span>
+            <br />
+            <ActionButton iconType="delete">Delete</ActionButton>
+            <br />
+            <ActionButton iconType="clone">Clone</ActionButton>
+            <br />
+            <ActionButton iconType="quality">Quality</ActionButton>
+            <br />
+            <ActionButton iconType="external">External, set text such as Push to Brew</ActionButton>
+            <br />
+            <ActionButton iconType="mark">Mark as current</ActionButton>
+            <br />
+            <ActionButton>No Icon</ActionButton>
+          </ContentBox>
         </FlexItem>
       </Flex>
     </PageLayout>
