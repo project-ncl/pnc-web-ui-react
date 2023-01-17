@@ -509,7 +509,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
       return buildApi.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
     }, [])
   );
-  const serviceContainerBuildMetricsRefresh = serviceContainerBuildMetrics.refresh;
+  const serviceContainerBuildMetricsRunner = serviceContainerBuildMetrics.run;
   const navigationSelectOptions: Array<any> = navigationOptions.map((option) => (
     <SelectOption key={option.id} value={option.name} />
   ));
@@ -532,13 +532,13 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     };
     /* Load data according to the current filter */
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
-    serviceContainerBuildMetricsRefresh({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
+    serviceContainerBuildMetricsRunner({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
       setBuildMetrics({
         builds: currentFilteredBuilds,
         buildMetricsData: res.data,
       });
     });
-  }, [builds, selected, serviceContainerBuildMetricsRefresh]);
+  }, [builds, selected, serviceContainerBuildMetricsRunner]);
 
   const onToggle = () => {
     setIsOpen(!isOpen);

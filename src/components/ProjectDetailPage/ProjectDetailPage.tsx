@@ -23,11 +23,11 @@ export const ProjectDetailPage = () => {
   const serviceContainerProject = useServiceContainer(
     useCallback(({ requestConfig }: IService) => projectApi.getProject({ id: projectId! }, requestConfig), [projectId])
   );
-  const serviceContainerProjectRefresh = serviceContainerProject.refresh;
+  const serviceContainerProjectRunner = serviceContainerProject.run;
 
   useTitle(`${serviceContainerProject.data?.name} | ${PageTitles.projects}`);
 
-  useEffect(() => serviceContainerProjectRefresh({ requestConfig: {} }), [serviceContainerProjectRefresh]);
+  useEffect(() => serviceContainerProjectRunner({ requestConfig: {} }), [serviceContainerProjectRunner]);
 
   const attributes = [
     {
