@@ -70,7 +70,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
   useTitle(PageTitles.projects);
 
   useQueryParamsEffect((requestConfig: Object) => {
-    serviceContainerProjects.refresh({ requestConfig });
+    serviceContainerProjects.run({ requestConfig });
   }, componentId);
 
   return (

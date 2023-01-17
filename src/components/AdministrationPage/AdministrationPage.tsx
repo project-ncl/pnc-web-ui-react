@@ -100,12 +100,12 @@ export const AdministrationPage = () => {
   const serviceContainerBuildCount = useServiceContainer(
     useCallback(({ requestConfig }: IService) => buildApi.getBuildCount(requestConfig), [])
   );
-  const serviceContainerBuildCountRefresh = serviceContainerBuildCount.refresh;
+  const serviceContainerBuildCountRunner = serviceContainerBuildCount.run;
 
   const refreshBuildCounts = useCallback(() => {
-    serviceContainerBuildCountRefresh({});
+    serviceContainerBuildCountRunner({});
     setSecondsUntilReload(REFRESH_INTERVAL_SECONDS);
-  }, [serviceContainerBuildCountRefresh]);
+  }, [serviceContainerBuildCountRunner]);
 
   const restartInterval = useInterval(
     useCallback(() => {
@@ -281,7 +281,7 @@ export const AdministrationPage = () => {
                   name="form-announcement-update"
                   onClick={() => {
                     validateForm() &&
-                      serviceContainerAnnouncement.refresh({
+                      serviceContainerAnnouncement.run({
                         serviceData: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
                       });
                   }}

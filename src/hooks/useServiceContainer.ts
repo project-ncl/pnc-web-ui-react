@@ -32,7 +32,7 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
   const loadingCount = useRef<number>(0);
   const lastAbortController = useRef<AbortController>();
 
-  const invokeService = ({ serviceData = null, requestConfig = {} }: IService<any>) => {
+  const serviceContainerRunner = ({ serviceData = null, requestConfig = {} }: IService<any>) => {
     loadingCount.current++;
 
     // set delayed (delayed to prevent flashing experience and unnecessary renders) loading state
@@ -88,6 +88,6 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
     data: data,
     loading: loading,
     error: error,
-    refresh: useCallback(invokeService, [service]),
+    run: useCallback(serviceContainerRunner, [service]),
   };
 };

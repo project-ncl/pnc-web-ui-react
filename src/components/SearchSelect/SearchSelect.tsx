@@ -68,7 +68,7 @@ export const SearchSelect = ({
       [fetchCallback]
     )
   );
-  const serviceContainerRefresh = serviceContainer.refresh;
+  const serviceContainerRunner = serviceContainer.run;
 
   // return text of select filter
   const getFilterText = useCallback(() => {
@@ -88,7 +88,7 @@ export const SearchSelect = ({
 
       setPageIndex(pageIndex);
 
-      serviceContainerRefresh({ requestConfig })
+      serviceContainerRunner({ requestConfig })
         .then((response: any) => {
           const data = response.data.content;
           if (pageIndex === pageIndexDefault) {
@@ -102,7 +102,7 @@ export const SearchSelect = ({
           setCurrentData([]);
         });
     },
-    [serviceContainerRefresh, titleAttribute, descriptionAttribute, pageSizeDefault]
+    [serviceContainerRunner, titleAttribute, descriptionAttribute, pageSizeDefault]
   );
 
   // fetch data with same filtering string as currently set

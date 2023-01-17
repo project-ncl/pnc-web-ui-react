@@ -76,7 +76,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       return projectApi.getProject(serviceData!);
     }, [])
   );
-  const serviceContainerEditPageGetRefresh = serviceContainerEditPageGet.refresh;
+  const serviceContainerEditPageGetRunner = serviceContainerEditPageGet.run;
 
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(
@@ -90,13 +90,13 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       initLoadingState: false,
     }
   );
-  const serviceContainerEditPagePatchRefresh = serviceContainerEditPagePatch.refresh;
+  const serviceContainerEditPagePatchRunner = serviceContainerEditPagePatch.run;
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
   const submitCreate = (data: IFields) => {
     return serviceContainerCreatePage
-      .refresh({
+      .run({
         serviceData: {
           name: data.name.value,
           description: data.description.value,
@@ -122,7 +122,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     const patchData = transformFormToValues(data);
     const patch = createSafePatch(serviceContainerEditPageGet.data, patchData);
 
-    serviceContainerEditPagePatchRefresh({ serviceData: patch })
+    serviceContainerEditPagePatchRunner({ serviceData: patch })
       .then((response: any) => {
         navigate(`/projects/${id}`);
       })
@@ -139,7 +139,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   useEffect(() => {
     if (editPage) {
       if (urlPathParams.projectId) {
-        serviceContainerEditPageGetRefresh({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
+        serviceContainerEditPageGetRunner({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
           const project: Project = response.data;
 
           setIsPatching(true);
@@ -157,7 +157,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-  }, [editPage, urlPathParams.projectId, serviceContainerEditPageGetRefresh, reinitialize]);
+  }, [editPage, urlPathParams.projectId, serviceContainerEditPageGetRunner, reinitialize]);
 
   const formComponent = (
     <ContentBox padding>

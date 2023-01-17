@@ -79,7 +79,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
     }, [])
   );
 
-  const serviceContainerDependencyGraphRefresh = serviceContainerDependencyGraph.refresh;
+  const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
 
   const refreshComponent = () => {
     setDisplay(false);
@@ -135,8 +135,8 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
 
   useEffect(() => {
     setBuildItem(build ? build : groupBuild);
-    serviceContainerDependencyGraphRefresh({ serviceData: { build: build, groupBuild: groupBuild } });
-  }, [build, groupBuild, serviceContainerDependencyGraphRefresh]);
+    serviceContainerDependencyGraphRunner({ serviceData: { build: build, groupBuild: groupBuild } });
+  }, [build, groupBuild, serviceContainerDependencyGraphRunner]);
 
   useEffect(() => {
     const getRootNodes = (edgesData: Array<IGraphEdge>, nodesData: Map<string, IDependencyBuild>) => {
