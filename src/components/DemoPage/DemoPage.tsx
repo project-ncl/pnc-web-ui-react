@@ -728,7 +728,7 @@ export const DemoPage = () => {
                     name: (
                       <span>
                         Icon has Tooltip{' '}
-                        <Tooltip content={<div>This icon has a tooltip!</div>}>
+                        <Tooltip removeFindDomNode content={<div>This icon has a tooltip!</div>}>
                           <InfoCircleIcon />
                         </Tooltip>
                       </span>

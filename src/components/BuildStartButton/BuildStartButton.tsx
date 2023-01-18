@@ -214,7 +214,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               id="isTempBuild-false-radio"
             />
             <span className="pnc-info-icon">
-              <Popover bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
+              <Popover removeFindDomNode bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <InfoCircleIcon />
                 </small>
@@ -230,7 +230,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               id="isTempBuild-true-radio"
             />
             <span className="pnc-warning-icon">
-              <Popover bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
+              <Popover removeFindDomNode bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <WarningTriangleIcon />
                 </small>
@@ -243,7 +243,13 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               <div>
                 Alignment Preference
                 <span className="pnc-info-icon">
-                  <Popover bodyContent={alignmentPreferencePopoverText} showClose={false} enableFlip={false} position="auto">
+                  <Popover
+                    removeFindDomNode
+                    bodyContent={alignmentPreferencePopoverText}
+                    showClose={false}
+                    enableFlip={false}
+                    position="auto"
+                  >
                     <small>
                       <InfoCircleIcon />
                     </small>
@@ -274,7 +280,13 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
           <div>
             Rebuild Mode
             <span className="pnc-info-icon">
-              <Popover bodyContent={rebuildModePopoverText} showClose={false} enableFlip={false} position="auto">
+              <Popover
+                removeFindDomNode
+                bodyContent={rebuildModePopoverText}
+                showClose={false}
+                enableFlip={false}
+                position="auto"
+              >
                 <small>
                   <InfoCircleIcon />
                 </small>
@@ -320,7 +332,13 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
                   name="keepPodOnFailure-check"
                 />
                 <span className="pnc-info-icon">
-                  <Popover bodyContent={keepPodOnFailureAPopoverText} showClose={false} enableFlip={false} position="auto">
+                  <Popover
+                    removeFindDomNode
+                    bodyContent={keepPodOnFailureAPopoverText}
+                    showClose={false}
+                    enableFlip={false}
+                    position="auto"
+                  >
                     <small>
                       <InfoCircleIcon />
                     </small>
@@ -336,7 +354,13 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
                   name="buildDependencies-check"
                 />
                 <span className="pnc-info-icon">
-                  <Popover bodyContent={buildDependenciesPopoverText} showClose={false} enableFlip={false} position="auto">
+                  <Popover
+                    removeFindDomNode
+                    bodyContent={buildDependenciesPopoverText}
+                    showClose={false}
+                    enableFlip={false}
+                    position="auto"
+                  >
                     <small>
                       <InfoCircleIcon />
                     </small>
@@ -356,7 +380,13 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
                   {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
                   explicitly defined dependencies
                   <span className="pnc-info-icon">
-                    <Popover bodyContent={descriptionTextPopoverText} showClose={false} enableFlip={false} position="auto">
+                    <Popover
+                      removeFindDomNode
+                      bodyContent={descriptionTextPopoverText}
+                      showClose={false}
+                      enableFlip={false}
+                      position="auto"
+                    >
                       <InfoCircleIcon />
                     </Popover>
                   </span>

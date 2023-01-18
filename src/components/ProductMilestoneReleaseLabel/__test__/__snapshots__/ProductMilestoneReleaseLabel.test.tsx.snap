@@ -8,6 +8,66 @@ Object {
       <span
         class="label"
       >
+        <div
+          style="display: contents;"
+        >
+          <a
+            aria-disabled="false"
+            class="pf-c-button pf-m-primary pf-m-small milestone-label"
+            data-ouia-component-id="OUIA-Generated-Button-primary-4"
+            data-ouia-component-type="PF4/Button"
+            data-ouia-safe="true"
+            href="#"
+          >
+            ERP1.2.3
+          </a>
+        </div>
+      </span>
+      <span
+        class="label"
+      >
+        <div
+          style="display: contents;"
+        >
+          <a
+            aria-disabled="false"
+            class="pf-c-button pf-m-primary pf-m-small milestone-label is-current"
+            data-ouia-component-id="OUIA-Generated-Button-primary-5"
+            data-ouia-component-type="PF4/Button"
+            data-ouia-safe="true"
+            href="#"
+          >
+            ERP1.2.4-C
+          </a>
+        </div>
+      </span>
+      <span
+        class="label"
+      >
+        <div
+          style="display: contents;"
+        >
+          <span
+            aria-disabled="false"
+            class="pf-c-button pf-m-primary pf-m-small release-label"
+            data-ouia-component-id="OUIA-Generated-Button-primary-6"
+            data-ouia-component-type="PF4/Button"
+            data-ouia-safe="true"
+            href="#"
+          >
+            CAM1.2.5
+          </span>
+        </div>
+      </span>
+    </div>
+  </body>,
+  "container": <div>
+    <span
+      class="label"
+    >
+      <div
+        style="display: contents;"
+      >
         <a
           aria-disabled="false"
           class="pf-c-button pf-m-primary pf-m-small milestone-label"
@@ -18,9 +78,13 @@ Object {
         >
           ERP1.2.3
         </a>
-      </span>
-      <span
-        class="label"
+      </div>
+    </span>
+    <span
+      class="label"
+    >
+      <div
+        style="display: contents;"
       >
         <a
           aria-disabled="false"
@@ -32,9 +96,13 @@ Object {
         >
           ERP1.2.4-C
         </a>
-      </span>
-      <span
-        class="label"
+      </div>
+    </span>
+    <span
+      class="label"
+    >
+      <div
+        style="display: contents;"
       >
         <span
           aria-disabled="false"
@@ -46,51 +114,7 @@ Object {
         >
           CAM1.2.5
         </span>
-      </span>
-    </div>
-  </body>,
-  "container": <div>
-    <span
-      class="label"
-    >
-      <a
-        aria-disabled="false"
-        class="pf-c-button pf-m-primary pf-m-small milestone-label"
-        data-ouia-component-id="OUIA-Generated-Button-primary-4"
-        data-ouia-component-type="PF4/Button"
-        data-ouia-safe="true"
-        href="#"
-      >
-        ERP1.2.3
-      </a>
-    </span>
-    <span
-      class="label"
-    >
-      <a
-        aria-disabled="false"
-        class="pf-c-button pf-m-primary pf-m-small milestone-label is-current"
-        data-ouia-component-id="OUIA-Generated-Button-primary-5"
-        data-ouia-component-type="PF4/Button"
-        data-ouia-safe="true"
-        href="#"
-      >
-        ERP1.2.4-C
-      </a>
-    </span>
-    <span
-      class="label"
-    >
-      <span
-        aria-disabled="false"
-        class="pf-c-button pf-m-primary pf-m-small release-label"
-        data-ouia-component-id="OUIA-Generated-Button-primary-6"
-        data-ouia-component-type="PF4/Button"
-        data-ouia-safe="true"
-        href="#"
-      >
-        CAM1.2.5
-      </span>
+      </div>
     </span>
   </div>,
   "debug": [Function],

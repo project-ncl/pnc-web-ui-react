@@ -559,6 +559,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
             {metricsTooltipList && (
               // Popover seems to cause warning: findDOMNode is deprecated in StrictMode
               <Popover
+                removeFindDomNode
                 aria-label="Basic popover"
                 bodyContent={MetricsPopoverContent(metricsTooltipList)}
                 showClose={false}
@@ -603,6 +604,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
               </Select>
               &nbsp;build
               <Popover
+                removeFindDomNode
                 aria-label="Basic popover"
                 bodyContent={`Always a maximum of ${BUILDS_DISPLAY_LIMIT} builds will be displayed if they are available, eg. if every ${BUILDS_DISPLAY_LIMIT_EXAMPLE}th build is displayed, ${BUILDS_DISPLAY_LIMIT} builds will cover last ${
                   BUILDS_DISPLAY_LIMIT * BUILDS_DISPLAY_LIMIT_EXAMPLE

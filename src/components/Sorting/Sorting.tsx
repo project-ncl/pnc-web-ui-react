@@ -193,7 +193,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
         ]}
       </Select>
 
-      <Tooltip content={sortOrder === SORT_ORDER.Asc ? 'Asc' : 'Desc'}>
+      <Tooltip removeFindDomNode content={sortOrder === SORT_ORDER.Asc ? 'Asc' : 'Desc'}>
         <Button
           className="p-l-10 p-r-10"
           variant="plain"
@@ -206,7 +206,7 @@ export const Sorting = ({ sortOptions, componentId }: ISortingProps) => {
       </Tooltip>
 
       {sortAttribute && (
-        <Tooltip content="Remove sorting">
+        <Tooltip removeFindDomNode content="Remove sorting">
           <Button
             className="p-l-10 p-r-10"
             variant="plain"

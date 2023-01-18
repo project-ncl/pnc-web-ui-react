@@ -109,7 +109,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
 
   return (
     <span className={styles['build-status-icon']}>
-      <Tooltip content={<div>{selectedIconData.tooltip}</div>}>
+      <Tooltip removeFindDomNode content={<div>{selectedIconData.tooltip}</div>}>
         <img
           src={selectedIconImage}
           width="28px"
@@ -120,6 +120,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
       </Tooltip>
       {isCorrupted && (
         <Tooltip
+          removeFindDomNode
           position="right"
           content={<div>The build may have completed successfully but has since been corrupted by a system error.</div>}
         >
@@ -127,7 +128,11 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
         </Tooltip>
       )}
       {build.temporaryBuild && (
-        <Tooltip position="right" content={<div>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</div>}>
+        <Tooltip
+          removeFindDomNode
+          position="right"
+          content={<div>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</div>}
+        >
           <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
         </Tooltip>
       )}
