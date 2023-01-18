@@ -10,9 +10,12 @@ interface IBuildApiData {
 /**
  * Gets Build Metrics by a list of build Ids.
  *
+ * @param serviceData
+ *  - buildIds - List of Build IDs
+ * @param requestConfig - Axios based request config
  * @returns BuildMetrics
  */
-export const getBuildMetrics = (buildIds?: Array<string>, requestConfig: AxiosRequestConfig = {}) => {
+export const getBuildMetrics = ({ buildIds }: { buildIds?: Array<string> }, requestConfig: AxiosRequestConfig = {}) => {
   if (buildIds) {
     return kafkaClient.getHttpClient().post('/builds', { buildIds }, requestConfig);
   }
@@ -21,6 +24,7 @@ export const getBuildMetrics = (buildIds?: Array<string>, requestConfig: AxiosRe
 /**
  * Gets Build Counts for enqueued, running, and waiting for dependencies builds.
  *
+ * @param requestConfig - Axios based request config
  * @returns numbers for "enqueued", "running", "waitingForDependencies"
  */
 export const getBuildCount = (requestConfig: AxiosRequestConfig = {}) => {
@@ -30,7 +34,8 @@ export const getBuildCount = (requestConfig: AxiosRequestConfig = {}) => {
 /**
  * Gets dependency graph for a build.
  *
- * @param data - object containing ID of the Build
+ * @param serviceData
+ *  - id - Build ID
  * @param requestConfig - Axios based request config
  * @returns DependencyGraph
  */

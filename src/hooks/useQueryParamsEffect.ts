@@ -3,14 +3,14 @@ import { useLocation } from 'react-router-dom';
 
 import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAreEqual } from 'utils/queryParamsHelper';
 
-interface IMandatoryParams {
+interface IMandatoryQueryParams {
   pagination?: boolean;
   sorting?: boolean;
 }
 
-const defaultMandatoryParams: IMandatoryParams = { pagination: true, sorting: true };
+const listMandatoryQueryParams: IMandatoryQueryParams = { pagination: true, sorting: true };
 
-const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryParams, componentQueryParamsObject: IQueryParamsObject) => {
+const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, componentQueryParamsObject: IQueryParamsObject) => {
   if (mandatoryParams.pagination && (!componentQueryParamsObject.pageIndex || !componentQueryParamsObject.pageSize)) {
     return false;
   }
@@ -22,28 +22,47 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryParams, componen
   return true;
 };
 
+/**
+ * Hook executing provided service with several features:
+ *  - passing component related Query Params as method arguments
+ *  - preventing executing service when it's not necessary, for example
+ *    - service was already executed and there were no component related URL changes (like pagination index change, etc)
+ *    - service execution should wait until all mandatory Query Params are available in the URL
+ *
+ * @param service - Service to be executed
+ * @param additionalData
+ *   componentId - component ID used when parsing component related Query Parameters from the URL
+ *   mandatoryQueryParams - Query Parameters required to be present in the URL before service method can be executed
+ */
 export const useQueryParamsEffect = (
   service: Function,
-  componentId: string,
-  mandatoryParams: IMandatoryParams = defaultMandatoryParams
+  {
+    componentId = '',
+    mandatoryQueryParams = listMandatoryQueryParams,
+  }: {
+    componentId?: string;
+    mandatoryQueryParams?: IMandatoryQueryParams;
+  } = {}
 ) => {
-  const lastQueryParams = useRef({});
+  // null = service was not executed yet
+  // {} = service was already executed, but no component Query Parameters were available in the URL
+  const lastQueryParams = useRef<IQueryParamsObject | null>(null);
+
   const location = useLocation();
 
   useEffect(() => {
     const componentQueryParamsObject = getComponentQueryParamsObject(location.search, componentId);
 
-    // Prevent service invocation:
+    // Invoke service only when:
     if (
-      // 1) when no Query Params changed
-      Object.keys(componentQueryParamsObject).length &&
+      // 1) Query Params were changed
       !queryParamsObjectsAreEqual(lastQueryParams.current, componentQueryParamsObject) &&
-      // 2) until all mandatory Query Parameters are available in the URL
-      areMandatoryParamsAvailable(mandatoryParams, componentQueryParamsObject)
+      // 2) and all mandatory Query Parameters are available in the URL
+      areMandatoryParamsAvailable(mandatoryQueryParams, componentQueryParamsObject)
     ) {
       lastQueryParams.current = componentQueryParamsObject;
       // Put Query Params coming from the URL to the service
-      service({ params: componentQueryParamsObject });
+      service({ requestConfig: { params: componentQueryParamsObject } });
     }
-  }, [location.search, componentId, service, mandatoryParams]);
+  }, [location.search, componentId, service, mandatoryQueryParams]);
 };

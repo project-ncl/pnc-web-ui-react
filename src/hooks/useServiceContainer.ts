@@ -32,7 +32,7 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
   const loadingCount = useRef<number>(0);
   const lastAbortController = useRef<AbortController>();
 
-  const serviceContainerRunner = ({ serviceData = null, requestConfig = {} }: IService<any>) => {
+  const serviceContainerRunner = ({ serviceData = null, requestConfig = {} }: IService<Object | null> = {}) => {
     loadingCount.current++;
 
     // set delayed (delayed to prevent flashing experience and unnecessary renders) loading state
@@ -49,7 +49,7 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
     lastAbortController.current = new AbortController();
     requestConfig.signal = lastAbortController.current.signal;
 
-    return service({ serviceData, requestConfig })
+    return (serviceData ? service(serviceData, requestConfig) : service(requestConfig))
       .then((response: any) => {
         // In a future React version (potentially in React 17) this could be removed as it will be default behavior
         // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973

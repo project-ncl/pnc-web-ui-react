@@ -8,7 +8,9 @@ interface IGroupBuildApiData {
 
 /**
  * Gets dependency graph for a group build.
- * @param data - object containing ID of the Group Build
+ *
+ * @param serviceData - object containing:
+ *  - id - Group Build ID
  * @param requestConfig - Axios based request config
  * @returns DependencyGraph
  */

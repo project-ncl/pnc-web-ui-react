@@ -11,8 +11,7 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
-import { Operation } from 'fast-json-patch';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
@@ -20,7 +19,7 @@ import { Project } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IFields, useForm } from 'hooks/useForm';
-import { IService, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -63,34 +62,18 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   const urlPathParams = useParams();
 
   // create page
-  const serviceContainerCreatePage = useServiceContainer(
-    ({ serviceData }: IService<Omit<Project, 'id'>>) => projectApi.createProject(serviceData!),
-    {
-      initLoadingState: false,
-    }
-  );
+  const serviceContainerCreatePage = useServiceContainer(projectApi.createProject, {
+    initLoadingState: false,
+  });
 
   // edit page - get method
-  const serviceContainerEditPageGet = useServiceContainer(
-    useCallback(({ serviceData }: IService<Project>) => {
-      return projectApi.getProject(serviceData!);
-    }, [])
-  );
+  const serviceContainerEditPageGet = useServiceContainer(projectApi.getProject);
   const serviceContainerEditPageGetRunner = serviceContainerEditPageGet.run;
 
   // edit page - patch method
-  const serviceContainerEditPagePatch = useServiceContainer(
-    useCallback(
-      ({ serviceData }: IService<Operation[]>) => {
-        return projectApi.patchProject(id, serviceData!);
-      },
-      [id]
-    ),
-    {
-      initLoadingState: false,
-    }
-  );
-  const serviceContainerEditPagePatchRunner = serviceContainerEditPagePatch.run;
+  const serviceContainerEditPagePatch = useServiceContainer(projectApi.patchProject, {
+    initLoadingState: false,
+  });
 
   useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
 
@@ -98,12 +81,14 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     return serviceContainerCreatePage
       .run({
         serviceData: {
-          name: data.name.value,
-          description: data.description.value,
-          projectUrl: data.projectUrl.value,
-          issueTrackerUrl: data.issueTrackerUrl.value,
-          engineeringTeam: data.engineeringTeam.value,
-          technicalLeader: data.technicalLeader.value,
+          data: {
+            name: data.name.value,
+            description: data.description.value,
+            projectUrl: data.projectUrl.value,
+            issueTrackerUrl: data.issueTrackerUrl.value,
+            engineeringTeam: data.engineeringTeam.value,
+            technicalLeader: data.technicalLeader.value,
+          },
         },
       })
       .then((response: any) => {
@@ -119,14 +104,14 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
   };
 
   const submitUpdate = (data: IFields) => {
-    const patchData = transformFormToValues(data);
-    const patch = createSafePatch(serviceContainerEditPageGet.data, patchData);
+    const patchData = createSafePatch(serviceContainerEditPageGet.data, transformFormToValues(data));
 
-    serviceContainerEditPagePatchRunner({ serviceData: patch })
-      .then((response: any) => {
+    serviceContainerEditPagePatch
+      .run({ serviceData: { id, patchData } })
+      .then(() => {
         navigate(`/projects/${id}`);
       })
-      .catch((e: any) => {
+      .catch(() => {
         throw new Error('Failed to edit project.');
       });
   };

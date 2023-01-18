@@ -1,10 +1,10 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
-import { IService, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -20,14 +20,14 @@ import * as projectApi from 'services/projectApi';
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
-  const serviceContainerProject = useServiceContainer(
-    useCallback(({ requestConfig }: IService) => projectApi.getProject({ id: projectId! }, requestConfig), [projectId])
-  );
+  const serviceContainerProject = useServiceContainer(projectApi.getProject);
   const serviceContainerProjectRunner = serviceContainerProject.run;
 
-  useTitle(`${serviceContainerProject.data?.name} | ${PageTitles.projects}`);
+  useEffect(() => {
+    serviceContainerProjectRunner({ serviceData: { id: projectId } });
+  }, [serviceContainerProjectRunner, projectId]);
 
-  useEffect(() => serviceContainerProjectRunner({ requestConfig: {} }), [serviceContainerProjectRunner]);
+  useTitle(`${serviceContainerProject.data?.name} | ${PageTitles.projects}`);
 
   const attributes = [
     {

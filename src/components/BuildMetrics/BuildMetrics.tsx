@@ -2,11 +2,11 @@ import { Popover, Select, SelectOption, SelectVariant } from '@patternfly/react-
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosResponse } from 'axios';
 import Chart, { ChartConfiguration } from 'chart.js/auto';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
 
-import { IService, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -504,12 +504,10 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
-  const serviceContainerBuildMetrics = useServiceContainer(
-    useCallback(({ serviceData, requestConfig }: IService<Array<Build>>) => {
-      return buildApi.getBuildMetrics(transferBuildsToBuildId(serviceData), requestConfig);
-    }, [])
-  );
+
+  const serviceContainerBuildMetrics = useServiceContainer(buildApi.getBuildMetrics);
   const serviceContainerBuildMetricsRunner = serviceContainerBuildMetrics.run;
+
   const navigationSelectOptions: Array<any> = navigationOptions.map((option) => (
     <SelectOption key={option.id} value={option.name} />
   ));
@@ -532,12 +530,14 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     };
     /* Load data according to the current filter */
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
-    serviceContainerBuildMetricsRunner({ serviceData: currentFilteredBuilds, requestConfig: {} }).then((res: AxiosResponse) => {
-      setBuildMetrics({
-        builds: currentFilteredBuilds,
-        buildMetricsData: res.data,
-      });
-    });
+    serviceContainerBuildMetricsRunner({ serviceData: { buildIds: transferBuildsToBuildId(currentFilteredBuilds) } }).then(
+      (res: AxiosResponse) => {
+        setBuildMetrics({
+          builds: currentFilteredBuilds,
+          buildMetricsData: res.data,
+        });
+      }
+    );
   }, [builds, selected, serviceContainerBuildMetricsRunner]);
 
   const onToggle = () => {
