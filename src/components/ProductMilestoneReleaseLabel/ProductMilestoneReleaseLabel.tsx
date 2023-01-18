@@ -55,7 +55,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
   }
   return (
     <span className={styles.label}>
-      <Tooltip content={tooltipContent} isContentLeftAligned={true} position="auto">
+      <Tooltip removeFindDomNode content={tooltipContent} isContentLeftAligned={true} position="auto">
         <Button isSmall={true} className={buttonClassName} component={labelType === 'milestone' ? 'a' : 'span'} href="#">
           {productMilestoneRelease.version}
         </Button>
