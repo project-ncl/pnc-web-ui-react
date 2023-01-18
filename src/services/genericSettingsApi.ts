@@ -15,11 +15,12 @@ export const getAnnouncementBanner = (requestConfig: AxiosRequestConfig = {}) =>
 /**
  * Creates an announcement message.
  *
- * @param message - announcement message
+ * @param serviceData - object containing:
+ *  - message - announcement message
  * @param requestConfig - Axios based request config
- * @returns Creaeted announcement message
+ * @returns Created announcement message
  */
-export const setAnnouncementBanner = (message: string, requestConfig: AxiosRequestConfig = {}) => {
+export const setAnnouncementBanner = ({ message }: { message: string }, requestConfig: AxiosRequestConfig = {}) => {
   const changedConfig = {
     ...requestConfig,
     headers: { ...requestConfig.headers, 'Content-Type': ' application/json;charset=UTF-8' },

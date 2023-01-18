@@ -16,7 +16,7 @@ import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { CSSProperties, useCallback, useEffect, useState } from 'react';
 
 import { useInterval } from 'hooks/useInterval';
-import { IService, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
@@ -52,12 +52,9 @@ export const AdministrationPage = () => {
   const [isEtaNa, setIsEtaNa] = useState<boolean>(false);
   const [announcementTouched, setAnnouncementTouched] = useState<boolean>(false);
   const [etaTouched, setEtaTouched] = useState<boolean>(false);
-  const serviceContainerAnnouncement = useServiceContainer(
-    ({ serviceData }: IService<string>) => genericSettingsApi.setAnnouncementBanner(serviceData as string),
-    {
-      initLoadingState: false,
-    }
-  );
+  const serviceContainerAnnouncement = useServiceContainer(genericSettingsApi.setAnnouncementBanner, {
+    initLoadingState: false,
+  });
 
   const validateForm = () => {
     setAnnouncementTouched(true);
@@ -97,13 +94,12 @@ export const AdministrationPage = () => {
   }, []);
 
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
-  const serviceContainerBuildCount = useServiceContainer(
-    useCallback(({ requestConfig }: IService) => buildApi.getBuildCount(requestConfig), [])
-  );
+
+  const serviceContainerBuildCount = useServiceContainer(buildApi.getBuildCount);
   const serviceContainerBuildCountRunner = serviceContainerBuildCount.run;
 
   const refreshBuildCounts = useCallback(() => {
-    serviceContainerBuildCountRunner({});
+    serviceContainerBuildCountRunner();
     setSecondsUntilReload(REFRESH_INTERVAL_SECONDS);
   }, [serviceContainerBuildCountRunner]);
 
@@ -282,7 +278,9 @@ export const AdministrationPage = () => {
                   onClick={() => {
                     validateForm() &&
                       serviceContainerAnnouncement.run({
-                        serviceData: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
+                        serviceData: {
+                          message: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
+                        },
                       });
                   }}
                 >

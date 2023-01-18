@@ -1,10 +1,10 @@
 import { Button, Divider, TreeViewDataItem } from '@patternfly/react-core';
 import { TreeView } from '@patternfly/react-core';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { IService, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -30,11 +30,6 @@ interface IGraphVertex {
 }
 
 interface IDependencyTreeProps {
-  build?: Build;
-  groupBuild?: GroupBuild;
-}
-
-interface IServiceDataProps {
   build?: Build;
   groupBuild?: GroupBuild;
 }
@@ -69,16 +64,10 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   const [dependencyStructure, setDependencyStructure] = useState<IDependencyDataItem>();
   const [buildItem, setBuildItem] = useState<IDependencyBuild>();
   const [allExpanded, setAllExpanded] = useState<boolean | undefined>(undefined);
-  const serviceContainerDependencyGraph = useServiceContainer(
-    useCallback(({ serviceData, requestConfig }: IService<IServiceDataProps>) => {
-      if (serviceData!.build) {
-        return buildApi.getDependencyGraph({ id: serviceData!.build!.id }, requestConfig);
-      } else {
-        return groupBuildApi.getDependencyGraph({ id: serviceData!.groupBuild!.id }, requestConfig);
-      }
-    }, [])
-  );
 
+  const serviceContainerDependencyGraph = useServiceContainer(
+    build ? buildApi.getDependencyGraph : groupBuildApi.getDependencyGraph
+  );
   const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
 
   const refreshComponent = () => {
@@ -135,7 +124,7 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
 
   useEffect(() => {
     setBuildItem(build ? build : groupBuild);
-    serviceContainerDependencyGraphRunner({ serviceData: { build: build, groupBuild: groupBuild } });
+    serviceContainerDependencyGraphRunner({ serviceData: { id: build ? build!.id : groupBuild!.id } });
   }, [build, groupBuild, serviceContainerDependencyGraphRunner]);
 
   useEffect(() => {

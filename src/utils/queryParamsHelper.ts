@@ -161,7 +161,11 @@ export const getComponentQueryParamValue = (
  * @param queryParams2 - Query Params object 2
  * @returns true when objects are identical, otherwise false
  */
-export const queryParamsObjectsAreEqual = (queryParams1: IQueryParamsObject, queryParams2: IQueryParamsObject) => {
+export const queryParamsObjectsAreEqual = (queryParams1: IQueryParamsObject | null, queryParams2: IQueryParamsObject) => {
+  if (queryParams1 === null) {
+    return false;
+  }
+
   const queryParams1Keys = Object.keys(queryParams1);
   if (queryParams1Keys.length === Object.keys(queryParams2).length) {
     for (const key of queryParams1Keys) {
