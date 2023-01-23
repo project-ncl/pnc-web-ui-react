@@ -375,23 +375,21 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
               Press <i>Build</i> button to start
             </p>
             {buildDependencies && (
-              <span>
-                <p>
-                  {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
-                  explicitly defined dependencies
-                  <span className="pnc-info-icon">
-                    <Popover
-                      removeFindDomNode
-                      bodyContent={descriptionTextPopoverText}
-                      showClose={false}
-                      enableFlip={false}
-                      position="auto"
-                    >
-                      <InfoCircleIcon />
-                    </Popover>
-                  </span>
-                </p>
-              </span>
+              <div>
+                {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
+                explicitly defined dependencies
+                <span className="pnc-info-icon">
+                  <Popover
+                    removeFindDomNode
+                    bodyContent={descriptionTextPopoverText}
+                    showClose={false}
+                    enableFlip={false}
+                    position="auto"
+                  >
+                    <InfoCircleIcon />
+                  </Popover>
+                </span>
+              </div>
             )}
             {!buildDependencies && (
               <span>
