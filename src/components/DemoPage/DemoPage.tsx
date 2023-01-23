@@ -17,7 +17,6 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosRequestConfig } from 'axios';
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { unstable_batchedUpdates } from 'react-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
@@ -195,8 +194,7 @@ const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
 export const DemoPage = () => {
   useTitle('Demo Page');
 
-  const [previousLineCount, setPreviousLineCount] = useState<number>(0);
-  const [currentLineCount, setCurrentLineCount] = useState<number>(0);
+  const [logLinesToRemove, setLogLinesToRemove] = useState<number>(0);
   const savedTimer: MutableRefObject<NodeJS.Timer | undefined> = useRef();
 
   const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
@@ -207,24 +205,19 @@ export const DemoPage = () => {
 
   useEffect(() => {
     savedTimer.current = setInterval(() => {
-      // In a future React version (potentially in React 17) this could be removed as it will be default behavior
-      // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-      unstable_batchedUpdates(() => {
-        setPreviousLineCount(currentLineCount);
-        setCurrentLineCount((currentLineCount) => currentLineCount + ((Math.random() * 1000) % 6));
-      });
+      setLogLinesToRemove(Math.trunc(Math.random() * 4) + 1);
     }, 10);
     return () => {
       clearInterval(savedTimer.current);
     };
-  }, [currentLineCount]);
+  }, []);
 
   useEffect(() => {
-    if (currentLineCount > initLogData.length) {
+    if (logLinesToRemove > initLogData.length) {
       clearInterval(savedTimer.current);
     }
-    addLines(initLogData.slice(previousLineCount, currentLineCount));
-  }, [currentLineCount, previousLineCount, addLines]);
+    addLines(initLogData.splice(0, logLinesToRemove));
+  }, [logLinesToRemove, addLines]);
 
   const submitForm = (data: IFields) => {
     console.log('form state when submitted:', {

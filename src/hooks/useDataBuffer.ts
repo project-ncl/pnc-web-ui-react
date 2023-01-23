@@ -39,6 +39,9 @@ export const useDataBuffer = (
         newLinesCounts.current.shift();
       }
     }, delay);
+    return () => {
+      clearInterval(bufferInterval.current);
+    };
   }, [delay]);
 
   useEffect(() => {
