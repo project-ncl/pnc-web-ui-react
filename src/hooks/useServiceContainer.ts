@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export interface IService<T = {}> {
@@ -17,6 +17,8 @@ export interface IService<T = {}> {
 /**
  * React hook to manage data, loading and error states when data is being loaded. See also {@link ServiceContainerLoading} and {@link ServiceContainerCreatingUpdating}.
  *
+ * Hook's request is terminated if unmounted from DOM.
+ *
  * @param service - Service to be executed to load data
  * @param config - Config object, initLoadingState (provides init values for loading state)
  * @returns Object with data, loading and error property
@@ -31,6 +33,12 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
 
   const loadingCount = useRef<number>(0);
   const lastAbortController = useRef<AbortController>();
+
+  useEffect(() => {
+    return () => {
+      lastAbortController.current?.abort();
+    };
+  }, []);
 
   const serviceContainerRunner = ({ serviceData = null, requestConfig = {} }: IService<Object | null> = {}) => {
     loadingCount.current++;
@@ -61,21 +69,23 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
         return response;
       })
       .catch((error: any) => {
-        // execute only for last request
-        if (loadingCount.current <= 1) {
-          // In a future React version (potentially in React 17) this could be removed as it will be default behavior
-          // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-          ReactDOM.unstable_batchedUpdates(() => {
-            setLoading(false);
+        if (error.name !== 'CanceledError') {
+          // execute only for last request
+          if (loadingCount.current <= 1) {
+            // In a future React version (potentially in React 17) this could be removed as it will be default behavior
+            // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
+            ReactDOM.unstable_batchedUpdates(() => {
+              setLoading(false);
 
-            // prefer errorMessage if exists
-            const errorMessage = error.response?.data?.errorMessage;
-            if (errorMessage) {
-              setError(errorMessage);
-            } else {
-              setError(error.toString());
-            }
-          });
+              // prefer errorMessage if exists
+              const errorMessage = error.response?.data?.errorMessage;
+              if (errorMessage) {
+                setError(errorMessage);
+              } else {
+                setError(error.toString());
+              }
+            });
+          }
         }
         throw error;
       })

@@ -90,9 +90,11 @@ export const SearchSelect = ({
             setCurrentData((currentData) => [...currentData, ...data]);
           }
         })
-        .catch(() => {
-          setPageIndex(pageIndexDefault);
-          setCurrentData([]);
+        .catch((error: Error) => {
+          if (error.name !== 'CanceledError') {
+            setPageIndex(pageIndexDefault);
+            setCurrentData([]);
+          }
         });
     },
     [serviceContainerRunner, titleAttribute, descriptionAttribute, pageSizeDefault]
