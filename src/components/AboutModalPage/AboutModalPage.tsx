@@ -18,7 +18,7 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
       <AboutModal
         isOpen={props.isOpen}
         onClose={props.onClose}
-        trademark="Red Hat, Inc. © 2021"
+        trademark={`Red Hat, Inc. © ${new Date().getFullYear()}`}
         brandImageSrc={pncLogoText}
         brandImageAlt="PNC Logo"
       >
