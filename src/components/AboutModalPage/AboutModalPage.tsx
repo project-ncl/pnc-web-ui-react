@@ -1,6 +1,12 @@
 import { AboutModal, TextContent, TextList, TextListItem } from '@patternfly/react-core';
+import { useEffect } from 'react';
+
+import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+
+import * as genericSettingsApi from 'services/genericSettingsApi';
 
 import pncLogoText from '../../pnc-logo-text.svg';
 
@@ -12,6 +18,13 @@ export interface AboutModalPageProps {
 export const AboutModalPage = (props: AboutModalPageProps) => {
   const pncRepositoryUrl = 'https://github.com/project-ncl/pnc';
   const pncWebUiRepositoryUrl = 'https://github.com/project-ncl/pnc-web-ui-react';
+
+  const serviceContainerPncVersionGet = useServiceContainer(genericSettingsApi.getPncVersion);
+  const serviceContainerPncVersionGetRunner = serviceContainerPncVersionGet.run;
+
+  useEffect(() => {
+    serviceContainerPncVersionGetRunner();
+  }, [serviceContainerPncVersionGetRunner]);
 
   return (
     <>
@@ -29,7 +42,11 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
                 PNC System Version
               </a>
             </TextListItem>
-            <TextListItem component="dd">todo</TextListItem>
+            <TextListItem component="dd">
+              <ServiceContainerLoading {...serviceContainerPncVersionGet} title="PNC version">
+                {serviceContainerPncVersionGet.data}
+              </ServiceContainerLoading>
+            </TextListItem>
 
             <TextListItem component="dt">
               <a href={pncWebUiRepositoryUrl} target="_blank" rel="noopener noreferrer">

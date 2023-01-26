@@ -47,6 +47,13 @@ export const AdministrationPage = () => {
     paddingBottom: '5px',
   };
 
+  const [pncVersion, setPncVersion] = useState<string>('');
+  const serviceContainerPncVersionGet = useServiceContainer(genericSettingsApi.getPncVersion);
+  const serviceContainerPncVersionGetRunner = serviceContainerPncVersionGet.run;
+  const serviceContainerPncVersionSet = useServiceContainer(genericSettingsApi.setPncVersion, {
+    initLoadingState: false,
+  });
+
   const [announcementMessage, setAnnouncementMessage] = useState<string>('');
   const [etaTime, setEtaTime] = useState<string>();
   const [isEtaNa, setIsEtaNa] = useState<boolean>(false);
@@ -91,7 +98,11 @@ export const AdministrationPage = () => {
       .catch((error: any) => {
         console.error(error);
       });
-  }, []);
+
+    serviceContainerPncVersionGetRunner().then((response: any) => {
+      setPncVersion(response.data);
+    });
+  }, [serviceContainerPncVersionGetRunner]);
 
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
 
@@ -122,13 +133,32 @@ export const AdministrationPage = () => {
         <FlexItem>
           <ContentBox padding>
             <Form>
-              <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
-                <TextInput type="text" id="form-pnc-system-version" name="form-pnc-system-version" />
-              </FormGroup>
+              <ServiceContainerCreatingUpdating {...serviceContainerPncVersionSet} title="PNC version">
+                <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
+                  <TextInput
+                    type="text"
+                    id="form-pnc-system-version"
+                    name="form-pnc-system-version"
+                    value={pncVersion}
+                    onChange={(value) => setPncVersion(value)}
+                  />
+                </FormGroup>
+              </ServiceContainerCreatingUpdating>
 
               <ActionGroup>
-                <Button variant="primary" id="form-pnc-system-version-update" name="form-pnc-system-version-update">
-                  Update
+                <Button
+                  variant="primary"
+                  id="form-pnc-system-version-update"
+                  name="form-pnc-system-version-update"
+                  onClick={() => {
+                    serviceContainerPncVersionSet.run({
+                      serviceData: {
+                        version: pncVersion,
+                      },
+                    });
+                  }}
+                >
+                  Update Version
                 </Button>
               </ActionGroup>
             </Form>
