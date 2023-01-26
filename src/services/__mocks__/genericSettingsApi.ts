@@ -5,3 +5,9 @@ export const getAnnouncementBanner = () => {
     });
   });
 };
+
+export const getPncVersion = () => {
+  return new Promise((resolve) => {
+    resolve({ data: 'test' });
+  });
+};
