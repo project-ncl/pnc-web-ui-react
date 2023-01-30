@@ -43,7 +43,7 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
               </a>
             </TextListItem>
             <TextListItem component="dd">
-              <ServiceContainerLoading {...serviceContainerPncVersionGet} title="PNC version">
+              <ServiceContainerLoading {...serviceContainerPncVersionGet} title="PNC version" isInline>
                 {serviceContainerPncVersionGet.data}
               </ServiceContainerLoading>
             </TextListItem>

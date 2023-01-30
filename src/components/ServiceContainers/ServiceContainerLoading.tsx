@@ -9,6 +9,7 @@ export interface IServiceContainerProps {
   error?: string;
   title: string;
   loadingDelayMilliseconds?: number;
+  isInline?: boolean;
 }
 
 /**
@@ -37,10 +38,12 @@ export const ServiceContainerLoading = ({
   error,
   title,
   loadingDelayMilliseconds,
+  isInline = false,
   children,
 }: React.PropsWithChildren<IServiceContainerProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
-  if (loading && !data) return <LoadingStateCard delayMilliseconds={loadingDelayMilliseconds} title={title} />;
+  if (loading && !data)
+    return <LoadingStateCard delayMilliseconds={loadingDelayMilliseconds} title={title} isInline={isInline} />;
 
   // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
   // (the component was rendered at some point before)
@@ -49,7 +52,7 @@ export const ServiceContainerLoading = ({
   if (loading && data) return <RefreshStateCard>{children}</RefreshStateCard>;
 
   // Error state: display Error card when error
-  if (error) return <ErrorStateCard title={title} error={error} />;
+  if (error) return <ErrorStateCard title={title} error={error} isInline={isInline} />;
 
   // Invalid state, Error state should be triggered before this
   if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
