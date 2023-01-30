@@ -30,6 +30,7 @@ export interface IServiceContainerProps {
  * @param loading - True if a request is pending, false when a request is successfully finished or when a request resulted in error
  * @param error - Error description when data loading was not successful
  * @param loadingDelayMilliseconds - Waiting time before loading component gets rendered
+ * @param isInline - Display container in inline style
  * @param children - React children property
  */
 export const ServiceContainerLoading = ({

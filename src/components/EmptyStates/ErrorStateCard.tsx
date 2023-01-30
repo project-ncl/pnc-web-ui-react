@@ -15,6 +15,7 @@ interface IErrorStateCard {
  *
  * @param title - Title subject, for example "Project List"
  * @param error - Error details
+ * @param isInline - Display component in inline style
  */
 export const ErrorStateCard = ({ title, error, isInline }: IErrorStateCard) => {
   const errorTitle = `Error when loading ${title}`;
