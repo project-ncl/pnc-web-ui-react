@@ -24,9 +24,8 @@ class PncClient {
       baseURL: webConfigService.getPncUrl(),
     });
 
+    // perform actions before request is sent
     httpClient.interceptors.request.use((config) => {
-      // perform actions before request is sent
-
       if (keycloakService.isKeycloakAvailable && keycloakService.isAuthenticated()) {
         config.headers = config.headers ?? {};
         config.headers.Authorization = `Bearer ` + keycloakService.getToken();
@@ -46,12 +45,6 @@ class PncClient {
         }
       }
 
-      // PATCH method uses JSON patch format of its data
-      if (config.method === 'patch') {
-        config.headers = config.headers ?? {};
-        config.headers['Content-Type'] = 'application/json-patch+json';
-      }
-
       /**
        * If sorting is set to 'none', delete it from config.
        */
@@ -61,6 +54,10 @@ class PncClient {
 
       return config;
     });
+
+    httpClient.defaults.headers.post['Content-Type'] = 'application/json';
+    httpClient.defaults.headers.patch['Content-Type'] = 'application/json-patch+json';
+
     return httpClient;
   };
 
