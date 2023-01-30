@@ -131,37 +131,39 @@ export const AdministrationPage = () => {
     <PageLayout title="Administration" description="Administration tools for admin users">
       <Flex direction={directionColumn}>
         <FlexItem>
-          <ContentBox padding>
-            <Form>
-              <ServiceContainerCreatingUpdating {...serviceContainerPncVersionSet} title="PNC version">
-                <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
-                  <TextInput
-                    type="text"
-                    id="form-pnc-system-version"
-                    name="form-pnc-system-version"
-                    value={pncVersion}
-                    onChange={(value) => setPncVersion(value)}
-                  />
-                </FormGroup>
-              </ServiceContainerCreatingUpdating>
+          <ContentBox>
+            <ServiceContainerCreatingUpdating {...serviceContainerPncVersionSet} title="PNC version">
+              <div className="p-global">
+                <Form>
+                  <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
+                    <TextInput
+                      type="text"
+                      id="form-pnc-system-version"
+                      name="form-pnc-system-version"
+                      value={pncVersion}
+                      onChange={(value) => setPncVersion(value)}
+                    />
+                  </FormGroup>
 
-              <ActionGroup>
-                <Button
-                  variant="primary"
-                  id="form-pnc-system-version-update"
-                  name="form-pnc-system-version-update"
-                  onClick={() => {
-                    serviceContainerPncVersionSet.run({
-                      serviceData: {
-                        version: pncVersion,
-                      },
-                    });
-                  }}
-                >
-                  Update Version
-                </Button>
-              </ActionGroup>
-            </Form>
+                  <ActionGroup>
+                    <Button
+                      variant="primary"
+                      id="form-pnc-system-version-update"
+                      name="form-pnc-system-version-update"
+                      onClick={() => {
+                        serviceContainerPncVersionSet.run({
+                          serviceData: {
+                            version: pncVersion,
+                          },
+                        });
+                      }}
+                    >
+                      Update Version
+                    </Button>
+                  </ActionGroup>
+                </Form>
+              </div>
+            </ServiceContainerCreatingUpdating>
           </ContentBox>
         </FlexItem>
         <FlexItem>
@@ -201,123 +203,126 @@ export const AdministrationPage = () => {
           </ContentBox>
         </FlexItem>
         <FlexItem>
-          <ContentBox padding>
-            <Form>
-              <ServiceContainerCreatingUpdating {...serviceContainerAnnouncement} title="Announcement">
-                <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
-                  <div style={maintenanceSwitchStyle}>
-                    <Switch
-                      id="form-maintenance-mode-switch"
-                      name="form-maintenance-mode-switch"
-                      label="Maintenance Mode On"
-                      labelOff="Maintenance Mode Off"
-                      isChecked={isMaintenanceModeOn}
-                      onChange={() => {
-                        setAnnouncementTouched(false);
-                        isMaintenanceModeOn && setEtaTime(undefined);
-                        setIsMaintenanceModeOn(!isMaintenanceModeOn);
-                      }}
-                    />
-                  </div>
-                </FormGroup>
+          <ContentBox>
+            <ServiceContainerCreatingUpdating {...serviceContainerAnnouncement} title="Announcement">
+              <div className="p-global">
+                <Form>
+                  <FormGroup label="Maintenance Mode" fieldId="form-maintenance-mode">
+                    <div style={maintenanceSwitchStyle}>
+                      <Switch
+                        id="form-maintenance-mode-switch"
+                        name="form-maintenance-mode-switch"
+                        label="Maintenance Mode On"
+                        labelOff="Maintenance Mode Off"
+                        isChecked={isMaintenanceModeOn}
+                        onChange={() => {
+                          setAnnouncementTouched(false);
+                          isMaintenanceModeOn && setEtaTime(undefined);
+                          setIsMaintenanceModeOn(!isMaintenanceModeOn);
+                        }}
+                      />
+                    </div>
+                  </FormGroup>
 
-                <FormGroup
-                  label="Announcement"
-                  isRequired={isMaintenanceModeOn}
-                  fieldId="form-announcement"
-                  helperTextInvalid={isAnnouncementInvalid() ? 'Required field.' : null}
-                  helperTextInvalidIcon={<ExclamationCircleIcon />}
-                  validated={'error'}
-                >
-                  <TextArea
-                    name="form-announcement"
-                    id="form-announcement"
-                    value={announcementMessage}
-                    onChange={(value: string) => {
-                      setAnnouncementMessage(value);
-                    }}
-                    onBlur={() => {
-                      setAnnouncementTouched(true);
-                    }}
-                  />
-                </FormGroup>
-
-                {isMaintenanceModeOn && (
                   <FormGroup
-                    label="ETA Time"
-                    isRequired={true}
-                    fieldId="form-eta-time"
-                    helperTextInvalid={isEtaTimeInvalid() ? 'Required field.' : null}
+                    label="Announcement"
+                    isRequired={isMaintenanceModeOn}
+                    fieldId="form-announcement"
+                    helperTextInvalid={isAnnouncementInvalid() ? 'Required field.' : null}
                     helperTextInvalidIcon={<ExclamationCircleIcon />}
                     validated={'error'}
                   >
-                    <DatePicker
-                      required
-                      isDisabled={isEtaNa}
-                      name="form-eta-time"
-                      id="form-eta-time"
-                      placeholder="yyyy-MM-dd hh:mm (UTC)"
-                      dateFormat={transformateDateFormat}
-                      onClick={() => {
-                        setEtaTouched(true);
-                      }}
-                      dateParse={(dateString) => {
-                        return new Date(dateString);
-                      }}
-                      value={etaTime}
-                      onBlur={(value: string) => {
-                        setEtaTime(value);
-                      }}
+                    <TextArea
+                      name="form-announcement"
+                      id="form-announcement"
+                      value={announcementMessage}
                       onChange={(value: string) => {
-                        setEtaTime(value);
+                        setAnnouncementMessage(value);
                       }}
-                      aria-invalid={isEtaTimeInvalid()}
-                    />
-                    &nbsp;&nbsp;
-                    <Switch
-                      id="form-eta-na-switch"
-                      label=" N/A:"
-                      labelOff=" N/A:"
-                      hasCheckIcon
-                      isChecked={isEtaNa}
-                      onChange={() => {
-                        setIsEtaNa(!isEtaNa);
-                        setEtaTime(undefined);
-                        setEtaTouched(true);
+                      onBlur={() => {
+                        setAnnouncementTouched(true);
                       }}
-                      isReversed
                     />
                   </FormGroup>
-                )}
 
-                {isMaintenanceModeOn && (
-                  <TopBarInfo hideCloseButton={true}>
-                    Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
-                    {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
-                  </TopBarInfo>
-                )}
-                {!isMaintenanceModeOn && announcementMessage && (
-                  <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
-                )}
-              </ServiceContainerCreatingUpdating>
-              <ActionGroup>
-                <Button
-                  variant="primary"
-                  id="form-announcement-update"
-                  name="form-announcement-update"
-                  onClick={() => {
-                    validateForm() &&
-                      serviceContainerAnnouncement.run({
-                        serviceData: {
-                          message: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
-                        },
-                      });
-                  }}
-                >
-                  Update
-                </Button>
-              </ActionGroup>
-            </Form>
+                  {isMaintenanceModeOn && (
+                    <FormGroup
+                      label="ETA Time"
+                      isRequired={true}
+                      fieldId="form-eta-time"
+                      helperTextInvalid={isEtaTimeInvalid() ? 'Required field.' : null}
+                      helperTextInvalidIcon={<ExclamationCircleIcon />}
+                      validated={'error'}
+                    >
+                      <DatePicker
+                        required
+                        isDisabled={isEtaNa}
+                        name="form-eta-time"
+                        id="form-eta-time"
+                        placeholder="yyyy-MM-dd hh:mm (UTC)"
+                        dateFormat={transformateDateFormat}
+                        onClick={() => {
+                          setEtaTouched(true);
+                        }}
+                        dateParse={(dateString) => {
+                          return new Date(dateString);
+                        }}
+                        value={etaTime}
+                        onBlur={(value: string) => {
+                          setEtaTime(value);
+                        }}
+                        onChange={(value: string) => {
+                          setEtaTime(value);
+                        }}
+                        aria-invalid={isEtaTimeInvalid()}
+                      />
+                      &nbsp;&nbsp;
+                      <Switch
+                        id="form-eta-na-switch"
+                        label=" N/A:"
+                        labelOff=" N/A:"
+                        hasCheckIcon
+                        isChecked={isEtaNa}
+                        onChange={() => {
+                          setIsEtaNa(!isEtaNa);
+                          setEtaTime(undefined);
+                          setEtaTouched(true);
+                        }}
+                        isReversed
+                      />
+                    </FormGroup>
+                  )}
+
+                  {isMaintenanceModeOn && (
+                    <TopBarInfo hideCloseButton={true}>
+                      Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted. Reason:{' '}
+                      {announcementMessage ? announcementMessage : N_A}, ETA: {etaTime ? etaTime : N_A}
+                    </TopBarInfo>
+                  )}
+                  {!isMaintenanceModeOn && announcementMessage && (
+                    <TopBarInfo hideCloseButton={true}>Announcement - {announcementMessage}</TopBarInfo>
+                  )}
+
+                  <ActionGroup>
+                    <Button
+                      variant="primary"
+                      id="form-announcement-update"
+                      name="form-announcement-update"
+                      onClick={() => {
+                        validateForm() &&
+                          serviceContainerAnnouncement.run({
+                            serviceData: {
+                              message: announcementMessage + (isMaintenanceModeOn ? ', ETA: ' + (etaTime ? etaTime : N_A) : ''),
+                            },
+                          });
+                      }}
+                    >
+                      Update
+                    </Button>
+                  </ActionGroup>
+                </Form>
+              </div>
+            </ServiceContainerCreatingUpdating>
           </ContentBox>
         </FlexItem>
 
