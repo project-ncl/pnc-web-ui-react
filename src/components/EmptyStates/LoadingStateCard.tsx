@@ -17,6 +17,7 @@ interface ILoadingStateCard {
  *
  * @param delayMilliseconds - Waiting time before component gets rendered
  * @param title - Title subject, for example "Project List"
+ * @param isInline - Display component in inline style
  */
 export const LoadingStateCard = ({ delayMilliseconds = 750, title, isInline }: ILoadingStateCard) => {
   const [show, setShow] = useState<boolean>(false);
@@ -29,6 +30,7 @@ export const LoadingStateCard = ({ delayMilliseconds = 750, title, isInline }: I
 
   if (show) {
     if (isInline) {
+      // isInline - beta feature currently in this Patternfly component
       return <Spinner isInline isSVG aria-label="Loading..." />;
     }
 
