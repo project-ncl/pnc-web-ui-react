@@ -8,8 +8,7 @@ import { uiLoggerClient } from 'services/uiLoggerClient';
  *
  * @param data - JSON object containing log data
  * @param requestConfig  - Axios based request config
- * @returns Created log
  */
 export const createUILog = (data: IUILog, requestConfig: AxiosRequestConfig = {}) => {
-  return uiLoggerClient.getHttpClient().post('/rest/logs', data, requestConfig);
+  return uiLoggerClient.getHttpClient().post<void>('/rest/logs', data, requestConfig);
 };
