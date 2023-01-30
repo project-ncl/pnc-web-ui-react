@@ -21,10 +21,5 @@ export const getAnnouncementBanner = (requestConfig: AxiosRequestConfig = {}) =>
  * @returns Created announcement message
  */
 export const setAnnouncementBanner = ({ message }: { message: string }, requestConfig: AxiosRequestConfig = {}) => {
-  const changedConfig = {
-    ...requestConfig,
-    headers: { ...requestConfig.headers, 'Content-Type': ' application/json;charset=UTF-8' },
-  };
-
-  return pncClient.getHttpClient().post('/generic-setting/announcement-banner', message, changedConfig);
+  return pncClient.getHttpClient().post('/generic-setting/announcement-banner', message, requestConfig);
 };
