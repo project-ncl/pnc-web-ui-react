@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { Project } from 'pnc-api-types-ts';
+import { BuildPage, Project, ProjectPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -13,10 +13,9 @@ export interface IProjectApiData {
  * Gets all Projects.
  *
  * @param requestConfig - Axios based request config
- * @returns Projects
  */
 export const getProjects = (requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get('/projects', requestConfig);
+  return pncClient.getHttpClient().get<ProjectPage>('/projects', requestConfig);
 };
 
 /**
@@ -25,10 +24,9 @@ export const getProjects = (requestConfig: AxiosRequestConfig = {}) => {
  * @param serviceData - object containing:
  *  - id - Project ID
  * @param requestConfig - Axios based request config
- * @returns Project
  */
 export const getProject = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get(`/projects/${id}`, requestConfig);
+  return pncClient.getHttpClient().get<Project>(`/projects/${id}`, requestConfig);
 };
 
 /**
@@ -36,10 +34,9 @@ export const getProject = ({ id }: IProjectApiData, requestConfig: AxiosRequestC
  *
  * @param data - object containing new Project data
  * @param requestConfig - Axios based request config
- * @returns Created Project
  */
 export const createProject = ({ data }: { data: Omit<Project, 'id'> }, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post('/projects', data, requestConfig);
+  return pncClient.getHttpClient().post<Project>('/projects', data, requestConfig);
 };
 
 /**
@@ -49,13 +46,12 @@ export const createProject = ({ data }: { data: Omit<Project, 'id'> }, requestCo
  *  - id - project ID
  *  - patchData - array of changes in JSON-Patch format
  * @param requestConfig - Axios based request config
- * @returns Updated Project
  */
 export const patchProject = (
   { id, patchData }: { id: string; patchData: Operation[] },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  return pncClient.getHttpClient().patch(`/projects/${id}`, patchData, requestConfig);
+  return pncClient.getHttpClient().patch<Project>(`/projects/${id}`, patchData, requestConfig);
 };
 
 /**
@@ -64,8 +60,7 @@ export const patchProject = (
  * @param serviceData - object containing:
  *  - id - Project ID
  * @param requestConfig - Axios based request config
- * @returns Builds
  */
 export const getProjectBuilds = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get(`/projects/${id}/builds`, requestConfig);
+  return pncClient.getHttpClient().get<BuildPage>(`/projects/${id}/builds`, requestConfig);
 };

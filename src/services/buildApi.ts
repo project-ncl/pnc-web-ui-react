@@ -1,7 +1,16 @@
 import { AxiosRequestConfig } from 'axios';
 
+import { BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
+
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
+
+interface BuildMetrics {
+  [index: number]: {
+    name: string;
+    data: number[];
+  };
+}
 
 interface IBuildApiData {
   id: string;
@@ -13,11 +22,10 @@ interface IBuildApiData {
  * @param serviceData
  *  - buildIds - List of Build IDs
  * @param requestConfig - Axios based request config
- * @returns BuildMetrics
  */
 export const getBuildMetrics = ({ buildIds }: { buildIds?: Array<string> }, requestConfig: AxiosRequestConfig = {}) => {
   if (buildIds) {
-    return kafkaClient.getHttpClient().post('/builds', { buildIds }, requestConfig);
+    return kafkaClient.getHttpClient().post<BuildMetrics>('/builds', { buildIds }, requestConfig);
   }
 };
 
@@ -25,10 +33,9 @@ export const getBuildMetrics = ({ buildIds }: { buildIds?: Array<string> }, requ
  * Gets Build Counts for enqueued, running, and waiting for dependencies builds.
  *
  * @param requestConfig - Axios based request config
- * @returns numbers for "enqueued", "running", "waitingForDependencies"
  */
 export const getBuildCount = (requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get('/builds/count', requestConfig);
+  return pncClient.getHttpClient().get<RunningBuildCount>('/builds/count', requestConfig);
 };
 
 /**
@@ -37,8 +44,7 @@ export const getBuildCount = (requestConfig: AxiosRequestConfig = {}) => {
  * @param serviceData
  *  - id - Build ID
  * @param requestConfig - Axios based request config
- * @returns DependencyGraph
  */
 export const getDependencyGraph = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get(`/builds/${id}/dependency-graph`, requestConfig);
+  return pncClient.getHttpClient().get<BuildsGraph>(`/builds/${id}/dependency-graph`, requestConfig);
 };
