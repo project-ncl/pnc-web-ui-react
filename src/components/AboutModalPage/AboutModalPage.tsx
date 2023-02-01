@@ -1,21 +1,16 @@
-import { AboutModal, TextContent, TextList, TextListItem } from '@patternfly/react-core';
+import { TextContent, TextList, TextListItem } from '@patternfly/react-core';
 import { useEffect } from 'react';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as genericSettingsApi from 'services/genericSettingsApi';
 
-import pncLogoText from '../../pnc-logo-text.svg';
-
-export interface AboutModalPageProps {
-  isOpen: boolean;
-  onClose?: () => void;
-}
-
-export const AboutModalPage = (props: AboutModalPageProps) => {
+export const AboutModalPage = () => {
   const pncRepositoryUrl = 'https://github.com/project-ncl/pnc';
   const pncWebUiRepositoryUrl = 'https://github.com/project-ncl/pnc-web-ui-react';
 
@@ -27,14 +22,8 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
   }, [serviceContainerPncVersionGetRunner]);
 
   return (
-    <>
-      <AboutModal
-        isOpen={props.isOpen}
-        onClose={props.onClose}
-        trademark={`Red Hat, Inc. © ${new Date().getFullYear()}`}
-        brandImageSrc={pncLogoText}
-        brandImageAlt="PNC Logo"
-      >
+    <PageLayout title="About PNC Build System" description="System for managing, executing and tracking builds">
+      <ContentBox padding marginBottom>
         <TextContent>
           <TextList component="dl">
             <TextListItem component="dt">
@@ -59,7 +48,7 @@ export const AboutModalPage = (props: AboutModalPageProps) => {
             </TextListItem>
           </TextList>
         </TextContent>
-      </AboutModal>
-    </>
+      </ContentBox>
+    </PageLayout>
   );
 };
