@@ -10,7 +10,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as genericSettingsApi from 'services/genericSettingsApi';
 
-export const AboutModalPage = () => {
+export const AboutPage = () => {
   const pncRepositoryUrl = 'https://github.com/project-ncl/pnc';
   const pncWebUiRepositoryUrl = 'https://github.com/project-ncl/pnc-web-ui-react';
 
