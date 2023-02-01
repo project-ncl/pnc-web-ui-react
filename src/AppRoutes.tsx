@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
+import { AboutModalPage } from 'components/AboutModalPage/AboutModalPage';
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
@@ -66,6 +67,7 @@ export const AppRoutes = () => (
         }
       />
     </Route>
+    <Route path="about" element={<AboutModalPage />} />
     <Route
       path="*"
       element={

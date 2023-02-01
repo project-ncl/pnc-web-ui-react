@@ -23,7 +23,6 @@ import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon 
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { AboutModalPage } from 'components/AboutModalPage/AboutModalPage';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TopBarError } from 'components/TopBar/TopBarError';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
@@ -62,7 +61,6 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
     const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
-    const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
@@ -73,15 +71,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     ];
 
     const headerQuestionDropdownItems = [
-      <DropdownItem
-        key="about"
-        onClick={() => {
-          setIsAboutModalOpen(true);
-          setIsHeaderQuestionOpen(false);
-        }}
-      >
-        About
-      </DropdownItem>,
+      <DropdownItem component={<Link to="/about">About</Link>} key="about" />,
       <DropdownItem key="users guide" href={pncUserGuideUrl} target="_blank" rel="noopener noreferrer">
         User's guide
       </DropdownItem>,
@@ -176,12 +166,6 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
             </PageHeaderToolsItem>
           </PageHeaderToolsGroup>
         </PageHeaderTools>
-        <AboutModalPage
-          isOpen={isAboutModalOpen}
-          onClose={() => {
-            setIsAboutModalOpen(false);
-          }}
-        />
       </>
     );
   };
