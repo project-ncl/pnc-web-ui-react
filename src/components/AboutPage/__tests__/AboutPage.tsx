@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 
-import { AboutModalPage } from 'components/AboutModalPage/AboutModalPage';
+import { AboutPage } from 'components/AboutPage/AboutPage';
 
 jest.mock('services/genericSettingsApi');
 
 test('renders AdministrationPage', () => {
-  render(<AboutModalPage isOpen={true} />);
+  render(<AboutPage />);
 });
