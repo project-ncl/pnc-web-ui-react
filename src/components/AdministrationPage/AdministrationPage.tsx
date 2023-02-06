@@ -13,7 +13,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import { CSSProperties, useCallback, useEffect, useState } from 'react';
+import { CSSProperties, FormEvent, useCallback, useEffect, useState } from 'react';
 
 import { useInterval } from 'hooks/useInterval';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -271,7 +271,7 @@ export const AdministrationPage = () => {
                         onBlur={(value: string) => {
                           setEtaTime(value);
                         }}
-                        onChange={(value: string) => {
+                        onChange={(_event: FormEvent<HTMLInputElement>, value: string) => {
                           setEtaTime(value);
                         }}
                         aria-invalid={isEtaTimeInvalid()}
