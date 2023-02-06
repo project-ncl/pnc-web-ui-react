@@ -27,7 +27,11 @@ export const ProjectDetailPage = () => {
     serviceContainerProjectRunner({ serviceData: { id: projectId } });
   }, [serviceContainerProjectRunner, projectId]);
 
-  useTitle(`${serviceContainerProject.data?.name} | ${PageTitles.projects}`);
+  useTitle(
+    serviceContainerProject.data?.name
+      ? `${serviceContainerProject.data.name} | ${PageTitles.projects}`
+      : `Error loading ${PageTitles.projectDetail}`
+  );
 
   const attributes = [
     {
