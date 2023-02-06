@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig, isAxiosError } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -68,7 +68,14 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
         });
         return response;
       })
-      .catch((error: any) => {
+      .catch((error: Error | AxiosError) => {
+        let errorMessage: string;
+        if (isAxiosError(error)) {
+          errorMessage = error.response?.data?.errorMessage ? error.response.data.errorMessage : error.toString();
+        } else {
+          errorMessage = error.message;
+        }
+
         if (error.name !== 'CanceledError') {
           // execute only for last request
           if (loadingCount.current <= 1) {
@@ -76,14 +83,7 @@ export const useServiceContainer = (service: Function, { initLoadingState = true
             // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
             ReactDOM.unstable_batchedUpdates(() => {
               setLoading(false);
-
-              // prefer errorMessage if exists
-              const errorMessage = error.response?.data?.errorMessage;
-              if (errorMessage) {
-                setError(errorMessage);
-              } else {
-                setError(error.toString());
-              }
+              setError(errorMessage);
             });
           }
         }
