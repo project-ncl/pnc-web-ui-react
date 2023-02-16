@@ -7,7 +7,7 @@ import { TabItem } from 'components/Tabs/TabItem';
 import styles from './Tabs.module.css';
 
 interface ITabs {
-  children: ReactElement[];
+  children: ReactElement | ReactElement[];
 }
 
 export const Tabs = ({ children }: ITabs) => {
