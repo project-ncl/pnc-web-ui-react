@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
@@ -12,6 +12,12 @@ import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
+import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
+import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
+import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
+import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
+import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
+import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductsPage } from 'components/ProductsPage/ProductsPage';
 import { ProjectCreateEditPage } from 'components/ProjectCreateEditPage/ProjectCreateEditPage';
 import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPage';
@@ -27,6 +33,21 @@ export const AppRoutes = () => (
     <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
     <Route path="products" element={<ProductsPage />} />
+    <Route path="products-milestones/:milestoneId">
+      <Route
+        element={
+          <ProductMilestonePages>
+            <Outlet />
+          </ProductMilestonePages>
+        }
+      >
+        <Route path="details" element={<ProductMilestoneDetailPage />} />
+        <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
+        <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
+        <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+        <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
+      </Route>
+    </Route>
     <Route path="projects">
       <Route index element={<ProjectsPage />} />
       <Route

@@ -4,6 +4,7 @@ export const PageTitles = {
   projectCreate: 'Create Project',
   projectEdit: 'Update Project',
   products: 'Products',
+  productMilestones: 'Product Milestones',
   buildConfig: 'Build Configs',
   groupConfig: 'Group Configs',
   builds: 'Builds',
