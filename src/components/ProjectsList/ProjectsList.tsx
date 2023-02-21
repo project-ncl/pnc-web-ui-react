@@ -6,7 +6,7 @@ import { Project } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -15,7 +15,6 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -82,9 +81,6 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
           <Filtering filterOptions={filterOptions} componentId={componentId} />
         </ToolbarItem>
         <ToolbarItem>
-          <Sorting sortOptions={sortOptions} componentId={componentId} />
-        </ToolbarItem>
-        <ToolbarItem>
           <ProtectedComponent>
             <ActionButton link="create">Create Project</ActionButton>
           </ProtectedComponent>
@@ -95,6 +91,10 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
         <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects}`}>
           <TableComposable variant="compact">
             <Thead>
+              {/**
+               * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
+               * Better solution can be implemented in the future.
+               */}
               <Tr>
                 <Th width={30} sort={getSortParams(sortOptions['name'].id)}>
                   Name
