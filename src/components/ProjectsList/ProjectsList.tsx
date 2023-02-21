@@ -1,4 +1,4 @@
-import { Table, TableBody, TableHeader, cellWidth } from '@patternfly/react-table';
+import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
@@ -16,32 +16,30 @@ interface IProjectsList {
  * @param projects - List of Projects to be displayed
  */
 export const ProjectsList = ({ projects }: IProjectsList) => {
-  const columns = [
-    { title: 'Name', transforms: [cellWidth(30)] },
-    'Description',
-    { title: 'Build Configs count', transforms: [cellWidth(15)] },
-    'Actions',
-  ];
-
-  const rows = projects.map((project: Project) => [
-    {
-      title: <ProjectLink id={project.id}>{project.name}</ProjectLink>,
-    },
-    project.description,
-    Object.keys(project.buildConfigs || []).length,
-    {
-      title: (
-        <ProtectedComponent>
-          <Link to={`${project.id}/edit`}>edit</Link>
-        </ProtectedComponent>
-      ),
-    },
-  ]);
-
   return (
-    <Table aria-label="Projects List" variant="compact" borders={false} cells={columns} rows={rows}>
-      <TableHeader />
-      <TableBody />
-    </Table>
+    <TableComposable variant="compact">
+      <Thead>
+        <Tr>
+          <Th width={30}>Name</Th>
+          <Th>Description</Th>
+          <Th width={15}>Build Configs count</Th>
+          <Th>Actions</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {projects.map((project: Project, rowIndex: number) => (
+          <Tr key={rowIndex}>
+            <Td>{<ProjectLink id={project.id}>{project.name}</ProjectLink>}</Td>
+            <Td>{project.description}</Td>
+            <Td>{Object.keys(project.buildConfigs || []).length}</Td>
+            <Td>
+              <ProtectedComponent>
+                <Link to={`${project.id}/edit`}>edit</Link>
+              </ProtectedComponent>
+            </Td>
+          </Tr>
+        ))}
+      </Tbody>
+    </TableComposable>
   );
 };
