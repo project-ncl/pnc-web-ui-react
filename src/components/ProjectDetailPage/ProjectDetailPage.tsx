@@ -32,7 +32,7 @@ export const ProjectDetailPage = () => {
       ? 'Loading Project'
       : serviceContainerProject.data?.name
       ? `${serviceContainerProject.data.name} | ${PageTitles.projects}`
-      : `Error loading ${PageTitles.projectDetail}`
+      : 'Error loading Project'
   );
 
   const attributes = [
