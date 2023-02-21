@@ -73,7 +73,7 @@ Object {
                 >
                   <div
                     class="pf-c-select"
-                    data-ouia-component-id="OUIA-Generated-Select-single-3"
+                    data-ouia-component-id="OUIA-Generated-Select-single-2"
                     data-ouia-component-type="PF4/Select"
                     data-ouia-safe="true"
                     style="width: 150px;"
@@ -82,9 +82,9 @@ Object {
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-label="Options menu"
-                      aria-labelledby=" pf-select-toggle-id-16"
+                      aria-labelledby=" pf-select-toggle-id-9"
                       class="pf-c-select__toggle"
-                      id="pf-select-toggle-id-16"
+                      id="pf-select-toggle-id-9"
                       type="button"
                     >
                       <div
@@ -132,84 +132,6 @@ Object {
                 class=""
               >
                 <div
-                  class="pf-c-input-group"
-                >
-                  <div
-                    class="pf-c-select p-l-10 p-r-10"
-                    data-ouia-component-id="OUIA-Generated-Select-single-4"
-                    data-ouia-component-type="PF4/Select"
-                    data-ouia-safe="true"
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="listbox"
-                      aria-label="Options menu"
-                      aria-labelledby=" pf-select-toggle-id-17"
-                      class="pf-c-select__toggle pf-m-placeholder"
-                      id="pf-select-toggle-id-17"
-                      type="button"
-                    >
-                      <div
-                        class="pf-c-select__toggle-wrapper"
-                      >
-                        <span
-                          class="pf-c-select__toggle-text"
-                        >
-                          Sort
-                        </span>
-                      </div>
-                      <span
-                        class="pf-c-select__toggle-arrow"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          fill="currentColor"
-                          height="1em"
-                          role="img"
-                          style="vertical-align: -0.125em;"
-                          viewBox="0 0 320 512"
-                          width="1em"
-                        >
-                          <path
-                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-                          />
-                        </svg>
-                      </span>
-                    </button>
-                  </div>
-                  <div
-                    style="display: contents;"
-                  >
-                    <button
-                      aria-disabled="true"
-                      class="pf-c-button pf-m-plain pf-m-disabled p-l-10 p-r-10"
-                      data-ouia-component-id="OUIA-Generated-Button-plain-6"
-                      data-ouia-component-type="PF4/Button"
-                      data-ouia-safe="true"
-                      disabled=""
-                      type="button"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        fill="currentColor"
-                        height="1em"
-                        role="img"
-                        style="vertical-align: -0.125em;"
-                        viewBox="0 0 512 512"
-                        width="1em"
-                      >
-                        <path
-                          d="M240 96h64a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16h-64a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16zm0 128h128a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H240a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16zm256 192H240a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h256a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm-256-64h192a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H240a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16zm-64 0h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.37 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div
-                class=""
-              >
-                <div
                   class="disabled-content"
                 >
                   <button
@@ -232,9 +154,8 @@ Object {
         >
           <div>
             <table
-              aria-label="Projects List"
-              class="pf-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
-              data-ouia-component-id="OUIA-Generated-Table-4"
+              class="pf-c-table pf-m-grid-md pf-m-compact"
+              data-ouia-component-id="OUIA-Generated-Table-2"
               data-ouia-component-type="PF4/Table"
               data-ouia-safe="true"
               role="grid"
@@ -249,33 +170,87 @@ Object {
                   data-ouia-safe="true"
                 >
                   <th
-                    class="pf-m-width-30"
-                    data-key="0"
-                    data-label="Name"
+                    aria-sort="none"
+                    class="pf-c-table__sort pf-m-width-30"
                     scope="col"
                   >
-                    Name
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Name
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
                   </th>
                   <th
-                    class=""
-                    data-key="1"
-                    data-label="Description"
+                    aria-sort="none"
+                    class="pf-c-table__sort"
                     scope="col"
                   >
-                    Description
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Description
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
                   </th>
                   <th
                     class="pf-m-width-15"
-                    data-key="2"
-                    data-label="Build Configs count"
                     scope="col"
                   >
                     Build Configs count
                   </th>
                   <th
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                     scope="col"
                   >
                     Actions
@@ -294,8 +269,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/100"
@@ -305,22 +278,16 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   >
                     Test Project Name 100 Desc
                   </td>
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     0
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -341,8 +308,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/101"
@@ -352,22 +317,16 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   >
                     zz_2021110-101 desc
                   </td>
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     0
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -388,8 +347,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/102"
@@ -399,20 +356,14 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   />
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     0
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -433,8 +384,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/103"
@@ -444,20 +393,14 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   />
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     0
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -478,8 +421,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/104"
@@ -489,20 +430,14 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   />
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     0
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -523,8 +458,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/105"
@@ -534,22 +467,16 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   >
                     zz_2021110-105 description
                   </td>
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     0
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -570,8 +497,6 @@ Object {
                 >
                   <td
                     class=""
-                    data-key="0"
-                    data-label="Name"
                   >
                     <a
                       href="/106"
@@ -581,22 +506,16 @@ Object {
                   </td>
                   <td
                     class=""
-                    data-key="1"
-                    data-label="Description"
                   >
                     Test Project Name 106 description
                   </td>
                   <td
                     class=""
-                    data-key="2"
-                    data-label="Build Configs count"
                   >
                     17
                   </td>
                   <td
                     class=""
-                    data-key="3"
-                    data-label="Actions"
                   >
                     <div
                       class="disabled-content"
@@ -693,7 +612,7 @@ Object {
                     aria-label="Go to first page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="first"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-5"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -722,7 +641,7 @@ Object {
                     aria-label="Go to previous page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="previous"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-6"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -771,7 +690,7 @@ Object {
                     aria-label="Go to next page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="next"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-7"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -800,7 +719,7 @@ Object {
                     aria-label="Go to last page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="last"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-8"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -897,7 +816,7 @@ Object {
               >
                 <div
                   class="pf-c-select"
-                  data-ouia-component-id="OUIA-Generated-Select-single-3"
+                  data-ouia-component-id="OUIA-Generated-Select-single-2"
                   data-ouia-component-type="PF4/Select"
                   data-ouia-safe="true"
                   style="width: 150px;"
@@ -906,9 +825,9 @@ Object {
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-label="Options menu"
-                    aria-labelledby=" pf-select-toggle-id-16"
+                    aria-labelledby=" pf-select-toggle-id-9"
                     class="pf-c-select__toggle"
-                    id="pf-select-toggle-id-16"
+                    id="pf-select-toggle-id-9"
                     type="button"
                   >
                     <div
@@ -956,84 +875,6 @@ Object {
               class=""
             >
               <div
-                class="pf-c-input-group"
-              >
-                <div
-                  class="pf-c-select p-l-10 p-r-10"
-                  data-ouia-component-id="OUIA-Generated-Select-single-4"
-                  data-ouia-component-type="PF4/Select"
-                  data-ouia-safe="true"
-                >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="listbox"
-                    aria-label="Options menu"
-                    aria-labelledby=" pf-select-toggle-id-17"
-                    class="pf-c-select__toggle pf-m-placeholder"
-                    id="pf-select-toggle-id-17"
-                    type="button"
-                  >
-                    <div
-                      class="pf-c-select__toggle-wrapper"
-                    >
-                      <span
-                        class="pf-c-select__toggle-text"
-                      >
-                        Sort
-                      </span>
-                    </div>
-                    <span
-                      class="pf-c-select__toggle-arrow"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        fill="currentColor"
-                        height="1em"
-                        role="img"
-                        style="vertical-align: -0.125em;"
-                        viewBox="0 0 320 512"
-                        width="1em"
-                      >
-                        <path
-                          d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-                        />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-                <div
-                  style="display: contents;"
-                >
-                  <button
-                    aria-disabled="true"
-                    class="pf-c-button pf-m-plain pf-m-disabled p-l-10 p-r-10"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-6"
-                    data-ouia-component-type="PF4/Button"
-                    data-ouia-safe="true"
-                    disabled=""
-                    type="button"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      fill="currentColor"
-                      height="1em"
-                      role="img"
-                      style="vertical-align: -0.125em;"
-                      viewBox="0 0 512 512"
-                      width="1em"
-                    >
-                      <path
-                        d="M240 96h64a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16h-64a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16zm0 128h128a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H240a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16zm256 192H240a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h256a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm-256-64h192a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H240a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16zm-64 0h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.37 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div
-              class=""
-            >
-              <div
                 class="disabled-content"
               >
                 <button
@@ -1056,9 +897,8 @@ Object {
       >
         <div>
           <table
-            aria-label="Projects List"
-            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
-            data-ouia-component-id="OUIA-Generated-Table-4"
+            class="pf-c-table pf-m-grid-md pf-m-compact"
+            data-ouia-component-id="OUIA-Generated-Table-2"
             data-ouia-component-type="PF4/Table"
             data-ouia-safe="true"
             role="grid"
@@ -1073,33 +913,87 @@ Object {
                 data-ouia-safe="true"
               >
                 <th
-                  class="pf-m-width-30"
-                  data-key="0"
-                  data-label="Name"
+                  aria-sort="none"
+                  class="pf-c-table__sort pf-m-width-30"
                   scope="col"
                 >
-                  Name
+                  <button
+                    class="pf-c-table__button"
+                    type="button"
+                  >
+                    <div
+                      class="pf-c-table__button-content"
+                    >
+                      <span
+                        class="pf-c-table__text"
+                      >
+                        Name
+                      </span>
+                      <span
+                        class="pf-c-table__sort-indicator"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 256 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
                 </th>
                 <th
-                  class=""
-                  data-key="1"
-                  data-label="Description"
+                  aria-sort="none"
+                  class="pf-c-table__sort"
                   scope="col"
                 >
-                  Description
+                  <button
+                    class="pf-c-table__button"
+                    type="button"
+                  >
+                    <div
+                      class="pf-c-table__button-content"
+                    >
+                      <span
+                        class="pf-c-table__text"
+                      >
+                        Description
+                      </span>
+                      <span
+                        class="pf-c-table__sort-indicator"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 256 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
                 </th>
                 <th
                   class="pf-m-width-15"
-                  data-key="2"
-                  data-label="Build Configs count"
                   scope="col"
                 >
                   Build Configs count
                 </th>
                 <th
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                   scope="col"
                 >
                   Actions
@@ -1118,8 +1012,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/100"
@@ -1129,22 +1021,16 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 >
                   Test Project Name 100 Desc
                 </td>
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   0
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1165,8 +1051,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/101"
@@ -1176,22 +1060,16 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 >
                   zz_2021110-101 desc
                 </td>
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   0
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1212,8 +1090,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/102"
@@ -1223,20 +1099,14 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 />
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   0
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1257,8 +1127,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/103"
@@ -1268,20 +1136,14 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 />
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   0
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1302,8 +1164,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/104"
@@ -1313,20 +1173,14 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 />
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   0
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1347,8 +1201,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/105"
@@ -1358,22 +1210,16 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 >
                   zz_2021110-105 description
                 </td>
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   0
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1394,8 +1240,6 @@ Object {
               >
                 <td
                   class=""
-                  data-key="0"
-                  data-label="Name"
                 >
                   <a
                     href="/106"
@@ -1405,22 +1249,16 @@ Object {
                 </td>
                 <td
                   class=""
-                  data-key="1"
-                  data-label="Description"
                 >
                   Test Project Name 106 description
                 </td>
                 <td
                   class=""
-                  data-key="2"
-                  data-label="Build Configs count"
                 >
                   17
                 </td>
                 <td
                   class=""
-                  data-key="3"
-                  data-label="Actions"
                 >
                   <div
                     class="disabled-content"
@@ -1517,7 +1355,7 @@ Object {
                   aria-label="Go to first page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="first"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-5"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
@@ -1546,7 +1384,7 @@ Object {
                   aria-label="Go to previous page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="previous"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-6"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
@@ -1595,7 +1433,7 @@ Object {
                   aria-label="Go to next page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="next"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-9"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-7"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
@@ -1624,7 +1462,7 @@ Object {
                   aria-label="Go to last page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="last"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-8"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
