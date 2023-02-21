@@ -2,6 +2,13 @@ import { AxiosError, AxiosRequestConfig, isAxiosError } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+export interface IServiceContainer {
+  data: any;
+  loading: boolean;
+  error: string;
+  run: Function;
+}
+
 export interface IService<T = {}> {
   /**
    * Service data, eg { id: '2' }
@@ -23,7 +30,10 @@ export interface IService<T = {}> {
  * @param config - Config object, initLoadingState (provides init values for loading state)
  * @returns Object with data, loading and error property
  */
-export const useServiceContainer = (service: Function, { initLoadingState = true }: { initLoadingState?: boolean } = {}): any => {
+export const useServiceContainer = (
+  service: Function,
+  { initLoadingState = true }: { initLoadingState?: boolean } = {}
+): IServiceContainer => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time

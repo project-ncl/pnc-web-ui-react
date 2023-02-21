@@ -5,6 +5,8 @@ import { Project } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 
+import { IServiceContainer } from 'hooks/useServiceContainer';
+
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
@@ -57,7 +59,7 @@ const sortOptions: ISortOptions = {
 };
 
 interface IProjectsList {
-  serviceContainerProjects: any;
+  serviceContainerProjects: IServiceContainer;
   componentId: string;
 }
 
