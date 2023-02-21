@@ -6,59 +6,10 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { ISortOptions, Sorting } from 'components/Sorting/Sorting';
-import { Toolbar } from 'components/Toolbar/Toolbar';
-import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as projectApi from 'services/projectApi';
-
-// keeping also not supported operations for testing purposes
-const filterOptions: IFilterOptions = {
-  filterAttributes: {
-    name: {
-      id: 'name',
-      title: 'Name',
-      placeholder: 'string | !string | s?ring | st*ng',
-      operator: '=like=',
-    },
-    description: {
-      id: 'description',
-      title: 'Description',
-      operator: '=like=',
-    },
-    customb: {
-      id: 'customb',
-      title: 'Custom',
-      isCustomParam: true,
-      operator: '=like=',
-    },
-    status: {
-      id: 'status',
-      title: 'Status',
-      filterValues: ['SUCCESS', 'REJECTED', 'FAILED', 'CANCELLED', 'BUILDING', 'NO_REBUILD_REQUIRED', 'SYSTEM_ERROR'],
-      operator: '==',
-    },
-  },
-};
-
-const sortOptions: ISortOptions = {
-  name: {
-    id: 'name',
-    title: 'Name',
-  },
-  description: {
-    id: 'description',
-    title: 'Description',
-  },
-};
 
 interface IProjectPage {
   componentId?: string;
@@ -81,28 +32,7 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </>
       }
     >
-      <Toolbar>
-        <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
-        </ToolbarItem>
-        <ToolbarItem>
-          <Sorting sortOptions={sortOptions} componentId={componentId} />
-        </ToolbarItem>
-        <ToolbarItem>
-          <ProtectedComponent>
-            <ActionButton link="create">Create Project</ActionButton>
-          </ProtectedComponent>
-        </ToolbarItem>
-      </Toolbar>
-
-      <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerProjects} title={`${PageTitles.projects} list`}>
-          <ProjectsList projects={serviceContainerProjects.data?.content} />
-        </ServiceContainerLoading>
-      </ContentBox>
-
-      {/* Pagination need to be outside of ServiceContainerLoading so that it can initialize Query Params */}
-      <Pagination componentId={componentId} count={serviceContainerProjects.data?.totalHits} />
+      <ProjectsList {...{ serviceContainerProjects, componentId }} />
     </PageLayout>
   );
 };
