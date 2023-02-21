@@ -75,7 +75,15 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     initLoadingState: false,
   });
 
-  useTitle(editPage ? `Edit | ${PageTitles.projects}` : `Create | ${PageTitles.projects}`);
+  useTitle(
+    !editPage
+      ? 'Create Project'
+      : serviceContainerEditPageGet.loading
+      ? 'Loading Edit Project'
+      : serviceContainerEditPageGet.data?.name
+      ? `Edit ${serviceContainerEditPageGet.data.name} | ${PageTitles.projects}`
+      : 'Error loading Edit Project'
+  );
 
   const submitCreate = (data: IFields) => {
     return serviceContainerCreatePage
