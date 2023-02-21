@@ -6,6 +6,7 @@ import { Project } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
+import { useSorting } from 'hooks/useSorting';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -51,10 +52,12 @@ const sortOptions: ISortOptions = {
   name: {
     id: 'name',
     title: 'Name',
+    tableColumnIndex: 0,
   },
   description: {
     id: 'description',
     title: 'Description',
+    tableColumnIndex: 1,
   },
 };
 
@@ -70,6 +73,8 @@ interface IProjectsList {
  * @param componentId - Component ID
  */
 export const ProjectsList = ({ serviceContainerProjects, componentId }: IProjectsList) => {
+  const { getSortParams } = useSorting(sortOptions, componentId);
+
   return (
     <>
       <Toolbar>
@@ -91,8 +96,10 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
           <TableComposable variant="compact">
             <Thead>
               <Tr>
-                <Th width={30}>Name</Th>
-                <Th>Description</Th>
+                <Th width={30} sort={getSortParams(sortOptions['name'].id)}>
+                  Name
+                </Th>
+                <Th sort={getSortParams(sortOptions['description'].id)}>Description</Th>
                 <Th width={15}>Build Configs count</Th>
                 <Th>Actions</Th>
               </Tr>
