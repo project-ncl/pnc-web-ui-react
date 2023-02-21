@@ -54,6 +54,12 @@ interface ISortAttribute {
    * If omitted, ascending order is assumed.
    */
   defaultSortOrder?: SORT_ORDER;
+
+  /**
+   * PatternFly requires to use table column indexes for sorting purposes.
+   * See https://www.patternfly.org/v4/components/table/
+   */
+  tableColumnIndex: number;
 }
 
 /**
