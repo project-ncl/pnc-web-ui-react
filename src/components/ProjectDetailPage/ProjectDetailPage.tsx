@@ -31,7 +31,7 @@ export const ProjectDetailPage = () => {
     serviceContainerProject.loading
       ? 'Loading Project'
       : serviceContainerProject.data?.name
-      ? `${serviceContainerProject.data.name} | ${PageTitles.projects}`
+      ? `${serviceContainerProject.data.name} ${PageTitles.delimiterSymbol} ${PageTitles.projects}`
       : 'Error loading Project'
   );
 

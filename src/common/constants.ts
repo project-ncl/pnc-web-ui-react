@@ -12,4 +12,5 @@ export const PageTitles = {
   repositories: 'SCM Repositories',
   administration: 'Administration',
   pageNotFound: 'Page Not Found',
+  delimiterSymbol: '·',
 };

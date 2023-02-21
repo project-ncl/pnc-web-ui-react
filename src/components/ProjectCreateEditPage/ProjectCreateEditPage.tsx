@@ -81,7 +81,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       : serviceContainerEditPageGet.loading
       ? 'Loading Edit Project'
       : serviceContainerEditPageGet.data?.name
-      ? `Edit ${serviceContainerEditPageGet.data.name} | ${PageTitles.projects}`
+      ? `Edit ${serviceContainerEditPageGet.data.name} ${PageTitles.delimiterSymbol} ${PageTitles.projects}`
       : 'Error loading Edit Project'
   );
 
