@@ -28,7 +28,9 @@ export const ProjectDetailPage = () => {
   }, [serviceContainerProjectRunner, projectId]);
 
   useTitle(
-    serviceContainerProject.data?.name
+    serviceContainerProject.loading
+      ? 'Loading Project'
+      : serviceContainerProject.data?.name
       ? `${serviceContainerProject.data.name} | ${PageTitles.projects}`
       : `Error loading ${PageTitles.projectDetail}`
   );
