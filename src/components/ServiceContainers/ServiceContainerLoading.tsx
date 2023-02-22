@@ -65,7 +65,7 @@ export const ServiceContainerLoading = ({
   //  - request was successfully finished,
   //  - content property is available (= content property means table data with pagination are expected),
   //  - but no items are available
-  if (data.content && !data.content.length) return <EmptyStateCard title={title} />;
+  if (data.content && !data.content.length && !isInline) return <EmptyStateCard title={title} />;
 
   // Empty state: display Empty card when
   //  - request was successfully finished,

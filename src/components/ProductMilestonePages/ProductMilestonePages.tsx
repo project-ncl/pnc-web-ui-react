@@ -1,6 +1,6 @@
 import { Label, Tooltip } from '@patternfly/react-core';
 import { AxiosRequestConfig } from 'axios';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
@@ -20,8 +20,6 @@ interface IProductMilestonePages {}
 export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePages>) => {
   const { milestoneId } = useParams();
 
-  const [deliveredArtifactsCount, setDeliveredArtifactsCount] = useState<number>();
-
   const serviceContainerMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
   const serviceContainerMilestoneRunner = serviceContainerMilestone.run;
 
@@ -31,10 +29,8 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   useEffect(() => {
     serviceContainerMilestoneRunner({ serviceData: { id: milestoneId } });
 
-    const requestConfig: AxiosRequestConfig = { params: { pageSize: 1 } };
-    serviceContainerArtifactsRunner({ serviceData: { id: milestoneId }, requestConfig }).then((data: any) => {
-      setDeliveredArtifactsCount(data.data.totalHits);
-    });
+    const requestConfig: AxiosRequestConfig = { params: { pageSize: 2 } };
+    serviceContainerArtifactsRunner({ serviceData: { id: milestoneId }, requestConfig });
   }, [serviceContainerMilestoneRunner, serviceContainerArtifactsRunner, milestoneId]);
 
   useTitle(
@@ -52,7 +48,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       <TabItem url={`/products-milestones/${milestoneId}/delivered-artifacts/`}>
         Delivered Artifacts{' '}
         <Tooltip content={<div>Total Count</div>}>
-          <Label>{deliveredArtifactsCount}</Label>
+          <Label>
+            <ServiceContainerLoading {...serviceContainerArtifacts} title="Delivered Artifacts Count" isInline>
+              {serviceContainerArtifacts.data?.totalHits}
+            </ServiceContainerLoading>
+          </Label>
         </Tooltip>
       </TabItem>
     </Tabs>
