@@ -39,11 +39,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const pageTabs = (
     <Tabs>
-      <TabItem url={`/products-milestones/${milestoneId}/details/`}>Details</TabItem>
-      <TabItem url={`/products-milestones/${milestoneId}/builds-performed/`}>Builds Performed</TabItem>
-      <TabItem url={`/products-milestones/${milestoneId}/close-results/`}>Close Results</TabItem>
-      <TabItem url={`/products-milestones/${milestoneId}/deliverables-analysis/`}>Deliverables Analysis</TabItem>
-      <TabItem url={`/products-milestones/${milestoneId}/delivered-artifacts/`}>
+      <TabItem url={`/product-milestones/${milestoneId}/details/`}>Details</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/builds-performed/`}>Builds Performed</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/close-results/`}>Close Results</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/deliverables-analysis/`}>Deliverables Analysis</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/delivered-artifacts/`}>
         Delivered Artifacts{' '}
         <Tooltip content={<div>Total Count</div>}>
           <Label>
