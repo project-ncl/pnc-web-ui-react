@@ -3,12 +3,12 @@ import styles from '@patternfly/react-styles/css/components/Tabs/tabs';
 import { PropsWithChildren } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-interface ITabItem {
+interface ITabItemProps {
   url: string;
   index?: number;
 }
 
-export const TabItem = ({ children, url, index }: PropsWithChildren<ITabItem>) => {
+export const TabItem = ({ children, url, index }: PropsWithChildren<ITabItemProps>) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
