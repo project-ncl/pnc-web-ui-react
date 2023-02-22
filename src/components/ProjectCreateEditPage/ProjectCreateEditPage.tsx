@@ -16,8 +16,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
-import { PageTitles } from 'common/constants';
-
 import { IFields, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -31,6 +29,7 @@ import * as projectApi from 'services/projectApi';
 
 import { validateUrl } from 'utils/formValidationHelpers';
 import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
+import { createCreateEditPageTitle } from 'utils/titleHelper';
 
 interface IProjectCreateEditPageProps {
   editPage?: boolean;
@@ -75,15 +74,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     initLoadingState: false,
   });
 
-  useTitle(
-    !editPage
-      ? 'Create Project'
-      : serviceContainerEditPageGet.loading
-      ? 'Loading edit Project'
-      : serviceContainerEditPageGet.data?.name
-      ? `Edit ${serviceContainerEditPageGet.data.name} ${PageTitles.delimiterSymbol} ${PageTitles.projects}`
-      : 'Error loading edit Project'
-  );
+  useTitle(createCreateEditPageTitle(serviceContainerEditPageGet, editPage, 'Project', serviceContainerEditPageGet.data?.name));
 
   const submitCreate = (data: IFields) => {
     return serviceContainerCreatePage
