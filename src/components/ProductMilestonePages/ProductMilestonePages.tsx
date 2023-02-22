@@ -1,9 +1,8 @@
 import { Label, Tooltip } from '@patternfly/react-core';
-import { AxiosRequestConfig } from 'axios';
 import { PropsWithChildren, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { PageTitles } from 'common/constants';
+import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -15,9 +14,9 @@ import { Tabs } from 'components/Tabs/Tabs';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
-interface IProductMilestonePages {}
+interface IProductMilestonePagesProps {}
 
-export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePages>) => {
+export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePagesProps>) => {
   const { milestoneId } = useParams();
 
   const serviceContainerMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
@@ -29,8 +28,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   useEffect(() => {
     serviceContainerMilestoneRunner({ serviceData: { id: milestoneId } });
 
-    const requestConfig: AxiosRequestConfig = { params: { pageSize: 2 } };
-    serviceContainerArtifactsRunner({ serviceData: { id: milestoneId }, requestConfig });
+    serviceContainerArtifactsRunner({ serviceData: { id: milestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [serviceContainerMilestoneRunner, serviceContainerArtifactsRunner, milestoneId]);
 
   useTitle(
@@ -42,7 +40,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const pageTabs = (
     <Tabs>
       <TabItem url={`/products-milestones/${milestoneId}/details/`}>Details</TabItem>
-      <TabItem url={`/products-milestones/${milestoneId}/builds-performed/`}>Buils Performed</TabItem>
+      <TabItem url={`/products-milestones/${milestoneId}/builds-performed/`}>Builds Performed</TabItem>
       <TabItem url={`/products-milestones/${milestoneId}/close-results/`}>Close Results</TabItem>
       <TabItem url={`/products-milestones/${milestoneId}/deliverables-analysis/`}>Deliverables Analysis</TabItem>
       <TabItem url={`/products-milestones/${milestoneId}/delivered-artifacts/`}>

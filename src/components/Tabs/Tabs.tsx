@@ -5,11 +5,11 @@ import { ReactElement } from 'react';
 
 import styles from './Tabs.module.css';
 
-interface ITabs {
+interface ITabProps {
   children: ReactElement | ReactElement[];
 }
 
-export const Tabs = ({ children }: ITabs) => {
+export const Tabs = ({ children }: ITabProps) => {
   return (
     <PageSection
       stickyOnBreakpoint={{ default: 'top' }}

@@ -4,7 +4,7 @@ import { ArtifactPage, ProductMilestone } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
-export interface IProductMilestoneApiData {
+interface IProductMilestoneApiData {
   id: string;
 }
 

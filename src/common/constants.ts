@@ -1,3 +1,5 @@
+import { AxiosRequestConfig } from 'axios';
+
 export const PageTitles = {
   projects: 'Projects',
   projectDetail: 'Project Detail',
@@ -15,3 +17,6 @@ export const PageTitles = {
   pageNotFound: 'Page Not Found',
   delimiterSymbol: '·',
 };
+
+// For getting total item count
+export const SINGLE_PAGE_REQUEST_CONFIG: AxiosRequestConfig = { params: { pageSize: 1 } };
