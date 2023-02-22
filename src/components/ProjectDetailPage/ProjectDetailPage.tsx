@@ -2,8 +2,6 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { PageTitles } from 'common/constants';
-
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -17,6 +15,8 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as projectApi from 'services/projectApi';
 
+import { createDetailPageTitle } from 'utils/titleHelper';
+
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
 
@@ -27,13 +27,7 @@ export const ProjectDetailPage = () => {
     serviceContainerProjectRunner({ serviceData: { id: projectId } });
   }, [serviceContainerProjectRunner, projectId]);
 
-  useTitle(
-    serviceContainerProject.loading
-      ? 'Loading Project'
-      : serviceContainerProject.data?.name
-      ? `${serviceContainerProject.data.name} ${PageTitles.delimiterSymbol} ${PageTitles.projects}`
-      : 'Error loading Project'
-  );
+  useTitle(createDetailPageTitle(serviceContainerProject, 'Project', serviceContainerProject.data?.name));
 
   const attributes = [
     {
