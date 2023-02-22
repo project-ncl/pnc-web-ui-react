@@ -1,4 +1,4 @@
-import { Label, PageSection, PageSectionVariants, Text, TextContent, Tooltip } from '@patternfly/react-core';
+import { Label, Tooltip } from '@patternfly/react-core';
 import { AxiosRequestConfig } from 'axios';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { PageTitles } from 'common/constants';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TabItem } from 'components/Tabs/TabItem';
 import { Tabs } from 'components/Tabs/Tabs';
@@ -42,38 +43,26 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       : `Error loading ${PageTitles.productMilestones}`
   );
 
+  const pageTabs = (
+    <Tabs>
+      <TabItem url={`/products-milestones/${milestoneId}/details/`}>Details</TabItem>
+      <TabItem url={`/products-milestones/${milestoneId}/builds-performed/`}>Buils Performed</TabItem>
+      <TabItem url={`/products-milestones/${milestoneId}/close-results/`}>Close Results</TabItem>
+      <TabItem url={`/products-milestones/${milestoneId}/deliverables-analysis/`}>Deliverables Analysis</TabItem>
+      <TabItem url={`/products-milestones/${milestoneId}/delivered-artifacts/`}>
+        Delivered Artifacts{' '}
+        <Tooltip content={<div>Total Count</div>}>
+          <Label>{deliveredArtifactsCount}</Label>
+        </Tooltip>
+      </TabItem>
+    </Tabs>
+  );
+
   return (
     <ServiceContainerLoading {...serviceContainerMilestone} title="Product Milestone details">
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">Product Milestone {serviceContainerMilestone.data?.version}</Text>
-        </TextContent>
-      </PageSection>
-
-      <Tabs>
-        <TabItem url={`/products-milestones/${milestoneId}/details/`}>
-          <Text>Details</Text>
-        </TabItem>
-        <TabItem url={`/products-milestones/${milestoneId}/builds-performed/`}>
-          <Text>Buils Performed</Text>
-        </TabItem>
-        <TabItem url={`/products-milestones/${milestoneId}/close-results/`}>
-          <Text>Close Results</Text>
-        </TabItem>
-        <TabItem url={`/products-milestones/${milestoneId}/deliverables-analysis/`}>
-          <Text>Deliverables Analysis</Text>
-        </TabItem>
-        <TabItem url={`/products-milestones/${milestoneId}/delivered-artifacts/`}>
-          <Text>
-            Delivered Artifacts{' '}
-            <Tooltip content={<div>Total Count</div>}>
-              <Label>{deliveredArtifactsCount}</Label>
-            </Tooltip>
-          </Text>
-        </TabItem>
-      </Tabs>
-
-      {children}
+      <PageLayout title={`Product Milestone ${serviceContainerMilestone.data?.version}`} tabs={pageTabs}>
+        {children}
+      </PageLayout>
     </ServiceContainerLoading>
   );
 };

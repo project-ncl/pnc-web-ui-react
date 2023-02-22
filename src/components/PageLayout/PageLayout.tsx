@@ -5,6 +5,7 @@ interface IAppLayoutProps {
   title: string;
   description?: React.ReactNode; // not just string, also components can be used
   actions?: React.ReactNode;
+  tabs?: React.ReactNode;
 }
 
 /**
@@ -25,7 +26,7 @@ interface IAppLayoutProps {
  * ```
  * 
  */
-export const PageLayout = ({ children, title, description, actions }: React.PropsWithChildren<IAppLayoutProps>) => {
+export const PageLayout = ({ children, title, description, actions, tabs }: React.PropsWithChildren<IAppLayoutProps>) => {
   return (
     <>
       <PageSection variant={PageSectionVariants.light}>
@@ -35,6 +36,8 @@ export const PageLayout = ({ children, title, description, actions }: React.Prop
         </TextContent>
         {actions && <div className="pull-right">{actions}</div>}
       </PageSection>
+
+      {tabs}
 
       <Divider component="div" />
 
