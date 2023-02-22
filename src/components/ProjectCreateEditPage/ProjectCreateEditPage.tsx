@@ -79,10 +79,10 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     !editPage
       ? 'Create Project'
       : serviceContainerEditPageGet.loading
-      ? 'Loading Edit Project'
+      ? 'Loading edit Project'
       : serviceContainerEditPageGet.data?.name
       ? `Edit ${serviceContainerEditPageGet.data.name} ${PageTitles.delimiterSymbol} ${PageTitles.projects}`
-      : 'Error loading Edit Project'
+      : 'Error loading edit Project'
   );
 
   const submitCreate = (data: IFields) => {
