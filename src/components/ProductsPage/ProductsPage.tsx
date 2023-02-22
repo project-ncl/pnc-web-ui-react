@@ -4,6 +4,9 @@ import { PageTitles } from 'common/constants';
 
 import { useTitle } from 'hooks/useTitle';
 
+import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ContentBox } from 'components/ContentBox/ContentBox';
+
 export const ProductsPage = () => {
   useTitle(PageTitles.products);
   return (
@@ -18,6 +21,12 @@ export const ProductsPage = () => {
       </PageSection>
 
       <Divider component="div" />
+
+      <PageSection>
+        <ContentBox padding>
+          <ActionButton link="/product-milestones/101/details">Product Milestone (testing purposes)</ActionButton>
+        </ContentBox>
+      </PageSection>
     </>
   );
 };
