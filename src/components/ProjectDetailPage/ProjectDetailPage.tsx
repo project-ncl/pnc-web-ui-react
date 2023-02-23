@@ -15,7 +15,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as projectApi from 'services/projectApi';
 
-import { createDetailPageTitle } from 'utils/titleHelper';
+import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProjectDetailPage = () => {
   const { projectId } = useParams();
@@ -27,7 +27,7 @@ export const ProjectDetailPage = () => {
     serviceContainerProjectRunner({ serviceData: { id: projectId } });
   }, [serviceContainerProjectRunner, projectId]);
 
-  useTitle(createDetailPageTitle(serviceContainerProject, 'Project', serviceContainerProject.data?.name));
+  useTitle(generatePageTitle({ serviceContainer: serviceContainerProject, entity: 'Project' }));
 
   const attributes = [
     {

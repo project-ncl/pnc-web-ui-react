@@ -29,7 +29,7 @@ import * as projectApi from 'services/projectApi';
 
 import { validateUrl } from 'utils/formValidationHelpers';
 import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
-import { createCreateEditPageTitle } from 'utils/titleHelper';
+import { generatePageTitle } from 'utils/titleHelper';
 
 interface IProjectCreateEditPageProps {
   editPage?: boolean;
@@ -74,7 +74,13 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     initLoadingState: false,
   });
 
-  useTitle(createCreateEditPageTitle(serviceContainerEditPageGet, editPage, 'Project', serviceContainerEditPageGet.data?.name));
+  useTitle(
+    generatePageTitle({
+      pageType: editPage ? 'Edit' : 'Create',
+      serviceContainer: serviceContainerEditPageGet,
+      entity: 'Project',
+    })
+  );
 
   const submitCreate = (data: IFields) => {
     return serviceContainerCreatePage
