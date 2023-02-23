@@ -14,13 +14,6 @@ export interface IService<T = {}> {
   requestConfig?: AxiosRequestConfig;
 }
 
-export interface ServiceContainerData {
-  data: any;
-  loading: boolean;
-  error: string;
-  run: Function;
-}
-
 /**
  * React hook to manage data, loading and error states when data is being loaded. See also {@link ServiceContainerLoading} and {@link ServiceContainerCreatingUpdating}.
  *
@@ -30,10 +23,7 @@ export interface ServiceContainerData {
  * @param config - Config object, initLoadingState (provides init values for loading state)
  * @returns Object with data, loading and error property
  */
-export const useServiceContainer = (
-  service: Function,
-  { initLoadingState = true }: { initLoadingState?: boolean } = {}
-): ServiceContainerData => {
+export const useServiceContainer = (service: Function, { initLoadingState = true }: { initLoadingState?: boolean } = {}): any => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time
