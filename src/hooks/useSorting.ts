@@ -126,7 +126,7 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
       index: activeSortIndex,
       direction: activeSortDirection,
     },
-    onSort: (_event, index, sortDirection) => {
+    onSort: (_event, _index, sortDirection) => {
       // UI -> URL
       updateQueryParamsInURL(
         { sort: `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },
