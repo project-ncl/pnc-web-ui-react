@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
@@ -34,13 +34,7 @@ export const AppRoutes = () => (
     {/* entity pages */}
     <Route path="products" element={<ProductsPage />} />
     <Route path="product-milestones/:milestoneId">
-      <Route
-        element={
-          <ProductMilestonePages>
-            <Outlet />
-          </ProductMilestonePages>
-        }
-      >
+      <Route element={<ProductMilestonePages />}>
         <Route path="details" element={<ProductMilestoneDetailPage />} />
         <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
         <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
