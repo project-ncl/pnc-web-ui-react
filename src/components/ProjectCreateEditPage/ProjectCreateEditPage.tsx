@@ -25,7 +25,6 @@ import { useTitle } from 'hooks/useTitle';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
-import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as projectApi from 'services/projectApi';
 
@@ -54,9 +53,6 @@ const formConfig = {
 export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPageProps) => {
   const flexDirection: FlexProps['direction'] = { default: 'column' };
 
-  // edit page:
-  // on edit page, use ServiceContainerCreatingUpdating or ServiceContainerLoading ?
-  const [isPatching, setIsPatching] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
   const navigate = useNavigate();
   const urlPathParams = useParams();
@@ -127,7 +123,6 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         serviceContainerEditPageGetRunner({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
           const project: Project = response.data;
 
-          setIsPatching(true);
           setId(project.id);
           reinitialize({
             name: project.name,
@@ -285,20 +280,15 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
       <Flex direction={flexDirection}>
         <FlexItem>
           {editPage ? (
-            isPatching ? (
-              <ServiceContainerCreatingUpdating {...serviceContainerEditPagePatch} title="Edit Project">
-                {formComponent}
-              </ServiceContainerCreatingUpdating>
-            ) : (
-              /* used just to GET project data, after that is immediately switched to patch container */
-              <ServiceContainerLoading {...serviceContainerEditPageGet} title="Project edit form">
-                {/* no content is needed */}
-              </ServiceContainerLoading>
-            )
-          ) : (
-            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} title="Project create form">
+            <ServiceContainerCreatingUpdating
+              {...serviceContainerEditPagePatch}
+              serviceContainerLoading={serviceContainerEditPageGet}
+              title="Project"
+            >
               {formComponent}
             </ServiceContainerCreatingUpdating>
+          ) : (
+            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
           )}
         </FlexItem>
       </Flex>

@@ -6,10 +6,13 @@ import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 export interface IServiceContainerProps {
   data: any;
   loading: boolean;
-  error?: string;
+  error: string;
+}
+
+interface IServiceContainerLoadingProps extends IServiceContainerProps {
   title: string;
-  loadingDelayMilliseconds?: number;
   isInline?: boolean;
+  loadingDelayMilliseconds?: number;
 }
 
 /**
@@ -41,7 +44,7 @@ export const ServiceContainerLoading = ({
   loadingDelayMilliseconds,
   isInline = false,
   children,
-}: React.PropsWithChildren<IServiceContainerProps>) => {
+}: React.PropsWithChildren<IServiceContainerLoadingProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
   if (loading && !data)
     return <LoadingStateCard delayMilliseconds={loadingDelayMilliseconds} title={title} isInline={isInline} />;
