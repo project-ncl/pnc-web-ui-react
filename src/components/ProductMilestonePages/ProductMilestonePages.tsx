@@ -1,6 +1,6 @@
 import { Label, Tooltip } from '@patternfly/react-core';
 import { PropsWithChildren, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
@@ -15,6 +15,9 @@ import { Tabs } from 'components/Tabs/Tabs';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 interface IProductMilestonePagesProps {}
+
+// TOTO: Change to appropriate type once implemented
+type ContextType = { serviceContainerMilestone: any };
 
 export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePagesProps>) => {
   const { milestoneId } = useParams();
@@ -39,11 +42,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const pageTabs = (
     <Tabs>
-      <TabItem url={`/product-milestones/${milestoneId}/details/`}>Details</TabItem>
-      <TabItem url={`/product-milestones/${milestoneId}/builds-performed/`}>Builds Performed</TabItem>
-      <TabItem url={`/product-milestones/${milestoneId}/close-results/`}>Close Results</TabItem>
-      <TabItem url={`/product-milestones/${milestoneId}/deliverables-analysis/`}>Deliverables Analysis</TabItem>
-      <TabItem url={`/product-milestones/${milestoneId}/delivered-artifacts/`}>
+      <TabItem url={`/product-milestones/${milestoneId}/details`}>Details</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/builds-performed`}>Builds Performed</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/close-results`}>Close Results</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/deliverables-analysis`}>Deliverables Analysis</TabItem>
+      <TabItem url={`/product-milestones/${milestoneId}/delivered-artifacts`}>
         Delivered Artifacts{' '}
         <Tooltip content={<div>Total Count</div>}>
           <Label>
@@ -59,8 +62,12 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   return (
     <ServiceContainerLoading {...serviceContainerMilestone} title="Product Milestone details">
       <PageLayout title={`Product Milestone ${serviceContainerMilestone.data?.version}`} tabs={pageTabs}>
-        {children}
+        <Outlet context={{ serviceContainerMilestone }} />
       </PageLayout>
     </ServiceContainerLoading>
   );
 };
+
+export function useServiceContainerMilestone() {
+  return useOutletContext<ContextType>();
+}
