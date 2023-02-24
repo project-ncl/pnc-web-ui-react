@@ -48,7 +48,7 @@ export const ScmRepositoryDetailPage = () => {
       <div>
         <Split hasGutter>
           <SplitItem isFilled>
-            <ClipboardCopy isReadOnly hoverTip="Copy" clickTip="URL Copied" maxWidth="200px">
+            <ClipboardCopy isReadOnly hoverTip="Copy" clickTip="Copied" maxWidth="200px">
               {internalUrl}
             </ClipboardCopy>
           </SplitItem>
