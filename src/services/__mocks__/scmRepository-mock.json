@@ -1,0 +1,7 @@
+{
+  "id": "111",
+  "internalUrl": "git+ssh://code.internal.com/test-project/project.git",
+  "externalUrl": "https://github.com/test/test-project",
+  "displayName": "test-project/project.git",
+  "preBuildSyncEnabled": false
+}

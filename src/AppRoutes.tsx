@@ -24,6 +24,7 @@ import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPag
 import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';
 import { ProtectedRoute } from 'components/ProtectedContent/ProtectedRoute';
 import { ScmRepositoriesPage } from 'components/ScmRepositoriesPage/ScmRepositoriesPage';
+import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmRepositoryDetailPage';
 import { VariablesPage } from 'components/VariablesPage/VariablesPage';
 
 import { AUTH_ROLE } from 'services/keycloakService';
@@ -69,7 +70,26 @@ export const AppRoutes = () => (
     <Route path="builds" element={<BuildsPage />} />
     <Route path="group-builds" element={<GroupBuildsPage />} />
     <Route path="artifacts" element={<ArtifactsPage />} />
-    <Route path="scm-repositories" element={<ScmRepositoriesPage />} />
+    <Route path="scm-repositories">
+      <Route index element={<ScmRepositoriesPage />} />
+      {/* <Route
+        path="create"
+        element={
+          <ProtectedRoute title={PageTitles.repositoryCreate}>
+            <ProjectCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path=":scmRepositoryId/edit"
+        element={
+          <ProtectedRoute title={PageTitles.repositoryEdit}>
+            <ProjectCreateEditPage editPage={true} />
+          </ProtectedRoute>
+        }
+      /> */}
+      <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} />
+    </Route>
 
     {/* special pages */}
     <Route path="admin">
