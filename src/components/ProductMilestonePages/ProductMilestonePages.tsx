@@ -48,7 +48,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       <TabItem url={`/product-milestones/${milestoneId}/deliverables-analysis`}>Deliverables Analysis</TabItem>
       <TabItem url={`/product-milestones/${milestoneId}/delivered-artifacts`}>
         Delivered Artifacts{' '}
-        <Tooltip content={<div>Total Count</div>}>
+        <Tooltip content="Total Count">
           <Label>
             <ServiceContainerLoading {...serviceContainerArtifacts} title="Delivered Artifacts Count" isInline>
               {serviceContainerArtifacts.data?.totalHits}
