@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
@@ -33,14 +33,13 @@ export const AppRoutes = () => (
     <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
     <Route path="products" element={<ProductsPage />} />
-    <Route path="products/:productId/versions/:versionId/milestones/:milestoneId">
-      <Route element={<ProductMilestonePages />}>
-        <Route path="details" element={<ProductMilestoneDetailPage />} />
-        <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
-        <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
-        <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
-        <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
-      </Route>
+    <Route path="products/:productId/versions/:versionId/milestones/:milestoneId" element={<ProductMilestonePages />}>
+      <Route path="details" element={<ProductMilestoneDetailPage />} />
+      <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
+      <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
+      <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+      <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
+      <Route index element={<Navigate to="details" replace />} />
     </Route>
     <Route path="projects">
       <Route index element={<ProjectsPage />} />
