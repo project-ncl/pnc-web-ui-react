@@ -4,7 +4,7 @@ import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -18,11 +18,10 @@ import { generatePageTitle } from 'utils/titleHelper';
 
 interface IProductMilestonePagesProps {}
 
-// TOTO: Change to appropriate type once implemented
-type ContextType = { serviceContainerMilestone: any };
+type ContextType = { serviceContainerMilestone: IServiceContainer };
 
 export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePagesProps>) => {
-  const { milestoneId } = useParams();
+  const { productMilestoneId } = useParams();
 
   const serviceContainerMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
   const serviceContainerMilestoneRunner = serviceContainerMilestone.run;
@@ -31,10 +30,10 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   useEffect(() => {
-    serviceContainerMilestoneRunner({ serviceData: { id: milestoneId } });
+    serviceContainerMilestoneRunner({ serviceData: { id: productMilestoneId } });
 
-    serviceContainerArtifactsRunner({ serviceData: { id: milestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-  }, [serviceContainerMilestoneRunner, serviceContainerArtifactsRunner, milestoneId]);
+    serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+  }, [serviceContainerMilestoneRunner, serviceContainerArtifactsRunner, productMilestoneId]);
 
   useTitle(
     generatePageTitle({
@@ -47,11 +46,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const pageTabs = (
     <Tabs>
-      <TabItem url={`details`}>Details</TabItem>
-      <TabItem url={`builds-performed`}>Builds Performed</TabItem>
-      <TabItem url={`close-results`}>Close Results</TabItem>
-      <TabItem url={`deliverables-analysis`}>Deliverables Analysis</TabItem>
-      <TabItem url={`delivered-artifacts`}>
+      <TabItem url="details">Details</TabItem>
+      <TabItem url="builds-performed">Builds Performed</TabItem>
+      <TabItem url="close-results">Close Results</TabItem>
+      <TabItem url="deliverables-analysis">Deliverables Analysis</TabItem>
+      <TabItem url="delivered-artifacts">
         Delivered Artifacts{' '}
         <Tooltip content="Total Count">
           <Label>
