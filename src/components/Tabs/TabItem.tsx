@@ -5,10 +5,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ITabItemProps {
   url: string;
-  index?: number;
 }
 
-export const TabItem = ({ children, url, index }: PropsWithChildren<ITabItemProps>) => {
+export const TabItem = ({ children, url }: PropsWithChildren<ITabItemProps>) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

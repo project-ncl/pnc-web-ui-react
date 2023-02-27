@@ -1,9 +1,11 @@
-import { PageSection, PageSectionVariants } from '@patternfly/react-core';
+import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
 import { ReactElement } from 'react';
 
 import styles from './Tabs.module.css';
+
+const stickyOnBreakpoint: PageSectionProps['stickyOnBreakpoint'] = { default: 'top' };
 
 interface ITabProps {
   children: ReactElement | ReactElement[];
@@ -12,7 +14,7 @@ interface ITabProps {
 export const Tabs = ({ children }: ITabProps) => {
   return (
     <PageSection
-      stickyOnBreakpoint={{ default: 'top' }}
+      stickyOnBreakpoint={stickyOnBreakpoint}
       className={styles['page-section-tabs']}
       type="tabs"
       variant={PageSectionVariants.light}
