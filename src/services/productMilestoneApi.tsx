@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ArtifactPage, ProductMilestone } from 'pnc-api-types-ts';
+import { ArtifactPage, ProductMilestone, ProductMilestoneCloseResultPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -31,4 +31,13 @@ export const getProductMilestoneDeliveredArtifacts = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/${id}/delivered-artifacts`, requestConfig);
+};
+
+/**
+ * Gets Product Milestone close results.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ProductMilestoneCloseResultPage>(`/product-milestones/${id}/close-results`, requestConfig);
 };
