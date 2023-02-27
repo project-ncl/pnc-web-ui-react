@@ -74,7 +74,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     generatePageTitle({
       pageType: editPage ? 'Edit' : 'Create',
       serviceContainer: serviceContainerEditPageGet,
-      entity: 'Project',
+      firstLevelEntity: 'Project',
     })
   );
 

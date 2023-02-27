@@ -27,7 +27,7 @@ export const ProjectDetailPage = () => {
     serviceContainerProjectRunner({ serviceData: { id: projectId } });
   }, [serviceContainerProjectRunner, projectId]);
 
-  useTitle(generatePageTitle({ serviceContainer: serviceContainerProject, entity: 'Project' }));
+  useTitle(generatePageTitle({ serviceContainer: serviceContainerProject, firstLevelEntity: 'Project' }));
 
   const attributes = [
     {
