@@ -33,7 +33,10 @@ export const AppRoutes = () => (
     <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
     <Route path="products" element={<ProductsPage />} />
-    <Route path="products/:productId/versions/:versionId/milestones/:milestoneId" element={<ProductMilestonePages />}>
+    <Route
+      path="products/:productId/versions/:productVersionId/milestones/:productMilestoneId"
+      element={<ProductMilestonePages />}
+    >
       <Route path="details" element={<ProductMilestoneDetailPage />} />
       <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
       <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />

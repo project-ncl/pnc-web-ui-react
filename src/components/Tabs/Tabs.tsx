@@ -7,11 +7,11 @@ import styles from './Tabs.module.css';
 
 const stickyOnBreakpoint: PageSectionProps['stickyOnBreakpoint'] = { default: 'top' };
 
-interface ITabProps {
+interface ITabsProps {
   children: ReactElement | ReactElement[];
 }
 
-export const Tabs = ({ children }: ITabProps) => {
+export const Tabs = ({ children }: ITabsProps) => {
   return (
     <PageSection
       stickyOnBreakpoint={stickyOnBreakpoint}
