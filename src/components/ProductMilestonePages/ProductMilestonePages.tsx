@@ -9,8 +9,8 @@ import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { TabItem } from 'components/Tabs/TabItem';
 import { Tabs } from 'components/Tabs/Tabs';
+import { TabsItem } from 'components/Tabs/TabsItem';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -46,11 +46,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const pageTabs = (
     <Tabs>
-      <TabItem url="details">Details</TabItem>
-      <TabItem url="builds-performed">Builds Performed</TabItem>
-      <TabItem url="close-results">Close Results</TabItem>
-      <TabItem url="deliverables-analysis">Deliverables Analysis</TabItem>
-      <TabItem url="delivered-artifacts">
+      <TabsItem url="details">Details</TabsItem>
+      <TabsItem url="builds-performed">Builds Performed</TabsItem>
+      <TabsItem url="close-results">Close Results</TabsItem>
+      <TabsItem url="deliverables-analysis">Deliverables Analysis</TabsItem>
+      <TabsItem url="delivered-artifacts">
         Delivered Artifacts{' '}
         <Tooltip content="Total Count">
           <Label>
@@ -59,7 +59,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
             </ServiceContainerLoading>
           </Label>
         </Tooltip>
-      </TabItem>
+      </TabsItem>
     </Tabs>
   );
 
