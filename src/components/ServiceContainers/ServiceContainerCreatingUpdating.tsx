@@ -1,6 +1,8 @@
 import { Alert } from '@patternfly/react-core';
 import React from 'react';
 
+import { IServiceContainer } from 'hooks/useServiceContainer';
+
 import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 import { IServiceContainerProps, ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
@@ -9,7 +11,7 @@ interface IServiceContainerCreatingUpdatingProps extends IServiceContainerProps 
   /**
    * Typically only edit pages pass serviceContainerLoading to handle initial data states (like loading or error)
    */
-  serviceContainerLoading?: any; // TODO
+  serviceContainerLoading?: IServiceContainer;
 }
 
 export const ServiceContainerCreatingUpdating = ({

@@ -1,5 +1,7 @@
 import { PageTitles } from 'common/constants';
 
+import { IServiceContainer } from 'hooks/useServiceContainer';
+
 type EntityType =
   | 'Project'
   | 'Build Config'
@@ -15,7 +17,7 @@ type EntityType =
 
 interface IGeneratePageTitle {
   pageType?: 'Detail' | 'Edit' | 'Create';
-  serviceContainer: any;
+  serviceContainer: IServiceContainer;
   firstLevelEntity: EntityType;
   nestedEntity?: EntityType;
   entityName?: string;
