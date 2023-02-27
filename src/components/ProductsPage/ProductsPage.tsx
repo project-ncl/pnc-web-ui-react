@@ -24,7 +24,9 @@ export const ProductsPage = () => {
 
       <PageSection>
         <ContentBox padding>
-          <ActionButton link="/product-milestones/101/details">Product Milestone (testing purposes)</ActionButton>
+          <ActionButton link="/products/100/versions/100/milestones/101/details">
+            Product Milestone (testing purposes)
+          </ActionButton>
         </ContentBox>
       </PageSection>
     </>
