@@ -14,6 +14,8 @@ import { Tabs } from 'components/Tabs/Tabs';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
+import { generatePageTitle } from 'utils/titleHelper';
+
 interface IProductMilestonePagesProps {}
 
 // TOTO: Change to appropriate type once implemented
@@ -35,9 +37,12 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   }, [serviceContainerMilestoneRunner, serviceContainerArtifactsRunner, milestoneId]);
 
   useTitle(
-    serviceContainerMilestone.data?.version
-      ? `${serviceContainerMilestone.data.version} | <unknown> | ${PageTitles.products}`
-      : `Error loading ${PageTitles.productMilestones}`
+    generatePageTitle({
+      serviceContainer: serviceContainerMilestone,
+      firstLevelEntity: 'Product',
+      nestedEntity: 'Milestone',
+      entityName: `${serviceContainerMilestone.data?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+    })
   );
 
   const pageTabs = (
