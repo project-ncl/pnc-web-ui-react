@@ -14,11 +14,13 @@ interface ICreateDateTimeObject {
   includeTime?: boolean;
 }
 
-export const createDateTime = ({ date, includeDate = true, includeTime = true }: ICreateDateTimeObject): string =>
-  new Intl.DateTimeFormat('en-US', {
-    ...(includeDate && { dateStyle: 'medium' }),
-    ...(includeTime && { timeStyle: 'medium' }),
-  }).format(typeof date === 'string' ? new Date(date) : date);
+export const createDateTime = ({ date, includeDate = true, includeTime = true }: ICreateDateTimeObject): string | null =>
+  date
+    ? new Intl.DateTimeFormat('en-US', {
+        ...(includeDate && { dateStyle: 'medium' }),
+        ...(includeTime && { timeStyle: 'medium' }),
+      }).format(typeof date === 'string' ? new Date(date) : date)
+    : null;
 
 export const transformateDateFormat = (date: Date) => {
   const year = date.getFullYear();
