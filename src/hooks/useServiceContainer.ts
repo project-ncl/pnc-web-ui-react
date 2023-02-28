@@ -6,7 +6,7 @@ export interface IServiceContainer {
   data: any;
   loading: boolean;
   error: string;
-  run: Function;
+  run: ServiceContainerRunnerFunction;
 }
 
 export interface IService<T = {}> {
@@ -20,6 +20,8 @@ export interface IService<T = {}> {
    */
   requestConfig?: AxiosRequestConfig;
 }
+
+export type ServiceContainerRunnerFunction = (iService?: IService<Object | null>) => any;
 
 /**
  * React hook to manage data, loading and error states when data is being loaded. See also {@link ServiceContainerLoading} and {@link ServiceContainerCreatingUpdating}.
