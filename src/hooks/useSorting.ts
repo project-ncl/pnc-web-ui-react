@@ -162,11 +162,11 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
           componentId,
           location,
           navigate,
-          false
+          true
         );
       } else {
         // reset sorting
-        updateQueryParamsInURL({ sort: `none` }, componentId, location, navigate, false);
+        updateQueryParamsInURL({ sort: `none` }, componentId, location, navigate, true);
       }
     }
   }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, navigate]);
