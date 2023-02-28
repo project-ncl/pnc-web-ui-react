@@ -1,34 +1,36 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
-
 import { PageTitles } from 'common/constants';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProductsList } from 'components/ProductsList/ProductsList';
 
-export const ProductsPage = () => {
+import * as productApi from 'services/productApi';
+
+interface IProductsPageProps {
+  componentId?: string;
+}
+
+export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
+  const serviceContainerProducts = useServiceContainer(productApi.getProducts);
+
+  useQueryParamsEffect(serviceContainerProducts.run, { componentId });
+
   useTitle(PageTitles.products);
+
   return (
-    <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">ProductsPage</Text>
-          <Text component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quos unde, accusantium excepturi ad praesentium.
-          </Text>
-        </TextContent>
-      </PageSection>
+    <PageLayout title={PageTitles.products} description={<>This page contains products... TODO</>}>
+      <ContentBox shadow={false} background={false} marginBottom>
+        <ProductsList {...{ serviceContainerProducts, componentId }} />
+      </ContentBox>
 
-      <Divider component="div" />
-
-      <PageSection>
-        <ContentBox padding>
-          <ActionButton link="/products/100/versions/100/milestones/101/details">
-            Product Milestone (testing purposes)
-          </ActionButton>
-        </ContentBox>
-      </PageSection>
-    </>
+      <ContentBox padding>
+        <ActionButton link="/products/100/versions/100/milestones/101/details">Product Milestone (testing purposes)</ActionButton>
+      </ContentBox>
+    </PageLayout>
   );
 };
