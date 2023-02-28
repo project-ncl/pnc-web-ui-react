@@ -1,0 +1,17 @@
+{
+  "pageIndex": 0,
+  "pageSize": 3,
+  "totalPages": 1,
+  "totalHits": 1,
+  "content": [
+    {
+      "id": "143",
+      "name": "acreasy-test-1",
+      "description": "adfasfsafd",
+      "abbreviation": "at2",
+      "productManagers": null,
+      "productPagesCode": null,
+      "productVersions": { "180": { "id": "180", "version": "1.01", "attributes": { "BREW_TAG_PREFIX": "fb-1.0-pnc" } } }
+    }
+  ]
+}
