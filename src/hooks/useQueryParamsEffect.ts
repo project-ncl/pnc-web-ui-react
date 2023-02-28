@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { ServiceContainerRunnerFunction } from 'hooks/useServiceContainer';
+
 import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAreEqual } from 'utils/queryParamsHelper';
 
 interface IMandatoryQueryParams {
@@ -35,7 +37,7 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
  *   mandatoryQueryParams - Query Parameters required to be present in the URL before service method can be executed
  */
 export const useQueryParamsEffect = (
-  service: Function,
+  service: ServiceContainerRunnerFunction,
   {
     componentId = '',
     mandatoryQueryParams = listMandatoryQueryParams,
