@@ -1,12 +1,21 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Product, ProductVersionPage } from 'pnc-api-types-ts';
+import { Product, ProductPage, ProductVersionPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
 interface IProductApiData {
   id: string;
 }
+
+/**
+ * Gets all Products.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getProducts = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ProductPage>('/products', requestConfig);
+};
 
 /**
  * Gets a specific Product.
