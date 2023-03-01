@@ -8,6 +8,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductsList } from 'components/ProductsList/ProductsList';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
 import * as productApi from 'services/productApi';
 
@@ -23,7 +24,15 @@ export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
   useTitle(PageTitles.products);
 
   return (
-    <PageLayout title={PageTitles.products} description={<>This page contains products... TODO</>}>
+    <PageLayout
+      title={PageTitles.products}
+      description={<>This page contains products... TODO</>}
+      actions={
+        <ProtectedComponent>
+          <ActionButton action={() => console.log('Not implemented yet!')}>Create Product</ActionButton>
+        </ProtectedComponent>
+      }
+    >
       <ContentBox shadow={false} background={false} marginBottom>
         <ProductsList {...{ serviceContainerProducts, componentId }} />
       </ContentBox>
