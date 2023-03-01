@@ -89,7 +89,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProjects} title={PageTitles.projects}>
-          <TableComposable variant="compact">
+          <TableComposable isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
