@@ -1,3 +1,5 @@
+import { Label } from '@patternfly/react-core';
+
 import { PageTitles } from 'common/constants';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -26,7 +28,12 @@ export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
   return (
     <PageLayout
       title={PageTitles.products}
-      description={<>This page contains products... TODO</>}
+      description={
+        <>
+          This page contains list of products like <Label>EAP</Label>, usually product is a deliverable package composed of
+          multiple projects like <Label>JBoss Modules</Label> or <Label>Hibernate</Label>.
+        </>
+      }
       actions={
         <ProtectedComponent>
           <ActionButton action={() => console.log('Not implemented yet!')}>Create Product</ActionButton>
