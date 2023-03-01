@@ -2,14 +2,14 @@ import { Label, LabelProps } from '@patternfly/react-core';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
-interface CloseStatusMapper {
+export interface LabelMapper {
   [key: string]: {
     text: string;
     color: LabelProps['color'];
   };
 }
 
-const CLOSE_STATUSES: CloseStatusMapper = {
+const CLOSE_STATUSES: LabelMapper = {
   IN_PROGRESS: {
     text: 'IN PROGRESS',
     color: 'blue',

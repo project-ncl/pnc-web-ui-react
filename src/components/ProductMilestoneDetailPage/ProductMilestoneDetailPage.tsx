@@ -24,7 +24,7 @@ export const ProductMilestoneDetailPage = () => {
   useEffect(() => {
     serviceContainerCloseResultsRunner({
       serviceData: { id: productMilestoneId },
-      requestConfig: { params: { latest: 'true' } },
+      requestConfig: { params: { latest: true } },
     });
   }, [serviceContainerCloseResultsRunner, productMilestoneId]);
 
