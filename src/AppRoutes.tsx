@@ -72,22 +72,6 @@ export const AppRoutes = () => (
     <Route path="artifacts" element={<ArtifactsPage />} />
     <Route path="scm-repositories">
       <Route index element={<ScmRepositoriesPage />} />
-      {/* <Route
-        path="create"
-        element={
-          <ProtectedRoute title={PageTitles.repositoryCreate}>
-            <ProjectCreateEditPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path=":scmRepositoryId/edit"
-        element={
-          <ProtectedRoute title={PageTitles.repositoryEdit}>
-            <ProjectCreateEditPage editPage={true} />
-          </ProtectedRoute>
-        }
-      /> */}
       <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} />
     </Route>
 

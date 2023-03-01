@@ -1,5 +1,5 @@
-import { Button, ClipboardCopy, Split, SplitItem, Text, TextContent, TextVariants, Tooltip } from '@patternfly/react-core';
-import { ExternalLinkAltIcon, InfoCircleIcon } from '@patternfly/react-icons';
+import { Button, ClipboardCopy, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -11,10 +11,12 @@ import { useTitle } from 'hooks/useTitle';
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipText } from 'components/TooltipText/TooltipText';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
@@ -34,38 +36,32 @@ export const ScmRepositoryDetailPage = () => {
       : `Error loading ${PageTitles.projectDetail}`
   );
 
-  const internalScmRepositoryLink = (internalUrl: string) => {
+  const InternalScmRepositoryLink = (internalUrl: string) => {
     /**
      * Parses internal repo url to Gerrit gitweb link of the project
      */
     const parseInternalRepoLink = (url: string) => {
-      let protocol = url.split('://')[0];
-      let base = url.split('://')[1].split('/')[0];
-      let project = url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
+      const protocol = url.split('://')[0];
+      const base = url.split('://')[1].split('/')[0];
+      const project = url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
       return 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
     };
     return (
-      <div>
-        <Split hasGutter>
-          <SplitItem isFilled>
-            <ClipboardCopy isReadOnly hoverTip="Copy" clickTip="Copied" maxWidth="200px">
-              {internalUrl}
-            </ClipboardCopy>
-          </SplitItem>
-          <SplitItem>
-            <Button
-              component="a"
-              href={parseInternalRepoLink(internalUrl)}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="tertiary"
-              icon={<ExternalLinkAltIcon />}
-            >
-              Gerrit
-            </Button>
-          </SplitItem>
-        </Split>
-      </div>
+      <CopyToClipboard
+        url={parseInternalRepoLink(internalUrl)}
+        suffixComponent={
+          <Button
+            component="a"
+            href={parseInternalRepoLink(internalUrl)}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="tertiary"
+            icon={<ExternalLinkAltIcon />}
+          >
+            Gerrit
+          </Button>
+        }
+      ></CopyToClipboard>
     );
   };
 
@@ -74,43 +70,27 @@ export const ScmRepositoryDetailPage = () => {
   const attributes = [
     {
       name: (
-        <span>
-          Internal SCM URL{' '}
-          <Tooltip removeFindDomNode content={<div>URL of the internal SCM from Gerrit</div>}>
-            <InfoCircleIcon />
-          </Tooltip>
-        </span>
+        <TooltipText tooltip="URL to the internal SCM repository, which is the main repository used for the builds.">
+          Internal SCM URL
+        </TooltipText>
       ),
-      value: serviceContainerScmRepository.data?.internalUrl
-        ? internalScmRepositoryLink(serviceContainerScmRepository.data?.internalUrl)
-        : undefined,
+      value:
+        serviceContainerScmRepository.data?.internalUrl &&
+        InternalScmRepositoryLink(serviceContainerScmRepository.data?.internalUrl),
     },
     {
-      name: (
-        <span>
-          External SCM URL{' '}
-          <Tooltip removeFindDomNode content="URL of the external SCM">
-            <InfoCircleIcon />
-          </Tooltip>
-        </span>
-      ),
-      value: serviceContainerScmRepository.data?.externalUrl ? (
+      name: <TooltipText tooltip="URL to the upstream SCM repository.">External SCM URL</TooltipText>,
+      value: serviceContainerScmRepository.data?.externalUrl && (
         <ClipboardCopy isReadOnly hoverTip="Copy" clickTip="Copied">
           {serviceContainerScmRepository.data?.externalUrl}
         </ClipboardCopy>
-      ) : undefined,
+      ),
     },
     {
       name: (
-        <span>
-          Pre-build Sync{' '}
-          <Tooltip
-            removeFindDomNode
-            content={<div>Whether the internal repository will be automatically updated just before each build</div>}
-          >
-            <InfoCircleIcon />
-          </Tooltip>
-        </span>
+        <TooltipText tooltip="Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build.">
+          Pre-build Synchronization
+        </TooltipText>
       ),
       value: serviceContainerScmRepository.data?.preBuildSyncEnabled ? 'enabled' : 'disabled',
     },
@@ -120,11 +100,12 @@ export const ScmRepositoryDetailPage = () => {
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout
         title={parseScmRepositoryTitle(serviceContainerScmRepository.data?.internalUrl)}
-        description={serviceContainerScmRepository.data?.description}
         actions={<ActionButton link="#">Edit SCM Repository</ActionButton>}
       >
         <ContentBox padding marginBottom>
-          <AttributesItems attributes={attributes} />
+          <div className="w-70">
+            <AttributesItems attributes={attributes} />
+          </div>
         </ContentBox>
 
         <Toolbar>

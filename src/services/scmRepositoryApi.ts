@@ -4,7 +4,7 @@ import { SCMRepository } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
-export interface IScmRepositoryApiData {
+interface IScmRepositoryApiData {
   id: string;
 }
 
