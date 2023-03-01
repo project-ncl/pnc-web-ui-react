@@ -2,6 +2,21 @@ import { Flex, FlexItem, Label } from '@patternfly/react-core';
 
 import { Artifact } from 'pnc-api-types-ts';
 
+const generateLastLabel = (artifactNameSplitted: string[], lastIndex: number) => {
+  return (
+    artifactNameSplitted.length > lastIndex && (
+      <>
+        <FlexItem>:</FlexItem>
+        <FlexItem>
+          <Label variant="outline" color="grey" isCompact>
+            {artifactNameSplitted.slice(lastIndex).join(':')}
+          </Label>
+        </FlexItem>
+      </>
+    )
+  );
+};
+
 interface IArtifactIdentifierParserProps {
   artifact: Artifact;
 }
@@ -36,6 +51,7 @@ export const ArtifactIdentifierParser = ({ artifact }: IArtifactIdentifierParser
             {artifactNameSplitted[3]}
           </Label>
         </FlexItem>
+        {generateLastLabel(artifactNameSplitted, 4)}
       </Flex>
     );
   }
@@ -54,6 +70,7 @@ export const ArtifactIdentifierParser = ({ artifact }: IArtifactIdentifierParser
             {artifactNameSplitted[1]}
           </Label>
         </FlexItem>
+        {generateLastLabel(artifactNameSplitted, 2)}
       </Flex>
     );
   }
