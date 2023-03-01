@@ -154,7 +154,7 @@ Object {
         >
           <div>
             <table
-              class="pf-c-table pf-m-grid-md pf-m-compact"
+              class="pf-c-table pf-m-grid-md pf-m-compact pf-m-striped"
               data-ouia-component-id="OUIA-Generated-Table-2"
               data-ouia-component-type="PF4/Table"
               data-ouia-safe="true"
@@ -897,7 +897,7 @@ Object {
       >
         <div>
           <table
-            class="pf-c-table pf-m-grid-md pf-m-compact"
+            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-striped"
             data-ouia-component-id="OUIA-Generated-Table-2"
             data-ouia-component-type="PF4/Table"
             data-ouia-safe="true"
