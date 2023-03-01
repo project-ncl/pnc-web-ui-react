@@ -7,11 +7,9 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -46,7 +44,7 @@ const sortOptions: ISortOptions = {
   },
 };
 
-interface IProductsListPage {
+interface IProductsListProps {
   serviceContainerProducts: IServiceContainer;
   componentId: string;
 }
@@ -57,7 +55,7 @@ interface IProductsListPage {
  * @param serviceContainerProducts - Service Container for Products
  * @param componentId - Component ID
  */
-export const ProductsList = ({ serviceContainerProducts, componentId }: IProductsListPage) => {
+export const ProductsList = ({ serviceContainerProducts, componentId }: IProductsListProps) => {
   const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
@@ -66,15 +64,10 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
         <ToolbarItem>
           <Filtering filterOptions={filterOptions} componentId={componentId} />
         </ToolbarItem>
-        <ToolbarItem>
-          <ProtectedComponent>
-            <ActionButton action={() => console.log('Not implemented yet!')}>Create Product</ActionButton>
-          </ProtectedComponent>
-        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerProducts} title={`${PageTitles.products}`}>
+        <ServiceContainerLoading {...serviceContainerProducts} title={PageTitles.products}>
           <TableComposable variant="compact">
             <Thead>
               {/**
