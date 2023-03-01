@@ -5,7 +5,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { OptionalText } from 'components/OptionalText/OptionalText';
 import { ProductMilestoneCloseStatusLabel } from 'components/ProductMilestoneCloseStatusLabel/ProductMilestoneCloseStatusLabel';
 import { useServiceContainerMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -36,19 +35,15 @@ export const ProductMilestoneDetailPage = () => {
     },
     {
       name: 'Start Date',
-      value: (
-        <OptionalText>{createDateTime({ date: serviceContainerMilestone.data.startingDate, includeTime: false })}</OptionalText>
-      ),
+      value: createDateTime({ date: serviceContainerMilestone.data.startingDate, includeTime: false }),
     },
     {
       name: 'Planned End Date',
-      value: (
-        <OptionalText>{createDateTime({ date: serviceContainerMilestone.data.plannedEndDate, includeTime: false })}</OptionalText>
-      ),
+      value: createDateTime({ date: serviceContainerMilestone.data.plannedEndDate, includeTime: false }),
     },
     {
       name: 'End Date',
-      value: <OptionalText>{createDateTime({ date: serviceContainerMilestone.data.endDate, includeTime: false })}</OptionalText>,
+      value: createDateTime({ date: serviceContainerMilestone.data.endDate, includeTime: false }),
     },
     {
       name: 'Last Close Result',
