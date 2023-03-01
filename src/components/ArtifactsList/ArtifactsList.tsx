@@ -5,6 +5,7 @@ import {
   DescriptionListTerm,
   Flex,
   FlexItem,
+  FlexProps,
   Label,
   Switch,
 } from '@patternfly/react-core';
@@ -108,12 +109,9 @@ const sortOptions: ISortOptions = {
     title: 'File Name',
     tableColumnIndex: 4,
   },
-  'targetRepository.repositoryType': {
-    id: 'targetRepository.repositoryType',
-    title: 'Repository Type',
-    tableColumnIndex: 5,
-  },
 };
+
+const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
 interface IArtifactsListProps {
   serviceContainerArtifacts: IServiceContainer;
@@ -165,7 +163,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerArtifacts} title={`${PageTitles.artifacts}`}>
+        <ServiceContainerLoading {...serviceContainerArtifacts} title={PageTitles.artifacts}>
           <TableComposable isExpandable isStriped variant="compact">
             <Thead>
               {/**
@@ -202,7 +200,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                     }}
                   />
                   <Td>
-                    <Flex spaceItems={{ default: 'spaceItemsLg' }}>
+                    <Flex spaceItems={spaceItemsLg}>
                       <FlexItem>
                         {isArtifactNameParsed ? <ArtifactIdentifierParser artifact={artifact} /> : artifact.identifier}
                       </FlexItem>
