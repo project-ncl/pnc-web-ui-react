@@ -1,23 +1,28 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
-
 import { PageTitles } from 'common/constants';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-export const ArtifactsPage = () => {
-  useTitle(PageTitles.artifacts);
-  return (
-    <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">ArtifactsPage</Text>
-          <Text component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quos unde, accusantium excepturi ad praesentium.
-          </Text>
-        </TextContent>
-      </PageSection>
+import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-      <Divider component="div" />
-    </>
+import * as artifactApi from 'services/artifactApi';
+
+interface IArtifactsPageProps {
+  componentId?: string;
+}
+
+export const ArtifactsPage = ({ componentId = 'a1' }: IArtifactsPageProps) => {
+  const serviceContainerArtifacts = useServiceContainer(artifactApi.getArtifacts);
+
+  useQueryParamsEffect(serviceContainerArtifacts.run, { componentId });
+
+  useTitle(PageTitles.artifacts);
+
+  return (
+    <PageLayout title={PageTitles.artifacts} description={<>This page contains artifacts... TODO</>}>
+      <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />
+    </PageLayout>
   );
 };
