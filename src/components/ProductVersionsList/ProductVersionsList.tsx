@@ -7,12 +7,10 @@ import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -49,11 +47,6 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
         <ToolbarItem>
           <Filtering filterOptions={filterOptions} componentId={componentId} />
         </ToolbarItem>
-        <ToolbarItem>
-          <ProtectedComponent>
-            <ActionButton action={() => console.log('Not implemented yet!')}>Create Version</ActionButton>
-          </ProtectedComponent>
-        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
@@ -72,24 +65,20 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
                   <Td>{version.version}</Td>
                   <Td>
                     <Flex spaceItems={spaceItemsNone} style={flexGap}>
-                      {Object.values(version.productMilestones || {}).map((milestoneRef: ProductMilestoneRef, index: number) => {
-                        return (
-                          <FlexItem>
-                            <ProductMilestoneReleaseLabel key={index} productMilestoneRelease={milestoneRef} isCurrent={false} />
-                          </FlexItem>
-                        );
-                      })}
+                      {Object.values(version.productMilestones || {}).map((milestoneRef: ProductMilestoneRef, index: number) => (
+                        <FlexItem>
+                          <ProductMilestoneReleaseLabel key={index} productMilestoneRelease={milestoneRef} isCurrent={false} />
+                        </FlexItem>
+                      ))}
                     </Flex>
                   </Td>
                   <Td>
                     <Flex spaceItems={spaceItemsNone} style={flexGap}>
-                      {Object.values(version.productReleases || {}).map((releaseRef: ProductReleaseRef, index: number) => {
-                        return (
-                          <FlexItem>
-                            <ProductMilestoneReleaseLabel key={index} productMilestoneRelease={releaseRef} isCurrent={false} />
-                          </FlexItem>
-                        );
-                      })}
+                      {Object.values(version.productReleases || {}).map((releaseRef: ProductReleaseRef, index: number) => (
+                        <FlexItem>
+                          <ProductMilestoneReleaseLabel key={index} productMilestoneRelease={releaseRef} isCurrent={false} />
+                        </FlexItem>
+                      ))}
                     </Flex>
                   </Td>
                 </Tr>
