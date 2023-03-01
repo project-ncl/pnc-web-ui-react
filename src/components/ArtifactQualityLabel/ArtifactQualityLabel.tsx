@@ -2,14 +2,14 @@ import { Label, LabelProps } from '@patternfly/react-core';
 
 import { Artifact } from 'pnc-api-types-ts';
 
-interface QualityMapper {
+export interface LabelMapper {
   [key: string]: {
     text: string;
     color: LabelProps['color'];
   };
 }
 
-const ARTIFACT_QUALITIES: QualityMapper = {
+const ARTIFACT_QUALITIES: LabelMapper = {
   NEW: {
     text: 'NEW',
     color: 'grey',

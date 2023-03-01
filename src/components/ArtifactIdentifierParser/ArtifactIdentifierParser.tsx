@@ -1,4 +1,4 @@
-import { Flex, FlexItem, Label } from '@patternfly/react-core';
+import { Flex, FlexItem, FlexProps, Label } from '@patternfly/react-core';
 
 import { Artifact } from 'pnc-api-types-ts';
 
@@ -17,6 +17,8 @@ const generateLastLabel = (artifactNameSplitted: string[], lastIndex: number) =>
   );
 };
 
+const spaceItemsXs: FlexProps['spaceItems'] = { default: 'spaceItemsXs' };
+
 interface IArtifactIdentifierParserProps {
   artifact: Artifact;
 }
@@ -27,7 +29,7 @@ export const ArtifactIdentifierParser = ({ artifact }: IArtifactIdentifierParser
 
   if (repoType === 'MAVEN') {
     return (
-      <Flex spaceItems={{ default: 'spaceItemsXs' }}>
+      <Flex spaceItems={spaceItemsXs}>
         <FlexItem>
           <Label variant="outline" color="orange" isCompact>
             {artifactNameSplitted[0]}
@@ -58,7 +60,7 @@ export const ArtifactIdentifierParser = ({ artifact }: IArtifactIdentifierParser
 
   if (repoType === 'NPM') {
     return (
-      <Flex spaceItems={{ default: 'spaceItemsXs' }}>
+      <Flex spaceItems={spaceItemsXs}>
         <FlexItem>
           <Label variant="outline" color="orange" isCompact>
             {artifactNameSplitted[0]}
