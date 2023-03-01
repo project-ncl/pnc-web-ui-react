@@ -1,0 +1,38 @@
+{
+  "pageIndex": 0,
+  "pageSize": 3,
+  "totalPages": 1,
+  "totalHits": 1,
+  "content": [
+    {
+      "id": "1853",
+      "identifier": "abbrev:1.1.1",
+      "purl": null,
+      "artifactQuality": "NEW",
+      "buildCategory": "STANDARD",
+      "md5": "a2177e7d2ad8d263e6c38e6fe8dd6f79",
+      "sha1": "f8f2c887ad10bf67f634f005b6987fed3179aac8",
+      "sha256": "0cc19d22a5f9a54ff45f64509c56c7aedb358215a41be9a9c7c0be8c8673ba6d",
+      "filename": "abbrev-1.1.1.tgz",
+      "deployPath": "/abbrev/-/abbrev-1.1.1.tgz",
+      "importDate": "2020-03-06T14:29:16.676Z",
+      "originUrl": "https://repository.engineering.redhat.com/nexus/repository/registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz",
+      "size": 2301,
+      "deployUrl": "http://indy-gateway-master.indy-preview.svc.cluster.local/api/content/npm/hosted/shared-imports/abbrev/-/abbrev-1.1.1.tgz",
+      "publicUrl": "http://indy-gateway-master-devel.psi.redhat.com/api/content/npm/hosted/shared-imports/abbrev/-/abbrev-1.1.1.tgz",
+      "creationTime": null,
+      "modificationTime": null,
+      "qualityLevelReason": null,
+      "targetRepository": {
+        "id": "111",
+        "temporaryRepo": false,
+        "identifier": "indy-npm",
+        "repositoryType": "NPM",
+        "repositoryPath": "/api/content/npm/hosted/shared-imports/"
+      },
+      "build": null,
+      "creationUser": null,
+      "modificationUser": null
+    }
+  ]
+}
