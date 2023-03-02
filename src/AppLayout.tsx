@@ -7,8 +7,6 @@ import {
   Flex,
   FlexItem,
   Nav,
-  NavExpandable,
-  NavItem,
   NavList,
   Page,
   PageHeader,
@@ -21,8 +19,10 @@ BreadcrumbItem,*/
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
+import { NavItemExpandable } from 'components/NavItemExpandable/NavItemExpandable';
+import { NavItemLink } from 'components/NavItemLink/NavItemLink';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TopBarError } from 'components/TopBar/TopBarError';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
@@ -172,63 +172,43 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
 
   const AppHeader = <PageHeader logo={<AppLogoImage />} headerTools={<AppHeaderTools />} showNavToggle />;
 
-  const AppNavigation = () => {
-    const { pathname } = useLocation();
+  const AppNavigation = () => (
+    <Nav>
+      <NavList>
+        <NavItemLink matchChildren={false} to="/">
+          Dashboard
+        </NavItemLink>
 
-    return (
-      <Nav>
-        <NavList>
-          <NavItem isActive={pathname === '/'}>
-            <Link to="/">Dashboard</Link>
-          </NavItem>
+        <NavItemLink to="/products">Products</NavItemLink>
 
-          <NavItem isActive={pathname.includes('/products')}>
-            <Link to="/products">Products</Link>
-          </NavItem>
+        <NavItemLink to="/projects">Projects</NavItemLink>
 
-          <NavItem isActive={pathname.includes('/projects')}>
-            <Link to="/projects">Projects</Link>
-          </NavItem>
+        <NavItemExpandable title="Configs" to={['/build-configs', '/group-configs']} groupId="grp-configs">
+          <NavItemLink to="/build-configs" groupId="grp-configs" itemId="grp-configs_build-configs">
+            Build Configs
+          </NavItemLink>
 
-          <NavExpandable
-            title="Configs"
-            groupId="grp-configs"
-            isActive={pathname.includes('/build-configs') || pathname.includes('/group-configs')}
-          >
-            <NavItem groupId="grp-configs" itemId="grp-configs_build-configs" isActive={pathname.includes('/build-configs')}>
-              <Link to="/build-configs">Build Configs</Link>
-            </NavItem>
+          <NavItemLink to="/group-configs" groupId="grp-configs" itemId="grp-configs_group-configs">
+            Group Configs
+          </NavItemLink>
+        </NavItemExpandable>
 
-            <NavItem groupId="grp-configs" itemId="grp-configs_group-configs" isActive={pathname.includes('/group-configs')}>
-              <Link to="/group-configs">Group Configs</Link>
-            </NavItem>
-          </NavExpandable>
+        <NavItemExpandable title="Builds" to={['/builds', '/group-builds']} groupId="grp-builds">
+          <NavItemLink to="/builds" groupId="grp-builds" itemId="grp-builds_builds">
+            Builds
+          </NavItemLink>
 
-          <NavExpandable
-            title="Builds"
-            groupId="grp-builds"
-            isActive={pathname.includes('/builds') || pathname.includes('/group-builds')}
-          >
-            <NavItem groupId="grp-builds" itemId="grp-builds_builds" isActive={pathname.includes('/builds')}>
-              <Link to="/builds">Builds</Link>
-            </NavItem>
+          <NavItemLink to="/group-builds" groupId="grp-builds" itemId="grp-builds_group-builds">
+            Group Builds
+          </NavItemLink>
+        </NavItemExpandable>
 
-            <NavItem groupId="grp-builds" itemId="grp-builds_group-builds" isActive={pathname.includes('/group-builds')}>
-              <Link to="/group-builds">Group Builds</Link>
-            </NavItem>
-          </NavExpandable>
+        <NavItemLink to="/artifacts">Artifacts</NavItemLink>
 
-          <NavItem isActive={pathname.includes('/artifacts')}>
-            <Link to="/artifacts">Artifacts</Link>
-          </NavItem>
-
-          <NavItem isActive={pathname.includes('/scm-repositories')}>
-            <Link to="/scm-repositories">SCM Repositories</Link>
-          </NavItem>
-        </NavList>
-      </Nav>
-    );
-  };
+        <NavItemLink to="/scm-repositories">SCM Repositories</NavItemLink>
+      </NavList>
+    </Nav>
+  );
 
   const AppSidebar = <PageSidebar nav={<AppNavigation />} />;
 
