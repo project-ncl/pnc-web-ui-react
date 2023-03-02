@@ -45,12 +45,12 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   );
 
   const pageTabs = (
-    <Tabs>
-      <TabsItem url="details">Details</TabsItem>
-      <TabsItem url="builds-performed">Builds Performed</TabsItem>
-      <TabsItem url="close-results">Close Results</TabsItem>
-      <TabsItem url="deliverables-analysis">Deliverables Analysis</TabsItem>
-      <TabsItem url="delivered-artifacts">
+    <Tabs basePath="/products/:id/versions/:id/milestones/:id">
+      <TabsItem relativePath="details">Details</TabsItem>
+      <TabsItem relativePath="builds-performed">Builds Performed</TabsItem>
+      <TabsItem relativePath="close-results">Close Results</TabsItem>
+      <TabsItem relativePath="deliverables-analysis">Deliverables Analysis</TabsItem>
+      <TabsItem relativePath="delivered-artifacts">
         Delivered Artifacts{' '}
         <Tooltip content="Total Count">
           <Label>

@@ -1,7 +1,9 @@
 import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
-import { ReactElement } from 'react';
+import { Children, PropsWithChildren, ReactElement, cloneElement, isValidElement } from 'react';
+
+import { ITabsItemProps } from 'components/Tabs/TabsItem';
 
 import styles from './Tabs.module.css';
 
@@ -9,9 +11,10 @@ const stickyOnBreakpoint: PageSectionProps['stickyOnBreakpoint'] = { default: 't
 
 interface ITabsProps {
   children: ReactElement | ReactElement[];
+  basePath?: string;
 }
 
-export const Tabs = ({ children }: ITabsProps) => {
+export const Tabs = ({ children, basePath }: ITabsProps) => {
   return (
     <PageSection
       stickyOnBreakpoint={stickyOnBreakpoint}
@@ -20,7 +23,14 @@ export const Tabs = ({ children }: ITabsProps) => {
       variant={PageSectionVariants.light}
     >
       <div className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets)}>
-        <ul className={stylesPF.tabsList}>{children}</ul>
+        <ul className={stylesPF.tabsList}>
+          {Children.map(children, (child) => {
+            if (isValidElement(child)) {
+              return cloneElement(child as ReactElement<PropsWithChildren<ITabsItemProps>>, { basePath });
+            }
+            return child;
+          })}
+        </ul>
       </div>
     </PageSection>
   );
