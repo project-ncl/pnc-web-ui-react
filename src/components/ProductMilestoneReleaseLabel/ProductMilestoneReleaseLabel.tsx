@@ -1,4 +1,5 @@
 import { Button, Tooltip } from '@patternfly/react-core';
+import { useNavigate } from 'react-router-dom';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
@@ -10,16 +11,19 @@ import styles from './ProductMilestoneReleaseLabel.module.css';
 interface IProductMilestoneReleaseProp {
   productMilestoneRelease: ProductMilestone | ProductRelease;
   isCurrent: boolean;
+  link?: string;
 }
 
 /**
  * Show Product Milestone or Release label with specific text and toolips.
  *
  * @param productMilestoneRelease - ProductMilestone or ProductRelease component to be displayed
- *
  * @param isCurrent - If the ProductMilestone is current one
+ * @param link - Link to navigate to
  */
-export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent }: IProductMilestoneReleaseProp) => {
+export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent, link }: IProductMilestoneReleaseProp) => {
+  const navigate = useNavigate();
+
   let tooltipContent;
   let buttonClassName;
   let labelType;
@@ -56,7 +60,12 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
   return (
     <span className={styles.label}>
       <Tooltip removeFindDomNode content={tooltipContent} isContentLeftAligned={true} position="auto">
-        <Button isSmall={true} className={buttonClassName} component={labelType === 'milestone' ? 'a' : 'span'} href="#">
+        <Button
+          onClick={link ? () => navigate(link) : undefined}
+          isSmall={true}
+          className={buttonClassName}
+          component={labelType === 'milestone' ? 'a' : 'span'}
+        >
           {productMilestoneRelease.version}
         </Button>
       </Tooltip>
