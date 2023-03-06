@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ import { ProductVersionsList } from 'components/ProductVersionsList/ProductVersi
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productsApi from 'services/productsApi';
 
@@ -73,7 +74,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
               <Text component={TextVariants.h2}>Product Versions</Text>
             </TextContent>
           </ToolbarItem>
-          <ToolbarItem alignment={{ default: 'alignRight' }}>
+          <ToolbarItem alignRight>
             <ProtectedComponent>
               <ActionButton action={() => console.log('Not implemented yet!')}>Create Version</ActionButton>
             </ProtectedComponent>
