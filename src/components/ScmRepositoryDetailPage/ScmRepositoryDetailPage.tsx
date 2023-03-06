@@ -3,8 +3,6 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { PageTitles } from 'common/constants';
-
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -20,6 +18,8 @@ import { TooltipText } from 'components/TooltipText/TooltipText';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
+import { generatePageTitle } from 'utils/titleHelper';
+
 export const ScmRepositoryDetailPage = () => {
   const { scmRepositoryId } = useParams();
 
@@ -31,9 +31,11 @@ export const ScmRepositoryDetailPage = () => {
   }, [serviceContainerScmRepositoryRunner, scmRepositoryId]);
 
   useTitle(
-    serviceContainerScmRepository.data?.id
-      ? `${serviceContainerScmRepository.data.id} | ${PageTitles.repositories}`
-      : `Error loading ${PageTitles.projectDetail}`
+    generatePageTitle({
+      serviceContainer: serviceContainerScmRepository,
+      entityName: serviceContainerScmRepository.data?.id,
+      firstLevelEntity: 'SCM Repository',
+    })
   );
 
   const InternalScmRepositoryLink = (internalUrl: string) => {
@@ -48,7 +50,6 @@ export const ScmRepositoryDetailPage = () => {
     };
     return (
       <CopyToClipboard
-        url={parseInternalRepoLink(internalUrl)}
         suffixComponent={
           <Button
             component="a"
@@ -61,7 +62,9 @@ export const ScmRepositoryDetailPage = () => {
             Gerrit
           </Button>
         }
-      ></CopyToClipboard>
+      >
+        {parseInternalRepoLink(internalUrl)}
+      </CopyToClipboard>
     );
   };
 
@@ -69,6 +72,7 @@ export const ScmRepositoryDetailPage = () => {
 
   const attributes = [
     {
+      key: 'InternalScmUrl',
       name: (
         <TooltipText tooltip="URL to the internal SCM repository, which is the main repository used for the builds.">
           Internal SCM URL
@@ -79,6 +83,7 @@ export const ScmRepositoryDetailPage = () => {
         InternalScmRepositoryLink(serviceContainerScmRepository.data?.internalUrl),
     },
     {
+      key: 'ExternalScmUrl',
       name: <TooltipText tooltip="URL to the upstream SCM repository.">External SCM URL</TooltipText>,
       value: serviceContainerScmRepository.data?.externalUrl && (
         <ClipboardCopy isReadOnly hoverTip="Copy" clickTip="Copied">
@@ -87,6 +92,7 @@ export const ScmRepositoryDetailPage = () => {
       ),
     },
     {
+      key: 'PrebuildSync',
       name: (
         <TooltipText tooltip="Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build.">
           Pre-build Synchronization

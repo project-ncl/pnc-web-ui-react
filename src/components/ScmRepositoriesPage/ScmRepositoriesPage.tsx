@@ -4,6 +4,9 @@ import { PageTitles } from 'common/constants';
 
 import { useTitle } from 'hooks/useTitle';
 
+import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ContentBox } from 'components/ContentBox/ContentBox';
+
 export const ScmRepositoriesPage = () => {
   useTitle(PageTitles.repositories);
   return (
@@ -18,6 +21,12 @@ export const ScmRepositoriesPage = () => {
       </PageSection>
 
       <Divider component="div" />
+
+      <PageSection>
+        <ContentBox padding>
+          <ActionButton link="/scm-repositories/553">SCM Repository (testing purposes)</ActionButton>
+        </ContentBox>
+      </PageSection>
     </>
   );
 };

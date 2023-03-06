@@ -12,9 +12,7 @@ import {
   SelectVariant,
   TextArea,
   TextInput,
-  Tooltip,
 } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosRequestConfig } from 'axios';
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -32,11 +30,13 @@ import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
+import { TooltipText } from 'components/TooltipText/TooltipText';
 
 import * as projectApi from 'services/projectApi';
 
@@ -683,14 +683,7 @@ export const DemoPage = () => {
                   ),
                 },
                 {
-                  name: (
-                    <span>
-                      Icon has Tooltip{' '}
-                      <Tooltip removeFindDomNode content={<div>This icon has a tooltip!</div>}>
-                        <InfoCircleIcon />
-                      </Tooltip>
-                    </span>
-                  ),
+                  name: <TooltipText tooltip="This icon has a tooltip!"> Icon has Tooltip</TooltipText>,
                   value: undefined,
                 },
               ]}
@@ -721,6 +714,12 @@ export const DemoPage = () => {
             <ActionButton iconType="mark">Mark as current</ActionButton>
             <br />
             <ActionButton>No Icon</ActionButton>
+          </ContentBox>
+        </FlexItem>
+
+        <FlexItem>
+          <ContentBox title="CopyToClipboard" padding>
+            <CopyToClipboard>Test Copy Content</CopyToClipboard>
           </ContentBox>
         </FlexItem>
       </Flex>
