@@ -33,13 +33,13 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['tooltip-text']}>
         <strong>Start Date: </strong>
-        {createDateTime({ date: productMilestone.startingDate!, includeTime: false })}
+        {createDateTime({ date: productMilestone.startingDate!, includeTime: false }) || <>&ndash;</>}
         <br />
         <strong>Planned End Date: </strong>
-        {createDateTime({ date: productMilestone.plannedEndDate!, includeTime: false })}
+        {createDateTime({ date: productMilestone.plannedEndDate!, includeTime: false }) || <>&ndash;</>}
         <br />
         <strong>End Date: </strong>
-        {createDateTime({ date: productMilestone.endDate!, includeTime: false })}
+        {createDateTime({ date: productMilestone.endDate!, includeTime: false }) || <>&ndash;</>}
       </div>
     );
     buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
@@ -49,7 +49,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['toolip-text']}>
         <strong>Release Date: </strong>
-        {createDateTime({ date: productRelease.releaseDate!, includeTime: false })}
+        {createDateTime({ date: productRelease.releaseDate!, includeTime: false }) || <>&ndash;</>}
         <br />
         <strong>Support Level: </strong>
         {productRelease.supportLevel}
