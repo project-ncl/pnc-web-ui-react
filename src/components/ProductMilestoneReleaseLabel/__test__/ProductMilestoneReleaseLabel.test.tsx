@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
@@ -12,7 +13,7 @@ describe('display MilestoneReleaseLabel component', () => {
     let testMilestoneDataList = productMilestoneMock as unknown as ProductMilestone[];
     let testReleaseDataList = productReleaseMock as unknown as ProductRelease[];
     render(
-      <>
+      <MemoryRouter>
         <ProductMilestoneReleaseLabel
           productMilestoneRelease={testMilestoneDataList[0]}
           isCurrent={false}
@@ -25,7 +26,7 @@ describe('display MilestoneReleaseLabel component', () => {
           productMilestoneRelease={testReleaseDataList[0]}
           isCurrent={false}
         ></ProductMilestoneReleaseLabel>
-      </>
+      </MemoryRouter>
     );
     const firstLabel = screen.getByText(testMilestoneDataList[0].version as string);
     const secondLabel = screen.getByText(testMilestoneDataList[1].version as string);
@@ -40,7 +41,7 @@ describe('display MilestoneReleaseLabel component', () => {
     let testReleaseDataList = productReleaseMock as unknown as ProductRelease[];
 
     const tree = render(
-      <>
+      <MemoryRouter>
         <ProductMilestoneReleaseLabel
           productMilestoneRelease={testMilestoneDataList[0]}
           isCurrent={false}
@@ -53,7 +54,7 @@ describe('display MilestoneReleaseLabel component', () => {
           productMilestoneRelease={testReleaseDataList[0]}
           isCurrent={false}
         ></ProductMilestoneReleaseLabel>
-      </>
+      </MemoryRouter>
     );
     expect(tree).toMatchSnapshot();
   });
