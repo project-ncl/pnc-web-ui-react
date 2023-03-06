@@ -67,7 +67,12 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
                     <Flex spaceItems={spaceItemsNone} style={flexGap}>
                       {Object.values(version.productMilestones || {}).map((milestoneRef: ProductMilestoneRef, index: number) => (
                         <FlexItem>
-                          <ProductMilestoneReleaseLabel key={index} productMilestoneRelease={milestoneRef} isCurrent={false} />
+                          <ProductMilestoneReleaseLabel
+                            link={`versions/${version.id}/milestones/${milestoneRef.id}`}
+                            key={index}
+                            productMilestoneRelease={milestoneRef}
+                            isCurrent={false}
+                          />
                         </FlexItem>
                       ))}
                     </Flex>
