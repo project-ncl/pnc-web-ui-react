@@ -733,11 +733,11 @@ export const DemoPage = () => {
         <FlexItem>
           <ContentBox title="ScmRepositoryLink" padding>
             <span>
-              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopy" showClipboardCopy />
+              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopy" />
             </span>
             <br />
             <span>
-              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopyGerrit" showClipboardCopy showGerritButton />
+              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopyGerrit" showGerritButton />
             </span>
             <br />
             <span>
