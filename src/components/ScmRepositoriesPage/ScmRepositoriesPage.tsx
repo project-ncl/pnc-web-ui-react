@@ -1,32 +1,37 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 
 import { PageTitles } from 'common/constants';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ScmRepositoriesList } from 'components/ScmRepositoriesList/ScmRepositoriesList';
 
-export const ScmRepositoriesPage = () => {
+import * as scmRepositoryApi from 'services/scmRepositoryApi';
+
+interface IScmRepositoriesPage {
+  componentId?: string;
+}
+
+export const ScmRepositoriesPage = ({ componentId = 's1' }: IScmRepositoriesPage) => {
+  const serviceContainerScmRepositories = useServiceContainer(scmRepositoryApi.getScmRepositories);
+
+  useQueryParamsEffect(serviceContainerScmRepositories.run, { componentId });
+
   useTitle(PageTitles.repositories);
   return (
-    <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">ScmRepositoriesPage</Text>
-          <Text component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quos unde, accusantium excepturi ad praesentium.
-          </Text>
-        </TextContent>
-      </PageSection>
-
-      <Divider component="div" />
-
-      <PageSection>
-        <ContentBox padding>
-          <ActionButton link="/scm-repositories/553">SCM Repository (testing purposes)</ActionButton>
-        </ContentBox>
-      </PageSection>
-    </>
+    <PageLayout
+      title={PageTitles.repositories}
+      description={
+        <>
+          This page contains SCM Repositories like <Label>apache/maven.git</Label> or <Label>git/twitter4j.git</Label>, they are
+          either created by new build config wizard or manually created here.
+        </>
+      }
+    >
+      <ScmRepositoriesList {...{ serviceContainerScmRepositories, componentId }} />
+    </PageLayout>
   );
 };

@@ -1,0 +1,22 @@
+{
+  "pageIndex": 0,
+  "pageSize": 1,
+  "totalPages": 1,
+  "totalHits": 2,
+  "content": [
+    {
+      "id": "111",
+      "internalUrl": "git+ssh://code.internal.com/test-project/project.git",
+      "externalUrl": "https://github.com/test/test-project",
+      "displayName": "test-project/project.git",
+      "preBuildSyncEnabled": false
+    },
+    {
+      "id": "222",
+      "internalUrl": "git+ssh://code.internal.com/test-project/project2.git",
+      "externalUrl": "https://github.com/test/test-project2",
+      "displayName": "test-project/project2.git",
+      "preBuildSyncEnabled": false
+    }
+  ]
+}
