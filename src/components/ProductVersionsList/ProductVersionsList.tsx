@@ -50,7 +50,7 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerProductVersions} title={`${PageTitles.productVersions}`}>
+        <ServiceContainerLoading {...serviceContainerProductVersions} title={PageTitles.productVersions}>
           <TableComposable variant="compact">
             <Thead>
               <Tr>
@@ -60,29 +60,33 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerProductVersions.data?.content.map((version: ProductVersion, rowIndex: number) => (
+              {serviceContainerProductVersions.data?.content.map((productVersion: ProductVersion, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>{version.version}</Td>
+                  <Td>{productVersion.version}</Td>
                   <Td>
                     <Flex spaceItems={spaceItemsNone} style={flexGap}>
-                      {Object.values(version.productMilestones || {}).map((milestoneRef: ProductMilestoneRef, index: number) => (
-                        <FlexItem key={index}>
-                          <ProductMilestoneReleaseLabel
-                            link={`versions/${version.id}/milestones/${milestoneRef.id}`}
-                            productMilestoneRelease={milestoneRef}
-                            isCurrent={false}
-                          />
-                        </FlexItem>
-                      ))}
+                      {Object.values(productVersion.productMilestones || {}).map(
+                        (productMilestoneRef: ProductMilestoneRef, index: number) => (
+                          <FlexItem key={index}>
+                            <ProductMilestoneReleaseLabel
+                              link={`versions/${productVersion.id}/milestones/${productMilestoneRef.id}`}
+                              productMilestoneRelease={productMilestoneRef}
+                              isCurrent={productMilestoneRef.id === productVersion.currentProductMilestone?.id}
+                            />
+                          </FlexItem>
+                        )
+                      )}
                     </Flex>
                   </Td>
                   <Td>
                     <Flex spaceItems={spaceItemsNone} style={flexGap}>
-                      {Object.values(version.productReleases || {}).map((releaseRef: ProductReleaseRef, index: number) => (
-                        <FlexItem key={index}>
-                          <ProductMilestoneReleaseLabel productMilestoneRelease={releaseRef} isCurrent={false} />
-                        </FlexItem>
-                      ))}
+                      {Object.values(productVersion.productReleases || {}).map(
+                        (productReleaseRef: ProductReleaseRef, index: number) => (
+                          <FlexItem key={index}>
+                            <ProductMilestoneReleaseLabel productMilestoneRelease={productReleaseRef} isCurrent={false} />
+                          </FlexItem>
+                        )
+                      )}
                     </Flex>
                   </Td>
                 </Tr>
