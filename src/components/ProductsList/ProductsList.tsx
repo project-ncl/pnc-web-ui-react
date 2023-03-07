@@ -1,4 +1,5 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Link } from 'react-router-dom';
 
 import { Product } from 'pnc-api-types-ts';
 
@@ -84,7 +85,9 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
             <Tbody>
               {serviceContainerProducts.data?.content.map((product: Product, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>{product.name}</Td>
+                  <Td>
+                    <Link to={product.id}>{product.name}</Link>
+                  </Td>
                   <Td>{product.abbreviation}</Td>
                 </Tr>
               ))}
