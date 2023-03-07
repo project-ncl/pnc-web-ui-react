@@ -69,7 +69,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value:
-        serviceContainerScmRepository.data?.preBuildSyncEnabled &&
+        serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
         (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled'),
     },
   ];
