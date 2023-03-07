@@ -13,6 +13,7 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
+import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { AxiosRequestConfig } from 'axios';
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 
@@ -35,8 +36,9 @@ import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
-import { TooltipText } from 'components/TooltipText/TooltipText';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as projectApi from 'services/projectApi';
 
@@ -683,7 +685,12 @@ export const DemoPage = () => {
                   ),
                 },
                 {
-                  name: <TooltipText tooltip="This icon has a tooltip!"> Icon has Tooltip</TooltipText>,
+                  name: (
+                    <span>
+                      Icon has Tooltip
+                      <TooltipWrapper tooltip="This icon has a tooltip!"></TooltipWrapper>
+                    </span>
+                  ),
                   value: undefined,
                 },
               ]}
@@ -720,6 +727,44 @@ export const DemoPage = () => {
         <FlexItem>
           <ContentBox title="CopyToClipboard" padding>
             <CopyToClipboard>Test Copy Content</CopyToClipboard>
+          </ContentBox>
+        </FlexItem>
+
+        <FlexItem>
+          <ContentBox title="ScmRepositoryLink" padding>
+            <span>
+              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopy" showClipboardCopy />
+            </span>
+            <br />
+            <span>
+              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopyGerrit" showClipboardCopy showGerritButton />
+            </span>
+            <br />
+            <span>
+              <ScmRepositoryLink url="https://github.com/test/testUrlText.git" />
+            </span>
+          </ContentBox>
+        </FlexItem>
+
+        <FlexItem>
+          <ContentBox title="TooltipWrapper" padding>
+            <span>
+              Default Tooltip <TooltipWrapper tooltip="Default Tooltip with no child node" />
+            </span>
+            <br />
+            <span>
+              Customized Tooltip Icon{' '}
+              <TooltipWrapper tooltip="Customized Tooltip icon">
+                <QuestionCircleIcon />
+              </TooltipWrapper>
+            </span>
+            <br />
+            <span>
+              Any Tooltip Component{' '}
+              <TooltipWrapper tooltip="Customized Tooltip with span">
+                <span>[TEST TOOLTIP SPAN]</span>
+              </TooltipWrapper>
+            </span>
           </ContentBox>
         </FlexItem>
       </Flex>

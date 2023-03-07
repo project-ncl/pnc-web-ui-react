@@ -34,3 +34,31 @@ export const transformateDateFormat = (date: Date) => {
   const minuteString = minute < 10 ? `0${minute}` : minute;
   return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}`;
 };
+
+interface IParseScmRepositoryTitleProps {
+  internalUrl: string;
+}
+/**
+ * Parses internal repository url to SCM Repository name
+ *
+ * @param internalUrl - internal repository url
+ * @returns  SCM Repository name
+ */
+export const parseScmRepositoryTitle = ({ internalUrl }: IParseScmRepositoryTitleProps) =>
+  internalUrl ? internalUrl.split('/').splice(3).join('/') : '';
+
+interface IparseInternalRepositoryUrlProps {
+  internalUrl: string;
+}
+/**
+ * Parses internal repository url to Gerrit gitweb link of the project
+ *
+ * @param internalUrl - internal repository url
+ * @returns  Gerrit gitweb link
+ */
+export const parseInternalRepositoryUrl = ({ internalUrl }: IparseInternalRepositoryUrlProps) => {
+  const protocol = internalUrl.split('://')[0];
+  const base = internalUrl.split('://')[1].split('/')[0];
+  const project = internalUrl.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
+  return 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
+};
