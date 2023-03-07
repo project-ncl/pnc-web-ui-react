@@ -16,7 +16,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
-import * as productsApi from 'services/productsApi';
+import * as productApi from 'services/productApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
@@ -27,10 +27,10 @@ interface IProductDetailPageProps {
 export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProps) => {
   const { productId } = useParams();
 
-  const serviceContainerProduct = useServiceContainer(productsApi.getProduct);
+  const serviceContainerProduct = useServiceContainer(productApi.getProduct);
   const serviceContainerProductRunner = serviceContainerProduct.run;
 
-  const serviceContainerProductVersions = useServiceContainer(productsApi.getProductVersions);
+  const serviceContainerProductVersions = useServiceContainer(productApi.getProductVersions);
   const serviceContainerProductVersionsRunner = serviceContainerProductVersions.run;
 
   useEffect(() => {
