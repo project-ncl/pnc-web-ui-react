@@ -6,7 +6,7 @@ interface ICopyToClipboardProps {
 }
 
 /**
- * CopyToClipboard item to display customized ClipboardCopy component
+ * CopyToClipboard item to display customized ClipboardCopy component.
  *
  * @param prefixComponent - any component before ClipboardCopy
  * @param prefixComponent - any component after ClipboardCopy
@@ -16,16 +16,14 @@ export const CopyToClipboard = ({
   prefixComponent,
   suffixComponent,
   children,
-}: React.PropsWithChildren<ICopyToClipboardProps>) => {
-  return (
-    <Split hasGutter>
-      {prefixComponent && <SplitItem>{prefixComponent}</SplitItem>}
-      <SplitItem isFilled>
-        <ClipboardCopy removeFindDomNode isReadOnly hoverTip="Copy" clickTip="Copied">
-          {children}
-        </ClipboardCopy>
-      </SplitItem>
-      {suffixComponent && <SplitItem>{suffixComponent}</SplitItem>}
-    </Split>
-  );
-};
+}: React.PropsWithChildren<ICopyToClipboardProps>) => (
+  <Split hasGutter>
+    {prefixComponent && <SplitItem>{prefixComponent}</SplitItem>}
+    <SplitItem isFilled>
+      <ClipboardCopy removeFindDomNode isReadOnly hoverTip="Copy" clickTip="Copied">
+        {children}
+      </ClipboardCopy>
+    </SplitItem>
+    {suffixComponent && <SplitItem>{suffixComponent}</SplitItem>}
+  </Split>
+);

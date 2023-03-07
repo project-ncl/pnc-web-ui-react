@@ -688,7 +688,7 @@ export const DemoPage = () => {
                   name: (
                     <span>
                       Icon has Tooltip
-                      <TooltipWrapper tooltip="This icon has a tooltip!"></TooltipWrapper>
+                      <TooltipWrapper tooltip="This icon has a tooltip!" />
                     </span>
                   ),
                   value: undefined,
@@ -741,7 +741,7 @@ export const DemoPage = () => {
             </span>
             <br />
             <span>
-              <ScmRepositoryLink url="https://github.com/test/testUrlText.git" />
+              <ScmRepositoryLink showClipboardCopy={false} url="https://github.com/test/testUrlText.git" />
             </span>
           </ContentBox>
         </FlexItem>
