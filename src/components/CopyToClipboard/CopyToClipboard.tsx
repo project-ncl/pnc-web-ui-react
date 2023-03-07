@@ -9,7 +9,7 @@ interface ICopyToClipboardProps {
  * CopyToClipboard item to display customized ClipboardCopy component.
  *
  * @param prefixComponent - any component before ClipboardCopy
- * @param prefixComponent - any component after ClipboardCopy
+ * @param suffixComponent - any component after ClipboardCopy
  * @param children - the content to be used for ClipboardCopy
  */
 export const CopyToClipboard = ({
