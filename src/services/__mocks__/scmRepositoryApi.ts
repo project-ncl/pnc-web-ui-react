@@ -5,3 +5,11 @@ export const getScmRepository = (id: string) => {
     });
   });
 };
+
+export const getScmRepositories = () => {
+  return new Promise((resolve) => {
+    import('./scmRepositories-mock.json').then((mockScmRepositoriesRequest) => {
+      resolve({ data: mockScmRepositoriesRequest });
+    });
+  });
+};
