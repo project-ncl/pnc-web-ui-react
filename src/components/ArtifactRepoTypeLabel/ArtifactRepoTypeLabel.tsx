@@ -2,9 +2,9 @@ import { Label } from '@patternfly/react-core';
 
 import { TargetRepository } from 'pnc-api-types-ts';
 
-import { LabelMapper } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
+import { ILabelMapper } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
 
-const ARTIFACT_REPO_TYPES: LabelMapper = {
+const ARTIFACT_REPO_TYPES: ILabelMapper = {
   MAVEN: {
     text: 'MAVEN',
     color: 'gold',

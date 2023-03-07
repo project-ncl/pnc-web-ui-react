@@ -19,13 +19,13 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
-import { ArtifactIdentifierParser } from 'components/ArtifactIdentifierParser/ArtifactIdentifierParser';
 import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
 import { ArtifactRepoTypeLabel } from 'components/ArtifactRepoTypeLabel/ArtifactRepoTypeLabel';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
+import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/ParsedArtifactIdentifier';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -127,19 +127,19 @@ interface IArtifactsListProps {
 export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtifactsListProps) => {
   const { getSortParams } = useSorting(sortOptions, componentId);
 
-  const [isArtifactNameParsed, setIsArtifactNameParsed] = useState(false);
+  const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
 
   const [expandedArtifacts, setExpandedArtifacts] = useState<string[]>([]);
   const setArtifactExpanded = (artifact: Artifact, isExpanding = true) =>
     setExpandedArtifacts((prevExpanded) => {
-      const otherExpandedArtifactNames = prevExpanded.filter((r) => r !== artifact.identifier);
-      return isExpanding ? [...otherExpandedArtifactNames, artifact.identifier] : otherExpandedArtifactNames;
+      const otherExpandedArtifactIdentifiers = prevExpanded.filter((r) => r !== artifact.identifier);
+      return isExpanding ? [...otherExpandedArtifactIdentifiers, artifact.identifier] : otherExpandedArtifactIdentifiers;
     });
   const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts.includes(artifact.identifier);
 
   useEffect(() => {
-    const shouldParse = window.localStorage.getItem('artifact-table-parsed') === 'true';
-    setIsArtifactNameParsed(shouldParse);
+    const shouldParse = window.localStorage.getItem('artifacts-list-identifiers-parsed') === 'true';
+    setIsArtifactIdentifierParsed(shouldParse);
   }, []);
 
   return (
@@ -153,10 +153,10 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
             id="toggle-artifact-name-parsed"
             label="Parse artifact identifier"
             labelOff="Parse artifact identifier"
-            isChecked={isArtifactNameParsed}
+            isChecked={isArtifactIdentifierParsed}
             onChange={(checked) => {
-              setIsArtifactNameParsed(checked);
-              window.localStorage.setItem('artifact-table-parsed', `${checked}`);
+              setIsArtifactIdentifierParsed(checked);
+              window.localStorage.setItem('artifacts-list-identifiers-parsed', `${checked}`);
             }}
           />
         </ToolbarItem>
@@ -202,7 +202,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                   <Td>
                     <Flex spaceItems={spaceItemsLg}>
                       <FlexItem>
-                        {isArtifactNameParsed ? <ArtifactIdentifierParser artifact={artifact} /> : artifact.identifier}
+                        {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
                       </FlexItem>
                       <FlexItem>
                         {artifact.targetRepository?.repositoryType && (

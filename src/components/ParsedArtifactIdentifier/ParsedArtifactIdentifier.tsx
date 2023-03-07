@@ -19,11 +19,11 @@ const generateLastLabel = (artifactNameSplitted: string[], lastIndex: number) =>
 
 const spaceItemsXs: FlexProps['spaceItems'] = { default: 'spaceItemsXs' };
 
-interface IArtifactIdentifierParserProps {
+interface IParsedArtifactIdentifierProps {
   artifact: Artifact;
 }
 
-export const ArtifactIdentifierParser = ({ artifact }: IArtifactIdentifierParserProps) => {
+export const ParsedArtifactIdentifier = ({ artifact }: IParsedArtifactIdentifierProps) => {
   const artifactNameSplitted = artifact.identifier.split(':');
   const repoType = artifact.targetRepository?.repositoryType;
 
