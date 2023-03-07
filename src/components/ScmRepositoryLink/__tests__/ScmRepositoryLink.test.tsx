@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 
