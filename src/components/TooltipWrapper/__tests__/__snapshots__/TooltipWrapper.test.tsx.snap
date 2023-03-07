@@ -6,11 +6,10 @@ Object {
   "baseElement": <body>
     <div>
       <span>
-        test tooltip title
-         
         <div
           style="display: contents;"
         >
+           
           <svg
             aria-hidden="true"
             fill="currentColor"
@@ -30,11 +29,10 @@ Object {
   </body>,
   "container": <div>
     <span>
-      test tooltip title
-       
       <div
         style="display: contents;"
       >
+         
         <svg
           aria-hidden="true"
           fill="currentColor"
