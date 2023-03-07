@@ -7,7 +7,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductsList } from 'components/ProductsList/ProductsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -40,13 +39,7 @@ export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
         </ProtectedComponent>
       }
     >
-      <ContentBox shadow={false} background={false} marginBottom>
-        <ProductsList {...{ serviceContainerProducts, componentId }} />
-      </ContentBox>
-
-      <ContentBox padding>
-        <ActionButton link="/products/100/versions/100/milestones/101/details">Product Milestone (testing purposes)</ActionButton>
-      </ContentBox>
+      <ProductsList {...{ serviceContainerProducts, componentId }} />
     </PageLayout>
   );
 };
