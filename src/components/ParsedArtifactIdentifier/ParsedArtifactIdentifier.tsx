@@ -46,7 +46,7 @@ export const ParsedArtifactIdentifier = ({ artifact }: IParsedArtifactIdentifier
     return (
       <Flex spaceItems={spaceItemsXs}>
         {artifactLabels.map((artifactLabel: string, index: number) => (
-          <GeneratedLabel artifactLabel={artifactLabel} index={index} />
+          <GeneratedLabel key={index} artifactLabel={artifactLabel} index={index} />
         ))}
       </Flex>
     );
