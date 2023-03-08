@@ -21,7 +21,15 @@ export const ArtifactsPage = ({ componentId = 'a1' }: IArtifactsPageProps) => {
   useTitle(PageTitles.artifacts);
 
   return (
-    <PageLayout title={PageTitles.artifacts} description={<>This page contains artifacts... TODO</>}>
+    <PageLayout
+      title={PageTitles.artifacts}
+      description={
+        <>
+          This page contains Artifacts used and produced by Builds, Artifact is represented by PNC Identifier and it may be for
+          example <label>pom</label>, <label>jar</label> or an archive like <label>tgz</label>.
+        </>
+      }
+    >
       <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />
     </PageLayout>
   );
