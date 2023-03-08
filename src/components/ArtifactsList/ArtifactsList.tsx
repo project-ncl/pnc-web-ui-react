@@ -9,6 +9,7 @@ import {
   Label,
   Switch,
 } from '@patternfly/react-core';
+import { DownloadIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useState } from 'react';
 
@@ -20,7 +21,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
-import { ArtifactRepoTypeLabel } from 'components/ArtifactRepoTypeLabel/ArtifactRepoTypeLabel';
+import { ArtifactRepositoryTypeLabel } from 'components/ArtifactRepositoryTypeLabel/ArtifactRepositoryTypeLabel';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
@@ -88,6 +89,7 @@ const sortOptions: ISortOptions = {
     id: 'identifier',
     title: 'Identifier',
     tableColumnIndex: 0,
+    isDefault: true,
   },
   'build.submitTime': {
     id: 'build.submitTime',
@@ -111,6 +113,7 @@ const sortOptions: ISortOptions = {
   },
 };
 
+const spaceItemsSm: FlexProps['spaceItems'] = { default: 'spaceItemsSm' };
 const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
 interface IArtifactsListProps {
@@ -138,7 +141,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
   const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts.includes(artifact.identifier);
 
   useEffect(() => {
-    const shouldParse = window.localStorage.getItem('artifacts-list-identifiers-parsed') === 'true';
+    const shouldParse = window.localStorage.getItem('is-artifact-identifier-parsed') === 'true';
     setIsArtifactIdentifierParsed(shouldParse);
   }, []);
 
@@ -148,7 +151,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
         <ToolbarItem>
           <Filtering filterOptions={filterOptions} componentId={componentId} />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem marginLeft="20px">
           <Switch
             id="toggle-artifact-name-parsed"
             label="Parse artifact identifier"
@@ -156,7 +159,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
             isChecked={isArtifactIdentifierParsed}
             onChange={(checked) => {
               setIsArtifactIdentifierParsed(checked);
-              window.localStorage.setItem('artifacts-list-identifiers-parsed', `${checked}`);
+              window.localStorage.setItem('is-artifact-identifier-parsed', `${checked}`);
             }}
           />
         </ToolbarItem>
@@ -202,12 +205,12 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                   <Td>
                     <Flex spaceItems={spaceItemsLg}>
                       <FlexItem>
-                        {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
+                        {artifact.targetRepository?.repositoryType && (
+                          <ArtifactRepositoryTypeLabel repositoryType={artifact.targetRepository?.repositoryType} />
+                        )}
                       </FlexItem>
                       <FlexItem>
-                        {artifact.targetRepository?.repositoryType && (
-                          <ArtifactRepoTypeLabel repoType={artifact.targetRepository?.repositoryType} />
-                        )}
+                        {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
                       </FlexItem>
                     </Flex>
                   </Td>
@@ -219,9 +222,18 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                     <Label color="grey">{artifact.buildCategory}</Label>
                   </Td>
                   <Td>
-                    <a href={artifact.publicUrl} target="_self">
-                      {artifact.filename}
-                    </a>
+                    <Flex spaceItems={spaceItemsSm}>
+                      <FlexItem>
+                        <a href={artifact.publicUrl} target="_self">
+                          <DownloadIcon />
+                        </a>
+                      </FlexItem>
+                      <FlexItem>
+                        <a href={artifact.publicUrl} target="_self">
+                          {artifact.filename}
+                        </a>
+                      </FlexItem>
+                    </Flex>
                   </Td>
                 </Tr>
                 <Tr isExpanded={isArtifactExpanded(artifact)}>
