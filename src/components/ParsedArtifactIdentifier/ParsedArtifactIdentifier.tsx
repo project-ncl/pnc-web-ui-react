@@ -33,14 +33,14 @@ interface IParsedArtifactIdentifierProps {
  * @param artifact - Artifact (containing identifier)
  */
 export const ParsedArtifactIdentifier = ({ artifact }: IParsedArtifactIdentifierProps) => {
-  const artifactNameSplitted = artifact.identifier.split(':');
-  const repoType = artifact.targetRepository?.repositoryType;
+  const artifactIdentifierSplitted = artifact.identifier.split(':');
+  const repositoryType = artifact.targetRepository?.repositoryType;
 
-  if (repoType === 'MAVEN' || repoType === 'NPM') {
-    const labelCount = repoType === 'MAVEN' ? 4 : 2;
+  if (repositoryType === 'MAVEN' || repositoryType === 'NPM') {
+    const labelCount = repositoryType === 'MAVEN' ? 4 : 2;
     const artifactLabels = [
-      ...artifactNameSplitted.slice(0, labelCount),
-      ...(artifactNameSplitted.length > labelCount ? [artifactNameSplitted.slice(labelCount).join(':')] : []),
+      ...artifactIdentifierSplitted.slice(0, labelCount),
+      ...(artifactIdentifierSplitted.length > labelCount ? [artifactIdentifierSplitted.slice(labelCount).join(':')] : []),
     ];
 
     return (
