@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
+import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+
 import { isProductMilestone, isProductRelease } from 'utils/entityRecognition';
 import { createDateTime } from 'utils/utils';
 
@@ -33,13 +35,13 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['tooltip-text']}>
         <strong>Start Date: </strong>
-        {createDateTime({ date: productMilestone.startingDate!, includeTime: false }) || <>&ndash;</>}
+        {createDateTime({ date: productMilestone.startingDate!, includeTime: false }) || <EmptyStateSymbol />}
         <br />
         <strong>Planned End Date: </strong>
-        {createDateTime({ date: productMilestone.plannedEndDate!, includeTime: false }) || <>&ndash;</>}
+        {createDateTime({ date: productMilestone.plannedEndDate!, includeTime: false }) || <EmptyStateSymbol />}
         <br />
         <strong>End Date: </strong>
-        {createDateTime({ date: productMilestone.endDate!, includeTime: false }) || <>&ndash;</>}
+        {createDateTime({ date: productMilestone.endDate!, includeTime: false }) || <EmptyStateSymbol />}
       </div>
     );
     buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
@@ -49,7 +51,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['toolip-text']}>
         <strong>Release Date: </strong>
-        {createDateTime({ date: productRelease.releaseDate!, includeTime: false }) || <>&ndash;</>}
+        {createDateTime({ date: productRelease.releaseDate!, includeTime: false }) || <EmptyStateSymbol />}
         <br />
         <strong>Support Level: </strong>
         {productRelease.supportLevel}
