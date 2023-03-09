@@ -285,7 +285,7 @@ export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
       <InputGroup>
         {/* filter attribute */}
         <Select
-          width="150px"
+          width="200px"
           variant={SelectVariant.single}
           onToggle={(isOpen) => {
             setIsFilterAttributeOpen(isOpen);
