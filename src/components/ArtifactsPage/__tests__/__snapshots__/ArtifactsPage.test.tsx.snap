@@ -68,7 +68,7 @@ Object {
                     data-ouia-component-id="OUIA-Generated-Select-single-2"
                     data-ouia-component-type="PF4/Select"
                     data-ouia-safe="true"
-                    style="width: 150px;"
+                    style="width: 200px;"
                   >
                     <button
                       aria-expanded="false"
@@ -883,7 +883,7 @@ Object {
                   data-ouia-component-id="OUIA-Generated-Select-single-2"
                   data-ouia-component-type="PF4/Select"
                   data-ouia-safe="true"
-                  style="width: 150px;"
+                  style="width: 200px;"
                 >
                   <button
                     aria-expanded="false"
