@@ -94,7 +94,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
             <Tbody>
               {serviceContainerScmRepositories.data?.content.map((scmRepository: SCMRepository, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>{<ScmRepositoryName repositoryId={scmRepository.id} url={scmRepository.internalUrl} />}</Td>
+                  <Td>{<ScmRepositoryName scmRepositoryId={scmRepository.id} url={scmRepository.internalUrl} />}</Td>
                   <Td>{<ScmRepositoryLink isInline showGerritButton url={scmRepository.internalUrl} />}</Td>
                   <Td>{scmRepository.externalUrl && <ScmRepositoryLink isInline url={scmRepository.externalUrl} />}</Td>
                   <Td>{scmRepository.preBuildSyncEnabled ? 'enabled' : 'disabled'} </Td>

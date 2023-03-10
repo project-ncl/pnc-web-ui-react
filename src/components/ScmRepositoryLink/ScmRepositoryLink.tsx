@@ -32,8 +32,7 @@ export const ScmRepositoryLink = ({ url, showClipboardCopy = true, showGerritBut
         variant={isInline ? 'plain' : 'tertiary'}
         icon={<ExternalLinkAltIcon />}
       >
-        {isInline && <ExternalLinkAltIcon />}
-        {!isInline && 'Gerrit'}
+        {isInline ? <ExternalLinkAltIcon /> : 'Gerrit'}
       </Button>
     </TooltipWrapper>
   );
