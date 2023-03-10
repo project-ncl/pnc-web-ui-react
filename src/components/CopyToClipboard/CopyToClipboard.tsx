@@ -1,10 +1,11 @@
-import { ClipboardCopy, Split, SplitItem } from '@patternfly/react-core';
+import { ClipboardCopy, ClipboardCopyAction, Split, SplitItem } from '@patternfly/react-core';
+
+import styles from './CopyToClipboard.module.css';
 
 interface ICopyToClipboardProps {
   prefixComponent?: React.ReactNode;
   suffixComponent?: React.ReactNode;
   isInline?: boolean;
-  additionalActions?: React.ReactNode;
 }
 
 /**
@@ -13,14 +14,12 @@ interface ICopyToClipboardProps {
  * @param prefixComponent - any component before ClipboardCopy
  * @param suffixComponent - any component after ClipboardCopy
  * @param isInline - whether to use inline style for the component
- * @param additionalActions - component for additional actions, for inline style only
  * @param children - the content to be used for ClipboardCopy
  */
 export const CopyToClipboard = ({
   prefixComponent,
   suffixComponent,
   isInline,
-  additionalActions,
   children,
 }: React.PropsWithChildren<ICopyToClipboardProps>) => (
   <Split hasGutter>
@@ -32,11 +31,12 @@ export const CopyToClipboard = ({
         hoverTip="Copy"
         clickTip="Copied"
         variant={isInline ? 'inline-compact' : 'inline'}
-        additionalActions={additionalActions}
+        additionalActions={<ClipboardCopyAction>{suffixComponent}</ClipboardCopyAction>}
+        className={styles['no-bg']}
       >
         {children}
       </ClipboardCopy>
     </SplitItem>
-    {suffixComponent && <SplitItem>{suffixComponent}</SplitItem>}
+    {suffixComponent && !isInline && <SplitItem>{suffixComponent}</SplitItem>}
   </Split>
 );
