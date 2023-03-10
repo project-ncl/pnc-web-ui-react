@@ -7,7 +7,7 @@ describe('display ScmRepositoryName component', () => {
   test('renders ScmRepositoryName', () => {
     render(
       <MemoryRouter>
-        <ScmRepositoryName scmRepositoryId="100" url="https://test.url.com/project.git" />
+        <ScmRepositoryName scmRepositoryId="100" internalUrl="https://test.url.com/project.git" />
       </MemoryRouter>
     );
   });
@@ -15,7 +15,7 @@ describe('display ScmRepositoryName component', () => {
   test('compare snapshot with previous record', () => {
     const tree = render(
       <MemoryRouter>
-        <ScmRepositoryName scmRepositoryId="100" url="https://test.url.com/project.git" />
+        <ScmRepositoryName scmRepositoryId="100" internalUrl="https://test.url.com/project.git" />
       </MemoryRouter>
     );
     expect(tree).toMatchSnapshot();
