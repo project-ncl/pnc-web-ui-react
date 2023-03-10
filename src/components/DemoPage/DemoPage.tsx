@@ -743,6 +743,20 @@ export const DemoPage = () => {
             <span>
               <ScmRepositoryLink showClipboardCopy={false} url="https://github.com/test/testUrlText.git" />
             </span>
+            <br />
+            <br />
+            <span>
+              <ScmRepositoryLink showClipboardCopy isInline url="https://github.com/test/testInlineCopy.git" />
+            </span>
+            <br />
+            <span>
+              <ScmRepositoryLink
+                showClipboardCopy={true}
+                isInline
+                showGerritButton
+                url="https://github.com/test/testInlineCopyRedirect.git"
+              />
+            </span>
           </ContentBox>
         </FlexItem>
 
@@ -753,14 +767,14 @@ export const DemoPage = () => {
             </span>
             <br />
             <span>
-              Customized Tooltip Icon{' '}
+              Customized Tooltip Icon
               <TooltipWrapper tooltip="Customized Tooltip icon">
                 <QuestionCircleIcon />
               </TooltipWrapper>
             </span>
             <br />
             <span>
-              Any Tooltip Component{' '}
+              Any Tooltip Component
               <TooltipWrapper tooltip="Customized Tooltip with span">
                 <span>[TEST TOOLTIP SPAN]</span>
               </TooltipWrapper>

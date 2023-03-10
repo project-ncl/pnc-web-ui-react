@@ -1,4 +1,4 @@
-import { Button, ClipboardCopyAction } from '@patternfly/react-core';
+import { Button } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
@@ -39,18 +39,7 @@ export const ScmRepositoryLink = ({ url, showClipboardCopy = true, showGerritBut
 
   if (showClipboardCopy) {
     return (
-      <CopyToClipboard
-        isInline={isInline}
-        additionalActions={
-          isInline &&
-          showGerritButton && (
-            <ClipboardCopyAction>
-              <GerritButton />
-            </ClipboardCopyAction>
-          )
-        }
-        suffixComponent={!isInline && showGerritButton && <GerritButton />}
-      >
+      <CopyToClipboard isInline={isInline} suffixComponent={showGerritButton && <GerritButton />}>
         {url}
       </CopyToClipboard>
     );
