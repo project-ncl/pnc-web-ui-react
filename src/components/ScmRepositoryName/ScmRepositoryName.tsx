@@ -4,15 +4,15 @@ import { parseScmRepositoryTitle } from 'utils/utils';
 
 interface IScmRepositoryNameProps {
   url: string;
-  repositoryId: string;
+  scmRepositoryId: string;
 }
 
 /**
- * The repository name that lead to repository detail page.
+ * The SCM Repository name that lead to SCM Repository detail page.
  *
  * @param url - the internal/external url for the SCM Repository
- * @param repositoryId - id of the SCM Repository,
+ * @param scmRepositoryId - id of the SCM Repository,
  */
-export const ScmRepositoryName = ({ url, repositoryId }: IScmRepositoryNameProps) => {
-  return <Link to={repositoryId}>{parseScmRepositoryTitle({ internalUrl: url })}</Link>;
+export const ScmRepositoryName = ({ url, scmRepositoryId }: IScmRepositoryNameProps) => {
+  return <Link to={scmRepositoryId}>{parseScmRepositoryTitle({ internalUrl: url })}</Link>;
 };
