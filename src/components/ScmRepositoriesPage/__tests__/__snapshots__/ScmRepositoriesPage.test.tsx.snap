@@ -250,7 +250,7 @@ Object {
                     </button>
                   </th>
                   <th
-                    class="pf-m-width-10"
+                    class="pf-m-width-15"
                     scope="col"
                   >
                     Pre-build Sync
@@ -279,12 +279,149 @@ Object {
                   <td
                     class=""
                   >
-                    git+ssh://code.internal.com/test-project/project.git
+                    <div
+                      class="pf-l-split pf-m-gutter"
+                    >
+                      <div
+                        class="pf-l-split__item pf-m-fill"
+                      >
+                        <div
+                          class="pf-c-clipboard-copy pf-m-inline"
+                          data-ouia-component-type="PF4/ClipboardCopy"
+                          data-ouia-safe="true"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__text"
+                            id="text-input-6"
+                          >
+                            git+ssh://code.internal.com/test-project/project.git
+                          </span>
+                          <span
+                            class="pf-c-clipboard-copy__actions"
+                          >
+                            <span
+                              class="pf-c-clipboard-copy__actions-item"
+                            >
+                              <button
+                                aria-disabled="false"
+                                aria-label="Copy"
+                                aria-labelledby="copy-button-6 text-input-6"
+                                class="pf-c-button pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-11"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe="true"
+                                id="copy-button-6"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 448 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                  />
+                                </svg>
+                              </button>
+                            </span>
+                            <span
+                              class="pf-c-clipboard-copy__actions-item"
+                            >
+                              <div
+                                style="display: contents;"
+                              >
+                                 
+                                <a
+                                  aria-disabled="false"
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-12"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  href="https://code.internal.com/gerrit/gitweb?p=test-project/project.git;a=summary"
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 512 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                                    />
+                                  </svg>
+                                </a>
+                              </div>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   >
-                    https://github.com/test/test-project
+                    <div
+                      class="pf-l-split pf-m-gutter"
+                    >
+                      <div
+                        class="pf-l-split__item pf-m-fill"
+                      >
+                        <div
+                          class="pf-c-clipboard-copy pf-m-inline"
+                          data-ouia-component-type="PF4/ClipboardCopy"
+                          data-ouia-safe="true"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__text"
+                            id="text-input-7"
+                          >
+                            https://github.com/test/test-project
+                          </span>
+                          <span
+                            class="pf-c-clipboard-copy__actions"
+                          >
+                            <span
+                              class="pf-c-clipboard-copy__actions-item"
+                            >
+                              <button
+                                aria-disabled="false"
+                                aria-label="Copy"
+                                aria-labelledby="copy-button-7 text-input-7"
+                                class="pf-c-button pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-13"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe="true"
+                                id="copy-button-7"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 448 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                  />
+                                </svg>
+                              </button>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
@@ -311,12 +448,149 @@ Object {
                   <td
                     class=""
                   >
-                    git+ssh://code.internal.com/test-project/project2.git
+                    <div
+                      class="pf-l-split pf-m-gutter"
+                    >
+                      <div
+                        class="pf-l-split__item pf-m-fill"
+                      >
+                        <div
+                          class="pf-c-clipboard-copy pf-m-inline"
+                          data-ouia-component-type="PF4/ClipboardCopy"
+                          data-ouia-safe="true"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__text"
+                            id="text-input-8"
+                          >
+                            git+ssh://code.internal.com/test-project/project2.git
+                          </span>
+                          <span
+                            class="pf-c-clipboard-copy__actions"
+                          >
+                            <span
+                              class="pf-c-clipboard-copy__actions-item"
+                            >
+                              <button
+                                aria-disabled="false"
+                                aria-label="Copy"
+                                aria-labelledby="copy-button-8 text-input-8"
+                                class="pf-c-button pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-14"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe="true"
+                                id="copy-button-8"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 448 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                  />
+                                </svg>
+                              </button>
+                            </span>
+                            <span
+                              class="pf-c-clipboard-copy__actions-item"
+                            >
+                              <div
+                                style="display: contents;"
+                              >
+                                 
+                                <a
+                                  aria-disabled="false"
+                                  class="pf-c-button pf-m-plain"
+                                  data-ouia-component-id="OUIA-Generated-Button-plain-15"
+                                  data-ouia-component-type="PF4/Button"
+                                  data-ouia-safe="true"
+                                  href="https://code.internal.com/gerrit/gitweb?p=test-project/project2.git;a=summary"
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    style="vertical-align: -0.125em;"
+                                    viewBox="0 0 512 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                                    />
+                                  </svg>
+                                </a>
+                              </div>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   >
-                    https://github.com/test/test-project2
+                    <div
+                      class="pf-l-split pf-m-gutter"
+                    >
+                      <div
+                        class="pf-l-split__item pf-m-fill"
+                      >
+                        <div
+                          class="pf-c-clipboard-copy pf-m-inline"
+                          data-ouia-component-type="PF4/ClipboardCopy"
+                          data-ouia-safe="true"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__text"
+                            id="text-input-9"
+                          >
+                            https://github.com/test/test-project2
+                          </span>
+                          <span
+                            class="pf-c-clipboard-copy__actions"
+                          >
+                            <span
+                              class="pf-c-clipboard-copy__actions-item"
+                            >
+                              <button
+                                aria-disabled="false"
+                                aria-label="Copy"
+                                aria-labelledby="copy-button-9 text-input-9"
+                                class="pf-c-button pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-16"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe="true"
+                                id="copy-button-9"
+                                type="button"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 448 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                  />
+                                </svg>
+                              </button>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
@@ -409,7 +683,7 @@ Object {
                     aria-label="Go to first page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="first"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-17"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -438,7 +712,7 @@ Object {
                     aria-label="Go to previous page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="previous"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-18"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -487,7 +761,7 @@ Object {
                     aria-label="Go to next page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="next"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-19"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -516,7 +790,7 @@ Object {
                     aria-label="Go to last page"
                     class="pf-c-button pf-m-plain pf-m-disabled"
                     data-action="last"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-20"
                     data-ouia-component-type="PF4/Button"
                     data-ouia-safe="true"
                     disabled=""
@@ -790,7 +1064,7 @@ Object {
                   </button>
                 </th>
                 <th
-                  class="pf-m-width-10"
+                  class="pf-m-width-15"
                   scope="col"
                 >
                   Pre-build Sync
@@ -819,12 +1093,149 @@ Object {
                 <td
                   class=""
                 >
-                  git+ssh://code.internal.com/test-project/project.git
+                  <div
+                    class="pf-l-split pf-m-gutter"
+                  >
+                    <div
+                      class="pf-l-split__item pf-m-fill"
+                    >
+                      <div
+                        class="pf-c-clipboard-copy pf-m-inline"
+                        data-ouia-component-type="PF4/ClipboardCopy"
+                        data-ouia-safe="true"
+                      >
+                        <span
+                          class="pf-c-clipboard-copy__text"
+                          id="text-input-6"
+                        >
+                          git+ssh://code.internal.com/test-project/project.git
+                        </span>
+                        <span
+                          class="pf-c-clipboard-copy__actions"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__actions-item"
+                          >
+                            <button
+                              aria-disabled="false"
+                              aria-label="Copy"
+                              aria-labelledby="copy-button-6 text-input-6"
+                              class="pf-c-button pf-m-plain"
+                              data-ouia-component-id="OUIA-Generated-Button-plain-11"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              id="copy-button-6"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                fill="currentColor"
+                                height="1em"
+                                role="img"
+                                style="vertical-align: -0.125em;"
+                                viewBox="0 0 448 512"
+                                width="1em"
+                              >
+                                <path
+                                  d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                          <span
+                            class="pf-c-clipboard-copy__actions-item"
+                          >
+                            <div
+                              style="display: contents;"
+                            >
+                               
+                              <a
+                                aria-disabled="false"
+                                class="pf-c-button pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-12"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe="true"
+                                href="https://code.internal.com/gerrit/gitweb?p=test-project/project.git;a=summary"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                                  />
+                                </svg>
+                              </a>
+                            </div>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 >
-                  https://github.com/test/test-project
+                  <div
+                    class="pf-l-split pf-m-gutter"
+                  >
+                    <div
+                      class="pf-l-split__item pf-m-fill"
+                    >
+                      <div
+                        class="pf-c-clipboard-copy pf-m-inline"
+                        data-ouia-component-type="PF4/ClipboardCopy"
+                        data-ouia-safe="true"
+                      >
+                        <span
+                          class="pf-c-clipboard-copy__text"
+                          id="text-input-7"
+                        >
+                          https://github.com/test/test-project
+                        </span>
+                        <span
+                          class="pf-c-clipboard-copy__actions"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__actions-item"
+                          >
+                            <button
+                              aria-disabled="false"
+                              aria-label="Copy"
+                              aria-labelledby="copy-button-7 text-input-7"
+                              class="pf-c-button pf-m-plain"
+                              data-ouia-component-id="OUIA-Generated-Button-plain-13"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              id="copy-button-7"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                fill="currentColor"
+                                height="1em"
+                                role="img"
+                                style="vertical-align: -0.125em;"
+                                viewBox="0 0 448 512"
+                                width="1em"
+                              >
+                                <path
+                                  d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
@@ -851,12 +1262,149 @@ Object {
                 <td
                   class=""
                 >
-                  git+ssh://code.internal.com/test-project/project2.git
+                  <div
+                    class="pf-l-split pf-m-gutter"
+                  >
+                    <div
+                      class="pf-l-split__item pf-m-fill"
+                    >
+                      <div
+                        class="pf-c-clipboard-copy pf-m-inline"
+                        data-ouia-component-type="PF4/ClipboardCopy"
+                        data-ouia-safe="true"
+                      >
+                        <span
+                          class="pf-c-clipboard-copy__text"
+                          id="text-input-8"
+                        >
+                          git+ssh://code.internal.com/test-project/project2.git
+                        </span>
+                        <span
+                          class="pf-c-clipboard-copy__actions"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__actions-item"
+                          >
+                            <button
+                              aria-disabled="false"
+                              aria-label="Copy"
+                              aria-labelledby="copy-button-8 text-input-8"
+                              class="pf-c-button pf-m-plain"
+                              data-ouia-component-id="OUIA-Generated-Button-plain-14"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              id="copy-button-8"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                fill="currentColor"
+                                height="1em"
+                                role="img"
+                                style="vertical-align: -0.125em;"
+                                viewBox="0 0 448 512"
+                                width="1em"
+                              >
+                                <path
+                                  d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                          <span
+                            class="pf-c-clipboard-copy__actions-item"
+                          >
+                            <div
+                              style="display: contents;"
+                            >
+                               
+                              <a
+                                aria-disabled="false"
+                                class="pf-c-button pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-15"
+                                data-ouia-component-type="PF4/Button"
+                                data-ouia-safe="true"
+                                href="https://code.internal.com/gerrit/gitweb?p=test-project/project2.git;a=summary"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  height="1em"
+                                  role="img"
+                                  style="vertical-align: -0.125em;"
+                                  viewBox="0 0 512 512"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+                                  />
+                                </svg>
+                              </a>
+                            </div>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 >
-                  https://github.com/test/test-project2
+                  <div
+                    class="pf-l-split pf-m-gutter"
+                  >
+                    <div
+                      class="pf-l-split__item pf-m-fill"
+                    >
+                      <div
+                        class="pf-c-clipboard-copy pf-m-inline"
+                        data-ouia-component-type="PF4/ClipboardCopy"
+                        data-ouia-safe="true"
+                      >
+                        <span
+                          class="pf-c-clipboard-copy__text"
+                          id="text-input-9"
+                        >
+                          https://github.com/test/test-project2
+                        </span>
+                        <span
+                          class="pf-c-clipboard-copy__actions"
+                        >
+                          <span
+                            class="pf-c-clipboard-copy__actions-item"
+                          >
+                            <button
+                              aria-disabled="false"
+                              aria-label="Copy"
+                              aria-labelledby="copy-button-9 text-input-9"
+                              class="pf-c-button pf-m-plain"
+                              data-ouia-component-id="OUIA-Generated-Button-plain-16"
+                              data-ouia-component-type="PF4/Button"
+                              data-ouia-safe="true"
+                              id="copy-button-9"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                fill="currentColor"
+                                height="1em"
+                                role="img"
+                                style="vertical-align: -0.125em;"
+                                viewBox="0 0 448 512"
+                                width="1em"
+                              >
+                                <path
+                                  d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
@@ -949,7 +1497,7 @@ Object {
                   aria-label="Go to first page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="first"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-5"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-17"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
@@ -978,7 +1526,7 @@ Object {
                   aria-label="Go to previous page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="previous"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-6"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-18"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
@@ -1027,7 +1575,7 @@ Object {
                   aria-label="Go to next page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="next"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-7"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-19"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""
@@ -1056,7 +1604,7 @@ Object {
                   aria-label="Go to last page"
                   class="pf-c-button pf-m-plain pf-m-disabled"
                   data-action="last"
-                  data-ouia-component-id="OUIA-Generated-Button-plain-8"
+                  data-ouia-component-id="OUIA-Generated-Button-plain-20"
                   data-ouia-component-type="PF4/Button"
                   data-ouia-safe="true"
                   disabled=""

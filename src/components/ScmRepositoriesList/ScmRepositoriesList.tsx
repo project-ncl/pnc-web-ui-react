@@ -13,6 +13,7 @@ import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
+import { ScmRepositoryName } from 'components/ScmRepositoryName/ScmRepositoryName';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -76,7 +77,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerScmRepositories} title={`${PageTitles.repositories}`}>
+        <ServiceContainerLoading {...serviceContainerScmRepositories} title={PageTitles.repositories}>
           <TableComposable variant="compact">
             <Thead>
               {/**
@@ -87,15 +88,15 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                 <Th>Name</Th>
                 <Th sort={getSortParams(sortOptions['internalUrl'].id)}>Internal SCM URL</Th>
                 <Th sort={getSortParams(sortOptions['externalUrl'].id)}>External SCM URL</Th>
-                <Th width={10}>Pre-build Sync</Th>
+                <Th width={15}>Pre-build Sync</Th>
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerScmRepositories.data?.content.map((scmRepository: SCMRepository, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>{<ScmRepositoryLink repositoryId={scmRepository.id} url={scmRepository.internalUrl} />}</Td>
-                  <Td>{scmRepository.internalUrl}</Td>
-                  <Td>{scmRepository.externalUrl}</Td>
+                  <Td>{<ScmRepositoryName repositoryId={scmRepository.id} url={scmRepository.internalUrl} />}</Td>
+                  <Td>{<ScmRepositoryLink isInline showGerritButton url={scmRepository.internalUrl} />}</Td>
+                  <Td>{scmRepository.externalUrl && <ScmRepositoryLink isInline url={scmRepository.externalUrl} />}</Td>
                   <Td>{scmRepository.preBuildSyncEnabled ? 'enabled' : 'disabled'} </Td>
                 </Tr>
               ))}
