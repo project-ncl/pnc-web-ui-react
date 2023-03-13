@@ -2,6 +2,8 @@ import { AxiosRequestConfig } from 'axios';
 
 import { ArtifactPage, ProductMilestone, ProductMilestoneCloseResultPage } from 'pnc-api-types-ts';
 
+import { mockBackendClient } from 'services/mockBackendClient';
+
 import { pncClient } from './pncClient';
 
 interface IProductMilestoneApiData {
@@ -40,4 +42,13 @@ export const getProductMilestoneDeliveredArtifacts = (
  */
 export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductMilestoneCloseResultPage>(`/product-milestones/${id}/close-results`, requestConfig);
+};
+
+/**
+ * Gets Product Milestone statistics.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return mockBackendClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
 };
