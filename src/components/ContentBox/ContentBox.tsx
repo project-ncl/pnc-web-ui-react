@@ -9,6 +9,7 @@ interface IContentBoxProps {
   padding?: boolean;
   marginBottom?: boolean;
   title?: string;
+  contentHeight?: string;
 }
 
 export const ContentBox = ({
@@ -19,6 +20,7 @@ export const ContentBox = ({
   padding,
   marginBottom,
   title,
+  contentHeight,
 }: PropsWithChildren<IContentBoxProps>) => {
   const classList = [];
 
@@ -49,7 +51,7 @@ export const ContentBox = ({
           <strong>{title}</strong>
         </div>
       )}
-      <div>{children}</div>
+      <div style={contentHeight ? { height: contentHeight } : undefined}>{children}</div>
     </div>
   );
 };

@@ -49,13 +49,21 @@ export const DoughnutChart = ({ data, title, id, description }: IDoughnutChartPr
         elements: {
           center: {
             text: values.reduce((a, b) => a + b, 0),
-            fontStyle: 'Segoe UI',
+            fontStyle:
+              '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
           },
         } as any,
         plugins: {
           title: title
             ? {
                 text: title,
+                color: '#757575',
+                font: {
+                  family:
+                    '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+                  size: 20,
+                  weight: 'normal',
+                },
                 align: 'center',
                 position: 'bottom',
                 display: true,
