@@ -1,18 +1,34 @@
 import { Link } from 'react-router-dom';
 
-import { parseScmRepositoryTitle } from 'utils/utils';
+import { SCMRepository } from 'pnc-api-types-ts';
 
-interface IScmRepositoryNameProps {
+interface IParseInternalRepositoryUrl {
   internalUrl: string;
-  scmRepositoryId: string;
 }
 
 /**
- * The SCM Repository name that lead to SCM Repository detail page.
+ * Parses internal repository url to SCM Repository name.
  *
- * @param internalUrl - the internal url for the SCM Repository
- * @param scmRepositoryId - id of the SCM Repository,
+ * @param object - object containing internalUrl field
+ * @returns  SCM Repository name
  */
-export const ScmRepositoryName = ({ internalUrl, scmRepositoryId }: IScmRepositoryNameProps) => {
-  return <Link to={scmRepositoryId}>{parseScmRepositoryTitle({ internalUrl })}</Link>;
+export const parseScmRepositoryTitle = ({ internalUrl }: IParseInternalRepositoryUrl) =>
+  internalUrl ? internalUrl.split('/').splice(3).join('/') : '';
+
+interface IScmRepositoryNameProps {
+  scmRepository: SCMRepository;
+  isLink?: boolean;
+}
+
+/**
+ * The SCM Repository name that will be calculated from internalUrl.
+ *
+ * @param scmRepository - the SCM Repository object
+ * @param isLink - Whether the component will show as a link,
+ */
+export const ScmRepositoryName = ({ scmRepository, isLink }: IScmRepositoryNameProps) => {
+  const internalUrl = scmRepository.internalUrl;
+  const scmRepositoryPath = `/scm-repositories/${scmRepository.id}`;
+  const scmRepositoryTitle = parseScmRepositoryTitle({ internalUrl });
+  return isLink ? <Link to={scmRepositoryPath}>{scmRepositoryTitle}</Link> : <> {scmRepositoryTitle}</>;
 };

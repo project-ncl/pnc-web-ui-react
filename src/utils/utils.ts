@@ -35,17 +35,9 @@ export const transformateDateFormat = (date: Date) => {
   return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}`;
 };
 
-interface IScmRepositoryInternal {
+interface IParseInternalRepositoryUrl {
   internalUrl: string;
 }
-/**
- * Parses internal repository url to SCM Repository name.
- *
- * @param object - object containing internalUrl field
- * @returns  SCM Repository name
- */
-export const parseScmRepositoryTitle = ({ internalUrl }: IScmRepositoryInternal) =>
-  internalUrl ? internalUrl.split('/').splice(3).join('/') : '';
 
 /**
  * Parses internal repository url to Gerrit gitweb link of the project.
@@ -53,7 +45,7 @@ export const parseScmRepositoryTitle = ({ internalUrl }: IScmRepositoryInternal)
  * @param object - object containing internalUrl field
  * @returns  Gerrit gitweb link
  */
-export const parseInternalRepositoryUrl = ({ internalUrl }: IScmRepositoryInternal) => {
+export const parseInternalRepositoryUrl = ({ internalUrl }: IParseInternalRepositoryUrl) => {
   const protocol = internalUrl.split('://')[0];
   const base = internalUrl.split('://')[1].split('/')[0];
   const project = internalUrl.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];

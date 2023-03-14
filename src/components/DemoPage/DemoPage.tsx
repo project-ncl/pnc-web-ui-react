@@ -37,6 +37,7 @@ import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
+import { ScmRepositoryName } from 'components/ScmRepositoryName/ScmRepositoryName';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
@@ -601,6 +602,29 @@ export const DemoPage = () => {
                   POST_BUILD_REPO_VALIDATION: 'REPO_SYSTEM_ERROR',
                   PNC_SYSTEM_ERROR: 'DISABLED_FIREWALL',
                 },
+              }}
+            />
+          </ContentBox>
+        </FlexItem>
+
+        <FlexItem>
+          <ContentBox title="SCM Repository name" padding>
+            <ScmRepositoryName
+              isLink
+              scmRepository={{
+                id: '101',
+                internalUrl: 'git+ssh://code.test.env.com/testRepo/empty1.git',
+                externalUrl: 'https://github.com/testRepo/empty1.git',
+                preBuildSyncEnabled: true,
+              }}
+            />
+            <br />
+            <ScmRepositoryName
+              scmRepository={{
+                id: '102',
+                internalUrl: 'git+ssh://code.test.env.com/testRepo/empty2.git',
+                externalUrl: 'https://github.com/testRepo/empty2.git',
+                preBuildSyncEnabled: true,
               }}
             />
           </ContentBox>
