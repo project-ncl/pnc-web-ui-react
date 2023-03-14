@@ -6,14 +6,13 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { AttributesItem, AttributesItems } from 'components/AttributesItems/DeclarativeAttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
@@ -38,42 +37,6 @@ export const ScmRepositoryDetailPage = () => {
     })
   );
 
-  const attributes = [
-    {
-      name: (
-        <>
-          Internal SCM URL
-          <TooltipWrapper tooltip="URL to the internal SCM repository, which is the main repository used for the builds." />
-        </>
-      ),
-      value: serviceContainerScmRepository.data?.internalUrl && (
-        <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showGerritButton />
-      ),
-    },
-    {
-      name: (
-        <>
-          External SCM URL
-          <TooltipWrapper tooltip="URL to the upstream SCM repository." />
-        </>
-      ),
-      value: serviceContainerScmRepository.data?.externalUrl && (
-        <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} />
-      ),
-    },
-    {
-      name: (
-        <>
-          Pre-build Synchronization
-          <TooltipWrapper tooltip="Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build." />
-        </>
-      ),
-      value:
-        serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
-        (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled'),
-    },
-  ];
-
   return (
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout
@@ -82,7 +45,28 @@ export const ScmRepositoryDetailPage = () => {
       >
         <ContentBox padding marginBottom>
           <div className="w-70">
-            <AttributesItems attributes={attributes} />
+            <AttributesItems>
+              <AttributesItem
+                title="Internal SCM URL"
+                tooltip="URL to the internal SCM repository, which is the main repository used for the builds."
+              >
+                {serviceContainerScmRepository.data?.internalUrl && (
+                  <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showGerritButton />
+                )}
+              </AttributesItem>
+              <AttributesItem title="External SCM URL" tooltip="URL to the upstream SCM repository.">
+                {serviceContainerScmRepository.data?.externalUrl && (
+                  <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} />
+                )}
+              </AttributesItem>
+              <AttributesItem
+                title="Pre-build Synchronization"
+                tooltip="Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build."
+              >
+                {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
+                  (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
+              </AttributesItem>
+            </AttributesItems>
           </div>
         </ContentBox>
 
