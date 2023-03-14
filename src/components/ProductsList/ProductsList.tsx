@@ -69,7 +69,7 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProducts} title={PageTitles.products}>
-          <TableComposable variant="compact">
+          <TableComposable isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
