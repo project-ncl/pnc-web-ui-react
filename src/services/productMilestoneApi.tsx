@@ -36,12 +36,21 @@ export const getProductMilestoneDeliveredArtifacts = (
 };
 
 /**
- * Gets Product Milestone close results.
+ * Gets Product Milestone Close Results.
  *
  * @param requestConfig - Axios based request config
  */
 export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductMilestoneCloseResultPage>(`/product-milestones/${id}/close-results`, requestConfig);
+};
+
+/**
+ * Gets Product Milestone Delivered Artifacts.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getDeliveredArtifacts = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/${id}/delivered-artifacts`, requestConfig);
 };
 
 /**

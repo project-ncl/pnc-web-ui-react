@@ -1,5 +1,26 @@
-import { ContentBox } from 'components/ContentBox/ContentBox';
+import { useParams } from 'react-router-dom';
 
-export const ProductMilestoneDeliveredArtifactsPage = () => {
-  return <ContentBox padding marginBottom></ContentBox>;
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
+
+import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
+
+import * as productMilestoneApi from 'services/productMilestoneApi';
+
+interface IProductMilestoneDeliveredArtifactsPageProps {
+  componentId?: string;
+}
+
+export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: IProductMilestoneDeliveredArtifactsPageProps) => {
+  const { productMilestoneId } = useParams();
+
+  const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
+  const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
+
+  useQueryParamsEffect(
+    ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+    { componentId }
+  );
+
+  return <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />;
 };
