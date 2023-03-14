@@ -2,6 +2,8 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ScmRepositoryAttributes } from 'common/ScmRepositoryAttributes';
+
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -47,21 +49,24 @@ export const ScmRepositoryDetailPage = () => {
           <div className="w-70">
             <AttributesItems>
               <AttributesItem
-                title="Internal SCM URL"
-                tooltip="URL to the internal SCM repository, which is the main repository used for the builds."
+                title={ScmRepositoryAttributes.internalUrl.title}
+                tooltip={ScmRepositoryAttributes.internalUrl.tooltip}
               >
                 {serviceContainerScmRepository.data?.internalUrl && (
                   <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showGerritButton />
                 )}
               </AttributesItem>
-              <AttributesItem title="External SCM URL" tooltip="URL to the upstream SCM repository.">
+              <AttributesItem
+                title={ScmRepositoryAttributes.externalUrl.title}
+                tooltip={ScmRepositoryAttributes.externalUrl.tooltip}
+              >
                 {serviceContainerScmRepository.data?.externalUrl && (
                   <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} />
                 )}
               </AttributesItem>
               <AttributesItem
-                title="Pre-build Synchronization"
-                tooltip="Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build."
+                title={ScmRepositoryAttributes.preBuildSyncEnabled.title}
+                tooltip={ScmRepositoryAttributes.preBuildSyncEnabled.tooltip}
               >
                 {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
                   (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
