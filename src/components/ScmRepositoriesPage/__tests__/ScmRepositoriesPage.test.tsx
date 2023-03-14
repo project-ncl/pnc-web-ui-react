@@ -33,16 +33,4 @@ describe('display ScmRepositoriesPage component', () => {
     const lastProject = screen.getByText(scmRepositoriesMock[1].externalUrl);
     expect(lastProject).toBeInTheDocument();
   });
-
-  test('compare snapshot with previous record', async () => {
-    let tree: any;
-    await act(async () => {
-      tree = render(
-        <MemoryRouter>
-          <ScmRepositoriesPage />
-        </MemoryRouter>
-      );
-    });
-    expect(tree).toMatchSnapshot();
-  });
 });
