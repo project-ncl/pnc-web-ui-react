@@ -6,3 +6,8 @@
   color: grey;
   font-style: italic;
 }
+
+.uniform-grid {
+  grid-auto-rows: 1fr;
+  align-items: center;
+}
