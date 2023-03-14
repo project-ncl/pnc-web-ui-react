@@ -2,6 +2,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { PropsWithChildren } from 'react';
 
+import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import styles from './AttributesItems.module.css';
@@ -32,8 +33,8 @@ export const AttributesItem = ({ children, title, tooltip }: PropsWithChildren<I
         {tooltip && <TooltipWrapper tooltip={tooltip} />}
       </>
     </GridItem>
-    <GridItem xl={9} lg={8} md={6} sm={12} className={css(!children && styles['value-empty'])}>
-      {children ? children : 'Empty'}
+    <GridItem xl={9} lg={8} md={6} sm={12}>
+      {children ? children : <EmptyStateSymbol variant="text" />}
     </GridItem>
   </>
 );
