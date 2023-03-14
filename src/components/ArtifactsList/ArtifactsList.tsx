@@ -1,4 +1,5 @@
 import {
+  Button,
   DescriptionList,
   DescriptionListDescription,
   DescriptionListGroup,
@@ -24,7 +25,7 @@ import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQu
 import { ArtifactRepositoryTypeLabel } from 'components/ArtifactRepositoryTypeLabel/ArtifactRepositoryTypeLabel';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttribute, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/ParsedArtifactIdentifier';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -133,6 +134,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
   const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
 
   const [expandedArtifacts, setExpandedArtifacts] = useState<string[]>([]);
+  const [areAllArtifactsExpanded, setAreAllArtifactsExpanded] = useState<boolean | undefined>(undefined);
   const setArtifactExpanded = (artifact: Artifact, isExpanding = true) =>
     setExpandedArtifacts((prevExpanded) => {
       const otherExpandedArtifactIdentifiers = prevExpanded.filter((r) => r !== artifact.identifier);
@@ -145,11 +147,27 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
     setIsArtifactIdentifierParsed(shouldParse);
   }, []);
 
+  useEffect(() => {
+    if (areAllArtifactsExpanded === true) {
+      setExpandedArtifacts(serviceContainerArtifacts.data?.content.map((artifact: Artifact) => artifact.identifier));
+    } else if (areAllArtifactsExpanded === false) {
+      setExpandedArtifacts([]);
+    }
+  }, [areAllArtifactsExpanded, serviceContainerArtifacts.data?.content]);
+
   return (
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
+          <Filtering
+            filterOptions={filterOptions}
+            componentId={componentId}
+            onFilter={(filterAttribute: IFilterAttribute, _) => {
+              if (['md5', 'sha1', 'sha256'].includes(filterAttribute.id)) {
+                setAreAllArtifactsExpanded(true);
+              }
+            }}
+          />
         </ToolbarItem>
         <ToolbarItem marginLeft="20px">
           <Switch
@@ -162,6 +180,17 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
               window.localStorage.setItem('is-artifact-identifier-parsed', `${checked}`);
             }}
           />
+        </ToolbarItem>
+        <ToolbarItem>
+          <Button
+            variant="tertiary"
+            onClick={() => {
+              setAreAllArtifactsExpanded(areAllArtifactsExpanded !== undefined ? !areAllArtifactsExpanded : true);
+            }}
+            isSmall
+          >
+            {areAllArtifactsExpanded ? 'Collapse All' : 'Expand All'}
+          </Button>
         </ToolbarItem>
       </Toolbar>
 
@@ -199,7 +228,10 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                     expand={{
                       rowIndex,
                       isExpanded: isArtifactExpanded(artifact),
-                      onToggle: () => setArtifactExpanded(artifact, !isArtifactExpanded(artifact)),
+                      onToggle: () => {
+                        setArtifactExpanded(artifact, !isArtifactExpanded(artifact));
+                        setAreAllArtifactsExpanded(undefined);
+                      },
                     }}
                   />
                   <Td>
