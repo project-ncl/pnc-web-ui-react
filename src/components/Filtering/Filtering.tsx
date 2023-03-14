@@ -101,6 +101,7 @@ export interface IFilterOptions {
 interface IFilteringProps {
   filterOptions: IFilterOptions;
   componentId: string;
+  onFilter?: (filterAttribute: IFilterAttribute, filterValue: string) => void;
 }
 
 /**
@@ -133,7 +134,7 @@ interface IFilteringProps {
     },
   };
  */
-export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
+export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -208,6 +209,10 @@ export const Filtering = ({ filterOptions, componentId }: IFilteringProps) => {
         // update Q param and reset pageIndex
         updateQueryParamsInURL({ q, pageIndex: 1 }, componentId, location, navigate);
       }
+    }
+
+    if (onFilter) {
+      onFilter(filterAttribute, filterValue);
     }
   };
 
