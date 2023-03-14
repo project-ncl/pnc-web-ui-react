@@ -5,19 +5,13 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <a
-        href="/100"
-      >
-        project.git
-      </a>
+       
+      testRepo/empty1.git
     </div>
   </body>,
   "container": <div>
-    <a
-      href="/100"
-    >
-      project.git
-    </a>
+     
+    testRepo/empty1.git
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

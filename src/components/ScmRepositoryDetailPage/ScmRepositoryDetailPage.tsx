@@ -10,6 +10,7 @@ import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
+import { parseScmRepositoryTitle } from 'components/ScmRepositoryName/ScmRepositoryName';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -18,7 +19,6 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
-import { parseScmRepositoryTitle } from 'utils/utils';
 
 export const ScmRepositoryDetailPage = () => {
   const { scmRepositoryId } = useParams();

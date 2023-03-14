@@ -7,7 +7,14 @@ describe('display ScmRepositoryName component', () => {
   test('renders ScmRepositoryName', () => {
     render(
       <MemoryRouter>
-        <ScmRepositoryName scmRepositoryId="100" internalUrl="https://test.url.com/project.git" />
+        <ScmRepositoryName
+          scmRepository={{
+            id: '101',
+            internalUrl: 'git+ssh://code.test.env.com/testRepo/empty1.git',
+            externalUrl: 'https://github.com/testRepo/empty1.git',
+            preBuildSyncEnabled: true,
+          }}
+        />
       </MemoryRouter>
     );
   });
@@ -15,7 +22,14 @@ describe('display ScmRepositoryName component', () => {
   test('compare snapshot with previous record', () => {
     const tree = render(
       <MemoryRouter>
-        <ScmRepositoryName scmRepositoryId="100" internalUrl="https://test.url.com/project.git" />
+        <ScmRepositoryName
+          scmRepository={{
+            id: '101',
+            internalUrl: 'git+ssh://code.test.env.com/testRepo/empty1.git',
+            externalUrl: 'https://github.com/testRepo/empty1.git',
+            preBuildSyncEnabled: true,
+          }}
+        />
       </MemoryRouter>
     );
     expect(tree).toMatchSnapshot();
