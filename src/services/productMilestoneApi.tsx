@@ -1,6 +1,11 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ArtifactPage, ProductMilestone, ProductMilestoneCloseResultPage } from 'pnc-api-types-ts';
+import {
+  ArtifactPage,
+  DeliverableAnalyzerOperationPage,
+  ProductMilestone,
+  ProductMilestoneCloseResultPage,
+} from 'pnc-api-types-ts';
 
 import { mockClient } from 'services/mockClient';
 
@@ -30,6 +35,17 @@ export const getProductMilestone = ({ id }: IProductMilestoneApiData, requestCon
  */
 export const getDeliveredArtifacts = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/${id}/delivered-artifacts`, requestConfig);
+};
+
+/*
+ * Gets Product Milestone Deliverables Analysis.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getDeliverablesAnalysis = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient
+    .getHttpClient()
+    .get<DeliverableAnalyzerOperationPage>(`/product-milestones/${id}/deliverables-analyzer-operations`, requestConfig);
 };
 
 /**
