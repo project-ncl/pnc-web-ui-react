@@ -9,7 +9,7 @@
  */
 
 interface ICreateDateTimeObject {
-  date: Date | string;
+  date?: Date | string;
   includeDate?: boolean;
   includeTime?: boolean;
 }
