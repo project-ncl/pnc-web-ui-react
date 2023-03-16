@@ -77,7 +77,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerScmRepositories} title={PageTitles.repositories}>
+        <ServiceContainerLoading {...serviceContainerScmRepositories} title={PageTitles.scmRepositories}>
           <TableComposable variant="compact">
             <Thead>
               {/**

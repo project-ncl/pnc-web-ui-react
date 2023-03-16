@@ -13,7 +13,7 @@ export const PageTitles = {
   builds: 'Builds',
   groupBuilds: 'Group Builds',
   artifacts: 'Artifacts',
-  repositories: 'SCM Repositories',
+  scmRepositories: 'SCM Repositories',
   administration: 'Administration',
   pageNotFound: 'Page Not Found',
   delimiterSymbol: '·',
