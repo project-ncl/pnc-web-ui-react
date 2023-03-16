@@ -7,14 +7,14 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import styles from './AttributesItems.module.css';
 
-interface IAttributesItemsProps {
+interface IAttributesProps {
   isGridUniform?: boolean;
 }
 
 /**
  * Represents a stylized name-value table component.
  */
-export const AttributesItems = ({ children, isGridUniform = true }: PropsWithChildren<IAttributesItemsProps>) => (
+export const Attributes = ({ children, isGridUniform = true }: PropsWithChildren<IAttributesProps>) => (
   <Grid hasGutter className={css(isGridUniform && styles['uniform-grid'])}>
     {children}
   </Grid>
