@@ -20,10 +20,10 @@ export const ScmRepositoriesPage = ({ componentId = 's1' }: IScmRepositoriesPage
 
   useQueryParamsEffect(serviceContainerScmRepositories.run, { componentId });
 
-  useTitle(PageTitles.repositories);
+  useTitle(PageTitles.scmRepositories);
   return (
     <PageLayout
-      title={PageTitles.repositories}
+      title={PageTitles.scmRepositories}
       description={
         <>
           This page contains SCM Repositories like <Label>apache/maven.git</Label> or <Label>git/twitter4j.git</Label>, they are
