@@ -1,17 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`display ScmRepositoryName component compare snapshot with previous record 1`] = `
+exports[`display ScmRepositoryLink component compare snapshot with previous record 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-       
-      testRepo/empty1.git
+      <a
+        href="/scm-repositories/101"
+      >
+        testRepo/empty1.git
+      </a>
     </div>
   </body>,
   "container": <div>
-     
-    testRepo/empty1.git
+    <a
+      href="/scm-repositories/101"
+    >
+      testRepo/empty1.git
+    </a>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

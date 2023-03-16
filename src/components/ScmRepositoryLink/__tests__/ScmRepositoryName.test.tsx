@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import { ScmRepositoryName } from 'components/ScmRepositoryName/ScmRepositoryName';
+import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 
-describe('display ScmRepositoryName component', () => {
-  test('renders ScmRepositoryName', () => {
+describe('display ScmRepositoryLink component', () => {
+  test('renders ScmRepositoryLink', () => {
     render(
       <MemoryRouter>
-        <ScmRepositoryName
+        <ScmRepositoryLink
           scmRepository={{
             id: '101',
             internalUrl: 'git+ssh://code.test.env.com/testRepo/empty1.git',
@@ -22,7 +22,7 @@ describe('display ScmRepositoryName component', () => {
   test('compare snapshot with previous record', () => {
     const tree = render(
       <MemoryRouter>
-        <ScmRepositoryName
+        <ScmRepositoryLink
           scmRepository={{
             id: '101',
             internalUrl: 'git+ssh://code.test.env.com/testRepo/empty1.git',
