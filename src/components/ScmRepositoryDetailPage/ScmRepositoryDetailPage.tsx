@@ -8,7 +8,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { AttributesItem, AttributesItems } from 'components/AttributesItems/DeclarativeAttributesItems';
+import { Attributes, AttributesItem } from 'components/AttributesItems/DeclarativeAttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
@@ -47,7 +47,7 @@ export const ScmRepositoryDetailPage = () => {
       >
         <ContentBox padding marginBottom>
           <div className="w-70">
-            <AttributesItems>
+            <Attributes>
               <AttributesItem
                 title={ScmRepositoryAttributes.internalUrl.title}
                 tooltip={ScmRepositoryAttributes.internalUrl.tooltip}
@@ -71,7 +71,7 @@ export const ScmRepositoryDetailPage = () => {
                 {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
                   (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
               </AttributesItem>
-            </AttributesItems>
+            </Attributes>
           </div>
         </ContentBox>
 
