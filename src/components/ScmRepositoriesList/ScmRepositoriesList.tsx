@@ -13,7 +13,7 @@ import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
-import { ScmRepositoryName } from 'components/ScmRepositoryName/ScmRepositoryName';
+import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -94,9 +94,9 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
             <Tbody>
               {serviceContainerScmRepositories.data?.content.map((scmRepository: SCMRepository, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>{<ScmRepositoryName isLink scmRepository={scmRepository} />}</Td>
-                  <Td>{<ScmRepositoryLink isInline showGerritButton url={scmRepository.internalUrl} />}</Td>
-                  <Td>{scmRepository.externalUrl && <ScmRepositoryLink isInline url={scmRepository.externalUrl} />}</Td>
+                  <Td>{<ScmRepositoryLink scmRepository={scmRepository} />}</Td>
+                  <Td>{<ScmRepositoryUrl isInline showGerritButton url={scmRepository.internalUrl} />}</Td>
+                  <Td>{scmRepository.externalUrl && <ScmRepositoryUrl isInline url={scmRepository.externalUrl} />}</Td>
                   <Td>
                     {scmRepository?.preBuildSyncEnabled !== undefined &&
                       (scmRepository.preBuildSyncEnabled ? 'enabled' : 'disabled')}

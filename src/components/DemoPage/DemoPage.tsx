@@ -37,7 +37,7 @@ import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
-import { ScmRepositoryName } from 'components/ScmRepositoryName/ScmRepositoryName';
+import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
@@ -609,8 +609,7 @@ export const DemoPage = () => {
 
         <FlexItem>
           <ContentBox title="SCM Repository name" padding>
-            <ScmRepositoryName
-              isLink
+            <ScmRepositoryLink
               scmRepository={{
                 id: '101',
                 internalUrl: 'git+ssh://code.test.env.com/testRepo/empty1.git',
@@ -619,7 +618,7 @@ export const DemoPage = () => {
               }}
             />
             <br />
-            <ScmRepositoryName
+            <ScmRepositoryLink
               scmRepository={{
                 id: '102',
                 internalUrl: 'git+ssh://code.test.env.com/testRepo/empty2.git',
@@ -757,24 +756,24 @@ export const DemoPage = () => {
         <FlexItem>
           <ContentBox title="ScmRepositoryLink" padding>
             <span>
-              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopy" />
+              <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopy" />
             </span>
             <br />
             <span>
-              <ScmRepositoryLink url="https://code.repo.com/testUrlClipboardCopyGerrit" showGerritButton />
+              <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopyGerrit" showGerritButton />
             </span>
             <br />
             <span>
-              <ScmRepositoryLink showClipboardCopy={false} url="https://github.com/test/testUrlText.git" />
+              <ScmRepositoryUrl showClipboardCopy={false} url="https://github.com/test/testUrlText.git" />
             </span>
             <br />
             <br />
             <span>
-              <ScmRepositoryLink showClipboardCopy isInline url="https://github.com/test/testInlineCopy.git" />
+              <ScmRepositoryUrl showClipboardCopy isInline url="https://github.com/test/testInlineCopy.git" />
             </span>
             <br />
             <span>
-              <ScmRepositoryLink
+              <ScmRepositoryUrl
                 showClipboardCopy={true}
                 isInline
                 showGerritButton

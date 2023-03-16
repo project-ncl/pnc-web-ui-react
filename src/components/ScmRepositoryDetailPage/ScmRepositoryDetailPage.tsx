@@ -9,8 +9,8 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
-import { parseScmRepositoryTitle } from 'components/ScmRepositoryName/ScmRepositoryName';
+import { parseScmRepositoryTitle } from 'components/ScmRepositoryLink/ScmRepositoryLink';
+import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -47,7 +47,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.internalUrl && (
-        <ScmRepositoryLink url={serviceContainerScmRepository.data.internalUrl} showClipboardCopy showGerritButton />
+        <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showClipboardCopy showGerritButton />
       ),
     },
     {
@@ -58,7 +58,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.externalUrl && (
-        <ScmRepositoryLink url={serviceContainerScmRepository.data.externalUrl} showClipboardCopy></ScmRepositoryLink>
+        <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} showClipboardCopy />
       ),
     },
     {

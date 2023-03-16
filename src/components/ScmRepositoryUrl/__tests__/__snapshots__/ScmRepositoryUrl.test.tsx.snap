@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`display ScmRepositoryLink component compare snapshot with previous record 1`] = `
+exports[`display ScmRepositoryUrl component compare snapshot with previous record 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
