@@ -1,9 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
 /**
- * Utils class managing http client instance, only one instance is created.
+ * Mocked backend client. Use for WIP features.
  */
-class MockBackendClient {
+class MockClient {
   private httpClient: AxiosInstance;
 
   constructor() {
@@ -28,4 +28,4 @@ class MockBackendClient {
   public getHttpClient = (): AxiosInstance => this.httpClient;
 }
 
-export const mockBackendClient = new MockBackendClient();
+export const mockClient = new MockClient();
