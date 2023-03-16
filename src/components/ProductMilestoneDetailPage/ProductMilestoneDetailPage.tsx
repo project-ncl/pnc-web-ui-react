@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -7,11 +7,13 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { CardFlex } from 'components/CardFlex/CardFlex';
 import { CardFlexItem, ExtraLargeCardText, LargeCardText } from 'components/CardFlexItem/CardFlexItem';
+import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { DoughnutChart } from 'components/DoughnutChart/DoughnutChart';
 import { ProductMilestoneCloseStatusLabel } from 'components/ProductMilestoneCloseStatusLabel/ProductMilestoneCloseStatusLabel';
 import { useServiceContainerMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -101,11 +103,17 @@ export const ProductMilestoneDetailPage = () => {
       </GridItem>
 
       <GridItem span={6}>
-        <ContentBox contentHeight="500px">
-          <ServiceContainerLoading {...serviceContainerStatistics} title="Chart">
+        <Toolbar>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Artifact Quality Distribution</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <ContentBox borderTop contentHeight="500px">
+          <ServiceContainerLoading {...serviceContainerStatistics} title="Artifact Quality Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.artifactQuality}
-              title="Artifact Quality Distribution"
               description={{
                 textTop: 'Chart displays proportion of quality of delivered artifacts.',
                 attributes: [
@@ -116,17 +124,24 @@ export const ProductMilestoneDetailPage = () => {
                   },
                 ],
               }}
+              legendHeight={100}
             />
           </ServiceContainerLoading>
         </ContentBox>
       </GridItem>
 
       <GridItem span={6}>
-        <ContentBox contentHeight="500px">
-          <ServiceContainerLoading {...serviceContainerStatistics} title="Chart">
+        <Toolbar>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Repository Chart Distribution</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <ContentBox borderTop contentHeight="500px">
+          <ServiceContainerLoading {...serviceContainerStatistics} title="Repository Type Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.repositoryType}
-              title="Repository Type Distribution"
               description={{
                 textTop: 'Chart displays proportion of repository type of delivered artifacts.',
                 attributes: [
@@ -137,6 +152,7 @@ export const ProductMilestoneDetailPage = () => {
                   },
                 ],
               }}
+              legendHeight={100}
             />
           </ServiceContainerLoading>
         </ContentBox>
