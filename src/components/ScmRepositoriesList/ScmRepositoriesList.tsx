@@ -69,7 +69,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
         <ToolbarItem>
           <Filtering filterOptions={filterOptions} componentId={componentId} />
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem alignRight>
           <ProtectedComponent>
             <ActionButton action={() => console.log('Not implemented yet!')}>Create SCM Repository</ActionButton>
           </ProtectedComponent>
