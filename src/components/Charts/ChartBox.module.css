@@ -5,26 +5,21 @@
   height: 100%;
 }
 
-.chart-help {
+.chart-description {
   position: absolute;
   top: 1px;
-  left: 5px;
+  right: 7px;
   font-style: italic;
   color: #9b9b9b;
 }
 
-.chart-help.chart-help--right {
-  right: 5px;
-  left: auto;
-}
-
 .canvas-wrapper {
-  padding-top: 20px;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 .popover-attribute {
