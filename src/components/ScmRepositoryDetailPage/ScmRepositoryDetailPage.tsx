@@ -9,7 +9,6 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { parseScmRepositoryTitle } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -18,6 +17,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
+import { generateScmRepositoryName } from 'utils/entityNameGenerators';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ScmRepositoryDetailPage = () => {
@@ -77,7 +77,7 @@ export const ScmRepositoryDetailPage = () => {
   return (
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout
-        title={parseScmRepositoryTitle({ internalUrl: serviceContainerScmRepository.data?.internalUrl })}
+        title={generateScmRepositoryName({ internalUrl: serviceContainerScmRepository.data?.internalUrl })}
         actions={<ActionButton link="#">Edit SCM Repository</ActionButton>}
       >
         <ContentBox padding marginBottom>
