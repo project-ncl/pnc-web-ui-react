@@ -1,24 +1,10 @@
-import { Grid, GridItem } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { GridItem } from '@patternfly/react-core';
 import { PropsWithChildren } from 'react';
 
 import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import styles from './AttributesItems.module.css';
-
-interface IAttributesProps {
-  isGridUniform?: boolean;
-}
-
-/**
- * Represents a stylized name-value table component.
- */
-export const Attributes = ({ children, isGridUniform = true }: PropsWithChildren<IAttributesProps>) => (
-  <Grid hasGutter className={css(isGridUniform && styles['uniform-grid'])}>
-    {children}
-  </Grid>
-);
+import styles from './Attributes.module.css';
 
 interface IAttributesItemProps {
   title: React.ReactNode;
