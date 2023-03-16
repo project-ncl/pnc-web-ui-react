@@ -1,0 +1,8 @@
+.name {
+  font-weight: bold;
+}
+
+.uniform-grid {
+  grid-auto-rows: 1fr;
+  align-items: center;
+}
