@@ -5,8 +5,10 @@ import { useParams } from 'react-router-dom';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { CardDescription } from 'components/CardFlex/CardDescription';
 import { CardFlex } from 'components/CardFlex/CardFlex';
-import { CardFlexItem, ExtraLargeCardText, LargeCardText } from 'components/CardFlexItem/CardFlexItem';
+import { CardFlexItem } from 'components/CardFlex/CardFlexItem';
+import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ProductMilestoneCloseStatusLabel } from 'components/ProductMilestoneCloseStatusLabel/ProductMilestoneCloseStatusLabel';
@@ -79,24 +81,24 @@ export const ProductMilestoneDetailPage = () => {
         <ServiceContainerLoading {...serviceContainerStatistics} title="Statistics">
           <CardFlex>
             <CardFlexItem>
-              <ExtraLargeCardText>{serviceContainerStatistics.data?.artifactSource.thisMilestone}</ExtraLargeCardText>
-              <LargeCardText>Artifact built in this Milestone</LargeCardText>
+              <CardValue>{serviceContainerStatistics.data?.artifactSource.thisMilestone}</CardValue>
+              <CardDescription>Artifact built in this Milestone</CardDescription>
             </CardFlexItem>
             <CardFlexItem>
-              <ExtraLargeCardText>{serviceContainerStatistics.data?.artifactSource.otherMilestones}</ExtraLargeCardText>
-              <LargeCardText>Artifacts built in other Milestones</LargeCardText>
+              <CardValue>{serviceContainerStatistics.data?.artifactSource.otherMilestones}</CardValue>
+              <CardDescription>Artifacts built in other Milestones</CardDescription>
             </CardFlexItem>
             <CardFlexItem>
-              <ExtraLargeCardText>{serviceContainerStatistics.data?.artifactSource.notBuilt}</ExtraLargeCardText>
-              <LargeCardText>Artifacts not built in a Milestone</LargeCardText>
+              <CardValue>{serviceContainerStatistics.data?.artifactSource.notBuilt}</CardValue>
+              <CardDescription>Artifacts not built in a Milestone</CardDescription>
             </CardFlexItem>
             <CardFlexItem>
-              <ExtraLargeCardText>{serviceContainerStatistics.data?.previousMilestones}</ExtraLargeCardText>
-              <LargeCardText>Previous Milestones</LargeCardText>
+              <CardValue>{serviceContainerStatistics.data?.previousMilestones}</CardValue>
+              <CardDescription>Previous Milestones</CardDescription>
             </CardFlexItem>
             <CardFlexItem>
-              <ExtraLargeCardText>{serviceContainerStatistics.data?.artifactSource.previousMilestones}</ExtraLargeCardText>
-              <LargeCardText>Artifacts from previous Milestones</LargeCardText>
+              <CardValue>{serviceContainerStatistics.data?.artifactSource.previousMilestones}</CardValue>
+              <CardDescription>Artifacts from previous Milestones</CardDescription>
             </CardFlexItem>
           </CardFlex>
         </ServiceContainerLoading>
