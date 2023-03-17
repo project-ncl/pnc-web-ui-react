@@ -78,7 +78,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerScmRepositories} title={PageTitles.scmRepositories}>
-          <TableComposable variant="compact">
+          <TableComposable variant="compact" isStriped>
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
