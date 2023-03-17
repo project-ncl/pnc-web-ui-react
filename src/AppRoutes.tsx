@@ -62,7 +62,7 @@ export const AppRoutes = () => (
         path=":projectId/edit"
         element={
           <ProtectedRoute title={PageTitles.projectEdit}>
-            <ProjectCreateEditPage editPage={true} />
+            <ProjectCreateEditPage isEditPage={true} />
           </ProtectedRoute>
         }
       />

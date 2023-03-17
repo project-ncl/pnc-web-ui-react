@@ -31,7 +31,7 @@ import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 interface IProjectCreateEditPageProps {
-  editPage?: boolean;
+  isEditPage?: boolean;
 }
 
 const formConfig = {
@@ -49,7 +49,7 @@ const formConfig = {
   technicalLeader: {},
 };
 
-export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPageProps) => {
+export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEditPageProps) => {
   const flexDirection: FlexProps['direction'] = { default: 'column' };
 
   const [id, setId] = useState<string>('');
@@ -72,7 +72,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   useTitle(
     generatePageTitle({
-      pageType: editPage ? 'Edit' : 'Create',
+      pageType: isEditPage ? 'Edit' : 'Create',
       serviceContainer: serviceContainerEditPageGet,
       firstLevelEntity: 'Project',
     })
@@ -119,11 +119,11 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
     formConfig,
-    editPage ? submitUpdate : submitCreate
+    isEditPage ? submitUpdate : submitCreate
   );
 
   useEffect(() => {
-    if (editPage) {
+    if (isEditPage) {
       if (urlPathParams.projectId) {
         serviceContainerEditPageGetRunner({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
           const project: Project = response.data;
@@ -142,7 +142,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
         throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
       }
     }
-  }, [editPage, urlPathParams.projectId, serviceContainerEditPageGetRunner, reinitialize]);
+  }, [isEditPage, urlPathParams.projectId, serviceContainerEditPageGetRunner, reinitialize]);
 
   const formComponent = (
     <ContentBox padding>
@@ -260,7 +260,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
                 onSubmit();
               }}
             >
-              {editPage ? 'Update' : 'Create'} Project
+              {isEditPage ? 'Update' : 'Create'} Project
             </Button>
           </ActionGroup>
         </Form>
@@ -270,9 +270,9 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
 
   return (
     <PageLayout
-      title={editPage ? 'Update Project' : 'Create Project'}
+      title={isEditPage ? 'Update Project' : 'Create Project'}
       description={
-        editPage ? (
+        isEditPage ? (
           <>You can update current project attributes below.</>
         ) : (
           <>
@@ -284,7 +284,7 @@ export const ProjectCreateEditPage = ({ editPage = false }: IProjectCreateEditPa
     >
       <Flex direction={flexDirection}>
         <FlexItem>
-          {editPage ? (
+          {isEditPage ? (
             <ServiceContainerCreatingUpdating
               {...serviceContainerEditPagePatch}
               serviceContainerLoading={serviceContainerEditPageGet}
