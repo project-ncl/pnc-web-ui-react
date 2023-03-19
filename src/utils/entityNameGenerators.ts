@@ -1,12 +1,14 @@
+import { SCMRepository } from 'pnc-api-types-ts';
+
 interface IGenerateScmRepositoryName {
-  internalUrl: string;
+  scmRepository: SCMRepository;
 }
 
 /**
- * Parses and generate SCM Repository name from internalUrl.
+ * Parses and generate SCM Repository name from SCMRepository object.
  *
- * @param object - object containing internalUrl field
- * @returns  SCM Repository name
+ * @param {object} scmRepository contains internalUrl field
+ * @returns {string} SCM Repository name
  */
-export const generateScmRepositoryName = ({ internalUrl }: IGenerateScmRepositoryName) =>
-  internalUrl ? internalUrl.split('/').splice(3).join('/') : '';
+export const generateScmRepositoryName = ({ scmRepository }: IGenerateScmRepositoryName): string =>
+  scmRepository!.internalUrl ? scmRepository.internalUrl.split('/').splice(3).join('/') : '';
