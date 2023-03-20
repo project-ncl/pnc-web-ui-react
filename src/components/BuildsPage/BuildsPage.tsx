@@ -1,23 +1,28 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
-
 import { PageTitles } from 'common/constants';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-export const BuildsPage = () => {
-  useTitle(PageTitles.builds);
-  return (
-    <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">BuildsPage</Text>
-          <Text component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quos unde, accusantium excepturi ad praesentium.
-          </Text>
-        </TextContent>
-      </PageSection>
+import { BuildsList } from 'components/BuildsList/BuildsList';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-      <Divider component="div" />
-    </>
+import * as buildApi from 'services/buildApi';
+
+interface IBuildsPageProps {
+  componentId?: string;
+}
+
+export const BuildsPage = ({ componentId = 'b1' }: IBuildsPageProps) => {
+  const serviceContainerBuilds = useServiceContainer(buildApi.getBuilds);
+
+  useQueryParamsEffect(serviceContainerBuilds.run, { componentId });
+
+  useTitle(PageTitles.builds);
+
+  return (
+    <PageLayout title={PageTitles.builds} description={<>This page contains Builds... TODO</>}>
+      <BuildsList {...{ serviceContainerBuilds, componentId }} />
+    </PageLayout>
   );
 };
