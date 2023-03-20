@@ -1,5 +1,5 @@
 import { ISortBy, ThProps } from '@patternfly/react-table';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
@@ -119,6 +119,7 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
   const defaultSortDirection: ISortBy['direction'] = sortOptions[defaultSortAttribute]?.defaultSortOrder || 'asc';
 
   const [activeSortIndex, setActiveSortIndex] = useState<number>();
+  const [activeSortAttribute, setActiveSortAttribute] = useState<string>();
   const [activeSortDirection, setActiveSortDirection] = useState<ISortBy['direction']>(undefined);
 
   const getSortParams = (sortAttribute: string): ThProps['sort'] => ({
@@ -139,6 +140,19 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
     columnIndex: sortOptions[sortAttribute].tableColumnIndex,
   });
 
+  const sort = useCallback(
+    (sortAttribute: string, sortDirection: string) => {
+      updateQueryParamsInURL(
+        { sort: `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },
+        componentId,
+        location,
+        navigate,
+        false
+      );
+    },
+    [componentId, location, navigate]
+  );
+
   useEffect(() => {
     // URL -> UI
     const currentSortParam = getComponentQueryParamValue(location.search, 'sort', componentId);
@@ -146,12 +160,15 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
     if (currentSortParam && validateSortParam(currentSortParam, sortOptions)) {
       if (currentSortParam === 'none') {
         setActiveSortDirection(undefined);
+        setActiveSortAttribute(undefined);
+        setActiveSortIndex(undefined);
       } else {
         const currentSortParamSplitted = currentSortParam.split('=');
         currentSortParamSplitted.shift(); // remove empty string
 
         const [urlSortDirection, urlSortAttribute] = currentSortParamSplitted;
         setActiveSortDirection(urlSortDirection as ISortBy['direction']);
+        setActiveSortAttribute(urlSortAttribute);
         setActiveSortIndex(sortOptions[urlSortAttribute].tableColumnIndex);
       }
     } else {
@@ -171,5 +188,5 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
     }
   }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, navigate]);
 
-  return { getSortParams };
+  return { getSortParams, sort, activeSortIndex, activeSortAttribute, activeSortDirection };
 };
