@@ -756,28 +756,70 @@ export const DemoPage = () => {
         <FlexItem>
           <ContentBox title="ScmRepositoryLink" padding>
             <span>
-              <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopy" />
+              <ScmRepositoryUrl
+                showClipboardCopy={false}
+                scmRepository={{
+                  id: '101',
+                  internalUrl: 'git+ssh://code.test.env.com/testRepo/testUrlText.git',
+                  externalUrl: 'https://github.com/testRepo/testUrlText.git',
+                  preBuildSyncEnabled: true,
+                }}
+                isInternal={false}
+              />
+            </span>
+            <br />
+            <br />
+            <span>
+              <ScmRepositoryUrl
+                scmRepository={{
+                  id: '102',
+                  internalUrl: 'git+ssh://code.test.env.com/testRepo/testUrlClipboardCopy.git',
+                  externalUrl: 'https://github.com/testRepo/empty.git',
+                  preBuildSyncEnabled: true,
+                }}
+                isInternal={false}
+                showClipboardCopy
+              />
             </span>
             <br />
             <span>
-              <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopyGerrit" showGerritButton />
-            </span>
-            <br />
-            <span>
-              <ScmRepositoryUrl showClipboardCopy={false} url="https://github.com/test/testUrlText.git" />
-            </span>
-            <br />
-            <br />
-            <span>
-              <ScmRepositoryUrl showClipboardCopy isInline url="https://github.com/test/testInlineCopy.git" />
+              <ScmRepositoryUrl
+                scmRepository={{
+                  id: '103',
+                  internalUrl: 'git+ssh://code.test.env.com/testRepo/testUrlClipboardCopyGerrit.git',
+                  externalUrl: 'https://github.com/testRepo/empty.git',
+                  preBuildSyncEnabled: true,
+                }}
+                isInternal
+                showClipboardCopy
+              />
             </span>
             <br />
             <span>
               <ScmRepositoryUrl
                 showClipboardCopy={true}
+                scmRepository={{
+                  id: '104',
+                  internalUrl: 'git+ssh://code.test.env.com/testRepo/testUrlText.git',
+                  externalUrl: 'https://github.com/testRepo/testInlineCopy.git',
+                  preBuildSyncEnabled: true,
+                }}
+                isInternal={false}
                 isInline
-                showGerritButton
-                url="https://github.com/test/testInlineCopyRedirect.git"
+              />
+            </span>
+            <br />
+            <span>
+              <ScmRepositoryUrl
+                showClipboardCopy={true}
+                scmRepository={{
+                  id: '105',
+                  internalUrl: 'git+ssh://code.test.env.com/testRepo/testInlineCopyRedirect.git',
+                  externalUrl: 'https://github.com/testRepo/testInlineCopyRedirect.git',
+                  preBuildSyncEnabled: true,
+                }}
+                isInternal={true}
+                isInline
               />
             </span>
           </ContentBox>

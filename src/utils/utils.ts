@@ -51,3 +51,30 @@ export const parseInternalRepositoryUrl = ({ internalUrl }: IParseInternalReposi
   const project = internalUrl.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
   return 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
 };
+
+interface IParseExternalRepositoryUrl {
+  externalUrl: string;
+}
+
+interface IParseExternalRepositoryUrlResult {
+  url: string | undefined;
+  base: string | undefined;
+}
+
+/**
+ * Parses external SCM Url to gitweb link of the project
+ *
+ * @param object - object containing externalUrl field
+ * @returns  object contains url and the base of the external url
+ */
+export const parseExternalRepositoryUrl = ({ externalUrl }: IParseExternalRepositoryUrl): IParseExternalRepositoryUrlResult => {
+  if (externalUrl.includes('/gerrit/')) {
+    return { url: parseInternalRepositoryUrl({ internalUrl: externalUrl }), base: 'Gerrit' };
+  }
+  if (['http', 'https', '@'].some((element) => externalUrl.includes(element))) {
+    const url = externalUrl.includes('@') ? 'https://' + externalUrl.split('@')[1].replace(':', '/') : externalUrl;
+    const base = url.split('://')[1].split('/')[0];
+    return { url, base };
+  }
+  return { url: undefined, base: undefined };
+};
