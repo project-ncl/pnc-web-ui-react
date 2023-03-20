@@ -133,7 +133,7 @@ Object {
                 >
                   <th
                     aria-sort="none"
-                    class="pf-c-table__sort pf-m-width-15"
+                    class="pf-c-table__sort pf-m-width-20"
                     scope="col"
                   >
                     <button
@@ -169,19 +169,19 @@ Object {
                     </button>
                   </th>
                   <th
-                    class="pf-m-width-10"
+                    class="pf-m-width-15"
                     scope="col"
                   >
                     Job Id
                   </th>
                   <th
-                    class="pf-m-width-25"
+                    class="pf-m-width-35"
                     scope="col"
                   >
                     Name
                   </th>
                   <th
-                    class="overflow-visible pf-m-width-30"
+                    class="overflow-visible pf-m-width-20"
                     scope="col"
                   >
                     Times 
@@ -971,7 +971,7 @@ Object {
               >
                 <th
                   aria-sort="none"
-                  class="pf-c-table__sort pf-m-width-15"
+                  class="pf-c-table__sort pf-m-width-20"
                   scope="col"
                 >
                   <button
@@ -1007,19 +1007,19 @@ Object {
                   </button>
                 </th>
                 <th
-                  class="pf-m-width-10"
+                  class="pf-m-width-15"
                   scope="col"
                 >
                   Job Id
                 </th>
                 <th
-                  class="pf-m-width-25"
+                  class="pf-m-width-35"
                   scope="col"
                 >
                   Name
                 </th>
                 <th
-                  class="overflow-visible pf-m-width-30"
+                  class="overflow-visible pf-m-width-20"
                   scope="col"
                 >
                   Times 
