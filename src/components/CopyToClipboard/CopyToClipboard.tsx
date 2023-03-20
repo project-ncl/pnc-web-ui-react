@@ -11,19 +11,12 @@ interface ICopyToClipboardProps {
 /**
  * CopyToClipboard item to display customized ClipboardCopy component.
  *
- * @param prefixComponent - any component before ClipboardCopy
  * @param suffixComponent - any component after ClipboardCopy
  * @param isInline - whether to use inline style for the component
  * @param children - the content to be used for ClipboardCopy
  */
-export const CopyToClipboard = ({
-  prefixComponent,
-  suffixComponent,
-  isInline,
-  children,
-}: React.PropsWithChildren<ICopyToClipboardProps>) => (
+export const CopyToClipboard = ({ suffixComponent, isInline, children }: React.PropsWithChildren<ICopyToClipboardProps>) => (
   <Split hasGutter>
-    {prefixComponent && <SplitItem>{prefixComponent}</SplitItem>}
     <SplitItem isFilled>
       <ClipboardCopy
         removeFindDomNode
@@ -31,7 +24,7 @@ export const CopyToClipboard = ({
         hoverTip="Copy"
         clickTip="Copied"
         variant={isInline ? 'inline-compact' : 'inline'}
-        additionalActions={<ClipboardCopyAction>{suffixComponent}</ClipboardCopyAction>}
+        additionalActions={suffixComponent && isInline && <ClipboardCopyAction>{suffixComponent}</ClipboardCopyAction>}
         className={styles['no-bg']}
       >
         {children}
