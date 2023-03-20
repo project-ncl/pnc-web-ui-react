@@ -26,6 +26,10 @@ code {
   position: absolute !important;
 }
 
+.overflow-visible {
+  overflow: visible !important;
+}
+
 .gap-5 {
   gap: 5px !important;
 }
