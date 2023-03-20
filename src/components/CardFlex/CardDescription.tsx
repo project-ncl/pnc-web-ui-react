@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import styles from './CardText.module.css';
+import styles from './CardDescription.module.css';
 
 interface ICardDescriptionProps {}
 
