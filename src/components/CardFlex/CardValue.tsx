@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import styles from './CardText.module.css';
+import styles from './CardValue.module.css';
 
 interface ICardValueProps {}
 

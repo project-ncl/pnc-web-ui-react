@@ -1,7 +1,7 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 import { useEffect, useRef } from 'react';
 
-import { ChartBox, ChartDescription } from 'components/Charts/ChartBox';
+import { ChartBox, IChartDescription } from 'components/Charts/ChartBox';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
 
@@ -13,14 +13,14 @@ import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
  *   DEPRECATED: 10
  * }
  */
-interface DoughnutData {
+interface IDoughnutData {
   [key: string]: number;
 }
 
 interface IDoughnutChartProps {
-  data: DoughnutData;
+  data: IDoughnutData;
   id?: string;
-  description?: ChartDescription;
+  description?: IChartDescription;
   legendHeight?: number;
 }
 

@@ -3,8 +3,3 @@
   color: #757575;
   font-size: var(--pf-global--FontSize--lg);
 }
-
-.card-value {
-  text-align: center;
-  font-size: var(--pf-global--FontSize--4xl);
-}

@@ -4,22 +4,24 @@ import { PropsWithChildren } from 'react';
 
 import styles from './ChartBox.module.css';
 
-interface ChartDescriptionAttribute {
+interface IChartDescriptionAttribute {
   label: string;
   value: string;
 }
 
-export interface ChartDescription {
+export interface IChartDescription {
   textTop?: string;
-  attributes?: ChartDescriptionAttribute[];
+  attributes?: IChartDescriptionAttribute[];
 }
 
 interface IChartBoxProps {
-  description?: ChartDescription;
+  description?: IChartDescription;
 }
 
 /**
- * Wrapper for charts. Positions chart and help icon in right place.
+ * Universal chart wrapper, can wrap any chart implementation (e.g. ChartJs or Patternfly React Charts).
+ * Supposed to be used directly by chart implementations ({@link DoughnutChart}).
+ * Wrapper positions chart and help icon in right place.
  *
  * @param children - Chart (probably canvas element)
  * @param description - Description to be displayed in help icon
@@ -34,7 +36,7 @@ export const ChartBox = ({ children, description }: PropsWithChildren<IChartBoxP
             <div>
               {description.textTop}
               {description.attributes &&
-                description.attributes.map((attribute: ChartDescriptionAttribute, index: number) => (
+                description.attributes.map((attribute: IChartDescriptionAttribute, index: number) => (
                   <dl className={styles['popover-attribute']} key={index}>
                     <dt>
                       <b>{attribute.label}</b>
