@@ -201,12 +201,12 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={15} sort={getSortParams(sortOptions['status'].id)}>
+                <Th width={20} sort={getSortParams(sortOptions['status'].id)}>
                   Status
                 </Th>
-                <Th width={10}>Job Id</Th>
-                <Th width={25}>Name</Th>
-                <Th className="overflow-visible" width={30}>
+                <Th width={15}>Job Id</Th>
+                <Th width={35}>Name</Th>
+                <Th width={20} className="overflow-visible">
                   Times {timesSortIcon}
                 </Th>
                 <Th width={10} sort={getSortParams(sortOptions['user.username'].id)}>
