@@ -3,7 +3,6 @@ import { ClipboardCopy, ClipboardCopyAction, Split, SplitItem } from '@patternfl
 import styles from './CopyToClipboard.module.css';
 
 interface ICopyToClipboardProps {
-  prefixComponent?: React.ReactNode;
   suffixComponent?: React.ReactNode;
   isInline?: boolean;
 }

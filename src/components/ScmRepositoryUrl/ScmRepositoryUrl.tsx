@@ -39,7 +39,7 @@ interface IScmRepositoryUrlProps {
 }
 
 /**
- * Represents a URL to a ProjectDetailPage of a specific project.
+ * Represents the internal/external URL for the SCM Repository.
  *
  * @param url - the internal/external url for the SCM Repository
  * @param showGerritButton - whether to display the Gerrit button
