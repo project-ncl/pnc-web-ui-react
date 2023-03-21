@@ -34,7 +34,6 @@ const GerritButton = ({ isInline, url }: IGerritButtonProps) => (
 
 interface IScmRepositoryUrlProps {
   url: string;
-  showClipboardCopy?: boolean;
   showGerritButton?: boolean;
   isInline?: boolean;
 }
@@ -43,22 +42,13 @@ interface IScmRepositoryUrlProps {
  * Represents a URL to a ProjectDetailPage of a specific project.
  *
  * @param url - the internal/external url for the SCM Repository
- * @param showClipboardCopy - whether to display the url as clipboard copy
  * @param showGerritButton - whether to display the Gerrit button
  * @param isInline - whether to use inline style with external link action
  */
-export const ScmRepositoryUrl = ({ url, showClipboardCopy = true, showGerritButton, isInline }: IScmRepositoryUrlProps) => {
-  if (showClipboardCopy) {
-    return (
-      <CopyToClipboard isInline={isInline} suffixComponent={showGerritButton && <GerritButton isInline={isInline} url={url} />}>
-        {url}
-      </CopyToClipboard>
-    );
-  }
+export const ScmRepositoryUrl = ({ url, showGerritButton, isInline }: IScmRepositoryUrlProps) => {
   return (
-    <span>
+    <CopyToClipboard isInline={isInline} suffixComponent={showGerritButton && <GerritButton isInline={isInline} url={url} />}>
       {url}
-      {showGerritButton && <GerritButton isInline={isInline} url={url} />}
-    </span>
+    </CopyToClipboard>
   );
 };

@@ -47,7 +47,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.internalUrl && (
-        <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showClipboardCopy showGerritButton />
+        <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showGerritButton />
       ),
     },
     {
@@ -58,7 +58,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.externalUrl && (
-        <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} showClipboardCopy />
+        <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} />
       ),
     },
     {
