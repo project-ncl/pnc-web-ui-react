@@ -15,6 +15,5 @@ interface IScmRepositoryLinkProps {
  */
 export const ScmRepositoryLink = ({ scmRepository }: IScmRepositoryLinkProps) => {
   const scmRepositoryPath = `/scm-repositories/${scmRepository.id}`;
-  const scmRepositoryTitle = generateScmRepositoryName({ scmRepository });
-  return <Link to={scmRepositoryPath}>{scmRepositoryTitle}</Link>;
+  return <Link to={scmRepositoryPath}>{generateScmRepositoryName({ scmRepository })}</Link>;
 };

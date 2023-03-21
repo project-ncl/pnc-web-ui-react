@@ -764,21 +764,11 @@ export const DemoPage = () => {
             </span>
             <br />
             <span>
-              <ScmRepositoryUrl showClipboardCopy={false} url="https://github.com/test/testUrlText.git" />
-            </span>
-            <br />
-            <br />
-            <span>
-              <ScmRepositoryUrl showClipboardCopy isInline url="https://github.com/test/testInlineCopy.git" />
+              <ScmRepositoryUrl isInline url="https://github.com/test/testInlineCopy.git" />
             </span>
             <br />
             <span>
-              <ScmRepositoryUrl
-                showClipboardCopy={true}
-                isInline
-                showGerritButton
-                url="https://github.com/test/testInlineCopyRedirect.git"
-              />
+              <ScmRepositoryUrl isInline showGerritButton url="https://github.com/test/testInlineCopyRedirect.git" />
             </span>
           </ContentBox>
         </FlexItem>
