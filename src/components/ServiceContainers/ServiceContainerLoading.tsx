@@ -11,8 +11,9 @@ export interface IServiceContainerProps {
 
 interface IServiceContainerLoadingProps extends IServiceContainerProps {
   title: string;
-  isInline?: boolean;
   loadingDelayMilliseconds?: number;
+  hasSkeleton?: boolean;
+  variant?: 'block' | 'inline' | 'icon';
 }
 
 /**
@@ -33,7 +34,8 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
  * @param loading - True if a request is pending, false when a request is successfully finished or when a request resulted in error
  * @param error - Error description when data loading was not successful
  * @param loadingDelayMilliseconds - Waiting time before loading component gets rendered
- * @param isInline - Display container in inline style
+ * @param hasSkeleton - Display skeleton in loading state
+ * @param variant - Style variant. Defaults to 'block'
  * @param children - React children property
  */
 export const ServiceContainerLoading = ({
@@ -42,12 +44,20 @@ export const ServiceContainerLoading = ({
   error,
   title,
   loadingDelayMilliseconds,
-  isInline = false,
+  hasSkeleton = false,
+  variant = 'block',
   children,
 }: React.PropsWithChildren<IServiceContainerLoadingProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
   if (loading && !data)
-    return <LoadingStateCard delayMilliseconds={loadingDelayMilliseconds} title={title} isInline={isInline} />;
+    return (
+      <LoadingStateCard
+        delayMilliseconds={loadingDelayMilliseconds}
+        title={title}
+        hasSkeleton={hasSkeleton}
+        isInline={variant !== 'block'}
+      />
+    );
 
   // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
   // (the component was rendered at some point before)
@@ -56,7 +66,7 @@ export const ServiceContainerLoading = ({
   if (loading && data) return <RefreshStateCard>{children}</RefreshStateCard>;
 
   // Error state: display Error card when error
-  if (error) return <ErrorStateCard title={title} error={error} isInline={isInline} />;
+  if (error) return <ErrorStateCard title={title} error={error} variant={variant} />;
 
   // Invalid state, Error state should be triggered before this
   if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
@@ -65,7 +75,8 @@ export const ServiceContainerLoading = ({
   //  - request was successfully finished,
   //  - content property is available (= content property means table data with pagination are expected),
   //  - but no items are available
-  if (data.content && !data.content.length && !isInline) return <EmptyStateCard title={title} />;
+  //  - style variant is block
+  if (data.content && !data.content.length && variant === 'block') return <EmptyStateCard title={title} />;
 
   // Empty state: display Empty card when
   //  - request was successfully finished,
@@ -75,6 +86,6 @@ export const ServiceContainerLoading = ({
   // Used for example for kafka service.
   if (Array.isArray(data) && !data.length) return <EmptyStateCard title={title} />;
 
-  // Real data: display real data when it's loaded successfully and it's not empty
+  // Real data: display real data when it's loaded successfully and it's not empty (or is empty and inline)
   return <>{children}</>;
 };

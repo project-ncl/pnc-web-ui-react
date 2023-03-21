@@ -1,4 +1,4 @@
-import { Spinner } from '@patternfly/react-core';
+import { Skeleton, Spinner } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
 
 import { StateCard } from './StateCard';
@@ -8,7 +8,8 @@ const LoadingSpinner = () => <Spinner diameter="75px" isSVG aria-label="Loading.
 interface ILoadingStateCard {
   delayMilliseconds?: number;
   title: string;
-  isInline: boolean;
+  hasSkeleton?: boolean;
+  isInline?: boolean;
 }
 
 /**
@@ -17,9 +18,15 @@ interface ILoadingStateCard {
  *
  * @param delayMilliseconds - Waiting time before component gets rendered
  * @param title - Title subject, for example "Project List"
+ * @param hasSkeleton - Display loading skeleton
  * @param isInline - Display component in inline style
  */
-export const LoadingStateCard = ({ delayMilliseconds = 750, title, isInline }: ILoadingStateCard) => {
+export const LoadingStateCard = ({
+  delayMilliseconds = 750,
+  title,
+  hasSkeleton = false,
+  isInline = false,
+}: ILoadingStateCard) => {
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,6 +34,11 @@ export const LoadingStateCard = ({ delayMilliseconds = 750, title, isInline }: I
 
     return () => clearTimeout(timer);
   }, [delayMilliseconds]);
+
+  // skeleton needs to be shown immediately
+  if (hasSkeleton) {
+    return <Skeleton height="100%" width="100%" />;
+  }
 
   if (show) {
     if (isInline) {
