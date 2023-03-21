@@ -608,7 +608,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="SCM Repository name" padding>
+          <ContentBox title="ScmRepositoryLink" padding>
             <ScmRepositoryLink
               scmRepository={{
                 id: '101',
@@ -754,7 +754,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="ScmRepositoryLink" padding>
+          <ContentBox title="ScmRepositoryUrl" padding>
             <span>
               <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopy" />
             </span>

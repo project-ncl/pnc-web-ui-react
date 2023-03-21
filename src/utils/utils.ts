@@ -42,8 +42,8 @@ interface IParseInternalRepositoryUrl {
 /**
  * Parses internal repository url to Gerrit gitweb link of the project.
  *
- * @param object - object containing internalUrl field
- * @returns  Gerrit gitweb link
+ * @param scmRepository - SCM Repository containing internalUrl field
+ * @returns SCM Repository name
  */
 export const parseInternalRepositoryUrl = ({ internalUrl }: IParseInternalRepositoryUrl) => {
   const protocol = internalUrl.split('://')[0];

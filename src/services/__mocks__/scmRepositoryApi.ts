@@ -1,6 +1,6 @@
 export const getScmRepository = (id: string) => {
   return new Promise((resolve) => {
-    import('./scmRepository-mock.json').then((mockScmRepositoryRequest) => {
+    import('./scm-repository-mock.json').then((mockScmRepositoryRequest) => {
       resolve({ data: mockScmRepositoryRequest });
     });
   });
@@ -8,7 +8,7 @@ export const getScmRepository = (id: string) => {
 
 export const getScmRepositories = () => {
   return new Promise((resolve) => {
-    import('./scmRepositories-mock.json').then((mockScmRepositoriesRequest) => {
+    import('./scm-repositories-mock.json').then((mockScmRepositoriesRequest) => {
       resolve({ data: mockScmRepositoriesRequest });
     });
   });

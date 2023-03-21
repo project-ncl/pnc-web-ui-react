@@ -17,7 +17,7 @@ describe('display ScmRepositoryDetailPage component', () => {
   let scmRepositoryMock: any;
 
   async function loadMocks() {
-    const scmRepositoryRequestMock = await import('services/__mocks__/scmRepository-mock.json');
+    const scmRepositoryRequestMock = await import('services/__mocks__/scm-repository-mock.json');
     scmRepositoryMock = scmRepositoryRequestMock;
   }
 

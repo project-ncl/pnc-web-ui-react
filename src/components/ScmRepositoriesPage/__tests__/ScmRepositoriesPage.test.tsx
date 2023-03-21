@@ -12,7 +12,7 @@ describe('display ScmRepositoriesPage component', () => {
   let scmRepositoriesMock: any;
 
   async function loadMocks() {
-    const scmRepositoriesRequestMock = await import('services/__mocks__/scmRepositories-mock.json');
+    const scmRepositoriesRequestMock = await import('services/__mocks__/scm-repositories-mock.json');
     scmRepositoriesMock = scmRepositoriesRequestMock.content;
   }
 
@@ -28,9 +28,9 @@ describe('display ScmRepositoriesPage component', () => {
         </MemoryRouter>
       );
     });
-    const firstProject = screen.getByText(scmRepositoriesMock[0].internalUrl);
-    expect(firstProject).toBeInTheDocument();
-    const lastProject = screen.getByText(scmRepositoriesMock[1].externalUrl);
-    expect(lastProject).toBeInTheDocument();
+    const firstScmRepository = screen.getByText(scmRepositoriesMock[0].internalUrl);
+    expect(firstScmRepository).toBeInTheDocument();
+    const lastScmRepository = screen.getByText(scmRepositoriesMock[1].externalUrl);
+    expect(lastScmRepository).toBeInTheDocument();
   });
 });
