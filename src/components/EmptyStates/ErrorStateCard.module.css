@@ -1,0 +1,7 @@
+.error-state-card-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-bottom: 10px;
+}

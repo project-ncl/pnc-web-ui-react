@@ -32,7 +32,7 @@ export const AboutPage = () => {
               </a>
             </TextListItem>
             <TextListItem component="dd">
-              <ServiceContainerLoading {...serviceContainerPncVersionGet} title="PNC version" isInline>
+              <ServiceContainerLoading {...serviceContainerPncVersionGet} variant="inline" title="PNC version">
                 {serviceContainerPncVersionGet.data}
               </ServiceContainerLoading>
             </TextListItem>

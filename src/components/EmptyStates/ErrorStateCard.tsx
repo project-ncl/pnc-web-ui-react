@@ -2,12 +2,15 @@ import { Icon } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+
+import styles from './ErrorStateCard.module.css';
 import { StateCard } from './StateCard';
 
 interface IErrorStateCard {
   title: string;
   error?: string;
-  isInline: boolean;
+  variant?: 'block' | 'inline' | 'icon';
 }
 
 /**
@@ -15,12 +18,12 @@ interface IErrorStateCard {
  *
  * @param title - Title subject, for example "Project List"
  * @param error - Error details
- * @param isInline - Display component in inline style
+ * @param variant - Style variant. Defaults to 'block'
  */
-export const ErrorStateCard = ({ title, error, isInline }: IErrorStateCard) => {
+export const ErrorStateCard = ({ title, error, variant = 'block' }: IErrorStateCard) => {
   const errorTitle = `Error when loading ${title}`;
 
-  if (isInline) {
+  if (variant === 'inline') {
     return (
       <span>
         <Icon status="danger">
@@ -31,9 +34,23 @@ export const ErrorStateCard = ({ title, error, isInline }: IErrorStateCard) => {
     );
   }
 
+  if (variant === 'icon') {
+    return (
+      <span>
+        <TooltipWrapper tooltip={errorTitle}>
+          <Icon status="danger">
+            <ExclamationCircleIcon />
+          </Icon>
+        </TooltipWrapper>
+      </span>
+    );
+  }
+
   return (
-    <StateCard title={errorTitle} icon={CubesIcon}>
-      <pre>{error}</pre>
-    </StateCard>
+    <div className={styles['error-state-card-block']}>
+      <StateCard title={errorTitle} icon={CubesIcon}>
+        <pre>{error}</pre>
+      </StateCard>
+    </div>
   );
 };

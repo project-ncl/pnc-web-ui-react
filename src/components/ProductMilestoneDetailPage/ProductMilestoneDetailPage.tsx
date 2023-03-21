@@ -62,9 +62,15 @@ export const ProductMilestoneDetailPage = () => {
     {
       name: 'Last Close Result',
       value: (
-        <ServiceContainerLoading {...serviceContainerCloseResults} isInline title="Product Milestone latest close result">
-          <ProductMilestoneCloseStatusLabel status={serviceContainerCloseResults.data?.content[0]?.status} />
-        </ServiceContainerLoading>
+        <div style={{ height: '25px' }}>
+          <ServiceContainerLoading
+            {...serviceContainerCloseResults}
+            variant="inline"
+            title="Product Milestone latest close result"
+          >
+            <ProductMilestoneCloseStatusLabel status={serviceContainerCloseResults.data?.content[0]?.status} />
+          </ServiceContainerLoading>
+        </div>
       ),
     },
   ];
@@ -78,30 +84,48 @@ export const ProductMilestoneDetailPage = () => {
       </GridItem>
 
       <GridItem span={12}>
-        <ServiceContainerLoading {...serviceContainerStatistics} title="Statistics">
-          <CardFlex>
-            <CardFlexItem>
-              <CardValue>{serviceContainerStatistics.data?.artifactSource.thisMilestone}</CardValue>
-              <CardDescription>Artifact built in this Milestone</CardDescription>
-            </CardFlexItem>
-            <CardFlexItem>
-              <CardValue>{serviceContainerStatistics.data?.artifactSource.otherMilestones}</CardValue>
-              <CardDescription>Artifacts built in other Milestones</CardDescription>
-            </CardFlexItem>
-            <CardFlexItem>
-              <CardValue>{serviceContainerStatistics.data?.artifactSource.notBuilt}</CardValue>
-              <CardDescription>Artifacts not built in a Milestone</CardDescription>
-            </CardFlexItem>
-            <CardFlexItem>
-              <CardValue>{serviceContainerStatistics.data?.previousMilestones}</CardValue>
-              <CardDescription>Previous Milestones</CardDescription>
-            </CardFlexItem>
-            <CardFlexItem>
-              <CardValue>{serviceContainerStatistics.data?.artifactSource.previousMilestones}</CardValue>
-              <CardDescription>Artifacts from previous Milestones</CardDescription>
-            </CardFlexItem>
-          </CardFlex>
-        </ServiceContainerLoading>
+        <CardFlex>
+          <CardFlexItem>
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifact built in this Milestone">
+                {serviceContainerStatistics.data?.artifactSource.thisMilestone}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardDescription>Artifact built in this Milestone</CardDescription>
+          </CardFlexItem>
+          <CardFlexItem>
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in other Milestones">
+                {serviceContainerStatistics.data?.artifactSource.otherMilestones}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardDescription>Artifacts built in other Milestones</CardDescription>
+          </CardFlexItem>
+          <CardFlexItem>
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts not built in a Milestone">
+                {serviceContainerStatistics.data?.artifactSource.notBuilt}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardDescription>Artifacts not built in a Milestone</CardDescription>
+          </CardFlexItem>
+          <CardFlexItem>
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Previous Milestones">
+                {serviceContainerStatistics.data?.previousMilestones}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardDescription>Previous Milestones</CardDescription>
+          </CardFlexItem>
+          <CardFlexItem>
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts from previous Milestones">
+                {serviceContainerStatistics.data?.artifactSource.previousMilestones}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardDescription>Artifacts from previous Milestones</CardDescription>
+          </CardFlexItem>
+        </CardFlex>
       </GridItem>
 
       <GridItem span={6}>
@@ -113,7 +137,7 @@ export const ProductMilestoneDetailPage = () => {
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight="500px">
-          <ServiceContainerLoading {...serviceContainerStatistics} title="Artifact Quality Distribution">
+          <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.artifactQuality}
               description={{
@@ -141,7 +165,7 @@ export const ProductMilestoneDetailPage = () => {
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight="500px">
-          <ServiceContainerLoading {...serviceContainerStatistics} title="Repository Type Distribution">
+          <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.repositoryType}
               description={{

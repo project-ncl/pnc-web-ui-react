@@ -54,7 +54,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         Delivered Artifacts{' '}
         <Tooltip content="Total Count">
           <Label>
-            <ServiceContainerLoading {...serviceContainerArtifacts} title="Delivered Artifacts Count" isInline>
+            <ServiceContainerLoading {...serviceContainerArtifacts} variant="inline" title="Delivered Artifacts Count">
               {serviceContainerArtifacts.data?.totalHits}
             </ServiceContainerLoading>
           </Label>
