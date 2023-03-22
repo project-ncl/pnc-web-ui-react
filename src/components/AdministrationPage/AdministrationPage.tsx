@@ -19,7 +19,8 @@ import { useInterval } from 'hooks/useInterval';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { Attributes } from 'components/Attributes/Attributes';
+import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
@@ -170,22 +171,13 @@ export const AdministrationPage = () => {
           <ContentBox>
             <ServiceContainerLoading {...serviceContainerBuildCount} loadingDelayMilliseconds={0} title="Builds count">
               <div className="p-global">
-                <AttributesItems
-                  attributes={[
-                    {
-                      name: 'Running builds count',
-                      value: serviceContainerBuildCount.data?.running,
-                    },
-                    {
-                      name: 'Enqueued builds count',
-                      value: serviceContainerBuildCount.data?.enqueued,
-                    },
-                    {
-                      name: 'Waiting for dependencies builds count',
-                      value: serviceContainerBuildCount.data?.waitingForDependencies,
-                    },
-                  ]}
-                />
+                <Attributes>
+                  <AttributesItem title="Running builds count">{serviceContainerBuildCount.data?.running}</AttributesItem>
+                  <AttributesItem title="Enqueued builds count">{serviceContainerBuildCount.data?.enqueued}</AttributesItem>
+                  <AttributesItem title="Waiting for dependencies builds count">
+                    {serviceContainerBuildCount.data?.waitingForDependencies}
+                  </AttributesItem>
+                </Attributes>
               </div>
             </ServiceContainerLoading>
 

@@ -2,11 +2,14 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ProjectAttributes } from 'common/ProjectAttributes';
+
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { Attributes } from 'components/Attributes/Attributes';
+import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -29,27 +32,6 @@ export const ProjectDetailPage = () => {
 
   useTitle(generatePageTitle({ serviceContainer: serviceContainerProject, firstLevelEntity: 'Project' }));
 
-  const attributes = [
-    {
-      name: 'Project URL',
-      value: serviceContainerProject.data?.projectUrl && (
-        <a href={serviceContainerProject.data?.projectUrl} target="_blank" rel="noopener noreferrer">
-          {serviceContainerProject.data?.projectUrl}
-        </a>
-      ),
-    },
-    {
-      name: 'Issue Tracker URL',
-      value: serviceContainerProject.data?.issueTrackerUrl && (
-        <a href={serviceContainerProject.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
-          {serviceContainerProject.data?.issueTrackerUrl}
-        </a>
-      ),
-    },
-    { name: 'Engineering Team', value: serviceContainerProject.data?.engineeringTeam },
-    { name: 'Technical Leader', value: serviceContainerProject.data?.technicalLeader },
-  ];
-
   return (
     <ServiceContainerLoading {...serviceContainerProject} title="Project details">
       <PageLayout
@@ -58,7 +40,24 @@ export const ProjectDetailPage = () => {
         actions={<ActionButton link="edit">Edit Project</ActionButton>}
       >
         <ContentBox padding marginBottom>
-          <AttributesItems attributes={attributes} />
+          <Attributes>
+            <AttributesItem title={ProjectAttributes.projectUrl.title}>
+              <a href={serviceContainerProject.data?.projectUrl} target="_blank" rel="noopener noreferrer">
+                {serviceContainerProject.data?.projectUrl}
+              </a>
+            </AttributesItem>
+            <AttributesItem title={ProjectAttributes.issueTrackerUrl.title}>
+              <a href={serviceContainerProject.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
+                {serviceContainerProject.data?.issueTrackerUrl}
+              </a>
+            </AttributesItem>
+            <AttributesItem title={ProjectAttributes.engineeringTeam.title}>
+              {serviceContainerProject.data?.engineeringTeam}
+            </AttributesItem>
+            <AttributesItem title={ProjectAttributes.technicalLeader.title}>
+              {serviceContainerProject.data?.technicalLeader}
+            </AttributesItem>
+          </Attributes>
         </ContentBox>
 
         <Toolbar>

@@ -2,9 +2,12 @@ import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/rea
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ProductMilestoneAttributes } from 'common/ProductMilestoneAttributes';
+
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
-import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { Attributes } from 'components/Attributes/Attributes';
+import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { CardDescription } from 'components/CardFlex/CardDescription';
 import { CardFlex } from 'components/CardFlex/CardFlex';
 import { CardFlexItem } from 'components/CardFlex/CardFlexItem';
@@ -42,44 +45,35 @@ export const ProductMilestoneDetailPage = () => {
     });
   }, [serviceContainerCloseResultsRunner, serviceContainerStatisticsRunner, productMilestoneId]);
 
-  const attributes = [
-    {
-      name: 'Status',
-      value: serviceContainerMilestone.data?.endDate ? 'CLOSED' : 'OPEN',
-    },
-    {
-      name: 'Start Date',
-      value: createDateTime({ date: serviceContainerMilestone.data.startingDate, includeTime: false }),
-    },
-    {
-      name: 'Planned End Date',
-      value: createDateTime({ date: serviceContainerMilestone.data.plannedEndDate, includeTime: false }),
-    },
-    {
-      name: 'End Date',
-      value: createDateTime({ date: serviceContainerMilestone.data.endDate, includeTime: false }),
-    },
-    {
-      name: 'Last Close Result',
-      value: (
-        <div style={{ height: '25px' }}>
-          <ServiceContainerLoading
-            {...serviceContainerCloseResults}
-            variant="inline"
-            title="Product Milestone latest close result"
-          >
-            <ProductMilestoneCloseStatusLabel status={serviceContainerCloseResults.data?.content[0]?.status} />
-          </ServiceContainerLoading>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <Grid hasGutter>
       <GridItem span={12}>
         <ContentBox padding>
-          <AttributesItems attributes={attributes} />
+          <Attributes>
+            <AttributesItem title={ProductMilestoneAttributes.status.title}>
+              {serviceContainerMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}
+            </AttributesItem>
+            <AttributesItem title={ProductMilestoneAttributes.startingDate.title}>
+              {createDateTime({ date: serviceContainerMilestone.data.startingDate, includeTime: false })}
+            </AttributesItem>
+            <AttributesItem title={ProductMilestoneAttributes.plannedEndDate.title}>
+              {createDateTime({ date: serviceContainerMilestone.data.plannedEndDate, includeTime: false })}
+            </AttributesItem>
+            <AttributesItem title={ProductMilestoneAttributes.endDate.title}>
+              {createDateTime({ date: serviceContainerMilestone.data.endDate, includeTime: false })}
+            </AttributesItem>
+            <AttributesItem title={ProductMilestoneAttributes.lastCloseResut.title}>
+              <div style={{ height: '25px' }}>
+                <ServiceContainerLoading
+                  {...serviceContainerCloseResults}
+                  variant="inline"
+                  title="Product Milestone latest close result"
+                >
+                  <ProductMilestoneCloseStatusLabel status={serviceContainerCloseResults.data?.content[0]?.status} />
+                </ServiceContainerLoading>
+              </div>
+            </AttributesItem>
+          </Attributes>
         </ContentBox>
       </GridItem>
 
