@@ -24,7 +24,7 @@ const ARTIFACT_REPOSITORY_TYPES: ILabelMapper = {
   },
   DISTRIBUTION_ARCHIVE: {
     text: 'DISTRIBUTION_ARCHIVE',
-    color: 'blue',
+    color: 'red',
   },
 };
 

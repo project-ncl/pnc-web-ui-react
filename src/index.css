@@ -26,8 +26,16 @@ code {
   position: absolute !important;
 }
 
+.gap-5 {
+  gap: 5px !important;
+}
+
 .w-70 {
   width: 70%;
+}
+
+.m-t-10 {
+  margin-top: 10px !important;
 }
 
 .m-t-15 {
