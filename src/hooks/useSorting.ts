@@ -188,5 +188,5 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
     }
   }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, navigate]);
 
-  return { getSortParams, sort, activeSortIndex, activeSortAttribute, activeSortDirection };
+  return { getSortParams, sort, activeSortAttribute, activeSortDirection };
 };
