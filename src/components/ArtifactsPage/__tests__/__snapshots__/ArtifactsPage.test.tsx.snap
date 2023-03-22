@@ -126,7 +126,7 @@ Object {
               >
                 <label
                   class="pf-c-switch"
-                  data-ouia-component-id="OUIA-Generated-Switch-2"
+                  data-ouia-component-id="OUIA-Generated-Switch-4"
                   data-ouia-component-type="PF4/Switch"
                   data-ouia-safe="true"
                   for="toggle-artifact-name-parsed"
@@ -146,30 +146,88 @@ Object {
                     class="pf-c-switch__label pf-m-on"
                     id="toggle-artifact-name-parsed-on"
                   >
-                    Parse artifact identifier
+                    Parse Artifact identifier
                   </span>
                   <span
                     aria-hidden="true"
                     class="pf-c-switch__label pf-m-off"
                     id="toggle-artifact-name-parsed-off"
                   >
-                    Parse artifact identifier
+                    Parse Artifact identifier
                   </span>
                 </label>
               </div>
               <div
                 class=""
               >
-                <button
-                  aria-disabled="false"
-                  class="pf-c-button pf-m-tertiary pf-m-small"
-                  data-ouia-component-id="OUIA-Generated-Button-tertiary-2"
-                  data-ouia-component-type="PF4/Button"
+                <label
+                  class="pf-c-switch"
+                  data-ouia-component-id="OUIA-Generated-Switch-5"
+                  data-ouia-component-type="PF4/Switch"
                   data-ouia-safe="true"
-                  type="button"
+                  for="toggle-expand-build-associated"
                 >
-                  Expand All
-                </button>
+                  <input
+                    aria-label=""
+                    aria-labelledby="toggle-expand-build-associated-off"
+                    class="pf-c-switch__input"
+                    id="toggle-expand-build-associated"
+                    type="checkbox"
+                  />
+                  <span
+                    class="pf-c-switch__toggle"
+                  />
+                  <span
+                    aria-hidden="true"
+                    class="pf-c-switch__label pf-m-on"
+                    id="toggle-expand-build-associated-on"
+                  >
+                    Expand Build associated Artifacts
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="pf-c-switch__label pf-m-off"
+                    id="toggle-expand-build-associated-off"
+                  >
+                    Expand Build associated Artifacts
+                  </span>
+                </label>
+              </div>
+              <div
+                class=""
+              >
+                <label
+                  class="pf-c-switch"
+                  data-ouia-component-id="OUIA-Generated-Switch-6"
+                  data-ouia-component-type="PF4/Switch"
+                  data-ouia-safe="true"
+                  for="toggle-expand-all"
+                >
+                  <input
+                    aria-label=""
+                    aria-labelledby="toggle-expand-all-off"
+                    class="pf-c-switch__input"
+                    id="toggle-expand-all"
+                    type="checkbox"
+                  />
+                  <span
+                    class="pf-c-switch__toggle"
+                  />
+                  <span
+                    aria-hidden="true"
+                    class="pf-c-switch__label pf-m-on"
+                    id="toggle-expand-all-on"
+                  >
+                    Expand all Artifacts
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="pf-c-switch__label pf-m-off"
+                    id="toggle-expand-all-off"
+                  >
+                    Expand all Artifacts
+                  </span>
+                </label>
               </div>
             </div>
           </div>
@@ -198,8 +256,11 @@ Object {
                     class=""
                   />
                   <th
+                    class=""
+                  />
+                  <th
                     aria-sort="ascending"
-                    class="pf-c-table__sort pf-m-selected pf-m-width-35"
+                    class="pf-c-table__sort pf-m-selected pf-m-width-30"
                     scope="col"
                   >
                     <button
@@ -249,7 +310,7 @@ Object {
                         <span
                           class="pf-c-table__text"
                         >
-                          Build
+                          Repository Type
                         </span>
                         <span
                           class="pf-c-table__sort-indicator"
@@ -273,44 +334,7 @@ Object {
                   </th>
                   <th
                     aria-sort="none"
-                    class="pf-c-table__sort pf-m-width-10"
-                    scope="col"
-                  >
-                    <button
-                      class="pf-c-table__button"
-                      type="button"
-                    >
-                      <div
-                        class="pf-c-table__button-content"
-                      >
-                        <span
-                          class="pf-c-table__text"
-                        >
-                          Artifact Quality
-                        </span>
-                        <span
-                          class="pf-c-table__sort-indicator"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            fill="currentColor"
-                            height="1em"
-                            role="img"
-                            style="vertical-align: -0.125em;"
-                            viewBox="0 0 256 512"
-                            width="1em"
-                          >
-                            <path
-                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                    </button>
-                  </th>
-                  <th
-                    aria-sort="none"
-                    class="pf-c-table__sort pf-m-width-10"
+                    class="pf-c-table__sort pf-m-width-15"
                     scope="col"
                   >
                     <button
@@ -347,7 +371,7 @@ Object {
                   </th>
                   <th
                     aria-sort="none"
-                    class="pf-c-table__sort pf-m-width-20"
+                    class="pf-c-table__sort pf-m-width-25"
                     scope="col"
                   >
                     <button
@@ -361,6 +385,43 @@ Object {
                           class="pf-c-table__text"
                         >
                           Filename
+                        </span>
+                        <span
+                          class="pf-c-table__sort-indicator"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="currentColor"
+                            height="1em"
+                            role="img"
+                            style="vertical-align: -0.125em;"
+                            viewBox="0 0 256 512"
+                            width="1em"
+                          >
+                            <path
+                              d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="pf-c-table__sort pf-m-width-15"
+                    scope="col"
+                  >
+                    <button
+                      class="pf-c-table__button"
+                      type="button"
+                    >
+                      <div
+                        class="pf-c-table__button-content"
+                      >
+                        <span
+                          class="pf-c-table__text"
+                        >
+                          Artifact Quality
                         </span>
                         <span
                           class="pf-c-table__sort-indicator"
@@ -430,23 +491,13 @@ Object {
                   </td>
                   <td
                     class=""
+                  />
+                  <td
+                    class=""
                   >
                     <div
                       class="pf-l-flex pf-m-space-items-lg"
                     >
-                      <div
-                        class=""
-                      >
-                        <span
-                          class="pf-c-label pf-m-purple"
-                        >
-                          <span
-                            class="pf-c-label__content"
-                          >
-                            NPM
-                          </span>
-                        </span>
-                      </div>
                       <div
                         class=""
                       >
@@ -456,17 +507,14 @@ Object {
                   </td>
                   <td
                     class=""
-                  />
-                  <td
-                    class=""
                   >
                     <span
-                      class="pf-c-label"
+                      class="pf-c-label pf-m-purple"
                     >
                       <span
                         class="pf-c-label__content"
                       >
-                        NEW
+                        NPM
                       </span>
                     </span>
                   </td>
@@ -523,6 +571,19 @@ Object {
                       </div>
                     </div>
                   </td>
+                  <td
+                    class=""
+                  >
+                    <span
+                      class="pf-c-label"
+                    >
+                      <span
+                        class="pf-c-label__content"
+                      >
+                        NEW
+                      </span>
+                    </span>
+                  </td>
                 </tr>
                 <tr
                   class="pf-c-table__expandable-row"
@@ -536,13 +597,13 @@ Object {
                   />
                   <td
                     class=""
-                    colspan="5"
+                    colspan="6"
                   >
                     <div
                       class="pf-c-table__expandable-row-content"
                     >
                       <dl
-                        class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                        class="pf-c-description-list pf-m-horizontal pf-m-compact gap-5"
                       >
                         <div
                           class="pf-c-description-list__group"
@@ -955,7 +1016,7 @@ Object {
             >
               <label
                 class="pf-c-switch"
-                data-ouia-component-id="OUIA-Generated-Switch-2"
+                data-ouia-component-id="OUIA-Generated-Switch-4"
                 data-ouia-component-type="PF4/Switch"
                 data-ouia-safe="true"
                 for="toggle-artifact-name-parsed"
@@ -975,30 +1036,88 @@ Object {
                   class="pf-c-switch__label pf-m-on"
                   id="toggle-artifact-name-parsed-on"
                 >
-                  Parse artifact identifier
+                  Parse Artifact identifier
                 </span>
                 <span
                   aria-hidden="true"
                   class="pf-c-switch__label pf-m-off"
                   id="toggle-artifact-name-parsed-off"
                 >
-                  Parse artifact identifier
+                  Parse Artifact identifier
                 </span>
               </label>
             </div>
             <div
               class=""
             >
-              <button
-                aria-disabled="false"
-                class="pf-c-button pf-m-tertiary pf-m-small"
-                data-ouia-component-id="OUIA-Generated-Button-tertiary-2"
-                data-ouia-component-type="PF4/Button"
+              <label
+                class="pf-c-switch"
+                data-ouia-component-id="OUIA-Generated-Switch-5"
+                data-ouia-component-type="PF4/Switch"
                 data-ouia-safe="true"
-                type="button"
+                for="toggle-expand-build-associated"
               >
-                Expand All
-              </button>
+                <input
+                  aria-label=""
+                  aria-labelledby="toggle-expand-build-associated-off"
+                  class="pf-c-switch__input"
+                  id="toggle-expand-build-associated"
+                  type="checkbox"
+                />
+                <span
+                  class="pf-c-switch__toggle"
+                />
+                <span
+                  aria-hidden="true"
+                  class="pf-c-switch__label pf-m-on"
+                  id="toggle-expand-build-associated-on"
+                >
+                  Expand Build associated Artifacts
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="pf-c-switch__label pf-m-off"
+                  id="toggle-expand-build-associated-off"
+                >
+                  Expand Build associated Artifacts
+                </span>
+              </label>
+            </div>
+            <div
+              class=""
+            >
+              <label
+                class="pf-c-switch"
+                data-ouia-component-id="OUIA-Generated-Switch-6"
+                data-ouia-component-type="PF4/Switch"
+                data-ouia-safe="true"
+                for="toggle-expand-all"
+              >
+                <input
+                  aria-label=""
+                  aria-labelledby="toggle-expand-all-off"
+                  class="pf-c-switch__input"
+                  id="toggle-expand-all"
+                  type="checkbox"
+                />
+                <span
+                  class="pf-c-switch__toggle"
+                />
+                <span
+                  aria-hidden="true"
+                  class="pf-c-switch__label pf-m-on"
+                  id="toggle-expand-all-on"
+                >
+                  Expand all Artifacts
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="pf-c-switch__label pf-m-off"
+                  id="toggle-expand-all-off"
+                >
+                  Expand all Artifacts
+                </span>
+              </label>
             </div>
           </div>
         </div>
@@ -1027,8 +1146,11 @@ Object {
                   class=""
                 />
                 <th
+                  class=""
+                />
+                <th
                   aria-sort="ascending"
-                  class="pf-c-table__sort pf-m-selected pf-m-width-35"
+                  class="pf-c-table__sort pf-m-selected pf-m-width-30"
                   scope="col"
                 >
                   <button
@@ -1078,7 +1200,7 @@ Object {
                       <span
                         class="pf-c-table__text"
                       >
-                        Build
+                        Repository Type
                       </span>
                       <span
                         class="pf-c-table__sort-indicator"
@@ -1102,44 +1224,7 @@ Object {
                 </th>
                 <th
                   aria-sort="none"
-                  class="pf-c-table__sort pf-m-width-10"
-                  scope="col"
-                >
-                  <button
-                    class="pf-c-table__button"
-                    type="button"
-                  >
-                    <div
-                      class="pf-c-table__button-content"
-                    >
-                      <span
-                        class="pf-c-table__text"
-                      >
-                        Artifact Quality
-                      </span>
-                      <span
-                        class="pf-c-table__sort-indicator"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          fill="currentColor"
-                          height="1em"
-                          role="img"
-                          style="vertical-align: -0.125em;"
-                          viewBox="0 0 256 512"
-                          width="1em"
-                        >
-                          <path
-                            d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </button>
-                </th>
-                <th
-                  aria-sort="none"
-                  class="pf-c-table__sort pf-m-width-10"
+                  class="pf-c-table__sort pf-m-width-15"
                   scope="col"
                 >
                   <button
@@ -1176,7 +1261,7 @@ Object {
                 </th>
                 <th
                   aria-sort="none"
-                  class="pf-c-table__sort pf-m-width-20"
+                  class="pf-c-table__sort pf-m-width-25"
                   scope="col"
                 >
                   <button
@@ -1190,6 +1275,43 @@ Object {
                         class="pf-c-table__text"
                       >
                         Filename
+                      </span>
+                      <span
+                        class="pf-c-table__sort-indicator"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style="vertical-align: -0.125em;"
+                          viewBox="0 0 256 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M214.059 377.941H168V134.059h46.059c21.382 0 32.09-25.851 16.971-40.971L144.971 7.029c-9.373-9.373-24.568-9.373-33.941 0L24.971 93.088c-15.119 15.119-4.411 40.971 16.971 40.971H88v243.882H41.941c-21.382 0-32.09 25.851-16.971 40.971l86.059 86.059c9.373 9.373 24.568 9.373 33.941 0l86.059-86.059c15.12-15.119 4.412-40.971-16.97-40.971z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="pf-c-table__sort pf-m-width-15"
+                  scope="col"
+                >
+                  <button
+                    class="pf-c-table__button"
+                    type="button"
+                  >
+                    <div
+                      class="pf-c-table__button-content"
+                    >
+                      <span
+                        class="pf-c-table__text"
+                      >
+                        Artifact Quality
                       </span>
                       <span
                         class="pf-c-table__sort-indicator"
@@ -1259,23 +1381,13 @@ Object {
                 </td>
                 <td
                   class=""
+                />
+                <td
+                  class=""
                 >
                   <div
                     class="pf-l-flex pf-m-space-items-lg"
                   >
-                    <div
-                      class=""
-                    >
-                      <span
-                        class="pf-c-label pf-m-purple"
-                      >
-                        <span
-                          class="pf-c-label__content"
-                        >
-                          NPM
-                        </span>
-                      </span>
-                    </div>
                     <div
                       class=""
                     >
@@ -1285,17 +1397,14 @@ Object {
                 </td>
                 <td
                   class=""
-                />
-                <td
-                  class=""
                 >
                   <span
-                    class="pf-c-label"
+                    class="pf-c-label pf-m-purple"
                   >
                     <span
                       class="pf-c-label__content"
                     >
-                      NEW
+                      NPM
                     </span>
                   </span>
                 </td>
@@ -1352,6 +1461,19 @@ Object {
                     </div>
                   </div>
                 </td>
+                <td
+                  class=""
+                >
+                  <span
+                    class="pf-c-label"
+                  >
+                    <span
+                      class="pf-c-label__content"
+                    >
+                      NEW
+                    </span>
+                  </span>
+                </td>
               </tr>
               <tr
                 class="pf-c-table__expandable-row"
@@ -1365,13 +1487,13 @@ Object {
                 />
                 <td
                   class=""
-                  colspan="5"
+                  colspan="6"
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
                   >
                     <dl
-                      class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                      class="pf-c-description-list pf-m-horizontal pf-m-compact gap-5"
                     >
                       <div
                         class="pf-c-description-list__group"

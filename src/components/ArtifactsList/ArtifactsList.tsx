@@ -1,5 +1,4 @@
 import {
-  Button,
   DescriptionList,
   DescriptionListDescription,
   DescriptionListGroup,
@@ -11,6 +10,7 @@ import {
   Switch,
 } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
+import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useState } from 'react';
 
@@ -31,6 +31,7 @@ import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/Pa
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 const filterOptions: IFilterOptions = {
   filterAttributes: {
@@ -92,24 +93,24 @@ const sortOptions: ISortOptions = {
     tableColumnIndex: 0,
     isDefault: true,
   },
-  'build.submitTime': {
-    id: 'build.submitTime',
-    title: 'Build Submit Time',
+  'targetRepository.repositoryType': {
+    id: 'targetRepository.repositoryType',
+    title: 'Repository Type',
     tableColumnIndex: 1,
-  },
-  artifactQuality: {
-    id: 'artifactQuality',
-    title: 'Artifact Quality',
-    tableColumnIndex: 2,
   },
   buildCategory: {
     id: 'buildCategory',
     title: 'Build Category',
-    tableColumnIndex: 3,
+    tableColumnIndex: 2,
   },
   filename: {
     id: 'filename',
     title: 'File Name',
+    tableColumnIndex: 3,
+  },
+  artifactQuality: {
+    id: 'artifactQuality',
+    title: 'Artifact Quality',
     tableColumnIndex: 4,
   },
 };
@@ -134,6 +135,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
   const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
 
   const [expandedArtifacts, setExpandedArtifacts] = useState<string[]>([]);
+  const [areBuildArtifactsExpanded, setAreBuildArtifactsExpanded] = useState<boolean>(false);
   const [areAllArtifactsExpanded, setAreAllArtifactsExpanded] = useState<boolean | undefined>(undefined);
   const setArtifactExpanded = (artifact: Artifact, isExpanding = true) =>
     setExpandedArtifacts((prevExpanded) => {
@@ -146,6 +148,16 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
     const shouldParse = window.localStorage.getItem('is-artifact-identifier-parsed') === 'true';
     setIsArtifactIdentifierParsed(shouldParse);
   }, []);
+
+  useEffect(() => {
+    if (areBuildArtifactsExpanded) {
+      setExpandedArtifacts(
+        serviceContainerArtifacts.data?.content
+          .filter((artifact: Artifact) => artifact.build)
+          .map((artifact: Artifact) => artifact.identifier)
+      );
+    }
+  }, [areBuildArtifactsExpanded, serviceContainerArtifacts.data?.content]);
 
   useEffect(() => {
     if (areAllArtifactsExpanded === true) {
@@ -164,6 +176,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
             componentId={componentId}
             onFilter={(filterAttribute: IFilterAttribute, _) => {
               if (['md5', 'sha1', 'sha256'].includes(filterAttribute.id)) {
+                setAreBuildArtifactsExpanded(false);
                 setAreAllArtifactsExpanded(true);
               }
             }}
@@ -172,8 +185,8 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
         <ToolbarItem marginLeft="20px">
           <Switch
             id="toggle-artifact-name-parsed"
-            label="Parse artifact identifier"
-            labelOff="Parse artifact identifier"
+            label="Parse Artifact identifier"
+            labelOff="Parse Artifact identifier"
             isChecked={isArtifactIdentifierParsed}
             onChange={(checked) => {
               setIsArtifactIdentifierParsed(checked);
@@ -182,15 +195,28 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
           />
         </ToolbarItem>
         <ToolbarItem>
-          <Button
-            variant="tertiary"
-            onClick={() => {
+          <Switch
+            id="toggle-expand-build-associated"
+            label="Expand Build associated Artifacts"
+            labelOff="Expand Build associated Artifacts"
+            isChecked={areBuildArtifactsExpanded}
+            onChange={() => {
+              setAreBuildArtifactsExpanded(!areBuildArtifactsExpanded);
+              setAreAllArtifactsExpanded(areBuildArtifactsExpanded ? false : undefined);
+            }}
+          />
+        </ToolbarItem>
+        <ToolbarItem>
+          <Switch
+            id="toggle-expand-all"
+            label="Expand all Artifacts"
+            labelOff="Expand all Artifacts"
+            isChecked={areAllArtifactsExpanded === true}
+            onChange={() => {
+              setAreBuildArtifactsExpanded(false);
               setAreAllArtifactsExpanded(areAllArtifactsExpanded !== undefined ? !areAllArtifactsExpanded : true);
             }}
-            isSmall
-          >
-            {areAllArtifactsExpanded ? 'Collapse All' : 'Expand All'}
-          </Button>
+          />
         </ToolbarItem>
       </Toolbar>
 
@@ -204,20 +230,21 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                */}
               <Tr>
                 <Th />
-                <Th width={35} sort={getSortParams(sortOptions['identifier'].id)}>
+                <Th />
+                <Th width={30} sort={getSortParams(sortOptions['identifier'].id)}>
                   Identifier
                 </Th>
-                <Th width={15} sort={getSortParams(sortOptions['build.submitTime'].id)}>
-                  Build
+                <Th width={15} sort={getSortParams(sortOptions['targetRepository.repositoryType'].id)}>
+                  Repository Type
                 </Th>
-                <Th width={10} sort={getSortParams(sortOptions['artifactQuality'].id)}>
-                  Artifact Quality
-                </Th>
-                <Th width={10} sort={getSortParams(sortOptions['buildCategory'].id)}>
+                <Th width={15} sort={getSortParams(sortOptions['buildCategory'].id)}>
                   Build Category
                 </Th>
-                <Th width={20} sort={getSortParams(sortOptions['filename'].id)}>
+                <Th width={25} sort={getSortParams(sortOptions['filename'].id)}>
                   Filename
+                </Th>
+                <Th width={15} sort={getSortParams(sortOptions['artifactQuality'].id)}>
+                  Artifact Quality
                 </Th>
               </Tr>
             </Thead>
@@ -230,25 +257,29 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                       isExpanded: isArtifactExpanded(artifact),
                       onToggle: () => {
                         setArtifactExpanded(artifact, !isArtifactExpanded(artifact));
+                        setAreBuildArtifactsExpanded(false);
                         setAreAllArtifactsExpanded(undefined);
                       },
                     }}
                   />
                   <Td>
+                    {artifact.build && (
+                      <TooltipWrapper tooltip="Artifact is associated with Build. Expand table row to see Build details.">
+                        <BuildIcon />
+                      </TooltipWrapper>
+                    )}
+                  </Td>
+                  <Td>
                     <Flex spaceItems={spaceItemsLg}>
-                      <FlexItem>
-                        {artifact.targetRepository?.repositoryType && (
-                          <ArtifactRepositoryTypeLabel repositoryType={artifact.targetRepository?.repositoryType} />
-                        )}
-                      </FlexItem>
                       <FlexItem>
                         {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
                       </FlexItem>
                     </Flex>
                   </Td>
-                  <Td>{artifact.build && <BuildName build={artifact.build} long />}</Td>
                   <Td>
-                    <ArtifactQualityLabel quality={artifact.artifactQuality} />
+                    {artifact.targetRepository?.repositoryType && (
+                      <ArtifactRepositoryTypeLabel repositoryType={artifact.targetRepository?.repositoryType} />
+                    )}
                   </Td>
                   <Td>
                     <Label color="grey">{artifact.buildCategory}</Label>
@@ -267,12 +298,15 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                       </FlexItem>
                     </Flex>
                   </Td>
+                  <Td>
+                    <ArtifactQualityLabel quality={artifact.artifactQuality} />
+                  </Td>
                 </Tr>
                 <Tr isExpanded={isArtifactExpanded(artifact)}>
                   <Td />
-                  <Td colSpan={5}>
+                  <Td colSpan={6}>
                     <ExpandableRowContent>
-                      <DescriptionList isHorizontal isCompact>
+                      <DescriptionList className="gap-5" isHorizontal isCompact>
                         <DescriptionListGroup>
                           <DescriptionListTerm>md5</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.md5}</DescriptionListDescription>
@@ -285,6 +319,14 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                           <DescriptionListTerm>sha256</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.sha256}</DescriptionListDescription>
                         </DescriptionListGroup>
+                        {artifact.build && (
+                          <DescriptionListGroup className="m-t-10">
+                            <DescriptionListTerm>Build</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              <BuildName build={artifact.build} long /> (#{artifact.build.id})
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                        )}
                       </DescriptionList>
                     </ExpandableRowContent>
                   </Td>
