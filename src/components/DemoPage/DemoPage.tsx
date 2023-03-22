@@ -24,7 +24,8 @@ import { IFields, useForm } from 'hooks/useForm';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { Attributes } from 'components/Attributes/Attributes';
+import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildMetrics } from 'components/BuildMetrics/BuildMetrics';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
@@ -696,28 +697,17 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="AttributesItems" padding>
-            <AttributesItems
-              attributes={[
-                {
-                  name: 'Project URL',
-                  value: (
-                    <a href={'demo'} target="_blank" rel="noopener noreferrer">
-                      Text Example
-                    </a>
-                  ),
-                },
-                {
-                  name: (
-                    <span>
-                      Icon has Tooltip
-                      <TooltipWrapper tooltip="This icon has a tooltip!" />
-                    </span>
-                  ),
-                  value: undefined,
-                },
-              ]}
-            />
+          <ContentBox title="Attributes" padding>
+            <Attributes>
+              <AttributesItem title="Project URL">
+                <a href="demo" target="_blank" rel="noopener noreferrer">
+                  Text Example
+                </a>
+              </AttributesItem>
+              <AttributesItem title="Icon has Tooltip" tooltip="This icon has a tooltip!">
+                {undefined}
+              </AttributesItem>
+            </Attributes>
           </ContentBox>
         </FlexItem>
 

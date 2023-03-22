@@ -2,12 +2,15 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ProductAttributes } from 'common/ProductAttributes';
+
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { AttributesItems } from 'components/AttributesItems/AttributesItems';
+import { Attributes } from 'components/Attributes/Attributes';
+import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductVersionsList } from 'components/ProductVersionsList/ProductVersionsList';
@@ -47,12 +50,6 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
 
   useTitle(generatePageTitle({ serviceContainer: serviceContainerProduct, firstLevelEntity: 'Product' }));
 
-  const attributes = [
-    { name: 'Abbreviation', value: serviceContainerProduct.data?.abbreviation },
-    { name: 'Product Managers', value: serviceContainerProduct.data?.productManagers },
-    { name: 'Product Pages Code', value: serviceContainerProduct.data?.productPagesCode },
-  ];
-
   return (
     <ServiceContainerLoading {...serviceContainerProduct} title="Product details">
       <PageLayout
@@ -65,7 +62,17 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
         }
       >
         <ContentBox padding marginBottom>
-          <AttributesItems attributes={attributes} />
+          <Attributes>
+            <AttributesItem title={ProductAttributes.abbreviation.title}>
+              {serviceContainerProduct.data?.abbreviation}
+            </AttributesItem>
+            <AttributesItem title={ProductAttributes.productManagers.title}>
+              {serviceContainerProduct.data?.productManagers}
+            </AttributesItem>
+            <AttributesItem title={ProductAttributes.productPagesCode.title}>
+              {serviceContainerProduct.data?.productPagesCode}
+            </AttributesItem>
+          </Attributes>
         </ContentBox>
 
         <Toolbar>
