@@ -172,7 +172,7 @@ Object {
                     class="pf-m-width-15"
                     scope="col"
                   >
-                    Job Id
+                    ID
                   </th>
                   <th
                     class="pf-m-width-35"
@@ -304,7 +304,7 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
                   >
                     <div
                       class="pf-c-description-list__group"
@@ -370,7 +370,7 @@ Object {
                         >
                           02:15
                            
-                          (took 00:02:10)
+                          (took 2m)
                         </div>
                       </dd>
                     </div>
@@ -425,7 +425,7 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
                   >
                     <div
                       class="pf-c-description-list__group"
@@ -491,7 +491,7 @@ Object {
                         >
                           13:06
                            
-                          (took 00:00:26)
+                          (took 26s)
                         </div>
                       </dd>
                     </div>
@@ -546,7 +546,7 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
                   >
                     <div
                       class="pf-c-description-list__group"
@@ -612,7 +612,7 @@ Object {
                         >
                           01:43
                            
-                          (took 00:01:17)
+                          (took 1m)
                         </div>
                       </dd>
                     </div>
@@ -1010,7 +1010,7 @@ Object {
                   class="pf-m-width-15"
                   scope="col"
                 >
-                  Job Id
+                  ID
                 </th>
                 <th
                   class="pf-m-width-35"
@@ -1142,7 +1142,7 @@ Object {
                 class=""
               >
                 <dl
-                  class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
                 >
                   <div
                     class="pf-c-description-list__group"
@@ -1208,7 +1208,7 @@ Object {
                       >
                         02:15
                          
-                        (took 00:02:10)
+                        (took 2m)
                       </div>
                     </dd>
                   </div>
@@ -1263,7 +1263,7 @@ Object {
                 class=""
               >
                 <dl
-                  class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
                 >
                   <div
                     class="pf-c-description-list__group"
@@ -1329,7 +1329,7 @@ Object {
                       >
                         13:06
                          
-                        (took 00:00:26)
+                        (took 26s)
                       </div>
                     </dd>
                   </div>
@@ -1384,7 +1384,7 @@ Object {
                 class=""
               >
                 <dl
-                  class="pf-c-description-list pf-m-horizontal pf-m-compact"
+                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
                 >
                   <div
                     class="pf-c-description-list__group"
@@ -1450,7 +1450,7 @@ Object {
                       >
                         01:43
                          
-                        (took 00:01:17)
+                        (took 1m)
                       </div>
                     </dd>
                   </div>

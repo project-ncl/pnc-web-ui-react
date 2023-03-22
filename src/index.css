@@ -30,6 +30,10 @@ code {
   overflow: visible !important;
 }
 
+.gap-none {
+  gap: 0 !important;
+}
+
 .gap-5 {
   gap: 5px !important;
 }
