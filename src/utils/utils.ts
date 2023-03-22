@@ -80,7 +80,11 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
   const minutes = Math.floor((diffSeconds % 3600) / 60);
   const seconds = Math.floor(diffSeconds % 60);
 
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const hoursString = hours !== 0 ? hours + 'h' : '';
+  const minutesString = minutes !== 0 ? minutes + 'm' : '';
+  const secondsString = hours === 0 && minutes === 0 ? seconds + 's' : '';
+
+  return `${hoursString}${hoursString && minutesString ? ' ' : ''}${minutesString}${secondsString}`;
 };
 
 interface IParseInternalRepositoryUrl {

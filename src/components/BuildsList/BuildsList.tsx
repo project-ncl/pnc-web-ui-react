@@ -204,7 +204,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Th width={20} sort={getSortParams(sortOptions['status'].id)}>
                   Status
                 </Th>
-                <Th width={15}>Job Id</Th>
+                <Th width={15}>ID</Th>
                 <Th width={35}>Name</Th>
                 <Th width={20} className="overflow-visible">
                   Times {timesSortIcon}
@@ -224,7 +224,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                   <BuildName build={build} long />
                 </Td>
                 <Td>
-                  <DescriptionList isHorizontal isCompact>
+                  <DescriptionList className="gap-none" isHorizontal isCompact>
                     <DescriptionListGroup>
                       <DescriptionListTerm>Submitted</DescriptionListTerm>
                       <DescriptionListDescription>
