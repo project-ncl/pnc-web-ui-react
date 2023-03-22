@@ -1,5 +1,6 @@
 import { Flex, FlexItem, FlexProps } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Link } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef, ProductVersion } from 'pnc-api-types-ts';
 
@@ -62,7 +63,9 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
             <Tbody>
               {serviceContainerProductVersions.data?.content.map((productVersion: ProductVersion, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>{productVersion.version}</Td>
+                  <Td>
+                    <Link to={`versions/${productVersion.id}`}>{productVersion.version}</Link>
+                  </Td>
                   <Td>
                     <Flex spaceItems={spaceItemsNone} style={flexGap}>
                       {Object.values(productVersion.productMilestones || {}).map(

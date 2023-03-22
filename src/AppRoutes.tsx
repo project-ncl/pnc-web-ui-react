@@ -19,6 +19,12 @@ import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMile
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
+import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
+import { ProductVersionDetailPage } from 'components/ProductVersionDetailPage/ProductVersionDetailPage';
+import { ProductVersionGroupConfigsPage } from 'components/ProductVersionGroupConfigsPage/ProductVersionGroupConfigsPage';
+import { ProductVersionMilestonesPage } from 'components/ProductVersionMilestonesPage/ProductVersionMilestonesPage';
+import { ProductVersionPages } from 'components/ProductVersionPages/ProductVersionPages';
+import { ProductVersionReleasesPage } from 'components/ProductVersionReleasesPage/ProductVersionReleasesPage';
 import { ProductsPage } from 'components/ProductsPage/ProductsPage';
 import { ProjectCreateEditPage } from 'components/ProjectCreateEditPage/ProjectCreateEditPage';
 import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPage';
@@ -38,6 +44,14 @@ export const AppRoutes = () => (
       <Route index element={<ProductsPage />} />
       <Route path=":productId">
         <Route index element={<ProductDetailPage />} />
+        <Route path="versions/:productVersionId" element={<ProductVersionPages />}>
+          <Route path="details" element={<ProductVersionDetailPage />} />
+          <Route path="milestones" element={<ProductVersionMilestonesPage />} />
+          <Route path="releases" element={<ProductVersionReleasesPage />} />
+          <Route path="build-configs" element={<ProductVersionBuildConfigsPage />} />
+          <Route path="group-configs" element={<ProductVersionGroupConfigsPage />} />
+          <Route index element={<Navigate to="details" replace />} />
+        </Route>
         <Route path="versions/:productVersionId/milestones/:productMilestoneId" element={<ProductMilestonePages />}>
           <Route path="details" element={<ProductMilestoneDetailPage />} />
           <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
