@@ -20,7 +20,8 @@ export const AttributesItem = ({ children, title, tooltip }: PropsWithChildren<I
       </>
     </GridItem>
     <GridItem xl={9} lg={8} md={6} sm={12}>
-      {children ? children : <EmptyStateSymbol variant="text" />}
+      {/* zero is falsy */}
+      {children || children === 0 ? children : <EmptyStateSymbol variant="text" />}
     </GridItem>
   </>
 );
