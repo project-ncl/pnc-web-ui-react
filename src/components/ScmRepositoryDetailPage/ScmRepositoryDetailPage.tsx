@@ -47,7 +47,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.internalUrl && (
-        <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showGerritButton />
+        <ScmRepositoryUrl scmRepository={serviceContainerScmRepository.data} isInternal />
       ),
     },
     {
@@ -58,7 +58,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.externalUrl && (
-        <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} />
+        <ScmRepositoryUrl scmRepository={serviceContainerScmRepository.data} isInternal={false} />
       ),
     },
     {
@@ -73,7 +73,6 @@ export const ScmRepositoryDetailPage = () => {
         (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled'),
     },
   ];
-
   return (
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout

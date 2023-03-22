@@ -756,19 +756,41 @@ export const DemoPage = () => {
         <FlexItem>
           <ContentBox title="ScmRepositoryUrl" padding>
             <span>
-              <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopy" />
+              <ScmRepositoryUrl
+                isInternal
+                scmRepository={{
+                  id: '101',
+                  internalUrl: 'https://code.repo.com/testUrlClipboardCopyGerrit',
+                  externalUrl: 'https://github.com/testRepo/empty2.git',
+                  preBuildSyncEnabled: true,
+                }}
+              />
             </span>
             <br />
             <span>
-              <ScmRepositoryUrl url="https://code.repo.com/testUrlClipboardCopyGerrit" showGerritButton />
+              <ScmRepositoryUrl
+                isInternal
+                isInline
+                scmRepository={{
+                  id: '101',
+                  internalUrl: 'https://github.com/test/testInlineCopy.git',
+                  externalUrl: 'https://github.com/testRepo/empty2.git',
+                  preBuildSyncEnabled: true,
+                }}
+              />
             </span>
             <br />
             <span>
-              <ScmRepositoryUrl isInline url="https://github.com/test/testInlineCopy.git" />
-            </span>
-            <br />
-            <span>
-              <ScmRepositoryUrl isInline showGerritButton url="https://github.com/test/testInlineCopyRedirect.git" />
+              <ScmRepositoryUrl
+                isInternal={false}
+                isInline
+                scmRepository={{
+                  id: '101',
+                  internalUrl: 'https://github.com/test/testInlineCopy.git',
+                  externalUrl: 'https://github.com/test/testInlineCopyRedirectExternal.git',
+                  preBuildSyncEnabled: true,
+                }}
+              />
             </span>
           </ContentBox>
         </FlexItem>

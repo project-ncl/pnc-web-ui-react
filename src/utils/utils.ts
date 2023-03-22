@@ -40,14 +40,46 @@ interface IParseInternalRepositoryUrl {
 }
 
 /**
- * Parses internal repository url to Gerrit gitweb link of the project.
+ * Parses internal repository url to Gerrit gitweb link of the SCM Repository.
  *
- * @param scmRepository - SCM Repository containing internalUrl field
- * @returns SCM Repository name
+ * @param internalUrl - The internalUrl to be parsed
+ * @returns SCM Repository URL
  */
 export const parseInternalRepositoryUrl = ({ internalUrl }: IParseInternalRepositoryUrl) => {
   const protocol = internalUrl.split('://')[0];
   const base = internalUrl.split('://')[1].split('/')[0];
   const project = internalUrl.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
   return 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
+};
+
+interface IParseExternalRepositoryUrl {
+  externalUrl: string;
+}
+
+interface IParseExternalRepositoryUrlResult {
+  url: string | undefined;
+  base: string | undefined;
+}
+
+/**
+ * Parses external SCM Url to gitweb link of the SCM Repository.
+ *
+ * @param externalUrl - The externalUrl to be parsed
+ * @returns  Object contains url and the base of the external url
+ */
+export const parseExternalRepositoryUrl = ({ externalUrl }: IParseExternalRepositoryUrl): IParseExternalRepositoryUrlResult => {
+  if (externalUrl.includes('/gerrit/')) {
+    return { url: parseInternalRepositoryUrl({ internalUrl: externalUrl }), base: 'Gerrit' };
+  }
+  if (['http', 'https', '@'].some((element) => externalUrl.includes(element))) {
+    const url = externalUrl.includes('@') ? 'https://' + externalUrl.split('@')[1].replace(':', '/') : externalUrl;
+    const base = url.split('://')[1].split('/')[0];
+    return { url, base };
+  }
+  if (externalUrl.includes('.git')) {
+    const url = externalUrl;
+    const base = url.split('/')[0];
+    return { url, base };
+  }
+  return { url: undefined, base: undefined };
 };
