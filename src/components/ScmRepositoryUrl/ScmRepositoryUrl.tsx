@@ -41,7 +41,7 @@ const InternalUrlButton = ({ isInline, url }: IScmRepositoryUrlButtonProps) => (
  * @param url - the external url for the SCM Repository
  * @param isInline - whether to use inline style with external link action
  */
-const ExternalUrlButton = ({ isInline, url }: IScmRepositoryUrlButtonProps) => {
+const ExternalUrlButton = ({ url, isInline }: IScmRepositoryUrlButtonProps) => {
   if (!url) {
     return <></>;
   }
