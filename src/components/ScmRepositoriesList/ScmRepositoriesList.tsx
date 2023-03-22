@@ -78,10 +78,14 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th>Name</Th>
-                <Th sort={getSortParams(sortOptions['internalUrl'].id)}>Internal SCM URL</Th>
-                <Th sort={getSortParams(sortOptions['externalUrl'].id)}>External SCM URL</Th>
-                <Th width={15}>Pre-build Sync</Th>
+                <Th width={20}>Name</Th>
+                <Th width={30} sort={getSortParams(sortOptions['internalUrl'].id)}>
+                  Internal SCM URL
+                </Th>
+                <Th width={30} sort={getSortParams(sortOptions['externalUrl'].id)}>
+                  External SCM URL
+                </Th>
+                <Th width={10}>Pre-build Sync</Th>
               </Tr>
             </Thead>
             <Tbody>
