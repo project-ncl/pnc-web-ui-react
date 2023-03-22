@@ -7,8 +7,8 @@ interface IGenerateScmRepositoryName {
 /**
  * Parses and generate SCM Repository name from SCMRepository object.
  *
- * @param {object} scmRepository contains internalUrl field
- * @returns {string} SCM Repository name
+ * @param scmRepository - SCM Repository containing internalUrl field
+ * @returns SCM Repository name
  */
 export const generateScmRepositoryName = ({ scmRepository }: IGenerateScmRepositoryName): string =>
   scmRepository && scmRepository.internalUrl ? scmRepository.internalUrl.split('/').splice(3).join('/') : '';
