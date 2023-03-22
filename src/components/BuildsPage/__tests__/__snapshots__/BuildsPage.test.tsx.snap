@@ -27,7 +27,7 @@ Object {
             data-ouia-safe="true"
             data-pf-content="true"
           >
-            This page contains Builds... TODO
+            Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
           </p>
         </div>
       </section>
@@ -116,7 +116,7 @@ Object {
         >
           <div>
             <table
-              class="pf-c-table pf-m-grid-md pf-m-compact pf-m-striped pf-m-expandable"
+              class="pf-c-table pf-m-grid-md pf-m-compact pf-m-striped"
               data-ouia-component-id="OUIA-Generated-Table-2"
               data-ouia-component-type="PF4/Table"
               data-ouia-safe="true"
@@ -304,7 +304,7 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
                   >
                     <div
                       class="pf-c-description-list__group"
@@ -369,8 +369,7 @@ Object {
                           class="pf-c-description-list__text"
                         >
                           02:15
-                           
-                          (took 2m)
+                           (took 2m)
                         </div>
                       </dd>
                     </div>
@@ -425,7 +424,7 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
                   >
                     <div
                       class="pf-c-description-list__group"
@@ -490,8 +489,7 @@ Object {
                           class="pf-c-description-list__text"
                         >
                           13:06
-                           
-                          (took 26s)
+                           (took 26s)
                         </div>
                       </dd>
                     </div>
@@ -546,7 +544,7 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
                   >
                     <div
                       class="pf-c-description-list__group"
@@ -611,8 +609,7 @@ Object {
                           class="pf-c-description-list__text"
                         >
                           01:43
-                           
-                          (took 1m)
+                           (took 1m)
                         </div>
                       </dd>
                     </div>
@@ -865,7 +862,7 @@ Object {
           data-ouia-safe="true"
           data-pf-content="true"
         >
-          This page contains Builds... TODO
+          Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
         </p>
       </div>
     </section>
@@ -954,7 +951,7 @@ Object {
       >
         <div>
           <table
-            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-striped pf-m-expandable"
+            class="pf-c-table pf-m-grid-md pf-m-compact pf-m-striped"
             data-ouia-component-id="OUIA-Generated-Table-2"
             data-ouia-component-type="PF4/Table"
             data-ouia-safe="true"
@@ -1142,7 +1139,7 @@ Object {
                 class=""
               >
                 <dl
-                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
+                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
                 >
                   <div
                     class="pf-c-description-list__group"
@@ -1207,8 +1204,7 @@ Object {
                         class="pf-c-description-list__text"
                       >
                         02:15
-                         
-                        (took 2m)
+                         (took 2m)
                       </div>
                     </dd>
                   </div>
@@ -1263,7 +1259,7 @@ Object {
                 class=""
               >
                 <dl
-                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
+                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
                 >
                   <div
                     class="pf-c-description-list__group"
@@ -1328,8 +1324,7 @@ Object {
                         class="pf-c-description-list__text"
                       >
                         13:06
-                         
-                        (took 26s)
+                         (took 26s)
                       </div>
                     </dd>
                   </div>
@@ -1384,7 +1379,7 @@ Object {
                 class=""
               >
                 <dl
-                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-none"
+                  class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
                 >
                   <div
                     class="pf-c-description-list__group"
@@ -1449,8 +1444,7 @@ Object {
                         class="pf-c-description-list__text"
                       >
                         01:43
-                         
-                        (took 1m)
+                         (took 1m)
                       </div>
                     </dd>
                   </div>

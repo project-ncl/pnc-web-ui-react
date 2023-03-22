@@ -117,7 +117,7 @@ interface IBuildsListProps {
  * @param componentId - Component ID
  */
 export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
-  const { getSortParams, sort, activeSortIndex, activeSortAttribute, activeSortDirection } = useSorting(sortOptions, componentId);
+  const { getSortParams, sort, activeSortAttribute, activeSortDirection } = useSorting(sortOptions, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
@@ -127,7 +127,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
       menuItems={[
         <OptionsMenuItemGroup>
           <OptionsMenuItem
-            isSelected={activeSortIndex === 3}
+            isSelected={activeSortAttribute === 'submitTime'}
             onSelect={() => {
               sort('submitTime', activeSortDirection!);
             }}
@@ -135,7 +135,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
             Submitted
           </OptionsMenuItem>
           <OptionsMenuItem
-            isSelected={activeSortIndex === 4}
+            isSelected={activeSortAttribute === 'startTime'}
             onSelect={() => {
               sort('startTime', activeSortDirection!);
             }}
@@ -143,7 +143,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
             Started
           </OptionsMenuItem>
           <OptionsMenuItem
-            isSelected={activeSortIndex === 5}
+            isSelected={activeSortAttribute === 'endTime'}
             onSelect={() => {
               sort('endTime', activeSortDirection!);
             }}
@@ -194,7 +194,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.builds}>
-          <TableComposable isExpandable isStriped variant="compact">
+          <TableComposable isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
@@ -224,7 +224,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                   <BuildName build={build} long />
                 </Td>
                 <Td>
-                  <DescriptionList className="gap-none" isHorizontal isCompact>
+                  <DescriptionList className="gap-0" isHorizontal isCompact>
                     <DescriptionListGroup>
                       <DescriptionListTerm>Submitted</DescriptionListTerm>
                       <DescriptionListDescription>
@@ -248,8 +248,8 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                           createDateTime({
                             date: build.endTime,
                             includeDate: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
-                          })}{' '}
-                        {build.startTime && build.endTime && `(took ${calculateDuration(build.startTime, build.endTime)})`}
+                          })}
+                        {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                   </DescriptionList>
