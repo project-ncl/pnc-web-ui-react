@@ -707,6 +707,9 @@ export const DemoPage = () => {
               <AttributesItem title="Icon has Tooltip" tooltip="This icon has a tooltip!">
                 {undefined}
               </AttributesItem>
+              <AttributesItem title={<i>Italic title</i>} tooltip="Tooltip">
+                {0}
+              </AttributesItem>
             </Attributes>
           </ContentBox>
         </FlexItem>
