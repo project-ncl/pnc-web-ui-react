@@ -42,14 +42,18 @@ export const ProjectDetailPage = () => {
         <ContentBox padding marginBottom>
           <Attributes>
             <AttributesItem title={ProjectAttributes.projectUrl.title}>
-              <a href={serviceContainerProject.data?.projectUrl} target="_blank" rel="noopener noreferrer">
-                {serviceContainerProject.data?.projectUrl}
-              </a>
+              {serviceContainerProject.data?.projectUrl && (
+                <a href={serviceContainerProject.data?.projectUrl} target="_blank" rel="noopener noreferrer">
+                  {serviceContainerProject.data?.projectUrl}
+                </a>
+              )}
             </AttributesItem>
             <AttributesItem title={ProjectAttributes.issueTrackerUrl.title}>
-              <a href={serviceContainerProject.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
-                {serviceContainerProject.data?.issueTrackerUrl}
-              </a>
+              {serviceContainerProject.data?.issueTrackerUrl && (
+                <a href={serviceContainerProject.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
+                  {serviceContainerProject.data?.issueTrackerUrl}
+                </a>
+              )}
             </AttributesItem>
             <AttributesItem title={ProjectAttributes.engineeringTeam.title}>
               {serviceContainerProject.data?.engineeringTeam}
