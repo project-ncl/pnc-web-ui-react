@@ -31,7 +31,7 @@ import * as buildApi from 'services/buildApi';
 import * as genericSettingsApi from 'services/genericSettingsApi';
 import { uiLogger } from 'services/uiLogger';
 
-import { transformateDateFormat } from 'utils/utils';
+import { createDateTime } from 'utils/utils';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 const N_A = 'N/A';
@@ -252,7 +252,13 @@ export const AdministrationPage = () => {
                         name="form-eta-time"
                         id="form-eta-time"
                         placeholder="yyyy-MM-dd hh:mm (UTC)"
-                        dateFormat={transformateDateFormat}
+                        dateFormat={(date: Date): string => {
+                          if (!date) {
+                            return '';
+                          }
+
+                          return createDateTime({ date }).datetime;
+                        }}
                         onClick={() => {
                           setEtaTouched(true);
                         }}

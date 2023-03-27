@@ -228,7 +228,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                     <DescriptionListGroup>
                       <DescriptionListTerm>Submitted</DescriptionListTerm>
                       <DescriptionListDescription>
-                        {build.submitTime && createDateTime({ date: build.submitTime })}
+                        {build.submitTime && createDateTime({ date: build.submitTime }).datetime}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
@@ -238,7 +238,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                           createDateTime({
                             date: build.startTime,
                             includeDate: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
-                          })}
+                          }).datetime}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
@@ -248,7 +248,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                           createDateTime({
                             date: build.endTime,
                             includeDate: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
-                          })}
+                          }).datetime}
                         {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
