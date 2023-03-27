@@ -129,7 +129,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
           <OptionsMenuItem
             isSelected={activeSortAttribute === 'submitTime'}
             onSelect={() => {
-              sort('submitTime', activeSortDirection!);
+              sort({ sortAttribute: 'submitTime', sortDirection: activeSortDirection! });
             }}
           >
             Submitted
@@ -137,7 +137,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
           <OptionsMenuItem
             isSelected={activeSortAttribute === 'startTime'}
             onSelect={() => {
-              sort('startTime', activeSortDirection!);
+              sort({ sortAttribute: 'startTime', sortDirection: activeSortDirection! });
             }}
           >
             Started
@@ -145,7 +145,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
           <OptionsMenuItem
             isSelected={activeSortAttribute === 'endTime'}
             onSelect={() => {
-              sort('endTime', activeSortDirection!);
+              sort({ sortAttribute: 'endTime', sortDirection: activeSortDirection! });
             }}
           >
             Ended
@@ -154,14 +154,14 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
         <OptionsMenuSeparator />,
         <OptionsMenuItemGroup>
           <OptionsMenuItem
-            onSelect={() => sort(activeSortAttribute!, 'asc')}
+            onSelect={() => sort({ sortAttribute: activeSortAttribute!, sortDirection: 'asc' })}
             isSelected={activeSortDirection === 'asc'}
             id="ascending"
           >
             Ascending
           </OptionsMenuItem>
           <OptionsMenuItem
-            onSelect={() => sort(activeSortAttribute!, 'desc')}
+            onSelect={() => sort({ sortAttribute: activeSortAttribute!, sortDirection: 'desc' })}
             isSelected={activeSortDirection === 'desc'}
             id="descending"
           >

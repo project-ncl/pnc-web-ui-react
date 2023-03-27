@@ -68,6 +68,13 @@ interface ISortAttribute {
   tableColumnIndex: number;
 }
 
+interface ISortConfig {
+  sortAttribute?: string;
+  sortDirection?: string;
+  resetSorting?: boolean;
+  replace?: boolean;
+}
+
 /**
  * @example
  * {
@@ -122,36 +129,30 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
   const [activeSortAttribute, setActiveSortAttribute] = useState<string>();
   const [activeSortDirection, setActiveSortDirection] = useState<ISortBy['direction']>(undefined);
 
+  const sort = useCallback(
+    ({ sortAttribute, sortDirection, resetSorting = false, replace = false }: ISortConfig) => {
+      // UI -> URL
+      updateQueryParamsInURL(
+        { sort: resetSorting ? 'none' : `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },
+        componentId,
+        location,
+        navigate,
+        replace
+      );
+    },
+    [componentId, location, navigate]
+  );
+
   const getSortParams = (sortAttribute: string): ThProps['sort'] => ({
     sortBy: {
       index: activeSortIndex,
       direction: activeSortDirection,
     },
     onSort: (_event, _index, sortDirection) => {
-      // UI -> URL
-      updateQueryParamsInURL(
-        { sort: `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },
-        componentId,
-        location,
-        navigate,
-        false
-      );
+      sort({ sortAttribute, sortDirection });
     },
     columnIndex: sortOptions[sortAttribute].tableColumnIndex,
   });
-
-  const sort = useCallback(
-    (sortAttribute: string, sortDirection: string) => {
-      updateQueryParamsInURL(
-        { sort: `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },
-        componentId,
-        location,
-        navigate,
-        false
-      );
-    },
-    [componentId, location, navigate]
-  );
 
   useEffect(() => {
     // URL -> UI
@@ -174,19 +175,13 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
     } else {
       if (defaultSortAttribute) {
         // apply default sorting
-        updateQueryParamsInURL(
-          { sort: `=${defaultSortDirection}=${defaultSortAttribute}`, pageIndex: 1 },
-          componentId,
-          location,
-          navigate,
-          true
-        );
+        sort({ sortAttribute: defaultSortAttribute, sortDirection: defaultSortDirection, replace: true });
       } else {
         // reset sorting
-        updateQueryParamsInURL({ sort: `none` }, componentId, location, navigate, true);
+        sort({ resetSorting: true, replace: true });
       }
     }
-  }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, navigate]);
+  }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, sort]);
 
   return { getSortParams, sort, activeSortAttribute, activeSortDirection };
 };
