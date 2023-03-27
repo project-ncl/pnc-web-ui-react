@@ -1,32 +1,46 @@
-interface ICreateDateTimeProps {
+interface ICreateDateTime {
   date: Date | string;
   includeDate?: boolean;
   includeTime?: boolean;
 }
 
+interface IDateTimeObject {
+  datetime: string;
+  date: string;
+  time: string;
+}
+
 /**
  * Generic function for using unified date.
  *
- * Long version additionally also includes the time.
+ * Return object containing:
+ *   - date -> returned regardless of includeDate and includeTime
+ *   - time -> returned regardless of includeDate and includeTime
+ *   - datetime:
+ *       -> defaultly date + time
+ *       -> or can be just date or time (includeDate and includeTime)
  *
- * @param date - Date (or string representing a date) to display
- * @param includeDate - Whether the date should be displayed, defaults to true
- * @param includeTime - Whether the time should be displayed, defaults to true
+ * @param date - Date (or string representing a date) to transform
+ * @param includeDate - Whether the date should be included in datetime property of returned object, defaults to true
+ * @param includeTime - Whether the time should be included in datetime property of returned object, defaults to true
+ * @returns Object containing date and time
  */
-export const createDateTime = ({ date, includeDate = true, includeTime = true }: ICreateDateTimeProps): string | null => {
+export const createDateTime = ({ date, includeDate = true, includeTime = true }: ICreateDateTime): IDateTimeObject => {
   if (!date) {
-    return null;
+    return {
+      datetime: '',
+      date: '',
+      time: '',
+    };
   }
 
-  if (typeof date === 'string') {
-    date = new Date(date);
-  }
+  const timestamp = typeof date === 'string' ? new Date(date) : date;
 
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
+  const year = timestamp.getFullYear();
+  const month = timestamp.getMonth() + 1;
+  const day = timestamp.getDate();
+  const hour = timestamp.getHours();
+  const minute = timestamp.getMinutes();
   const monthString = month < 10 ? `0${month}` : month;
   const dayString = day < 10 ? `0${day}` : day;
   const hourString = hour < 10 ? `0${hour}` : hour;
@@ -35,46 +49,54 @@ export const createDateTime = ({ date, includeDate = true, includeTime = true }:
   const dateString = `${year}-${monthString}-${dayString}`;
   const timeString = `${hourString}:${minuteString}`;
 
-  return `${includeDate ? dateString : ''}${includeDate && includeTime ? ' ' : ''}${includeTime ? timeString : ''}`;
+  return {
+    datetime: `${includeDate ? dateString : ''}${includeDate && includeTime ? ' ' : ''}${includeTime ? timeString : ''}`,
+    date: dateString,
+    time: timeString,
+  };
 };
 
-export const createDateTimeLong = ({ date, includeDate = true, includeTime = true }: ICreateDateTimeProps): string | null =>
-  date
-    ? new Intl.DateTimeFormat('en-US', {
-        ...(includeDate && { dateStyle: 'medium' }),
-        ...(includeTime && { timeStyle: 'medium' }),
-      }).format(typeof date === 'string' ? new Date(date) : date)
-    : null;
-
-export const transformateDateFormat = (date: Date) => {
-  if (!date) {
-    return '';
-  }
-
-  return createDateTime({ date }) as string;
-};
-
-export const areDatesEqual = (date1: Date | string, date2: Date | string, includeTime: boolean = false) => {
-  date1 = typeof date1 === 'string' ? new Date(date1) : date1;
-  date2 = typeof date2 === 'string' ? new Date(date2) : date2;
+/**
+ * Compares dates equality.
+ *
+ * @param date1 - Date 1 (or string representing a date) to be compared
+ * @param date2 - Date 2 (or string representing a date) to be compared
+ * @param includeTime - Include also time in comparison, defaults to false
+ * @returns True if dates are equal, false otherwise
+ */
+export const areDatesEqual = (date1: Date | string, date2: Date | string, includeTime: boolean = false): boolean => {
+  const timestamp1 = typeof date1 === 'string' ? new Date(date1) : new Date(date1.getTime());
+  const timestamp2 = typeof date2 === 'string' ? new Date(date2) : new Date(date2.getTime());
 
   if (!includeTime) {
-    date1.setHours(0, 0, 0, 0);
-    date2.setHours(0, 0, 0, 0);
+    timestamp1.setHours(0, 0, 0, 0);
+    timestamp2.setHours(0, 0, 0, 0);
   }
 
-  return date1.getTime() === date2.getTime();
+  return timestamp1.getTime() === timestamp2.getTime();
 };
 
-export const calculateDuration = (startTime: Date | string, endTime: Date | string) => {
+/**
+ * Calculates time interval duration.
+ *
+ * Returned string format is:
+ *   - 5h 1m
+ *   - 16s
+ * -> seconds are included just when hours and minutes are zero
+ *
+ * @param startTime - Start of time interval
+ * @param endTime - End of time interval
+ * @returns String representing duration
+ */
+export const calculateDuration = (startTime: Date | string, endTime: Date | string): string | null => {
   if (!startTime || !endTime) {
     return null;
   }
 
-  startTime = typeof startTime === 'string' ? new Date(startTime) : startTime;
-  endTime = typeof endTime === 'string' ? new Date(endTime) : endTime;
+  const startTimestamp = typeof startTime === 'string' ? new Date(startTime) : startTime;
+  const endTimestamp = typeof endTime === 'string' ? new Date(endTime) : endTime;
 
-  const diffSeconds = Math.abs(startTime.getTime() - endTime.getTime()) / 1000;
+  const diffSeconds = Math.abs(startTimestamp.getTime() - endTimestamp.getTime()) / 1000;
 
   const hours = Math.floor(diffSeconds / 3600);
   const minutes = Math.floor((diffSeconds % 3600) / 60);

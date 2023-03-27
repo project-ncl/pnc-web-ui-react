@@ -54,13 +54,13 @@ export const ProductMilestoneDetailPage = () => {
               {serviceContainerMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}
             </AttributesItem>
             <AttributesItem title={ProductMilestoneAttributes.startingDate.title}>
-              {createDateTime({ date: serviceContainerMilestone.data.startingDate, includeTime: false })}
+              {createDateTime({ date: serviceContainerMilestone.data.startingDate }).date}
             </AttributesItem>
             <AttributesItem title={ProductMilestoneAttributes.plannedEndDate.title}>
-              {createDateTime({ date: serviceContainerMilestone.data.plannedEndDate, includeTime: false })}
+              {createDateTime({ date: serviceContainerMilestone.data.plannedEndDate }).date}
             </AttributesItem>
             <AttributesItem title={ProductMilestoneAttributes.endDate.title}>
-              {createDateTime({ date: serviceContainerMilestone.data.endDate, includeTime: false })}
+              {createDateTime({ date: serviceContainerMilestone.data.endDate }).date}
             </AttributesItem>
             <AttributesItem title={ProductMilestoneAttributes.lastCloseResut.title}>
               <div style={{ height: '25px' }}>
