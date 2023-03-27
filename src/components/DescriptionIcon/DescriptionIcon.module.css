@@ -1,0 +1,27 @@
+.description {
+  position: absolute;
+  top: 1px;
+  right: 7px;
+  font-style: italic;
+  color: #9b9b9b;
+}
+
+.description-attribute {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.description-attribute:last-child {
+  margin-bottom: 0;
+}
+
+.description-icon {
+  font-size: 15px;
+  color: var(--pf-global--link--Color);
+  text-decoration: var(--pf-global--link--TextDecoration);
+}
+
+.description-icon:hover {
+  color: var(--pf-global--link--Color--hover);
+  text-decoration: var(--pf-global--link--TextDecoration--hover);
+}

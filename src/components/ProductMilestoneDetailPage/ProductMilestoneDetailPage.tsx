@@ -79,7 +79,7 @@ export const ProductMilestoneDetailPage = () => {
 
       <GridItem span={12}>
         <CardFlex>
-          <CardFlexItem>
+          <CardFlexItem description="Description... TODO">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifact built in this Milestone">
                 {serviceContainerStatistics.data?.artifactSource.thisMilestone}
@@ -87,7 +87,7 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardDescription>Artifact built in this Milestone</CardDescription>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Description... TODO">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in other Milestones">
                 {serviceContainerStatistics.data?.artifactSource.otherMilestones}
@@ -95,7 +95,7 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardDescription>Artifacts built in other Milestones</CardDescription>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Description... TODO">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts not built in a Milestone">
                 {serviceContainerStatistics.data?.artifactSource.notBuilt}
@@ -103,7 +103,7 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardDescription>Artifacts not built in a Milestone</CardDescription>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Description... TODO">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Previous Milestones">
                 {serviceContainerStatistics.data?.previousMilestones}
@@ -111,7 +111,7 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardDescription>Previous Milestones</CardDescription>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Description... TODO">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts from previous Milestones">
                 {serviceContainerStatistics.data?.artifactSource.previousMilestones}

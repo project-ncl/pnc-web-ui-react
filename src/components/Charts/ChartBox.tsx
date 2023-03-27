@@ -1,21 +1,11 @@
-import { Popover } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren } from 'react';
+
+import { DescriptionIcon, IDescription } from 'components/DescriptionIcon/DescriptionIcon';
 
 import styles from './ChartBox.module.css';
 
-interface IChartDescriptionAttribute {
-  label: string;
-  value: string;
-}
-
-export interface IChartDescription {
-  textTop?: string;
-  attributes?: IChartDescriptionAttribute[];
-}
-
 interface IChartBoxProps {
-  description?: IChartDescription;
+  description?: IDescription;
 }
 
 /**
@@ -29,36 +19,7 @@ interface IChartBoxProps {
 export const ChartBox = ({ children, description }: PropsWithChildren<IChartBoxProps>) => {
   return (
     <div className={styles['chart-body']}>
-      {description && (
-        <Popover
-          removeFindDomNode
-          bodyContent={
-            <div>
-              {description.textTop}
-              {description.attributes &&
-                description.attributes.map((attribute: IChartDescriptionAttribute, index: number) => (
-                  <dl className={styles['popover-attribute']} key={index}>
-                    <dt>
-                      <b>{attribute.label}</b>
-                    </dt>
-                    <dd>{attribute.value}</dd>
-                  </dl>
-                ))}
-            </div>
-          }
-          showClose={false}
-          enableFlip={false}
-          position="left-start"
-        >
-          <div className={styles['chart-description']}>
-            <small>
-              <span className={styles['info-icon']}>
-                <InfoCircleIcon />
-              </span>
-            </small>
-          </div>
-        </Popover>
-      )}
+      {description && <DescriptionIcon description={description} />}
       <div className={styles['canvas-wrapper']}>{children}</div>
     </div>
   );

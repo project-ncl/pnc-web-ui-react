@@ -1,7 +1,8 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 import { useEffect, useRef } from 'react';
 
-import { ChartBox, IChartDescription } from 'components/Charts/ChartBox';
+import { ChartBox } from 'components/Charts/ChartBox';
+import { IDescription } from 'components/DescriptionIcon/DescriptionIcon';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
 
@@ -20,7 +21,7 @@ interface IDoughnutData {
 interface IDoughnutChartProps {
   data: IDoughnutData;
   id?: string;
-  description?: IChartDescription;
+  description?: IDescription;
   legendHeight?: number;
 }
 
