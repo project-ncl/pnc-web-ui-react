@@ -86,12 +86,12 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
             <Thead>
               <Tr>
                 <Th width={20}>Id</Th>
-                <Th width={15}>Progress Status</Th>
-                <Th width={15}>Result</Th>
+                <Th width={20}>Progress Status</Th>
+                <Th width={20}>Result</Th>
                 <Th width={20} sort={getSortParams(sortOptions['submitTime'].id)}>
                   Submit Time
                 </Th>
-                <Th width={30} sort={getSortParams(sortOptions['user.username'].id)}>
+                <Th width={20} sort={getSortParams(sortOptions['user.username'].id)}>
                   User
                 </Th>
               </Tr>
