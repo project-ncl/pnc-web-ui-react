@@ -1,15 +1,4 @@
-import {
-  DescriptionList,
-  DescriptionListDescription,
-  DescriptionListGroup,
-  DescriptionListTerm,
-  OptionsMenu,
-  OptionsMenuItem,
-  OptionsMenuItemGroup,
-  OptionsMenuSeparator,
-  OptionsMenuToggle,
-} from '@patternfly/react-core';
-import { SortAmountDownIcon } from '@patternfly/react-icons';
+import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
 import { TableComposable, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useState } from 'react';
 
@@ -26,6 +15,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { SortIcon } from 'components/SortIcon/SortIcon';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -85,16 +75,19 @@ const sortOptions: ISortOptions = {
     tableColumnIndex: 3,
     isDefault: true,
     defaultSortOrder: 'desc',
+    sortingGroup: 'times',
   },
   startTime: {
     id: 'startTime',
     title: 'Started',
     tableColumnIndex: 4,
+    sortingGroup: 'times',
   },
   endTime: {
     id: 'endTime',
     title: 'Ended',
     tableColumnIndex: 5,
+    sortingGroup: 'times',
   },
   'user.username': {
     id: 'user.username',
@@ -102,8 +95,6 @@ const sortOptions: ISortOptions = {
     tableColumnIndex: 6,
   },
 };
-
-const timesSortIconStyle = { padding: '0', marginLeft: '1rem' };
 
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainer;
@@ -120,69 +111,6 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
   const { getSortParams, sort, activeSortAttribute, activeSortDirection } = useSorting(sortOptions, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
-
-  const timesSortIcon = (
-    <OptionsMenu
-      id="times-sort-options"
-      menuItems={[
-        <OptionsMenuItemGroup>
-          <OptionsMenuItem
-            isSelected={activeSortAttribute === 'submitTime'}
-            onSelect={() => {
-              sort({ sortAttribute: 'submitTime', sortDirection: activeSortDirection! });
-            }}
-          >
-            Submitted
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            isSelected={activeSortAttribute === 'startTime'}
-            onSelect={() => {
-              sort({ sortAttribute: 'startTime', sortDirection: activeSortDirection! });
-            }}
-          >
-            Started
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            isSelected={activeSortAttribute === 'endTime'}
-            onSelect={() => {
-              sort({ sortAttribute: 'endTime', sortDirection: activeSortDirection! });
-            }}
-          >
-            Ended
-          </OptionsMenuItem>
-        </OptionsMenuItemGroup>,
-        <OptionsMenuSeparator />,
-        <OptionsMenuItemGroup>
-          <OptionsMenuItem
-            onSelect={() => sort({ sortAttribute: activeSortAttribute!, sortDirection: 'asc' })}
-            isSelected={activeSortDirection === 'asc'}
-            id="ascending"
-          >
-            Ascending
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            onSelect={() => sort({ sortAttribute: activeSortAttribute!, sortDirection: 'desc' })}
-            isSelected={activeSortDirection === 'desc'}
-            id="descending"
-          >
-            Descending
-          </OptionsMenuItem>
-        </OptionsMenuItemGroup>,
-      ]}
-      isOpen={isSortDropdownOpen}
-      toggle={
-        <OptionsMenuToggle
-          style={timesSortIconStyle}
-          hideCaret
-          onToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-          toggleTemplate={<SortAmountDownIcon />}
-        />
-      }
-      isPlain
-      isGrouped
-      removeFindDomNode
-    />
-  );
 
   return (
     <>
@@ -207,7 +135,16 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Th width={15}>ID</Th>
                 <Th width={35}>Name</Th>
                 <Th width={20} className="overflow-visible">
-                  Times {timesSortIcon}
+                  Times
+                  <SortIcon
+                    sortOptions={sortOptions}
+                    sortingGroup="times"
+                    sort={sort}
+                    activeSortAttribute={activeSortAttribute}
+                    activeSortDirection={activeSortDirection}
+                    isDropdownOpen={isSortDropdownOpen}
+                    onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                  />
                 </Th>
                 <Th width={10} sort={getSortParams(sortOptions['user.username'].id)}>
                   User
