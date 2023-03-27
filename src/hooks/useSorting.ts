@@ -39,7 +39,7 @@ import { validateSortParam } from 'utils/sortParamHelper';
  *   tableColumnIndex: 1
  * }
  */
-interface ISortAttribute {
+export interface ISortAttribute {
   /**
    * ID has to match object key {@link ISortOptions}, there is automatic checker throwing errors if they don't match.
    */
@@ -58,7 +58,6 @@ interface ISortAttribute {
    * If omitted, ascending order is assumed.
    */
   defaultSortOrder?: ISortBy['direction'];
-
   /**
    * PatternFly requires to use table column indexes for sorting purposes.
    * See https://www.patternfly.org/v4/components/table/
@@ -66,6 +65,10 @@ interface ISortAttribute {
    * First column = 0, the second column = 1, etc.
    */
   tableColumnIndex: number;
+  /**
+   * Group of sorting attributes, typically used for sort icons.
+   */
+  sortingGroup?: string;
 }
 
 interface ISortConfig {
@@ -86,6 +89,13 @@ export interface ISortOptions {
   [key: string]: ISortAttribute;
 }
 
+export interface ISortObject {
+  getSortParams: (sortAttribute: string) => ThProps['sort'];
+  sort: (sortConfig: ISortConfig) => void;
+  activeSortAttribute: string | undefined;
+  activeSortDirection: string | undefined;
+}
+
 /**
  * Hook managing sorting functionality for list components like {@link ProjectsList}.
  * - UI changes are propagated to the URL
@@ -95,7 +105,7 @@ export interface ISortOptions {
  * @param sortOptions - Sorting options
  * @param componentId - Component ID
  */
-export const useSorting = (sortOptions: ISortOptions, componentId: string) => {
+export const useSorting = (sortOptions: ISortOptions, componentId: string): ISortObject => {
   /**
    * Check sort options validity. In the future this could be replaced by unified solution covering filtering and sorting.
    */
