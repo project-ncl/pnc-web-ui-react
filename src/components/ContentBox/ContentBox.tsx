@@ -1,5 +1,7 @@
 import { PropsWithChildren } from 'react';
 
+import { DescriptionIcon, IDescription } from 'components/DescriptionIcon/DescriptionIcon';
+
 import styles from './ContentBox.module.css';
 
 interface IContentBoxProps {
@@ -10,6 +12,7 @@ interface IContentBoxProps {
   marginBottom?: boolean;
   title?: string;
   contentHeight?: string;
+  description?: IDescription | string;
 }
 
 export const ContentBox = ({
@@ -21,6 +24,7 @@ export const ContentBox = ({
   marginBottom,
   title,
   contentHeight,
+  description,
 }: PropsWithChildren<IContentBoxProps>) => {
   const classList = [];
 
@@ -44,6 +48,10 @@ export const ContentBox = ({
     classList.push('m-b-25');
   }
 
+  if (description) {
+    classList.push('position-relative');
+  }
+
   return (
     <div className={classList.join(' ')}>
       {title && (
@@ -51,6 +59,7 @@ export const ContentBox = ({
           <strong>{title}</strong>
         </div>
       )}
+      {description && <DescriptionIcon description={description} />}
       <div style={contentHeight ? { height: contentHeight } : undefined}>{children}</div>
     </div>
   );
