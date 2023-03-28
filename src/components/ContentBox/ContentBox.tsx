@@ -45,7 +45,7 @@ export const ContentBox = ({
   }
 
   if (marginBottom) {
-    classList.push('m-b-25');
+    classList.push(styles['margin-bottom']);
   }
 
   return (
