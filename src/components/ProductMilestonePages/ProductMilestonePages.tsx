@@ -1,6 +1,6 @@
-import { Label, Tooltip } from '@patternfly/react-core';
+import { Breadcrumb, BreadcrumbItem, Label, Tooltip } from '@patternfly/react-core';
 import { PropsWithChildren, useEffect } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Link, Outlet, useOutletContext, useParams } from 'react-router-dom';
 
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
@@ -44,6 +44,23 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     })
   );
 
+  const pageBreadcrumb = (
+    <Breadcrumb>
+      <BreadcrumbItem>
+        <Link to="/products">Products</Link>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <Link to="..">{'<unknown>'}</Link>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <Link to={`../versions/${serviceContainerMilestone.data?.productVersion?.id}`}>
+          {serviceContainerMilestone.data?.productVersion?.version}
+        </Link>
+      </BreadcrumbItem>
+      <BreadcrumbItem isActive>{serviceContainerMilestone.data?.version}</BreadcrumbItem>
+    </Breadcrumb>
+  );
+
   const pageTabs = (
     <Tabs>
       <TabsItem url="details">Details</TabsItem>
@@ -65,7 +82,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   return (
     <ServiceContainerLoading {...serviceContainerMilestone} title="Product Milestone details">
-      <PageLayout title={`Product Milestone ${serviceContainerMilestone.data?.version}`} tabs={pageTabs}>
+      <PageLayout
+        title={`Product Milestone ${serviceContainerMilestone.data?.version}`}
+        breadcrumb={pageBreadcrumb}
+        tabs={pageTabs}
+      >
         <Outlet context={{ serviceContainerMilestone }} />
       </PageLayout>
     </ServiceContainerLoading>

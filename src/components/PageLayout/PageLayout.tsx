@@ -1,10 +1,11 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
+import { Divider, PageBreadcrumb, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
 import React from 'react';
 
 interface IAppLayoutProps {
   title: string;
   description?: React.ReactNode; // not just string, also components can be used
   actions?: React.ReactNode;
+  breadcrumb?: React.ReactNode;
   tabs?: React.ReactNode;
 }
 
@@ -26,9 +27,18 @@ interface IAppLayoutProps {
  * ```
  * 
  */
-export const PageLayout = ({ children, title, description, actions, tabs }: React.PropsWithChildren<IAppLayoutProps>) => {
+export const PageLayout = ({
+  children,
+  title,
+  description,
+  actions,
+  breadcrumb,
+  tabs,
+}: React.PropsWithChildren<IAppLayoutProps>) => {
   return (
     <>
+      {breadcrumb && <PageBreadcrumb>{breadcrumb}</PageBreadcrumb>}
+
       <PageSection variant={PageSectionVariants.light}>
         <TextContent className={actions ? 'pull-left' : ''}>
           <Text component="h1">{title}</Text>

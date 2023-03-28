@@ -1,5 +1,6 @@
+import { Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Link, Outlet, useOutletContext, useParams } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
@@ -36,6 +37,18 @@ export const ProductVersionPages = () => {
     })
   );
 
+  const pageBreadcrumb = (
+    <Breadcrumb>
+      <BreadcrumbItem>
+        <Link to="/products">Products</Link>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <Link to="..">{serviceContainerProductVersion.data?.product.name}</Link>
+      </BreadcrumbItem>
+      <BreadcrumbItem isActive>{serviceContainerProductVersion.data?.version}</BreadcrumbItem>
+    </Breadcrumb>
+  );
+
   const pageTabs = (
     <Tabs>
       <TabsItem url="details">Details</TabsItem>
@@ -50,6 +63,7 @@ export const ProductVersionPages = () => {
     <ServiceContainerLoading {...serviceContainerProductVersion} title="Product Version details">
       <PageLayout
         title={`${serviceContainerProductVersion.data?.product.name} ${serviceContainerProductVersion.data?.version}`}
+        breadcrumb={pageBreadcrumb}
         tabs={pageTabs}
       >
         <Outlet context={{ serviceContainerProductVersion }} />
