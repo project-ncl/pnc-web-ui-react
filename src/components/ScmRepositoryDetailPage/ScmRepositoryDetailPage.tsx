@@ -47,7 +47,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.internalUrl && (
-        <ScmRepositoryUrl scmRepository={serviceContainerScmRepository.data} isInternal />
+        <ScmRepositoryUrl internalScmRepository={serviceContainerScmRepository.data} />
       ),
     },
     {
@@ -58,7 +58,7 @@ export const ScmRepositoryDetailPage = () => {
         </>
       ),
       value: serviceContainerScmRepository.data?.externalUrl && (
-        <ScmRepositoryUrl scmRepository={serviceContainerScmRepository.data} isInternal={false} />
+        <ScmRepositoryUrl externalScmRepository={serviceContainerScmRepository.data} />
       ),
     },
     {

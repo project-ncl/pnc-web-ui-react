@@ -35,51 +35,47 @@ export const transformateDateFormat = (date: Date) => {
   return `${year}-${monthString}-${dayString} ${hourString}:${minuteString}`;
 };
 
-interface IParseInternalRepositoryUrl {
-  internalUrl: string;
+interface IParsedScmRepositoryUrl {
+  url: string;
+}
+
+export interface IParsedUrl {
+  url: string;
+  displayName: string;
 }
 
 /**
- * Parses internal repository url to Gerrit gitweb link of the SCM Repository.
+ * Parses internal SCM Repository URL to Gerrit gitweb link of the SCM Repository.
  *
  * @param internalUrl - The internalUrl to be parsed
- * @returns SCM Repository URL
- */
-export const parseInternalRepositoryUrl = ({ internalUrl }: IParseInternalRepositoryUrl) => {
-  const protocol = internalUrl.split('://')[0];
-  const base = internalUrl.split('://')[1].split('/')[0];
-  const project = internalUrl.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
-  return 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
+ * @returns parsedUrl contains parsedUrl and displayName
+ *  */
+export const parseInternalScmRepositoryUrl = ({ url }: IParsedScmRepositoryUrl): IParsedUrl => {
+  const protocol = url.split('://')[0];
+  const base = url.split('://')[1].split('/')[0];
+  const project = url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
+  return { url: 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary', displayName: 'Gerrit' };
 };
 
-interface IParseExternalRepositoryUrl {
-  externalUrl: string;
-}
-
-interface IParseExternalRepositoryUrlResult {
-  url: string | undefined;
-  base: string | undefined;
-}
-
 /**
- * Parses external SCM Url to gitweb link of the SCM Repository.
+ * ParsesSCM Repository URL to gitweb link of the SCM Repository.
  *
  * @param externalUrl - The externalUrl to be parsed
  * @returns  Object contains url and the base of the external url
  */
-export const parseExternalRepositoryUrl = ({ externalUrl }: IParseExternalRepositoryUrl): IParseExternalRepositoryUrlResult => {
-  if (externalUrl.includes('/gerrit/')) {
-    return { url: parseInternalRepositoryUrl({ internalUrl: externalUrl }), base: 'Gerrit' };
+export const parseExternalScmRepositoryUrl = ({ url }: IParsedScmRepositoryUrl): IParsedUrl | undefined => {
+  if (url.includes('/gerrit/')) {
+    return parseInternalScmRepositoryUrl({ url });
   }
-  if (['http', 'https', '@'].some((element) => externalUrl.includes(element))) {
-    const url = externalUrl.includes('@') ? 'https://' + externalUrl.split('@')[1].replace(':', '/') : externalUrl;
-    const base = url.split('://')[1].split('/')[0];
-    return { url, base };
+  if (['http', 'https', '@'].some((element) => url.includes(element))) {
+    const urlRes = url.includes('@') ? 'https://' + url.split('@')[1].replace(':', '/') : url;
+    const base = urlRes.split('://')[1].split('/')[0];
+    return { url: urlRes, displayName: base };
   }
-  if (externalUrl.includes('.git')) {
-    const url = externalUrl;
-    const base = url.split('/')[0];
-    return { url, base };
+  if (url.includes('.git')) {
+    const urlRes = url;
+    const base = urlRes.split('/')[0];
+    return { url: urlRes, displayName: base };
   }
-  return { url: undefined, base: undefined };
+  return undefined;
 };

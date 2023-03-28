@@ -4,93 +4,56 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { SCMRepository } from 'pnc-api-types-ts';
 
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
-import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import { parseExternalRepositoryUrl, parseInternalRepositoryUrl } from 'utils/utils';
+import { IParsedUrl, parseExternalScmRepositoryUrl, parseInternalScmRepositoryUrl } from 'utils/utils';
 
-interface IScmRepositoryUrlButtonProps {
-  url: string;
+interface IUrlButtonProps {
+  parsedUrl: IParsedUrl;
   isInline?: boolean;
 }
 
 /**
- * The Internal Url button that redirect to specific Gerrit page.
+ * The Url button that redirect to specific page.
  *
- * @param url - the external url for the SCM Repository
+ * @param parsedUrl - the object contains url and displayName
  * @param isInline - whether to use inline style with external link action
  */
-const InternalUrlButton = ({ isInline, url }: IScmRepositoryUrlButtonProps) => (
-  <TooltipWrapper tooltip="View in Gerrit">
+const UrlButton = ({ parsedUrl, isInline }: IUrlButtonProps) => (
+  <TooltipWrapper tooltip={'View in ' + parsedUrl.displayName}>
     <Button
       component="a"
-      href={parseInternalRepositoryUrl({ internalUrl: url })}
+      href={parsedUrl.url}
       target="_blank"
       rel="noopener noreferrer"
       variant={isInline ? 'plain' : 'tertiary'}
       icon={<ExternalLinkAltIcon />}
     >
-      {isInline ? <ExternalLinkAltIcon /> : 'Gerrit'}
+      {isInline ? <ExternalLinkAltIcon /> : parsedUrl.displayName}
     </Button>
   </TooltipWrapper>
 );
 
-/**
- * The external button that redirect to specific external page.
- *
- * @param url - the external url for the SCM Repository
- * @param isInline - whether to use inline style with external link action
- */
-const ExternalUrlButton = ({ url, isInline }: IScmRepositoryUrlButtonProps) => {
-  if (!url) {
-    return <></>;
-  }
-  const urlResult = parseExternalRepositoryUrl({ externalUrl: url });
-  if (!urlResult.url) {
-    return <></>;
-  }
-  return (
-    <TooltipWrapper tooltip={`View in ${urlResult.base}`}>
-      <Button
-        component="a"
-        href={urlResult.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        variant={isInline ? 'plain' : 'tertiary'}
-        icon={<ExternalLinkAltIcon />}
-      >
-        {isInline ? <ExternalLinkAltIcon /> : urlResult.base}
-      </Button>
-    </TooltipWrapper>
-  );
-};
-
 interface IScmRepositoryUrlProps {
-  scmRepository: SCMRepository;
-  isInternal: boolean;
+  internalScmRepository?: SCMRepository;
+  externalScmRepository?: SCMRepository;
   isInline?: boolean;
 }
 
 /**
  * Represents the internal/external URL for the SCM Repository.
  *
- * @param scmRepository - the object the SCM Repository
- * @param isInternal - whether this is an internal or external SCM Repository URL
+ * @param internalScmRepository - the SCM Repository to parse its internal url
+ * @param externalScmRepository - the SCM Repository to parse its external url
  * @param isInline - whether to use inline style with external link action
  */
-export const ScmRepositoryUrl = ({ scmRepository, isInternal, isInline }: IScmRepositoryUrlProps) => {
-  const url = isInternal ? scmRepository.internalUrl : scmRepository.externalUrl;
-  if (!url) {
-    return <EmptyStateSymbol />;
-  }
-  return (
-    <CopyToClipboard
-      isInline={isInline}
-      suffixComponent={
-        isInternal ? <InternalUrlButton isInline={isInline} url={url} /> : <ExternalUrlButton isInline={isInline} url={url} />
-      }
-    >
-      {url ? url : <EmptyStateSymbol />}
+export const ScmRepositoryUrl = ({ internalScmRepository, externalScmRepository, isInline }: IScmRepositoryUrlProps) => {
+  const originalUrl = internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl;
+  const parsedUrl = originalUrl ? parseInternalScmRepositoryUrl({ url: originalUrl }) : null;
+
+  return parsedUrl ? (
+    <CopyToClipboard isInline={isInline} suffixComponent={<UrlButton isInline={isInline} parsedUrl={parsedUrl} />}>
+      {originalUrl}
     </CopyToClipboard>
-  );
+  ) : null;
 };

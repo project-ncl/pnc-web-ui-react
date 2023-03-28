@@ -757,8 +757,7 @@ export const DemoPage = () => {
           <ContentBox title="ScmRepositoryUrl" padding>
             <span>
               <ScmRepositoryUrl
-                isInternal
-                scmRepository={{
+                internalScmRepository={{
                   id: '101',
                   internalUrl: 'https://code.repo.com/testUrlClipboardCopyGerrit',
                   externalUrl: 'https://github.com/testRepo/empty2.git',
@@ -769,9 +768,8 @@ export const DemoPage = () => {
             <br />
             <span>
               <ScmRepositoryUrl
-                isInternal
                 isInline
-                scmRepository={{
+                internalScmRepository={{
                   id: '101',
                   internalUrl: 'https://github.com/test/testInlineCopy.git',
                   externalUrl: 'https://github.com/testRepo/empty2.git',
@@ -782,9 +780,8 @@ export const DemoPage = () => {
             <br />
             <span>
               <ScmRepositoryUrl
-                isInternal={false}
                 isInline
-                scmRepository={{
+                externalScmRepository={{
                   id: '101',
                   internalUrl: 'https://github.com/test/testInlineCopy.git',
                   externalUrl: 'https://github.com/test/testInlineCopyRedirectExternal.git',
