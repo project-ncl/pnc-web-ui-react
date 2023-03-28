@@ -159,7 +159,6 @@ export const ProductMilestoneDetailPage = () => {
             <DoughnutChart
               data={serviceContainerStatistics.data?.artifactQuality}
               description="Chart displays proportion of quality of Delivered Artifacts."
-              legendHeight={100}
             />
           </ServiceContainerLoading>
         </ContentBox>
@@ -212,7 +211,6 @@ export const ProductMilestoneDetailPage = () => {
                   </dl>
                 </div>
               }
-              legendHeight={100}
             />
           </ServiceContainerLoading>
         </ContentBox>

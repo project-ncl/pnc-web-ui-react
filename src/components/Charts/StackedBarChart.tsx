@@ -3,61 +3,66 @@ import { useEffect, useRef } from 'react';
 
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
+import { COLORS } from 'components/Charts/common';
 
-import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
+import { legendHeightPlugin } from 'libs/chartJSPlugins';
 
 /**
  * @example
  * {
- *   BUILT: 25,
- *   IMPORTED: 65,
- *   DEPRECATED: 10
+ *   label: "BUILT",
+ *   data: [17, 10, 23]
  * }
  */
-interface IDoughnutData {
-  [key: string]: number;
+interface IStackedBarChartDataset {
+  label: string;
+  data: number[];
 }
 
-interface IDoughnutChartProps {
-  data: IDoughnutData;
+export interface IStackedBarChartProps {
+  data: IStackedBarChartDataset[];
+  labels: string[];
   id?: string;
   description?: IDescription;
   legendHeight?: number;
 }
 
 /**
- * Chart.js Dougnut chart.
+ * Chart.js horizontal Stacked Bar chart.
  *
  * @param data - Chart data
+ * @param labels - Labels of stacked rows
  * @param id - ID of canvas
  * @param description - Description to be displayed in help icon
  * @param legendHeight - Legend height
  */
-export const DoughnutChart = ({ data, id, description, legendHeight = 100 }: IDoughnutChartProps) => {
+export const StackedBarChart = ({ data, labels, id, description, legendHeight = 100 }: IStackedBarChartProps) => {
   const chart = useRef<Chart>();
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const labels = data ? Object.keys(data) : [];
-    const values = data ? Object.values(data) : [];
-
     const chartConfig: ChartConfiguration = {
-      type: 'doughnut',
+      type: 'bar',
       data: {
-        datasets: [
-          {
-            data: values,
-          },
-        ],
+        datasets: data.map((dataset: IStackedBarChartDataset, index: number) => {
+          return { ...dataset, backgroundColor: COLORS[index % COLORS.length] };
+        }),
         labels: labels,
       },
       options: {
-        elements: {
-          center: {
-            text: values.reduce((a, b) => a + b, 0),
-            fontStyle:
-              '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+        indexAxis: 'y',
+        scales: {
+          x: {
+            stacked: true,
           },
+          y: {
+            stacked: true,
+            grid: {
+              display: false,
+            },
+          },
+        },
+        elements: {
           legend: {
             height: legendHeight,
           },
@@ -77,7 +82,7 @@ export const DoughnutChart = ({ data, id, description, legendHeight = 100 }: IDo
         responsive: true,
         maintainAspectRatio: false,
       },
-      plugins: [...(legendHeight ? [legendHeightPlugin] : []), dougnutCenterPlugin],
+      plugins: [...(legendHeight ? [legendHeightPlugin] : [])],
     };
 
     if (!chart.current) {
@@ -91,7 +96,7 @@ export const DoughnutChart = ({ data, id, description, legendHeight = 100 }: IDo
       chart.current.config.options = chartConfig.options;
       chart.current.update();
     }
-  }, [data, legendHeight]);
+  }, [data, labels, legendHeight]);
 
   return (
     <ChartBox description={description}>
