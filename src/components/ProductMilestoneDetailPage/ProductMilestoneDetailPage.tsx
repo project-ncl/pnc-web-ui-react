@@ -122,7 +122,7 @@ export const ProductMilestoneDetailPage = () => {
         </CardFlex>
       </GridItem>
 
-      <GridItem span={6}>
+      <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
             <TextContent>
@@ -150,7 +150,7 @@ export const ProductMilestoneDetailPage = () => {
         </ContentBox>
       </GridItem>
 
-      <GridItem span={6}>
+      <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
             <TextContent>
