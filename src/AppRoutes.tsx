@@ -18,6 +18,7 @@ import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneClo
 import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
+import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
 import { ProductVersionDetailPage } from 'components/ProductVersionDetailPage/ProductVersionDetailPage';
@@ -52,13 +53,16 @@ export const AppRoutes = () => (
           <Route path="group-configs" element={<ProductVersionGroupConfigsPage />} />
           <Route index element={<Navigate to="details" replace />} />
         </Route>
-        <Route path="versions/:productVersionId/milestones/:productMilestoneId" element={<ProductMilestonePages />}>
-          <Route path="details" element={<ProductMilestoneDetailPage />} />
-          <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
-          <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
-          <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
-          <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
-          <Route index element={<Navigate to="details" replace />} />
+        <Route path="versions/:productVersionId">
+          <Route path="milestones/:productMilestoneId" element={<ProductMilestonePages />}>
+            <Route path="details" element={<ProductMilestoneDetailPage />} />
+            <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
+            <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
+            <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+            <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
+            <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
+            <Route index element={<Navigate to="details" replace />} />
+          </Route>
         </Route>
       </Route>
     </Route>

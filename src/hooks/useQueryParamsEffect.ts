@@ -8,6 +8,7 @@ import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAr
 interface IMandatoryQueryParams {
   pagination?: boolean;
   sorting?: boolean;
+  milestone?: boolean;
 }
 
 const listMandatoryQueryParams: IMandatoryQueryParams = { pagination: true, sorting: true };
@@ -18,6 +19,11 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
   }
 
   if (mandatoryParams.sorting && !componentQueryParamsObject.sort) {
+    return false;
+  }
+
+  // Example usage: ProductMilestoneInterconnectionGraphPage
+  if (mandatoryParams.milestone && (!componentQueryParamsObject.milestone1 || !componentQueryParamsObject.milestone2)) {
     return false;
   }
 

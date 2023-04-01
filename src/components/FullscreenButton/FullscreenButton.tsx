@@ -1,12 +1,18 @@
 import { Button } from '@patternfly/react-core';
 import { CompressIcon, ExpandArrowsAltIcon } from '@patternfly/react-icons';
-import { MutableRefObject, useEffect, useState } from 'react';
+import { MutableRefObject } from 'react';
+
+import { useFullscreen } from 'hooks/useFullscreen';
+
+import { uiLogger } from 'services/uiLogger';
 
 import styles from './FullscreenButton.module.css';
 
 const toggleFullScreen = (containerRef: MutableRefObject<HTMLDivElement | null>) => {
   if (document.fullscreenElement !== containerRef?.current) {
-    containerRef.current?.requestFullscreen();
+    containerRef.current?.requestFullscreen().catch((err) => {
+      uiLogger.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+    });
   } else {
     document.exitFullscreen();
   }
@@ -17,17 +23,11 @@ interface IFullscreenButtonProps {
 }
 
 export const FullscreenButton = ({ containerRef }: IFullscreenButtonProps) => {
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const onFullscrenChange = () => setIsFullScreen((state) => !state);
-    document.addEventListener('fullscreenchange', onFullscrenChange);
-    return () => document.removeEventListener('fullscreenchange', onFullscrenChange);
-  }, []);
+  const { isFullscreen } = useFullscreen();
 
   return (
     <Button className={styles['fullscreen-button']} onClick={() => toggleFullScreen(containerRef)}>
-      {isFullScreen ? <CompressIcon /> : <ExpandArrowsAltIcon />}
+      {isFullscreen ? <CompressIcon /> : <ExpandArrowsAltIcon />}
     </Button>
   );
 };
