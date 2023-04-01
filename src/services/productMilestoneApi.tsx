@@ -65,3 +65,21 @@ export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig:
 export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return mockClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
 };
+
+/**
+ * Gets Product Milestone interconnection graph.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return mockClient.getHttpClient().get<any>(`/product-milestones/${id}/interconnection-graph`, requestConfig);
+};
+
+/**
+ * Gets shared Delivered Artifacts between Product Milestones.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getSharedDeliveredArtifacts = (requestConfig: AxiosRequestConfig = {}) => {
+  return mockClient.getHttpClient().get<any>(`/product-milestone-shared-delivered-artifacts`, requestConfig);
+};

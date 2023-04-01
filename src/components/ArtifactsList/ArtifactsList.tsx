@@ -208,7 +208,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
 
   return (
     <>
-      <Toolbar>
+      <Toolbar borderTop>
         <ToolbarItem>
           <Filtering
             filterOptions={filterOptions}
@@ -248,7 +248,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerArtifacts} title={PageTitles.artifacts}>
+        <ServiceContainerLoading loadingDelayMilliseconds={0} {...serviceContainerArtifacts} title={PageTitles.artifacts}>
           <TableComposable isExpandable isStriped variant="compact">
             <Thead>
               {/**

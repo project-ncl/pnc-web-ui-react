@@ -1,0 +1,11 @@
+.selected-nodes-info {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 100;
+}
+
+.unselect-nodes-button {
+  margin-left: 5px;
+  padding: 0;
+}

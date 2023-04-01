@@ -60,6 +60,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           </Label>
         </Tooltip>
       </TabsItem>
+      <TabsItem url="interconnection-graph">Interconnection Graph</TabsItem>
     </Tabs>
   );
 

@@ -16,6 +16,9 @@
     "axios": "^1.2.6",
     "chart.js": "^4.2.0",
     "fast-json-patch": "^3.1.1",
+    "graphology": "^0.25.1",
+    "graphology-layout": "^0.6.1",
+    "graphology-layout-forceatlas2": "^0.10.1",
     "lodash": "^4.17.21",
     "pnc-api-types-ts": "project-ncl/pnc-api-types-ts#v2.3.0-pnc-2.3.0",
     "react": "^17.0.2",
@@ -23,6 +26,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.1",
     "react-test-renderer": "^17.0.2",
+    "sigma": "^3.0.0-alpha3",
     "typescript": "^4.3.2",
     "web-vitals": "^2.1.4"
   },
