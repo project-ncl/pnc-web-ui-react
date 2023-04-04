@@ -48,10 +48,6 @@ export const ContentBox = ({
     classList.push('m-b-25');
   }
 
-  if (description) {
-    classList.push('position-relative');
-  }
-
   return (
     <div className={classList.join(' ')}>
       {title && (

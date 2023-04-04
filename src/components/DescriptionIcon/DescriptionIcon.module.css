@@ -1,9 +1,18 @@
-.description {
-  position: absolute;
-  top: 1px;
-  right: 7px;
+.box-description {
+  text-align: right;
+  padding-right: 4px;
+}
+
+.description-icon {
+  font-size: 15px;
   font-style: italic;
-  color: #9b9b9b;
+  text-decoration: var(--pf-global--link--TextDecoration);
+  color: var(--pf-global--link--Color);
+}
+
+.description-icon:hover {
+  color: var(--pf-global--link--Color--hover);
+  text-decoration: var(--pf-global--link--TextDecoration--hover);
 }
 
 .description-attribute {
@@ -13,15 +22,4 @@
 
 .description-attribute:last-child {
   margin-bottom: 0;
-}
-
-.description-icon {
-  font-size: 15px;
-  color: var(--pf-global--link--Color);
-  text-decoration: var(--pf-global--link--TextDecoration);
-}
-
-.description-icon:hover {
-  color: var(--pf-global--link--Color--hover);
-  text-decoration: var(--pf-global--link--TextDecoration--hover);
 }

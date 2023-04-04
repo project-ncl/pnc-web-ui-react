@@ -18,9 +18,11 @@ interface IChartBoxProps {
  */
 export const ChartBox = ({ children, description }: PropsWithChildren<IChartBoxProps>) => {
   return (
-    <div className={styles['chart-body']}>
+    <div className={styles['chart-box']}>
       {description && <DescriptionIcon description={description} />}
-      <div className={styles['canvas-wrapper']}>{children}</div>
+      <div className={styles['chart-body']}>
+        <div className={styles['canvas-wrapper']}>{children}</div>
+      </div>
     </div>
   );
 };
