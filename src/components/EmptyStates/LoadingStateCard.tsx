@@ -30,9 +30,12 @@ export const LoadingStateCard = ({
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(true), delayMilliseconds);
-
-    return () => clearTimeout(timer);
+    if (delayMilliseconds) {
+      const timer = setTimeout(() => setShow(true), delayMilliseconds);
+      return () => clearTimeout(timer);
+    } else {
+      setShow(true);
+    }
   }, [delayMilliseconds]);
 
   // skeleton needs to be shown immediately
