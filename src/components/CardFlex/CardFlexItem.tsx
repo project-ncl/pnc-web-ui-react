@@ -1,8 +1,8 @@
 import { FlexItem, FlexItemProps } from '@patternfly/react-core';
 import { PropsWithChildren } from 'react';
 
+import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { IDescription } from 'components/DescriptionIcon/DescriptionIcon';
 
 import styles from './CardFlexItem.module.css';
 

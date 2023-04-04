@@ -3,7 +3,7 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import styles from './DescriptionIcon.module.css';
+import styles from './BoxDescription.module.css';
 
 interface IDescriptionAttribute {
   label: string;
@@ -15,7 +15,7 @@ export interface IDescription {
   attributes?: IDescriptionAttribute[];
 }
 
-interface IDescriptionIconProps {
+interface IBoxDescriptionProps {
   description: IDescription | string;
 }
 
@@ -26,7 +26,7 @@ interface IDescriptionIconProps {
  *
  * @param description - Description to be displayed on icon hover
  */
-export const DescriptionIcon = ({ description }: IDescriptionIconProps) => (
+export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
   <div className={styles['box-description']}>
     {typeof description === 'string' ? (
       <TooltipWrapper tooltip={description}>
