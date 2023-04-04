@@ -14,12 +14,3 @@
   color: var(--pf-global--link--Color--hover);
   text-decoration: var(--pf-global--link--TextDecoration--hover);
 }
-
-.description-attribute {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.description-attribute:last-child {
-  margin-bottom: 0;
-}
