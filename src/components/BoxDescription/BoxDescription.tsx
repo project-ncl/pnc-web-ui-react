@@ -15,6 +15,12 @@ export interface IDescription {
   attributes?: IDescriptionAttribute[];
 }
 
+const DescriptionIcon = () => (
+  <span className={styles['description-icon']}>
+    <InfoCircleIcon />
+  </span>
+);
+
 interface IBoxDescriptionProps {
   description: IDescription | string;
 }
@@ -30,9 +36,7 @@ export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
   <div className={styles['box-description']}>
     {typeof description === 'string' ? (
       <TooltipWrapper tooltip={description}>
-        <span className={styles['description-icon']}>
-          <InfoCircleIcon />
-        </span>
+        <DescriptionIcon />
       </TooltipWrapper>
     ) : (
       <Popover
@@ -55,9 +59,7 @@ export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
         enableFlip={false}
         position="left-start"
       >
-        <span className={styles['description-icon']}>
-          <InfoCircleIcon />
-        </span>
+        <DescriptionIcon />
       </Popover>
     )}
   </div>
