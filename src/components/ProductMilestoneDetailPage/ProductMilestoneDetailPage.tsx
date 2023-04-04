@@ -8,9 +8,9 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
-import { CardDescription } from 'components/CardFlex/CardDescription';
 import { CardFlex } from 'components/CardFlex/CardFlex';
 import { CardFlexItem } from 'components/CardFlex/CardFlexItem';
+import { CardTitle } from 'components/CardFlex/CardTitle';
 import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -85,7 +85,7 @@ export const ProductMilestoneDetailPage = () => {
                 {serviceContainerStatistics.data?.artifactSource.thisMilestone}
               </ServiceContainerLoading>
             </CardValue>
-            <CardDescription>Artifact built in this Milestone</CardDescription>
+            <CardTitle>Artifact built in this Milestone</CardTitle>
           </CardFlexItem>
           <CardFlexItem description="Description... TODO">
             <CardValue>
@@ -93,7 +93,7 @@ export const ProductMilestoneDetailPage = () => {
                 {serviceContainerStatistics.data?.artifactSource.otherMilestones}
               </ServiceContainerLoading>
             </CardValue>
-            <CardDescription>Artifacts built in other Milestones</CardDescription>
+            <CardTitle>Artifacts built in other Milestones</CardTitle>
           </CardFlexItem>
           <CardFlexItem description="Description... TODO">
             <CardValue>
@@ -101,7 +101,7 @@ export const ProductMilestoneDetailPage = () => {
                 {serviceContainerStatistics.data?.artifactSource.notBuilt}
               </ServiceContainerLoading>
             </CardValue>
-            <CardDescription>Artifacts not built in a Milestone</CardDescription>
+            <CardTitle>Artifacts not built in a Milestone</CardTitle>
           </CardFlexItem>
           <CardFlexItem description="Description... TODO">
             <CardValue>
@@ -109,7 +109,7 @@ export const ProductMilestoneDetailPage = () => {
                 {serviceContainerStatistics.data?.previousMilestones}
               </ServiceContainerLoading>
             </CardValue>
-            <CardDescription>Previous Milestones</CardDescription>
+            <CardTitle>Previous Milestones</CardTitle>
           </CardFlexItem>
           <CardFlexItem description="Description... TODO">
             <CardValue>
@@ -117,7 +117,7 @@ export const ProductMilestoneDetailPage = () => {
                 {serviceContainerStatistics.data?.artifactSource.previousMilestones}
               </ServiceContainerLoading>
             </CardValue>
-            <CardDescription>Artifacts from previous Milestones</CardDescription>
+            <CardTitle>Artifacts from previous Milestones</CardTitle>
           </CardFlexItem>
         </CardFlex>
       </GridItem>
