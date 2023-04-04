@@ -256,7 +256,7 @@ Object {
                     class=""
                   />
                   <th
-                    class=""
+                    class="pf-m-width-10"
                   />
                   <th
                     aria-sort="ascending"
@@ -1146,7 +1146,7 @@ Object {
                   class=""
                 />
                 <th
-                  class=""
+                  class="pf-m-width-10"
                 />
                 <th
                   aria-sort="ascending"

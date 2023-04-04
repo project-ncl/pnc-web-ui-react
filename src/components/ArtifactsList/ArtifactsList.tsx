@@ -13,6 +13,7 @@ import { DownloadIcon } from '@patternfly/react-icons';
 import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Artifact } from 'pnc-api-types-ts';
 
@@ -33,6 +34,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+// TODO: filter based on columns property
 const filterOptions: IFilterOptions = {
   filterAttributes: {
     identifier: {
@@ -83,9 +85,22 @@ const filterOptions: IFilterOptions = {
       placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
+    'product.name': {
+      id: 'product.name',
+      title: 'Product Name',
+      placeholder: 'string | !string | s?ring | st*ng',
+      operator: '=like=',
+    },
+    'productMilestone.version': {
+      id: 'productMilestone.version',
+      title: 'Miletone Name',
+      placeholder: 'string | !string | s?ring | st*ng',
+      operator: '=like=',
+    },
   },
 };
 
+// TODO: filter based on columns property
 const sortOptions: ISortOptions = {
   identifier: {
     id: 'identifier',
@@ -113,6 +128,16 @@ const sortOptions: ISortOptions = {
     title: 'Artifact Quality',
     tableColumnIndex: 4,
   },
+  'product.name': {
+    id: 'product.name',
+    title: 'Product Name',
+    tableColumnIndex: 5,
+  },
+  'productMilestone.version': {
+    id: 'productMilestone.version',
+    title: 'Miletone Name',
+    tableColumnIndex: 6,
+  },
 };
 
 const spaceItemsSm: FlexProps['spaceItems'] = { default: 'spaceItemsSm' };
@@ -120,8 +145,21 @@ const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
 interface IArtifactsListProps {
   serviceContainerArtifacts: IServiceContainer;
+  columns?: string[];
   componentId: string;
 }
+
+const defaultColumns = [
+  'identifier',
+  'targetRepository.repositoryType',
+  'buildCategory',
+  'filename',
+  'artifactQuality',
+  'md5',
+  'sha1',
+  'sha256',
+  'build',
+];
 
 /**
  * Component displaying list of Artifacts.
@@ -129,7 +167,7 @@ interface IArtifactsListProps {
  * @param serviceContainerArtifacts - Service Container for Artifacts
  * @param componentId - Component ID
  */
-export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtifactsListProps) => {
+export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColumns, componentId }: IArtifactsListProps) => {
   const { getSortParams } = useSorting(sortOptions, componentId);
 
   const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
@@ -230,25 +268,45 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                */}
               <Tr>
                 <Th />
-                <Th />
-                <Th width={30} sort={getSortParams(sortOptions['identifier'].id)}>
-                  Identifier
-                </Th>
-                <Th width={15} sort={getSortParams(sortOptions['targetRepository.repositoryType'].id)}>
-                  Repository Type
-                </Th>
-                <Th width={15} sort={getSortParams(sortOptions['buildCategory'].id)}>
-                  Build Category
-                </Th>
-                <Th width={25} sort={getSortParams(sortOptions['filename'].id)}>
-                  Filename
-                </Th>
-                <Th width={15} sort={getSortParams(sortOptions['artifactQuality'].id)}>
-                  Artifact Quality
-                </Th>
+                {columns.includes('build') && <Th width={10} />}
+                {columns.includes('identifier') && (
+                  <Th width={30} sort={getSortParams(sortOptions['identifier'].id)}>
+                    Identifier
+                  </Th>
+                )}
+                {columns.includes('targetRepository.repositoryType') && (
+                  <Th width={15} sort={getSortParams(sortOptions['targetRepository.repositoryType'].id)}>
+                    Repository Type
+                  </Th>
+                )}
+                {columns.includes('buildCategory') && (
+                  <Th width={15} sort={getSortParams(sortOptions['buildCategory'].id)}>
+                    Build Category
+                  </Th>
+                )}
+                {columns.includes('filename') && (
+                  <Th width={25} sort={getSortParams(sortOptions['filename'].id)}>
+                    Filename
+                  </Th>
+                )}
+                {columns.includes('artifactQuality') && (
+                  <Th width={15} sort={getSortParams(sortOptions['artifactQuality'].id)}>
+                    Artifact Quality
+                  </Th>
+                )}
+                {columns.includes('product.name') && (
+                  <Th width={30} sort={getSortParams(sortOptions['product.name'].id)}>
+                    Source Product
+                  </Th>
+                )}
+                {columns.includes('productMilestone.version') && (
+                  <Th width={30} sort={getSortParams(sortOptions['productMilestone.version'].id)}>
+                    Source Milestone
+                  </Th>
+                )}
               </Tr>
             </Thead>
-            {serviceContainerArtifacts.data?.content.map((artifact: Artifact, rowIndex: number) => (
+            {serviceContainerArtifacts.data?.content.map((artifact: any, rowIndex: number) => (
               <Tbody key={rowIndex}>
                 <Tr>
                   <Td
@@ -262,45 +320,71 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                       },
                     }}
                   />
-                  <Td>
-                    {artifact.build && (
-                      <TooltipWrapper tooltip="Artifact is associated with Build. Expand table row to see Build details.">
-                        <BuildIcon />
-                      </TooltipWrapper>
-                    )}
-                  </Td>
-                  <Td>
-                    <Flex spaceItems={spaceItemsLg}>
-                      <FlexItem>
-                        {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
-                      </FlexItem>
-                    </Flex>
-                  </Td>
-                  <Td>
-                    {artifact.targetRepository?.repositoryType && (
-                      <ArtifactRepositoryTypeLabel repositoryType={artifact.targetRepository?.repositoryType} />
-                    )}
-                  </Td>
-                  <Td>
-                    <Label color="grey">{artifact.buildCategory}</Label>
-                  </Td>
-                  <Td>
-                    <Flex spaceItems={spaceItemsSm}>
-                      <FlexItem>
-                        <a href={artifact.publicUrl} target="_self">
-                          <DownloadIcon />
-                        </a>
-                      </FlexItem>
-                      <FlexItem>
-                        <a href={artifact.publicUrl} target="_self">
-                          {artifact.filename}
-                        </a>
-                      </FlexItem>
-                    </Flex>
-                  </Td>
-                  <Td>
-                    <ArtifactQualityLabel quality={artifact.artifactQuality} />
-                  </Td>
+                  {columns.includes('build') && (
+                    <Td>
+                      {artifact.build && (
+                        <TooltipWrapper tooltip="Artifact is associated with Build. Expand table row to see Build details.">
+                          <BuildIcon />
+                        </TooltipWrapper>
+                      )}
+                    </Td>
+                  )}
+                  {columns.includes('identifier') && (
+                    <Td>
+                      <Flex spaceItems={spaceItemsLg}>
+                        <FlexItem>
+                          {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
+                        </FlexItem>
+                      </Flex>
+                    </Td>
+                  )}
+                  {columns.includes('targetRepository.repositoryType') && (
+                    <Td>
+                      {artifact.targetRepository?.repositoryType && (
+                        <ArtifactRepositoryTypeLabel repositoryType={artifact.targetRepository?.repositoryType} />
+                      )}
+                    </Td>
+                  )}
+                  {columns.includes('buildCategory') && (
+                    <Td>
+                      <Label color="grey">{artifact.buildCategory}</Label>
+                    </Td>
+                  )}
+                  {columns.includes('filename') && (
+                    <Td>
+                      <Flex spaceItems={spaceItemsSm}>
+                        <FlexItem>
+                          <a href={artifact.publicUrl} target="_self">
+                            <DownloadIcon />
+                          </a>
+                        </FlexItem>
+                        <FlexItem>
+                          <a href={artifact.publicUrl} target="_self">
+                            {artifact.filename}
+                          </a>
+                        </FlexItem>
+                      </Flex>
+                    </Td>
+                  )}
+                  {columns.includes('artifactQuality') && (
+                    <Td>
+                      <ArtifactQualityLabel quality={artifact.artifactQuality} />
+                    </Td>
+                  )}
+                  {columns.includes('product.name') && (
+                    <Td>
+                      <Link to={`/products/${artifact.product?.id}`}>{artifact.product?.name}</Link>
+                    </Td>
+                  )}
+                  {columns.includes('productMilestone.version') && (
+                    <Td>
+                      <Link
+                        to={`/products/${artifact.product?.id}/versions/${artifact.productVersion?.id}/milestones/${artifact.productMilestone?.id}`}
+                      >
+                        {artifact.productMilestone?.version}
+                      </Link>
+                    </Td>
+                  )}
                 </Tr>
                 <Tr isExpanded={isArtifactExpanded(artifact)}>
                   <Td />
@@ -319,7 +403,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, componentId }: IArtif
                           <DescriptionListTerm>sha256</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.sha256}</DescriptionListDescription>
                         </DescriptionListGroup>
-                        {artifact.build && (
+                        {columns.includes('build') && artifact.build && (
                           <DescriptionListGroup className="m-t-10">
                             <DescriptionListTerm>Build</DescriptionListTerm>
                             <DescriptionListDescription>
