@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import { DescriptionIcon, IDescription } from 'components/DescriptionIcon/DescriptionIcon';
+import { BoxDescription, IDescription } from 'components/BoxDescription/BoxDescription';
 
 import styles from './ChartBox.module.css';
 
@@ -19,7 +19,7 @@ interface IChartBoxProps {
 export const ChartBox = ({ children, description }: PropsWithChildren<IChartBoxProps>) => {
   return (
     <div className={styles['chart-box']}>
-      {description && <DescriptionIcon description={description} />}
+      {description && <BoxDescription description={description} />}
       <div className={styles['chart-body']}>
         <div className={styles['canvas-wrapper']}>{children}</div>
       </div>

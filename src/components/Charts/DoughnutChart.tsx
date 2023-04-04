@@ -1,8 +1,8 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 import { useEffect, useRef } from 'react';
 
+import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
-import { IDescription } from 'components/DescriptionIcon/DescriptionIcon';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
 

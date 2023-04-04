@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import { DescriptionIcon, IDescription } from 'components/DescriptionIcon/DescriptionIcon';
+import { BoxDescription, IDescription } from 'components/BoxDescription/BoxDescription';
 
 import styles from './ContentBox.module.css';
 
@@ -55,7 +55,7 @@ export const ContentBox = ({
           <strong>{title}</strong>
         </div>
       )}
-      {description && <DescriptionIcon description={description} />}
+      {description && <BoxDescription description={description} />}
       <div style={contentHeight ? { height: contentHeight } : undefined}>{children}</div>
     </div>
   );
