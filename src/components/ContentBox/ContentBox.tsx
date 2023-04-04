@@ -12,7 +12,7 @@ interface IContentBoxProps {
   marginBottom?: boolean;
   title?: string;
   contentHeight?: string;
-  description?: IDescription | string;
+  description?: IDescription;
 }
 
 export const ContentBox = ({
