@@ -42,6 +42,14 @@ code {
   margin: 15px !important;
 }
 
+.m-t-20 {
+  margin-top: 20px !important;
+}
+
+.m-t-40 {
+  margin-top: 40px !important;
+}
+
 .m-b-10 {
   margin-bottom: 10px !important;
 }

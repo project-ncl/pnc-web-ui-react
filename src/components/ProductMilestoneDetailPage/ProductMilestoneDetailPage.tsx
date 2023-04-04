@@ -134,16 +134,17 @@ export const ProductMilestoneDetailPage = () => {
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.artifactQuality}
-              description={{
-                textTop: 'Chart displays proportion of quality of delivered artifacts.',
-                attributes: [
-                  // TODO
-                  {
-                    label: 'BUILT',
-                    value: 'Built artifact...',
-                  },
-                ],
-              }}
+              description={
+                <div>
+                  Chart displays proportion of quality of delivered artifacts.
+                  <dl className="m-t-20">
+                    <dt>
+                      <b>BUILT</b>
+                    </dt>
+                    <dd>Built artifact...</dd>
+                  </dl>
+                </div>
+              }
               legendHeight={100}
             />
           </ServiceContainerLoading>
@@ -162,16 +163,17 @@ export const ProductMilestoneDetailPage = () => {
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.repositoryType}
-              description={{
-                textTop: 'Chart displays proportion of repository type of delivered artifacts.',
-                attributes: [
-                  // TODO
-                  {
-                    label: 'MAVEN',
-                    value: 'Artifact from MAVEN...',
-                  },
-                ],
-              }}
+              description={
+                <div>
+                  Chart displays proportion of repository type of delivered artifacts.
+                  <dl className="m-t-20">
+                    <dt>
+                      <b>MAVEN</b>
+                    </dt>
+                    <dd>Artifact from MAVEN...</dd>
+                  </dl>
+                </div>
+              }
               legendHeight={100}
             />
           </ServiceContainerLoading>

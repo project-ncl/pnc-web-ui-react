@@ -9,7 +9,7 @@ import styles from './CardFlexItem.module.css';
 const flexValue: FlexItemProps['flex'] = { default: 'flex_1' };
 
 interface ICardFlexItemProps {
-  description?: IDescription | string;
+  description?: IDescription;
 }
 
 export const CardFlexItem = ({ children, description }: PropsWithChildren<ICardFlexItemProps>) => (
