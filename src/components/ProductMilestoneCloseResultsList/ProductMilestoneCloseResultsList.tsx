@@ -77,7 +77,7 @@ export const ProductMilestoneCloseResultsList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>Close Result Id</Th>
+                <Th width={20}>ID</Th>
                 <Th width={30} sort={getSortParams(sortOptions['startingDate'].id)}>
                   Start Date
                 </Th>
