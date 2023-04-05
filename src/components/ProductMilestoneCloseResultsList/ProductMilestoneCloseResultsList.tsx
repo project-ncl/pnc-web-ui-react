@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
@@ -26,6 +27,26 @@ const filterOptions: IFilterOptions = {
   },
 };
 
+const sortOptions: ISortOptions = {
+  startingDate: {
+    id: 'startingDate',
+    title: 'Start Date',
+    tableColumnIndex: 1,
+    isDefault: true,
+    defaultSortOrder: 'desc',
+  },
+  endDate: {
+    id: 'endDate',
+    title: 'End Date',
+    tableColumnIndex: 2,
+  },
+  status: {
+    id: 'status',
+    title: 'Status',
+    tableColumnIndex: 3,
+  },
+};
+
 interface IProductMilestoneCloseResultsListProps {
   serviceContainerCloseResults: IServiceContainer;
   componentId: string;
@@ -41,6 +62,8 @@ export const ProductMilestoneCloseResultsList = ({
   serviceContainerCloseResults,
   componentId,
 }: IProductMilestoneCloseResultsListProps) => {
+  const { getSortParams } = useSorting(sortOptions, componentId);
+
   return (
     <>
       <Toolbar>
@@ -54,16 +77,26 @@ export const ProductMilestoneCloseResultsList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={60}>Date</Th>
-                <Th>Status</Th>
+                <Th width={20}>Close Result Id</Th>
+                <Th width={30} sort={getSortParams(sortOptions['startingDate'].id)}>
+                  Start Date
+                </Th>
+                <Th width={30} sort={getSortParams(sortOptions['endDate'].id)}>
+                  End Date
+                </Th>
+                <Th width={20} sort={getSortParams(sortOptions['status'].id)}>
+                  Status
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerCloseResults.data?.content.map((closeResult: ProductMilestoneCloseResult, rowIndex: number) => (
                 <Tr key={rowIndex}>
                   <Td>
-                    <Link to="">{createDateTime({ date: closeResult.endDate || closeResult.startingDate })}</Link>
+                    <Link to="">{closeResult.id}</Link>
                   </Td>
+                  <Td>{createDateTime({ date: closeResult.startingDate })}</Td>
+                  <Td>{closeResult.endDate && createDateTime({ date: closeResult.endDate })}</Td>
                   <Td>
                     <ProductMilestoneCloseStatusLabel status={closeResult.status} />
                   </Td>
