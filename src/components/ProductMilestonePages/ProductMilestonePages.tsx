@@ -26,7 +26,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
   const serviceContainerMilestoneRunner = serviceContainerMilestone.run;
 
-  const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getProductMilestoneDeliveredArtifacts);
+  const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   useEffect(() => {
