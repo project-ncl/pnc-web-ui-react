@@ -34,7 +34,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-// TODO: filter based on columns property
+// TODO: filter based on columns property, NCL-7612
 const filterOptions: IFilterOptions = {
   filterAttributes: {
     identifier: {
@@ -93,14 +93,14 @@ const filterOptions: IFilterOptions = {
     },
     'productMilestone.version': {
       id: 'productMilestone.version',
-      title: 'Miletone Name',
+      title: 'Miletone Version',
       placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },
 };
 
-// TODO: filter based on columns property
+// TODO: filter based on columns property, NCL-7612
 const sortOptions: ISortOptions = {
   identifier: {
     id: 'identifier',
@@ -135,7 +135,7 @@ const sortOptions: ISortOptions = {
   },
   'productMilestone.version': {
     id: 'productMilestone.version',
-    title: 'Miletone Name',
+    title: 'Miletone Version',
     tableColumnIndex: 6,
   },
 };
@@ -306,6 +306,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                 )}
               </Tr>
             </Thead>
+            {/* TODO: Change type from any, NCL-7766 */}
             {serviceContainerArtifacts.data?.content.map((artifact: any, rowIndex: number) => (
               <Tbody key={rowIndex}>
                 <Tr>
