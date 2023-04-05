@@ -2,6 +2,8 @@ import { ISortBy, ThProps } from '@patternfly/react-table';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ISortGroupProps } from 'components/SortGroup/SortGroup';
+
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 import { validateSortParam } from 'utils/sortParamHelper';
 
@@ -82,18 +84,18 @@ export interface ISortOptions {
   [key: string]: ISortAttribute;
 }
 
-interface ISortMethodOptions {
+interface ISortFunctionOptions {
   sortAttribute?: string;
   sortDirection?: string;
   resetSorting?: boolean;
   replace?: boolean;
 }
 
+export type SortFunction = (sortFunctionOptions: ISortFunctionOptions) => void;
+
 export interface ISortObject {
   getSortParams: (sortAttribute: string) => ThProps['sort'];
-  sort: (sortConfig: ISortMethodOptions) => void;
-  activeSortAttribute: string | undefined;
-  activeSortDirection: string | undefined;
+  getSortGroupParams: (sortAttribute: string) => ISortGroupProps['sort'];
 }
 
 /**
@@ -140,17 +142,22 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
   const [activeSortDirection, setActiveSortDirection] = useState<ISortBy['direction']>(undefined);
 
   const sort = useCallback(
-    ({ sortAttribute, sortDirection, resetSorting = false, replace = false }: ISortMethodOptions) => {
+    ({ sortAttribute, sortDirection, resetSorting = false, replace = false }: ISortFunctionOptions) => {
       // UI -> URL
       updateQueryParamsInURL(
-        { sort: resetSorting ? 'none' : `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },
+        {
+          sort: resetSorting
+            ? 'none'
+            : `=${sortDirection ? sortDirection : defaultSortDirection}=${sortAttribute ? sortAttribute : defaultSortAttribute}`,
+          pageIndex: 1,
+        },
         componentId,
         location,
         navigate,
         replace
       );
     },
-    [componentId, location, navigate]
+    [componentId, location, navigate, defaultSortAttribute, defaultSortDirection]
   );
 
   const getSortParams = (sortAttribute: string): ThProps['sort'] => ({
@@ -162,6 +169,14 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
       sort({ sortAttribute, sortDirection });
     },
     columnIndex: sortOptions[sortAttribute].tableColumnIndex,
+  });
+
+  const getSortGroupParams = (sortAttribute: string): ISortGroupProps['sort'] => ({
+    sortOptions: sortOptions,
+    sortGroup: sortOptions[sortAttribute].sortGroup!,
+    sort: sort,
+    activeSortAttribute: activeSortAttribute,
+    activeSortDirection: activeSortDirection,
   });
 
   useEffect(() => {
@@ -193,5 +208,5 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
     }
   }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, sort]);
 
-  return { getSortParams, sort, activeSortAttribute, activeSortDirection };
+  return { getSortParams, getSortGroupParams };
 };

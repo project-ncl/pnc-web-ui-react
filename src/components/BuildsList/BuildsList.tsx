@@ -15,7 +15,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { SortIcon } from 'components/SortIcon/SortIcon';
+import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -108,7 +108,7 @@ interface IBuildsListProps {
  * @param componentId - Component ID
  */
 export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
-  const { getSortParams, sort, activeSortAttribute, activeSortDirection } = useSorting(sortOptions, componentId);
+  const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
@@ -136,12 +136,8 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Th width={35}>Name</Th>
                 <Th width={20} className="overflow-visible">
                   Times
-                  <SortIcon
-                    sortOptions={sortOptions}
-                    sortGroup="times"
-                    sort={sort}
-                    activeSortAttribute={activeSortAttribute}
-                    activeSortDirection={activeSortDirection}
+                  <SortGroup
+                    sort={getSortGroupParams(sortOptions['submitTime'].id!)}
                     isDropdownOpen={isSortDropdownOpen}
                     onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
                   />
