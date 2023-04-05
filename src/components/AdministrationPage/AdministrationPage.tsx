@@ -252,13 +252,7 @@ export const AdministrationPage = () => {
                         name="form-eta-time"
                         id="form-eta-time"
                         placeholder="yyyy-MM-dd hh:mm (UTC)"
-                        dateFormat={(date: Date): string => {
-                          if (!date) {
-                            return '';
-                          }
-
-                          return createDateTime({ date }).datetime;
-                        }}
+                        dateFormat={(date: Date): string => (date ? createDateTime({ date }).custom : '')}
                         onClick={() => {
                           setEtaTouched(true);
                         }}

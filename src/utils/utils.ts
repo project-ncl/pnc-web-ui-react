@@ -1,11 +1,11 @@
 interface ICreateDateTime {
   date: Date | string;
-  includeDate?: boolean;
-  includeTime?: boolean;
+  includeDateiInCustom?: boolean;
+  includeTimeInCustom?: boolean;
 }
 
 interface IDateTimeObject {
-  datetime: string;
+  custom: string;
   date: string;
   time: string;
 }
@@ -14,21 +14,25 @@ interface IDateTimeObject {
  * Generic function for using unified date.
  *
  * Return object containing:
- *   - date -> returned regardless of includeDate and includeTime
- *   - time -> returned regardless of includeDate and includeTime
- *   - datetime:
+ *   - date -> returned regardless of includeDateiInCustom and includeTimeInCustom
+ *   - time -> returned regardless of includeDateiInCustom and includeTimeInCustom
+ *   - custom:
  *       -> defaultly date + time
- *       -> or can be just date or time (includeDate and includeTime)
+ *       -> or can be just date or time (includeDateiInCustom, includeTimeInCustom)
  *
  * @param date - Date (or string representing a date) to transform
- * @param includeDate - Whether the date should be included in datetime property of returned object, defaults to true
- * @param includeTime - Whether the time should be included in datetime property of returned object, defaults to true
+ * @param includeDateiInCustom - Whether the date should be included in 'custom' property of returned object, defaults to true
+ * @param includeTimeInCustom - Whether the time should be included in 'custom' property of returned object, defaults to true
  * @returns Object containing date and time
  */
-export const createDateTime = ({ date, includeDate = true, includeTime = true }: ICreateDateTime): IDateTimeObject => {
+export const createDateTime = ({
+  date,
+  includeDateiInCustom = true,
+  includeTimeInCustom = true,
+}: ICreateDateTime): IDateTimeObject => {
   if (!date) {
     return {
-      datetime: '',
+      custom: '',
       date: '',
       time: '',
     };
@@ -50,7 +54,9 @@ export const createDateTime = ({ date, includeDate = true, includeTime = true }:
   const timeString = `${hourString}:${minuteString}`;
 
   return {
-    datetime: `${includeDate ? dateString : ''}${includeDate && includeTime ? ' ' : ''}${includeTime ? timeString : ''}`,
+    custom: `${includeDateiInCustom ? dateString : ''}${includeDateiInCustom && includeTimeInCustom ? ' ' : ''}${
+      includeTimeInCustom ? timeString : ''
+    }`,
     date: dateString,
     time: timeString,
   };

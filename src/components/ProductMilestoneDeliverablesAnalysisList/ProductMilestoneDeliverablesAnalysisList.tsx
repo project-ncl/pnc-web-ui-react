@@ -109,7 +109,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                       )}
                     </Td>
                     <Td>{operation.result && <DeliverablesAnalysisResultLabel result={operation.result} />}</Td>
-                    <Td>{createDateTime({ date: operation.submitTime })}</Td>
+                    <Td>{operation.submitTime && createDateTime({ date: operation.submitTime }).custom}</Td>
                     <Td>{operation.user?.username}</Td>
                   </Tr>
                 )

@@ -68,14 +68,7 @@ export interface ISortAttribute {
   /**
    * Group of sorting attributes, typically used for sort icons.
    */
-  sortingGroup?: string;
-}
-
-interface ISortConfig {
-  sortAttribute?: string;
-  sortDirection?: string;
-  resetSorting?: boolean;
-  replace?: boolean;
+  sortGroup?: string;
 }
 
 /**
@@ -89,9 +82,16 @@ export interface ISortOptions {
   [key: string]: ISortAttribute;
 }
 
+interface ISortMethodOptions {
+  sortAttribute?: string;
+  sortDirection?: string;
+  resetSorting?: boolean;
+  replace?: boolean;
+}
+
 export interface ISortObject {
   getSortParams: (sortAttribute: string) => ThProps['sort'];
-  sort: (sortConfig: ISortConfig) => void;
+  sort: (sortConfig: ISortMethodOptions) => void;
   activeSortAttribute: string | undefined;
   activeSortDirection: string | undefined;
 }
@@ -140,7 +140,7 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
   const [activeSortDirection, setActiveSortDirection] = useState<ISortBy['direction']>(undefined);
 
   const sort = useCallback(
-    ({ sortAttribute, sortDirection, resetSorting = false, replace = false }: ISortConfig) => {
+    ({ sortAttribute, sortDirection, resetSorting = false, replace = false }: ISortMethodOptions) => {
       // UI -> URL
       updateQueryParamsInURL(
         { sort: resetSorting ? 'none' : `=${sortDirection}=${sortAttribute}`, pageIndex: 1 },

@@ -6,7 +6,7 @@ import {
   OptionsMenuToggle,
   OptionsMenuToggleProps,
 } from '@patternfly/react-core';
-import { SortAmountDownIcon } from '@patternfly/react-icons';
+import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 
 import { ISortAttribute, ISortObject, ISortOptions } from 'hooks/useSorting';
 
@@ -14,7 +14,7 @@ import styles from './SortIcon.module.css';
 
 interface ISortIconProps {
   sortOptions: ISortOptions;
-  sortingGroup: string;
+  sortGroup: string;
   sort: ISortObject['sort'];
   activeSortAttribute: ISortObject['activeSortAttribute'];
   activeSortDirection: ISortObject['activeSortDirection'];
@@ -24,7 +24,7 @@ interface ISortIconProps {
 
 export const SortIcon = ({
   sortOptions,
-  sortingGroup,
+  sortGroup,
   activeSortAttribute,
   activeSortDirection,
   sort,
@@ -36,7 +36,7 @@ export const SortIcon = ({
     menuItems={[
       <OptionsMenuItemGroup>
         {Object.values(sortOptions)
-          .filter((sortAttribute: ISortAttribute) => sortAttribute.sortingGroup === sortingGroup)
+          .filter((sortAttribute: ISortAttribute) => sortAttribute.sortGroup === sortGroup)
           .map((sortAttribute: ISortAttribute) => (
             <OptionsMenuItem
               isSelected={activeSortAttribute === sortAttribute.id}
@@ -73,8 +73,16 @@ export const SortIcon = ({
         hideCaret
         toggleTemplate={
           <>
-            <SortAmountDownIcon />
-            {activeSortAttribute && sortOptions[activeSortAttribute].sortingGroup === sortingGroup && (
+            {activeSortAttribute && sortOptions[activeSortAttribute].sortGroup === sortGroup ? (
+              activeSortDirection === 'asc' ? (
+                <LongArrowAltUpIcon />
+              ) : (
+                <LongArrowAltDownIcon />
+              )
+            ) : (
+              <ArrowsAltVIcon />
+            )}
+            {activeSortAttribute && sortOptions[activeSortAttribute].sortGroup === sortGroup && (
               <span className={styles['sort-icon-title']}>{sortOptions[activeSortAttribute].title}</span>
             )}
           </>
