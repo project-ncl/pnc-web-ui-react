@@ -32,13 +32,13 @@ const sortOptions: ISortOptions = {
     id: 'startingDate',
     title: 'Start Date',
     tableColumnIndex: 1,
-    isDefault: true,
-    defaultSortOrder: 'desc',
   },
   endDate: {
     id: 'endDate',
     title: 'End Date',
     tableColumnIndex: 2,
+    isDefault: true,
+    defaultSortOrder: 'desc',
   },
   status: {
     id: 'status',
