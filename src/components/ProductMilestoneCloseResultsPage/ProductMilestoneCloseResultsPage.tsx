@@ -21,7 +21,7 @@ export const ProductMilestoneCloseResultsPage = ({ componentId = 'c1' }: IProduc
     ({ requestConfig } = {}) => serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
     {
       componentId,
-      mandatoryQueryParams: { pagination: true, sorting: false },
+      mandatoryQueryParams: { pagination: true, sorting: true },
     }
   );
 
