@@ -75,19 +75,19 @@ const sortOptions: ISortOptions = {
     tableColumnIndex: 3,
     isDefault: true,
     defaultSortOrder: 'desc',
-    sortingGroup: 'times',
+    sortGroup: 'times',
   },
   startTime: {
     id: 'startTime',
     title: 'Started',
     tableColumnIndex: 4,
-    sortingGroup: 'times',
+    sortGroup: 'times',
   },
   endTime: {
     id: 'endTime',
     title: 'Ended',
     tableColumnIndex: 5,
-    sortingGroup: 'times',
+    sortGroup: 'times',
   },
   'user.username': {
     id: 'user.username',
@@ -138,7 +138,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                   Times
                   <SortIcon
                     sortOptions={sortOptions}
-                    sortingGroup="times"
+                    sortGroup="times"
                     sort={sort}
                     activeSortAttribute={activeSortAttribute}
                     activeSortDirection={activeSortDirection}
@@ -165,7 +165,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                     <DescriptionListGroup>
                       <DescriptionListTerm>Submitted</DescriptionListTerm>
                       <DescriptionListDescription>
-                        {build.submitTime && createDateTime({ date: build.submitTime }).datetime}
+                        {build.submitTime && createDateTime({ date: build.submitTime }).custom}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
@@ -174,8 +174,8 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                         {build.startTime &&
                           createDateTime({
                             date: build.startTime,
-                            includeDate: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
-                          }).datetime}
+                            includeDateiInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
+                          }).custom}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
                     <DescriptionListGroup>
@@ -184,8 +184,8 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                         {build.endTime &&
                           createDateTime({
                             date: build.endTime,
-                            includeDate: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
-                          }).datetime}
+                            includeDateiInCustom: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
+                          }).custom}
                         {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
                       </DescriptionListDescription>
                     </DescriptionListGroup>

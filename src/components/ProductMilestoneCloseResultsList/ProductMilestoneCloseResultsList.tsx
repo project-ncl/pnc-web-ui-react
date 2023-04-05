@@ -95,8 +95,8 @@ export const ProductMilestoneCloseResultsList = ({
                   <Td>
                     <Link to="">{closeResult.id}</Link>
                   </Td>
-                  <Td>{createDateTime({ date: closeResult.startingDate })}</Td>
-                  <Td>{closeResult.endDate && createDateTime({ date: closeResult.endDate })}</Td>
+                  <Td>{createDateTime({ date: closeResult.startingDate }).custom}</Td>
+                  <Td>{closeResult.endDate && createDateTime({ date: closeResult.endDate }).custom}</Td>
                   <Td>
                     <ProductMilestoneCloseStatusLabel status={closeResult.status} />
                   </Td>

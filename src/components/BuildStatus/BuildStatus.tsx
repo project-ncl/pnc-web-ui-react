@@ -39,7 +39,7 @@ export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink }
     <div className="build-status">
       <BuildStatusIcon build={build} />
       <BuildName build={build} includeBuildLink={includeBuildLink} includeConfigLink={includeConfigLink} long={long} />
-      <span title={dateTitle}>{createDateTime({ date: dateString! }).datetime}</span>
+      <span title={dateTitle}>{createDateTime({ date: dateString! }).custom}</span>
       <b>{build.user?.username}</b>
     </div>
   );
