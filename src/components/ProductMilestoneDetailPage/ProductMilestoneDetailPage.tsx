@@ -79,45 +79,69 @@ export const ProductMilestoneDetailPage = () => {
 
       <GridItem span={12}>
         <CardFlex>
-          <CardFlexItem description="Description... TODO">
+          <CardFlexItem description="Number of Artifacts produced by Builds contained in this Milestone.">
             <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifact built in this Milestone">
-                {serviceContainerStatistics.data?.artifactSource.thisMilestone}
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in this Milestone">
+                {serviceContainerStatistics.data?.artifactsSource.thisMilestone}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Artifact built in this Milestone</CardTitle>
+            <CardTitle>Artifacts built in this Milestone</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Description... TODO">
+          <CardFlexItem description="Number of Delivered Artifacts produced by Builds contained in this Milestone.">
             <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in other Milestones">
-                {serviceContainerStatistics.data?.artifactSource.otherMilestones}
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title="Delivered Artifacts built in this Milestone"
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.thisMilestone}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Artifacts built in other Milestones</CardTitle>
+            <CardTitle>Delivered Artifacts built in this Milestone</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Description... TODO">
+          <CardFlexItem description="Number of Delivered Artifacts produced by Builds contained in previous Milestones of the same Product.">
             <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts not built in a Milestone">
-                {serviceContainerStatistics.data?.artifactSource.notBuilt}
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title="Delivered Artifacts built in other Milestones"
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.previousMilestones}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Artifacts not built in a Milestone</CardTitle>
+            <CardTitle>Delivered Artifacts built in other Milestones</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Description... TODO">
+          <CardFlexItem description="Number of Delivered Artifacts produced by Builds contained in Milestones of other Products.">
             <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Previous Milestones">
-                {serviceContainerStatistics.data?.previousMilestones}
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title="Delivered Artifacts built in other Products"
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.otherProducts}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Previous Milestones</CardTitle>
+            <CardTitle>Delivered Artifacts built in other Products</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Description... TODO">
+          <CardFlexItem description="Number of Delived Artifacts produced by Builds not contained in any Milestone. This may include Artifacts from Brew.">
             <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts from previous Milestones">
-                {serviceContainerStatistics.data?.artifactSource.previousMilestones}
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title="Delivered Artifacts built outside any Milestone"
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.noMilestone}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Artifacts from previous Milestones</CardTitle>
+            <CardTitle>Delivered Artifacts built outside any Milestone</CardTitle>
+          </CardFlexItem>
+          <CardFlexItem description="Number of Delivered Artifacts not produced in any Build. Non-zero value may indicate a problem.">
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Not built Delivered Artifacts">
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardTitle>Not built Delivered Artifacts</CardTitle>
           </CardFlexItem>
         </CardFlex>
       </GridItem>
@@ -134,17 +158,7 @@ export const ProductMilestoneDetailPage = () => {
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
               data={serviceContainerStatistics.data?.artifactQuality}
-              description={
-                <div>
-                  Chart displays proportion of quality of delivered artifacts.
-                  <dl className="m-t-20">
-                    <dt>
-                      <b>BUILT</b>
-                    </dt>
-                    <dd>Built artifact...</dd>
-                  </dl>
-                </div>
-              }
+              description="Chart displays proportion of quality of Delivered Artifacts."
               legendHeight={100}
             />
           </ServiceContainerLoading>
@@ -155,7 +169,7 @@ export const ProductMilestoneDetailPage = () => {
         <Toolbar>
           <ToolbarItem>
             <TextContent>
-              <Text component={TextVariants.h2}>Repository Chart Distribution</Text>
+              <Text component={TextVariants.h2}>Repository Type Distribution</Text>
             </TextContent>
           </ToolbarItem>
         </Toolbar>
@@ -165,12 +179,36 @@ export const ProductMilestoneDetailPage = () => {
               data={serviceContainerStatistics.data?.repositoryType}
               description={
                 <div>
-                  Chart displays proportion of repository type of delivered artifacts.
+                  Chart displays proportion of repository type of Delivered Artifacts.
                   <dl className="m-t-20">
                     <dt>
                       <b>MAVEN</b>
                     </dt>
-                    <dd>Artifact from MAVEN...</dd>
+                    <dd>Build automation tool used primarily for Java projects.</dd>
+                  </dl>
+                  <dl className="m-t-20">
+                    <dt>
+                      <b>NPM</b>
+                    </dt>
+                    <dd>Package manager for JavaScript language.</dd>
+                  </dl>
+                  <dl className="m-t-20">
+                    <dt>
+                      <b>COCOA_POD</b>
+                    </dt>
+                    <dd>Dependency manager for Swift and Objective-C languages.</dd>
+                  </dl>
+                  <dl className="m-t-20">
+                    <dt>
+                      <b>GENERIC_PROXY</b>
+                    </dt>
+                    <dd>Downloaded from Internet URL address.</dd>
+                  </dl>
+                  <dl className="m-t-20">
+                    <dt>
+                      <b>DISTRIBUTION_ARCHIVE</b>
+                    </dt>
+                    <dd>Found in analyzed Deliverables Archive.</dd>
                   </dl>
                 </div>
               }
