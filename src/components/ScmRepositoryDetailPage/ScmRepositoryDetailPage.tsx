@@ -54,7 +54,7 @@ export const ScmRepositoryDetailPage = () => {
                 tooltip={ScmRepositoryAttributes.internalUrl.tooltip}
               >
                 {serviceContainerScmRepository.data?.internalUrl && (
-                  <ScmRepositoryUrl url={serviceContainerScmRepository.data.internalUrl} showGerritButton />
+                  <ScmRepositoryUrl internalScmRepository={serviceContainerScmRepository.data} />
                 )}
               </AttributesItem>
               <AttributesItem
@@ -62,7 +62,7 @@ export const ScmRepositoryDetailPage = () => {
                 tooltip={ScmRepositoryAttributes.externalUrl.tooltip}
               >
                 {serviceContainerScmRepository.data?.externalUrl && (
-                  <ScmRepositoryUrl url={serviceContainerScmRepository.data.externalUrl} />
+                  <ScmRepositoryUrl externalScmRepository={serviceContainerScmRepository.data} />
                 )}
               </AttributesItem>
               <AttributesItem

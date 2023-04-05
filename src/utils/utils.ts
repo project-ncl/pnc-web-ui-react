@@ -115,19 +115,47 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
   return `${hoursString}${hoursString && minutesString ? ' ' : ''}${minutesString}${secondsString}`;
 };
 
-interface IParseInternalRepositoryUrl {
-  internalUrl: string;
+interface IParsedScmRepositoryUrl {
+  url: string;
+}
+
+export interface IParsedUrl {
+  url: string;
+  displayName: string;
 }
 
 /**
- * Parses internal repository url to Gerrit gitweb link of the project.
+ * Parses internal SCM Repository URL to Gerrit gitweb link of the SCM Repository.
  *
- * @param scmRepository - SCM Repository containing internalUrl field
- * @returns SCM Repository name
+ * @param internalUrl - The internalUrl to be parsed
+ * @returns parsedUrl contains parsedUrl and displayName
+ *  */
+export const parseInternalScmRepositoryUrl = ({ url }: IParsedScmRepositoryUrl): IParsedUrl => {
+  const protocol = url.split('://')[0];
+  const base = url.split('://')[1].split('/')[0];
+  const project = url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
+  return { url: 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary', displayName: 'Gerrit' };
+};
+
+/**
+ * ParsesSCM Repository URL to gitweb link of the SCM Repository.
+ *
+ * @param externalUrl - The externalUrl to be parsed
+ * @returns  Object contains url and the base of the external url
  */
-export const parseInternalRepositoryUrl = ({ internalUrl }: IParseInternalRepositoryUrl) => {
-  const protocol = internalUrl.split('://')[0];
-  const base = internalUrl.split('://')[1].split('/')[0];
-  const project = internalUrl.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
-  return 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
+export const parseExternalScmRepositoryUrl = ({ url }: IParsedScmRepositoryUrl): IParsedUrl | undefined => {
+  if (url.includes('/gerrit/')) {
+    return parseInternalScmRepositoryUrl({ url });
+  }
+  if (['http', 'https', '@'].some((element) => url.includes(element))) {
+    const urlRes = url.includes('@') ? 'https://' + url.split('@')[1].replace(':', '/') : url;
+    const base = urlRes.split('://')[1].split('/')[0];
+    return { url: urlRes, displayName: base };
+  }
+  if (url.includes('.git')) {
+    const urlRes = url;
+    const base = urlRes.split('/')[0];
+    return { url: urlRes, displayName: base };
+  }
+  return undefined;
 };

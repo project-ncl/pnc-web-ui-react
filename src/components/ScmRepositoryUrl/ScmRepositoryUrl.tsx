@@ -1,54 +1,63 @@
 import { Button } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
+import { SCMRepository } from 'pnc-api-types-ts';
+
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import { parseInternalRepositoryUrl } from 'utils/utils';
+import { IParsedUrl, parseExternalScmRepositoryUrl, parseInternalScmRepositoryUrl } from 'utils/utils';
 
-interface IGerritButtonProps {
-  url: string;
+interface IUrlButtonProps {
+  parsedUrl: IParsedUrl;
   isInline?: boolean;
 }
 
 /**
- * The Gerrit button that redirect to specific Gerrit page.
+ * The Url button that redirect to specific page.
  *
- * @param url - the internal/external url for the SCM Repository
+ * @param parsedUrl - the object contains url and displayName
  * @param isInline - whether to use inline style with external link action
  */
-const GerritButton = ({ isInline, url }: IGerritButtonProps) => (
-  <TooltipWrapper tooltip="View in Gerrit">
+const UrlButton = ({ parsedUrl, isInline }: IUrlButtonProps) => (
+  <TooltipWrapper tooltip={'View in ' + parsedUrl.displayName}>
     <Button
       component="a"
-      href={parseInternalRepositoryUrl({ internalUrl: url })}
+      href={parsedUrl.url}
       target="_blank"
       rel="noopener noreferrer"
       variant={isInline ? 'plain' : 'tertiary'}
       icon={<ExternalLinkAltIcon />}
     >
-      {isInline ? <ExternalLinkAltIcon /> : 'Gerrit'}
+      {isInline ? <ExternalLinkAltIcon /> : parsedUrl.displayName}
     </Button>
   </TooltipWrapper>
 );
 
 interface IScmRepositoryUrlProps {
-  url: string;
-  showGerritButton?: boolean;
+  internalScmRepository?: SCMRepository;
+  externalScmRepository?: SCMRepository;
   isInline?: boolean;
 }
 
 /**
  * Represents the internal/external URL for the SCM Repository.
  *
- * @param url - the internal/external url for the SCM Repository
- * @param showGerritButton - whether to display the Gerrit button
+ * @param internalScmRepository - the SCM Repository to parse its internal url
+ * @param externalScmRepository - the SCM Repository to parse its external url
  * @param isInline - whether to use inline style with external link action
  */
-export const ScmRepositoryUrl = ({ url, showGerritButton, isInline }: IScmRepositoryUrlProps) => {
-  return (
-    <CopyToClipboard isInline={isInline} suffixComponent={showGerritButton && <GerritButton isInline={isInline} url={url} />}>
-      {url}
+export const ScmRepositoryUrl = ({ internalScmRepository, externalScmRepository, isInline }: IScmRepositoryUrlProps) => {
+  const originalUrl = internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl;
+  const parsedUrl = !originalUrl
+    ? null
+    : internalScmRepository
+    ? parseInternalScmRepositoryUrl({ url: originalUrl })
+    : parseExternalScmRepositoryUrl({ url: originalUrl });
+
+  return parsedUrl ? (
+    <CopyToClipboard isInline={isInline} suffixComponent={<UrlButton isInline={isInline} parsedUrl={parsedUrl} />}>
+      {originalUrl}
     </CopyToClipboard>
-  );
+  ) : null;
 };
