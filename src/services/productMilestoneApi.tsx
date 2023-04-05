@@ -22,16 +22,13 @@ export const getProductMilestone = ({ id }: IProductMilestoneApiData, requestCon
 };
 
 /**
- * Gets Delivered Artifacts for Product Milestone.
+ * Gets Product Milestone Delivered Artifacts.
  *
  * @param serviceData - object containing:
  *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
-export const getProductMilestoneDeliveredArtifacts = (
-  { id }: IProductMilestoneApiData,
-  requestConfig: AxiosRequestConfig = {}
-) => {
+export const getDeliveredArtifacts = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/${id}/delivered-artifacts`, requestConfig);
 };
 
@@ -42,15 +39,6 @@ export const getProductMilestoneDeliveredArtifacts = (
  */
 export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductMilestoneCloseResultPage>(`/product-milestones/${id}/close-results`, requestConfig);
-};
-
-/**
- * Gets Product Milestone Delivered Artifacts.
- *
- * @param requestConfig - Axios based request config
- */
-export const getDeliveredArtifacts = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/${id}/delivered-artifacts`, requestConfig);
 };
 
 /**
