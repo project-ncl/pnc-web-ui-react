@@ -6,7 +6,9 @@ import { SCMRepository } from 'pnc-api-types-ts';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import { IParsedUrl, parseExternalScmRepositoryUrl, parseInternalScmRepositoryUrl } from 'utils/utils';
+import { uiLogger } from 'services/uiLogger';
+
+import { IParsedUrl, parseExternalScmRepositoryUrl, parseInternalScmRepositoryUrl } from 'utils/urlParseHelper';
 
 interface IUrlButtonProps {
   parsedUrl: IParsedUrl;
@@ -16,20 +18,20 @@ interface IUrlButtonProps {
 /**
  * The Url button that redirect to specific page.
  *
- * @param parsedUrl - the object contains url and displayName
+ * @param parsedUrl - the object contains url and name
  * @param isInline - whether to use inline style with external link action
  */
 const UrlButton = ({ parsedUrl, isInline }: IUrlButtonProps) => (
-  <TooltipWrapper tooltip={'View in ' + parsedUrl.displayName}>
+  <TooltipWrapper tooltip={'View in ' + parsedUrl.name}>
     <Button
       component="a"
       href={parsedUrl.url}
       target="_blank"
       rel="noopener noreferrer"
       variant={isInline ? 'plain' : 'tertiary'}
-      icon={<ExternalLinkAltIcon />}
+      icon={<ExternalLinkAltIcon />} //icon is ignored when variant plain is used
     >
-      {isInline ? <ExternalLinkAltIcon /> : parsedUrl.displayName}
+      {isInline ? <ExternalLinkAltIcon /> : parsedUrl.name}
     </Button>
   </TooltipWrapper>
 );
@@ -48,16 +50,20 @@ interface IScmRepositoryUrlProps {
  * @param isInline - whether to use inline style with external link action
  */
 export const ScmRepositoryUrl = ({ internalScmRepository, externalScmRepository, isInline }: IScmRepositoryUrlProps) => {
-  const originalUrl = internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl;
-  const parsedUrl = !originalUrl
-    ? null
-    : internalScmRepository
-    ? parseInternalScmRepositoryUrl({ url: originalUrl })
-    : parseExternalScmRepositoryUrl({ url: originalUrl });
+  let parsedUrl;
+  if (internalScmRepository) {
+    parsedUrl = parseInternalScmRepositoryUrl({ url: internalScmRepository.internalUrl });
+  } else if (externalScmRepository) {
+    parsedUrl = externalScmRepository.externalUrl
+      ? parseExternalScmRepositoryUrl({ url: externalScmRepository.externalUrl })
+      : null;
+  } else {
+    uiLogger.error('internalScmRepository or externalScmRepository has to be defined');
+  }
 
   return parsedUrl ? (
     <CopyToClipboard isInline={isInline} suffixComponent={<UrlButton isInline={isInline} parsedUrl={parsedUrl} />}>
-      {originalUrl}
+      {internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl}
     </CopyToClipboard>
   ) : null;
 };
