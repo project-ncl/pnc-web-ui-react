@@ -5,6 +5,7 @@ import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmR
 
 jest.mock('services/scmRepositoryApi');
 jest.mock('services/keycloakService');
+jest.mock('services/uiLogger');
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts

@@ -2,6 +2,8 @@ import { render } from '@testing-library/react';
 
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 
+jest.mock('services/uiLogger');
+
 describe('display ScmRepositoryUrl component', () => {
   test('renders ScmRepositoryLink', () => {
     render(
