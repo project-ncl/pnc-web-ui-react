@@ -110,7 +110,7 @@ interface IBuildsListProps {
 export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
   const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
 
-  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -170,7 +170,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                         {build.startTime &&
                           createDateTime({
                             date: build.startTime,
-                            includeDateiInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
+                            includeDateInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
                           }).custom}
                       </DescriptionListDescription>
                     </DescriptionListGroup>
@@ -180,7 +180,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                         {build.endTime &&
                           createDateTime({
                             date: build.endTime,
-                            includeDateiInCustom: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
+                            includeDateInCustom: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
                           }).custom}
                         {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
                       </DescriptionListDescription>

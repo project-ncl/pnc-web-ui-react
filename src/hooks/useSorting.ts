@@ -93,7 +93,7 @@ interface ISortFunctionOptions {
 
 export type SortFunction = (sortFunctionOptions: ISortFunctionOptions) => void;
 
-export interface ISortObject {
+interface ISortObject {
   getSortParams: (sortAttribute: string) => ThProps['sort'];
   getSortGroupParams: (sortAttribute: string) => ISortGroupProps['sort'];
 }

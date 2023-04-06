@@ -1,6 +1,6 @@
 interface ICreateDateTime {
   date: Date | string;
-  includeDateiInCustom?: boolean;
+  includeDateInCustom?: boolean;
   includeTimeInCustom?: boolean;
 }
 
@@ -14,20 +14,20 @@ interface IDateTimeObject {
  * Generic function for using unified date.
  *
  * Return object containing:
- *   - date -> returned regardless of includeDateiInCustom and includeTimeInCustom
- *   - time -> returned regardless of includeDateiInCustom and includeTimeInCustom
+ *   - date -> returned regardless of includeDateInCustom and includeTimeInCustom
+ *   - time -> returned regardless of includeDateInCustom and includeTimeInCustom
  *   - custom:
  *       -> defaultly date + time
- *       -> or can be just date or time (includeDateiInCustom, includeTimeInCustom)
+ *       -> or can be just date or time (includeDateInCustom, includeTimeInCustom)
  *
  * @param date - Date (or string representing a date) to transform
- * @param includeDateiInCustom - Whether the date should be included in 'custom' property of returned object, defaults to true
+ * @param includeDateInCustom - Whether the date should be included in 'custom' property of returned object, defaults to true
  * @param includeTimeInCustom - Whether the time should be included in 'custom' property of returned object, defaults to true
  * @returns Object containing date and time
  */
 export const createDateTime = ({
   date,
-  includeDateiInCustom = true,
+  includeDateInCustom = true,
   includeTimeInCustom = true,
 }: ICreateDateTime): IDateTimeObject => {
   if (!date) {
@@ -54,7 +54,7 @@ export const createDateTime = ({
   const timeString = `${hourString}:${minuteString}`;
 
   return {
-    custom: `${includeDateiInCustom ? dateString : ''}${includeDateiInCustom && includeTimeInCustom ? ' ' : ''}${
+    custom: `${includeDateInCustom ? dateString : ''}${includeDateInCustom && includeTimeInCustom ? ' ' : ''}${
       includeTimeInCustom ? timeString : ''
     }`,
     date: dateString,
