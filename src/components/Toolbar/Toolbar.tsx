@@ -2,7 +2,8 @@ import { Flex, FlexProps } from '@patternfly/react-core';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 
-const flexSpaceItems: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
+const spaceItemsNone: FlexProps['spaceItems'] = { default: 'spaceItemsNone' };
+const styleGap = { gap: '1.5rem' };
 
 interface IToolbarProps {
   borderTop?: boolean;
@@ -10,6 +11,8 @@ interface IToolbarProps {
 
 export const Toolbar = ({ children, borderTop = false }: React.PropsWithChildren<IToolbarProps>) => (
   <ContentBox borderTop={borderTop} padding>
-    <Flex spaceItems={flexSpaceItems}>{children}</Flex>
+    <Flex spaceItems={spaceItemsNone} style={styleGap}>
+      {children}
+    </Flex>
   </ContentBox>
 );
