@@ -25,7 +25,7 @@ const UrlButton = ({ parsedUrl, isInline }: IUrlButtonProps) => (
   <TooltipWrapper tooltip={'View in ' + parsedUrl.name}>
     <Button
       component="a"
-      href={parsedUrl.url}
+      href={parsedUrl.webUrl}
       target="_blank"
       rel="noopener noreferrer"
       variant={isInline ? 'plain' : 'tertiary'}
@@ -63,7 +63,8 @@ export const ScmRepositoryUrl = ({ internalScmRepository, externalScmRepository,
 
   return parsedUrl ? (
     <CopyToClipboard isInline={isInline} suffixComponent={<UrlButton isInline={isInline} parsedUrl={parsedUrl} />}>
-      {internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl}
+      {parsedUrl.scmRepositoryUrl}
+      {/* {internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl} */}
     </CopyToClipboard>
   ) : null;
 };
