@@ -1,4 +1,5 @@
 import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant, Spinner } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -7,16 +8,22 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import '../../index.css';
 import styles from './SearchSelect.module.css';
 
-type FetchCallbackFunction = (requstConfig?: AxiosRequestConfig) => Promise<AxiosResponse<any, any>>;
-type OnSelectFunction = (value: string | SelectOptionObject) => void;
+type FetchCallbackFunction = (requstConfig?: AxiosRequestConfig) => Promise<AxiosResponse<any, any> | any>;
+type OnSelectFunction = (selection: string | SelectOptionObject, selectedEntity?: any) => void;
+type OnClearFunction = () => void;
 
 interface ISearchSelectProps {
+  selectedItem?: string;
+  onSelect?: OnSelectFunction;
+  onClear?: OnClearFunction;
   fetchCallback: FetchCallbackFunction;
   titleAttribute: string;
   descriptionAttribute?: string;
-  onSelect: OnSelectFunction;
   delayMilliseconds?: number;
   pageSizeDefault?: number;
+  width?: SelectProps['width'];
+  placeholderText?: SelectProps['placeholderText'];
+  isDisabled?: SelectProps['isDisabled'];
 }
 
 /**
@@ -31,32 +38,41 @@ interface ISearchSelectProps {
  *
  * onSelect callback is used so selected option is accessible from outside.
  *
+ * @param selectedItem - selectected item string
+ * @param onSelect - onSelect callback
+ * @param onClear - onClear callback
  * @param fetchCallback - function to fetch the data from backend
- * @param titleAttribute - which attribute will be filtered
- * @param descriptionAttribute - which attribute in fetched data is displayed as description (and included in filtering)
- * @param onSelect - function to be called when option is selected (value is passed in)
- * @param delayMilliseconds - delay after which data are fetched when filter input is changed
+ * @param titleAttribute - primary attribute to filter by (in query params), displayed as option name
+ * @param descriptionAttribute - secondary attribute to filter by (in query params), displayed as option description
+ * @param delayMilliseconds - fetch delay for filter input change
  * @param pageSizeDefault - count of entries fetched defaultly
+ * @param width - select width
+ * @param placeholderText - select placeholder
+ * @param isDisabled - whether is select disabled
  */
 export const SearchSelect = ({
+  selectedItem,
+  onSelect,
+  onClear,
   fetchCallback,
   titleAttribute,
   descriptionAttribute,
-  onSelect,
   delayMilliseconds = 200,
-  pageSizeDefault = 20,
+  pageSizeDefault = 10,
+  width,
+  placeholderText = 'string | !string | s?ring | st*ng',
+  isDisabled,
 }: ISearchSelectProps) => {
-  // filtered data downloaded using callback
+  // data downloaded using fetchCallback
   const [currentData, setCurrentData] = useState<any[]>([]);
   const pageIndexDefault = 1;
   // current page index
   const [pageIndex, setPageIndex] = useState<number>(pageIndexDefault);
-  // currenyly selected option
-  const [selectedItem, setSelectedItem] = useState<string | undefined>();
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   const selectRef = useRef<Select>(null);
+
   // used to fetch data after delay
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -74,16 +90,16 @@ export const SearchSelect = ({
       const requestConfig: AxiosRequestConfig = { params: { pageIndex, pageSize: pageSizeDefault } };
       if (filterText) {
         const titleFilter = `${titleAttribute}=like="%${filterText}%"`;
-        const descriptionFilter = `${descriptionAttribute}=like="%${filterText}%"`;
+        const descriptionFilter = descriptionAttribute ? `,${descriptionAttribute}=like="%${filterText}%"` : '';
 
-        requestConfig.params.q = `${titleFilter}${descriptionAttribute && `,${descriptionFilter}`}`;
+        requestConfig.params.q = `${titleFilter}${descriptionFilter}`;
       }
 
       setPageIndex(pageIndex);
 
       serviceContainerRunner({ requestConfig })
         .then((response: any) => {
-          const data = response.data.content;
+          const data = response.data?.content;
           if (pageIndex === pageIndexDefault) {
             setCurrentData(data);
           } else {
@@ -108,21 +124,21 @@ export const SearchSelect = ({
     [fetchData, getFilterText]
   );
 
-  // load first data
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(selectedItem);
+  }, [fetchData, selectedItem]);
 
   // filtering of select
   const filterSelect = (value: string) => {
-    // if text filter changed, unselect
-    clearSelectedItem();
+    if (selectedItem) {
+      onClear?.();
+    }
 
     clearTimeout(timeout?.current);
     timeout.current = setTimeout(() => fetchData(value), delayMilliseconds);
   };
 
-  // selecting an option
+  // inner onSelect callback
   const selectItem = (
     event: React.MouseEvent<Element, MouseEvent> | React.ChangeEvent<Element>,
     selection: string | SelectOptionObject,
@@ -136,27 +152,30 @@ export const SearchSelect = ({
 
         // set options to an empty array for a while so loading state is visible
         setCurrentData([]);
-        fetchData(selection as string);
-        onSelect(selection);
+        onSelect?.(
+          selection,
+          currentData.find((entity: any) => entity[titleAttribute] === selection)
+        );
+      } else {
+        // on blur
+        if (!selectedItem && selection) {
+          fetchData();
+        }
       }
-      setSelectedItem(selection as string);
       setIsSelectOpen(false);
     }
   };
 
-  // if anything was selected, unselect it
-  const clearSelectedItem = () => {
-    if (selectedItem) {
-      setSelectedItem(undefined);
-      onSelect('');
-    }
-  };
-
-  // on clear, set empty filter
+  // inner onClear callback
   const clear = () => {
-    fetchData();
     setIsSelectOpen(false);
-    clearSelectedItem();
+    if (selectedItem) {
+      // on selection clear
+      onClear?.();
+    } else {
+      // on unselected filter text clear
+      fetchData();
+    }
   };
 
   const onViewMoreClick = () => {
@@ -179,33 +198,36 @@ export const SearchSelect = ({
       {serviceContainer.loading && serviceContainer.data && (
         <Spinner
           size="md"
-          className={`${styles['search-select-spinner']} ${
+          className={css(
+            styles['search-select-spinner'],
             getFilterText() ? styles['search-select-spinner-filtered'] : styles['search-select-spinner-nofilter']
-          }`}
+          )}
         />
       )}
       <Select
         ref={selectRef}
         variant={SelectVariant.typeahead}
-        onToggle={(isOpen) => {
-          setIsSelectOpen(isOpen);
-        }}
-        onTypeaheadInputChanged={filterSelect}
+        selections={selectedItem}
         onSelect={selectItem}
+        onClear={clear}
+        onTypeaheadInputChanged={filterSelect}
         onFilter={() => {
           // filtering is not done here
           return undefined;
         }}
-        onClear={clear}
-        selections={selectedItem}
         isOpen={isSelectOpen}
+        onToggle={(isOpen) => {
+          setIsSelectOpen(isOpen);
+        }}
+        width={width}
+        placeholderText={placeholderText}
+        isDisabled={isDisabled}
         isInputValuePersisted={true}
         isInputFilterPersisted={true}
-        placeholderText="string | !string | s?ring | st*ng"
         noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
         loadingVariant={getLoadingVariant()}
       >
-        {currentData.map((option: any, index: number) => (
+        {currentData?.map((option: any, index: number) => (
           <SelectOption
             key={index}
             value={option[titleAttribute]}
