@@ -43,7 +43,8 @@ Object {
         >
           <div>
             <div
-              class="pf-l-flex pf-m-space-items-lg"
+              class="pf-l-flex pf-m-space-items-none"
+              style="gap: 1.5rem;"
             >
               <div
                 class=""
@@ -882,7 +883,8 @@ Object {
       >
         <div>
           <div
-            class="pf-l-flex pf-m-space-items-lg"
+            class="pf-l-flex pf-m-space-items-none"
+            style="gap: 1.5rem;"
           >
             <div
               class=""
