@@ -203,6 +203,7 @@ export const DemoPage = () => {
 
   const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
 
+  const [searchSelectValue, setSearchSelectValue] = useState<string>();
   const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig = {}) => {
     return projectApi.getProjects(requestConfig);
   }, []);
@@ -340,19 +341,23 @@ export const DemoPage = () => {
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>
         <FlexItem>
-          <ContentBox padding>
-            <Form>
-              <FormGroup label="Select project name (dynamic search select)">
-                <SearchSelect
-                  fetchCallback={searchSelectCallback}
-                  titleAttribute="name"
-                  descriptionAttribute="description"
-                  onSelect={(value: string | SelectOptionObject) => {
-                    console.log(`DYNAMIC SELECT> ${value}`);
-                  }}
-                />
-              </FormGroup>
-            </Form>
+          <ContentBox title="SearchSelect" padding>
+            <SearchSelect
+              selectedItem={searchSelectValue}
+              onSelect={(selection: string | SelectOptionObject) => {
+                console.log(`SEARCH SELECT> selected ${selection}`);
+                setSearchSelectValue(selection as string);
+              }}
+              onClear={() => {
+                console.log('SEARCH SELECT> cleared');
+                setSearchSelectValue(undefined);
+              }}
+              fetchCallback={searchSelectCallback}
+              titleAttribute="name"
+              descriptionAttribute="description"
+              width={400}
+              placeholderText="Select project"
+            />
           </ContentBox>
         </FlexItem>
 
