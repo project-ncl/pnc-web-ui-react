@@ -64,11 +64,12 @@ export const SearchSelect = ({
   isDisabled,
 }: ISearchSelectProps) => {
   // data downloaded using fetchCallback
-  const [currentData, setCurrentData] = useState<any[]>([]);
+  const [fetchedData, setFetchedData] = useState<any[]>([]);
   const pageIndexDefault = 1;
   // current page index
   const [pageIndex, setPageIndex] = useState<number>(pageIndexDefault);
 
+  const [searchValue, setSearchValue] = useState<string>(selectedItem ? selectedItem : '');
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   const selectRef = useRef<Select>(null);
@@ -101,15 +102,15 @@ export const SearchSelect = ({
         .then((response: any) => {
           const data = response.data?.content;
           if (pageIndex === pageIndexDefault) {
-            setCurrentData(data);
+            setFetchedData(data);
           } else {
-            setCurrentData((currentData) => [...currentData, ...data]);
+            setFetchedData((fetchedData) => [...fetchedData, ...data]);
           }
         })
         .catch((error: Error) => {
           if (error.name !== 'CanceledError') {
             setPageIndex(pageIndexDefault);
-            setCurrentData([]);
+            setFetchedData([]);
           }
         });
     },
@@ -126,6 +127,7 @@ export const SearchSelect = ({
 
   useEffect(() => {
     fetchData(selectedItem);
+    setSearchValue(selectedItem ? selectedItem : '');
   }, [fetchData, selectedItem]);
 
   // filtering of select
@@ -134,6 +136,7 @@ export const SearchSelect = ({
       onClear?.();
     }
 
+    setSearchValue(value);
     clearTimeout(timeout?.current);
     timeout.current = setTimeout(() => fetchData(value), delayMilliseconds);
   };
@@ -151,16 +154,11 @@ export const SearchSelect = ({
         // (for some reason, this function is called also on blur)
 
         // set options to an empty array for a while so loading state is visible
-        setCurrentData([]);
+        setFetchedData([]);
         onSelect?.(
           selection,
-          currentData.find((entity: any) => entity[titleAttribute] === selection)
+          fetchedData.find((entity: any) => entity[titleAttribute] === selection)
         );
-      } else {
-        // on blur
-        if (!selectedItem && selection) {
-          fetchData();
-        }
       }
       setIsSelectOpen(false);
     }
@@ -174,6 +172,7 @@ export const SearchSelect = ({
       onClear?.();
     } else {
       // on unselected filter text clear
+      setSearchValue('');
       fetchData();
     }
   };
@@ -207,7 +206,7 @@ export const SearchSelect = ({
       <Select
         ref={selectRef}
         variant={SelectVariant.typeahead}
-        selections={selectedItem}
+        selections={searchValue}
         onSelect={selectItem}
         onClear={clear}
         onTypeaheadInputChanged={filterSelect}
@@ -227,7 +226,7 @@ export const SearchSelect = ({
         noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
         loadingVariant={getLoadingVariant()}
       >
-        {currentData?.map((option: any, index: number) => (
+        {fetchedData?.map((option: any, index: number) => (
           <SelectOption
             key={index}
             value={option[titleAttribute]}

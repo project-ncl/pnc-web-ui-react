@@ -225,6 +225,16 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
           <NavItem isActive={pathname.includes('/scm-repositories')}>
             <Link to="/scm-repositories">SCM Repositories</Link>
           </NavItem>
+
+          <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
+            <NavItem
+              groupId="insights"
+              itemId="insights_product-milestone-comparison"
+              isActive={pathname.includes('/product-milestone-comparison')}
+            >
+              <Link to="/insights/product-milestone-comparison">Product Milestone Comparison</Link>
+            </NavItem>
+          </NavExpandable>
         </NavList>
       </Nav>
     );

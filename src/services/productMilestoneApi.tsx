@@ -83,3 +83,17 @@ export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, reques
 export const getSharedDeliveredArtifacts = (requestConfig: AxiosRequestConfig = {}) => {
   return mockClient.getHttpClient().get<any>(`/product-milestone-shared-delivered-artifacts`, requestConfig);
 };
+
+/**
+ * Gets Product Milestone Comparison table.
+ *
+ * @param serviceData - object containing:
+ *  - data.productMilestones - array of Product Milestone ids
+ * @param requestConfig - Axios based request config
+ */
+export const getProductMilestoneComparison = (
+  { data }: { data: { productMilestones: string[] } },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return mockClient.getHttpClient().post<any>(`/product-milestone-comparison`, data, requestConfig);
+};

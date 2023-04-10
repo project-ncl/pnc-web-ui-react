@@ -14,6 +14,7 @@ export const PageTitles = {
   groupBuilds: 'Group Builds',
   artifacts: 'Artifacts',
   scmRepositories: 'SCM Repositories',
+  productMilestoneComparison: 'Product Milestone Comparison',
   administration: 'Administration',
   pageNotFound: 'Page Not Found',
   delimiterSymbol: '·',

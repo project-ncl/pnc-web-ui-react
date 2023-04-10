@@ -23,6 +23,7 @@ import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
+import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
@@ -128,6 +129,9 @@ export const AppRoutes = () => (
           </ProtectedRoute>
         }
       />
+    </Route>
+    <Route path="insights">
+      <Route path="product-milestone-comparison" element={<ProductMilestoneComparisonPage />} />
     </Route>
     <Route path="about" element={<AboutPage />} />
     <Route
