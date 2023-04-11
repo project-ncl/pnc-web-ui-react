@@ -12,5 +12,5 @@ export const stackedBarChartDataTransform = (data: any, statisticsGroup: string)
 export const stackedBarChartLabelTransform = (data: any): IStackedBarChartProps['labels'] =>
   data && data.map((productMilestoneData: any) => productMilestoneData.version);
 
-export const stackedBarChartHeight = (data: any, legendHeight: number = 100) =>
+export const stackedBarChartHeight = (data: any, legendHeight: number = 100): string =>
   data ? `${legendHeight + 70 + data.length * 75}px` : '300px';
