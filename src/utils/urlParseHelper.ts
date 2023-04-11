@@ -25,8 +25,7 @@ export const parseInternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IPars
  * ParsesSCM Repository URL to gitweb link of the SCM Repository.
  *
  * @param url - The externalUrl to be parsed
- * @returns  1) null when url was not successfully parsed, otherwise
- * 2) object containing parsed URL and display name representing URL
+ * @returns  Object containing scmRepository URL, parsed URL and display name representing URL
  */
 export const parseExternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl | null => {
   if (!url) {

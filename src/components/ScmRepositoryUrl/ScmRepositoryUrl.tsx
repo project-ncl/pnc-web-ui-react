@@ -64,7 +64,6 @@ export const ScmRepositoryUrl = ({ internalScmRepository, externalScmRepository,
   return parsedUrl ? (
     <CopyToClipboard isInline={isInline} suffixComponent={<UrlButton isInline={isInline} parsedUrl={parsedUrl} />}>
       {parsedUrl.scmRepositoryUrl}
-      {/* {internalScmRepository ? internalScmRepository.internalUrl : externalScmRepository!.externalUrl} */}
     </CopyToClipboard>
   ) : null;
 };
