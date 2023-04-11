@@ -110,15 +110,7 @@ export const ProductVersionDetailPage = () => {
 
       <GridItem span={12}>
         <CardFlex>
-          <CardFlexItem>
-            <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Milestones">
-                {serviceContainerStatistics.data?.milestones}
-              </ServiceContainerLoading>
-            </CardValue>
-            <CardTitle>Milestones</CardTitle>
-          </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Number of Products to which belong Milestones containing Builds which produced Delivered Artifacts of Milestones of this Version.">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Product dependencies">
                 {serviceContainerStatistics.data?.productDependencies}
@@ -126,7 +118,7 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Product dependencies</CardTitle>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Number of Milestones containing Builds which produced Delivered Artifacts of Milestones of this Version.">
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Milestone dependencies">
                 {serviceContainerStatistics.data?.milestoneDependencies}
@@ -134,25 +126,49 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Milestone dependencies</CardTitle>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Number of Artifacts of Milestones of this Version produced by Builds contained in Milestones of this Version.">
+            <CardValue>
+              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in this Version">
+                {serviceContainerStatistics.data?.artifactsSource.thisVersion}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardTitle>Artifacts built in this Version</CardTitle>
+          </CardFlexItem>
+          <CardFlexItem description="Number of Delivered Artifacts of Milestones of this Version produced by Builds contained in Milestones of this Version.">
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
                 variant="icon"
-                title="Artifacts built in milestones of this version"
+                title="Delivered Artifacts built in this Version"
               >
-                {serviceContainerStatistics.data?.artifactSource.thisVersionMilestones}
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.thisVersion}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Artifacts built in milestones of this version</CardTitle>
+            <CardTitle>Delivered Artifacts built in this Version</CardTitle>
           </CardFlexItem>
-          <CardFlexItem>
+          <CardFlexItem description="Number of Delivered Artifacts of Milestones of this Version produced by Builds contained in Milestones of previous Versions of the same Product.">
             <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in other milestones">
-                {serviceContainerStatistics.data?.artifactSource.otherMilestones}
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title="Delivered Artifacts built in other Versions"
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.previousVersions}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Artifacts built in other milestones</CardTitle>
+            <CardTitle>Delivered Artifacts built in other Versions</CardTitle>
+          </CardFlexItem>
+          <CardFlexItem description="Number of Delivered Artifacts of Milestones of this Version produced by Builds contained in Milestones of other Products.">
+            <CardValue>
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title="Delivered Artifacts built in other Products"
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.otherProducts}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardTitle>Delivered Artifacts built in other Products</CardTitle>
           </CardFlexItem>
         </CardFlex>
       </GridItem>
@@ -174,7 +190,7 @@ export const ProductVersionDetailPage = () => {
             <StackedBarChart
               labels={stackedBarChartLabelTransform(serviceContainerArtifactQualityStatistics.data?.content)}
               data={stackedBarChartDataTransform(serviceContainerArtifactQualityStatistics.data?.content, 'artifactQuality')}
-              description="Chart displays proportion of quality of Delivered Artifacts among Product Milestones."
+              description="Chart displays proportion of quality of Delivered Artifacts among Product Milestones of this Version."
             />
           </ServiceContainerLoading>
         </ContentBox>
@@ -200,7 +216,7 @@ export const ProductVersionDetailPage = () => {
               data={stackedBarChartDataTransform(serviceContainerRepositoryTypeStatistics.data?.content, 'repositoryType')}
               description={
                 <div>
-                  Chart displays proportion of repository type of Delivered Artifacts among product milestones.
+                  Chart displays proportion of repository type of Delivered Artifacts among Product Milestones of this Version.
                   <dl className="m-t-20">
                     <dt>
                       <b>MAVEN</b>
