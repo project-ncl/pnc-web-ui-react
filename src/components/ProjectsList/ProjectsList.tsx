@@ -80,11 +80,6 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
         <ToolbarItem>
           <Filtering filterOptions={filterOptions} componentId={componentId} />
         </ToolbarItem>
-        <ToolbarItem>
-          <ProtectedComponent>
-            <ActionButton link="create">Create Project</ActionButton>
-          </ProtectedComponent>
-        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
