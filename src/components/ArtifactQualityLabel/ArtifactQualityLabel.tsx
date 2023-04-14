@@ -2,7 +2,7 @@ import { Label, LabelProps } from '@patternfly/react-core';
 
 import { Artifact } from 'pnc-api-types-ts';
 
-import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 
 export interface ILabelMapper {
   [key: string]: {

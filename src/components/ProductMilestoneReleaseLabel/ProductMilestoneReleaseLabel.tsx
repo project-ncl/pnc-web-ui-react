@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
-import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 
 import { isProductMilestone, isProductRelease } from 'utils/entityRecognition';
 import { createDateTime } from 'utils/utils';

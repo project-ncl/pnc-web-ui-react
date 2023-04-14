@@ -3,8 +3,8 @@ import React from 'react';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
-import { RefreshStateCard } from 'components/EmptyStates/RefreshStateCard';
 import { IServiceContainerProps, ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { RefreshStateCard } from 'components/StateCard/RefreshStateCard';
 
 interface IServiceContainerCreatingUpdatingProps extends IServiceContainerProps {
   title?: string;

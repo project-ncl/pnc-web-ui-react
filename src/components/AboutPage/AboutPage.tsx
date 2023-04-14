@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
