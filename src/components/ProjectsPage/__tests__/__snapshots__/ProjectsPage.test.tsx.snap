@@ -9,7 +9,7 @@ Object {
         class="pf-c-page__main-section pf-m-light"
       >
         <div
-          class="pf-c-content"
+          class="pf-c-content pull-left"
         >
           <h1
             class=""
@@ -49,6 +49,24 @@ Object {
             </span>
             , usually a project represents one SCM repository and one project may contain multiple Build Configs.
           </p>
+        </div>
+        <div
+          class="pull-right"
+        >
+          <div
+            class="disabled-content"
+          >
+            <button
+              aria-disabled="false"
+              class="pf-c-button pf-m-primary pf-m-small"
+              data-ouia-component-id="OUIA-Generated-Button-primary-2"
+              data-ouia-component-type="PF4/Button"
+              data-ouia-safe="true"
+              type="button"
+            >
+              Create Project
+            </button>
+          </div>
         </div>
       </section>
       <div
@@ -126,24 +144,6 @@ Object {
                     type="text"
                     value=""
                   />
-                </div>
-              </div>
-              <div
-                class=""
-              >
-                <div
-                  class="disabled-content"
-                >
-                  <button
-                    aria-disabled="false"
-                    class="pf-c-button pf-m-primary pf-m-small"
-                    data-ouia-component-id="OUIA-Generated-Button-primary-2"
-                    data-ouia-component-type="PF4/Button"
-                    data-ouia-safe="true"
-                    type="button"
-                  >
-                    Create Project
-                  </button>
                 </div>
               </div>
             </div>
@@ -752,7 +752,7 @@ Object {
       class="pf-c-page__main-section pf-m-light"
     >
       <div
-        class="pf-c-content"
+        class="pf-c-content pull-left"
       >
         <h1
           class=""
@@ -792,6 +792,24 @@ Object {
           </span>
           , usually a project represents one SCM repository and one project may contain multiple Build Configs.
         </p>
+      </div>
+      <div
+        class="pull-right"
+      >
+        <div
+          class="disabled-content"
+        >
+          <button
+            aria-disabled="false"
+            class="pf-c-button pf-m-primary pf-m-small"
+            data-ouia-component-id="OUIA-Generated-Button-primary-2"
+            data-ouia-component-type="PF4/Button"
+            data-ouia-safe="true"
+            type="button"
+          >
+            Create Project
+          </button>
+        </div>
       </div>
     </section>
     <div
@@ -869,24 +887,6 @@ Object {
                   type="text"
                   value=""
                 />
-              </div>
-            </div>
-            <div
-              class=""
-            >
-              <div
-                class="disabled-content"
-              >
-                <button
-                  aria-disabled="false"
-                  class="pf-c-button pf-m-primary pf-m-small"
-                  data-ouia-component-id="OUIA-Generated-Button-primary-2"
-                  data-ouia-component-type="PF4/Button"
-                  data-ouia-safe="true"
-                  type="button"
-                >
-                  Create Project
-                </button>
               </div>
             </div>
           </div>
