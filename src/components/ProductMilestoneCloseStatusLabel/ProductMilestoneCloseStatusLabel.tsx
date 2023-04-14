@@ -3,7 +3,7 @@ import { Label } from '@patternfly/react-core';
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { ILabelMapper } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
-import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 
 const CLOSE_STATUSES: ILabelMapper = {
   IN_PROGRESS: {

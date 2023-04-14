@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
-import { StateCard } from 'components/EmptyStates/StateCard';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { StateCard } from 'components/StateCard/StateCard';
 
 import '../../index.css';
 

@@ -1,7 +1,7 @@
 import { GridItem } from '@patternfly/react-core';
 import { PropsWithChildren } from 'react';
 
-import { EmptyStateSymbol } from 'components/EmptyStates/EmptyStateSymbol';
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import styles from './Attributes.module.css';
