@@ -1,5 +1,5 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ProductMilestoneAttributes } from 'common/ProductMilestoneAttributes';
@@ -35,6 +35,22 @@ export const ProductMilestoneDetailPage = () => {
 
   const serviceContainerStatistics = useServiceContainer(productMilestoneApi.getStatistics);
   const serviceContainerStatisticsRunner = serviceContainerStatistics.run;
+
+  const dougnutChartArtifactQuality = useMemo(
+    () => ({
+      data: doughnutChartDataTransform(serviceContainerStatistics.data?.artifactQuality),
+      labels: doughnutChartLabelTransform(serviceContainerStatistics.data?.artifactQuality),
+    }),
+    [serviceContainerStatistics.data]
+  );
+
+  const dougnutChartRepositoryType = useMemo(
+    () => ({
+      data: doughnutChartDataTransform(serviceContainerStatistics.data?.repositoryType),
+      labels: doughnutChartLabelTransform(serviceContainerStatistics.data?.repositoryType),
+    }),
+    [serviceContainerStatistics.data]
+  );
 
   useEffect(() => {
     serviceContainerCloseResultsRunner({
@@ -158,8 +174,8 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox borderTop contentHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
-              data={doughnutChartDataTransform(serviceContainerStatistics.data?.artifactQuality)}
-              labels={doughnutChartLabelTransform(serviceContainerStatistics.data?.artifactQuality)}
+              data={dougnutChartArtifactQuality.data}
+              labels={dougnutChartArtifactQuality.labels}
               description="Chart displays proportion of quality of Delivered Artifacts."
             />
           </ServiceContainerLoading>
@@ -177,8 +193,8 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox borderTop contentHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
-              data={doughnutChartDataTransform(serviceContainerStatistics.data?.repositoryType)}
-              labels={doughnutChartLabelTransform(serviceContainerStatistics.data?.repositoryType)}
+              data={dougnutChartRepositoryType.data}
+              labels={dougnutChartRepositoryType.labels}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts.

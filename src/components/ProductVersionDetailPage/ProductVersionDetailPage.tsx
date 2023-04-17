@@ -1,5 +1,5 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
@@ -41,6 +41,22 @@ export const ProductVersionDetailPage = () => {
 
   const serviceContainerRepositoryTypeStatistics = useServiceContainer(productVersionApi.getRepositoryTypeStatistics);
   const serviceContainerRepositoryTypeStatisticsRunner = serviceContainerRepositoryTypeStatistics.run;
+
+  const stackedBarChartArtifactQuality = useMemo(
+    () => ({
+      data: stackedBarChartDataTransform(serviceContainerArtifactQualityStatistics.data?.content, 'artifactQuality'),
+      labels: stackedBarChartLabelTransform(serviceContainerArtifactQualityStatistics.data?.content),
+    }),
+    [serviceContainerArtifactQualityStatistics.data]
+  );
+
+  const stackedBarChartRepositoryType = useMemo(
+    () => ({
+      data: stackedBarChartDataTransform(serviceContainerRepositoryTypeStatistics.data?.content, 'repositoryType'),
+      labels: stackedBarChartLabelTransform(serviceContainerRepositoryTypeStatistics.data?.content),
+    }),
+    [serviceContainerRepositoryTypeStatistics.data]
+  );
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) =>
@@ -188,8 +204,8 @@ export const ProductVersionDetailPage = () => {
             title="Product Milestone Artifact Quality Distribution"
           >
             <StackedBarChart
-              labels={stackedBarChartLabelTransform(serviceContainerArtifactQualityStatistics.data?.content)}
-              data={stackedBarChartDataTransform(serviceContainerArtifactQualityStatistics.data?.content, 'artifactQuality')}
+              data={stackedBarChartArtifactQuality.data}
+              labels={stackedBarChartArtifactQuality.labels}
               description="Chart displays proportion of quality of Delivered Artifacts among Product Milestones of this Version."
             />
           </ServiceContainerLoading>
@@ -212,8 +228,8 @@ export const ProductVersionDetailPage = () => {
             title="Product Milestone Repository Type Distribution"
           >
             <StackedBarChart
-              labels={stackedBarChartLabelTransform(serviceContainerRepositoryTypeStatistics.data?.content)}
-              data={stackedBarChartDataTransform(serviceContainerRepositoryTypeStatistics.data?.content, 'repositoryType')}
+              data={stackedBarChartRepositoryType.data}
+              labels={stackedBarChartRepositoryType.labels}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts among Product Milestones of this Version.
