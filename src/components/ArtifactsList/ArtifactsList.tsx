@@ -244,18 +244,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
             }}
           />
         </ToolbarItem>
-        <ToolbarItem>
-          <Switch
-            id="toggle-expand-all"
-            label="Expand all Artifacts"
-            labelOff="Expand all Artifacts"
-            isChecked={areAllArtifactsExpanded === true}
-            onChange={() => {
-              setAreBuildArtifactsExpanded(false);
-              setAreAllArtifactsExpanded(areAllArtifactsExpanded !== undefined ? !areAllArtifactsExpanded : true);
-            }}
-          />
-        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
@@ -267,7 +255,17 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th />
+                <Th
+                  expand={{
+                    // probably a Patternfly bug, must be negated
+                    areAllExpanded: !areAllArtifactsExpanded,
+                    onToggle: () => {
+                      setAreBuildArtifactsExpanded(false);
+                      setAreAllArtifactsExpanded(areAllArtifactsExpanded !== undefined ? !areAllArtifactsExpanded : true);
+                    },
+                    collapseAllAriaLabel: '',
+                  }}
+                />
                 {columns.includes('build') && <Th width={10} />}
                 {columns.includes('identifier') && (
                   <Th width={30} sort={getSortParams(sortOptions['identifier'].id)}>
