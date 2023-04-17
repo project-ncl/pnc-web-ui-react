@@ -22,6 +22,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
+import { doughnutChartDataTransform, doughnutChartLabelTransform } from 'utils/dataTransformHelper';
 import { createDateTime } from 'utils/utils';
 
 export const ProductMilestoneDetailPage = () => {
@@ -157,7 +158,8 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox borderTop contentHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
-              data={serviceContainerStatistics.data?.artifactQuality}
+              data={doughnutChartDataTransform(serviceContainerStatistics.data?.artifactQuality)}
+              labels={doughnutChartLabelTransform(serviceContainerStatistics.data?.artifactQuality)}
               description="Chart displays proportion of quality of Delivered Artifacts."
             />
           </ServiceContainerLoading>
@@ -175,7 +177,8 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox borderTop contentHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
-              data={serviceContainerStatistics.data?.repositoryType}
+              data={doughnutChartDataTransform(serviceContainerStatistics.data?.repositoryType)}
+              labels={doughnutChartLabelTransform(serviceContainerStatistics.data?.repositoryType)}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts.
