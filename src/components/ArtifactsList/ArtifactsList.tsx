@@ -26,6 +26,7 @@ import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQu
 import { ArtifactRepositoryTypeLabel } from 'components/ArtifactRepositoryTypeLabel/ArtifactRepositoryTypeLabel';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { Filtering, IFilterAttribute, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/ParsedArtifactIdentifier';
@@ -402,11 +403,19 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                           <DescriptionListTerm>sha256</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.sha256}</DescriptionListDescription>
                         </DescriptionListGroup>
-                        {columns.includes('build') && artifact.build && (
+                        {columns.includes('build') && (
                           <DescriptionListGroup className="m-t-10">
                             <DescriptionListTerm>Build</DescriptionListTerm>
                             <DescriptionListDescription>
-                              <BuildName build={artifact.build} long /> (#{artifact.build.id})
+                              {artifact.build ? (
+                                <>
+                                  <BuildName build={artifact.build} long /> (#{artifact.build.id})
+                                </>
+                              ) : (
+                                <TooltipWrapper tooltip="This Artifact was not produced by any PNC Build.">
+                                  <EmptyStateSymbol variant="text" />
+                                </TooltipWrapper>
+                              )}
                             </DescriptionListDescription>
                           </DescriptionListGroup>
                         )}

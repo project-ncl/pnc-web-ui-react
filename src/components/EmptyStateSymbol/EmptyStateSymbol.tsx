@@ -6,7 +6,7 @@ interface IEmptyStateSymbol {
 }
 
 export const EmptyStateSymbol = ({ title, variant = 'mdash' }: IEmptyStateSymbol) => (
-  <span title={`${title} is not available`}>
+  <span title={title ? `${title} is not available` : ''}>
     {variant === 'text' && <span className={styles['value-empty']}>Empty</span>}
     {variant === 'mdash' && <>&mdash;</>}
     {variant === 'ndash' && <>&ndash;</>}
