@@ -1,5 +1,10 @@
 // module to transform backend data or infer other data from them
+import { IDoughnutChartProps } from 'components/Charts/DoughnutChart';
 import { IStackedBarChartProps } from 'components/Charts/StackedBarChart';
+
+export const doughnutChartDataTransform = (data: any): IDoughnutChartProps['data'] => (data ? Object.values(data) : []);
+
+export const doughnutChartLabelTransform = (data: any): IDoughnutChartProps['labels'] => (data ? Object.keys(data) : []);
 
 export const stackedBarChartDataTransform = (data: any, statisticsGroup: string): IStackedBarChartProps['data'] =>
   data &&

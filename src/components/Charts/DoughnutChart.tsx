@@ -6,20 +6,9 @@ import { ChartBox } from 'components/Charts/ChartBox';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
 
-/**
- * @example
- * {
- *   BUILT: 25,
- *   IMPORTED: 65,
- *   DEPRECATED: 10
- * }
- */
-interface IDoughnutData {
-  [key: string]: number;
-}
-
-interface IDoughnutChartProps {
-  data: IDoughnutData;
+export interface IDoughnutChartProps {
+  data: number[];
+  labels: string[];
   id?: string;
   description?: IDescription;
   legendHeight?: number;
@@ -29,32 +18,26 @@ interface IDoughnutChartProps {
  * Chart.js Dougnut chart.
  *
  * @param data - Chart data
+ * @param labels - Chart data labels
  * @param id - ID of canvas
  * @param description - Description to be displayed in help icon
  * @param legendHeight - Legend height
  */
-export const DoughnutChart = ({ data, id, description, legendHeight = 100 }: IDoughnutChartProps) => {
+export const DoughnutChart = ({ data, labels, id, description, legendHeight = 100 }: IDoughnutChartProps) => {
   const chart = useRef<Chart>();
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const labels = data ? Object.keys(data) : [];
-    const values = data ? Object.values(data) : [];
-
     const chartConfig: ChartConfiguration = {
       type: 'doughnut',
       data: {
-        datasets: [
-          {
-            data: values,
-          },
-        ],
-        labels: labels,
+        datasets: [{ data }],
+        labels,
       },
       options: {
         elements: {
           center: {
-            text: values.reduce((a, b) => a + b, 0),
+            text: data.reduce((a, b) => a + b, 0),
             fontStyle:
               '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
           },
@@ -91,7 +74,7 @@ export const DoughnutChart = ({ data, id, description, legendHeight = 100 }: IDo
       chart.current.config.options = chartConfig.options;
       chart.current.update();
     }
-  }, [data, legendHeight]);
+  }, [data, labels, legendHeight]);
 
   return (
     <ChartBox description={description}>
