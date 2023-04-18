@@ -1,6 +1,9 @@
 import { Flex, FlexItem, FlexProps, Label, LabelProps } from '@patternfly/react-core';
+import { Link } from 'react-router-dom';
 
 import { Artifact } from 'pnc-api-types-ts';
+
+import { PageIconLink } from 'components/PageIconLink/PageIconLink';
 
 const LABEL_COLORS: LabelProps['color'][] = ['orange', 'cyan', 'purple', 'green', 'grey'];
 
@@ -48,9 +51,12 @@ export const ParsedArtifactIdentifier = ({ artifact }: IParsedArtifactIdentifier
         {artifactLabels.map((artifactLabel: string, index: number) => (
           <GeneratedLabel key={index} artifactLabel={artifactLabel} index={index} />
         ))}
+        <FlexItem>
+          <PageIconLink tooltip="Go to Artifact detail page." to={`/artifacts/${artifact.id}`} />
+        </FlexItem>
       </Flex>
     );
   }
 
-  return <>{artifact.identifier}</>;
+  return <Link to={`/artifacts/${artifact.id}`}>{artifact.identifier}</Link>;
 };
