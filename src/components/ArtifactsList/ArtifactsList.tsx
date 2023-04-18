@@ -9,8 +9,7 @@ import {
   Label,
   Switch,
 } from '@patternfly/react-core';
-import { DownloadIcon } from '@patternfly/react-icons';
-import { BuildIcon } from '@patternfly/react-icons';
+import { BuildIcon, DownloadIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -333,7 +332,11 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                     <Td>
                       <Flex spaceItems={spaceItemsLg}>
                         <FlexItem>
-                          {isArtifactIdentifierParsed ? <ParsedArtifactIdentifier artifact={artifact} /> : artifact.identifier}
+                          {isArtifactIdentifierParsed ? (
+                            <ParsedArtifactIdentifier artifact={artifact} />
+                          ) : (
+                            <Link to={`/artifacts/${artifact.id}`}>{artifact.identifier}</Link>
+                          )}
                         </FlexItem>
                       </Flex>
                     </Td>
@@ -409,12 +412,14 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                             <DescriptionListDescription>
                               {artifact.build ? (
                                 <>
-                                  <BuildName build={artifact.build} long /> (#{artifact.build.id})
+                                  <BuildName build={artifact.build} long includeBuildLink includeConfigLink /> (
+                                  <Link to={`/builds/${artifact.build.id}`}>#{artifact.build.id}</Link>)
                                 </>
                               ) : (
-                                <TooltipWrapper tooltip="This Artifact was not produced by any PNC Build.">
+                                <>
+                                  <TooltipWrapper tooltip="This Artifact was not produced by any PNC Build." />{' '}
                                   <EmptyStateSymbol variant="text" />
-                                </TooltipWrapper>
+                                </>
                               )}
                             </DescriptionListDescription>
                           </DescriptionListGroup>
