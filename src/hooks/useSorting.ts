@@ -140,6 +140,8 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
   const [activeSortIndex, setActiveSortIndex] = useState<number>();
   const [activeSortAttribute, setActiveSortAttribute] = useState<string>();
   const [activeSortDirection, setActiveSortDirection] = useState<ISortBy['direction']>(undefined);
+  const [legacySortDirection, setLegacySortDirection] = useState<string>('');
+  const [legacySortIndex, setLegacySortIndex] = useState<number>();
 
   const sort = useCallback(
     ({ sortAttribute, sortDirection, resetSorting = false, replace = false }: ISortFunctionOptions) => {
@@ -166,7 +168,13 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
       direction: activeSortDirection,
     },
     onSort: (_event, _index, sortDirection) => {
-      sort({ sortAttribute, sortDirection });
+      sort({
+        sortAttribute,
+        sortDirection,
+        resetSorting: legacySortDirection.includes('desc') && legacySortIndex === activeSortIndex,
+      });
+      setLegacySortIndex(_index);
+      setLegacySortDirection(sortDirection);
     },
     columnIndex: sortOptions[sortAttribute].tableColumnIndex,
   });
