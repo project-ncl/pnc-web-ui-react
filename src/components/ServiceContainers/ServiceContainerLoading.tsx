@@ -74,7 +74,7 @@ export const ServiceContainerLoading = ({
   if (error) return <ErrorStateCard title={title} error={error} variant={variant} />;
 
   // Service not executed yet
-  // When service is executed automatically after page is rendered, then null prevents flickering experience before other states are displayed
+  // When service is executed automatically after rendering, then null prevents flickering experience before other states are displayed
   if (data === undefined) return notYetContent ? <>{notYetContent}</> : null;
 
   // Invalid state, Error state should be triggered before this
