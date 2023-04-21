@@ -51,18 +51,14 @@ export const AdministrationPage = () => {
   const [pncVersion, setPncVersion] = useState<string>('');
   const serviceContainerPncVersionGet = useServiceContainer(genericSettingsApi.getPncVersion);
   const serviceContainerPncVersionGetRunner = serviceContainerPncVersionGet.run;
-  const serviceContainerPncVersionSet = useServiceContainer(genericSettingsApi.setPncVersion, {
-    initLoadingState: false,
-  });
+  const serviceContainerPncVersionSet = useServiceContainer(genericSettingsApi.setPncVersion);
 
   const [announcementMessage, setAnnouncementMessage] = useState<string>('');
   const [etaTime, setEtaTime] = useState<string>();
   const [isEtaNa, setIsEtaNa] = useState<boolean>(false);
   const [announcementTouched, setAnnouncementTouched] = useState<boolean>(false);
   const [etaTouched, setEtaTouched] = useState<boolean>(false);
-  const serviceContainerAnnouncement = useServiceContainer(genericSettingsApi.setAnnouncementBanner, {
-    initLoadingState: false,
-  });
+  const serviceContainerAnnouncement = useServiceContainer(genericSettingsApi.setAnnouncementBanner);
 
   const validateForm = () => {
     setAnnouncementTouched(true);

@@ -57,18 +57,14 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   const urlPathParams = useParams();
 
   // create page
-  const serviceContainerCreatePage = useServiceContainer(projectApi.createProject, {
-    initLoadingState: false,
-  });
+  const serviceContainerCreatePage = useServiceContainer(projectApi.createProject);
 
   // edit page - get method
   const serviceContainerEditPageGet = useServiceContainer(projectApi.getProject);
   const serviceContainerEditPageGetRunner = serviceContainerEditPageGet.run;
 
   // edit page - patch method
-  const serviceContainerEditPagePatch = useServiceContainer(projectApi.patchProject, {
-    initLoadingState: false,
-  });
+  const serviceContainerEditPagePatch = useServiceContainer(projectApi.patchProject);
 
   useTitle(
     generatePageTitle({

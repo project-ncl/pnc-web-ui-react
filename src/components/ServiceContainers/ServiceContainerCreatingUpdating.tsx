@@ -42,5 +42,9 @@ export const ServiceContainerCreatingUpdating = ({
     );
   }
 
+  // Service not executed yet
+  // null prevents flickering experience before other states are displayed
+  if (serviceContainerLoading && serviceContainerLoading.data === undefined) return null;
+
   return <>{children}</>;
 };

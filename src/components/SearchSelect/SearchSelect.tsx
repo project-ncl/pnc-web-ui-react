@@ -1,4 +1,4 @@
-import { Select, SelectOption, SelectOptionObject, SelectVariant, Spinner } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant, Spinner } from '@patternfly/react-core';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -163,6 +163,17 @@ export const SearchSelect = ({
     refetchData(pageIndex + 1);
   };
 
+  const getLoadingVariant = (): undefined | SelectProps['loadingVariant'] => {
+    if (serviceContainer.loading) return 'spinner';
+
+    // When error, then noResultsFoundText property is used to display error message
+    if (serviceContainer.error) return undefined;
+
+    if (serviceContainer.data && pageIndex < serviceContainer.data.totalPages) {
+      return { text: 'View more', onClick: onViewMoreClick };
+    }
+  };
+
   return (
     <div className="position-relative">
       {serviceContainer.loading && serviceContainer.data && (
@@ -192,12 +203,7 @@ export const SearchSelect = ({
         isInputFilterPersisted={true}
         placeholderText="string | !string | s?ring | st*ng"
         noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
-        {...(!serviceContainer.loading &&
-          !serviceContainer.error &&
-          pageIndex < serviceContainer.data.totalPages && {
-            loadingVariant: { text: 'View more', onClick: onViewMoreClick },
-          })}
-        {...(serviceContainer.loading && { loadingVariant: 'spinner' })}
+        loadingVariant={getLoadingVariant()}
       >
         {currentData.map((option: any, index: number) => (
           <SelectOption

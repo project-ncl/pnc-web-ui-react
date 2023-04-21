@@ -29,18 +29,14 @@ export type ServiceContainerRunnerFunction = (iService?: IService<Object | null>
  * Hook's request is terminated if unmounted from DOM.
  *
  * @param service - Service to be executed to load data
- * @param config - Config object, initLoadingState (provides init values for loading state)
  * @returns Object with data, loading and error property
  */
-export const useServiceContainer = (
-  service: Function,
-  { initLoadingState = true }: { initLoadingState?: boolean } = {}
-): IServiceContainer => {
+export const useServiceContainer = (service: Function): IServiceContainer => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time
-  const [data, setData] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(initLoadingState);
+  const [data, setData] = useState<any>(undefined); // undefined = service not executed yet
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>(ERROR_INIT);
 
   const loadingCount = useRef<number>(0);
@@ -75,7 +71,13 @@ export const useServiceContainer = (
         // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
         ReactDOM.unstable_batchedUpdates(() => {
           setLoading(false);
-          setData(response.data);
+          // Convert undefined to null
+          // undefined is reserved for "service not executed yet"
+          if (response.data === undefined) {
+            setData(null);
+          } else {
+            setData(response.data);
+          }
           setError(ERROR_INIT);
         });
         return response;
