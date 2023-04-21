@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
 import { ErrorStateCard } from 'components/StateCard/ErrorStateCard';
 import { LoadingStateCard } from 'components/StateCard/LoadingStateCard';
@@ -14,6 +16,7 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
   loadingDelayMilliseconds?: number;
   hasSkeleton?: boolean;
   variant?: 'block' | 'inline' | 'icon';
+  notYetContent?: ReactNode;
 }
 
 /**
@@ -36,6 +39,7 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
  * @param loadingDelayMilliseconds - Waiting time before loading component gets rendered
  * @param hasSkeleton - Display skeleton in loading state
  * @param variant - Style variant. Defaults to 'block'
+ * @param notYetContent - Custom content to be displayed when service was not executed yet, typically used when service is executed manually after some user event (for example click), not automatically after rendering
  * @param children - React children property
  */
 export const ServiceContainerLoading = ({
@@ -46,6 +50,7 @@ export const ServiceContainerLoading = ({
   loadingDelayMilliseconds,
   hasSkeleton = false,
   variant = 'block',
+  notYetContent,
   children,
 }: React.PropsWithChildren<IServiceContainerLoadingProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
@@ -67,6 +72,10 @@ export const ServiceContainerLoading = ({
 
   // Error state: display Error card when error
   if (error) return <ErrorStateCard title={title} error={error} variant={variant} />;
+
+  // Service not executed yet
+  // When service is executed automatically after page is rendered, then null prevents flickering experience before other states are displayed
+  if (data === undefined) return notYetContent ? <>{notYetContent}</> : null;
 
   // Invalid state, Error state should be triggered before this
   if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
