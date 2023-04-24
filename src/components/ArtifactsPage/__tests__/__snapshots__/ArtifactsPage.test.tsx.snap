@@ -728,7 +728,7 @@ Object {
           </div>
         </div>
         <div
-          class="shadow-global bg-w border-t-gray"
+          class="shadow-global bg-w"
         >
           <div>
             <div
@@ -1666,7 +1666,7 @@ Object {
         </div>
       </div>
       <div
-        class="shadow-global bg-w border-t-gray"
+        class="shadow-global bg-w"
       >
         <div>
           <div
