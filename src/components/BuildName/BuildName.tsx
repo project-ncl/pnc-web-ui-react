@@ -5,6 +5,8 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 import { isBuild, isGroupBuild } from 'utils/entityRecognition';
 
 export const calculateBuildName = (build: Build | GroupBuild) => {
+  if (!build) return;
+
   if (isGroupBuild(build)) {
     return '#' + build.id;
   }
@@ -26,13 +28,29 @@ export const calculateBuildName = (build: Build | GroupBuild) => {
   throw new Error('Invalid build: ' + build.id);
 };
 
+export const calculateBuildConfigName = (build: Build | GroupBuild) => {
+  if (!build) return;
+
+  if (isGroupBuild(build)) {
+    return (build as GroupBuild).groupConfig!.name;
+  }
+
+  if (isBuild(build)) {
+    return (build as Build).buildConfigRevision!.name;
+  }
+};
+
+export const calculateLongBuildName = (build: Build | GroupBuild) => {
+  return `${calculateBuildName(build)} of ${calculateBuildConfigName(build)}`;
+};
+
 interface IConfigAppendix {
   build: Build | GroupBuild;
   includeConfigLink?: boolean;
 }
 
 const ConfigAppendix = ({ build, includeConfigLink }: IConfigAppendix) => {
-  const configName = (isBuild(build) ? (build as Build).buildConfigRevision : (build as GroupBuild).groupConfig)!.name;
+  const configName = calculateBuildConfigName(build);
   const configLink = 'TODO'; // TODO: FORMAT LINKS HERE
   return <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : configName}</>;
 };
@@ -58,7 +76,7 @@ interface IBuildName {
  */
 export const BuildName = ({ build, long, includeBuildLink, includeConfigLink }: IBuildName) => {
   const name = calculateBuildName(build);
-  const buildLink = 'TODO'; // TODO: FORMAT LINKS HERE
+  const buildLink = `/builds/${build.id}`;
   return (
     <span>
       {includeBuildLink ? <Link to={buildLink}>{name}</Link> : name}
