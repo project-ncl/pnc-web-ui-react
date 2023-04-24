@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { BuildPage, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
+import { Build, BuildPage, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
 
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
@@ -23,6 +23,17 @@ interface IBuildApiData {
  */
 export const getBuilds = (requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildPage>('/builds', requestConfig);
+};
+
+/**
+ * Gets a specific Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuild = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<Build>(`/builds/${id}`, requestConfig);
 };
 
 /**

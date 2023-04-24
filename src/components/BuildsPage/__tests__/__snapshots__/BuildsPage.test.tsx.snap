@@ -293,15 +293,27 @@ Object {
                 <td
                   class=""
                 >
-                  #1001
+                  <a
+                    href="/builds/1001"
+                  >
+                    #1001
+                  </a>
                 </td>
                 <td
                   class=""
                 >
                   <span>
-                    #20201019-0013
+                    <a
+                      href="/builds/1001"
+                    >
+                      #20201019-0013
+                    </a>
                      of 
-                    123
+                    <a
+                      href="/TODO"
+                    >
+                      123
+                    </a>
                   </span>
                 </td>
                 <td
@@ -413,15 +425,27 @@ Object {
                 <td
                   class=""
                 >
-                  #1002
+                  <a
+                    href="/builds/1002"
+                  >
+                    #1002
+                  </a>
                 </td>
                 <td
                   class=""
                 >
                   <span>
-                    #20201027-1206
+                    <a
+                      href="/builds/1002"
+                    >
+                      #20201027-1206
+                    </a>
                      of 
-                    123
+                    <a
+                      href="/TODO"
+                    >
+                      123
+                    </a>
                   </span>
                 </td>
                 <td
@@ -533,15 +557,27 @@ Object {
                 <td
                   class=""
                 >
-                  #AJ4WUBX75VQAA
+                  <a
+                    href="/builds/AJ4WUBX75VQAA"
+                  >
+                    #AJ4WUBX75VQAA
+                  </a>
                 </td>
                 <td
                   class=""
                 >
                   <span>
-                    #20210506-2341
+                    <a
+                      href="/builds/AJ4WUBX75VQAA"
+                    >
+                      #20210506-2341
+                    </a>
                      of 
-                    DnsSSHTest
+                    <a
+                      href="/TODO"
+                    >
+                      DnsSSHTest
+                    </a>
                   </span>
                 </td>
                 <td
@@ -1132,15 +1168,27 @@ Object {
               <td
                 class=""
               >
-                #1001
+                <a
+                  href="/builds/1001"
+                >
+                  #1001
+                </a>
               </td>
               <td
                 class=""
               >
                 <span>
-                  #20201019-0013
+                  <a
+                    href="/builds/1001"
+                  >
+                    #20201019-0013
+                  </a>
                    of 
-                  123
+                  <a
+                    href="/TODO"
+                  >
+                    123
+                  </a>
                 </span>
               </td>
               <td
@@ -1252,15 +1300,27 @@ Object {
               <td
                 class=""
               >
-                #1002
+                <a
+                  href="/builds/1002"
+                >
+                  #1002
+                </a>
               </td>
               <td
                 class=""
               >
                 <span>
-                  #20201027-1206
+                  <a
+                    href="/builds/1002"
+                  >
+                    #20201027-1206
+                  </a>
                    of 
-                  123
+                  <a
+                    href="/TODO"
+                  >
+                    123
+                  </a>
                 </span>
               </td>
               <td
@@ -1372,15 +1432,27 @@ Object {
               <td
                 class=""
               >
-                #AJ4WUBX75VQAA
+                <a
+                  href="/builds/AJ4WUBX75VQAA"
+                >
+                  #AJ4WUBX75VQAA
+                </a>
               </td>
               <td
                 class=""
               >
                 <span>
-                  #20210506-2341
+                  <a
+                    href="/builds/AJ4WUBX75VQAA"
+                  >
+                    #20210506-2341
+                  </a>
                    of 
-                  DnsSSHTest
+                  <a
+                    href="/TODO"
+                  >
+                    DnsSSHTest
+                  </a>
                 </span>
               </td>
               <td

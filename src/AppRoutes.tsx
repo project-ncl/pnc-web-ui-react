@@ -5,7 +5,15 @@ import { PageTitles } from 'common/constants';
 import { AboutPage } from 'components/AboutPage/AboutPage';
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
+import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
+import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
+import { BuildBrewPushPage } from 'components/BuildBrewPushPage/BuildBrewPushPage';
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
+import { BuildDependenciesPage } from 'components/BuildDependenciesPage/BuildDependenciesPage';
+import { BuildDetailPage } from 'components/BuildDetailPage/BuildDetailPage';
+import { BuildLogPage } from 'components/BuildLogPage/BuildLogPage';
+import { BuildMetricsPage } from 'components/BuildMetricsPage/BuildMetricsPage';
+import { BuildPages } from 'components/BuildPages/BuildPages';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
@@ -88,7 +96,19 @@ export const AppRoutes = () => (
     </Route>
     <Route path="build-configs" element={<BuildConfigsPage />} />
     <Route path="group-configs" element={<GroupConfigsPage />} />
-    <Route path="builds" element={<BuildsPage />} />
+    <Route path="builds">
+      <Route index element={<BuildsPage />} />
+      <Route path=":buildId" element={<BuildPages />}>
+        <Route path="details" element={<BuildDetailPage />} />
+        <Route path="build-log" element={<BuildLogPage />} />
+        <Route path="alignment-log" element={<BuildAlignmentLogPage />} />
+        <Route path="artifacts" element={<BuildArtifactsPage />} />
+        <Route path="dependencies" element={<BuildDependenciesPage />} />
+        <Route path="brew-push" element={<BuildBrewPushPage />} />
+        <Route path="build-metrics" element={<BuildMetricsPage />} />
+        <Route index element={<Navigate to="details" replace />} />
+      </Route>
+    </Route>
     <Route path="group-builds" element={<GroupBuildsPage />} />
     <Route path="artifacts" element={<ArtifactsPage />} />
     <Route path="scm-repositories">

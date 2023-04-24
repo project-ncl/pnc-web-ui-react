@@ -1,6 +1,7 @@
 import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
 import { TableComposable, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Build } from 'pnc-api-types-ts';
 
@@ -152,9 +153,11 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Td>
                   <BuildStatusIcon build={build} long />
                 </Td>
-                <Td>{`#${build.id}`}</Td>
                 <Td>
-                  <BuildName build={build} long />
+                  <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
+                </Td>
+                <Td>
+                  <BuildName build={build} includeBuildLink includeConfigLink long />
                 </Td>
                 <Td>
                   <DescriptionList className="gap-0" isHorizontal isCompact>
