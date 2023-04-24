@@ -28,17 +28,35 @@ Object {
             data-pf-content="true"
           >
             This page contains Artifacts used and produced by Builds, Artifact is represented by PNC Identifier and it may be for example 
-            <label>
-              pom
-            </label>
+            <span
+              class="pf-c-label"
+            >
+              <span
+                class="pf-c-label__content"
+              >
+                pom
+              </span>
+            </span>
             , 
-            <label>
-              jar
-            </label>
+            <span
+              class="pf-c-label"
+            >
+              <span
+                class="pf-c-label__content"
+              >
+                jar
+              </span>
+            </span>
              or an archive like 
-            <label>
-              tgz
-            </label>
+            <span
+              class="pf-c-label"
+            >
+              <span
+                class="pf-c-label__content"
+              >
+                tgz
+              </span>
+            </span>
             .
           </p>
         </div>
@@ -948,17 +966,35 @@ Object {
           data-pf-content="true"
         >
           This page contains Artifacts used and produced by Builds, Artifact is represented by PNC Identifier and it may be for example 
-          <label>
-            pom
-          </label>
+          <span
+            class="pf-c-label"
+          >
+            <span
+              class="pf-c-label__content"
+            >
+              pom
+            </span>
+          </span>
           , 
-          <label>
-            jar
-          </label>
+          <span
+            class="pf-c-label"
+          >
+            <span
+              class="pf-c-label__content"
+            >
+              jar
+            </span>
+          </span>
            or an archive like 
-          <label>
-            tgz
-          </label>
+          <span
+            class="pf-c-label"
+          >
+            <span
+              class="pf-c-label__content"
+            >
+              tgz
+            </span>
+          </span>
           .
         </p>
       </div>

@@ -1,3 +1,5 @@
+import { Label } from '@patternfly/react-core';
+
 import { PageTitles } from 'common/constants';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -26,7 +28,7 @@ export const ArtifactsPage = ({ componentId = 'a1' }: IArtifactsPageProps) => {
       description={
         <>
           This page contains Artifacts used and produced by Builds, Artifact is represented by PNC Identifier and it may be for
-          example <label>pom</label>, <label>jar</label> or an archive like <label>tgz</label>.
+          example <Label>pom</Label>, <Label>jar</Label> or an archive like <Label>tgz</Label>.
         </>
       }
     >
