@@ -169,6 +169,8 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
       sort({
         sortAttribute,
         sortDirection,
+        /*  Assuming asc as default direction, when previous sort direction was desc and new sorting is 
+        applied on the same attribute, then reset sorting */
         resetSorting: activeSortDirection === 'desc' && activeSortAttribute === sortAttribute,
       });
     },
