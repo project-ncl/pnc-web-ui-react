@@ -43,7 +43,7 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
 
   // pagination was already rendered
   return (
-    <ContentBox borderTop>
+    <ContentBox>
       <PaginationPF
         itemCount={count}
         perPage={pageSize}
