@@ -9,6 +9,7 @@ interface IMandatoryQueryParams {
   pagination?: boolean;
   sorting?: boolean;
   milestone?: boolean;
+  buildDependency?: boolean;
 }
 
 const listMandatoryQueryParams: IMandatoryQueryParams = { pagination: true, sorting: true };
@@ -24,6 +25,14 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
 
   // Example usage: ProductMilestoneInterconnectionGraphPage
   if (mandatoryParams.milestone && (!componentQueryParamsObject.milestone1 || !componentQueryParamsObject.milestone2)) {
+    return false;
+  }
+
+  // Example usage: BuildArtifactDependencyGraphPage
+  if (
+    mandatoryParams.buildDependency &&
+    (!componentQueryParamsObject.dependentBuild || !componentQueryParamsObject.dependencyBuild)
+  ) {
     return false;
   }
 

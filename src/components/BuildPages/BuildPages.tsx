@@ -43,6 +43,7 @@ export const BuildPages = () => {
       <TabsItem url="dependencies">Dependencies</TabsItem>
       <TabsItem url="brew-push">Brew Push</TabsItem>
       <TabsItem url="build-metrics">Build Metrics</TabsItem>
+      <TabsItem url="artifact-dependency-graph">Artifact Dependency Graph</TabsItem>
     </Tabs>
   );
 
