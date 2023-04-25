@@ -116,11 +116,11 @@ export const ProductMilestoneInterconnectionGraphPage = ({
           </TextContent>
           <TextContent>
             <Text component={TextVariants.p}>
-              Edges interconnect Product Milestones sharing Delivered Artifacts. Edge number is the number of shared Delivered
-              Artifacts between the two Milestones. Clicking on the edge displays the list of shared Delivered Artifacts. Nesting
-              level (relative to the node of the Milestone of this page) can be set to limit the graph size. Nodes can be selected
-              by clicking on them to make the graph more readable. Double clicking on the node opens Milestone detail page. Hold{' '}
-              <Label>shift</Label> and click the node to drag it.
+              Edges interconnect Product Milestones sharing Delivered Artifacts. An edge number represents the number of shared
+              Delivered Artifacts between the two Milestones. Clicking on an edge displays a list of shared Delivered Artifacts.
+              The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to highlight
+              them and their neighbors. Double-clicking on a node opens the Milestone detail page. To drag a node, hold down the{' '}
+              <Label>Shift</Label> key and the mouse button and click on the node.
             </Text>
           </TextContent>
         </ToolbarItem>
@@ -196,7 +196,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
               <TextContent>
                 <Text component={TextVariants.h2}>
                   Shared Delivered Artifacts between{' '}
-                  <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="inline" title="Product Milestone">
+                  <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="icon" title="Product Milestone">
                     <span className={styles['product-milestone-label']}>
                       <ProductMilestoneReleaseLabel
                         productMilestoneRelease={serviceContainerProductMilestone1.data}
@@ -205,7 +205,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
                     </span>
                   </ServiceContainerLoading>{' '}
                   and{' '}
-                  <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="inline" title="Product Milestone">
+                  <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="icon" title="Product Milestone">
                     <span className={styles['product-milestone-label']}>
                       <ProductMilestoneReleaseLabel
                         productMilestoneRelease={serviceContainerProductMilestone2.data}
@@ -214,9 +214,6 @@ export const ProductMilestoneInterconnectionGraphPage = ({
                     </span>
                   </ServiceContainerLoading>
                 </Text>
-              </TextContent>
-              <TextContent>
-                <Text component={TextVariants.p}>Delivered Artifacts shared between the two Milestones.</Text>
               </TextContent>
             </ToolbarItem>
             <ToolbarItem alignRight>
