@@ -6,6 +6,7 @@ import { AboutPage } from 'components/AboutPage/AboutPage';
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
+import { BuildArtifactDependencyGraphPage } from 'components/BuildArtifactDependencyGraphPage/BuildArtifactDependencyGraphPage';
 import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
 import { BuildBrewPushPage } from 'components/BuildBrewPushPage/BuildBrewPushPage';
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
@@ -106,6 +107,7 @@ export const AppRoutes = () => (
         <Route path="dependencies" element={<BuildDependenciesPage />} />
         <Route path="brew-push" element={<BuildBrewPushPage />} />
         <Route path="build-metrics" element={<BuildMetricsPage />} />
+        <Route path="artifact-dependency-graph" element={<BuildArtifactDependencyGraphPage />} />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
