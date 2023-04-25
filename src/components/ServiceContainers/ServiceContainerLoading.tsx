@@ -68,7 +68,7 @@ export const ServiceContainerLoading = ({
   // (the component was rendered at some point before)
   //  - for example: when page index is changed from page 1 to page 2
   //  - this will make UI more smooth and it prevents flickering user experience
-  if (loading && data) return <RefreshStateCard>{children}</RefreshStateCard>;
+  if (loading && data) return <RefreshStateCard isInline={variant !== 'block'}>{children}</RefreshStateCard>;
 
   // Error state: display Error card when error
   if (error) return <ErrorStateCard title={title} error={error} variant={variant} />;
