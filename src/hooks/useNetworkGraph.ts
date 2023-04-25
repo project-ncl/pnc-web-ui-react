@@ -254,7 +254,8 @@ export const useNetworkGraph = ({
     renderer.current?.setSetting('nodeReducer', (node: string, data: any) => {
       const nodeAttribute = graph.current?.getNodeAttributes(node);
 
-      const labelMatches = searchValueMainLabel && node.toLowerCase().includes(searchValueMainLabel.toLowerCase());
+      const labelMatches =
+        searchValueMainLabel && nodeAttribute?.mainLabel?.toLowerCase().includes(searchValueMainLabel.toLowerCase());
       const subLabelMatches =
         searchValueSubLabel && nodeAttribute?.subLabel?.toLowerCase().includes(searchValueSubLabel.toLowerCase());
       if (
