@@ -1,9 +1,6 @@
-import { Label } from '@patternfly/react-core';
-
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
-import { ILabelMapper } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
-import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
+import { ILabelMapper, Label } from 'components/Label/Label';
 
 const CLOSE_STATUSES: ILabelMapper = {
   IN_PROGRESS: {
@@ -33,7 +30,5 @@ interface IProductMilestoneCloseStatusLabelProps {
 }
 
 export const ProductMilestoneCloseStatusLabel = ({ status }: IProductMilestoneCloseStatusLabelProps) => {
-  const closeStatus = CLOSE_STATUSES[status];
-
-  return closeStatus ? <Label color={closeStatus.color}>{closeStatus.text}</Label> : <EmptyStateSymbol />;
+  return <Label labelObject={CLOSE_STATUSES[status]}></Label>;
 };

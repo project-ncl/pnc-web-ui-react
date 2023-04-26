@@ -1,9 +1,7 @@
-import { Label } from '@patternfly/react-core';
-
 import { TargetRepository } from 'pnc-api-types-ts';
 
-import { ILabelMapper } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
-import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
+import { ILabelMapper } from 'components/Label/Label';
+import { Label } from 'components/Label/Label';
 
 const ARTIFACT_REPOSITORY_TYPES: ILabelMapper = {
   MAVEN: {
@@ -33,11 +31,5 @@ interface IArtifactRepositoryTypeLabelProps {
 }
 
 export const ArtifactRepositoryTypeLabel = ({ repositoryType }: IArtifactRepositoryTypeLabelProps) => {
-  const artifactRepositoryType = ARTIFACT_REPOSITORY_TYPES[repositoryType];
-
-  return artifactRepositoryType ? (
-    <Label color={artifactRepositoryType.color}>{artifactRepositoryType.text}</Label>
-  ) : (
-    <EmptyStateSymbol />
-  );
+  return <Label labelObject={ARTIFACT_REPOSITORY_TYPES[repositoryType]}></Label>;
 };

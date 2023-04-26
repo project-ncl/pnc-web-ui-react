@@ -1,9 +1,7 @@
-import { Label } from '@patternfly/react-core';
-
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { ILabelMapper } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
-import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
+import { Label } from 'components/Label/Label';
+import { ILabelMapper } from 'components/Label/Label';
 
 const DELIVERABLES_ANALYSIS_RESULTS: ILabelMapper = {
   SUCCESSFUL: {
@@ -37,11 +35,5 @@ interface IDeliverablesAnalysisResultLabelProps {
 }
 
 export const DeliverablesAnalysisResultLabel = ({ result }: IDeliverablesAnalysisResultLabelProps) => {
-  const deliverablesAnalysisResult = DELIVERABLES_ANALYSIS_RESULTS[result];
-
-  return deliverablesAnalysisResult ? (
-    <Label color={deliverablesAnalysisResult.color}>{deliverablesAnalysisResult.text}</Label>
-  ) : (
-    <EmptyStateSymbol />
-  );
+  return <Label labelObject={DELIVERABLES_ANALYSIS_RESULTS[result]}></Label>;
 };
