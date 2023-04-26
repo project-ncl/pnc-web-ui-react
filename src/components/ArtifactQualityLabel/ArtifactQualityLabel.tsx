@@ -1,15 +1,7 @@
-import { Label, LabelProps } from '@patternfly/react-core';
-
 import { Artifact } from 'pnc-api-types-ts';
 
-import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-
-export interface ILabelMapper {
-  [key: string]: {
-    text: string;
-    color: LabelProps['color'];
-  };
-}
+import { Label } from 'components/Label/Label';
+import { ILabelMapper } from 'components/Label/Label';
 
 const ARTIFACT_QUALITIES: ILabelMapper = {
   NEW: {
@@ -51,7 +43,5 @@ interface IArtifactQualityLabelProps {
 }
 
 export const ArtifactQualityLabel = ({ quality }: IArtifactQualityLabelProps) => {
-  const artifactQuality = ARTIFACT_QUALITIES[quality];
-
-  return artifactQuality ? <Label color={artifactQuality.color}>{artifactQuality.text}</Label> : <EmptyStateSymbol />;
+  return <Label labelObject={ARTIFACT_QUALITIES[quality]}></Label>;
 };
