@@ -254,14 +254,14 @@ export const useNetworkGraph = ({
     renderer.current?.setSetting('nodeReducer', (node: string, data: any) => {
       const nodeAttribute = graph.current?.getNodeAttributes(node);
 
-      const labelMatches =
+      const doesLabelMatch =
         searchValueMainLabel && nodeAttribute?.mainLabel?.toLowerCase().includes(searchValueMainLabel.toLowerCase());
-      const subLabelMatches =
+      const doesSubLabelMatch =
         searchValueSubLabel && nodeAttribute?.subLabel?.toLowerCase().includes(searchValueSubLabel.toLowerCase());
       if (
-        (searchValueMainLabel && searchValueSubLabel && labelMatches && subLabelMatches) ||
-        (searchValueMainLabel && !searchValueSubLabel && labelMatches) ||
-        (!searchValueMainLabel && searchValueSubLabel && subLabelMatches)
+        (searchValueMainLabel && searchValueSubLabel && doesLabelMatch && doesSubLabelMatch) ||
+        (searchValueMainLabel && !searchValueSubLabel && doesLabelMatch) ||
+        (!searchValueMainLabel && searchValueSubLabel && doesSubLabelMatch)
       ) {
         return { ...data, highlighted: true, label: '', color: SEARCH_HIGHLIGHT_COLOR };
       }
