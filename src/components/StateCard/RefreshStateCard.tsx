@@ -1,4 +1,4 @@
-import { Spinner } from '@patternfly/react-core';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 
 import styles from './RefreshStateCard.module.css';
 
@@ -11,7 +11,7 @@ interface IRefreshStateCard {
  */
 export const RefreshStateCard = ({ children, isInline = false }: React.PropsWithChildren<IRefreshStateCard>) =>
   isInline ? (
-    <Spinner isInline isSVG aria-label="Loading..." />
+    <LoadingSpinner isInline />
   ) : (
     <div className={styles['refresh-state-card']}>
       <div className={styles['refresh-state-card__body']}>{children}</div>
