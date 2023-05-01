@@ -1,9 +1,9 @@
-import { Skeleton, Spinner } from '@patternfly/react-core';
+import { Skeleton } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
 
-import { StateCard } from './StateCard';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 
-const LoadingSpinner = () => <Spinner diameter="75px" isSVG aria-label="Loading..." />;
+import { StateCard } from './StateCard';
 
 interface ILoadingStateCard {
   delayMilliseconds?: number;
@@ -45,8 +45,7 @@ export const LoadingStateCard = ({
 
   if (show) {
     if (isInline) {
-      // isInline - beta feature currently in this Patternfly component
-      return <Spinner isInline isSVG aria-label="Loading..." />;
+      return <LoadingSpinner isInline />;
     }
 
     return <StateCard title={`Loading ${title}`} icon={LoadingSpinner}></StateCard>;
