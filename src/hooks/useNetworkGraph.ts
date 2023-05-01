@@ -185,6 +185,9 @@ export const useNetworkGraph = ({
         },
       });
 
+      layoutStart();
+      setTimeout(() => layoutStop(), 1000);
+
       setIsGraphRendered(true);
     }
   };
