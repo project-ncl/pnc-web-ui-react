@@ -34,7 +34,7 @@ export const ScmRepositoriesPage = ({ componentId = 's1' }: IScmRepositoriesPage
       }
       actions={
         <ProtectedComponent>
-          <ActionButton action={() => console.log('Not implemented yet!')}>Create SCM Repository</ActionButton>
+          <ActionButton link="create">Create SCM Repository</ActionButton>
         </ProtectedComponent>
       }
     >
