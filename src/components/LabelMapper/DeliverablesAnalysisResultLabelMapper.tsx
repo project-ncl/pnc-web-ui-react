@@ -1,9 +1,8 @@
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { Label } from 'components/Label/Label';
-import { ILabelMapper } from 'components/Label/Label';
+import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const DELIVERABLES_ANALYSIS_RESULTS: ILabelMapper = {
+const DELIVERABLES_ANALYSIS_RESULTS: ILabelMapper<DeliverableAnalyzerOperation['result']> = {
   SUCCESSFUL: {
     text: 'SUCCESSFUL',
     color: 'green',
@@ -34,6 +33,6 @@ interface IDeliverablesAnalysisResultLabelProps {
   result: Exclude<DeliverableAnalyzerOperation['result'], undefined>;
 }
 
-export const DeliverablesAnalysisResultLabel = ({ result }: IDeliverablesAnalysisResultLabelProps) => {
-  return <Label labelObject={DELIVERABLES_ANALYSIS_RESULTS[result]}></Label>;
-};
+export const DeliverablesAnalysisResultLabel = ({ result }: IDeliverablesAnalysisResultLabelProps) => (
+  <LabelMapper mapper={DELIVERABLES_ANALYSIS_RESULTS[result]} />
+);

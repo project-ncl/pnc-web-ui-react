@@ -1,9 +1,8 @@
 import { Artifact } from 'pnc-api-types-ts';
 
-import { Label } from 'components/Label/Label';
-import { ILabelMapper } from 'components/Label/Label';
+import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const ARTIFACT_QUALITIES: ILabelMapper = {
+const ARTIFACT_QUALITIES: ILabelMapper<Artifact['artifactQuality']> = {
   NEW: {
     text: 'NEW',
     color: 'grey',
@@ -42,6 +41,6 @@ interface IArtifactQualityLabelProps {
   quality: Artifact['artifactQuality'];
 }
 
-export const ArtifactQualityLabel = ({ quality }: IArtifactQualityLabelProps) => {
-  return <Label labelObject={ARTIFACT_QUALITIES[quality]}></Label>;
-};
+export const ArtifactQualityLabel = ({ quality }: IArtifactQualityLabelProps) => (
+  <LabelMapper mapper={ARTIFACT_QUALITIES[quality]} />
+);

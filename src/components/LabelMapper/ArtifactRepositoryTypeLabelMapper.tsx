@@ -1,9 +1,8 @@
 import { TargetRepository } from 'pnc-api-types-ts';
 
-import { ILabelMapper } from 'components/Label/Label';
-import { Label } from 'components/Label/Label';
+import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const ARTIFACT_REPOSITORY_TYPES: ILabelMapper = {
+const ARTIFACT_REPOSITORY_TYPES: ILabelMapper<TargetRepository['repositoryType']> = {
   MAVEN: {
     text: 'MAVEN',
     color: 'gold',
@@ -30,6 +29,6 @@ interface IArtifactRepositoryTypeLabelProps {
   repositoryType: TargetRepository['repositoryType'];
 }
 
-export const ArtifactRepositoryTypeLabel = ({ repositoryType }: IArtifactRepositoryTypeLabelProps) => {
-  return <Label labelObject={ARTIFACT_REPOSITORY_TYPES[repositoryType]}></Label>;
-};
+export const ArtifactRepositoryTypeLabel = ({ repositoryType }: IArtifactRepositoryTypeLabelProps) => (
+  <LabelMapper mapper={ARTIFACT_REPOSITORY_TYPES[repositoryType]} />
+);

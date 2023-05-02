@@ -21,12 +21,12 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
-import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
-import { ArtifactRepositoryTypeLabel } from 'components/ArtifactRepositoryTypeLabel/ArtifactRepositoryTypeLabel';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { Filtering, IFilterAttribute, IFilterAttributes } from 'components/Filtering/Filtering';
+import { ArtifactQualityLabel } from 'components/LabelMapper/ArtifactQualityLabelMapper';
+import { ArtifactRepositoryTypeLabel } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/ParsedArtifactIdentifier';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
