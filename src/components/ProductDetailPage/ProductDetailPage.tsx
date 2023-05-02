@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -79,6 +79,10 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
           <ToolbarItem>
             <TextContent>
               <Text component={TextVariants.h2}>Product Versions</Text>
+              <Text>
+                Product Version represents one Product stream like <Label>6.3</Label> or <Label>7.4</Label>. Each Product can
+                contain multiple Product Versions and each Product Version can contain multiple Product Milestones.
+              </Text>
             </TextContent>
           </ToolbarItem>
           <ToolbarItem alignRight>
