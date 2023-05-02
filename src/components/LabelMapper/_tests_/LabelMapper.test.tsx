@@ -1,8 +1,10 @@
 import { render, screen } from '@testing-library/react';
 
-import { ILabelMapper, Label } from 'components/Label/Label';
+import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const TEST_LABEL_MAPPER: ILabelMapper = {
+jest.mock('services/uiLogger');
+
+const TEST_LABEL_MAPPER: ILabelMapper<'TEST_1' | 'TEST_2'> = {
   TEST_1: {
     text: 'TEST 1',
     color: 'blue',
@@ -15,13 +17,13 @@ const TEST_LABEL_MAPPER: ILabelMapper = {
 
 test('Render Label 1', () => {
   const testObject = TEST_LABEL_MAPPER['TEST_1'];
-  render(<Label labelObject={testObject} />);
+  render(<LabelMapper mapper={testObject} />);
   const labelText = screen.getByText(testObject.text);
   expect(labelText).toBeInTheDocument();
 });
 
 test('Render Empty object', () => {
-  render(<Label labelObject={undefined} />);
+  render(<LabelMapper mapper={undefined} />);
   const labelText = screen.getByText('—');
   expect(labelText).toBeInTheDocument();
 });

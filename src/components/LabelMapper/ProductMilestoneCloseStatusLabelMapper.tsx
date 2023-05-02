@@ -1,8 +1,8 @@
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
-import { ILabelMapper, Label } from 'components/Label/Label';
+import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const CLOSE_STATUSES: ILabelMapper = {
+const CLOSE_STATUSES: ILabelMapper<ProductMilestoneCloseResult['status']> = {
   IN_PROGRESS: {
     text: 'IN PROGRESS',
     color: 'blue',
@@ -29,6 +29,6 @@ interface IProductMilestoneCloseStatusLabelProps {
   status: ProductMilestoneCloseResult['status'];
 }
 
-export const ProductMilestoneCloseStatusLabel = ({ status }: IProductMilestoneCloseStatusLabelProps) => {
-  return <Label labelObject={CLOSE_STATUSES[status]}></Label>;
-};
+export const ProductMilestoneCloseStatusLabel = ({ status }: IProductMilestoneCloseStatusLabelProps) => (
+  <LabelMapper mapper={CLOSE_STATUSES[status]} />
+);

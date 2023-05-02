@@ -7,9 +7,9 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { DeliverablesAnalysisProgressStatusLabel } from 'components/DeliverablesAnalysisProgressStatusLabel/DeliverablesAnalysisProgressStatusLabel';
-import { DeliverablesAnalysisResultLabel } from 'components/DeliverablesAnalysisResultLabel/DeliverablesAnalysisResultLabel';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+import { DeliverablesAnalysisProgressStatusLabel } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
+import { DeliverablesAnalysisResultLabel } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';

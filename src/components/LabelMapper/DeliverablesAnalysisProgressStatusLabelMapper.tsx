@@ -1,9 +1,8 @@
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { Label } from 'components/Label/Label';
-import { ILabelMapper } from 'components/Label/Label';
+import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const DELIVERABLES_ANALYSIS_PROGRESS_STATUSES: ILabelMapper = {
+const DELIVERABLES_ANALYSIS_PROGRESS_STATUSES: ILabelMapper<DeliverableAnalyzerOperation['progressStatus']> = {
   NEW: {
     text: 'NEW',
     color: 'grey',
@@ -26,6 +25,6 @@ interface IDeliverablesAnalysisStatusLabelProps {
   progressStatus: Exclude<DeliverableAnalyzerOperation['progressStatus'], undefined>;
 }
 
-export const DeliverablesAnalysisProgressStatusLabel = ({ progressStatus }: IDeliverablesAnalysisStatusLabelProps) => {
-  return <Label labelObject={DELIVERABLES_ANALYSIS_PROGRESS_STATUSES[progressStatus]}></Label>;
-};
+export const DeliverablesAnalysisProgressStatusLabel = ({ progressStatus }: IDeliverablesAnalysisStatusLabelProps) => (
+  <LabelMapper mapper={DELIVERABLES_ANALYSIS_PROGRESS_STATUSES[progressStatus]} />
+);

@@ -8,8 +8,8 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+import { ProductMilestoneCloseStatusLabel } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
-import { ProductMilestoneCloseStatusLabel } from 'components/ProductMilestoneCloseStatusLabel/ProductMilestoneCloseStatusLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
