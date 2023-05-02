@@ -42,6 +42,7 @@ import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPag
 import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';
 import { ProtectedRoute } from 'components/ProtectedContent/ProtectedRoute';
 import { ScmRepositoriesPage } from 'components/ScmRepositoriesPage/ScmRepositoriesPage';
+import { ScmRepositoryCreateEditPage } from 'components/ScmRepositoryCreateEditPage/ScmRepositoryCreateEditPage';
 import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmRepositoryDetailPage';
 import { VariablesPage } from 'components/VariablesPage/VariablesPage';
 
@@ -116,6 +117,14 @@ export const AppRoutes = () => (
     <Route path="artifacts" element={<ArtifactsPage />} />
     <Route path="scm-repositories">
       <Route index element={<ScmRepositoriesPage />} />
+      <Route
+        path="create"
+        element={
+          <ProtectedRoute title={PageTitles.projectCreate}>
+            <ScmRepositoryCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} />
     </Route>
 

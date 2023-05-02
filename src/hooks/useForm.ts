@@ -32,7 +32,7 @@ export interface IFields {
  *
  * Input strings are trimmed.
  *
- * See also {@link ProjectCreateEditPage}
+ * See also {@link ProjectCreateEditPage} {@link ScmRepositoryCreateEditPage}
  *
  * @param initFields - Init form state (just values and validators)
  * @param submitCallback - Function to call when submitting user input data
