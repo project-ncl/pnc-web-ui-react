@@ -25,8 +25,8 @@ import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { Filtering, IFilterAttribute, IFilterAttributes } from 'components/Filtering/Filtering';
-import { ArtifactQualityLabel } from 'components/LabelMapper/ArtifactQualityLabelMapper';
-import { ArtifactRepositoryTypeLabel } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
+import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
+import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/ParsedArtifactIdentifier';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -340,7 +340,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                   {columns.includes('targetRepository.repositoryType') && (
                     <Td>
                       {artifact.targetRepository?.repositoryType && (
-                        <ArtifactRepositoryTypeLabel repositoryType={artifact.targetRepository?.repositoryType} />
+                        <ArtifactRepositoryTypeLabelMapper repositoryType={artifact.targetRepository?.repositoryType} />
                       )}
                     </Td>
                   )}
@@ -367,7 +367,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                   )}
                   {columns.includes('artifactQuality') && (
                     <Td>
-                      <ArtifactQualityLabel quality={artifact.artifactQuality} />
+                      <ArtifactQualityLabelMapper quality={artifact.artifactQuality} />
                     </Td>
                   )}
                   {columns.includes('product.name') && (

@@ -8,8 +8,8 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
-import { DeliverablesAnalysisProgressStatusLabel } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
-import { DeliverablesAnalysisResultLabel } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
+import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
+import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -107,10 +107,10 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                     </Td>
                     <Td>
                       {operation.progressStatus && (
-                        <DeliverablesAnalysisProgressStatusLabel progressStatus={operation.progressStatus} />
+                        <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={operation.progressStatus} />
                       )}
                     </Td>
-                    <Td>{operation.result && <DeliverablesAnalysisResultLabel result={operation.result} />}</Td>
+                    <Td>{operation.result && <DeliverablesAnalysisResultLabelMapper result={operation.result} />}</Td>
                     <Td>{operation.submitTime && createDateTime({ date: operation.submitTime }).custom}</Td>
                     <Td>{operation.user?.username}</Td>
                   </Tr>

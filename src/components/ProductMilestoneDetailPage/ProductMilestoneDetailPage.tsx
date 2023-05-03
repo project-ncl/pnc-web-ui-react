@@ -14,7 +14,7 @@ import { CardTitle } from 'components/CardFlex/CardTitle';
 import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { ProductMilestoneCloseStatusLabel } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
+import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { useServiceContainerMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -86,7 +86,7 @@ export const ProductMilestoneDetailPage = () => {
                   variant="inline"
                   title="Product Milestone latest close result"
                 >
-                  <ProductMilestoneCloseStatusLabel status={serviceContainerCloseResults.data?.content[0]?.status} />
+                  <ProductMilestoneCloseStatusLabelMapper status={serviceContainerCloseResults.data?.content[0]?.status} />
                 </ServiceContainerLoading>
               </div>
             </AttributesItem>

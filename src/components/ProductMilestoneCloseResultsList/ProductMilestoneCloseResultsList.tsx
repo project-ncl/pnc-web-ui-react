@@ -8,7 +8,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
-import { ProductMilestoneCloseStatusLabel } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
+import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -101,7 +101,7 @@ export const ProductMilestoneCloseResultsList = ({
                   <Td>{createDateTime({ date: closeResult.startingDate }).custom}</Td>
                   <Td>{closeResult.endDate && createDateTime({ date: closeResult.endDate }).custom}</Td>
                   <Td>
-                    <ProductMilestoneCloseStatusLabel status={closeResult.status} />
+                    <ProductMilestoneCloseStatusLabelMapper status={closeResult.status} />
                   </Td>
                 </Tr>
               ))}

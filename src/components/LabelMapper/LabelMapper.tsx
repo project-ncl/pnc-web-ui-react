@@ -9,11 +9,11 @@ interface ILabelMapperItem {
   color: LabelPropsPF['color'];
 }
 
-export type ILabelMapper<Type> = {
-  [key in Type as string | number | symbol]: ILabelMapperItem;
+export type ILabelMapper<Types> = {
+  [key in Types as string | number]: ILabelMapperItem;
 };
 
-interface ILabelProps {
+interface ILabelMapperProps {
   mapper: ILabelMapperItem | undefined;
 }
 
@@ -22,7 +22,7 @@ interface ILabelProps {
  *
  * @param mapper - the mapper object that will be used to generate the label
  */
-export const LabelMapper = ({ mapper }: ILabelProps) => {
+export const LabelMapper = ({ mapper }: ILabelMapperProps) => {
   if (!mapper) {
     uiLogger.error(`Error attempting get mapper: mapper undefined`);
   }
