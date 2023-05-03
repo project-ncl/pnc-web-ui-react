@@ -76,7 +76,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
         </ContentBox>
 
         <Toolbar>
-          <ToolbarItem>
+          <ToolbarItem allowFloat>
             <TextContent>
               <Text component={TextVariants.h2}>Product Versions</Text>
               <Text>
