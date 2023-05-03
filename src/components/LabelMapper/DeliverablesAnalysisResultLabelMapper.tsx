@@ -33,6 +33,6 @@ interface IDeliverablesAnalysisResultLabelProps {
   result: Exclude<DeliverableAnalyzerOperation['result'], undefined>;
 }
 
-export const DeliverablesAnalysisResultLabel = ({ result }: IDeliverablesAnalysisResultLabelProps) => (
+export const DeliverablesAnalysisResultLabelMapper = ({ result }: IDeliverablesAnalysisResultLabelProps) => (
   <LabelMapper mapper={DELIVERABLES_ANALYSIS_RESULTS[result]} />
 );
