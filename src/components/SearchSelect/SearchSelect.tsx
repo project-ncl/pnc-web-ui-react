@@ -3,6 +3,8 @@ import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
+
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import '../../index.css';
@@ -60,7 +62,7 @@ export const SearchSelect = ({
   delayMilliseconds = 200,
   pageSizeDefault = 10,
   width,
-  placeholderText = 'string | !string | s?ring | st*ng',
+  placeholderText = FILTERING_PLACEHOLDER_DEFAULT,
   isDisabled,
 }: ISearchSelectProps) => {
   // data downloaded using fetchCallback

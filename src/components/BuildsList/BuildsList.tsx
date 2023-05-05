@@ -27,7 +27,6 @@ const filterOptions: IFilterOptions = {
     buildConfigName: {
       id: 'buildConfigName',
       title: 'Build Config Name',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
       isCustomParam: true,
     },
@@ -58,7 +57,6 @@ const filterOptions: IFilterOptions = {
     'user.username': {
       id: 'user.username',
       title: 'User',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },

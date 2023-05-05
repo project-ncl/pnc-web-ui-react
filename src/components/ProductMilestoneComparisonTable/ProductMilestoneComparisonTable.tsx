@@ -40,7 +40,6 @@ const filterOptions: IFilterOptions = {
     identifier: {
       id: 'identifier',
       title: 'Artifact Identifier',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },

@@ -34,7 +34,6 @@ const filterOptions: IFilterOptions = {
     'user.username': {
       id: 'user.username',
       title: 'User',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },

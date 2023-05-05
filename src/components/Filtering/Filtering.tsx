@@ -2,6 +2,8 @@ import { Button, Chip, ChipGroup, InputGroup, Select, SelectOption, SelectVarian
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
+
 import { constructCustomFilterParam } from 'utils/customParamHelper';
 import { IQParamOperators, addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
@@ -32,7 +34,7 @@ export interface IAppliedFilters {
  * {
  *   id: 'name',
  *   title: 'Name',
- *   placeholder: 'string | !string | s?ring | st*ng',
+ *   placeholder: 'Custom placeholder',
  *   operator: '=like='
  * }
  *
@@ -111,7 +113,7 @@ interface IFilteringProps {
       name: {
         id: 'name',
         title: 'Name',
-        placeholder: 'string | !string | s?ring | st*ng',
+        placeholder: 'Custom placeholder',
         operator: '=like=',
       },
       description: {
@@ -338,7 +340,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
             className={styles['form-input']}
             type="text"
             id="filter-text"
-            placeholder={filterAttribute.placeholder || `Filter by ${filterAttribute}`}
+            placeholder={filterAttribute.placeholder || FILTERING_PLACEHOLDER_DEFAULT}
             onChange={(value) => {
               setFilterValue(value);
             }}

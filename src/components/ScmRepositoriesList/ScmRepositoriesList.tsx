@@ -22,13 +22,11 @@ const filterOptions: IFilterOptions = {
     internalUrl: {
       id: 'internalUrl',
       title: 'Internal URL',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     externalUrl: {
       id: 'externalUrl',
       title: 'External URL',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },
