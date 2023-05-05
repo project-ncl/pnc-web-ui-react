@@ -40,7 +40,6 @@ const filterOptions: IFilterOptions = {
     identifier: {
       id: 'identifier',
       title: 'Identifier',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     artifactQuality: {
@@ -58,7 +57,6 @@ const filterOptions: IFilterOptions = {
     filename: {
       id: 'filename',
       title: 'Filename',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     'targetRepository.repositoryType': {
@@ -70,31 +68,26 @@ const filterOptions: IFilterOptions = {
     md5: {
       id: 'md5',
       title: 'md5',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     sha1: {
       id: 'sha1',
       title: 'sha1',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     sha256: {
       id: 'sha256',
       title: 'sha256',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     'product.name': {
       id: 'product.name',
       title: 'Product Name',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     'productMilestone.version': {
       id: 'productMilestone.version',
       title: 'Miletone Version',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },

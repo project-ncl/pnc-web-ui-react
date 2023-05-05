@@ -23,7 +23,7 @@ const filterOptions: IFilterOptions = {
     name: {
       id: 'name',
       title: 'Name',
-      placeholder: 'string | !string | s?ring | st*ng',
+      placeholder: 'Custom placeholder X',
       operator: '=like=',
     },
     description: {

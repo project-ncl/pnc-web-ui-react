@@ -21,7 +21,6 @@ const filterOptions: IFilterOptions = {
     version: {
       id: 'version',
       title: 'Version',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },

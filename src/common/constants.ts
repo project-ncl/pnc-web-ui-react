@@ -22,3 +22,5 @@ export const PageTitles = {
 
 // For getting total item count
 export const SINGLE_PAGE_REQUEST_CONFIG: AxiosRequestConfig = { params: { pageSize: 1 } };
+
+export const FILTERING_PLACEHOLDER_DEFAULT: string = 'string | !string | s?ring | st*g';

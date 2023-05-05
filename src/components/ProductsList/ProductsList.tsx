@@ -20,13 +20,11 @@ const filterOptions: IFilterOptions = {
     name: {
       id: 'name',
       title: 'Name',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
     abbreviation: {
       id: 'abbreviation',
       title: 'Abbreviation',
-      placeholder: 'string | !string | s?ring | st*ng',
       operator: '=like=',
     },
   },
