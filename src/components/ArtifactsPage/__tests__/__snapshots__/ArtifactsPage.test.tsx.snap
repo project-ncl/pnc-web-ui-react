@@ -133,7 +133,7 @@ Object {
                     data-ouia-component-type="PF4/TextInput"
                     data-ouia-safe="true"
                     id="filter-text"
-                    placeholder="string | !string | s?ring | st*ng"
+                    placeholder="string | !string | s?ring | st*g"
                     type="text"
                     value=""
                   />
@@ -1090,7 +1090,7 @@ Object {
                   data-ouia-component-type="PF4/TextInput"
                   data-ouia-safe="true"
                   id="filter-text"
-                  placeholder="string | !string | s?ring | st*ng"
+                  placeholder="string | !string | s?ring | st*g"
                   type="text"
                   value=""
                 />
