@@ -9,14 +9,14 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
-const filterOptions: IFilterOptions = {
+const filterAttributes: IFilterAttributes = {
   filterAttributes: {
     version: {
       id: 'version',
@@ -45,7 +45,7 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
+          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 
