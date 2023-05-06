@@ -6,7 +6,7 @@ import { Project } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
@@ -46,7 +46,7 @@ const filterAttributes: IFilterAttributes = {
   },
 };
 
-const sortOptions: ISortOptions = {
+const sortAttributes: ISortAttributes = {
   name: {
     id: 'name',
     title: 'Name',
@@ -71,7 +71,7 @@ interface IProjectsList {
  * @param componentId - Component ID
  */
 export const ProjectsList = ({ serviceContainerProjects, componentId }: IProjectsList) => {
-  const { getSortParams } = useSorting(sortOptions, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId);
 
   return (
     <>
@@ -86,14 +86,14 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
           <TableComposable isStriped variant="compact">
             <Thead>
               {/**
-               * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
+               * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={30} sort={getSortParams(sortOptions['name'].id)}>
+                <Th width={30} sort={getSortParams(sortAttributes['name'].id)}>
                   Name
                 </Th>
-                <Th sort={getSortParams(sortOptions['description'].id)}>Description</Th>
+                <Th sort={getSortParams(sortAttributes['description'].id)}>Description</Th>
                 <Th width={15}>Build Configs count</Th>
                 <Th>Actions</Th>
               </Tr>

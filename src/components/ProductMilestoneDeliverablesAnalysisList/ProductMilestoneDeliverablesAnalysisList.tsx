@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DeliverablesAnalysisProgressStatusLabel } from 'components/DeliverablesAnalysisProgressStatusLabel/DeliverablesAnalysisProgressStatusLabel';
@@ -39,7 +39,7 @@ const filterAttributes: IFilterAttributes = {
   },
 };
 
-const sortOptions: ISortOptions = {
+const sortAttributes: ISortAttributes = {
   submitTime: {
     id: 'submitTime',
     title: 'Submit Time',
@@ -69,7 +69,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
   serviceContainerDeliverablesAnalysis,
   componentId,
 }: IProductMilestoneDeliverablesAnalysisListProps) => {
-  const { getSortParams } = useSorting(sortOptions, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId);
 
   return (
     <>
@@ -87,10 +87,10 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                 <Th width={20}>Id</Th>
                 <Th width={20}>Progress Status</Th>
                 <Th width={20}>Result</Th>
-                <Th width={20} sort={getSortParams(sortOptions['submitTime'].id)}>
+                <Th width={20} sort={getSortParams(sortAttributes['submitTime'].id)}>
                   Submit Time
                 </Th>
-                <Th width={20} sort={getSortParams(sortOptions['user.username'].id)}>
+                <Th width={20} sort={getSortParams(sortAttributes['user.username'].id)}>
                   User
                 </Th>
               </Tr>

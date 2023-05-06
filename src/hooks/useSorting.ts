@@ -43,7 +43,7 @@ import { validateSortParam } from 'utils/sortParamHelper';
  */
 export interface ISortAttribute {
   /**
-   * ID has to match object key {@link ISortOptions}, there is automatic checker throwing errors if they don't match.
+   * ID has to match object key {@link ISortAttributes}, there is automatic checker throwing errors if they don't match.
    */
   id: string;
   /**
@@ -80,7 +80,7 @@ export interface ISortAttribute {
  *   description: {ISortAttribute}
  * }
  */
-export interface ISortOptions {
+export interface ISortAttributes {
   [key: string]: ISortAttribute;
 }
 
@@ -104,27 +104,27 @@ interface ISortObject {
  * - URL changes are propagated to the UI
  * - Automatic initialization: sorting parameters are automatically added when page is loaded
  *
- * @param sortOptions - Sorting options
+ * @param sortAttributes - Sort attributes including basic configuration
  * @param componentId - Component ID
  */
-export const useSorting = (sortOptions: ISortOptions, componentId: string): ISortObject => {
+export const useSorting = (sortAttributes: ISortAttributes, componentId: string): ISortObject => {
   /**
    * Check sort options validity. In the future this could be replaced by unified solution covering filtering and sorting.
    */
   const sortOptionChecker = () => {
-    const sortOptionsArray = Object.entries(sortOptions);
+    const sortAttributesArray = Object.entries(sortAttributes);
 
-    const defaultSortOptionsArray = sortOptionsArray.filter(([_, v]) => v.isDefault);
+    const defaultSortOptionsArray = sortAttributesArray.filter(([_, v]) => v.isDefault);
     if (defaultSortOptionsArray.length > 1) {
       const defaultSortOptionsKeysString = defaultSortOptionsArray.map((arr) => arr[0]).join(', ');
       // #log
       console.warn('Sorting: More than one sorting options were specified:', defaultSortOptionsKeysString);
     }
 
-    sortOptionsArray.forEach(([k, v]) => {
+    sortAttributesArray.forEach(([k, v]) => {
       if (k !== v.id) {
         // #log
-        throw new Error(`sortOptions have invalid format, object key (${k}) has to match id field (${v.id})!`);
+        throw new Error(`sortAttributes have invalid format, object key (${k}) has to match id field (${v.id})!`);
       }
     });
   };
@@ -134,8 +134,8 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
   const location = useLocation();
   const navigate = useNavigate();
 
-  const defaultSortAttribute: string = Object.entries(sortOptions).find(([_, v]) => v.isDefault)?.[0] || '';
-  const defaultSortDirection: ISortBy['direction'] = sortOptions[defaultSortAttribute]?.defaultSortOrder || 'asc';
+  const defaultSortAttribute: string = Object.entries(sortAttributes).find(([_, v]) => v.isDefault)?.[0] || '';
+  const defaultSortDirection: ISortBy['direction'] = sortAttributes[defaultSortAttribute]?.defaultSortOrder || 'asc';
 
   const [activeSortIndex, setActiveSortIndex] = useState<number>();
   const [activeSortAttribute, setActiveSortAttribute] = useState<string>();
@@ -174,12 +174,12 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
         resetSorting: activeSortDirection === 'desc' && activeSortAttribute === sortAttribute,
       });
     },
-    columnIndex: sortOptions[sortAttribute].tableColumnIndex,
+    columnIndex: sortAttributes[sortAttribute].tableColumnIndex,
   });
 
   const getSortGroupParams = (sortAttribute: string): ISortGroupProps['sort'] => ({
-    sortOptions: sortOptions,
-    sortGroup: sortOptions[sortAttribute].sortGroup!,
+    sortAttributes: sortAttributes,
+    sortGroup: sortAttributes[sortAttribute].sortGroup!,
     sort: sort,
     activeSortAttribute: activeSortAttribute,
     activeSortDirection: activeSortDirection,
@@ -189,7 +189,7 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
     // URL -> UI
     const currentSortParam = getComponentQueryParamValue(location.search, 'sort', componentId);
 
-    if (currentSortParam && validateSortParam(currentSortParam, sortOptions)) {
+    if (currentSortParam && validateSortParam(currentSortParam, sortAttributes)) {
       if (currentSortParam === 'none') {
         setActiveSortDirection(undefined);
         setActiveSortAttribute(undefined);
@@ -201,7 +201,7 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
         const [urlSortDirection, urlSortAttribute] = currentSortParamSplitted;
         setActiveSortDirection(urlSortDirection as ISortBy['direction']);
         setActiveSortAttribute(urlSortAttribute);
-        setActiveSortIndex(sortOptions[urlSortAttribute].tableColumnIndex);
+        setActiveSortIndex(sortAttributes[urlSortAttribute].tableColumnIndex);
       }
     } else {
       if (defaultSortAttribute) {
@@ -212,7 +212,7 @@ export const useSorting = (sortOptions: ISortOptions, componentId: string): ISor
         sort({ resetSorting: true, replace: true });
       }
     }
-  }, [location, componentId, sortOptions, defaultSortAttribute, defaultSortDirection, sort]);
+  }, [location, componentId, sortAttributes, defaultSortAttribute, defaultSortDirection, sort]);
 
   return { getSortParams, getSortGroupParams };
 };

@@ -1,6 +1,6 @@
-import { ISortOptions } from 'hooks/useSorting';
+import { ISortAttributes } from 'hooks/useSorting';
 
-export const validateSortParam = (sortParam: string, sortOptions: ISortOptions) => {
+export const validateSortParam = (sortParam: string, sortAttributes: ISortAttributes) => {
   if (sortParam === 'none') {
     return true;
   }
@@ -12,7 +12,7 @@ export const validateSortParam = (sortParam: string, sortOptions: ISortOptions) 
   } else if (sortParamSplitted?.[1] !== 'asc' && sortParamSplitted?.[1] !== 'desc') {
     console.error('Sorting: Invalid sorting param: order should be either asc or desc');
     return false;
-  } else if (!sortOptions[sortParamSplitted[2]]) {
+  } else if (!sortAttributes[sortParamSplitted[2]]) {
     console.error('Sorting: Invalid sorting param: specified sort key is not included in the config');
     return false;
   } else {

@@ -5,7 +5,7 @@ import { SCMRepository } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
@@ -32,7 +32,7 @@ const filterAttributes: IFilterAttributes = {
   },
 };
 
-const sortOptions: ISortOptions = {
+const sortAttributes: ISortAttributes = {
   internalUrl: {
     id: 'internalUrl',
     title: 'Internal URL',
@@ -57,7 +57,7 @@ interface IScmRepositoriesListProps {
  * @param componentId - Component ID
  */
 export const ScmRepositoriesList = ({ serviceContainerScmRepositories, componentId }: IScmRepositoriesListProps) => {
-  const { getSortParams } = useSorting(sortOptions, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId);
 
   return (
     <>
@@ -72,15 +72,15 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
           <TableComposable variant="compact" isStriped>
             <Thead>
               {/**
-               * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
+               * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
                * Better solution can be implemented in the future.
                */}
               <Tr>
                 <Th width={20}>Name</Th>
-                <Th width={30} sort={getSortParams(sortOptions['internalUrl'].id)}>
+                <Th width={30} sort={getSortParams(sortAttributes['internalUrl'].id)}>
                   Internal SCM URL
                 </Th>
-                <Th width={30} sort={getSortParams(sortOptions['externalUrl'].id)}>
+                <Th width={30} sort={getSortParams(sortAttributes['externalUrl'].id)}>
                   External SCM URL
                 </Th>
                 <Th width={10}>Pre-build Sync</Th>
