@@ -7,7 +7,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneCloseStatusLabel } from 'components/ProductMilestoneCloseStatusLabel/ProductMilestoneCloseStatusLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -16,7 +16,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
 
-const filterOptions: IFilterOptions = {
+const filterAttributes: IFilterAttributes = {
   filterAttributes: {
     status: {
       id: 'status',
@@ -68,7 +68,7 @@ export const ProductMilestoneCloseResultsList = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
+          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 

@@ -8,7 +8,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
@@ -17,7 +17,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 // keeping also not supported operations for testing purposes
-const filterOptions: IFilterOptions = {
+const filterAttributes: IFilterAttributes = {
   filterAttributes: {
     internalUrl: {
       id: 'internalUrl',
@@ -63,7 +63,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
+          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 

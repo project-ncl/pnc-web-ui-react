@@ -9,7 +9,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -18,7 +18,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 // keeping also not supported operations for testing purposes
-const filterOptions: IFilterOptions = {
+const filterAttributes: IFilterAttributes = {
   filterAttributes: {
     name: {
       id: 'name',
@@ -77,7 +77,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
+          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 

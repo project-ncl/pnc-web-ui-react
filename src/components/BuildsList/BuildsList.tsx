@@ -13,7 +13,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
@@ -22,7 +22,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
 
-const filterOptions: IFilterOptions = {
+const filterAttributes: IFilterAttributes = {
   filterAttributes: {
     buildConfigName: {
       id: 'buildConfigName',
@@ -115,7 +115,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterOptions} componentId={componentId} />
+          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 
