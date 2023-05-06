@@ -8,7 +8,7 @@ import { Build } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
@@ -62,7 +62,7 @@ const filterAttributes: IFilterAttributes = {
   },
 };
 
-const sortOptions: ISortOptions = {
+const sortAttributes: ISortAttributes = {
   status: {
     id: 'status',
     title: 'Status',
@@ -107,7 +107,7 @@ interface IBuildsListProps {
  * @param componentId - Component ID
  */
 export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
-  const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
+  const { getSortParams, getSortGroupParams } = useSorting(sortAttributes, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
 
@@ -124,11 +124,11 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
           <TableComposable isStriped variant="compact">
             <Thead>
               {/**
-               * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
+               * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={20} sort={getSortParams(sortOptions['status'].id)}>
+                <Th width={20} sort={getSortParams(sortAttributes['status'].id)}>
                   Status
                 </Th>
                 <Th width={15}>ID</Th>
@@ -136,12 +136,12 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Th width={20} className="overflow-visible">
                   Times
                   <SortGroup
-                    sort={getSortGroupParams(sortOptions['submitTime'].id!)}
+                    sort={getSortGroupParams(sortAttributes['submitTime'].id!)}
                     isDropdownOpen={isSortDropdownOpen}
                     onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
                   />
                 </Th>
-                <Th width={10} sort={getSortParams(sortOptions['user.username'].id)}>
+                <Th width={10} sort={getSortParams(sortAttributes['user.username'].id)}>
                   User
                 </Th>
               </Tr>

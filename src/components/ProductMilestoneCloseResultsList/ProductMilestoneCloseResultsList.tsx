@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
@@ -27,7 +27,7 @@ const filterAttributes: IFilterAttributes = {
   },
 };
 
-const sortOptions: ISortOptions = {
+const sortAttributes: ISortAttributes = {
   startingDate: {
     id: 'startingDate',
     title: 'Start Date',
@@ -62,7 +62,7 @@ export const ProductMilestoneCloseResultsList = ({
   serviceContainerCloseResults,
   componentId,
 }: IProductMilestoneCloseResultsListProps) => {
-  const { getSortParams } = useSorting(sortOptions, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId);
 
   return (
     <>
@@ -78,13 +78,13 @@ export const ProductMilestoneCloseResultsList = ({
             <Thead>
               <Tr>
                 <Th width={20}>ID</Th>
-                <Th width={30} sort={getSortParams(sortOptions['startingDate'].id)}>
+                <Th width={30} sort={getSortParams(sortAttributes['startingDate'].id)}>
                   Start Date
                 </Th>
-                <Th width={30} sort={getSortParams(sortOptions['endDate'].id)}>
+                <Th width={30} sort={getSortParams(sortAttributes['endDate'].id)}>
                   End Date
                 </Th>
-                <Th width={20} sort={getSortParams(sortOptions['status'].id)}>
+                <Th width={20} sort={getSortParams(sortAttributes['status'].id)}>
                   Status
                 </Th>
               </Tr>

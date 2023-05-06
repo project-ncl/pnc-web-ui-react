@@ -8,13 +8,13 @@ import {
 } from '@patternfly/react-core';
 import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 
-import { ISortAttribute, ISortOptions, SortFunction } from 'hooks/useSorting';
+import { ISortAttribute, ISortAttributes, SortFunction } from 'hooks/useSorting';
 
 import styles from './SortGroup.module.css';
 
 export interface ISortGroupProps {
   sort: {
-    sortOptions: ISortOptions;
+    sortAttributes: ISortAttributes;
     sortGroup: string;
     sort: SortFunction;
     activeSortAttribute?: string;
@@ -29,7 +29,7 @@ export const SortGroup = ({ sort, isDropdownOpen, onDropdownToggle }: ISortGroup
     id="sort-options"
     menuItems={[
       <OptionsMenuItemGroup key={0}>
-        {Object.values(sort.sortOptions)
+        {Object.values(sort.sortAttributes)
           .filter((sortAttribute: ISortAttribute) => sortAttribute.sortGroup === sort.sortGroup)
           .map((sortAttribute: ISortAttribute, index: number) => (
             <OptionsMenuItem
@@ -68,7 +68,7 @@ export const SortGroup = ({ sort, isDropdownOpen, onDropdownToggle }: ISortGroup
         hideCaret
         toggleTemplate={
           <>
-            {sort.activeSortAttribute && sort.sortOptions[sort.activeSortAttribute].sortGroup === sort.sortGroup ? (
+            {sort.activeSortAttribute && sort.sortAttributes[sort.activeSortAttribute].sortGroup === sort.sortGroup ? (
               sort.activeSortDirection === 'asc' ? (
                 <LongArrowAltUpIcon />
               ) : (
@@ -77,8 +77,8 @@ export const SortGroup = ({ sort, isDropdownOpen, onDropdownToggle }: ISortGroup
             ) : (
               <ArrowsAltVIcon />
             )}
-            {sort.activeSortAttribute && sort.sortOptions[sort.activeSortAttribute].sortGroup === sort.sortGroup && (
-              <span className={styles['sort-icon-title']}>{sort.sortOptions[sort.activeSortAttribute].title}</span>
+            {sort.activeSortAttribute && sort.sortAttributes[sort.activeSortAttribute].sortGroup === sort.sortGroup && (
+              <span className={styles['sort-icon-title']}>{sort.sortAttributes[sort.activeSortAttribute].title}</span>
             )}
           </>
         }

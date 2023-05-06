@@ -19,7 +19,7 @@ import { Artifact } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
 import { ArtifactRepositoryTypeLabel } from 'components/ArtifactRepositoryTypeLabel/ArtifactRepositoryTypeLabel';
@@ -94,7 +94,7 @@ const filterAttributes: IFilterAttributes = {
 };
 
 // TODO: filter based on columns property, NCL-7612
-const sortOptions: ISortOptions = {
+const sortAttributes: ISortAttributes = {
   identifier: {
     id: 'identifier',
     title: 'Identifier',
@@ -161,7 +161,7 @@ const defaultColumns = [
  * @param componentId - Component ID
  */
 export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColumns, componentId }: IArtifactsListProps) => {
-  const { getSortParams } = useSorting(sortOptions, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId);
 
   const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
 
@@ -244,7 +244,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
           <TableComposable isExpandable isStriped variant="compact">
             <Thead>
               {/**
-               * If column order is changed, the property tableColumnIndex (see sortOptions) has to be updated.
+               * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
                * Better solution can be implemented in the future.
                */}
               <Tr>
@@ -261,37 +261,37 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                 />
                 {columns.includes('build') && <Th width={10} />}
                 {columns.includes('identifier') && (
-                  <Th width={30} sort={getSortParams(sortOptions['identifier'].id)}>
+                  <Th width={30} sort={getSortParams(sortAttributes['identifier'].id)}>
                     Identifier
                   </Th>
                 )}
                 {columns.includes('targetRepository.repositoryType') && (
-                  <Th width={15} sort={getSortParams(sortOptions['targetRepository.repositoryType'].id)}>
+                  <Th width={15} sort={getSortParams(sortAttributes['targetRepository.repositoryType'].id)}>
                     Repository Type
                   </Th>
                 )}
                 {columns.includes('buildCategory') && (
-                  <Th width={15} sort={getSortParams(sortOptions['buildCategory'].id)}>
+                  <Th width={15} sort={getSortParams(sortAttributes['buildCategory'].id)}>
                     Build Category
                   </Th>
                 )}
                 {columns.includes('filename') && (
-                  <Th width={25} sort={getSortParams(sortOptions['filename'].id)}>
+                  <Th width={25} sort={getSortParams(sortAttributes['filename'].id)}>
                     Filename
                   </Th>
                 )}
                 {columns.includes('artifactQuality') && (
-                  <Th width={15} sort={getSortParams(sortOptions['artifactQuality'].id)}>
+                  <Th width={15} sort={getSortParams(sortAttributes['artifactQuality'].id)}>
                     Artifact Quality
                   </Th>
                 )}
                 {columns.includes('product.name') && (
-                  <Th width={30} sort={getSortParams(sortOptions['product.name'].id)}>
+                  <Th width={30} sort={getSortParams(sortAttributes['product.name'].id)}>
                     Source Product
                   </Th>
                 )}
                 {columns.includes('productMilestone.version') && (
-                  <Th width={30} sort={getSortParams(sortOptions['productMilestone.version'].id)}>
+                  <Th width={30} sort={getSortParams(sortAttributes['productMilestone.version'].id)}>
                     Source Milestone
                   </Th>
                 )}
