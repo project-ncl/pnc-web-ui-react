@@ -6,12 +6,12 @@ const flexAllowFloat: FlexProps['flex'] = { default: 'flex_1' };
 interface IToolbarItemProps {
   alignRight?: boolean;
   marginLeft?: string;
-  allowFloat?: boolean;
+  reservedWidth?: boolean;
 }
 
-export const ToolbarItem = ({ children, alignRight, marginLeft, allowFloat }: React.PropsWithChildren<IToolbarItemProps>) => (
+export const ToolbarItem = ({ children, alignRight, marginLeft, reservedWidth }: React.PropsWithChildren<IToolbarItemProps>) => (
   <FlexItem
-    flex={allowFloat ? flexAllowFloat : undefined}
+    flex={reservedWidth ? flexAllowFloat : undefined}
     style={marginLeft ? { marginLeft } : undefined}
     align={alignRight ? flexAlignRight : undefined}
   >
