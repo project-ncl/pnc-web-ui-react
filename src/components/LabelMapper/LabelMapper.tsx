@@ -10,7 +10,7 @@ interface ILabelMapperItem {
 }
 
 export type ILabelMapper<Types> = {
-  [key in Types as string | number]: ILabelMapperItem;
+  [key in Types as string]: ILabelMapperItem;
 };
 
 interface ILabelMapperProps {
