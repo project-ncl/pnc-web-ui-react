@@ -13,7 +13,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+import { Filtering, IDefaultFiltering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
@@ -60,6 +60,10 @@ const filterAttributes: IFilterAttributes = {
       operator: '=like=',
     },
   },
+};
+
+const defaultFiltering: IDefaultFiltering = {
+  attribute: filterAttributes.filterAttributes.status.id,
 };
 
 const sortAttributes: ISortAttributes = {
@@ -118,7 +122,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
+          <Filtering filterAttributes={filterAttributes} componentId={componentId} defaultFiltering={defaultFiltering} />
         </ToolbarItem>
       </Toolbar>
 

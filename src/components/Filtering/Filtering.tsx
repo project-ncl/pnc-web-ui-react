@@ -100,9 +100,14 @@ export interface IFilterAttributes {
   filterAttributes: IFilterObject;
 }
 
+export interface IDefaultFiltering {
+  attribute: string;
+}
+
 interface IFilteringProps {
   filterAttributes: IFilterAttributes;
   componentId: string;
+  defaultFiltering?: IDefaultFiltering;
   onFilter?: (filterAttribute: IFilterAttribute, filterValue: string) => void;
 }
 
@@ -136,7 +141,7 @@ interface IFilteringProps {
     },
   };
  */
-export const Filtering = ({ filterAttributes, componentId, onFilter }: IFilteringProps) => {
+export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onFilter }: IFilteringProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -144,8 +149,8 @@ export const Filtering = ({ filterAttributes, componentId, onFilter }: IFilterin
    * FILTER ATTRIBUTE
    */
 
-  // first key
-  const defaultAttributeKey = Object.keys(filterAttributes.filterAttributes)[0];
+  // custom default filter otherwise first attribute
+  const defaultAttributeKey = defaultFiltering ? defaultFiltering.attribute : Object.keys(filterAttributes.filterAttributes)[0];
 
   const [filterAttribute, setFilterAttribute] = useState<IFilterAttribute>(
     filterAttributes.filterAttributes[defaultAttributeKey]
