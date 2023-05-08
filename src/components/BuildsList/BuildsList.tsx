@@ -1,5 +1,5 @@
 import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
-import { TableComposable, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -153,51 +153,53 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 </Th>
               </Tr>
             </Thead>
-            {serviceContainerBuilds.data?.content.map((build: Build, rowIndex: number) => (
-              <Tr key={rowIndex}>
-                <Td>
-                  <BuildStatusIcon build={build} long />
-                </Td>
-                <Td>
-                  <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
-                </Td>
-                <Td>
-                  <BuildName build={build} includeBuildLink includeConfigLink long />
-                </Td>
-                <Td>
-                  <DescriptionList className="gap-0" isHorizontal isCompact>
-                    <DescriptionListGroup>
-                      <DescriptionListTerm>Submitted</DescriptionListTerm>
-                      <DescriptionListDescription>
-                        {build.submitTime && createDateTime({ date: build.submitTime }).custom}
-                      </DescriptionListDescription>
-                    </DescriptionListGroup>
-                    <DescriptionListGroup>
-                      <DescriptionListTerm>Started</DescriptionListTerm>
-                      <DescriptionListDescription>
-                        {build.startTime &&
-                          createDateTime({
-                            date: build.startTime,
-                            includeDateInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
-                          }).custom}
-                      </DescriptionListDescription>
-                    </DescriptionListGroup>
-                    <DescriptionListGroup>
-                      <DescriptionListTerm>Ended</DescriptionListTerm>
-                      <DescriptionListDescription>
-                        {build.endTime &&
-                          createDateTime({
-                            date: build.endTime,
-                            includeDateInCustom: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
-                          }).custom}
-                        {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
-                      </DescriptionListDescription>
-                    </DescriptionListGroup>
-                  </DescriptionList>
-                </Td>
-                <Td>{build.user?.username}</Td>
-              </Tr>
-            ))}
+            <Tbody>
+              {serviceContainerBuilds.data?.content.map((build: Build, rowIndex: number) => (
+                <Tr key={rowIndex}>
+                  <Td>
+                    <BuildStatusIcon build={build} long />
+                  </Td>
+                  <Td>
+                    <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
+                  </Td>
+                  <Td>
+                    <BuildName build={build} includeBuildLink includeConfigLink long />
+                  </Td>
+                  <Td>
+                    <DescriptionList className="gap-0" isHorizontal isCompact>
+                      <DescriptionListGroup>
+                        <DescriptionListTerm>Submitted</DescriptionListTerm>
+                        <DescriptionListDescription>
+                          {build.submitTime && createDateTime({ date: build.submitTime }).custom}
+                        </DescriptionListDescription>
+                      </DescriptionListGroup>
+                      <DescriptionListGroup>
+                        <DescriptionListTerm>Started</DescriptionListTerm>
+                        <DescriptionListDescription>
+                          {build.startTime &&
+                            createDateTime({
+                              date: build.startTime,
+                              includeDateInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
+                            }).custom}
+                        </DescriptionListDescription>
+                      </DescriptionListGroup>
+                      <DescriptionListGroup>
+                        <DescriptionListTerm>Ended</DescriptionListTerm>
+                        <DescriptionListDescription>
+                          {build.endTime &&
+                            createDateTime({
+                              date: build.endTime,
+                              includeDateInCustom: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
+                            }).custom}
+                          {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
+                        </DescriptionListDescription>
+                      </DescriptionListGroup>
+                    </DescriptionList>
+                  </Td>
+                  <Td>{build.user?.username}</Td>
+                </Tr>
+              ))}
+            </Tbody>
           </TableComposable>
         </ServiceContainerLoading>
       </ContentBox>
