@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
@@ -37,14 +37,17 @@ const sortAttributes: ISortAttributes = {
     id: 'endDate',
     title: 'End Date',
     tableColumnIndex: 2,
-    isDefault: true,
-    defaultSortOrder: 'desc',
   },
   status: {
     id: 'status',
     title: 'Status',
     tableColumnIndex: 3,
   },
+};
+
+const defaultSorting: IDefaultSorting = {
+  attribute: sortAttributes.endDate.id,
+  direction: 'desc',
 };
 
 interface IProductMilestoneCloseResultsListProps {
@@ -62,7 +65,7 @@ export const ProductMilestoneCloseResultsList = ({
   serviceContainerCloseResults,
   componentId,
 }: IProductMilestoneCloseResultsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId, defaultSorting);
 
   return (
     <>

@@ -8,7 +8,7 @@ import { Build } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
@@ -72,8 +72,6 @@ const sortAttributes: ISortAttributes = {
     id: 'submitTime',
     title: 'Submitted',
     tableColumnIndex: 3,
-    isDefault: true,
-    defaultSortOrder: 'desc',
     sortGroup: 'times',
   },
   startTime: {
@@ -95,6 +93,11 @@ const sortAttributes: ISortAttributes = {
   },
 };
 
+const defaultSorting: IDefaultSorting = {
+  attribute: sortAttributes.submitTime.id,
+  direction: 'desc',
+};
+
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainer;
   componentId: string;
@@ -107,7 +110,7 @@ interface IBuildsListProps {
  * @param componentId - Component ID
  */
 export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
-  const { getSortParams, getSortGroupParams } = useSorting(sortAttributes, componentId);
+  const { getSortParams, getSortGroupParams } = useSorting(sortAttributes, componentId, defaultSorting);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
 
