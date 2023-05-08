@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DeliverablesAnalysisProgressStatusLabel } from 'components/DeliverablesAnalysisProgressStatusLabel/DeliverablesAnalysisProgressStatusLabel';
@@ -44,14 +44,17 @@ const sortAttributes: ISortAttributes = {
     id: 'submitTime',
     title: 'Submit Time',
     tableColumnIndex: 3,
-    isDefault: true,
-    defaultSortOrder: 'desc',
   },
   'user.username': {
     id: 'user.username',
     title: 'User',
     tableColumnIndex: 4,
   },
+};
+
+const defaultSorting: IDefaultSorting = {
+  attribute: sortAttributes.submitTime.id,
+  direction: 'desc',
 };
 
 interface IProductMilestoneDeliverablesAnalysisListProps {
@@ -69,7 +72,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
   serviceContainerDeliverablesAnalysis,
   componentId,
 }: IProductMilestoneDeliverablesAnalysisListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId, defaultSorting);
 
   return (
     <>

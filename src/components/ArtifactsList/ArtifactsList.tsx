@@ -19,7 +19,7 @@ import { Artifact } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ArtifactQualityLabel } from 'components/ArtifactQualityLabel/ArtifactQualityLabel';
 import { ArtifactRepositoryTypeLabel } from 'components/ArtifactRepositoryTypeLabel/ArtifactRepositoryTypeLabel';
@@ -99,7 +99,6 @@ const sortAttributes: ISortAttributes = {
     id: 'identifier',
     title: 'Identifier',
     tableColumnIndex: 0,
-    isDefault: true,
   },
   'targetRepository.repositoryType': {
     id: 'targetRepository.repositoryType',
@@ -133,6 +132,10 @@ const sortAttributes: ISortAttributes = {
   },
 };
 
+const defaultSorting: IDefaultSorting = {
+  attribute: sortAttributes.identifier.id,
+};
+
 const spaceItemsSm: FlexProps['spaceItems'] = { default: 'spaceItemsSm' };
 const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
@@ -161,7 +164,7 @@ const defaultColumns = [
  * @param componentId - Component ID
  */
 export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColumns, componentId }: IArtifactsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const { getSortParams } = useSorting(sortAttributes, componentId, defaultSorting);
 
   const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
 
