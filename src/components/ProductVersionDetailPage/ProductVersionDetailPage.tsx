@@ -126,7 +126,19 @@ export const ProductVersionDetailPage = () => {
 
       <GridItem span={12}>
         <CardFlex>
-          <CardFlexItem description="Number of Products to which belong Milestones containing Builds which produced Delivered Artifacts of Milestones of this Version.">
+          <CardFlexItem
+            description={
+              <div>
+                <p>
+                  The number of Products that contain <b>dependency Milestones</b>.
+                </p>
+                <p className="m-t-5">
+                  <b>Dependency Milestone</b> contains Build(s) that produced some of the Delivered Artifacts. Delivered Artifacts
+                  belong to Milestones of this Product Version.
+                </p>
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Product dependencies">
                 {serviceContainerStatistics.data?.productDependencies}
@@ -134,7 +146,19 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Product dependencies</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Milestones containing Builds which produced Delivered Artifacts of Milestones of this Version.">
+          <CardFlexItem
+            description={
+              <div>
+                <p>
+                  The number of <b>dependency Milestones</b>.
+                </p>
+                <p className="m-t-5">
+                  <b>Dependency Milestone</b> contains Build(s) that produced some of the Delivered Artifacts. Delivered Artifacts
+                  belong to Milestones of this Product Version.
+                </p>
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Milestone dependencies">
                 {serviceContainerStatistics.data?.milestoneDependencies}
@@ -142,7 +166,9 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Milestone dependencies</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Artifacts of Milestones of this Version produced by Builds contained in Milestones of this Version.">
+          <CardFlexItem
+            description={<div>The number of Artifacts produced by Builds contained in Milestones of this Product Version.</div>}
+          >
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in this Version">
                 {serviceContainerStatistics.data?.artifactsSource.thisVersion}
@@ -150,7 +176,26 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Artifacts built in this Version</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts of Milestones of this Version produced by Builds contained in Milestones of this Version.">
+          <CardFlexItem
+            description={
+              <div>
+                <p>
+                  The number of Delivered Artifacts produced by Builds contained in Milestones of this Product Version. Delivered
+                  Artifacts belong to Milestones of this Product Version.
+                </p>
+                <p className="m-t-20">Mathematical definition:</p>
+                <p className="m-t-5">
+                  <b>D</b> = Delivered Artifacts from Milestones of this Product Version.
+                </p>
+                <p className="m-t-5">
+                  <b>B</b> = Artifacts produced by Builds contained in Milestones of this Product Version.
+                </p>
+                <p className="m-t-5">
+                  Displays the size of (<b>D</b> ∩ <b>B</b>).
+                </p>
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -162,7 +207,26 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Delivered Artifacts built in this Version</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts of Milestones of this Version produced by Builds contained in Milestones of previous Versions of the same Product.">
+          <CardFlexItem
+            description={
+              <div>
+                <p>
+                  The number of Delivered Artifacts produced by Builds contained in Milestones of previous Product Versions of the
+                  same Product. Delivered Artifacts belong to Milestones of this Product Version.
+                </p>
+                <p className="m-t-20">Mathematical definition:</p>
+                <p className="m-t-5">
+                  <b>D</b> = Delivered Artifacts from Milestones of this Product Version.
+                </p>
+                <p className="m-t-5">
+                  <b>B</b> = Artifacts produced by Builds contained in Milestones of prevous Product Versions of the same Product.
+                </p>
+                <p className="m-t-5">
+                  Displays the size of (<b>D</b> ∩ <b>B</b>).
+                </p>
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -174,7 +238,26 @@ export const ProductVersionDetailPage = () => {
             </CardValue>
             <CardTitle>Delivered Artifacts built in other Versions</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts of Milestones of this Version produced by Builds contained in Milestones of other Products.">
+          <CardFlexItem
+            description={
+              <div>
+                <p>
+                  The number of Delivered Artifacts produced by Builds contained in Milestones of other Products. Delivered
+                  Artifacts belong to Milestones of this Product Version.
+                </p>
+                <p className="m-t-20">Mathematical definition:</p>
+                <p className="m-t-5">
+                  <b>D</b> = Delivered Artifacts from Milestones of this Product Version.
+                </p>
+                <p className="m-t-5">
+                  <b>B</b> = Artifacts produced by Builds contained in Milestones of other Products.
+                </p>
+                <p className="m-t-5">
+                  Displays the size of (<b>D</b> ∩ <b>B</b>).
+                </p>
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -206,7 +289,9 @@ export const ProductVersionDetailPage = () => {
             <StackedBarChart
               data={stackedBarChartArtifactQuality.data}
               labels={stackedBarChartArtifactQuality.labels}
-              description="Chart displays proportion of quality of Delivered Artifacts among Product Milestones of this Version."
+              description={
+                <div>Chart displays proportion of quality of Delivered Artifacts among Product Milestones of this Version.</div>
+              }
             />
           </ServiceContainerLoading>
         </ContentBox>

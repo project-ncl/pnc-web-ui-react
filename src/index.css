@@ -47,6 +47,10 @@ code {
   width: 70%;
 }
 
+.m-t-5 {
+  margin-top: 5px !important;
+}
+
 .m-t-10 {
   margin-top: 10px !important;
 }
