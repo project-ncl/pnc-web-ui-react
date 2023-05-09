@@ -29,10 +29,10 @@ const DELIVERABLES_ANALYSIS_RESULTS: ILabelMapper<DeliverableAnalyzerOperation['
   },
 };
 
-interface IDeliverablesAnalysisResultLabelProps {
+interface IDeliverablesAnalysisResultLabelMapperProps {
   result: Exclude<DeliverableAnalyzerOperation['result'], undefined>;
 }
 
-export const DeliverablesAnalysisResultLabelMapper = ({ result }: IDeliverablesAnalysisResultLabelProps) => (
+export const DeliverablesAnalysisResultLabelMapper = ({ result }: IDeliverablesAnalysisResultLabelMapperProps) => (
   <LabelMapper mapper={DELIVERABLES_ANALYSIS_RESULTS[result]} />
 );

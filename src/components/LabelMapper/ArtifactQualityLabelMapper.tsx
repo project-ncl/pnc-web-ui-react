@@ -37,10 +37,10 @@ const ARTIFACT_QUALITIES: ILabelMapper<Artifact['artifactQuality']> = {
   },
 };
 
-interface IArtifactQualityLabelProps {
+interface IArtifactQualityLabelMapperProps {
   quality: Artifact['artifactQuality'];
 }
 
-export const ArtifactQualityLabelMapper = ({ quality }: IArtifactQualityLabelProps) => (
+export const ArtifactQualityLabelMapper = ({ quality }: IArtifactQualityLabelMapperProps) => (
   <LabelMapper mapper={ARTIFACT_QUALITIES[quality]} />
 );
