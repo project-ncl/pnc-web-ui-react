@@ -96,7 +96,7 @@ export const ProductMilestoneDetailPage = () => {
 
       <GridItem span={12}>
         <CardFlex>
-          <CardFlexItem description="Number of Artifacts produced by Builds contained in this Milestone.">
+          <CardFlexItem description={<div>The number of Artifacts produced by Builds contained in this Milestone.</div>}>
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in this Milestone">
                 {serviceContainerStatistics.data?.artifactsSource.thisMilestone}
@@ -104,7 +104,9 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardTitle>Artifacts built in this Milestone</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts produced by Builds contained in this Milestone.">
+          <CardFlexItem
+            description={<div>The number of Delivered Artifacts produced by Builds contained in this Milestone.</div>}
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -116,7 +118,13 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardTitle>Delivered Artifacts built in this Milestone</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts produced by Builds contained in previous Milestones of the same Product.">
+          <CardFlexItem
+            description={
+              <div>
+                The number of Delivered Artifacts produced by Builds contained in previous Milestones of the same Product.
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -128,7 +136,11 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardTitle>Delivered Artifacts built in other Milestones</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts produced by Builds contained in Milestones of other Products.">
+          <CardFlexItem
+            description={
+              <div>The number of Delivered Artifacts produced by Builds contained in Milestones of other Products.</div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -140,7 +152,14 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardTitle>Delivered Artifacts built in other Products</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delived Artifacts produced by Builds not contained in any Milestone. This may include Artifacts from Brew.">
+          <CardFlexItem
+            description={
+              <div>
+                The number of Delived Artifacts produced by Builds not contained in any Milestone. This may include Artifacts from
+                Brew.
+              </div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
@@ -152,7 +171,11 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardTitle>Delivered Artifacts built outside any Milestone</CardTitle>
           </CardFlexItem>
-          <CardFlexItem description="Number of Delivered Artifacts not produced in any Build. Non-zero value may indicate a problem.">
+          <CardFlexItem
+            description={
+              <div>The number of Delivered Artifacts not produced in any Build. Non-zero value may indicate a problem.</div>
+            }
+          >
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Not built Delivered Artifacts">
                 {serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild}
@@ -176,7 +199,7 @@ export const ProductMilestoneDetailPage = () => {
             <DoughnutChart
               data={dougnutChartArtifactQuality.data}
               labels={dougnutChartArtifactQuality.labels}
-              description="Chart displays proportion of quality of Delivered Artifacts."
+              description={<div>Chart displays proportion of quality of Delivered Artifacts.</div>}
             />
           </ServiceContainerLoading>
         </ContentBox>
