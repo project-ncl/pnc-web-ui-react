@@ -1,21 +1,16 @@
 import { Operation, compare } from 'fast-json-patch';
 import { merge } from 'lodash';
 
-import { IFieldValues, IFields } from 'hooks/useForm';
+import { IFields } from 'hooks/useForm';
 
 /**
  * Transforms form state object into object of just form input values.
- * Also filters all empty form inputs (empty values).
  *
  * @param data - form state
  * @returns Object of non-empty form values
  */
-export const transformFormToValues = (data: IFields): IFieldValues => {
-  return Object.fromEntries(
-    Object.entries(data)
-      .filter(([k, v]) => v.value !== '')
-      .map(([k, v]) => [k, v.value])
-  );
+export const transformFormToValues = (data: IFields): { [key: string]: string | null } => {
+  return Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v.value ? v.value : null]));
 };
 
 // original Angular implementation:
