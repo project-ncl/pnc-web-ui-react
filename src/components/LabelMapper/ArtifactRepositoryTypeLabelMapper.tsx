@@ -25,10 +25,10 @@ const ARTIFACT_REPOSITORY_TYPES: ILabelMapper<TargetRepository['repositoryType']
   },
 };
 
-interface IArtifactRepositoryTypeLabelProps {
+interface IArtifactRepositoryTypeLabelMapperProps {
   repositoryType: TargetRepository['repositoryType'];
 }
 
-export const ArtifactRepositoryTypeLabelMapper = ({ repositoryType }: IArtifactRepositoryTypeLabelProps) => (
+export const ArtifactRepositoryTypeLabelMapper = ({ repositoryType }: IArtifactRepositoryTypeLabelMapperProps) => (
   <LabelMapper mapper={ARTIFACT_REPOSITORY_TYPES[repositoryType]} />
 );

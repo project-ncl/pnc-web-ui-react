@@ -21,10 +21,12 @@ const DELIVERABLES_ANALYSIS_PROGRESS_STATUSES: ILabelMapper<DeliverableAnalyzerO
   },
 };
 
-interface IDeliverablesAnalysisStatusLabelProps {
+interface IDeliverablesAnalysisStatusLabelMapperProps {
   progressStatus: Exclude<DeliverableAnalyzerOperation['progressStatus'], undefined>;
 }
 
-export const DeliverablesAnalysisProgressStatusLabelMapper = ({ progressStatus }: IDeliverablesAnalysisStatusLabelProps) => (
+export const DeliverablesAnalysisProgressStatusLabelMapper = ({
+  progressStatus,
+}: IDeliverablesAnalysisStatusLabelMapperProps) => (
   <LabelMapper mapper={DELIVERABLES_ANALYSIS_PROGRESS_STATUSES[progressStatus]} />
 );

@@ -25,10 +25,10 @@ const CLOSE_STATUSES: ILabelMapper<ProductMilestoneCloseResult['status']> = {
   },
 };
 
-interface IProductMilestoneCloseStatusLabelProps {
+interface IProductMilestoneCloseStatusLabelMapperProps {
   status: ProductMilestoneCloseResult['status'];
 }
 
-export const ProductMilestoneCloseStatusLabelMapper = ({ status }: IProductMilestoneCloseStatusLabelProps) => (
+export const ProductMilestoneCloseStatusLabelMapper = ({ status }: IProductMilestoneCloseStatusLabelMapperProps) => (
   <LabelMapper mapper={CLOSE_STATUSES[status]} />
 );
