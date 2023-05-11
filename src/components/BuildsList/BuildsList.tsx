@@ -189,7 +189,9 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                           {build.endTime &&
                             createDateTime({
                               date: build.endTime,
-                              includeDateInCustom: !build.startTime || !areDatesEqual(build.startTime, build.endTime),
+                              includeDateInCustom:
+                                (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
+                                (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime)),
                             }).custom}
                           {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
                         </DescriptionListDescription>
