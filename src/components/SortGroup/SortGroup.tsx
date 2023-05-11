@@ -27,41 +27,43 @@ export interface ISortGroupProps {
 }
 
 export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISortGroupProps) => {
+  const sortGroupAttributes = Object.values(sort.sortAttributes).filter(
+    (sortAttribute) => sort.sortGroup === sortAttribute.sortGroup
+  );
   const isSortGroupActive =
-    sort.activeSortAttribute && sort.sortGroup === sort.sortAttributes[sort.activeSortAttribute].sortGroup;
+    !!sort.activeSortAttribute && sort.sortGroup === sort.sortAttributes[sort.activeSortAttribute].sortGroup;
+
   return (
     <OptionsMenu
       className={css(styles['sort-group'], isSortGroupActive && styles['sort-group-selected'])}
       id="sort-options"
       menuItems={[
         <OptionsMenuItemGroup key={0}>
-          {Object.values(sort.sortAttributes)
-            .filter((sortAttribute: ISortAttribute) => sortAttribute.sortGroup === sort.sortGroup)
-            .map((sortAttribute: ISortAttribute, index: number) => (
-              <OptionsMenuItem
-                key={index}
-                isSelected={sort.activeSortAttribute === sortAttribute.id}
-                onSelect={() => {
-                  sort.sort({ sortAttribute: sortAttribute.id, sortDirection: sort.activeSortDirection });
-                }}
-              >
-                {sortAttribute.title}
-              </OptionsMenuItem>
-            ))}
+          {sortGroupAttributes.map((sortAttribute: ISortAttribute, index: number) => (
+            <OptionsMenuItem
+              key={index}
+              isSelected={sort.activeSortAttribute === sortAttribute.id}
+              onSelect={() => {
+                sort.sort({ sortAttribute: sortAttribute.id, sortDirection: sort.activeSortDirection });
+              }}
+            >
+              {sortAttribute.title}
+            </OptionsMenuItem>
+          ))}
         </OptionsMenuItemGroup>,
         <OptionsMenuSeparator key={1} />,
         <OptionsMenuItemGroup key={2}>
           <OptionsMenuItem
             id="ascending"
-            isSelected={sort.activeSortDirection === 'asc'}
-            onSelect={() => sort.sort({ sortAttribute: sort.activeSortAttribute, sortDirection: 'asc' })}
+            isSelected={isSortGroupActive && sort.activeSortDirection === 'asc'}
+            onSelect={() => sort.sort({ sortAttribute: sortGroupAttributes[0].id, sortDirection: 'asc' })}
           >
             Ascending
           </OptionsMenuItem>
           <OptionsMenuItem
             id="descending"
-            isSelected={sort.activeSortDirection === 'desc'}
-            onSelect={() => sort.sort({ sortAttribute: sort.activeSortAttribute, sortDirection: 'desc' })}
+            isSelected={isSortGroupActive && sort.activeSortDirection === 'desc'}
+            onSelect={() => sort.sort({ sortAttribute: sortGroupAttributes[0].id, sortDirection: 'desc' })}
           >
             Descending
           </OptionsMenuItem>
