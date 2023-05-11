@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import {
   ArtifactPage,
+  BuildPage,
   DeliverableAnalyzerOperationPage,
   ProductMilestone,
   ProductMilestoneCloseResultPage,
@@ -55,6 +56,17 @@ export const getDeliverablesAnalysis = ({ id }: IProductMilestoneApiData, reques
  */
 export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductMilestoneCloseResultPage>(`/product-milestones/${id}/close-results`, requestConfig);
+};
+
+/**
+ * Gets Builds performed during a Product Milestone cycle.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuilds = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPage>(`/product-milestones/${id}/builds`, requestConfig);
 };
 
 /**
