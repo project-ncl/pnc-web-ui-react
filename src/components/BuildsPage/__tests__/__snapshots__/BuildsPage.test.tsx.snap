@@ -217,9 +217,8 @@ Object {
                     class="overflow-visible pf-m-width-20"
                     scope="col"
                   >
-                    Times
                     <div
-                      class="pf-c-options-menu"
+                      class="pf-c-options-menu sort-group sort-group-selected"
                       data-ouia-component-id="OUIA-Generated-OptionsMenu-2"
                       data-ouia-component-type="PF4/OptionsMenu"
                       data-ouia-safe="true"
@@ -237,8 +236,14 @@ Object {
                         type="button"
                       >
                         <span>
+                          <span
+                            class="sort-title"
+                          >
+                            Times
+                          </span>
                           <svg
                             aria-hidden="true"
+                            class="sort-icon"
                             fill="currentColor"
                             height="1em"
                             role="img"
@@ -1130,9 +1135,8 @@ Object {
                   class="overflow-visible pf-m-width-20"
                   scope="col"
                 >
-                  Times
                   <div
-                    class="pf-c-options-menu"
+                    class="pf-c-options-menu sort-group sort-group-selected"
                     data-ouia-component-id="OUIA-Generated-OptionsMenu-2"
                     data-ouia-component-type="PF4/OptionsMenu"
                     data-ouia-safe="true"
@@ -1150,8 +1154,14 @@ Object {
                       type="button"
                     >
                       <span>
+                        <span
+                          class="sort-title"
+                        >
+                          Times
+                        </span>
                         <svg
                           aria-hidden="true"
+                          class="sort-icon"
                           fill="currentColor"
                           height="1em"
                           role="img"
