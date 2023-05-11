@@ -141,8 +141,8 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Th width={15}>ID</Th>
                 <Th width={35}>Name</Th>
                 <Th width={20} className="overflow-visible">
-                  Times
                   <SortGroup
+                    title="Times"
                     sort={getSortGroupParams(sortAttributes['submitTime'].id!)}
                     isDropdownOpen={isSortDropdownOpen}
                     onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
