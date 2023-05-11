@@ -65,6 +65,9 @@ export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISo
           >
             Descending
           </OptionsMenuItem>
+          <OptionsMenuItem id="cancel" isDisabled={!isSortGroupActive} onSelect={() => sort.sort({ resetSorting: true })}>
+            None
+          </OptionsMenuItem>
         </OptionsMenuItemGroup>,
       ]}
       isOpen={isDropdownOpen}
