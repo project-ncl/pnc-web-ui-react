@@ -39,12 +39,20 @@ code {
   overflow-wrap: break-word;
 }
 
+.display-flex {
+  display: flex !important;
+}
+
 .gap-0 {
   gap: 0 !important;
 }
 
 .gap-5 {
   gap: 5px !important;
+}
+
+.gap-10 {
+  gap: 10px !important;
 }
 
 .m-r-0 {
@@ -171,6 +179,7 @@ code {
 .pull-right {
   float: right !important;
 }
+
 .pnc-info-icon {
   color: var(--pf-global--link--Color);
   text-decoration: var(--pf-global--link--TextDecoration);
