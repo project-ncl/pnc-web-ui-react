@@ -42,5 +42,5 @@ interface IArtifactQualityLabelMapperProps {
 }
 
 export const ArtifactQualityLabelMapper = ({ quality }: IArtifactQualityLabelMapperProps) => (
-  <LabelMapper mapper={ARTIFACT_QUALITIES[quality]} />
+  <LabelMapper mapperItem={ARTIFACT_QUALITIES[quality]} />
 );

@@ -17,13 +17,13 @@ const TEST_LABEL_MAPPER: ILabelMapper<'TEST_1' | 'TEST_2'> = {
 
 test('Render Label 1', () => {
   const testObject = TEST_LABEL_MAPPER['TEST_1'];
-  render(<LabelMapper mapper={testObject} />);
+  render(<LabelMapper mapperItem={testObject} />);
   const labelText = screen.getByText(testObject.text);
   expect(labelText).toBeInTheDocument();
 });
 
 test('Render Empty object', () => {
-  render(<LabelMapper mapper={undefined} />);
+  render(<LabelMapper mapperItem={undefined} />);
   const labelText = screen.getByText('—');
   expect(labelText).toBeInTheDocument();
 });

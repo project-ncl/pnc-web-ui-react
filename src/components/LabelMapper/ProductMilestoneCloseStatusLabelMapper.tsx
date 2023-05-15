@@ -30,5 +30,5 @@ interface IProductMilestoneCloseStatusLabelMapperProps {
 }
 
 export const ProductMilestoneCloseStatusLabelMapper = ({ status }: IProductMilestoneCloseStatusLabelMapperProps) => (
-  <LabelMapper mapper={CLOSE_STATUSES[status]} />
+  <LabelMapper mapperItem={CLOSE_STATUSES[status]} />
 );

@@ -28,5 +28,5 @@ interface IDeliverablesAnalysisStatusLabelMapperProps {
 export const DeliverablesAnalysisProgressStatusLabelMapper = ({
   progressStatus,
 }: IDeliverablesAnalysisStatusLabelMapperProps) => (
-  <LabelMapper mapper={DELIVERABLES_ANALYSIS_PROGRESS_STATUSES[progressStatus]} />
+  <LabelMapper mapperItem={DELIVERABLES_ANALYSIS_PROGRESS_STATUSES[progressStatus]} />
 );
