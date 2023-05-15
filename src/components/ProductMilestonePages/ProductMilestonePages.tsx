@@ -1,5 +1,8 @@
-import { PropsWithChildren, useEffect } from 'react';
+import { Button } from '@patternfly/react-core';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+
+import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
@@ -7,12 +10,16 @@ import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContaine
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
+import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
 import { TabsItem } from 'components/Tabs/TabsItem';
 import { TabsLabel } from 'components/Tabs/TabsLabel';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
+import * as productVersionApi from 'services/productVersionApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
@@ -26,14 +33,32 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerProductMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
   const serviceContainerProductMilestoneRunner = serviceContainerProductMilestone.run;
 
+  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion, 0);
+  const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
+
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
+  const [isMarkModalOpen, setIsMarkModalOpen] = useState<boolean>(false);
+
+  const toggleMarkModal = () => setIsMarkModalOpen((isMarkModalOpen) => !isMarkModalOpen);
+
   useEffect(() => {
-    serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } });
+    serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response: any) => {
+      const productMilestone: ProductMilestone = response.data;
+
+      if (productMilestone.productVersion) {
+        serviceContainerProductVersionRunner({ serviceData: { id: productMilestone.productVersion.id } });
+      }
+    });
 
     serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-  }, [serviceContainerProductMilestoneRunner, serviceContainerArtifactsRunner, productMilestoneId]);
+  }, [
+    serviceContainerProductMilestoneRunner,
+    serviceContainerProductVersionRunner,
+    serviceContainerArtifactsRunner,
+    productMilestoneId,
+  ]);
 
   useTitle(
     generatePageTitle({
@@ -60,11 +85,39 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     </Tabs>
   );
 
+  const actions = [
+    <ProductMilestoneMarkModalButton
+      toggleModal={toggleMarkModal}
+      productMilestone={serviceContainerProductMilestone.data}
+      serviceContainerProductVersion={serviceContainerProductVersion}
+      variant="detail"
+    />,
+    <ProtectedComponent disable>
+      <Button variant="tertiary" isSmall>
+        Close
+      </Button>
+    </ProtectedComponent>,
+    <ProtectedComponent disable>
+      <Button variant="tertiary" isSmall>
+        Analyze Deliverables
+      </Button>
+    </ProtectedComponent>,
+  ];
+
   return (
     <ServiceContainerLoading {...serviceContainerProductMilestone} title="Product Milestone details">
-      <PageLayout title={`Product Milestone ${serviceContainerProductMilestone.data?.version}`} tabs={pageTabs}>
+      <PageLayout title={`Product Milestone ${serviceContainerProductMilestone.data?.version}`} actions={actions} tabs={pageTabs}>
         <Outlet context={{ serviceContainerProductMilestone }} />
       </PageLayout>
+      {isMarkModalOpen && (
+        <ProductMilestoneMarkModal
+          isModalOpen={isMarkModalOpen}
+          toggleModal={toggleMarkModal}
+          productMilestone={serviceContainerProductMilestone.data}
+          productVersion={serviceContainerProductVersion.data}
+          variant="detail"
+        />
+      )}
     </ServiceContainerLoading>
   );
 };

@@ -14,6 +14,7 @@ interface IProtectedContentProps {
   role?: AUTH_ROLE;
   title?: string;
   hide?: boolean;
+  disable?: boolean;
 }
 
 export const ProtectedContent = ({
@@ -22,6 +23,7 @@ export const ProtectedContent = ({
   role = AUTH_ROLE.User,
   title,
   hide = false,
+  disable = false,
 }: React.PropsWithChildren<IProtectedContentProps>) => {
   const ErrorPageComponent = <ErrorPage pageTitle={title as string} errorDescription="User not allowed to enter this page." />;
   const DisabledContentComponent = hide ? null : <div className={styles['disabled-content']}>{children}</div>;
@@ -56,6 +58,6 @@ export const ProtectedContent = ({
 
       return <div>Redirecting to keycloak...</div>;
     case PROTECTED_TYPE.Component:
-      return hide ? DisabledContentComponent : <>{children}</>;
+      return hide || disable ? DisabledContentComponent : <>{children}</>;
   }
 };
