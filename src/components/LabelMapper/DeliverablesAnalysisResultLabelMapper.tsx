@@ -34,5 +34,5 @@ interface IDeliverablesAnalysisResultLabelMapperProps {
 }
 
 export const DeliverablesAnalysisResultLabelMapper = ({ result }: IDeliverablesAnalysisResultLabelMapperProps) => (
-  <LabelMapper mapper={DELIVERABLES_ANALYSIS_RESULTS[result]} />
+  <LabelMapper mapperItem={DELIVERABLES_ANALYSIS_RESULTS[result]} />
 );
