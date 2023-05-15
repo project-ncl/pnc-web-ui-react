@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { Operation } from 'fast-json-patch';
 
 import { BuildConfigPage, GroupConfigPage, ProductMilestonePage, ProductReleasePage, ProductVersion } from 'pnc-api-types-ts';
 
@@ -96,4 +97,19 @@ export const getBuildConfigs = ({ id }: IProductVersionApiData, requestConfig: A
  */
 export const getGroupConfigs = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<GroupConfigPage>(`/product-versions/${id}/group-configs`, requestConfig);
+};
+
+/**
+ * Patch a Product Version.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Version ID
+ *  - patchData - array of changes in JSON-Patch format
+ * @param requestConfig - Axios based request config
+ */
+export const patchProductVersion = (
+  { id, patchData }: { id: string; patchData: Operation[] },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().patch<ProductVersion>(`/product-versions/${id}`, patchData, requestConfig);
 };
