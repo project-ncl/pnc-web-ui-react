@@ -1,5 +1,5 @@
 import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
@@ -12,6 +12,8 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
+import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
+import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -19,6 +21,8 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
+
+const actionItemStyle = { padding: 0 };
 
 interface IProductVersionMilestonesListProps {
   serviceContainerProductMilestones: IServiceContainer;
@@ -36,6 +40,13 @@ export const ProductVersionMilestonesList = ({
   componentId,
 }: IProductVersionMilestonesListProps) => {
   const { serviceContainerProductVersion } = useServiceContainerProductVersion();
+
+  const [currentModalProductMilestoneId, setCurrentModalProductMilestoneId] = useState<string>();
+
+  const toggleCurrentModalProductMilestoneId = (productMilestoneId: string) => () =>
+    setCurrentModalProductMilestoneId((currentModalProductMilestoneId) =>
+      currentModalProductMilestoneId ? undefined : productMilestoneId
+    );
 
   return (
     <>
@@ -79,16 +90,33 @@ export const ProductVersionMilestonesList = ({
                     <ActionsColumn
                       items={[
                         {
-                          title: 'Mark the Milestone as current',
+                          style: actionItemStyle,
+                          title: (
+                            <ProductMilestoneMarkModalButton
+                              toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id)}
+                              productMilestone={productMilestone}
+                              serviceContainerProductVersion={serviceContainerProductVersion}
+                              variant="list"
+                            />
+                          ),
                         },
                         {
-                          title: 'Close the Milestone',
+                          title: 'Close',
                         },
                         {
                           title: 'Analyze Deliverables',
                         },
                       ]}
                     />
+                    {currentModalProductMilestoneId === productMilestone.id && (
+                      <ProductMilestoneMarkModal
+                        isModalOpen={currentModalProductMilestoneId === productMilestone.id}
+                        toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id)}
+                        productMilestone={productMilestone}
+                        productVersion={serviceContainerProductVersion.data}
+                        variant="list"
+                      />
+                    )}
                   </Td>
                 </Tr>
               ))}

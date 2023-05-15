@@ -10,8 +10,9 @@
 .disabled-content button {
   pointer-events: none;
   color: #6a6e73 !important;
+  background-color: #d2d2d2 !important;
 }
 
 .disabled-content button::after {
-  border-color: #6a6e73;
+  border-color: transparent !important;
 }
