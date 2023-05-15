@@ -51,7 +51,7 @@ Object {
           </p>
         </div>
         <div
-          class="pull-right"
+          class="pull-right display-flex gap-10"
         >
           <div
             class="disabled-content"
@@ -802,7 +802,7 @@ Object {
         </p>
       </div>
       <div
-        class="pull-right"
+        class="pull-right display-flex gap-10"
       >
         <div
           class="disabled-content"
