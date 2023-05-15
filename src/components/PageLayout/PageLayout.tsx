@@ -34,7 +34,7 @@ export const PageLayout = ({ children, title, description, actions, tabs }: Reac
           <Text component="h1">{title}</Text>
           <Text component="p">{description}</Text>
         </TextContent>
-        {actions && <div className="pull-right">{actions}</div>}
+        {actions && <div className="pull-right display-flex gap-10">{actions}</div>}
       </PageSection>
 
       {tabs}
