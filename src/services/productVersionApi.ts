@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ProductMilestonePage, ProductVersion } from 'pnc-api-types-ts';
+import { ProductMilestonePage, ProductReleasePage, ProductVersion } from 'pnc-api-types-ts';
 
 import { mockClient } from 'services/mockClient';
 
@@ -63,4 +63,15 @@ export const getRepositoryTypeStatistics = ({ id }: IProductVersionApiData, requ
  */
 export const getProductMilestones = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductMilestonePage>(`/product-versions/${id}/milestones`, requestConfig);
+};
+
+/**
+ * Gets Product Releases of a Product Version.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Version ID
+ * @param requestConfig - Axios based request config
+ */
+export const getProductReleases = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ProductReleasePage>(`/product-versions/${id}/releases`, requestConfig);
 };
