@@ -1,6 +1,6 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 
@@ -98,7 +98,9 @@ export const ProductVersionDetailPage = () => {
               {serviceContainerProductVersion.data?.version}
             </AttributesItem>
             <AttributesItem title={ProductVersionAttributes.productName.title}>
-              {serviceContainerProductVersion.data?.product.name}
+              <Link to={`/products/${serviceContainerProductVersion.data?.product.id}`}>
+                {serviceContainerProductVersion.data?.product.name}
+              </Link>
             </AttributesItem>
             <AttributesItem title={ProductVersionAttributes.productDescription.title}>
               {serviceContainerProductVersion.data?.product.description}
