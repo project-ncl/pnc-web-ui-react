@@ -1,4 +1,4 @@
-export const ProductAttributes = {
+export const productEntityAttributes = {
   abbreviation: {
     title: 'Abbreviation',
   },

@@ -2,7 +2,7 @@ import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProductAttributes } from 'common/productEntityAttributes';
+import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -63,13 +63,13 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
       >
         <ContentBox padding marginBottom>
           <Attributes>
-            <AttributesItem title={ProductAttributes.abbreviation.title}>
+            <AttributesItem title={productEntityAttributes.abbreviation.title}>
               {serviceContainerProduct.data?.abbreviation}
             </AttributesItem>
-            <AttributesItem title={ProductAttributes.productManagers.title}>
+            <AttributesItem title={productEntityAttributes.productManagers.title}>
               {serviceContainerProduct.data?.productManagers}
             </AttributesItem>
-            <AttributesItem title={ProductAttributes.productPagesCode.title}>
+            <AttributesItem title={productEntityAttributes.productPagesCode.title}>
               {serviceContainerProduct.data?.productPagesCode}
             </AttributesItem>
           </Attributes>
