@@ -1,4 +1,4 @@
-export const ProductVersionAttributes = {
+export const productVersionEntityAttributes = {
   version: {
     title: 'Version',
   },
