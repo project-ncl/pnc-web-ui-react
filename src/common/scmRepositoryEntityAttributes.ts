@@ -1,4 +1,4 @@
-export const ScmRepositoryAttributes = {
+export const scmRepositoryEntityAttributes = {
   internalUrl: {
     title: 'Internal SCM URL',
     tooltip: 'URL to the internal SCM repository, which is the main repository used for the builds.',

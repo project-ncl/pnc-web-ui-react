@@ -2,7 +2,7 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ScmRepositoryAttributes } from 'common/scmRepositoryEntityAttributes';
+import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -50,24 +50,24 @@ export const ScmRepositoryDetailPage = () => {
           <div className="w-70">
             <Attributes>
               <AttributesItem
-                title={ScmRepositoryAttributes.internalUrl.title}
-                tooltip={ScmRepositoryAttributes.internalUrl.tooltip}
+                title={scmRepositoryEntityAttributes.internalUrl.title}
+                tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip}
               >
                 {serviceContainerScmRepository.data?.internalUrl && (
                   <ScmRepositoryUrl internalScmRepository={serviceContainerScmRepository.data} />
                 )}
               </AttributesItem>
               <AttributesItem
-                title={ScmRepositoryAttributes.externalUrl.title}
-                tooltip={ScmRepositoryAttributes.externalUrl.tooltip}
+                title={scmRepositoryEntityAttributes.externalUrl.title}
+                tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip}
               >
                 {serviceContainerScmRepository.data?.externalUrl && (
                   <ScmRepositoryUrl externalScmRepository={serviceContainerScmRepository.data} />
                 )}
               </AttributesItem>
               <AttributesItem
-                title={ScmRepositoryAttributes.preBuildSyncEnabled.title}
-                tooltip={ScmRepositoryAttributes.preBuildSyncEnabled.tooltip}
+                title={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+                tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip}
               >
                 {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
                   (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
