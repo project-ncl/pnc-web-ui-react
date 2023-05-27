@@ -1,4 +1,4 @@
-export const ProductMilestoneAttributes = {
+export const productMilestoneEntityAttributes = {
   status: {
     title: 'Status',
   },
