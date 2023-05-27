@@ -2,7 +2,7 @@ import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProductAttributes } from 'common/ProductAttributes';
+import { ProductAttributes } from 'common/productEntityAttributes';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
