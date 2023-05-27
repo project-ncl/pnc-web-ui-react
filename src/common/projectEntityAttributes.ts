@@ -1,4 +1,4 @@
-export const ProjectAttributes = {
+export const projectEntityAttributes = {
   projectUrl: {
     title: 'Project URL',
   },

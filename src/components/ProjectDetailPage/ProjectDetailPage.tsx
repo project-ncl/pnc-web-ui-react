@@ -2,7 +2,7 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProjectAttributes } from 'common/projectEntityAttributes';
+import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -41,24 +41,24 @@ export const ProjectDetailPage = () => {
       >
         <ContentBox padding marginBottom>
           <Attributes>
-            <AttributesItem title={ProjectAttributes.projectUrl.title}>
+            <AttributesItem title={projectEntityAttributes.projectUrl.title}>
               {serviceContainerProject.data?.projectUrl && (
                 <a href={serviceContainerProject.data?.projectUrl} target="_blank" rel="noopener noreferrer">
                   {serviceContainerProject.data?.projectUrl}
                 </a>
               )}
             </AttributesItem>
-            <AttributesItem title={ProjectAttributes.issueTrackerUrl.title}>
+            <AttributesItem title={projectEntityAttributes.issueTrackerUrl.title}>
               {serviceContainerProject.data?.issueTrackerUrl && (
                 <a href={serviceContainerProject.data?.issueTrackerUrl} target="_blank" rel="noopener noreferrer">
                   {serviceContainerProject.data?.issueTrackerUrl}
                 </a>
               )}
             </AttributesItem>
-            <AttributesItem title={ProjectAttributes.engineeringTeam.title}>
+            <AttributesItem title={projectEntityAttributes.engineeringTeam.title}>
               {serviceContainerProject.data?.engineeringTeam}
             </AttributesItem>
-            <AttributesItem title={ProjectAttributes.technicalLeader.title}>
+            <AttributesItem title={projectEntityAttributes.technicalLeader.title}>
               {serviceContainerProject.data?.technicalLeader}
             </AttributesItem>
           </Attributes>
