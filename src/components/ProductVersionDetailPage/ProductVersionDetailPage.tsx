@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 
-import { ProductVersionAttributes } from 'common/productVersionEntityAttributes';
+import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -94,21 +94,21 @@ export const ProductVersionDetailPage = () => {
       <GridItem span={12}>
         <ContentBox padding>
           <Attributes>
-            <AttributesItem title={ProductVersionAttributes.version.title}>
+            <AttributesItem title={productVersionEntityAttributes.version.title}>
               {serviceContainerProductVersion.data?.version}
             </AttributesItem>
-            <AttributesItem title={ProductVersionAttributes.productName.title}>
+            <AttributesItem title={productVersionEntityAttributes.productName.title}>
               <Link to={`/products/${serviceContainerProductVersion.data?.product.id}`}>
                 {serviceContainerProductVersion.data?.product.name}
               </Link>
             </AttributesItem>
-            <AttributesItem title={ProductVersionAttributes.productDescription.title}>
+            <AttributesItem title={productVersionEntityAttributes.productDescription.title}>
               {serviceContainerProductVersion.data?.product.description}
             </AttributesItem>
-            <AttributesItem title={ProductVersionAttributes.breTagPrefix.title}>
+            <AttributesItem title={productVersionEntityAttributes.breTagPrefix.title}>
               {serviceContainerProductVersion.data?.attributes.BREW_TAG_PREFIX}
             </AttributesItem>
-            <AttributesItem title={ProductVersionAttributes.latestProductMilestone.title}>
+            <AttributesItem title={productVersionEntityAttributes.latestProductMilestone.title}>
               {latestProductMilestone && (
                 <ProductMilestoneReleaseLabel
                   link={`../milestones/${latestProductMilestone.id}`}
@@ -117,7 +117,7 @@ export const ProductVersionDetailPage = () => {
                 />
               )}
             </AttributesItem>
-            <AttributesItem title={ProductVersionAttributes.latestProductRelease.title}>
+            <AttributesItem title={productVersionEntityAttributes.latestProductRelease.title}>
               {latestProductRelease && (
                 <ProductMilestoneReleaseLabel productMilestoneRelease={latestProductRelease} isCurrent={false} />
               )}
