@@ -2,7 +2,7 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ScmRepositoryAttributes } from 'common/ScmRepositoryAttributes';
+import { ScmRepositoryAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
