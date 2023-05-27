@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 
-import { ProductVersionAttributes } from 'common/ProductVersionAttributes';
+import { ProductVersionAttributes } from 'common/productVersionEntityAttributes';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
