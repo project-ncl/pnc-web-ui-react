@@ -2,7 +2,7 @@ import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/rea
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProductMilestoneAttributes } from 'common/productMilestoneEntityAttributes';
+import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -67,19 +67,19 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem span={12}>
         <ContentBox padding>
           <Attributes>
-            <AttributesItem title={ProductMilestoneAttributes.status.title}>
+            <AttributesItem title={productMilestoneEntityAttributes.status.title}>
               {serviceContainerMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}
             </AttributesItem>
-            <AttributesItem title={ProductMilestoneAttributes.startingDate.title}>
+            <AttributesItem title={productMilestoneEntityAttributes.startingDate.title}>
               {createDateTime({ date: serviceContainerMilestone.data.startingDate }).date}
             </AttributesItem>
-            <AttributesItem title={ProductMilestoneAttributes.plannedEndDate.title}>
+            <AttributesItem title={productMilestoneEntityAttributes.plannedEndDate.title}>
               {createDateTime({ date: serviceContainerMilestone.data.plannedEndDate }).date}
             </AttributesItem>
-            <AttributesItem title={ProductMilestoneAttributes.endDate.title}>
+            <AttributesItem title={productMilestoneEntityAttributes.endDate.title}>
               {createDateTime({ date: serviceContainerMilestone.data.endDate }).date}
             </AttributesItem>
-            <AttributesItem title={ProductMilestoneAttributes.lastCloseResut.title}>
+            <AttributesItem title={productMilestoneEntityAttributes.lastCloseResut.title}>
               <div style={{ height: '25px' }}>
                 <ServiceContainerLoading
                   {...serviceContainerCloseResults}
