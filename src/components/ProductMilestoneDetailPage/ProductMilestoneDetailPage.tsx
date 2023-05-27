@@ -2,7 +2,7 @@ import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/rea
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProductMilestoneAttributes } from 'common/ProductMilestoneAttributes';
+import { ProductMilestoneAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
