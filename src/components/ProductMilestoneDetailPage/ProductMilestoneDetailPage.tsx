@@ -79,7 +79,7 @@ export const ProductMilestoneDetailPage = () => {
             <AttributesItem title={productMilestoneEntityAttributes.endDate.title}>
               {createDateTime({ date: serviceContainerMilestone.data.endDate }).date}
             </AttributesItem>
-            <AttributesItem title={productMilestoneEntityAttributes.lastCloseResut.title}>
+            <AttributesItem title={productMilestoneEntityAttributes.lastCloseResult.title}>
               <div style={{ height: '25px' }}>
                 <ServiceContainerLoading
                   {...serviceContainerCloseResults}
