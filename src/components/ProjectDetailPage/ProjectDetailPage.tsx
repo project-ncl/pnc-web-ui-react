@@ -2,7 +2,7 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ProjectAttributes } from 'common/ProjectAttributes';
+import { ProjectAttributes } from 'common/projectEntityAttributes';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
