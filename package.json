@@ -58,7 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/lodash": "^4.14.184",
     "@types/react-test-renderer": "^18.0.0",
     "axios-mock-adapter": "^1.21.2",
