@@ -1,4 +1,12 @@
+import { Product } from 'pnc-api-types-ts';
+
+import { IEntityAttributes } from 'common/entityAttributes';
+
 export const productEntityAttributes = {
+  id: {
+    id: 'id',
+    title: 'ID',
+  },
   name: {
     id: 'name',
     title: 'Name',
@@ -21,4 +29,4 @@ export const productEntityAttributes = {
     id: 'productPagesCode',
     title: 'Product Pages Code',
   },
-};
+} as const satisfies IEntityAttributes<Product>;

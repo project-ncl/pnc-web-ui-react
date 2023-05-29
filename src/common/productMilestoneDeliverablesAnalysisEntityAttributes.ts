@@ -1,5 +1,7 @@
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
+import { IEntityAttributes } from 'common/entityAttributes';
+
 const resultValues: DeliverableAnalyzerOperation['result'][] = [
   'SUCCESSFUL',
   'FAILED',
@@ -10,6 +12,10 @@ const resultValues: DeliverableAnalyzerOperation['result'][] = [
 ];
 
 const progressStatusValues: DeliverableAnalyzerOperation['progressStatus'][] = ['NEW', 'PENDING', 'IN_PROGRESS', 'FINISHED'];
+
+interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOperation {
+  'user.username': any;
+}
 
 export const productMilestoneDeliverablesAnalysisEntityAttributes = {
   id: {
@@ -55,4 +61,4 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
     id: 'parameters',
     title: 'Parameters',
   },
-};
+} as const satisfies IEntityAttributes<IExtendedDeliverableAnalyzerOperation>;
