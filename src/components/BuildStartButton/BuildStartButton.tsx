@@ -15,6 +15,9 @@ import { useState } from 'react';
 
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 
+import * as buildConfigApi from 'services/buildConfigApi';
+import * as groupConfigApi from 'services/groupConfigApi';
+
 import styles from './BuildStartButton.module.css';
 
 interface IBuildStartButtonProp {
@@ -38,15 +41,6 @@ interface IParamOption {
   title: string;
   value: string;
   description?: string;
-}
-
-interface IParams {
-  id: string;
-  temporaryBuild: boolean;
-  alignmentPreference?: string;
-  rebuildMode: string;
-  keepPodOnFailure?: boolean;
-  buildDependencies?: boolean;
 }
 
 const ALIGNMENT_PREFERENCE_DEFAULT_INDEX = 1;
@@ -147,19 +141,17 @@ const rebuildModePopoverText = (
 
 export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBuildStartButtonProp) => {
   const [isTempBuild, setIsTempBuild] = useState<boolean>(false);
-  const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(
-    alignmentPreferences[ALIGNMENT_PREFERENCE_DEFAULT_INDEX]
-  );
+  const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(undefined);
   const [rebuildMode, setRebuildMode] = useState<IParamOption>(rebuildModes[REBUILD_MODE_DEFAULT_INDEX]);
   const [keepPodOnFailure, setKeepPodOnFailure] = useState<boolean>(false);
   const [buildDependencies, setBuildDependencies] = useState<boolean>(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownAlignmentsDirection: DropdownProps['alignments'] = { sm: 'right', md: 'right', lg: 'right' };
 
-  const params: IParams = {
+  const params: buildConfigApi.IBuildStartParams | groupConfigApi.IGroupBuildStartParams = {
     id: '',
     temporaryBuild: false,
-    alignmentPreference: '',
+    alignmentPreference: undefined,
     rebuildMode: '',
   };
 
@@ -173,13 +165,15 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
     params.alignmentPreference = alignmentPreference ? alignmentPreference.value : undefined;
     params.rebuildMode = rebuildMode.value;
     if (buildConfig) {
-      params.keepPodOnFailure = keepPodOnFailure;
-      params.buildDependencies = buildDependencies;
-      params.id = buildConfig.id;
-      // @Todo: BuildConfigService.build(params);
+      let buildStartParams = params as buildConfigApi.IBuildStartParams;
+      buildStartParams.keepPodOnFailure = keepPodOnFailure;
+      buildStartParams.buildDependencies = buildDependencies;
+      buildStartParams.id = buildConfig.id;
+      buildConfigApi.build({ buildStartParams });
     } else if (groupConfig) {
+      let groupBuildStartParams = params as groupConfigApi.IGroupBuildStartParams;
       params.id = groupConfig.id;
-      // @Todo: GroupConfigService.build(params);
+      groupConfigApi.build({ groupBuildStartParams });
     }
   };
 
@@ -209,7 +203,10 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
             <Radio
               isChecked={!isTempBuild}
               name="isTempBuild-false-radio"
-              onChange={() => setIsTempBuild(false)}
+              onChange={() => {
+                setIsTempBuild(false);
+                setAlignmentPreference(undefined);
+              }}
               label="Persistent"
               id="isTempBuild-false-radio"
             />
@@ -225,7 +222,10 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
             <Radio
               isChecked={isTempBuild}
               name="isTempBuild-true-radio"
-              onChange={() => setIsTempBuild(true)}
+              onChange={() => {
+                setIsTempBuild(true);
+                setAlignmentPreference(alignmentPreferences[ALIGNMENT_PREFERENCE_DEFAULT_INDEX]);
+              }}
               label="Temporary"
               id="isTempBuild-true-radio"
             />

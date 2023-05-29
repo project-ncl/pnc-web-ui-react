@@ -684,8 +684,8 @@ export const DemoPage = () => {
             <BuildStartButton
               buildConfig={{
                 buildType: 'MVN',
-                id: 'demoId',
-                name: 'Demo Name',
+                id: '334',
+                name: 'microprofile-config-1.4',
               }}
             ></BuildStartButton>
             Build Config Verison
@@ -693,8 +693,8 @@ export const DemoPage = () => {
             <br />
             <BuildStartButton
               groupConfig={{
-                id: 'demoId',
-                name: 'Demo Name',
+                id: '166',
+                name: 'DnsGCProductVersion2208',
               }}
             ></BuildStartButton>
             Group Config Version
