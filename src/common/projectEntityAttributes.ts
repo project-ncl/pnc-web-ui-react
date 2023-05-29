@@ -1,4 +1,12 @@
+import { Project } from 'pnc-api-types-ts';
+
+import { IEntityAttributes } from 'common/entityAttributes';
+
 export const projectEntityAttributes = {
+  id: {
+    id: 'id',
+    title: 'ID',
+  },
   name: {
     id: 'name',
     title: 'Name',
@@ -29,4 +37,4 @@ export const projectEntityAttributes = {
     id: 'technicalLeader',
     title: 'Technical Leader',
   },
-};
+} as const satisfies IEntityAttributes<Project>;

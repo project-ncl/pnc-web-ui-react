@@ -1,5 +1,7 @@
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
+import { IEntityAttributes } from 'common/entityAttributes';
+
 const statusValues: ProductMilestoneCloseResult['status'][] = ['IN_PROGRESS', 'FAILED', 'SUCCEEDED', 'CANCELED', 'SYSTEM_ERROR'];
 
 export const productMilestoneCloseResultEntityAttributes = {
@@ -23,4 +25,4 @@ export const productMilestoneCloseResultEntityAttributes = {
     id: 'endDate',
     title: 'Close Finished',
   },
-};
+} as const satisfies IEntityAttributes<ProductMilestoneCloseResult>;

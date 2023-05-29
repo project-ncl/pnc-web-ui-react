@@ -1,5 +1,7 @@
 import { Artifact, TargetRepository } from 'pnc-api-types-ts';
 
+import { IEntityAttributes } from 'common/entityAttributes';
+
 const artifactQualityValues: Artifact['artifactQuality'][] = [
   'NEW',
   'VERIFIED',
@@ -21,7 +23,17 @@ const repositoryTypeValues: TargetRepository['repositoryType'][] = [
   'DISTRIBUTION_ARCHIVE',
 ];
 
+interface IExtendedArtifact extends Artifact {
+  'targetRepository.repositoryType': any;
+  'product.name': any;
+  'productMilestone.version': any;
+}
+
 export const artifactEntityAttributes = {
+  id: {
+    id: 'id',
+    title: 'ID',
+  },
   identifier: {
     id: 'identifier',
     title: 'Identifier',
@@ -95,4 +107,4 @@ export const artifactEntityAttributes = {
       operator: '=like=',
     },
   },
-};
+} as const satisfies IEntityAttributes<IExtendedArtifact>;
