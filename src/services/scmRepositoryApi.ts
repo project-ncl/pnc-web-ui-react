@@ -36,7 +36,7 @@ export const getScmRepository = ({ id }: IScmRepositoryApiData, requestConfig: A
  * @param requestConfig - Axios based request config
  */
 export const createScmRepository = ({ data }: { data: Omit<SCMRepository, 'id'> }, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<SCMRepository>('/scm-repositories', data, requestConfig);
+  return pncClient.getHttpClient().post<SCMRepository>('/scm-repositories/create-and-sync', data, requestConfig);
 };
 
 /**

@@ -44,7 +44,7 @@ export const ScmRepositoryDetailPage = () => {
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout
         title={generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data })}
-        actions={<ActionButton link="#">Edit SCM Repository</ActionButton>}
+        actions={<ActionButton link="edit">Edit SCM Repository</ActionButton>}
       >
         <ContentBox padding marginBottom>
           <div className="w-70">
