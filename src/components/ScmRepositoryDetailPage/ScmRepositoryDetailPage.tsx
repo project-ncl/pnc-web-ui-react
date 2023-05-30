@@ -35,7 +35,7 @@ export const ScmRepositoryDetailPage = () => {
   useTitle(
     generatePageTitle({
       serviceContainer: serviceContainerScmRepository,
-      entityName: serviceContainerScmRepository.data?.id,
+      entityName: generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data }),
       firstLevelEntity: 'SCM Repository',
     })
   );

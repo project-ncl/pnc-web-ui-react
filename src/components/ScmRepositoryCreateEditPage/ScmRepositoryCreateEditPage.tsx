@@ -25,6 +25,7 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
+import { generateScmRepositoryName } from 'utils/entityNameGenerators';
 import { validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
@@ -67,6 +68,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
     generatePageTitle({
       pageType: isEditPage ? 'Edit' : 'Create',
       serviceContainer: serviceContainerEditPageGet,
+      entityName: generateScmRepositoryName({ scmRepository: serviceContainerEditPageGet.data }),
       firstLevelEntity: 'SCM Repository',
     })
   );
