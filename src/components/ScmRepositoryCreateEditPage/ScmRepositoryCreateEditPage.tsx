@@ -34,11 +34,18 @@ interface IScmRepositoryCreateEditPageProps {
   isEditPage?: boolean;
 }
 
-const formConfig = {
+const createFormConfig = {
   scmUrl: {
     isRequired: true,
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
   },
+  externalUrl: {
+    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
+  },
+  // preBuildSyncEnabled: {},
+};
+
+const editFormConfig = {
   externalUrl: {
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
   },
@@ -108,7 +115,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   };
 
   const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
-    formConfig,
+    isEditPage ? editFormConfig : createFormConfig,
     isEditPage ? submitUpdate : submitCreate
   );
 
