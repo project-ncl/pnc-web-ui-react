@@ -49,6 +49,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
   const [id, setId] = useState<string>();
   const [scmRepository, setScmRepository] = useState<SCMRepository>();
+  const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const urlPathParams = useParams();
 
@@ -81,13 +82,11 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         },
       })
       .then((response: any) => {
-        const scmRepositoryId = response?.data?.id;
-        if (!scmRepositoryId) {
-          throw new Error(`Invalid scmRepositoryId coming from Orch POST response: ${scmRepositoryId}`);
-        }
-        navigate(`/scm-repositories/${scmRepositoryId}`);
+        // @Todo: Verify the create result from the WS Message after WS was implemented.
+        // navigate(`/scm-repositories/${scmRepositoryId}`);
       })
       .catch((e: any) => {
+        setIsSubmitLoading(false);
         throw new Error('Failed to create SCM Repository.');
       });
   };
@@ -101,6 +100,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         navigate(`/scm-repositories/${id}`);
       })
       .catch(() => {
+        setIsSubmitLoading(false);
         throw new Error('Failed to edit SCM Repository.');
       });
   };
@@ -165,16 +165,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           )}
           {isEditPage && (
             <>
-              <FormGroup
-                label="Internal SCM URL"
-                fieldId="internalUrl"
-                helperText={
-                  <FormHelperText isHidden={fields.internalUrl.state !== 'error'} isError>
-                    {fields.internalUrl.errorMessages?.join(' ')}
-                  </FormHelperText>
-                }
-              >
-                <ScmRepositoryUrl isInline internalScmRepository={scmRepository} />
+              <FormGroup label="Internal SCM URL" fieldId="internalUrl">
+                <ScmRepositoryUrl internalScmRepository={scmRepository} />
               </FormGroup>
               <FormGroup label="External SCM URL" fieldId="externalUrl">
                 <TextInput
@@ -214,7 +206,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             <Button
               variant="primary"
               isDisabled={isSubmitDisabled}
+              isLoading={isSubmitLoading}
               onClick={() => {
+                setIsSubmitLoading(true);
                 onSubmit();
               }}
             >
