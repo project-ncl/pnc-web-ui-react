@@ -120,8 +120,16 @@ export const AppRoutes = () => (
       <Route
         path="create"
         element={
-          <ProtectedRoute title={PageTitles.projectCreate}>
+          <ProtectedRoute title={PageTitles.scmRepositoryCreate}>
             <ScmRepositoryCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path=":scmRepositoryId/edit"
+        element={
+          <ProtectedRoute title={PageTitles.scmRepositoryEdit}>
+            <ScmRepositoryCreateEditPage isEditPage={true} />
           </ProtectedRoute>
         }
       />

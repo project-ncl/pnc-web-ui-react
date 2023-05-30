@@ -16,6 +16,7 @@ export const PageTitles = {
   scmRepositories: 'SCM Repositories',
   productMilestoneComparison: 'Product Milestone Comparison',
   scmRepositoryCreate: 'Create SCM Repository',
+  scmRepositoryEdit: 'Update SCM Repository',
   administration: 'Administration',
   pageNotFound: 'Page Not Found',
   delimiterSymbol: '·',
