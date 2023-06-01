@@ -95,7 +95,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         // navigate(`/scm-repositories/${scmRepositoryId}`);
       })
       .catch((e: any) => {
-        setIsSubmitLoading(false);
         throw new Error('Failed to create SCM Repository.');
       });
   };
@@ -109,7 +108,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         navigate(`/scm-repositories/${id}`);
       })
       .catch(() => {
-        setIsSubmitLoading(false);
         throw new Error('Failed to edit SCM Repository.');
       });
   };
@@ -215,7 +213,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             <Button
               variant="primary"
               isDisabled={isSubmitDisabled}
-              isLoading={isSubmitLoading}
               onClick={() => {
                 setIsSubmitLoading(true);
                 onSubmit();
@@ -231,10 +228,10 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
   return (
     <PageLayout
-      title={isEditPage ? 'Update SCM Repository' : 'Create SCM Repository'}
+      title={isEditPage ? 'Edit SCM Repository' : 'Create SCM Repository'}
       description={
         isEditPage ? (
-          <>You can update current SCM Repository attributes below.</>
+          <>You can edit current SCM Repository attributes below.</>
         ) : (
           <>You can create a SCM Repository with either a Internal URL(from Gerrit) or External URL(from any other SCM system).</>
         )
