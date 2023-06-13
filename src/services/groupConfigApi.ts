@@ -10,7 +10,7 @@ export interface IGroupBuildStartParams {
 }
 
 /**
- * Triggers a build of a specific group config.
+ * Triggers a Group Build of a specific Group Config.
  *
  * @param groupBuildStartParams - Object containing parameters to start a Group Build
  * @param requestConfig - Axios based request config
@@ -22,5 +22,5 @@ export const build = (
   requestConfig.params = groupBuildStartParams;
   return pncClient
     .getHttpClient()
-    .post<IGroupBuildStartParams>(`/group-configs/${groupBuildStartParams.id}/build`, {}, requestConfig);
+    .post<IGroupBuildStartParams>(`/group-configs/${groupBuildStartParams.id}/build`, null, requestConfig);
 };
