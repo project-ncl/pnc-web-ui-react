@@ -165,13 +165,13 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
     params.alignmentPreference = alignmentPreference ? alignmentPreference.value : undefined;
     params.rebuildMode = rebuildMode.value;
     if (buildConfig) {
-      let buildStartParams = params as buildConfigApi.IBuildStartParams;
+      const buildStartParams = params as buildConfigApi.IBuildStartParams;
       buildStartParams.keepPodOnFailure = keepPodOnFailure;
       buildStartParams.buildDependencies = buildDependencies;
       buildStartParams.id = buildConfig.id;
       buildConfigApi.build({ buildStartParams });
     } else if (groupConfig) {
-      let groupBuildStartParams = params as groupConfigApi.IGroupBuildStartParams;
+      const groupBuildStartParams = params as groupConfigApi.IGroupBuildStartParams;
       params.id = groupConfig.id;
       groupConfigApi.build({ groupBuildStartParams });
     }
