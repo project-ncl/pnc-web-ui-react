@@ -38,17 +38,17 @@ interface IScmRepositoryCreateEditPageProps {
 const createFormConfig = {
   scmUrl: {
     isRequired: true,
-    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
+    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
   externalUrl: {
-    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
+    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
   // preBuildSyncEnabled: {},
 };
 
 const editFormConfig = {
   externalUrl: {
-    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
+    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
   // preBuildSyncEnabled: {},
 };
