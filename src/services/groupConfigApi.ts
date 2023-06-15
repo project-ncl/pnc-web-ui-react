@@ -21,6 +21,8 @@ export const build = (
   { groupBuildStartParams }: { groupBuildStartParams: IGroupBuildStartParams },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  requestConfig.params = groupBuildStartParams;
+  requestConfig.params = requestConfig.params
+    ? Object.assign(requestConfig.params, groupBuildStartParams)
+    : groupBuildStartParams;
   return pncClient.getHttpClient().post<GroupBuild>(`/group-configs/${groupBuildStartParams.id}/build`, null, requestConfig);
 };
