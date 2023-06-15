@@ -1,5 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
+import { GroupBuild } from 'pnc-api-types-ts';
+
 import { pncClient } from './pncClient';
 
 export interface IGroupBuildStartParams {
@@ -20,7 +22,5 @@ export const build = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   requestConfig.params = groupBuildStartParams;
-  return pncClient
-    .getHttpClient()
-    .post<IGroupBuildStartParams>(`/group-configs/${groupBuildStartParams.id}/build`, null, requestConfig);
+  return pncClient.getHttpClient().post<GroupBuild>(`/group-configs/${groupBuildStartParams.id}/build`, null, requestConfig);
 };

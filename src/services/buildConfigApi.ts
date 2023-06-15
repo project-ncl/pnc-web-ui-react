@@ -1,5 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
+import { Build } from 'pnc-api-types-ts';
+
 import { pncClient } from './pncClient';
 
 export interface IBuildStartParams {
@@ -19,5 +21,5 @@ export interface IBuildStartParams {
  */
 export const build = ({ buildStartParams }: { buildStartParams: IBuildStartParams }, requestConfig: AxiosRequestConfig = {}) => {
   requestConfig.params = buildStartParams;
-  return pncClient.getHttpClient().post<IBuildStartParams>(`/build-configs/${buildStartParams.id}/build`, null, requestConfig);
+  return pncClient.getHttpClient().post<Build>(`/build-configs/${buildStartParams.id}/build`, null, requestConfig);
 };
