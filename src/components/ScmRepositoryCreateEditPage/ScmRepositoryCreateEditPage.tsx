@@ -91,7 +91,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         },
       })
       .then((response: any) => {
-        // @Todo: Verify the create result from the WS Message after WS was implemented.
+        // @Todo: Verify the create result from the WS Message after WS was implemented, see NCL-7935.
         // navigate(`/scm-repositories/${scmRepositoryId}`);
       })
       .catch((e: any) => {
