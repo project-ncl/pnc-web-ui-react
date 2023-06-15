@@ -9,6 +9,7 @@ import {
   FormHelperText,
   TextInput,
 } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
@@ -150,6 +152,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               isRequired
               label="SCM Repository URL"
               fieldId="scmUrl"
+              labelIcon={
+                <TooltipWrapper tooltip="The URL of the SCM to be created, this can be either internal or external URL." />
+              }
               helperText={
                 <FormHelperText isHidden={fields.scmUrl.state !== 'error'} isError>
                   {fields.scmUrl.errorMessages?.join(' ')}
@@ -172,10 +177,20 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           )}
           {isEditPage && (
             <>
-              <FormGroup label="Internal SCM URL" fieldId="internalUrl">
+              <FormGroup
+                label="Internal SCM URL"
+                fieldId="internalUrl"
+                labelIcon={
+                  <TooltipWrapper tooltip="URL to the internal SCM repository, which is the main repository used for the builds." />
+                }
+              >
                 <ScmRepositoryUrl internalScmRepository={scmRepository} />
               </FormGroup>
-              <FormGroup label="External SCM URL" fieldId="externalUrl">
+              <FormGroup
+                label="External SCM URL"
+                fieldId="externalUrl"
+                labelIcon={<TooltipWrapper tooltip="URL to the upstream SCM repository." />}
+              >
                 <TextInput
                   isRequired
                   validated={fields.externalUrl.state}
