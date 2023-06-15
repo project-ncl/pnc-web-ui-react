@@ -9,7 +9,6 @@ import {
   FormHelperText,
   TextInput,
 } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
