@@ -128,7 +128,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           setScmRepository(scmRepository);
           setId(scmRepository.id);
           reinitialize({
-            internalUrl: scmRepository.internalUrl,
             externalUrl: scmRepository.externalUrl,
             // preBuildSyncEnabled: scmRepository.preBuildSyncEnabled,
           });
