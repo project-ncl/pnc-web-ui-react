@@ -153,7 +153,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               label="SCM Repository URL"
               fieldId="scmUrl"
               labelIcon={
-                <TooltipWrapper tooltip="The URL of the SCM to be created, this can be either internal or external URL." />
+                <TooltipWrapper tooltip="The URL of the SCM to be created, this can be either an internal or external URL." />
               }
               helperText={
                 <FormHelperText isHidden={fields.scmUrl.state !== 'error'} isError>
