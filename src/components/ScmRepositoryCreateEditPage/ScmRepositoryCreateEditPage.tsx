@@ -59,7 +59,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
   const [id, setId] = useState<string>();
   const [scmRepository, setScmRepository] = useState<SCMRepository>();
-  const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const urlPathParams = useParams();
 
@@ -228,7 +227,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               variant="primary"
               isDisabled={isSubmitDisabled}
               onClick={() => {
-                setIsSubmitLoading(true);
                 onSubmit();
               }}
             >
