@@ -248,7 +248,10 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         isEditPage ? (
           <>You can edit current SCM Repository attributes below.</>
         ) : (
-          <>You can create a SCM Repository with either a Internal URL(from Gerrit) or External URL(from any other SCM system).</>
+          <>
+            You can create a SCM Repository like <label>apache/maven.git</label> or <label>git/twitter4j.git</label>. It can be
+            created with either an Internal URL or External URL.
+          </>
         )
       }
     >
