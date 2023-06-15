@@ -20,6 +20,6 @@ export interface IBuildStartParams {
  * @param requestConfig - Axios based request config
  */
 export const build = ({ buildStartParams }: { buildStartParams: IBuildStartParams }, requestConfig: AxiosRequestConfig = {}) => {
-  requestConfig.params = buildStartParams;
+  requestConfig.params = requestConfig.params ? Object.assign(requestConfig.params, buildStartParams) : buildStartParams;
   return pncClient.getHttpClient().post<Build>(`/build-configs/${buildStartParams.id}/build`, null, requestConfig);
 };
