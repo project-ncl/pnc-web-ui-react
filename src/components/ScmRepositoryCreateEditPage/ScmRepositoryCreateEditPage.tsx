@@ -40,9 +40,6 @@ const createFormConfig = {
     isRequired: true,
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
-  externalUrl: {
-    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
-  },
   // preBuildSyncEnabled: {},
 };
 
