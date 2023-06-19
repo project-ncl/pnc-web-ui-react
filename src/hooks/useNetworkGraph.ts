@@ -335,6 +335,15 @@ export const useNetworkGraph = ({
     });
   }, [isGraphRendered, hoveredNode, draggedNode, selectedNodes, selectedEdge, searchValueMainLabel, searchValueSubLabel]);
 
+  // CLEAN-UP
+
+  useEffect(() => {
+    return () => {
+      layout.current?.kill();
+      renderer.current?.kill();
+    };
+  }, []);
+
   return {
     createNetworkGraph: useCallback(createNetworkGraph, [sigmaContainerId, navigate]),
     selectEdge: useCallback(selectEdge, []),
