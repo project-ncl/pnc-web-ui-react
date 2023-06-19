@@ -178,7 +178,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                   <TooltipWrapper tooltip="URL to the internal SCM repository, which is the main repository used for the builds." />
                 }
               >
-                <ScmRepositoryUrl internalScmRepository={scmRepository} />
+                {scmRepository && <ScmRepositoryUrl internalScmRepository={scmRepository} />}
               </FormGroup>
               <FormGroup
                 label="External SCM URL"
