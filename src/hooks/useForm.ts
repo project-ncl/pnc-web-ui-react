@@ -157,7 +157,10 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
       fieldsCopy[key].state = 'default';
     }
 
-    submitCallback(fieldsCopy);
+    submitCallback(fieldsCopy).catch((error: Error) => {
+      // error is displayed by the ServiceContainer
+      console.error(error);
+    });
     // .catch((error: any) => {
     // FUTURE IMPLEMENTATION (backend error):
     // const fieldsCopy = { ...fields };
