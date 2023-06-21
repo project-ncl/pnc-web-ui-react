@@ -100,8 +100,8 @@ export const useServiceContainer = (service: Function): IServiceContainer => {
               setError(errorMessage);
             });
           }
+          throw error;
         }
-        throw error;
       })
       .finally(() => {
         loadingCount.current--;
