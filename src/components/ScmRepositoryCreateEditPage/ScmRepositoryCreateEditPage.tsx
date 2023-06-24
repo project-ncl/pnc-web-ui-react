@@ -50,9 +50,9 @@ const editFormConfig = {
   // preBuildSyncEnabled: {},
 };
 
-export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmRepositoryCreateEditPageProps) => {
-  const flexDirection: FlexProps['direction'] = { default: 'column' };
+const flexDirectionColumn: FlexProps['direction'] = { default: 'column' };
 
+export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmRepositoryCreateEditPageProps) => {
   const [id, setId] = useState<string>();
   const [scmRepository, setScmRepository] = useState<SCMRepository>();
   const navigate = useNavigate();
@@ -184,6 +184,11 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                 label="External SCM URL"
                 fieldId="externalUrl"
                 labelIcon={<TooltipWrapper tooltip="URL to the upstream SCM repository." />}
+                helperText={
+                  <FormHelperText isHidden={fields.externalUrl.state !== 'error'} isError>
+                    {fields.externalUrl.errorMessages?.join(' ')}
+                  </FormHelperText>
+                }
               >
                 <TextInput
                   isRequired
@@ -242,13 +247,13 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           <>You can edit current SCM Repository attributes below.</>
         ) : (
           <>
-            You can create a SCM Repository like <label>apache/maven.git</label> or <label>git/twitter4j.git</label>. It can be
+            You can create an SCM Repository like <label>apache/maven.git</label> or <label>git/twitter4j.git</label>. It can be
             created with either an Internal URL or External URL.
           </>
         )
       }
     >
-      <Flex direction={flexDirection}>
+      <Flex direction={flexDirectionColumn}>
         <FlexItem>
           {isEditPage ? (
             <ServiceContainerCreatingUpdating
