@@ -8,6 +8,7 @@ export interface IEntityAttribute<T = string> {
   filter?: {
     operator: IQParamOperators;
     isCustomParam?: boolean;
+    placeholder?: string;
   };
 }
 
