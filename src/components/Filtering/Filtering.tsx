@@ -27,7 +27,7 @@ export interface IAppliedFilters {
   [key: string]: string[];
 }
 
-export interface IFilterAttribute {
+export type TFilterAttribute = {
   id: string;
 
   title: string;
@@ -39,10 +39,10 @@ export interface IFilterAttribute {
   operator: IQParamOperators;
 
   isCustomParam?: boolean;
-}
+};
 
 interface IFilterAttributes {
-  [key: string]: IFilterAttribute;
+  [key: string]: TFilterAttribute;
 }
 
 export interface IFilterOptions {
@@ -57,7 +57,7 @@ interface IFilteringProps {
   filterOptions: IFilterOptions;
   componentId: string;
   defaultFiltering?: IDefaultFiltering;
-  onFilter?: (filterAttribute: IFilterAttribute, filterValue: string) => void;
+  onFilter?: (filterAttribute: TFilterAttribute, filterValue: string) => void;
 }
 
 export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilter }: IFilteringProps) => {
@@ -71,7 +71,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
   // custom default filter otherwise first attribute
   const defaultAttributeKey = defaultFiltering ? defaultFiltering.attribute : Object.keys(filterOptions.filterAttributes)[0];
 
-  const [filterAttribute, setFilterAttribute] = useState<IFilterAttribute>(filterOptions.filterAttributes[defaultAttributeKey]);
+  const [filterAttribute, setFilterAttribute] = useState<TFilterAttribute>(filterOptions.filterAttributes[defaultAttributeKey]);
   const [isFilterAttributeOpen, setIsFilterAttributeOpen] = useState<boolean>(false);
 
   /**
@@ -88,7 +88,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
   /**
    * Generate user friendly chip title representing applied filter (Q param or custom filter param).
    */
-  const generateChipTitle = (filterAttribute: IFilterAttribute, filterValue: string): string => {
+  const generateChipTitle = (filterAttribute: TFilterAttribute, filterValue: string): string => {
     if (filterAttribute.operator === '=like=') {
       let isNegated = false;
 
@@ -116,7 +116,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
   /**
    * Add filter by updating URL.
    */
-  const addFilter = (filterAttribute: IFilterAttribute, filterValue: string) => {
+  const addFilter = (filterAttribute: TFilterAttribute, filterValue: string) => {
     // custom query param (not Q param)
     if (filterAttribute.isCustomParam) {
       const adjustedFilterValue = constructCustomFilterParam(filterAttribute, filterValue);
@@ -211,7 +211,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
           }}
           onSelect={(event, selection, isPlaceholder) => {
             if (!isPlaceholder) {
-              setFilterAttribute(selection as IFilterAttribute);
+              setFilterAttribute(selection as TFilterAttribute);
               setIsFilterAttributeOpen(false);
             }
           }}

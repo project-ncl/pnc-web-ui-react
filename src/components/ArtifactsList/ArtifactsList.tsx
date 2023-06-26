@@ -24,7 +24,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { Filtering, IFilterAttribute, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IFilterOptions, TFilterAttribute } from 'components/Filtering/Filtering';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -208,7 +208,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
           <Filtering
             filterOptions={filterAttributes}
             componentId={componentId}
-            onFilter={(filterAttribute: IFilterAttribute, _) => {
+            onFilter={(filterAttribute: TFilterAttribute, _) => {
               if (['md5', 'sha1', 'sha256'].includes(filterAttribute.id)) {
                 setAreBuildArtifactsExpanded(false);
                 setAreAllArtifactsExpanded(true);
