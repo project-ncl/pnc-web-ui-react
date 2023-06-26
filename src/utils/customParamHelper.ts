@@ -1,4 +1,4 @@
-import { IFilterAttribute } from 'components/Filtering/Filtering';
+import { TFilterAttribute } from 'components/Filtering/Filtering';
 
 /**
  * Construct custom filter param, for example buildConfigName.
@@ -7,7 +7,7 @@ import { IFilterAttribute } from 'components/Filtering/Filtering';
  * @param value - Original filter value
  * @returns Adjusted filter value based on filter attribute
  */
-export const constructCustomFilterParam = (attribute: IFilterAttribute, value: string): string => {
+export const constructCustomFilterParam = (attribute: TFilterAttribute, value: string): string => {
   if (attribute.operator === '=like=') {
     let isNegated = false;
 
