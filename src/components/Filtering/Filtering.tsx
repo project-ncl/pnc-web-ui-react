@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
+import { IEntityAttribute } from 'common/entityAttributes';
+import { WithRequiredProperty } from 'common/types';
 
 import { constructCustomFilterParam } from 'utils/customParamHelper';
-import { IQParamOperators, addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
+import { addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
 import styles from './Filtering.module.css';
@@ -27,19 +29,7 @@ export interface IAppliedFilters {
   [key: string]: string[];
 }
 
-export type TFilterAttribute = {
-  id: string;
-
-  title: string;
-
-  placeholder?: string;
-
-  filterValues?: string[];
-
-  operator: IQParamOperators;
-
-  isCustomParam?: boolean;
-};
+export type TFilterAttribute = WithRequiredProperty<IEntityAttribute, 'filter'>;
 
 export interface IFilterAttributes {
   [key: string]: TFilterAttribute;
@@ -90,7 +80,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
    * Generate user friendly chip title representing applied filter (Q param or custom filter param).
    */
   const generateChipTitle = (filterAttribute: TFilterAttribute, filterValue: string): string => {
-    if (filterAttribute.operator === '=like=') {
+    if (filterAttribute.filter.operator === '=like=') {
       let isNegated = false;
 
       // !"%abc%" -> "%abc%" when negated
@@ -100,7 +90,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
       }
 
       // %abc% -> abc (custom param is not wrapped by " characters)
-      if (filterAttribute.isCustomParam) {
+      if (filterAttribute.filter.isCustomParam) {
         filterValue = filterValue.substring(1, filterValue.length - 1);
       }
       // "%abc%" -> abc
@@ -119,7 +109,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
    */
   const addFilter = (filterAttribute: TFilterAttribute, filterValue: string) => {
     // custom query param (not Q param)
-    if (filterAttribute.isCustomParam) {
+    if (filterAttribute.filter.isCustomParam) {
       const adjustedFilterValue = constructCustomFilterParam(filterAttribute, filterValue);
       updateQueryParamsInURL({ [filterAttribute.id]: adjustedFilterValue }, componentId, location, navigate);
     }
@@ -127,7 +117,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
     // Q param
     else {
       const currentQParam = getComponentQueryParamValue(location.search, 'q', componentId) || '';
-      const q = addQParamItem(filterAttribute.id, filterValue, filterAttribute.operator, currentQParam);
+      const q = addQParamItem(filterAttribute.id, filterValue, filterAttribute.filter.operator, currentQParam);
 
       /**
        * Update Query Params only if some new meaningful q param is returned.
@@ -147,14 +137,14 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
    * Remove filter by updating URL.
    */
   const removeFilter = (filterAttributeKey: string, filterValue: string) => {
-    if (filterOptions.filterAttributes[filterAttributeKey].isCustomParam) {
+    if (filterOptions.filterAttributes[filterAttributeKey].filter.isCustomParam) {
       updateQueryParamsInURL({ [filterAttributeKey]: '' }, componentId, location, navigate);
     } else {
       const currentQParam = getComponentQueryParamValue(location.search, 'q', componentId) || '';
       const q = removeQParamItem(
         filterAttributeKey,
         filterValue,
-        filterOptions.filterAttributes[filterAttributeKey].operator,
+        filterOptions.filterAttributes[filterAttributeKey].filter.operator,
         currentQParam
       );
       updateQueryParamsInURL({ q }, componentId, location, navigate);
@@ -172,7 +162,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
 
     // reset all custom filtering parameters
     for (const [key, value] of Object.entries(filterOptions.filterAttributes)) {
-      if (value.isCustomParam) {
+      if (value.filter.isCustomParam) {
         zeroedFilteringParameters[key] = '';
       }
     }
@@ -188,7 +178,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
     const appliedFilters: IAppliedFilters = parseQParamDeep(currentQParam);
 
     Object.entries(filterOptions.filterAttributes).forEach(([k, v]) => {
-      if (v.isCustomParam) {
+      if (v.filter.isCustomParam) {
         const customParamValue = getComponentQueryParamValue(location.search, k, componentId);
         if (customParamValue) {
           appliedFilters[k] = [customParamValue];
@@ -231,7 +221,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
         </Select>
 
         {/* filter value */}
-        {filterAttribute.filterValues?.length ? (
+        {filterAttribute.values?.length ? (
           <Select
             className={styles['form-input']}
             variant={SelectVariant.single}
@@ -244,7 +234,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
             }}
             isOpen={isFilterValueOpen}
           >
-            {filterAttribute.filterValues.map((filterValue: string) => {
+            {filterAttribute.values.map((filterValue: string) => {
               return <SelectOption key={filterValue} value={filterValue} />;
             })}
           </Select>
@@ -253,7 +243,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
             className={styles['form-input']}
             type="text"
             id="filter-text"
-            placeholder={filterAttribute.placeholder || FILTERING_PLACEHOLDER_DEFAULT}
+            placeholder={filterAttribute.filter.placeholder || FILTERING_PLACEHOLDER_DEFAULT}
             onChange={(value) => {
               setFilterValue(value);
             }}

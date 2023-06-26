@@ -7,7 +7,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
 import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -17,6 +17,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
 
+/*
 const filterAttributes: IFilterOptions = {
   filterAttributes: {
     progressStatus: {
@@ -38,6 +39,7 @@ const filterAttributes: IFilterOptions = {
     },
   },
 };
+*/
 
 const sortAttributes: ISortAttributes = {
   submitTime: {
@@ -77,9 +79,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>
-          <Filtering filterOptions={filterAttributes} componentId={componentId} />
-        </ToolbarItem>
+        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
