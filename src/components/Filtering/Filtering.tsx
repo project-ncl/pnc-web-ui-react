@@ -27,71 +27,20 @@ export interface IAppliedFilters {
   [key: string]: string[];
 }
 
-/**
- * Not all possible combinations are valid.
- *
- * @example
- * {
- *   id: 'name',
- *   title: 'Name',
- *   placeholder: 'Custom placeholder',
- *   operator: '=like='
- * }
- *
- * @example
- * {
- *   id: 'status',
- *   title: 'Status',
- *   filterValues: ['SUCCESS', 'REJECTED', 'FAILED'],
- *   operator: '=='
- * }
- *
- * @example
- * {
- *   id: 'customParam',
- *   title: 'Custom Param',
- *   isCustomParam: true,
- *   operator: '=like='
- * }
- */
 export interface IFilterAttribute {
-  /**
-   * ID has to match object key {@link IFilterObject}, there is automatic checker throwing errors if they don't match.
-   */
   id: string;
-  /**
-   * Title will be displayed to the user.
-   */
+
   title: string;
-  /**
-   * Placeholder when text input is displayed.
-   */
+
   placeholder?: string;
-  /**
-   * Select instead of text input will be displayed.
-   */
+
   filterValues?: string[];
-  /**
-   * Additional operators (see IQParamOperators):
-   *  - '=like=' valid only when filterValues are not defined ('=notlike=' is determined automatically when filter value starts with ! character)
-   *  - '==' valid only when filterValues are defined
-   *  - '!=' valid only when filterValues are defined
-   */
+
   operator: IQParamOperators;
-  /**
-   * When true, custom id based Query Param (not Q) will be used.
-   */
+
   isCustomParam?: boolean;
 }
 
-/**
- * @example
- * {
- *   name: {IFilterAttribute},
- *   status: {IFilterAttribute},
- *   customParam: {IFilterAttribute}
- * }
- */
 interface IFilterObject {
   [key: string]: IFilterAttribute;
 }
@@ -111,36 +60,6 @@ interface IFilteringProps {
   onFilter?: (filterAttribute: IFilterAttribute, filterValue: string) => void;
 }
 
-/**
- * @example
-  const filterAttributes: IFilterAttributes = {
-    filterAttributes: {
-      name: {
-        id: 'name',
-        title: 'Name',
-        placeholder: 'Custom placeholder',
-        operator: '=like=',
-      },
-      description: {
-        id: 'description',
-        title: 'Description',
-        operator: '=like=',
-      },
-      customb: {
-        id: 'customb',
-        title: 'Custom Param',
-        isCustomParam: true,
-        operator: '=like=',
-      },
-      status: {
-        id: 'status',
-        title: 'Status',
-        filterValues: ['SUCCESS', 'REJECTED', 'FAILED'],
-        operator: '==',
-      },
-    },
-  };
- */
 export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onFilter }: IFilteringProps) => {
   const location = useLocation();
   const navigate = useNavigate();
