@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 
 import { Build } from 'pnc-api-types-ts';
 
+import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
@@ -13,7 +15,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IDefaultFiltering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering, IDefaultFiltering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
@@ -22,6 +24,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
 
+/*
 const filterAttributes: IFilterOptions = {
   filterAttributes: {
     buildConfigName: {
@@ -61,9 +64,10 @@ const filterAttributes: IFilterOptions = {
     },
   },
 };
+*/
 
 const defaultFiltering: IDefaultFiltering = {
-  attribute: filterAttributes.filterAttributes.status.id,
+  attribute: buildEntityAttributes.status.id,
 };
 
 const sortAttributes: ISortAttributes = {
@@ -122,7 +126,11 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={filterAttributes} componentId={componentId} defaultFiltering={defaultFiltering} />
+          <Filtering
+            filterOptions={getFilterAttributes(buildEntityAttributes)}
+            componentId={componentId}
+            defaultFiltering={defaultFiltering}
+          />
         </ToolbarItem>
       </Toolbar>
 

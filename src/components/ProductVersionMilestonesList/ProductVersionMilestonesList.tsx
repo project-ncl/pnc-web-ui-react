@@ -7,7 +7,7 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -17,6 +17,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
 
+/*
 const filterAttributes: IFilterOptions = {
   filterAttributes: {
     version: {
@@ -26,6 +27,7 @@ const filterAttributes: IFilterOptions = {
     },
   },
 };
+*/
 
 interface IProductVersionMilestonesListProps {
   serviceContainerProductMilestones: IServiceContainer;
@@ -47,9 +49,7 @@ export const ProductVersionMilestonesList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>
-          <Filtering filterOptions={filterAttributes} componentId={componentId} />
-        </ToolbarItem>
+        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>

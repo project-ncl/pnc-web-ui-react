@@ -16,7 +16,9 @@ import { Link } from 'react-router-dom';
 
 import { Artifact } from 'pnc-api-types-ts';
 
+import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
@@ -24,7 +26,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { Filtering, IFilterOptions, TFilterAttribute } from 'components/Filtering/Filtering';
+import { Filtering, TFilterAttribute } from 'components/Filtering/Filtering';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -35,6 +37,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 // TODO: filter based on columns property, NCL-7612
+/*
 const filterAttributes: IFilterOptions = {
   filterAttributes: {
     identifier: {
@@ -92,6 +95,7 @@ const filterAttributes: IFilterOptions = {
     },
   },
 };
+*/
 
 // TODO: filter based on columns property, NCL-7612
 const sortAttributes: ISortAttributes = {
@@ -206,7 +210,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
       <Toolbar borderTop>
         <ToolbarItem>
           <Filtering
-            filterOptions={filterAttributes}
+            filterOptions={getFilterAttributes(artifactEntityAttributes, defaultColumns)}
             componentId={componentId}
             onFilter={(filterAttribute: TFilterAttribute, _) => {
               if (['md5', 'sha1', 'sha256'].includes(filterAttribute.id)) {

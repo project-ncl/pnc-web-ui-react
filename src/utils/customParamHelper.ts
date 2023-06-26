@@ -8,7 +8,7 @@ import { TFilterAttribute } from 'components/Filtering/Filtering';
  * @returns Adjusted filter value based on filter attribute
  */
 export const constructCustomFilterParam = (attribute: TFilterAttribute, value: string): string => {
-  if (attribute.operator === '=like=') {
+  if (attribute.filter.operator === '=like=') {
     let isNegated = false;
 
     // when negated: convert !ab?c to ab?c
@@ -28,5 +28,5 @@ export const constructCustomFilterParam = (attribute: TFilterAttribute, value: s
     return value;
   }
 
-  throw new Error(`${attribute.operator} is not supported when creating custom filter param.`);
+  throw new Error(`${attribute.filter.operator} is not supported when creating custom filter param.`);
 };
