@@ -41,12 +41,13 @@ export type TFilterAttribute = {
   isCustomParam?: boolean;
 };
 
-interface IFilterAttributes {
+export interface IFilterAttributes {
   [key: string]: TFilterAttribute;
 }
 
 export interface IFilterOptions {
   filterAttributes: IFilterAttributes;
+  customKeys?: string[] | null;
 }
 
 export interface IDefaultFiltering {
