@@ -1,6 +1,6 @@
 import { Build } from 'pnc-api-types-ts';
 
-import { IEntityAttributes } from 'common/entityAttributes';
+import { TEntityAttributes } from 'common/entityAttributes';
 
 const statusValues: Build['status'][] = [
   'SUCCESS',
@@ -74,4 +74,4 @@ export const buildEntityAttributes = {
     id: 'endTime',
     title: 'Ended',
   },
-} as const satisfies IEntityAttributes<IExtendedBuild>;
+} as const satisfies TEntityAttributes<IExtendedBuild>;

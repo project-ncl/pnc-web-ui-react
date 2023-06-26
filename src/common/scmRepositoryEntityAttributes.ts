@@ -1,6 +1,6 @@
 import { SCMRepository } from 'pnc-api-types-ts';
 
-import { IEntityAttributes } from 'common/entityAttributes';
+import { TEntityAttributes } from 'common/entityAttributes';
 
 export const scmRepositoryEntityAttributes = {
   id: {
@@ -29,4 +29,4 @@ export const scmRepositoryEntityAttributes = {
     tooltip:
       'Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build.',
   },
-} as const satisfies IEntityAttributes<SCMRepository>;
+} as const satisfies TEntityAttributes<SCMRepository>;

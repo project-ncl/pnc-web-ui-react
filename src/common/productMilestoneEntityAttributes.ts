@@ -1,6 +1,6 @@
 import { ProductMilestone } from 'pnc-api-types-ts';
 
-import { IEntityAttributes } from 'common/entityAttributes';
+import { TEntityAttributes } from 'common/entityAttributes';
 
 interface IExtendedProductMilestone extends ProductMilestone {
   status: any; // derived from endDate
@@ -39,4 +39,4 @@ export const productMilestoneEntityAttributes = {
     id: 'lastCloseResult',
     title: 'Last Close Result',
   },
-} as const satisfies IEntityAttributes<IExtendedProductMilestone>;
+} as const satisfies TEntityAttributes<IExtendedProductMilestone>;
