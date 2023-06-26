@@ -281,18 +281,6 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
     setAppliedFilters(appliedFilters);
   }, [location.search, location, componentId, navigate, filterAttributes.filterAttributes]); // primary: history.location.search
 
-  /**
-   * Check filter attributes validity.
-   */
-  useEffect(() => {
-    Object.entries(filterAttributes.filterAttributes).forEach(([k, v]) => {
-      if (k !== v.id) {
-        console.error('filterAttributes: ', filterAttributes.filterAttributes);
-        throw new Error(`filterAttributes have invalid format, object key (${k}) has to match id field (${v.id})!`);
-      }
-    });
-  }, [filterAttributes.filterAttributes]);
-
   return (
     <>
       {/* FILTER INPUTS */}
