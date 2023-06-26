@@ -1,3 +1,5 @@
+import { IFilterAttributes, IFilterOptions, TFilterAttribute } from 'components/Filtering/Filtering';
+
 import { IQParamOperators } from 'utils/qParamHelper';
 
 /**
@@ -84,4 +86,22 @@ export interface IEntityAttributes {
 
 export type TEntityAttributes<Entity> = {
   [key in keyof Entity]: IEntityAttribute<key>;
+};
+
+export const getFilterAttributes = (
+  entityAttributes: IEntityAttributes,
+  customKeys: IFilterOptions['customKeys'] = null
+): IFilterOptions => {
+  const filterAttributes: IFilterAttributes = {};
+
+  (customKeys ? customKeys : Object.keys(entityAttributes)).forEach((entityAttributeKey) => {
+    if (entityAttributes[entityAttributeKey]?.filter) {
+      filterAttributes[entityAttributeKey] = entityAttributes[entityAttributeKey] as TFilterAttribute;
+    }
+  });
+
+  return {
+    filterAttributes,
+    customKeys,
+  };
 };
