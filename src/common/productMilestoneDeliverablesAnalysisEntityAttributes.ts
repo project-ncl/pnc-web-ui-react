@@ -1,6 +1,6 @@
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { IEntityAttributes } from 'common/entityAttributes';
+import { TEntityAttributes } from 'common/entityAttributes';
 
 const resultValues: DeliverableAnalyzerOperation['result'][] = [
   'SUCCESSFUL',
@@ -61,4 +61,4 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
     id: 'parameters',
     title: 'Parameters',
   },
-} as const satisfies IEntityAttributes<IExtendedDeliverableAnalyzerOperation>;
+} as const satisfies TEntityAttributes<IExtendedDeliverableAnalyzerOperation>;

@@ -1,6 +1,6 @@
 import { Artifact, TargetRepository } from 'pnc-api-types-ts';
 
-import { IEntityAttributes } from 'common/entityAttributes';
+import { TEntityAttributes } from 'common/entityAttributes';
 
 const artifactQualityValues: Artifact['artifactQuality'][] = [
   'NEW',
@@ -107,4 +107,4 @@ export const artifactEntityAttributes = {
       operator: '=like=',
     },
   },
-} as const satisfies IEntityAttributes<IExtendedArtifact>;
+} as const satisfies TEntityAttributes<IExtendedArtifact>;

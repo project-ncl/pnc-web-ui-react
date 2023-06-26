@@ -1,6 +1,6 @@
 import { IQParamOperators } from 'utils/qParamHelper';
 
-export type IEntityAttributes<Entity> = {
+export type TEntityAttributes<Entity> = {
   [key in keyof Entity]: {
     id: key; // object key and id property value matches
     title: string;

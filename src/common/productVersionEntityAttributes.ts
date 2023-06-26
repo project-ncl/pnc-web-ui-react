@@ -1,6 +1,6 @@
 import { ProductVersion } from 'pnc-api-types-ts';
 
-import { IEntityAttributes } from 'common/entityAttributes';
+import { TEntityAttributes } from 'common/entityAttributes';
 
 interface IExtendedProductVersion extends ProductVersion {
   // derived from product
@@ -44,4 +44,4 @@ export const productVersionEntityAttributes = {
     id: 'latestProductRelease',
     title: 'Latest Product Release',
   },
-} as const satisfies IEntityAttributes<IExtendedProductVersion>;
+} as const satisfies TEntityAttributes<IExtendedProductVersion>;
