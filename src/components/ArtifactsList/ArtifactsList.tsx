@@ -24,7 +24,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { Filtering, IFilterAttribute, IFilterAttributes } from 'components/Filtering/Filtering';
+import { Filtering, IFilterAttribute, IFilterOptions } from 'components/Filtering/Filtering';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -35,7 +35,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 // TODO: filter based on columns property, NCL-7612
-const filterAttributes: IFilterAttributes = {
+const filterAttributes: IFilterOptions = {
   filterAttributes: {
     identifier: {
       id: 'identifier',
@@ -206,7 +206,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
       <Toolbar borderTop>
         <ToolbarItem>
           <Filtering
-            filterAttributes={filterAttributes}
+            filterOptions={filterAttributes}
             componentId={componentId}
             onFilter={(filterAttribute: IFilterAttribute, _) => {
               if (['md5', 'sha1', 'sha256'].includes(filterAttribute.id)) {

@@ -45,7 +45,7 @@ interface IFilterObject {
   [key: string]: IFilterAttribute;
 }
 
-export interface IFilterAttributes {
+export interface IFilterOptions {
   filterAttributes: IFilterObject;
 }
 
@@ -54,13 +54,13 @@ export interface IDefaultFiltering {
 }
 
 interface IFilteringProps {
-  filterAttributes: IFilterAttributes;
+  filterOptions: IFilterOptions;
   componentId: string;
   defaultFiltering?: IDefaultFiltering;
   onFilter?: (filterAttribute: IFilterAttribute, filterValue: string) => void;
 }
 
-export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onFilter }: IFilteringProps) => {
+export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilter }: IFilteringProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -69,11 +69,9 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
    */
 
   // custom default filter otherwise first attribute
-  const defaultAttributeKey = defaultFiltering ? defaultFiltering.attribute : Object.keys(filterAttributes.filterAttributes)[0];
+  const defaultAttributeKey = defaultFiltering ? defaultFiltering.attribute : Object.keys(filterOptions.filterAttributes)[0];
 
-  const [filterAttribute, setFilterAttribute] = useState<IFilterAttribute>(
-    filterAttributes.filterAttributes[defaultAttributeKey]
-  );
+  const [filterAttribute, setFilterAttribute] = useState<IFilterAttribute>(filterOptions.filterAttributes[defaultAttributeKey]);
   const [isFilterAttributeOpen, setIsFilterAttributeOpen] = useState<boolean>(false);
 
   /**
@@ -148,14 +146,14 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
    * Remove filter by updating URL.
    */
   const removeFilter = (filterAttributeKey: string, filterValue: string) => {
-    if (filterAttributes.filterAttributes[filterAttributeKey].isCustomParam) {
+    if (filterOptions.filterAttributes[filterAttributeKey].isCustomParam) {
       updateQueryParamsInURL({ [filterAttributeKey]: '' }, componentId, location, navigate);
     } else {
       const currentQParam = getComponentQueryParamValue(location.search, 'q', componentId) || '';
       const q = removeQParamItem(
         filterAttributeKey,
         filterValue,
-        filterAttributes.filterAttributes[filterAttributeKey].operator,
+        filterOptions.filterAttributes[filterAttributeKey].operator,
         currentQParam
       );
       updateQueryParamsInURL({ q }, componentId, location, navigate);
@@ -172,7 +170,7 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
     const zeroedFilteringParameters: { [key: string]: string } = { q: '' };
 
     // reset all custom filtering parameters
-    for (const [key, value] of Object.entries(filterAttributes.filterAttributes)) {
+    for (const [key, value] of Object.entries(filterOptions.filterAttributes)) {
       if (value.isCustomParam) {
         zeroedFilteringParameters[key] = '';
       }
@@ -188,7 +186,7 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
     const currentQParam = getComponentQueryParamValue(location.search, 'q', componentId) || '';
     const appliedFilters: IAppliedFilters = parseQParamDeep(currentQParam);
 
-    Object.entries(filterAttributes.filterAttributes).forEach(([k, v]) => {
+    Object.entries(filterOptions.filterAttributes).forEach(([k, v]) => {
       if (v.isCustomParam) {
         const customParamValue = getComponentQueryParamValue(location.search, k, componentId);
         if (customParamValue) {
@@ -198,7 +196,7 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
     });
 
     setAppliedFilters(appliedFilters);
-  }, [location.search, location, componentId, navigate, filterAttributes.filterAttributes]); // primary: history.location.search
+  }, [location.search, location, componentId, navigate, filterOptions.filterAttributes]); // primary: history.location.search
 
   return (
     <>
@@ -220,8 +218,8 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
           selections={filterAttribute}
           isOpen={isFilterAttributeOpen}
         >
-          {Object.keys(filterAttributes.filterAttributes).map((filterAttributeKey: string) => {
-            const filterAttribute = filterAttributes.filterAttributes[filterAttributeKey];
+          {Object.keys(filterOptions.filterAttributes).map((filterAttributeKey: string) => {
+            const filterAttribute = filterOptions.filterAttributes[filterAttributeKey];
             // use 'title' attribute as default
             filterAttribute.toString = () => {
               return filterAttribute.title;
@@ -276,7 +274,7 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
             <ChipGroup
               className={styles['chip-group']}
               key={filterAttributeKey}
-              categoryName={filterAttributes.filterAttributes[filterAttributeKey].title}
+              categoryName={filterOptions.filterAttributes[filterAttributeKey].title}
             >
               {appliedFilters[filterAttributeKey].map((filterValueItem) => (
                 <Chip
@@ -285,7 +283,7 @@ export const Filtering = ({ filterAttributes, componentId, defaultFiltering, onF
                     removeFilter(filterAttributeKey, filterValueItem);
                   }}
                 >
-                  {generateChipTitle(filterAttributes.filterAttributes[filterAttributeKey], filterValueItem)}
+                  {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
                 </Chip>
               ))}
             </ChipGroup>
