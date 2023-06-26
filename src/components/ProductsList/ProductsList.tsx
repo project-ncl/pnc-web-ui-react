@@ -9,13 +9,13 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
-const filterAttributes: IFilterAttributes = {
+const filterAttributes: IFilterOptions = {
   filterAttributes: {
     name: {
       id: 'name',
@@ -61,7 +61,7 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
+          <Filtering filterOptions={filterAttributes} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 

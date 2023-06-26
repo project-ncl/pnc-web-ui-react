@@ -23,7 +23,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -35,7 +35,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 
-const filterAttributes: IFilterAttributes = {
+const filterAttributes: IFilterOptions = {
   filterAttributes: {
     identifier: {
       id: 'identifier',
@@ -284,7 +284,7 @@ export const ProductMilestoneComparisonTable = ({
       {serviceContainerProductMilestoneComparisonTable.data !== undefined && (
         <Toolbar borderTop>
           <ToolbarItem>
-            <Filtering filterAttributes={filterAttributes} componentId={componentId} />
+            <Filtering filterOptions={filterAttributes} componentId={componentId} />
           </ToolbarItem>
         </Toolbar>
       )}
