@@ -3,11 +3,13 @@ import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patte
 import { ProductRelease } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -16,22 +18,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-// const filterAttributes: IFilterAttributes = {
-//   filterAttributes: {
-//     version: {
-//       id: 'version',
-//       title: 'Version',
-//       operator: '=like=',
-//     },
-//     supportLevel: {
-//       id: 'supportLevel',
-//       title: 'Support Level',
-//       filterValues: ['UNRELEASED', 'EARLYACCESS', 'SUPPORTED', 'EXTENDED_SUPPORT', 'EOL'],
-//       operator: '==',
-//     },
-//   },
-// };
 
 interface IProductVersionReleasesListProps {
   serviceContainerProductReleases: IServiceContainer;
@@ -53,7 +39,9 @@ export const ProductVersionReleasesList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterAttributes={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(productReleaseEntityAttributes)} componentId={componentId} />
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
