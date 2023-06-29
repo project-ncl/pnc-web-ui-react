@@ -226,6 +226,8 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
           <Select
             className={styles['form-input']}
             variant={SelectVariant.single}
+            hasPlaceholderStyle
+            placeholderText="Filter by option"
             onToggle={(isOpen) => {
               setIsFilterValueOpen(isOpen);
             }}
