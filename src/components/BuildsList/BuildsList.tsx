@@ -24,48 +24,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
 
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    buildConfigName: {
-      id: 'buildConfigName',
-      title: 'Build Config Name',
-      operator: '=like=',
-      isCustomParam: true,
-    },
-    status: {
-      id: 'status',
-      title: 'Status',
-      filterValues: [
-        'SUCCESS',
-        'FAILED',
-        'NO_REBUILD_REQUIRED',
-        'ENQUEUED',
-        'WAITING_FOR_DEPENDENCIES',
-        'BUILDING',
-        'REJECTED',
-        'REJECTED_FAILED_DEPENDENCIES',
-        'CANCELLED',
-        'SYSTEM_ERROR',
-        'NEW',
-      ],
-      operator: '==',
-    },
-    temporaryBuild: {
-      id: 'temporaryBuild',
-      title: 'Temporary Build',
-      filterValues: ['TRUE', 'FALSE'],
-      operator: '==',
-    },
-    'user.username': {
-      id: 'user.username',
-      title: 'User',
-      operator: '=like=',
-    },
-  },
-};
-*/
-
 const defaultFiltering: IDefaultFiltering = {
   attribute: buildEntityAttributes.status.id,
 };
