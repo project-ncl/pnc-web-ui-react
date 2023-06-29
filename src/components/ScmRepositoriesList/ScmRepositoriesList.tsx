@@ -3,35 +3,20 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { SCMRepository } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    internalUrl: {
-      id: 'internalUrl',
-      title: 'Internal URL',
-      operator: '=like=',
-    },
-    externalUrl: {
-      id: 'externalUrl',
-      title: 'External URL',
-      operator: '=like=',
-    },
-  },
-};
-*/
 
 const sortAttributes: ISortAttributes = {
   internalUrl: {
@@ -63,7 +48,9 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(scmRepositoryEntityAttributes)} componentId={componentId} />{' '}
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
