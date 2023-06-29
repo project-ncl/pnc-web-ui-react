@@ -37,67 +37,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 // TODO: filter based on columns property, NCL-7612
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    identifier: {
-      id: 'identifier',
-      title: 'Identifier',
-      operator: '=like=',
-    },
-    artifactQuality: {
-      id: 'artifactQuality',
-      title: 'Artifact Quality',
-      filterValues: ['NEW', 'VERIFIED', 'TESTED', 'DEPRECATED', 'BLACKLISTED', 'TEMPORARY', 'DELETED', 'IMPORTED'],
-      operator: '==',
-    },
-    buildCategory: {
-      id: 'buildCategory',
-      title: 'Build Category',
-      filterValues: ['STANDARD', 'SERVICE'],
-      operator: '==',
-    },
-    filename: {
-      id: 'filename',
-      title: 'Filename',
-      operator: '=like=',
-    },
-    'targetRepository.repositoryType': {
-      id: 'targetRepository.repositoryType',
-      title: 'Repository Type',
-      filterValues: ['MAVEN', 'GENERIC_PROXY', 'NPM', 'COCOA_POD', 'DISTRIBUTION_ARCHIVE'],
-      operator: '==',
-    },
-    md5: {
-      id: 'md5',
-      title: 'md5',
-      operator: '=like=',
-    },
-    sha1: {
-      id: 'sha1',
-      title: 'sha1',
-      operator: '=like=',
-    },
-    sha256: {
-      id: 'sha256',
-      title: 'sha256',
-      operator: '=like=',
-    },
-    'product.name': {
-      id: 'product.name',
-      title: 'Product Name',
-      operator: '=like=',
-    },
-    'productMilestone.version': {
-      id: 'productMilestone.version',
-      title: 'Miletone Version',
-      operator: '=like=',
-    },
-  },
-};
-*/
-
-// TODO: filter based on columns property, NCL-7612
 const sortAttributes: ISortAttributes = {
   identifier: {
     id: 'identifier',
