@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
+
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -15,19 +18,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    status: {
-      id: 'status',
-      title: 'Status',
-      filterValues: ['IN_PROGRESS', 'FAILED', 'SUCCEEDED', 'CANCELED', 'SYSTEM_ERROR'],
-      operator: '==',
-    },
-  },
-};
-*/
 
 const sortAttributes: ISortAttributes = {
   startingDate: {
@@ -72,7 +62,9 @@ export const ProductMilestoneCloseResultsList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(productMilestoneCloseResultEntityAttributes)} componentId={componentId} />
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
