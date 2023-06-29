@@ -4,33 +4,18 @@ import { Link } from 'react-router-dom';
 import { Product } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    name: {
-      id: 'name',
-      title: 'Name',
-      operator: '=like=',
-    },
-    abbreviation: {
-      id: 'abbreviation',
-      title: 'Abbreviation',
-      operator: '=like=',
-    },
-  },
-};
-*/
 
 const sortAttributes: ISortAttributes = {
   name: {
@@ -62,7 +47,9 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(productEntityAttributes)} componentId={componentId} />{' '}
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
