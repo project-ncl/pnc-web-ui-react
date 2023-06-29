@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
+
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
 import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -16,30 +19,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    progressStatus: {
-      id: 'progressStatus',
-      title: 'Progress Status',
-      filterValues: ['NEW', 'PENDING', 'IN_PROGRESS', 'FINISHED'],
-      operator: '==',
-    },
-    result: {
-      id: 'result',
-      title: 'Result',
-      filterValues: ['SUCCESSFUL', 'FAILED', 'REJECTED', 'CANCELLED', 'TIMEOUT', 'SYSTEM_ERROR'],
-      operator: '==',
-    },
-    'user.username': {
-      id: 'user.username',
-      title: 'User',
-      operator: '=like=',
-    },
-  },
-};
-*/
 
 const sortAttributes: ISortAttributes = {
   submitTime: {
@@ -79,7 +58,12 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering
+            filterOptions={getFilterAttributes(productMilestoneDeliverablesAnalysisEntityAttributes)}
+            componentId={componentId}
+          />
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
