@@ -5,28 +5,18 @@ import { Link } from 'react-router-dom';
 import { ProductMilestoneRef, ProductReleaseRef, ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    version: {
-      id: 'version',
-      title: 'Version',
-      operator: '=like=',
-    },
-  },
-};
-*/
 
 const spaceItemsNone: FlexProps['spaceItems'] = { default: 'spaceItemsNone' };
 const flexGap = { gap: '5px' };
@@ -46,7 +36,9 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(productVersionEntityAttributes)} componentId={componentId} />{' '}
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
