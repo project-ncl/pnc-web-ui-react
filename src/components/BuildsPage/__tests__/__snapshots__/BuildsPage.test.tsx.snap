@@ -107,7 +107,7 @@ Object {
                       aria-haspopup="listbox"
                       aria-label="Options menu"
                       aria-labelledby=" pf-select-toggle-id-23"
-                      class="pf-c-select__toggle"
+                      class="pf-c-select__toggle pf-m-placeholder"
                       id="pf-select-toggle-id-23"
                       type="button"
                     >
@@ -117,7 +117,7 @@ Object {
                         <span
                           class="pf-c-select__toggle-text"
                         >
-                          SUCCESS
+                          Filter by option
                         </span>
                       </div>
                       <span
@@ -1025,7 +1025,7 @@ Object {
                     aria-haspopup="listbox"
                     aria-label="Options menu"
                     aria-labelledby=" pf-select-toggle-id-23"
-                    class="pf-c-select__toggle"
+                    class="pf-c-select__toggle pf-m-placeholder"
                     id="pf-select-toggle-id-23"
                     type="button"
                   >
@@ -1035,7 +1035,7 @@ Object {
                       <span
                         class="pf-c-select__toggle-text"
                       >
-                        SUCCESS
+                        Filter by option
                       </span>
                     </div>
                     <span
