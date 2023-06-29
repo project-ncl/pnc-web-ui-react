@@ -17,13 +17,15 @@ import { Link } from 'react-router-dom';
 import { Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productMilestoneComparisonEntityAttributes } from 'common/productMilestoneComparisonEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -34,18 +36,6 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    identifier: {
-      id: 'identifier',
-      title: 'Artifact Identifier',
-      operator: '=like=',
-    },
-  },
-};
-*/
 
 interface IProductMilestoneColumn {
   id: string;
@@ -285,7 +275,12 @@ export const ProductMilestoneComparisonTable = ({
       </Toolbar>
       {serviceContainerProductMilestoneComparisonTable.data !== undefined && (
         <Toolbar borderTop>
-          <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+          <ToolbarItem>
+            <Filtering
+              filterOptions={getFilterAttributes(productMilestoneComparisonEntityAttributes)}
+              componentId={componentId}
+            />
+          </ToolbarItem>
         </Toolbar>
       )}
 
