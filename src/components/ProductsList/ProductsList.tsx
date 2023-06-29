@@ -62,9 +62,9 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
                */}
               <Tr>
                 <Th width={60} sort={getSortParams(sortAttributes['name'].id)}>
-                  Name
+                  {productEntityAttributes.name.title}
                 </Th>
-                <Th sort={getSortParams(sortAttributes['abbreviation'].id)}>Abbreviation</Th>
+                <Th sort={getSortParams(sortAttributes['abbreviation'].id)}>{productEntityAttributes.abbreviation.title}</Th>
               </Tr>
             </Thead>
             <Tbody>
