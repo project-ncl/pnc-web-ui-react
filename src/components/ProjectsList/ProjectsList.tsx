@@ -4,49 +4,20 @@ import { Link } from 'react-router-dom';
 import { Project } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-// keeping also not supported operations for testing purposes
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    name: {
-      id: 'name',
-      title: 'Name',
-      placeholder: 'Custom placeholder X',
-      operator: '=like=',
-    },
-    description: {
-      id: 'description',
-      title: 'Description',
-      operator: '=like=',
-    },
-    customb: {
-      id: 'customb',
-      title: 'Custom',
-      isCustomParam: true,
-      operator: '=like=',
-    },
-    status: {
-      id: 'status',
-      title: 'Status',
-      filterValues: ['SUCCESS', 'REJECTED', 'FAILED', 'CANCELLED', 'BUILDING', 'NO_REBUILD_REQUIRED', 'SYSTEM_ERROR'],
-      operator: '==',
-    },
-  },
-};
-*/
 
 const sortAttributes: ISortAttributes = {
   name: {
@@ -78,7 +49,9 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(projectEntityAttributes)} componentId={componentId} />{' '}
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
