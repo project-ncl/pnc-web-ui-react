@@ -7,7 +7,7 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
+// import { Filtering, IFilterAttributes } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -17,21 +17,21 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
 
-const filterAttributes: IFilterAttributes = {
-  filterAttributes: {
-    version: {
-      id: 'version',
-      title: 'Version',
-      operator: '=like=',
-    },
-    supportLevel: {
-      id: 'supportLevel',
-      title: 'Support Level',
-      filterValues: ['UNRELEASED', 'EARLYACCESS', 'SUPPORTED', 'EXTENDED_SUPPORT', 'EOL'],
-      operator: '==',
-    },
-  },
-};
+// const filterAttributes: IFilterAttributes = {
+//   filterAttributes: {
+//     version: {
+//       id: 'version',
+//       title: 'Version',
+//       operator: '=like=',
+//     },
+//     supportLevel: {
+//       id: 'supportLevel',
+//       title: 'Support Level',
+//       filterValues: ['UNRELEASED', 'EARLYACCESS', 'SUPPORTED', 'EXTENDED_SUPPORT', 'EOL'],
+//       operator: '==',
+//     },
+//   },
+// };
 
 interface IProductVersionReleasesListProps {
   serviceContainerProductReleases: IServiceContainer;
@@ -53,9 +53,7 @@ export const ProductVersionReleasesList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>
-          <Filtering filterAttributes={filterAttributes} componentId={componentId} />
-        </ToolbarItem>
+        <ToolbarItem>{/* <Filtering filterAttributes={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
