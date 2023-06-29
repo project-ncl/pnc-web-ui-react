@@ -201,6 +201,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
             setIsFilterAttributeOpen(isOpen);
           }}
           onSelect={(event, selection, isPlaceholder) => {
+            setFilterValue('');
             if (!isPlaceholder) {
               setFilterAttribute(selection as TFilterAttribute);
               setIsFilterAttributeOpen(false);
@@ -243,6 +244,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
             className={styles['form-input']}
             type="text"
             id="filter-text"
+            value={filterValue}
             placeholder={filterAttribute.filter.placeholder || FILTERING_PLACEHOLDER_DEFAULT}
             onChange={(value) => {
               setFilterValue(value);
@@ -250,6 +252,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
             onKeyPress={(event) => {
               if (event.key === 'Enter' && filterValue && filterValue.trim().length > 0) {
                 addFilter(filterAttribute, filterValue);
+                setFilterValue('');
               }
             }}
           />
