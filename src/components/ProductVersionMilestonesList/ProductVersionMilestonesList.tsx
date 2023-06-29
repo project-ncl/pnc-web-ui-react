@@ -3,11 +3,13 @@ import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patte
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
+import { getFilterAttributes } from 'common/entityAttributes';
+import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-// import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -16,18 +18,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-/*
-const filterAttributes: IFilterOptions = {
-  filterAttributes: {
-    version: {
-      id: 'version',
-      title: 'Version',
-      operator: '=like=',
-    },
-  },
-};
-*/
 
 interface IProductVersionMilestonesListProps {
   serviceContainerProductMilestones: IServiceContainer;
@@ -49,7 +39,9 @@ export const ProductVersionMilestonesList = ({
   return (
     <>
       <Toolbar>
-        <ToolbarItem>{/* <Filtering filterOptions={filterAttributes} componentId={componentId} /> */}</ToolbarItem>
+        <ToolbarItem>
+          <Filtering filterOptions={getFilterAttributes(productMilestoneEntityAttributes)} componentId={componentId} />
+        </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
