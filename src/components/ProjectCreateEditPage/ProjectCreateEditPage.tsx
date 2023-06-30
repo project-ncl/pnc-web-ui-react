@@ -16,6 +16,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
+import { projectEntityAttributes } from 'common/projectEntityAttributes';
+
 import { IFields, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -150,8 +152,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
         >
           <FormGroup
             isRequired
-            label="Name"
-            fieldId="name"
+            label={projectEntityAttributes.name.title}
+            fieldId={projectEntityAttributes.name.id}
             helperText={
               <FormHelperText isHidden={fields.name.state !== 'error'} isError>
                 {fields.name.errorMessages?.join(' ')}
@@ -162,8 +164,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               isRequired
               validated={fields.name.state}
               type="text"
-              id="name"
-              name="name"
+              id={projectEntityAttributes.name.id}
+              name={projectEntityAttributes.name.id}
               value={fields.name.value}
               autoComplete="off"
               onChange={(name) => {
@@ -171,10 +173,10 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               }}
             />
           </FormGroup>
-          <FormGroup label="Description" fieldId="description">
+          <FormGroup label={projectEntityAttributes.description.title} fieldId={projectEntityAttributes.description.id}>
             <TextArea
-              id="description"
-              name="description"
+              id={projectEntityAttributes.description.id}
+              name={projectEntityAttributes.description.id}
               value={fields.description.value}
               onChange={(description) => {
                 onChange('description', description);
@@ -183,8 +185,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             />
           </FormGroup>
           <FormGroup
-            label="Project URL"
-            fieldId="projectUrl"
+            label={projectEntityAttributes.projectUrl.title}
+            fieldId={projectEntityAttributes.projectUrl.id}
             helperText={
               <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
                 {fields.projectUrl.errorMessages?.join(' ')}
@@ -194,8 +196,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             <TextInput
               validated={fields.projectUrl.state}
               type="url"
-              id="projectUrl"
-              name="projectUrl"
+              id={projectEntityAttributes.projectUrl.id}
+              name={projectEntityAttributes.projectUrl.id}
               autoComplete="off"
               value={fields.projectUrl.value}
               onChange={(url) => {
@@ -204,8 +206,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             />
           </FormGroup>
           <FormGroup
-            label="Issue Tracker URL"
-            fieldId="issueTrackerUrl"
+            label={projectEntityAttributes.issueTrackerUrl.title}
+            fieldId={projectEntityAttributes.issueTrackerUrl.id}
             helperText={
               <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
                 {fields.issueTrackerUrl.errorMessages?.join(' ')}
@@ -215,8 +217,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             <TextInput
               validated={fields.issueTrackerUrl.state}
               type="url"
-              id="issueTrackerUrl"
-              name="issueTrackerUrl"
+              id={projectEntityAttributes.issueTrackerUrl.id}
+              name={projectEntityAttributes.issueTrackerUrl.id}
               autoComplete="off"
               value={fields.issueTrackerUrl.value}
               onChange={(url) => {
@@ -224,11 +226,11 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               }}
             />
           </FormGroup>
-          <FormGroup label="Engineering Team" fieldId="engineeringTeam">
+          <FormGroup label={projectEntityAttributes.engineeringTeam.title} fieldId={projectEntityAttributes.engineeringTeam.id}>
             <TextInput
               type="text"
-              id="engineeringTeam"
-              name="engineeringTeam"
+              id={projectEntityAttributes.engineeringTeam.id}
+              name={projectEntityAttributes.engineeringTeam.id}
               autoComplete="off"
               value={fields.engineeringTeam.value}
               onChange={(engineeringTeam) => {
@@ -236,11 +238,11 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               }}
             />
           </FormGroup>
-          <FormGroup label="Technical Leader" fieldId="technicalLeader">
+          <FormGroup label={projectEntityAttributes.technicalLeader.title} fieldId={projectEntityAttributes.technicalLeader.id}>
             <TextInput
               type="text"
-              id="technicalLeader"
-              name="technicalLeader"
+              id={projectEntityAttributes.technicalLeader.id}
+              name={projectEntityAttributes.technicalLeader.id}
               autoComplete="off"
               value={fields.technicalLeader.value}
               onChange={(technicalLeader) => {
