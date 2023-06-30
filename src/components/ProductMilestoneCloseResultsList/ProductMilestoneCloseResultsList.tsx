@@ -72,15 +72,15 @@ export const ProductMilestoneCloseResultsList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>ID</Th>
+                <Th width={20}>{productMilestoneCloseResultEntityAttributes.id.title}</Th>
                 <Th width={30} sort={getSortParams(sortAttributes['startingDate'].id)}>
-                  Start Date
+                  {productMilestoneCloseResultEntityAttributes.startingDate.title}
                 </Th>
                 <Th width={30} sort={getSortParams(sortAttributes['endDate'].id)}>
-                  End Date
+                  {productMilestoneCloseResultEntityAttributes.endDate.title}
                 </Th>
                 <Th width={20} sort={getSortParams(sortAttributes['status'].id)}>
-                  Status
+                  {productMilestoneCloseResultEntityAttributes.status.title}
                 </Th>
               </Tr>
             </Thead>
