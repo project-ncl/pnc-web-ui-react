@@ -46,9 +46,9 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
           <TableComposable variant="compact">
             <Thead>
               <Tr>
-                <Th width={10}>Version</Th>
-                <Th>Milestones</Th>
-                <Th>Releases</Th>
+                <Th width={10}>{productVersionEntityAttributes.version.title}</Th>
+                <Th>{productVersionEntityAttributes.productMilestones.title}</Th>
+                <Th>{productVersionEntityAttributes.productReleases.title}</Th>
               </Tr>
             </Thead>
             <Tbody>

@@ -44,4 +44,12 @@ export const productVersionEntityAttributes = {
     id: 'latestProductRelease',
     title: 'Latest Product Release',
   },
+  productMilestones: {
+    id: 'productMilestones',
+    title: 'Milestones',
+  },
+  productReleases: {
+    id: 'productReleases',
+    title: 'Releases',
+  },
 } as const satisfies TEntityAttributes<IExtendedProductVersion>;
