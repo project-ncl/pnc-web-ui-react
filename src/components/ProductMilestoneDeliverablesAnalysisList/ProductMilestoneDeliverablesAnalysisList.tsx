@@ -71,14 +71,14 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>Id</Th>
-                <Th width={20}>Progress Status</Th>
-                <Th width={20}>Result</Th>
+                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.id.title}</Th>
+                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.progressStatus.title}</Th>
+                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.result.title}</Th>
                 <Th width={20} sort={getSortParams(sortAttributes['submitTime'].id)}>
-                  Submit Time
+                  {productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}
                 </Th>
                 <Th width={20} sort={getSortParams(sortAttributes['user.username'].id)}>
-                  User
+                  {productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}
                 </Th>
               </Tr>
             </Thead>
