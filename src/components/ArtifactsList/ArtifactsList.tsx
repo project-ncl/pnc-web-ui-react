@@ -89,15 +89,15 @@ interface IArtifactsListProps {
 }
 
 const defaultColumns = [
-  'identifier',
-  'targetRepository.repositoryType',
-  'buildCategory',
-  'filename',
-  'artifactQuality',
-  'md5',
-  'sha1',
-  'sha256',
-  'build',
+  artifactEntityAttributes.identifier.id,
+  artifactEntityAttributes['targetRepository.repositoryType'].id,
+  artifactEntityAttributes.buildCategory.id,
+  artifactEntityAttributes.filename.id,
+  artifactEntityAttributes.artifactQuality.id,
+  artifactEntityAttributes.md5.id,
+  artifactEntityAttributes.sha1.id,
+  artifactEntityAttributes.sha256.id,
+  artifactEntityAttributes.build.id,
 ];
 
 /**
@@ -152,7 +152,11 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
             filterOptions={getFilterAttributes(artifactEntityAttributes, defaultColumns)}
             componentId={componentId}
             onFilter={(filterAttribute: TFilterAttribute, _) => {
-              if (['md5', 'sha1', 'sha256'].includes(filterAttribute.id)) {
+              if (
+                [artifactEntityAttributes.md5.id, artifactEntityAttributes.sha1.id, artifactEntityAttributes.sha256.id].some(
+                  (hash) => hash === filterAttribute.id
+                )
+              ) {
                 setAreBuildArtifactsExpanded(false);
                 setAreAllArtifactsExpanded(true);
               }
@@ -205,40 +209,40 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                     collapseAllAriaLabel: '',
                   }}
                 />
-                {columns.includes('build') && <Th width={10} />}
-                {columns.includes('identifier') && (
+                {columns.includes(artifactEntityAttributes.build.id) && <Th width={10} />}
+                {columns.includes(artifactEntityAttributes.identifier.id) && (
                   <Th width={30} sort={getSortParams(sortAttributes['identifier'].id)}>
-                    Identifier
+                    {artifactEntityAttributes.identifier.title}
                   </Th>
                 )}
-                {columns.includes('targetRepository.repositoryType') && (
+                {columns.includes(artifactEntityAttributes['targetRepository.repositoryType'].id) && (
                   <Th width={15} sort={getSortParams(sortAttributes['targetRepository.repositoryType'].id)}>
-                    Repository Type
+                    {artifactEntityAttributes['targetRepository.repositoryType'].title}
                   </Th>
                 )}
-                {columns.includes('buildCategory') && (
+                {columns.includes(artifactEntityAttributes.buildCategory.id) && (
                   <Th width={15} sort={getSortParams(sortAttributes['buildCategory'].id)}>
-                    Build Category
+                    {artifactEntityAttributes.buildCategory.title}
                   </Th>
                 )}
-                {columns.includes('filename') && (
+                {columns.includes(artifactEntityAttributes.filename.id) && (
                   <Th width={25} sort={getSortParams(sortAttributes['filename'].id)}>
-                    Filename
+                    {artifactEntityAttributes.filename.title}
                   </Th>
                 )}
-                {columns.includes('artifactQuality') && (
+                {columns.includes(artifactEntityAttributes.artifactQuality.id) && (
                   <Th width={15} sort={getSortParams(sortAttributes['artifactQuality'].id)}>
-                    Artifact Quality
+                    {artifactEntityAttributes.artifactQuality.title}
                   </Th>
                 )}
-                {columns.includes('product.name') && (
+                {columns.includes(artifactEntityAttributes['product.name'].id) && (
                   <Th width={30} sort={getSortParams(sortAttributes['product.name'].id)}>
-                    Source Product
+                    {artifactEntityAttributes['product.name'].title}
                   </Th>
                 )}
-                {columns.includes('productMilestone.version') && (
+                {columns.includes(artifactEntityAttributes['productMilestone.version'].id) && (
                   <Th width={30} sort={getSortParams(sortAttributes['productMilestone.version'].id)}>
-                    Source Milestone
+                    {artifactEntityAttributes['productMilestone.version'].title}
                   </Th>
                 )}
               </Tr>
@@ -258,7 +262,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                       },
                     }}
                   />
-                  {columns.includes('build') && (
+                  {columns.includes(artifactEntityAttributes.build.id) && (
                     <Td>
                       {artifact.build && (
                         <TooltipWrapper tooltip="Artifact is associated with Build. Expand table row to see Build details.">
@@ -267,7 +271,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                       )}
                     </Td>
                   )}
-                  {columns.includes('identifier') && (
+                  {columns.includes(artifactEntityAttributes.identifier.id) && (
                     <Td>
                       <Flex spaceItems={spaceItemsLg}>
                         <FlexItem>
@@ -280,19 +284,19 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                       </Flex>
                     </Td>
                   )}
-                  {columns.includes('targetRepository.repositoryType') && (
+                  {columns.includes(artifactEntityAttributes['targetRepository.repositoryType'].id) && (
                     <Td>
                       {artifact.targetRepository?.repositoryType && (
                         <ArtifactRepositoryTypeLabelMapper repositoryType={artifact.targetRepository?.repositoryType} />
                       )}
                     </Td>
                   )}
-                  {columns.includes('buildCategory') && (
+                  {columns.includes(artifactEntityAttributes.buildCategory.id) && (
                     <Td>
                       <Label color="grey">{artifact.buildCategory}</Label>
                     </Td>
                   )}
-                  {columns.includes('filename') && (
+                  {columns.includes(artifactEntityAttributes.filename.id) && (
                     <Td>
                       <Flex spaceItems={spaceItemsSm}>
                         <FlexItem>
@@ -308,17 +312,17 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                       </Flex>
                     </Td>
                   )}
-                  {columns.includes('artifactQuality') && (
+                  {columns.includes(artifactEntityAttributes.artifactQuality.id) && (
                     <Td>
                       <ArtifactQualityLabelMapper quality={artifact.artifactQuality} />
                     </Td>
                   )}
-                  {columns.includes('product.name') && (
+                  {columns.includes(artifactEntityAttributes['product.name'].id) && (
                     <Td>
                       <Link to={`/products/${artifact.product?.id}`}>{artifact.product?.name}</Link>
                     </Td>
                   )}
-                  {columns.includes('productMilestone.version') && (
+                  {columns.includes(artifactEntityAttributes['productMilestone.version'].id) && (
                     <Td>
                       <Link
                         to={`/products/${artifact.product?.id}/versions/${artifact.productVersion?.id}/milestones/${artifact.productMilestone?.id}`}
@@ -334,20 +338,20 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                     <ExpandableRowContent>
                       <DescriptionList className="gap-5" isHorizontal isCompact>
                         <DescriptionListGroup>
-                          <DescriptionListTerm>md5</DescriptionListTerm>
+                          <DescriptionListTerm>{artifactEntityAttributes.md5.title}</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.md5}</DescriptionListDescription>
                         </DescriptionListGroup>
                         <DescriptionListGroup>
-                          <DescriptionListTerm>sha1</DescriptionListTerm>
+                          <DescriptionListTerm>{artifactEntityAttributes.sha1.title}</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.sha1}</DescriptionListDescription>
                         </DescriptionListGroup>
                         <DescriptionListGroup>
-                          <DescriptionListTerm>sha256</DescriptionListTerm>
+                          <DescriptionListTerm>{artifactEntityAttributes.sha256.title}</DescriptionListTerm>
                           <DescriptionListDescription>{artifact.sha256}</DescriptionListDescription>
                         </DescriptionListGroup>
-                        {columns.includes('build') && (
+                        {columns.includes(artifactEntityAttributes.build.id) && (
                           <DescriptionListGroup className="m-t-10">
-                            <DescriptionListTerm>Build</DescriptionListTerm>
+                            <DescriptionListTerm>{artifactEntityAttributes.build.title}</DescriptionListTerm>
                             <DescriptionListDescription>
                               {artifact.build ? (
                                 <>
