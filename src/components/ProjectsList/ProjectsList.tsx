@@ -64,10 +64,10 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
                */}
               <Tr>
                 <Th width={30} sort={getSortParams(sortAttributes['name'].id)}>
-                  Name
+                  {projectEntityAttributes.name.title}
                 </Th>
-                <Th sort={getSortParams(sortAttributes['description'].id)}>Description</Th>
-                <Th width={15}>Build Configs count</Th>
+                <Th sort={getSortParams(sortAttributes['description'].id)}>{projectEntityAttributes.description.title}</Th>
+                <Th width={15}>{projectEntityAttributes.buildConfigsCount.title}</Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>

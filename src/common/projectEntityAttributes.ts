@@ -2,6 +2,10 @@ import { Project } from 'pnc-api-types-ts';
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
+interface IExtendedProject extends Project {
+  buildConfigsCount: number;
+}
+
 export const projectEntityAttributes = {
   id: {
     id: 'id',
@@ -37,4 +41,8 @@ export const projectEntityAttributes = {
     id: 'technicalLeader',
     title: 'Technical Leader',
   },
-} as const satisfies TEntityAttributes<Project>;
+  buildConfigsCount: {
+    id: 'buildConfigsCount',
+    title: 'Build Configs count',
+  },
+} as const satisfies TEntityAttributes<IExtendedProject>;
