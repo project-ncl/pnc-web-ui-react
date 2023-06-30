@@ -49,11 +49,11 @@ export const ProductVersionMilestonesList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={15}>Version</Th>
-                <Th width={10}>Status</Th>
-                <Th width={15}>Start Date</Th>
-                <Th width={15}>Planned End Date</Th>
-                <Th width={15}>End Date</Th>
+                <Th width={15}>{productMilestoneEntityAttributes.version.title}</Th>
+                <Th width={10}>{productMilestoneEntityAttributes.status.title}</Th>
+                <Th width={15}>{productMilestoneEntityAttributes.startingDate.title}</Th>
+                <Th width={15}>{productMilestoneEntityAttributes.plannedEndDate.title}</Th>
+                <Th width={15}>{productMilestoneEntityAttributes.endDate.title}</Th>
                 <Th />
               </Tr>
             </Thead>
