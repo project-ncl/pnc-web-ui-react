@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
 
-import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJSPlugins';
+import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJsPlugins';
 
 export interface IDoughnutChartProps {
   data: number[];

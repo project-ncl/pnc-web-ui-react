@@ -5,7 +5,7 @@ import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
 import { COLORS } from 'components/Charts/common';
 
-import { legendHeightPlugin } from 'libs/chartJSPlugins';
+import { legendHeightPlugin } from 'libs/chartJsPlugins';
 
 /**
  * @example
