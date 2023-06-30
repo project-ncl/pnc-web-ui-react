@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
+import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
+import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
+
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 
 import { isProductMilestone, isProductRelease } from 'utils/entityRecognition';
@@ -34,13 +37,13 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     labelType = 'milestone';
     tooltipContent = (
       <div className={styles['tooltip-text']}>
-        <strong>Start Date: </strong>
+        <strong>{productMilestoneEntityAttributes.startingDate.title}: </strong>
         {createDateTime({ date: productMilestone.startingDate! }).date || <EmptyStateSymbol />}
         <br />
-        <strong>Planned End Date: </strong>
+        <strong>{productMilestoneEntityAttributes.plannedEndDate.title}: </strong>
         {createDateTime({ date: productMilestone.plannedEndDate! }).date || <EmptyStateSymbol />}
         <br />
-        <strong>End Date: </strong>
+        <strong>{productMilestoneEntityAttributes.endDate.title}: </strong>
         {createDateTime({ date: productMilestone.endDate! }).date || <EmptyStateSymbol />}
       </div>
     );
@@ -50,10 +53,10 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     const productRelease = productMilestoneRelease as ProductRelease;
     tooltipContent = (
       <div className={styles['toolip-text']}>
-        <strong>Release Date: </strong>
+        <strong>{productReleaseEntityAttributes.releaseDate.title}: </strong>
         {createDateTime({ date: productRelease.releaseDate! }).date || <EmptyStateSymbol />}
         <br />
-        <strong>Support Level: </strong>
+        <strong>{productReleaseEntityAttributes.supportLevel.title}: </strong>
         {productRelease.supportLevel}
       </div>
     );
