@@ -1,4 +1,4 @@
-import { Artifact, TargetRepository } from 'pnc-api-types-ts';
+import { Artifact, Build, TargetRepository } from 'pnc-api-types-ts';
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
@@ -27,6 +27,7 @@ interface IExtendedArtifact extends Artifact {
   'targetRepository.repositoryType': any;
   'product.name': any;
   'productMilestone.version': any;
+  build: Build;
 }
 
 export const artifactEntityAttributes = {
@@ -106,5 +107,9 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+  },
+  build: {
+    id: 'build',
+    title: 'Build',
   },
 } as const satisfies TEntityAttributes<IExtendedArtifact>;
