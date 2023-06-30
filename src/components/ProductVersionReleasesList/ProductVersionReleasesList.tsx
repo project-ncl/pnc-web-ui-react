@@ -49,10 +49,10 @@ export const ProductVersionReleasesList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={25}>Version</Th>
-                <Th width={20}>Release Date</Th>
-                <Th width={20}>Released In</Th>
-                <Th width={20}>Support Level</Th>
+                <Th width={25}>{productReleaseEntityAttributes.version.title}</Th>
+                <Th width={20}>{productReleaseEntityAttributes.releaseDate.title}</Th>
+                <Th width={20}>{productReleaseEntityAttributes.productMilestone.title}</Th>
+                <Th width={20}>{productReleaseEntityAttributes.supportLevel.title}</Th>
                 <Th />
               </Tr>
             </Thead>
