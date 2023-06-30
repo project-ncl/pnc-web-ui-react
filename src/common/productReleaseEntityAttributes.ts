@@ -21,6 +21,10 @@ export const productReleaseEntityAttributes = {
       operator: '=like=',
     },
   },
+  releaseDate: {
+    id: 'releaseDate',
+    title: 'Release Date',
+  },
   supportLevel: {
     id: 'supportLevel',
     title: 'Support Level',
@@ -28,5 +32,9 @@ export const productReleaseEntityAttributes = {
     filter: {
       operator: '==',
     },
+  },
+  productMilestone: {
+    id: 'productMilestone',
+    title: 'Released In',
   },
 } as const satisfies TEntityAttributes<ProductRelease>;
