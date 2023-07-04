@@ -103,6 +103,22 @@ code {
   padding: 15px;
 }
 
+.p-t-global {
+  padding-top: var(--pf-global--spacer--lg);
+}
+
+.p-b-global {
+  padding-bottom: var(--pf-global--spacer--lg);
+}
+
+.p-l-global {
+  padding-left: var(--pf-global--spacer--lg);
+}
+
+.p-r-global {
+  padding-right: var(--pf-global--spacer--lg);
+}
+
 .p-global {
   padding: var(--pf-global--spacer--lg);
 }
