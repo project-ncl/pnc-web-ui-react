@@ -9,6 +9,10 @@ interface IContentBoxProps {
   background?: boolean;
   borderTop?: boolean;
   padding?: boolean;
+  paddingTop?: boolean;
+  paddingBottom?: boolean;
+  paddingLeft?: boolean;
+  paddingRight?: boolean;
   marginTop?: boolean;
   marginBottom?: boolean;
   title?: string;
@@ -22,6 +26,10 @@ export const ContentBox = ({
   background = true,
   borderTop,
   padding,
+  paddingTop,
+  paddingBottom,
+  paddingLeft,
+  paddingRight,
   marginTop,
   marginBottom,
   title,
@@ -44,6 +52,22 @@ export const ContentBox = ({
 
   if (padding) {
     classList.push('p-global');
+  }
+
+  if (paddingTop) {
+    classList.push('p-t-global');
+  }
+
+  if (paddingBottom) {
+    classList.push('p-b-global');
+  }
+
+  if (paddingLeft) {
+    classList.push('p-l-global');
+  }
+
+  if (paddingRight) {
+    classList.push('p-r-global');
   }
 
   if (marginTop) {
