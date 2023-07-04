@@ -163,7 +163,10 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
             }}
           />
         </ToolbarItem>
-        <ToolbarItem marginLeft="20px">
+      </Toolbar>
+
+      <Toolbar disablePaddingTop>
+        <ToolbarItem>
           <Switch
             id="toggle-artifact-name-parsed"
             label="Parse Artifact identifier"
