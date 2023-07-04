@@ -69,7 +69,7 @@ Object {
         class="pf-c-page__main-section"
       >
         <div
-          class="shadow-global bg-w border-t-gray p-global"
+          class="shadow-global bg-w border-t-gray p-t-global p-b-global p-l-global p-r-global"
         >
           <div>
             <div
@@ -139,9 +139,19 @@ Object {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="shadow-global bg-w p-b-global p-l-global p-r-global"
+        >
+          <div>
+            <div
+              class="pf-l-flex pf-m-space-items-none"
+              style="gap: 1.5rem;"
+            >
               <div
                 class=""
-                style="margin-left: 20px;"
               >
                 <label
                   class="pf-c-switch"
@@ -1026,7 +1036,7 @@ Object {
       class="pf-c-page__main-section"
     >
       <div
-        class="shadow-global bg-w border-t-gray p-global"
+        class="shadow-global bg-w border-t-gray p-t-global p-b-global p-l-global p-r-global"
       >
         <div>
           <div
@@ -1096,9 +1106,19 @@ Object {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="shadow-global bg-w p-b-global p-l-global p-r-global"
+      >
+        <div>
+          <div
+            class="pf-l-flex pf-m-space-items-none"
+            style="gap: 1.5rem;"
+          >
             <div
               class=""
-              style="margin-left: 20px;"
             >
               <label
                 class="pf-c-switch"
