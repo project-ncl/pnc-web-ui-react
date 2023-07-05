@@ -166,7 +166,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               type="text"
               id={projectEntityAttributes.name.id}
               name={projectEntityAttributes.name.id}
-              value={fields.name.value}
+              value={fields.name.value as string}
               autoComplete="off"
               onChange={(name) => {
                 onChange('name', name);
@@ -177,7 +177,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             <TextArea
               id={projectEntityAttributes.description.id}
               name={projectEntityAttributes.description.id}
-              value={fields.description.value}
+              value={fields.description.value as string}
               onChange={(description) => {
                 onChange('description', description);
               }}
@@ -199,7 +199,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               id={projectEntityAttributes.projectUrl.id}
               name={projectEntityAttributes.projectUrl.id}
               autoComplete="off"
-              value={fields.projectUrl.value}
+              value={fields.projectUrl.value as string}
               onChange={(url) => {
                 onChange('projectUrl', url);
               }}
@@ -220,7 +220,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               id={projectEntityAttributes.issueTrackerUrl.id}
               name={projectEntityAttributes.issueTrackerUrl.id}
               autoComplete="off"
-              value={fields.issueTrackerUrl.value}
+              value={fields.issueTrackerUrl.value as string}
               onChange={(url) => {
                 onChange('issueTrackerUrl', url);
               }}
@@ -232,7 +232,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               id={projectEntityAttributes.engineeringTeam.id}
               name={projectEntityAttributes.engineeringTeam.id}
               autoComplete="off"
-              value={fields.engineeringTeam.value}
+              value={fields.engineeringTeam.value as string}
               onChange={(engineeringTeam) => {
                 onChange('engineeringTeam', engineeringTeam);
               }}
@@ -244,7 +244,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
               id={projectEntityAttributes.technicalLeader.id}
               name={projectEntityAttributes.technicalLeader.id}
               autoComplete="off"
-              value={fields.technicalLeader.value}
+              value={fields.technicalLeader.value as string}
               onChange={(technicalLeader) => {
                 onChange('technicalLeader', technicalLeader);
               }}

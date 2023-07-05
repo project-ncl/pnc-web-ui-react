@@ -7,6 +7,7 @@ import {
   Form,
   FormGroup,
   FormHelperText,
+  Switch,
   TextInput,
 } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
@@ -40,14 +41,16 @@ const createFormConfig = {
     isRequired: true,
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
-  // preBuildSyncEnabled: {},
+  preBuildSyncEnabled: {
+    value: true,
+  },
 };
 
 const editFormConfig = {
   externalUrl: {
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
-  // preBuildSyncEnabled: {},
+  preBuildSyncEnabled: {},
 };
 
 const flexDirectionColumn: FlexProps['direction'] = { default: 'column' };
@@ -83,7 +86,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         serviceData: {
           data: {
             scmUrl: data.scmUrl.value,
-            // preBuildSyncEnabled: data.preBuildSyncEnabled.value,
+            preBuildSyncEnabled: data.preBuildSyncEnabled.value,
           },
         },
       })
@@ -124,7 +127,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           setId(scmRepository.id);
           reinitialize({
             externalUrl: scmRepository.externalUrl,
-            // preBuildSyncEnabled: scmRepository.preBuildSyncEnabled,
+            preBuildSyncEnabled: scmRepository.preBuildSyncEnabled,
           });
         });
       } else {
@@ -161,7 +164,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                 type="text"
                 id="scmUrl"
                 name="scmUrl"
-                value={fields.scmUrl.value}
+                value={fields.scmUrl.value as string}
                 autoComplete="off"
                 onChange={(scmUrl) => {
                   onChange('scmUrl', scmUrl);
@@ -196,7 +199,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                   type="text"
                   id="externalUrl"
                   name="externalUrl"
-                  value={fields.externalUrl.value}
+                  value={fields.externalUrl.value as string}
                   autoComplete="off"
                   onChange={(externalUrl) => {
                     onChange('externalUrl', externalUrl);
@@ -205,7 +208,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               </FormGroup>
             </>
           )}
-          {/* <FormGroup
+          <FormGroup
             label="Pre-build Sync"
             fieldId="preBuildSyncEnabled"
             helperText={
@@ -217,12 +220,14 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             <Switch
               id="preBuildSyncEnabled"
               name="preBuildSyncEnabled"
-              isChecked={fields.preBuildSyncEnabled.value?.toLowerCase() === 'true'}
+              label="Pre-build Sync Enabled"
+              labelOff="Pre-build Sync Disabled"
+              isChecked={fields.preBuildSyncEnabled?.value as boolean}
               onChange={(preBuildSyncEnabled) => {
                 onChange('preBuildSyncEnabled', preBuildSyncEnabled);
               }}
             />
-          </FormGroup> */}
+          </FormGroup>
           <ActionGroup>
             <Button
               variant="primary"
