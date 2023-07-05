@@ -9,8 +9,10 @@ import { IFields } from 'hooks/useForm';
  * @param data - form state
  * @returns Object of non-empty form values
  */
-export const transformFormToValues = (data: IFields): { [key: string]: string | null } => {
-  return Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v.value ? v.value : null]));
+export const transformFormToValues = (data: IFields): { [key: string]: string | boolean | null } => {
+  return Object.fromEntries(
+    Object.entries(data).map(([k, v]) => [k, v.value ? v.value : typeof v.value === 'boolean' ? false : null])
+  );
 };
 
 // original Angular implementation:

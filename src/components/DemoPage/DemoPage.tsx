@@ -267,7 +267,7 @@ export const DemoPage = () => {
               type="text"
               id="inputFieldA"
               name="inputFieldA"
-              value={fields.inputFieldA.value}
+              value={fields.inputFieldA.value as string}
               autoComplete="off"
               onChange={(text) => {
                 onChange('inputFieldA', text);
@@ -278,7 +278,7 @@ export const DemoPage = () => {
             <TextArea
               id="textAreaA"
               name="textAreaA"
-              value={fields.textAreaA.value}
+              value={fields.textAreaA.value as string}
               onChange={(text) => {
                 onChange('textAreaA', text);
               }}

@@ -2,7 +2,7 @@ import { TextInputProps } from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
 
 interface IFieldValues {
-  [key: string]: string | undefined;
+  [key: string]: string | boolean | undefined;
 }
 
 interface IValidator {
@@ -11,7 +11,7 @@ interface IValidator {
 }
 
 interface IField {
-  value?: string;
+  value?: string | boolean;
   errorMessages?: string[];
   state?: TextInputProps['validated'];
   isRequired?: boolean;
@@ -98,7 +98,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     // also delete old error messages, new checks are going to be done
     const newField = {
       ...fields[fieldName],
-      value: fieldValue ? fieldValue : '',
+      value: typeof fieldValue === 'boolean' ? fieldValue : fieldValue ? fieldValue : '',
       errorMessages: [],
       state: 'default' as TextInputProps['validated'],
     };
@@ -111,7 +111,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
   // validate field state and change error messages / state
   const validate = (field: IField) => {
     if (field.isRequired) {
-      if (!field.value?.trim()) {
+      if (typeof field.value === 'string' && !field.value?.trim()) {
         addError(field, 'Field must be filled.');
       }
       setState(field);
@@ -152,15 +152,18 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     const fieldsCopy = { ...fields };
     for (const key in fieldsCopy) {
       // trim just strings
-      fieldsCopy[key].value = typeof fieldsCopy[key].value === 'string' ? fieldsCopy[key].value?.trim() : fieldsCopy[key].value;
+      fieldsCopy[key].value =
+        typeof fieldsCopy[key].value === 'string' ? (fieldsCopy[key].value as string)?.trim() : fieldsCopy[key].value;
       // reset state to 'default' (valid inputs wont be highlighted)
       fieldsCopy[key].state = 'default';
     }
 
-    submitCallback(fieldsCopy).catch((error: Error) => {
-      // error is displayed by the ServiceContainer
-      console.error(error);
-    });
+    submitCallback(fieldsCopy);
+
+    // submitCallback(fieldsCopy).catch((error: Error) => {
+    //   // error is displayed by the ServiceContainer
+    //   console.error(error);
+    // });
     // .catch((error: any) => {
     // FUTURE IMPLEMENTATION (backend error):
     // const fieldsCopy = { ...fields };
@@ -197,7 +200,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     // are all required inputs filled?
     const areRequiredFilled = () => {
       for (const key in fields) {
-        if (fields[key].isRequired && !fields[key].value?.trim()) {
+        if (fields[key].isRequired && typeof fields[key].value === 'string' && !(fields[key].value as string)?.trim()) {
           return false;
         }
       }

@@ -74,7 +74,7 @@ export const useServiceContainer = (service: Function): IServiceContainer => {
           // Convert undefined to null
           // undefined is reserved for "service not executed yet"
           if (response.data === undefined) {
-            setData(null);
+            setData(typeof response.data === 'boolean' ? false : null);
           } else {
             setData(response.data);
           }
