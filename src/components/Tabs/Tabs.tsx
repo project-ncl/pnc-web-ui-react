@@ -2,7 +2,7 @@ import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/
 import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
-import { ReactElement } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import styles from './Tabs.module.css';
 
@@ -13,7 +13,15 @@ interface ITabsProps {
 }
 
 export const Tabs = ({ children }: ITabsProps) => {
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const tabContent = document.getElementById('tab-content');
+
+  const onResize = useCallback(() => {
+    tabContent && setShowScrollButton(tabContent.scrollWidth > window.innerWidth);
+  }, [tabContent]);
+
+  window.addEventListener('resize', onResize);
+
   const scrollLeft = () => {
     if (tabContent) {
       tabContent.scrollLeft = tabContent.scrollLeft ? tabContent.scrollLeft - 150 : 0;
@@ -22,10 +30,10 @@ export const Tabs = ({ children }: ITabsProps) => {
   const scrollRight = () => {
     if (tabContent) {
       tabContent.scrollLeft = tabContent.scrollLeft ? tabContent.scrollLeft + 150 : 150;
-
-      tabContent.clientWidth > window.innerWidth && console.log('SHOW SCROLL');
     }
   };
+
+  useEffect(onResize, [onResize]);
 
   return (
     <PageSection
@@ -34,7 +42,7 @@ export const Tabs = ({ children }: ITabsProps) => {
       type="tabs"
       variant={PageSectionVariants.light}
     >
-      <div className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets, stylesPF.modifiers.scrollable)}>
+      <div className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets, showScrollButton && stylesPF.modifiers.scrollable)}>
         <button className={css(stylesPF.tabsScrollButton)} type="button" aria-label="Scroll left" onClick={scrollLeft}>
           <AngleLeftIcon />
         </button>
