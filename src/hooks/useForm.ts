@@ -98,7 +98,7 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     // also delete old error messages, new checks are going to be done
     const newField = {
       ...fields[fieldName],
-      value: typeof fieldValue === 'boolean' ? fieldValue : fieldValue ? fieldValue : '',
+      value: typeof fieldValue === 'boolean' || fieldValue ? fieldValue : '',
       errorMessages: [],
       state: 'default' as TextInputProps['validated'],
     };
