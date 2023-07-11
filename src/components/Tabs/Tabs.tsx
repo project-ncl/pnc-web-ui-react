@@ -63,7 +63,18 @@ export const Tabs = ({ children }: ITabsProps) => {
         >
           <AngleLeftIcon />
         </button>
-        <ul ref={tabContent} className={stylesPF.tabsList}>
+        <ul
+          ref={tabContent}
+          onScroll={() => {
+            if (tabContent.current) {
+              setDisableScrollLeft(tabContent.current.scrollLeft - 5 <= 0);
+              setDisableScrollRight(
+                tabContent.current.scrollLeft + tabContent.current.offsetWidth + 5 >= tabContent.current.scrollWidth
+              );
+            }
+          }}
+          className={stylesPF.tabsList}
+        >
           {children}
         </ul>
         <button
