@@ -8,33 +8,40 @@ import styles from './Tabs.module.css';
 
 const stickyOnBreakpoint: PageSectionProps['stickyOnBreakpoint'] = { default: 'top' };
 
+const SCROLL_BUTTON_SIZE = 150;
+const SCROLL_TOUCH_SIZE = 5;
+
 interface ITabsProps {
   children: ReactElement | ReactElement[];
 }
 
 export const Tabs = ({ children }: ITabsProps) => {
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const [disableScrollLeft, setDisableScrollLeft] = useState(true);
-  const [disableScrollRight, setDisableScrollRight] = useState(false);
+  const [isScrollButtonDisplay, setIsScrollButtonDisplay] = useState<boolean>(false);
+  const [isScrollLeftDisable, setIsScrollLeftDisable] = useState<boolean>(true);
+  const [isScrollRightDisable, setIsScrollRightDisable] = useState<boolean>(false);
   const tabContent = useRef<HTMLUListElement>(null);
 
   const onResize = useCallback(() => {
-    tabContent.current && setShowScrollButton(tabContent.current.scrollWidth > window.innerWidth);
+    tabContent.current && setIsScrollButtonDisplay(tabContent.current.scrollWidth > window.innerWidth);
   }, [tabContent]);
 
   const scrollLeft = () => {
     if (tabContent.current) {
-      setDisableScrollRight(false);
-      setDisableScrollLeft(tabContent.current.scrollLeft - 150 <= 0);
-      tabContent.current.scrollLeft = tabContent.current.scrollLeft ? tabContent.current.scrollLeft - 150 : 0;
+      setIsScrollRightDisable(false);
+      setIsScrollLeftDisable(tabContent.current.scrollLeft - SCROLL_BUTTON_SIZE <= 0);
+      tabContent.current.scrollLeft = tabContent.current.scrollLeft ? tabContent.current.scrollLeft - SCROLL_BUTTON_SIZE : 0;
     }
   };
 
   const scrollRight = () => {
     if (tabContent.current) {
-      setDisableScrollLeft(false);
-      setDisableScrollRight(tabContent.current.scrollWidth <= window.innerWidth + tabContent.current.scrollLeft + 150);
-      tabContent.current.scrollLeft = tabContent.current.scrollLeft ? tabContent.current.scrollLeft + 150 : 150;
+      setIsScrollLeftDisable(false);
+      setIsScrollRightDisable(
+        tabContent.current.scrollWidth <= window.innerWidth + tabContent.current.scrollLeft + SCROLL_BUTTON_SIZE
+      );
+      tabContent.current.scrollLeft = tabContent.current.scrollLeft
+        ? tabContent.current.scrollLeft + SCROLL_BUTTON_SIZE
+        : SCROLL_BUTTON_SIZE;
     }
   };
 
@@ -53,9 +60,9 @@ export const Tabs = ({ children }: ITabsProps) => {
       type="tabs"
       variant={PageSectionVariants.light}
     >
-      <div className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets, showScrollButton && stylesPF.modifiers.scrollable)}>
+      <div className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets, isScrollButtonDisplay && stylesPF.modifiers.scrollable)}>
         <button
-          disabled={disableScrollLeft}
+          disabled={isScrollLeftDisable}
           className={css(stylesPF.tabsScrollButton)}
           type="button"
           aria-label="Scroll left"
@@ -67,9 +74,10 @@ export const Tabs = ({ children }: ITabsProps) => {
           ref={tabContent}
           onScroll={() => {
             if (tabContent.current) {
-              setDisableScrollLeft(tabContent.current.scrollLeft - 5 <= 0);
-              setDisableScrollRight(
-                tabContent.current.scrollLeft + tabContent.current.offsetWidth + 5 >= tabContent.current.scrollWidth
+              setIsScrollLeftDisable(tabContent.current.scrollLeft - SCROLL_TOUCH_SIZE <= 0);
+              setIsScrollRightDisable(
+                tabContent.current.scrollLeft + tabContent.current.offsetWidth + SCROLL_TOUCH_SIZE >=
+                  tabContent.current.scrollWidth
               );
             }
           }}
@@ -78,7 +86,7 @@ export const Tabs = ({ children }: ITabsProps) => {
           {children}
         </ul>
         <button
-          disabled={disableScrollRight}
+          disabled={isScrollRightDisable}
           className={css(stylesPF.tabsScrollButton)}
           type="button"
           aria-label="Scroll right"
