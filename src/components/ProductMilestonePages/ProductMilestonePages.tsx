@@ -1,4 +1,3 @@
-import { Label, Tooltip } from '@patternfly/react-core';
 import { PropsWithChildren, useEffect } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
@@ -11,6 +10,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
 import { TabsItem } from 'components/Tabs/TabsItem';
+import { TabsLabel } from 'components/Tabs/TabsLabel';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -52,13 +52,9 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       <TabsItem url="deliverables-analysis">Deliverables Analysis</TabsItem>
       <TabsItem url="delivered-artifacts">
         Delivered Artifacts{' '}
-        <Tooltip content="Total Count">
-          <Label>
-            <ServiceContainerLoading {...serviceContainerArtifacts} variant="inline" title="Delivered Artifacts Count">
-              {serviceContainerArtifacts.data?.totalHits}
-            </ServiceContainerLoading>
-          </Label>
-        </Tooltip>
+        <TabsLabel serviceContainer={serviceContainerArtifacts} title={'Delivered Artifacts Count'}>
+          {serviceContainerArtifacts.data?.totalHits}
+        </TabsLabel>
       </TabsItem>
       <TabsItem url="interconnection-graph">Interconnection Graph</TabsItem>
     </Tabs>
