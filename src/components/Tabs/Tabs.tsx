@@ -2,7 +2,7 @@ import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/
 import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 
 import styles from './Tabs.module.css';
 
@@ -20,10 +20,6 @@ export const Tabs = ({ children }: ITabsProps) => {
   const [isScrollLeftDisable, setIsScrollLeftDisable] = useState<boolean>(true);
   const [isScrollRightDisable, setIsScrollRightDisable] = useState<boolean>(false);
   const tabContent = useRef<HTMLUListElement>(null);
-
-  const onResize = useCallback(() => {
-    tabContent.current && setIsScrollButtonDisplay(tabContent.current.scrollWidth > window.innerWidth);
-  }, [tabContent]);
 
   const scrollLeft = () => {
     if (tabContent.current) {
@@ -46,12 +42,15 @@ export const Tabs = ({ children }: ITabsProps) => {
   };
 
   useEffect(() => {
+    const onResize = () => tabContent.current && setIsScrollButtonDisplay(tabContent.current.scrollWidth > window.innerWidth);
+
     window.addEventListener('resize', onResize);
     onResize();
+
     return () => {
       window.removeEventListener('resize', onResize);
     };
-  }, [onResize]);
+  }, []);
 
   return (
     <PageSection
