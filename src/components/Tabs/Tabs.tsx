@@ -2,7 +2,7 @@ import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/
 import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './Tabs.module.css';
 
@@ -14,26 +14,37 @@ interface ITabsProps {
 
 export const Tabs = ({ children }: ITabsProps) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
-  const tabContent = document.getElementById('tab-content');
+  const [disableScrollLeft, setDisableScrollLeft] = useState(true);
+  const [disableScrollRight, setDisableScrollRight] = useState(false);
+  const tabContent = useRef<HTMLUListElement>(null);
 
   const onResize = useCallback(() => {
-    tabContent && setShowScrollButton(tabContent.scrollWidth > window.innerWidth);
+    tabContent.current && setShowScrollButton(tabContent.current.scrollWidth > window.innerWidth);
   }, [tabContent]);
 
-  window.addEventListener('resize', onResize);
-
   const scrollLeft = () => {
-    if (tabContent) {
-      tabContent.scrollLeft = tabContent.scrollLeft ? tabContent.scrollLeft - 150 : 0;
-    }
-  };
-  const scrollRight = () => {
-    if (tabContent) {
-      tabContent.scrollLeft = tabContent.scrollLeft ? tabContent.scrollLeft + 150 : 150;
+    if (tabContent.current) {
+      setDisableScrollRight(false);
+      setDisableScrollLeft(tabContent.current.scrollLeft - 150 <= 0);
+      tabContent.current.scrollLeft = tabContent.current.scrollLeft ? tabContent.current.scrollLeft - 150 : 0;
     }
   };
 
-  useEffect(onResize, [onResize]);
+  const scrollRight = () => {
+    if (tabContent.current) {
+      setDisableScrollLeft(false);
+      setDisableScrollRight(tabContent.current.scrollWidth <= window.innerWidth + tabContent.current.scrollLeft + 150);
+      tabContent.current.scrollLeft = tabContent.current.scrollLeft ? tabContent.current.scrollLeft + 150 : 150;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', onResize);
+    onResize();
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, [onResize]);
 
   return (
     <PageSection
@@ -43,13 +54,25 @@ export const Tabs = ({ children }: ITabsProps) => {
       variant={PageSectionVariants.light}
     >
       <div className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets, showScrollButton && stylesPF.modifiers.scrollable)}>
-        <button className={css(stylesPF.tabsScrollButton)} type="button" aria-label="Scroll left" onClick={scrollLeft}>
+        <button
+          disabled={disableScrollLeft}
+          className={css(stylesPF.tabsScrollButton)}
+          type="button"
+          aria-label="Scroll left"
+          onClick={scrollLeft}
+        >
           <AngleLeftIcon />
         </button>
-        <ul id="tab-content" className={stylesPF.tabsList}>
+        <ul ref={tabContent} className={stylesPF.tabsList}>
           {children}
         </ul>
-        <button className={css(stylesPF.tabsScrollButton)} type="button" aria-label="Scroll right" onClick={scrollRight}>
+        <button
+          disabled={disableScrollRight}
+          className={css(stylesPF.tabsScrollButton)}
+          type="button"
+          aria-label="Scroll right"
+          onClick={scrollRight}
+        >
           <AngleRightIcon />
         </button>
       </div>
