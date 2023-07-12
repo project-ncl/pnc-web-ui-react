@@ -9,7 +9,7 @@ import {
   Label,
   Switch,
 } from '@patternfly/react-core';
-import { BuildIcon, DownloadIcon } from '@patternfly/react-icons';
+import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -25,6 +25,7 @@ import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { Filtering, TFilterAttribute } from 'components/Filtering/Filtering';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
@@ -79,7 +80,6 @@ const defaultSorting: IDefaultSorting = {
   attribute: sortAttributes.identifier.id,
 };
 
-const spaceItemsSm: FlexProps['spaceItems'] = { default: 'spaceItemsSm' };
 const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
 interface IArtifactsListProps {
@@ -301,18 +301,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                   )}
                   {columns.includes(artifactEntityAttributes.filename.id) && (
                     <Td>
-                      <Flex spaceItems={spaceItemsSm}>
-                        <FlexItem>
-                          <a href={artifact.publicUrl} target="_self">
-                            <DownloadIcon />
-                          </a>
-                        </FlexItem>
-                        <FlexItem>
-                          <a href={artifact.publicUrl} target="_self">
-                            {artifact.filename}
-                          </a>
-                        </FlexItem>
-                      </Flex>
+                      <DownloadLink url={artifact.publicUrl} title={artifact.filename} />
                     </Td>
                   )}
                   {columns.includes(artifactEntityAttributes.artifactQuality.id) && (
