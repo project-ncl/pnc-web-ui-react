@@ -4,6 +4,10 @@ import { PageTitles } from 'common/constants';
 
 import { AboutPage } from 'components/AboutPage/AboutPage';
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
+import { ArtifactDetailPage } from 'components/ArtifactDetailPage/ArtifactDetailPage';
+import { ArtifactMilestonesPage } from 'components/ArtifactMilestonesPage/ArtifactMilestonesPage';
+import { ArtifactPages } from 'components/ArtifactPages/ArtifactPages';
+import { ArtifactUsagesPage } from 'components/ArtifactUsagesPage/ArtifactUsagesPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
 import { BuildArtifactDependencyGraphPage } from 'components/BuildArtifactDependencyGraphPage/BuildArtifactDependencyGraphPage';
@@ -114,7 +118,15 @@ export const AppRoutes = () => (
       </Route>
     </Route>
     <Route path="group-builds" element={<GroupBuildsPage />} />
-    <Route path="artifacts" element={<ArtifactsPage />} />
+    <Route path="artifacts">
+      <Route index element={<ArtifactsPage />} />
+      <Route path=":artifactId" element={<ArtifactPages />}>
+        <Route path="details" element={<ArtifactDetailPage />} />
+        <Route path="usages" element={<ArtifactUsagesPage />} />
+        <Route path="milestones" element={<ArtifactMilestonesPage />} />
+        <Route index element={<Navigate to="details" replace />} />
+      </Route>
+    </Route>
     <Route path="scm-repositories">
       <Route index element={<ScmRepositoriesPage />} />
       <Route
