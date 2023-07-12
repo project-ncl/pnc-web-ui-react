@@ -17,6 +17,7 @@ interface IContentBoxProps {
   marginTop?: boolean;
   marginBottom?: boolean;
   title?: string;
+  contentBoxHeight?: string;
   contentHeight?: string;
   description?: IDescription;
   isResponsive?: boolean;
@@ -38,6 +39,7 @@ interface IContentBoxProps {
  * @param paddingRight - Whether to set padding-right 
  * @param marginTop - Whether to set margin-top
  * @param marginBottom - Whether to set margin-bottom
+ * @param contentBoxHeight - Set height of the content box
  * @param contentHeight - Set height of the content
  * @param isResponsive - Whether the content should have responsive width over different sizes of screens, ideal for displaying attributes and forms, not suggested for table contents.
  * 
@@ -66,6 +68,7 @@ export const ContentBox = ({
   paddingRight,
   marginTop,
   marginBottom,
+  contentBoxHeight,
   contentHeight,
   isResponsive = false,
 }: PropsWithChildren<IContentBoxProps>) => {
@@ -112,7 +115,7 @@ export const ContentBox = ({
   }
 
   return (
-    <div className={classList.join(' ')}>
+    <div className={classList.join(' ')} style={contentBoxHeight ? { height: contentBoxHeight } : undefined}>
       {title && (
         <div className="p-b-10">
           <strong>{title}</strong>
