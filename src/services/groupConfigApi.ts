@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { GroupBuild } from 'pnc-api-types-ts';
+import { GroupBuild, GroupConfigPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -10,6 +10,15 @@ export interface IGroupBuildStartParams {
   rebuildMode?: string;
   alignmentPreference?: string;
 }
+
+/**
+ * Gets all GroupConfigs.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getGroupConfigs = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<GroupConfigPage>('/group-configs', requestConfig);
+};
 
 /**
  * Triggers a Group Build of a specific Group Config.
