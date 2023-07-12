@@ -1,4 +1,5 @@
 import { GridItem } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { PropsWithChildren } from 'react';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
@@ -9,9 +10,10 @@ import styles from './Attributes.module.css';
 interface IAttributesItemProps {
   title: React.ReactNode;
   tooltip?: string;
+  forceStringWrap?: boolean;
 }
 
-export const AttributesItem = ({ children, title, tooltip }: PropsWithChildren<IAttributesItemProps>) => (
+export const AttributesItem = ({ children, title, tooltip, forceStringWrap }: PropsWithChildren<IAttributesItemProps>) => (
   <>
     <GridItem xl2={2} lg={3} sm={12} className={styles['name']}>
       <>
@@ -19,7 +21,7 @@ export const AttributesItem = ({ children, title, tooltip }: PropsWithChildren<I
         {tooltip && <TooltipWrapper tooltip={tooltip} />}
       </>
     </GridItem>
-    <GridItem xl2={10} lg={9} sm={12}>
+    <GridItem xl2={10} lg={9} sm={12} className={css(forceStringWrap && 'overflow-break-word')}>
       {/* zero is falsy */}
       {children || children === 0 ? children : <EmptyStateSymbol variant="text" />}
     </GridItem>

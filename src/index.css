@@ -35,6 +35,10 @@ code {
   overflow: visible !important;
 }
 
+.overflow-break-word {
+  overflow-wrap: break-word;
+}
+
 .gap-0 {
   gap: 0 !important;
 }
