@@ -25,7 +25,7 @@ export const scmRepositoryEntityAttributes = {
   },
   preBuildSyncEnabled: {
     id: 'preBuildSyncEnabled',
-    title: 'Pre-build Synchronization',
+    title: 'Pre-build Sync',
     tooltip:
       'Option declaring whether the synchronization (for example adding new commits) from the external repository to the internal repository should happen before each build.',
   },

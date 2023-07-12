@@ -15,6 +15,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { SCMRepository } from 'pnc-api-types-ts';
 
+import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
+
 import { IFields, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -175,18 +177,16 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           {isEditPage && (
             <>
               <FormGroup
-                label="Internal SCM URL"
-                fieldId="internalUrl"
-                labelIcon={
-                  <TooltipWrapper tooltip="URL to the internal SCM repository, which is the main repository used for the builds." />
-                }
+                label={scmRepositoryEntityAttributes.internalUrl.title}
+                fieldId={scmRepositoryEntityAttributes.internalUrl.id}
+                labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
               >
                 {scmRepository && <ScmRepositoryUrl internalScmRepository={scmRepository} />}
               </FormGroup>
               <FormGroup
-                label="External SCM URL"
-                fieldId="externalUrl"
-                labelIcon={<TooltipWrapper tooltip="URL to the upstream SCM repository." />}
+                label={scmRepositoryEntityAttributes.externalUrl.title}
+                fieldId={scmRepositoryEntityAttributes.externalUrl.id}
+                labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />}
                 helperText={
                   <FormHelperText isHidden={fields.externalUrl.state !== 'error'} isError>
                     {fields.externalUrl.errorMessages?.join(' ')}
@@ -197,8 +197,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                   isRequired
                   validated={fields.externalUrl.state}
                   type="text"
-                  id="externalUrl"
-                  name="externalUrl"
+                  id={scmRepositoryEntityAttributes.externalUrl.id}
+                  name={scmRepositoryEntityAttributes.externalUrl.id}
                   value={fields.externalUrl.value as string}
                   autoComplete="off"
                   onChange={(externalUrl) => {
@@ -209,8 +209,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             </>
           )}
           <FormGroup
-            label="Pre-build Sync"
-            fieldId="preBuildSyncEnabled"
+            label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+            fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
             helperText={
               <FormHelperText isHidden={fields.preBuildSyncEnabled.state !== 'error'} isError>
                 {fields.preBuildSyncEnabled.errorMessages?.join(' ')}
@@ -218,8 +219,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             }
           >
             <Switch
-              id="preBuildSyncEnabled"
-              name="preBuildSyncEnabled"
+              id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+              name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
               label="Pre-build Sync Enabled"
               labelOff="Pre-build Sync Disabled"
               isChecked={fields.preBuildSyncEnabled?.value as boolean}
