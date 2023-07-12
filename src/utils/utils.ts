@@ -114,3 +114,37 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
 
   return `${hoursString}${hoursString && minutesString ? ' ' : ''}${minutesString}${secondsString}`;
 };
+
+// Mathematical base to work in. Currently: Binary units (i.e. KiB etc). To use kB / MB etc switch to decimal (10).
+const BASE = 2;
+// Thershold at which to switch units.
+const THRESHOLD = Math.pow(BASE, 10);
+// Decimal places to display result in.
+const DECIMAL_PLACES = 2;
+// Separator character between quantity and unit for output.
+const SEPARATOR = ' ';
+// Units to display, ordered by order of magnitude.
+const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
+
+/**
+ * Function to transform filesize in bytes to string format.
+ * Appropriate unit size is used (small files - B, larger - MiB, etc.).
+ *
+ * source: https://github.com/project-ncl/pnc-web-ui-angularjs/blob/3a6b8d5d92065785e00b959d4503ed71934a55ba/ui/app/common/filters/fileSize.js
+ *
+ * @param sizeInBytes - number of bytes
+ * @returns string format of filesize
+ */
+export const calculateFileSize = (sizeInBytes: number): string => {
+  if (sizeInBytes === 0) {
+    return '0' + SEPARATOR + units[0];
+  }
+
+  const exp = Math.floor(Math.log(sizeInBytes) / Math.log(THRESHOLD));
+
+  if (exp === 0) {
+    return sizeInBytes + SEPARATOR + units[exp];
+  }
+
+  return (sizeInBytes / Math.pow(THRESHOLD, exp)).toFixed(DECIMAL_PLACES) + SEPARATOR + units[exp];
+};
