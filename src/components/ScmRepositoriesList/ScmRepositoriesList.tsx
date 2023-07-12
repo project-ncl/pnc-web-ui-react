@@ -17,6 +17,7 @@ import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 const sortAttributes: ISortAttributes = {
   internalUrl: {
@@ -64,12 +65,17 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
               <Tr>
                 <Th width={20}>Name</Th>
                 <Th width={30} sort={getSortParams(sortAttributes['internalUrl'].id)}>
-                  Internal SCM URL
+                  {scmRepositoryEntityAttributes.internalUrl.title}
+                  <TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />
                 </Th>
                 <Th width={30} sort={getSortParams(sortAttributes['externalUrl'].id)}>
-                  External SCM URL
+                  {scmRepositoryEntityAttributes.externalUrl.title}
+                  <TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />
                 </Th>
-                <Th width={10}>Pre-build Sync</Th>
+                <Th width={10}>
+                  {scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+                  <TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
