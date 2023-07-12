@@ -1,0 +1,62 @@
+{
+  "pageIndex": 0,
+  "pageSize": 10,
+  "totalPages": 15,
+  "totalHits": 150,
+  "content": [
+    {
+      "id": "101",
+      "name": "Example Build Group 1",
+      "productVersion": { "id": "101", "version": "1.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "102",
+      "name": "Example Build Group 2",
+      "productVersion": { "id": "101", "version": "1.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "103",
+      "name": "Example Build Group 3",
+      "productVersion": { "id": "102", "version": "2.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "104",
+      "name": "Example Build Group 4",
+      "productVersion": { "id": "103", "version": "2.0", "attributes": { "BREW_TAG_PREFIX": "pnc-1.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "105",
+      "name": "Example Build Group 5",
+      "productVersion": { "id": "104", "version": "2.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "106",
+      "name": "Example Build Group 6",
+      "productVersion": { "id": "101", "version": "2.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "107",
+      "name": "Example Build Group 7",
+      "productVersion": { "id": "101", "version": "2.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "109",
+      "name": "Example Build Group 8",
+      "productVersion": { "id": "101", "version": "2.0", "attributes": { "BREW_TAG_PREFIX": "pnc-2.0-pnc" } },
+      "buildConfigs": {}
+    },
+    {
+      "id": "110",
+      "name": "Example Build Group 9",
+      "productVersion": { "id": "100", "version": "1.0", "attributes": { "BREW_TAG_PREFIX": "pnc-1.0-pnc" } },
+      "buildConfigs": {}
+    }
+  ]
+}
