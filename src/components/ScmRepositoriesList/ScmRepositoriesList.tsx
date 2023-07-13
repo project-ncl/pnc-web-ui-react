@@ -63,7 +63,10 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={20}>Name</Th>
+                <Th width={20}>
+                  {scmRepositoryEntityAttributes.name.title}
+                  <TooltipWrapper tooltip={scmRepositoryEntityAttributes.name.tooltip} />
+                </Th>
                 <Th width={30} sort={getSortParams(sortAttributes['internalUrl'].id)}>
                   {scmRepositoryEntityAttributes.internalUrl.title}
                   <TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />
