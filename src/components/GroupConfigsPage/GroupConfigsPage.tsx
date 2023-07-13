@@ -25,8 +25,8 @@ export const GroupConfigsPage = ({ componentId = 'g1' }: IGroupConfigsPage) => {
       title={PageTitles.groupConfigs}
       description={
         <>
-          This page contains all Group Configs, which are the configurations for group builds. Usually one Group Config may
-          contains multiple Build Configs.
+          This page contains all Group Configs. Usually one Group Config may contain multiple Build Configs and it produces a
+          Group Build during the build process.
         </>
       }
       actions={

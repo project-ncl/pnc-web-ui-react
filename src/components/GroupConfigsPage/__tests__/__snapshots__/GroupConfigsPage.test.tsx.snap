@@ -27,7 +27,7 @@ Object {
             data-ouia-safe="true"
             data-pf-content="true"
           >
-            This page contains all Group Configs, which are the configurations for group builds. Usually one Group Config may contains multiple Build Configs.
+            This page contains all Group Configs. Usually one Group Config may contain multiple Build Configs and it produces a Group Build during the build process.
           </p>
         </div>
         <div
@@ -627,7 +627,7 @@ Object {
           data-ouia-safe="true"
           data-pf-content="true"
         >
-          This page contains all Group Configs, which are the configurations for group builds. Usually one Group Config may contains multiple Build Configs.
+          This page contains all Group Configs. Usually one Group Config may contain multiple Build Configs and it produces a Group Build during the build process.
         </p>
       </div>
       <div
