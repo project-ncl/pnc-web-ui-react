@@ -25,7 +25,7 @@ const sortAttributes: ISortAttributes = {
   },
 };
 
-interface IGroupConfigsList {
+interface IGroupConfigsListProps {
   serviceContainerGroupConfigs: IServiceContainer;
   componentId: string;
 }
@@ -36,14 +36,14 @@ interface IGroupConfigsList {
  * @param serviceContainerGroupConfigs - Service Container for Group Configs
  * @param componentId - Component ID
  */
-export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: IGroupConfigsList) => {
+export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: IGroupConfigsListProps) => {
   const { getSortParams } = useSorting(sortAttributes, componentId);
 
   return (
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(groupConfigEntityAttributes)} componentId={componentId} />{' '}
+          <Filtering filterOptions={getFilterAttributes(groupConfigEntityAttributes)} componentId={componentId} />
         </ToolbarItem>
       </Toolbar>
 
@@ -56,15 +56,15 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={30} sort={getSortParams(sortAttributes['name'].id)}>
-                  {groupConfigEntityAttributes.name.title}
-                </Th>
+                <Th sort={getSortParams(sortAttributes['name'].id)}>{groupConfigEntityAttributes.name.title}</Th>
+                <Th width={20}>{groupConfigEntityAttributes.buildConfigsCount.title}</Th>
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerGroupConfigs.data?.content.map((groupConfig: GroupConfiguration, rowIndex: number) => (
                 <Tr key={rowIndex}>
                   <Td>{<GroupConfigLink id={groupConfig.id}>{groupConfig.name}</GroupConfigLink>}</Td>
+                  <Td>{Object.keys(groupConfig.buildConfigs || []).length}</Td>
                 </Tr>
               ))}
             </Tbody>
