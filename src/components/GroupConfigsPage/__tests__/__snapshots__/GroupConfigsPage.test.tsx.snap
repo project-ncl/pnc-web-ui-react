@@ -57,7 +57,7 @@ Object {
         class="pf-c-page__main-section"
       >
         <div
-          class="shadow-global bg-w p-global"
+          class="shadow-global bg-w p-t-global p-b-global p-l-global p-r-global"
         >
           <div>
             <div
@@ -607,7 +607,7 @@ Object {
       class="pf-c-page__main-section"
     >
       <div
-        class="shadow-global bg-w p-global"
+        class="shadow-global bg-w p-t-global p-b-global p-l-global p-r-global"
       >
         <div>
           <div
