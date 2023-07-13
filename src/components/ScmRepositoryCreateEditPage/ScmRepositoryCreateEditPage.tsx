@@ -149,11 +149,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           {!isEditPage && (
             <FormGroup
               isRequired
-              label="SCM Repository URL"
-              fieldId="scmUrl"
-              labelIcon={
-                <TooltipWrapper tooltip="The URL of the SCM to be created, this can be either an internal or external URL." />
-              }
+              label={scmRepositoryEntityAttributes.scmUrl.title}
+              fieldId={scmRepositoryEntityAttributes.scmUrl.id}
+              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
               helperText={
                 <FormHelperText isHidden={fields.scmUrl.state !== 'error'} isError>
                   {fields.scmUrl.errorMessages?.join(' ')}
@@ -164,8 +162,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                 isRequired
                 validated={fields.scmUrl.state}
                 type="text"
-                id="scmUrl"
-                name="scmUrl"
+                id={scmRepositoryEntityAttributes.scmUrl.id}
+                name={scmRepositoryEntityAttributes.scmUrl.id}
                 value={fields.scmUrl.value as string}
                 autoComplete="off"
                 onChange={(scmUrl) => {
