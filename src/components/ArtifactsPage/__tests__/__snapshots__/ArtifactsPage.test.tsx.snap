@@ -568,11 +568,9 @@ Object {
                   <td
                     class=""
                   >
-                    <div
-                      class="pf-l-flex pf-m-space-items-sm"
-                    >
-                      <div
-                        class=""
+                    <div>
+                      <span
+                        class="download-icon"
                       >
                         <a
                           href="http://indy-gateway-master-devel.psi.redhat.com/api/content/npm/hosted/shared-imports/abbrev/-/abbrev-1.1.1.tgz"
@@ -592,17 +590,15 @@ Object {
                             />
                           </svg>
                         </a>
-                      </div>
-                      <div
-                        class=""
-                      >
+                      </span>
+                      <span>
                         <a
                           href="http://indy-gateway-master-devel.psi.redhat.com/api/content/npm/hosted/shared-imports/abbrev/-/abbrev-1.1.1.tgz"
                           target="_self"
                         >
                           abbrev-1.1.1.tgz
                         </a>
-                      </div>
+                      </span>
                     </div>
                   </td>
                   <td
@@ -1543,11 +1539,9 @@ Object {
                 <td
                   class=""
                 >
-                  <div
-                    class="pf-l-flex pf-m-space-items-sm"
-                  >
-                    <div
-                      class=""
+                  <div>
+                    <span
+                      class="download-icon"
                     >
                       <a
                         href="http://indy-gateway-master-devel.psi.redhat.com/api/content/npm/hosted/shared-imports/abbrev/-/abbrev-1.1.1.tgz"
@@ -1567,17 +1561,15 @@ Object {
                           />
                         </svg>
                       </a>
-                    </div>
-                    <div
-                      class=""
-                    >
+                    </span>
+                    <span>
                       <a
                         href="http://indy-gateway-master-devel.psi.redhat.com/api/content/npm/hosted/shared-imports/abbrev/-/abbrev-1.1.1.tgz"
                         target="_self"
                       >
                         abbrev-1.1.1.tgz
                       </a>
-                    </div>
+                    </span>
                   </div>
                 </td>
                 <td
