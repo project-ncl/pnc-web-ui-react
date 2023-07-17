@@ -251,7 +251,7 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
             onChange={(value) => {
               setFilterValue(value);
             }}
-            onKeyPress={(event) => {
+            onKeyDown={(event) => {
               if (event.key === 'Enter' && filterValue && filterValue.trim().length > 0) {
                 addFilter(filterAttribute, filterValue);
                 setFilterValue('');
