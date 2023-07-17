@@ -102,10 +102,10 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                */}
               <Tr>
                 <Th width={20} sort={getSortParams(sortAttributes['status'].id)}>
-                  Status
+                  {buildEntityAttributes.status.title}
                 </Th>
-                <Th width={15}>ID</Th>
-                <Th width={35}>Name</Th>
+                <Th width={15}>{buildEntityAttributes.id.title}</Th>
+                <Th width={35}>{buildEntityAttributes.name.title}</Th>
                 <Th width={20} className="overflow-visible">
                   <SortGroup
                     title="Times"
@@ -115,7 +115,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                   />
                 </Th>
                 <Th width={10} sort={getSortParams(sortAttributes['user.username'].id)}>
-                  User
+                  {buildEntityAttributes['user.username'].title}
                 </Th>
               </Tr>
             </Thead>
@@ -134,13 +134,13 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                   <Td>
                     <DescriptionList className="gap-0" isHorizontal isCompact>
                       <DescriptionListGroup>
-                        <DescriptionListTerm>Submitted</DescriptionListTerm>
+                        <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
                         <DescriptionListDescription>
                           {build.submitTime && createDateTime({ date: build.submitTime }).custom}
                         </DescriptionListDescription>
                       </DescriptionListGroup>
                       <DescriptionListGroup>
-                        <DescriptionListTerm>Started</DescriptionListTerm>
+                        <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
                         <DescriptionListDescription>
                           {build.startTime &&
                             createDateTime({
@@ -150,7 +150,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                         </DescriptionListDescription>
                       </DescriptionListGroup>
                       <DescriptionListGroup>
-                        <DescriptionListTerm>Ended</DescriptionListTerm>
+                        <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
                         <DescriptionListDescription>
                           {build.endTime &&
                             createDateTime({
