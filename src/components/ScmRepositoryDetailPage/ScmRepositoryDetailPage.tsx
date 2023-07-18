@@ -46,34 +46,32 @@ export const ScmRepositoryDetailPage = () => {
         title={generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data })}
         actions={<ActionButton link="edit">Edit SCM Repository</ActionButton>}
       >
-        <ContentBox padding marginBottom>
-          <div className="w-70">
-            <Attributes>
-              <AttributesItem
-                title={scmRepositoryEntityAttributes.internalUrl.title}
-                tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip}
-              >
-                {serviceContainerScmRepository.data?.internalUrl && (
-                  <ScmRepositoryUrl internalScmRepository={serviceContainerScmRepository.data} />
-                )}
-              </AttributesItem>
-              <AttributesItem
-                title={scmRepositoryEntityAttributes.externalUrl.title}
-                tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip}
-              >
-                {serviceContainerScmRepository.data?.externalUrl && (
-                  <ScmRepositoryUrl externalScmRepository={serviceContainerScmRepository.data} />
-                )}
-              </AttributesItem>
-              <AttributesItem
-                title={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
-                tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip}
-              >
-                {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
-                  (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
-              </AttributesItem>
-            </Attributes>
-          </div>
+        <ContentBox padding marginBottom responsiveWidth>
+          <Attributes>
+            <AttributesItem
+              title={scmRepositoryEntityAttributes.internalUrl.title}
+              tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip}
+            >
+              {serviceContainerScmRepository.data?.internalUrl && (
+                <ScmRepositoryUrl internalScmRepository={serviceContainerScmRepository.data} />
+              )}
+            </AttributesItem>
+            <AttributesItem
+              title={scmRepositoryEntityAttributes.externalUrl.title}
+              tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip}
+            >
+              {serviceContainerScmRepository.data?.externalUrl && (
+                <ScmRepositoryUrl externalScmRepository={serviceContainerScmRepository.data} />
+              )}
+            </AttributesItem>
+            <AttributesItem
+              title={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+              tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip}
+            >
+              {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
+                (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
+            </AttributesItem>
+          </Attributes>
         </ContentBox>
 
         <Toolbar>

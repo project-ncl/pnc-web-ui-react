@@ -1,3 +1,4 @@
+import { Grid, GridItem } from '@patternfly/react-core';
 import { PropsWithChildren } from 'react';
 
 import { BoxDescription, IDescription } from 'components/BoxDescription/BoxDescription';
@@ -18,6 +19,7 @@ interface IContentBoxProps {
   title?: string;
   contentHeight?: string;
   description?: IDescription;
+  responsiveWidth?: boolean;
 }
 
 export const ContentBox = ({
@@ -35,6 +37,7 @@ export const ContentBox = ({
   title,
   contentHeight,
   description,
+  responsiveWidth = false,
 }: PropsWithChildren<IContentBoxProps>) => {
   const classList = [];
 
@@ -86,7 +89,13 @@ export const ContentBox = ({
         </div>
       )}
       {description && <BoxDescription description={description} />}
-      <div style={contentHeight ? { height: contentHeight } : undefined}>{children}</div>
+      <div style={contentHeight ? { height: contentHeight } : undefined}>
+        <Grid>
+          <GridItem span={12} xl2={responsiveWidth ? 10 : 12}>
+            {children}
+          </GridItem>
+        </Grid>
+      </div>
     </div>
   );
 };

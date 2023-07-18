@@ -244,96 +244,94 @@ export const DemoPage = () => {
   };
 
   const formComponent = (
-    <ContentBox padding>
-      <div className="w-70">
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
+    <ContentBox padding responsiveWidth>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <FormGroup
+          isRequired
+          label="Input Field"
+          fieldId="inputFieldA"
+          helperText={
+            <FormHelperText isHidden={fields.inputFieldA.state !== 'error'} isError>
+              {fields.inputFieldA.errorMessages?.join(' ')}
+            </FormHelperText>
+          }
         >
-          <FormGroup
+          <TextInput
             isRequired
-            label="Input Field"
-            fieldId="inputFieldA"
-            helperText={
-              <FormHelperText isHidden={fields.inputFieldA.state !== 'error'} isError>
-                {fields.inputFieldA.errorMessages?.join(' ')}
-              </FormHelperText>
-            }
+            validated={fields.inputFieldA.state}
+            type="text"
+            id="inputFieldA"
+            name="inputFieldA"
+            value={fields.inputFieldA.value as string}
+            autoComplete="off"
+            onChange={(text) => {
+              onChange('inputFieldA', text);
+            }}
+          />
+        </FormGroup>
+        <FormGroup label="Text Area" fieldId="textAreaA">
+          <TextArea
+            id="textAreaA"
+            name="textAreaA"
+            value={fields.textAreaA.value as string}
+            onChange={(text) => {
+              onChange('textAreaA', text);
+            }}
+            autoResize
+          />
+        </FormGroup>
+        <FormGroup
+          isRequired
+          label="Filtered Select"
+          fieldId="selectA"
+          helperText={
+            <FormHelperText isHidden={fields.selectA.state !== 'error'} isError>
+              {fields.selectA.errorMessages?.join(' ')}
+            </FormHelperText>
+          }
+        >
+          <Select
+            validated={fields.selectA.state}
+            id="selectA"
+            variant={SelectVariant.typeahead}
+            typeAheadAriaLabel="Select an option"
+            onToggle={(isOpen) => {
+              setIsSelectOpen(isOpen);
+            }}
+            onSelect={(event, selection, isPlaceholder) => {
+              if (isPlaceholder) clearSelection();
+              else {
+                onChange('selectA', selection);
+                setIsSelectOpen(false);
+              }
+            }}
+            onClear={clearSelection}
+            selections={fields.selectA.value}
+            isOpen={isSelectOpen}
+            aria-labelledby={'selectA'}
+            placeholderText="Select an option"
           >
-            <TextInput
-              isRequired
-              validated={fields.inputFieldA.state}
-              type="text"
-              id="inputFieldA"
-              name="inputFieldA"
-              value={fields.inputFieldA.value as string}
-              autoComplete="off"
-              onChange={(text) => {
-                onChange('inputFieldA', text);
-              }}
-            />
-          </FormGroup>
-          <FormGroup label="Text Area" fieldId="textAreaA">
-            <TextArea
-              id="textAreaA"
-              name="textAreaA"
-              value={fields.textAreaA.value as string}
-              onChange={(text) => {
-                onChange('textAreaA', text);
-              }}
-              autoResize
-            />
-          </FormGroup>
-          <FormGroup
-            isRequired
-            label="Filtered Select"
-            fieldId="selectA"
-            helperText={
-              <FormHelperText isHidden={fields.selectA.state !== 'error'} isError>
-                {fields.selectA.errorMessages?.join(' ')}
-              </FormHelperText>
-            }
+            {selectOptions.map((option: any, index: any) => (
+              <SelectOption key={index} value={option.value} />
+            ))}
+          </Select>
+        </FormGroup>
+        <ActionGroup>
+          <Button
+            variant="primary"
+            isDisabled={isSubmitDisabled}
+            onClick={() => {
+              onSubmit();
+            }}
           >
-            <Select
-              validated={fields.selectA.state}
-              id="selectA"
-              variant={SelectVariant.typeahead}
-              typeAheadAriaLabel="Select an option"
-              onToggle={(isOpen) => {
-                setIsSelectOpen(isOpen);
-              }}
-              onSelect={(event, selection, isPlaceholder) => {
-                if (isPlaceholder) clearSelection();
-                else {
-                  onChange('selectA', selection);
-                  setIsSelectOpen(false);
-                }
-              }}
-              onClear={clearSelection}
-              selections={fields.selectA.value}
-              isOpen={isSelectOpen}
-              aria-labelledby={'selectA'}
-              placeholderText="Select an option"
-            >
-              {selectOptions.map((option: any, index: any) => (
-                <SelectOption key={index} value={option.value} />
-              ))}
-            </Select>
-          </FormGroup>
-          <ActionGroup>
-            <Button
-              variant="primary"
-              isDisabled={isSubmitDisabled}
-              onClick={() => {
-                onSubmit();
-              }}
-            >
-              Submit
-            </Button>
-          </ActionGroup>
-        </Form>
-      </div>
+            Submit
+          </Button>
+        </ActionGroup>
+      </Form>
     </ContentBox>
   );
 
