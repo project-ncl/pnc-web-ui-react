@@ -23,6 +23,20 @@ export interface IService<T = {}> {
 
 export type ServiceContainerRunnerFunction = (iService?: IService<Object | null>) => any;
 
+export const DataValues = {
+  /**
+   * Service execution not started yet or pending
+   */
+  notYetData: undefined,
+
+  /**
+   * Service is settled, it can be:
+   *  1) fulfilled with empty data or
+   *  2) rejected -> error attribute contains more details
+   */
+  noData: null,
+} as const;
+
 /**
  * React hook to manage data, loading and error states when data is being loaded. See also {@link ServiceContainerLoading} and {@link ServiceContainerCreatingUpdating}.
  *
@@ -35,7 +49,7 @@ export const useServiceContainer = (service: Function): IServiceContainer => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time
-  const [data, setData] = useState<any>(undefined); // undefined = service not executed yet
+  const [data, setData] = useState<any>(DataValues.notYetData);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>(ERROR_INIT);
 
@@ -71,10 +85,13 @@ export const useServiceContainer = (service: Function): IServiceContainer => {
         // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
         ReactDOM.unstable_batchedUpdates(() => {
           setLoading(false);
-          // Convert undefined to null
-          // undefined is reserved for "service not executed yet"
+
+          /**
+           * Convert undefined to {@link DataValues.noData} as
+           * undefined is reserved for {@link DataValues.notYetData}
+           */
           if (response.data === undefined) {
-            setData(null);
+            setData(DataValues.noData);
           } else {
             setData(response.data);
           }
@@ -98,6 +115,7 @@ export const useServiceContainer = (service: Function): IServiceContainer => {
             ReactDOM.unstable_batchedUpdates(() => {
               setLoading(false);
               setError(errorMessage);
+              setData(DataValues.noData);
             });
           }
           throw error;
@@ -109,7 +127,13 @@ export const useServiceContainer = (service: Function): IServiceContainer => {
   };
 
   return {
+    /**
+     * There are 3 possible values for data attribute:
+     * 1) and 2) see {@link DataValues}
+     * 3) data = service is fulfilled with non-empty data
+     */
     data: data,
+
     loading: loading,
     error: error,
     run: useCallback(serviceContainerRunner, [service]),
