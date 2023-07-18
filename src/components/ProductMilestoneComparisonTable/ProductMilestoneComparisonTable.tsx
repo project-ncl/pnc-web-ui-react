@@ -20,7 +20,7 @@ import { PageTitles } from 'common/constants';
 import { getFilterAttributes } from 'common/entityAttributes';
 import { productMilestoneComparisonEntityAttributes } from 'common/productMilestoneComparisonEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -273,7 +273,7 @@ export const ProductMilestoneComparisonTable = ({
           </TooltipWrapper>
         </ToolbarItem>
       </Toolbar>
-      {serviceContainerProductMilestoneComparisonTable.data !== undefined && (
+      {serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData && (
         <Toolbar borderTop>
           <ToolbarItem>
             <Filtering
@@ -303,9 +303,13 @@ export const ProductMilestoneComparisonTable = ({
         >
           <InnerScrollContainer>
             <TableComposable isExpandable isStriped variant="compact">
-              {(!!productMilestoneColumns.length || serviceContainerProductMilestoneComparisonTable.data !== undefined) &&
+              {/* table head */}
+              {(!!productMilestoneColumns.length ||
+                serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData) &&
                 tableHead}
-              {serviceContainerProductMilestoneComparisonTable.data !== undefined &&
+
+              {/* table body */}
+              {serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData &&
                 serviceContainerProductMilestoneComparisonTable.data?.content?.map((artifact: any, rowIndex: number) => (
                   <Tbody key={rowIndex}>
                     <Tr>

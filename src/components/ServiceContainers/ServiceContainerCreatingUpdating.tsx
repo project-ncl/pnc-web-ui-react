@@ -1,7 +1,7 @@
 import { Alert } from '@patternfly/react-core';
 import React from 'react';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
 
 import { IServiceContainerProps, ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { RefreshStateCard } from 'components/StateCard/RefreshStateCard';
@@ -44,7 +44,7 @@ export const ServiceContainerCreatingUpdating = ({
 
   // Service not executed yet
   // null prevents flickering experience before other states are displayed
-  if (serviceContainerLoading && serviceContainerLoading.data === undefined) return null;
+  if (serviceContainerLoading && serviceContainerLoading.data === DataValues.notYetData) return null;
 
   return <>{children}</>;
 };

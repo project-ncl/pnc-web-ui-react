@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { DataValues } from 'hooks/useServiceContainer';
+
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
 import { ErrorStateCard } from 'components/StateCard/ErrorStateCard';
 import { LoadingStateCard } from 'components/StateCard/LoadingStateCard';
@@ -75,7 +77,7 @@ export const ServiceContainerLoading = ({
 
   // Service not executed yet
   // When service is executed automatically after rendering, then null prevents flickering experience before other states are displayed
-  if (data === undefined) return notYetContent ? <>{notYetContent}</> : null;
+  if (data === DataValues.notYetData) return notYetContent ? <>{notYetContent}</> : null;
 
   // Invalid state, Error state should be triggered before this
   if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
