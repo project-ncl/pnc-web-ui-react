@@ -143,126 +143,124 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   }, [isEditPage, urlPathParams.projectId, serviceContainerEditPageGetRunner, reinitialize]);
 
   const formComponent = (
-    <ContentBox padding>
-      <div className="w-70">
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
+    <ContentBox padding responsiveWidth>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <FormGroup
+          isRequired
+          label={projectEntityAttributes.name.title}
+          fieldId={projectEntityAttributes.name.id}
+          helperText={
+            <FormHelperText isHidden={fields.name.state !== 'error'} isError>
+              {fields.name.errorMessages?.join(' ')}
+            </FormHelperText>
+          }
         >
-          <FormGroup
+          <TextInput
             isRequired
-            label={projectEntityAttributes.name.title}
-            fieldId={projectEntityAttributes.name.id}
-            helperText={
-              <FormHelperText isHidden={fields.name.state !== 'error'} isError>
-                {fields.name.errorMessages?.join(' ')}
-              </FormHelperText>
-            }
+            validated={fields.name.state}
+            type="text"
+            id={projectEntityAttributes.name.id}
+            name={projectEntityAttributes.name.id}
+            value={fields.name.value as string}
+            autoComplete="off"
+            onChange={(name) => {
+              onChange('name', name);
+            }}
+          />
+        </FormGroup>
+        <FormGroup label={projectEntityAttributes.description.title} fieldId={projectEntityAttributes.description.id}>
+          <TextArea
+            id={projectEntityAttributes.description.id}
+            name={projectEntityAttributes.description.id}
+            value={fields.description.value as string}
+            onChange={(description) => {
+              onChange('description', description);
+            }}
+            autoResize
+          />
+        </FormGroup>
+        <FormGroup
+          label={projectEntityAttributes.projectUrl.title}
+          fieldId={projectEntityAttributes.projectUrl.id}
+          helperText={
+            <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
+              {fields.projectUrl.errorMessages?.join(' ')}
+            </FormHelperText>
+          }
+        >
+          <TextInput
+            validated={fields.projectUrl.state}
+            type="url"
+            id={projectEntityAttributes.projectUrl.id}
+            name={projectEntityAttributes.projectUrl.id}
+            autoComplete="off"
+            value={fields.projectUrl.value as string}
+            onChange={(url) => {
+              onChange('projectUrl', url);
+            }}
+          />
+        </FormGroup>
+        <FormGroup
+          label={projectEntityAttributes.issueTrackerUrl.title}
+          fieldId={projectEntityAttributes.issueTrackerUrl.id}
+          helperText={
+            <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
+              {fields.issueTrackerUrl.errorMessages?.join(' ')}
+            </FormHelperText>
+          }
+        >
+          <TextInput
+            validated={fields.issueTrackerUrl.state}
+            type="url"
+            id={projectEntityAttributes.issueTrackerUrl.id}
+            name={projectEntityAttributes.issueTrackerUrl.id}
+            autoComplete="off"
+            value={fields.issueTrackerUrl.value as string}
+            onChange={(url) => {
+              onChange('issueTrackerUrl', url);
+            }}
+          />
+        </FormGroup>
+        <FormGroup label={projectEntityAttributes.engineeringTeam.title} fieldId={projectEntityAttributes.engineeringTeam.id}>
+          <TextInput
+            type="text"
+            id={projectEntityAttributes.engineeringTeam.id}
+            name={projectEntityAttributes.engineeringTeam.id}
+            autoComplete="off"
+            value={fields.engineeringTeam.value as string}
+            onChange={(engineeringTeam) => {
+              onChange('engineeringTeam', engineeringTeam);
+            }}
+          />
+        </FormGroup>
+        <FormGroup label={projectEntityAttributes.technicalLeader.title} fieldId={projectEntityAttributes.technicalLeader.id}>
+          <TextInput
+            type="text"
+            id={projectEntityAttributes.technicalLeader.id}
+            name={projectEntityAttributes.technicalLeader.id}
+            autoComplete="off"
+            value={fields.technicalLeader.value as string}
+            onChange={(technicalLeader) => {
+              onChange('technicalLeader', technicalLeader);
+            }}
+          />
+        </FormGroup>
+        <ActionGroup>
+          <Button
+            variant="primary"
+            isDisabled={isSubmitDisabled}
+            onClick={() => {
+              onSubmit();
+            }}
           >
-            <TextInput
-              isRequired
-              validated={fields.name.state}
-              type="text"
-              id={projectEntityAttributes.name.id}
-              name={projectEntityAttributes.name.id}
-              value={fields.name.value as string}
-              autoComplete="off"
-              onChange={(name) => {
-                onChange('name', name);
-              }}
-            />
-          </FormGroup>
-          <FormGroup label={projectEntityAttributes.description.title} fieldId={projectEntityAttributes.description.id}>
-            <TextArea
-              id={projectEntityAttributes.description.id}
-              name={projectEntityAttributes.description.id}
-              value={fields.description.value as string}
-              onChange={(description) => {
-                onChange('description', description);
-              }}
-              autoResize
-            />
-          </FormGroup>
-          <FormGroup
-            label={projectEntityAttributes.projectUrl.title}
-            fieldId={projectEntityAttributes.projectUrl.id}
-            helperText={
-              <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
-                {fields.projectUrl.errorMessages?.join(' ')}
-              </FormHelperText>
-            }
-          >
-            <TextInput
-              validated={fields.projectUrl.state}
-              type="url"
-              id={projectEntityAttributes.projectUrl.id}
-              name={projectEntityAttributes.projectUrl.id}
-              autoComplete="off"
-              value={fields.projectUrl.value as string}
-              onChange={(url) => {
-                onChange('projectUrl', url);
-              }}
-            />
-          </FormGroup>
-          <FormGroup
-            label={projectEntityAttributes.issueTrackerUrl.title}
-            fieldId={projectEntityAttributes.issueTrackerUrl.id}
-            helperText={
-              <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
-                {fields.issueTrackerUrl.errorMessages?.join(' ')}
-              </FormHelperText>
-            }
-          >
-            <TextInput
-              validated={fields.issueTrackerUrl.state}
-              type="url"
-              id={projectEntityAttributes.issueTrackerUrl.id}
-              name={projectEntityAttributes.issueTrackerUrl.id}
-              autoComplete="off"
-              value={fields.issueTrackerUrl.value as string}
-              onChange={(url) => {
-                onChange('issueTrackerUrl', url);
-              }}
-            />
-          </FormGroup>
-          <FormGroup label={projectEntityAttributes.engineeringTeam.title} fieldId={projectEntityAttributes.engineeringTeam.id}>
-            <TextInput
-              type="text"
-              id={projectEntityAttributes.engineeringTeam.id}
-              name={projectEntityAttributes.engineeringTeam.id}
-              autoComplete="off"
-              value={fields.engineeringTeam.value as string}
-              onChange={(engineeringTeam) => {
-                onChange('engineeringTeam', engineeringTeam);
-              }}
-            />
-          </FormGroup>
-          <FormGroup label={projectEntityAttributes.technicalLeader.title} fieldId={projectEntityAttributes.technicalLeader.id}>
-            <TextInput
-              type="text"
-              id={projectEntityAttributes.technicalLeader.id}
-              name={projectEntityAttributes.technicalLeader.id}
-              autoComplete="off"
-              value={fields.technicalLeader.value as string}
-              onChange={(technicalLeader) => {
-                onChange('technicalLeader', technicalLeader);
-              }}
-            />
-          </FormGroup>
-          <ActionGroup>
-            <Button
-              variant="primary"
-              isDisabled={isSubmitDisabled}
-              onClick={() => {
-                onSubmit();
-              }}
-            >
-              {isEditPage ? 'Update' : 'Create'} Project
-            </Button>
-          </ActionGroup>
-        </Form>
-      </div>
+            {isEditPage ? 'Update' : 'Create'} Project
+          </Button>
+        </ActionGroup>
+      </Form>
     </ContentBox>
   );
 

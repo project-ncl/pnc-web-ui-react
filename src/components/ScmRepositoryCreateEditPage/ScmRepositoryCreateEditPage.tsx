@@ -139,107 +139,105 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   }, [isEditPage, urlPathParams.scmRepositoryId, serviceContainerEditPageGetRunner, reinitialize]);
 
   const formComponent = (
-    <ContentBox padding>
-      <div className="w-70">
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          {!isEditPage && (
-            <FormGroup
+    <ContentBox padding responsiveWidth>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        {!isEditPage && (
+          <FormGroup
+            isRequired
+            label={scmRepositoryEntityAttributes.scmUrl.title}
+            fieldId={scmRepositoryEntityAttributes.scmUrl.id}
+            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
+            helperText={
+              <FormHelperText isHidden={fields.scmUrl.state !== 'error'} isError>
+                {fields.scmUrl.errorMessages?.join(' ')}
+              </FormHelperText>
+            }
+          >
+            <TextInput
               isRequired
-              label={scmRepositoryEntityAttributes.scmUrl.title}
-              fieldId={scmRepositoryEntityAttributes.scmUrl.id}
-              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
+              validated={fields.scmUrl.state}
+              type="text"
+              id={scmRepositoryEntityAttributes.scmUrl.id}
+              name={scmRepositoryEntityAttributes.scmUrl.id}
+              value={fields.scmUrl.value as string}
+              autoComplete="off"
+              onChange={(scmUrl) => {
+                onChange('scmUrl', scmUrl);
+              }}
+            />
+          </FormGroup>
+        )}
+        {isEditPage && (
+          <>
+            <FormGroup
+              label={scmRepositoryEntityAttributes.internalUrl.title}
+              fieldId={scmRepositoryEntityAttributes.internalUrl.id}
+              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
+            >
+              {scmRepository && <ScmRepositoryUrl internalScmRepository={scmRepository} />}
+            </FormGroup>
+            <FormGroup
+              label={scmRepositoryEntityAttributes.externalUrl.title}
+              fieldId={scmRepositoryEntityAttributes.externalUrl.id}
+              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />}
               helperText={
-                <FormHelperText isHidden={fields.scmUrl.state !== 'error'} isError>
-                  {fields.scmUrl.errorMessages?.join(' ')}
+                <FormHelperText isHidden={fields.externalUrl.state !== 'error'} isError>
+                  {fields.externalUrl.errorMessages?.join(' ')}
                 </FormHelperText>
               }
             >
               <TextInput
                 isRequired
-                validated={fields.scmUrl.state}
+                validated={fields.externalUrl.state}
                 type="text"
-                id={scmRepositoryEntityAttributes.scmUrl.id}
-                name={scmRepositoryEntityAttributes.scmUrl.id}
-                value={fields.scmUrl.value as string}
+                id={scmRepositoryEntityAttributes.externalUrl.id}
+                name={scmRepositoryEntityAttributes.externalUrl.id}
+                value={fields.externalUrl.value as string}
                 autoComplete="off"
-                onChange={(scmUrl) => {
-                  onChange('scmUrl', scmUrl);
+                onChange={(externalUrl) => {
+                  onChange('externalUrl', externalUrl);
                 }}
               />
             </FormGroup>
-          )}
-          {isEditPage && (
-            <>
-              <FormGroup
-                label={scmRepositoryEntityAttributes.internalUrl.title}
-                fieldId={scmRepositoryEntityAttributes.internalUrl.id}
-                labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
-              >
-                {scmRepository && <ScmRepositoryUrl internalScmRepository={scmRepository} />}
-              </FormGroup>
-              <FormGroup
-                label={scmRepositoryEntityAttributes.externalUrl.title}
-                fieldId={scmRepositoryEntityAttributes.externalUrl.id}
-                labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />}
-                helperText={
-                  <FormHelperText isHidden={fields.externalUrl.state !== 'error'} isError>
-                    {fields.externalUrl.errorMessages?.join(' ')}
-                  </FormHelperText>
-                }
-              >
-                <TextInput
-                  isRequired
-                  validated={fields.externalUrl.state}
-                  type="text"
-                  id={scmRepositoryEntityAttributes.externalUrl.id}
-                  name={scmRepositoryEntityAttributes.externalUrl.id}
-                  value={fields.externalUrl.value as string}
-                  autoComplete="off"
-                  onChange={(externalUrl) => {
-                    onChange('externalUrl', externalUrl);
-                  }}
-                />
-              </FormGroup>
-            </>
-          )}
-          <FormGroup
-            label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
-            fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
-            helperText={
-              <FormHelperText isHidden={fields.preBuildSyncEnabled.state !== 'error'} isError>
-                {fields.preBuildSyncEnabled.errorMessages?.join(' ')}
-              </FormHelperText>
-            }
+          </>
+        )}
+        <FormGroup
+          label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+          fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+          labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
+          helperText={
+            <FormHelperText isHidden={fields.preBuildSyncEnabled.state !== 'error'} isError>
+              {fields.preBuildSyncEnabled.errorMessages?.join(' ')}
+            </FormHelperText>
+          }
+        >
+          <Switch
+            id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+            name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+            label="Pre-build Sync Enabled"
+            labelOff="Pre-build Sync Disabled"
+            isChecked={fields.preBuildSyncEnabled?.value as boolean}
+            onChange={(preBuildSyncEnabled) => {
+              onChange('preBuildSyncEnabled', preBuildSyncEnabled);
+            }}
+          />
+        </FormGroup>
+        <ActionGroup>
+          <Button
+            variant="primary"
+            isDisabled={isSubmitDisabled}
+            onClick={() => {
+              onSubmit();
+            }}
           >
-            <Switch
-              id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-              name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-              label="Pre-build Sync Enabled"
-              labelOff="Pre-build Sync Disabled"
-              isChecked={fields.preBuildSyncEnabled?.value as boolean}
-              onChange={(preBuildSyncEnabled) => {
-                onChange('preBuildSyncEnabled', preBuildSyncEnabled);
-              }}
-            />
-          </FormGroup>
-          <ActionGroup>
-            <Button
-              variant="primary"
-              isDisabled={isSubmitDisabled}
-              onClick={() => {
-                onSubmit();
-              }}
-            >
-              {isEditPage ? 'Update' : 'Create'} SCM Repository
-            </Button>
-          </ActionGroup>
-        </Form>
-      </div>
+            {isEditPage ? 'Update' : 'Create'} SCM Repository
+          </Button>
+        </ActionGroup>
+      </Form>
     </ContentBox>
   );
 
