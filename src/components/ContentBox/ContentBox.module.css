@@ -13,3 +13,8 @@
 .margin-bottom {
   margin-bottom: 1rem;
 }
+
+.responsive-content {
+  width: 100%;
+  max-width: 1600px;
+}

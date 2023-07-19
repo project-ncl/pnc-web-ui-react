@@ -13,13 +13,13 @@ interface IAttributesItemProps {
 
 export const AttributesItem = ({ children, title, tooltip }: PropsWithChildren<IAttributesItemProps>) => (
   <>
-    <GridItem xl={3} lg={4} md={4} sm={12} className={styles['name']}>
+    <GridItem xl2={2} lg={3} sm={12} className={styles['name']}>
       <>
         {title}
         {tooltip && <TooltipWrapper tooltip={tooltip} />}
       </>
     </GridItem>
-    <GridItem xl={9} lg={8} md={8} sm={12}>
+    <GridItem xl2={10} lg={9} sm={12}>
       {/* zero is falsy */}
       {children || children === 0 ? children : <EmptyStateSymbol variant="text" />}
     </GridItem>

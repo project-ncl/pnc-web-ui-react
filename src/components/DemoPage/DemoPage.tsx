@@ -244,7 +244,7 @@ export const DemoPage = () => {
   };
 
   const formComponent = (
-    <ContentBox padding responsiveWidth>
+    <ContentBox padding isResponsive>
       <Form
         onSubmit={(e) => {
           e.preventDefault();

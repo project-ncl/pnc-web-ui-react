@@ -139,7 +139,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   }, [isEditPage, urlPathParams.scmRepositoryId, serviceContainerEditPageGetRunner, reinitialize]);
 
   const formComponent = (
-    <ContentBox padding responsiveWidth>
+    <ContentBox padding isResponsive>
       <Form
         onSubmit={(e) => {
           e.preventDefault();
