@@ -46,7 +46,7 @@ export const ScmRepositoryDetailPage = () => {
         title={generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data })}
         actions={<ActionButton link="edit">Edit SCM Repository</ActionButton>}
       >
-        <ContentBox padding marginBottom responsiveWidth>
+        <ContentBox padding marginBottom isResponsive>
           <Attributes>
             <AttributesItem
               title={scmRepositoryEntityAttributes.internalUrl.title}

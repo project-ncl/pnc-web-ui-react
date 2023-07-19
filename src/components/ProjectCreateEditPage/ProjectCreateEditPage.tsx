@@ -143,7 +143,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   }, [isEditPage, urlPathParams.projectId, serviceContainerEditPageGetRunner, reinitialize]);
 
   const formComponent = (
-    <ContentBox padding responsiveWidth>
+    <ContentBox padding isResponsive>
       <Form
         onSubmit={(e) => {
           e.preventDefault();
