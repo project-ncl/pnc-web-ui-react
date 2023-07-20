@@ -61,7 +61,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
           </ProtectedComponent>
         }
       >
-        <ContentBox padding marginBottom>
+        <ContentBox padding marginBottom isResponsive>
           <Attributes>
             <AttributesItem title={productEntityAttributes.abbreviation.title}>
               {serviceContainerProduct.data?.abbreviation}

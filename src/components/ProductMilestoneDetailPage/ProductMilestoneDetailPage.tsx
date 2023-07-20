@@ -65,7 +65,7 @@ export const ProductMilestoneDetailPage = () => {
   return (
     <Grid hasGutter>
       <GridItem span={12}>
-        <ContentBox padding>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={productMilestoneEntityAttributes.status.title}>
               {serviceContainerMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}

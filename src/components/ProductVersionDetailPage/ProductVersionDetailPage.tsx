@@ -92,7 +92,7 @@ export const ProductVersionDetailPage = () => {
   return (
     <Grid hasGutter>
       <GridItem span={12}>
-        <ContentBox padding>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={productVersionEntityAttributes.version.title}>
               {serviceContainerProductVersion.data?.version}

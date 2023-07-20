@@ -39,7 +39,7 @@ export const ProjectDetailPage = () => {
         description={serviceContainerProject.data?.description}
         actions={<ActionButton link="edit">Edit Project</ActionButton>}
       >
-        <ContentBox padding marginBottom>
+        <ContentBox padding marginBottom isResponsive>
           <Attributes>
             <AttributesItem title={projectEntityAttributes.projectUrl.title}>
               {serviceContainerProject.data?.projectUrl && (
