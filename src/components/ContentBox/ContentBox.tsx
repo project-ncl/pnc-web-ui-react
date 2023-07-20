@@ -22,8 +22,40 @@ interface IContentBoxProps {
   isResponsive?: boolean;
 }
 
+/**
+ * ContentBox component containing contents with general style control.
+ *
+ * @param children - Body content, for example tables
+ * @param title - Section title, for example "Projects"
+ * @param description - Section description containing brief page introduction and information about displayed entities
+ * @param shadow - Whether to display shadow
+ * @param background - Whether to display background
+ * @param borderTop - Whether to display border on the top 
+ * @param padding - Whether to set padding
+ * @param paddingTop - Whether to set padding-top
+ * @param paddingBottom - Whether to set padding-left
+ * @param paddingLeft - Whether to set padding-left 
+ * @param paddingRight - Whether to set padding-right 
+ * @param marginTop - Whether to set margin-top
+ * @param marginBottom - Whether to set margin-bottom
+ * @param contentHeight - Set height of the content
+ * @param isResponsive - Whether the content should have responsive width over different sizes of screens, ideal for displaying attributes and forms, not suggested for table contents.
+ * 
+ * @example
+ * ```tsx
+ * <ContentBox
+      title="Projects"
+      description={<>This section contains a standalone projects like <Label>Hibernate</Label></>}
+    >
+      <CustomBodyContent />
+    </ContentBox>
+ * ```
+ * 
+ */
 export const ContentBox = ({
   children,
+  title,
+  description,
   shadow = true,
   background = true,
   borderTop,
@@ -34,9 +66,7 @@ export const ContentBox = ({
   paddingRight,
   marginTop,
   marginBottom,
-  title,
   contentHeight,
-  description,
   isResponsive = false,
 }: PropsWithChildren<IContentBoxProps>) => {
   const classList = [];
