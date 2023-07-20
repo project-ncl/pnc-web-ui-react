@@ -23,7 +23,7 @@ export const AboutPage = () => {
 
   return (
     <PageLayout title="About PNC Build System" description="System for managing, executing and tracking builds">
-      <ContentBox padding marginBottom>
+      <ContentBox padding marginBottom isResponsive>
         <TextContent>
           <TextList component="dl">
             <TextListItem component="dt">

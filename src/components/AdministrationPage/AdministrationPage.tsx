@@ -128,7 +128,7 @@ export const AdministrationPage = () => {
     <PageLayout title="Administration" description="Administration tools for admin users">
       <Flex direction={directionColumn}>
         <FlexItem>
-          <ContentBox>
+          <ContentBox isResponsive>
             <ServiceContainerCreatingUpdating {...serviceContainerPncVersionSet} title="PNC version">
               <div className="p-global">
                 <Form>
@@ -164,7 +164,7 @@ export const AdministrationPage = () => {
           </ContentBox>
         </FlexItem>
         <FlexItem>
-          <ContentBox>
+          <ContentBox isResponsive>
             <ServiceContainerLoading {...serviceContainerBuildCount} loadingDelayMilliseconds={0} title="Builds count">
               <div className="p-global">
                 <Attributes>
@@ -191,7 +191,7 @@ export const AdministrationPage = () => {
           </ContentBox>
         </FlexItem>
         <FlexItem>
-          <ContentBox>
+          <ContentBox isResponsive>
             <ServiceContainerCreatingUpdating {...serviceContainerAnnouncement} title="Announcement">
               <div className="p-global">
                 <Form>
@@ -315,7 +315,7 @@ export const AdministrationPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox padding title="Test UI Logger">
+          <ContentBox padding title="Test UI Logger" isResponsive>
             <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
               <FlexItem>
                 <Text>Sends UI log to the UI Logger service - use for testing purposes.</Text>
