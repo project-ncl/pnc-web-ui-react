@@ -15,7 +15,7 @@ import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
-import { useServiceContainerMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
+import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -28,7 +28,7 @@ import { createDateTime } from 'utils/utils';
 export const ProductMilestoneDetailPage = () => {
   const { productMilestoneId } = useParams();
 
-  const { serviceContainerMilestone } = useServiceContainerMilestone();
+  const { serviceContainerProductMilestone } = useServiceContainerProductMilestone();
 
   const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
@@ -68,16 +68,16 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={productMilestoneEntityAttributes.status.title}>
-              {serviceContainerMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}
+              {serviceContainerProductMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.startingDate.title}>
-              {createDateTime({ date: serviceContainerMilestone.data.startingDate }).date}
+              {createDateTime({ date: serviceContainerProductMilestone.data.startingDate }).date}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.plannedEndDate.title}>
-              {createDateTime({ date: serviceContainerMilestone.data.plannedEndDate }).date}
+              {createDateTime({ date: serviceContainerProductMilestone.data.plannedEndDate }).date}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.endDate.title}>
-              {createDateTime({ date: serviceContainerMilestone.data.endDate }).date}
+              {createDateTime({ date: serviceContainerProductMilestone.data.endDate }).date}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.lastCloseResult.title}>
               <div style={{ height: '25px' }}>
