@@ -11,7 +11,7 @@ import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { FullscreenButton } from 'components/FullscreenButton/FullscreenButton';
 import { ProductMilestoneInterconnectionGraph } from 'components/NetworkGraphs/ProductMilestoneInterconnectionGraph';
-import { useServiceContainerMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
+import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -38,7 +38,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { serviceContainerMilestone } = useServiceContainerMilestone();
+  const { serviceContainerProductMilestone } = useServiceContainerProductMilestone();
 
   const serviceContainerInterconnectionGraph = useServiceContainer(productMilestoneApi.getInterconnectionGraph);
   const serviceContainerInterconnectionGraphRunner = serviceContainerInterconnectionGraph.run;
@@ -175,7 +175,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
           >
             <ProductMilestoneInterconnectionGraph
               data={serviceContainerInterconnectionGraph.data}
-              mainNode={serviceContainerMilestone.data.version}
+              mainNode={serviceContainerProductMilestone.data.version}
               hasLimitedNesting={hasLimitedNesting}
               nestingLevel={nestingLevel}
               searchValueMainLabel={searchValueProductMilestone}

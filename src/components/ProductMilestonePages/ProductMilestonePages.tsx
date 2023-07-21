@@ -18,29 +18,29 @@ import { generatePageTitle } from 'utils/titleHelper';
 
 interface IProductMilestonePagesProps {}
 
-type ContextType = { serviceContainerMilestone: IServiceContainer };
+type ContextType = { serviceContainerProductMilestone: IServiceContainer };
 
 export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePagesProps>) => {
   const { productMilestoneId } = useParams();
 
-  const serviceContainerMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
-  const serviceContainerMilestoneRunner = serviceContainerMilestone.run;
+  const serviceContainerProductMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
+  const serviceContainerProductMilestoneRunner = serviceContainerProductMilestone.run;
 
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   useEffect(() => {
-    serviceContainerMilestoneRunner({ serviceData: { id: productMilestoneId } });
+    serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } });
 
     serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-  }, [serviceContainerMilestoneRunner, serviceContainerArtifactsRunner, productMilestoneId]);
+  }, [serviceContainerProductMilestoneRunner, serviceContainerArtifactsRunner, productMilestoneId]);
 
   useTitle(
     generatePageTitle({
-      serviceContainer: serviceContainerMilestone,
+      serviceContainer: serviceContainerProductMilestone,
       firstLevelEntity: 'Product',
       nestedEntity: 'Milestone',
-      entityName: `${serviceContainerMilestone.data?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: `${serviceContainerProductMilestone.data?.version} ${PageTitles.delimiterSymbol} <unknown>`,
     })
   );
 
@@ -61,14 +61,14 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   );
 
   return (
-    <ServiceContainerLoading {...serviceContainerMilestone} title="Product Milestone details">
-      <PageLayout title={`Product Milestone ${serviceContainerMilestone.data?.version}`} tabs={pageTabs}>
-        <Outlet context={{ serviceContainerMilestone }} />
+    <ServiceContainerLoading {...serviceContainerProductMilestone} title="Product Milestone details">
+      <PageLayout title={`Product Milestone ${serviceContainerProductMilestone.data?.version}`} tabs={pageTabs}>
+        <Outlet context={{ serviceContainerProductMilestone }} />
       </PageLayout>
     </ServiceContainerLoading>
   );
 };
 
-export function useServiceContainerMilestone() {
+export function useServiceContainerProductMilestone() {
   return useOutletContext<ContextType>();
 }
