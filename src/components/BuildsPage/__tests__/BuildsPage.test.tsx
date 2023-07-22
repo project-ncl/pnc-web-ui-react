@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { act } from 'react-test-renderer';
 
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 
@@ -21,11 +20,7 @@ describe('display BuildsPage component', () => {
   });
 
   test('renders BuildsPage', () => {
-    render(
-      <MemoryRouter>
-        <BuildsPage />
-      </MemoryRouter>
-    );
+    render(<MemoryRouter>{<BuildsPage />}</MemoryRouter>);
   });
 
   test('compare snapshot with previous record', async () => {
@@ -37,6 +32,8 @@ describe('display BuildsPage component', () => {
         </MemoryRouter>
       );
     });
-    expect(tree).toMatchSnapshot();
+    await waitFor(() => {
+      expect(tree).toMatchSnapshot();
+    });
   });
 });

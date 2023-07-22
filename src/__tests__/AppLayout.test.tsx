@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { AppLayout } from '../AppLayout';
@@ -17,12 +17,18 @@ window.pnc = {
   },
 };
 
-test('renders AppLayout', () => {
-  render(
-    <MemoryRouter>
-      <AppLayout>
-        <div></div>
-      </AppLayout>
-    </MemoryRouter>
-  );
+test('renders AppLayout', async () => {
+  act(() => {
+    render(
+      <MemoryRouter>
+        <AppLayout>
+          <div>TEST CONTENT</div>
+        </AppLayout>
+      </MemoryRouter>
+    );
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText('TEST CONTENT')).toBeInTheDocument();
+  });
 });
