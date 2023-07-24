@@ -1,3 +1,4 @@
+jest.mock('services/userService');
 jest.mock('services/webConfigService');
 
 const mockInit = jest.fn(() => {
