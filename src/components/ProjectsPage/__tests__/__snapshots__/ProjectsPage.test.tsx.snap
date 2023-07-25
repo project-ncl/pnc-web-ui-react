@@ -56,16 +56,16 @@ Object {
           <div
             class="disabled-content"
           >
-            <button
+            <a
               aria-disabled="false"
               class="pf-c-button pf-m-primary pf-m-small"
               data-ouia-component-id="OUIA-Generated-Button-primary-2"
               data-ouia-component-type="PF4/Button"
               data-ouia-safe="true"
-              type="button"
+              href="/create"
             >
               Create Project
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -807,16 +807,16 @@ Object {
         <div
           class="disabled-content"
         >
-          <button
+          <a
             aria-disabled="false"
             class="pf-c-button pf-m-primary pf-m-small"
             data-ouia-component-id="OUIA-Generated-Button-primary-2"
             data-ouia-component-type="PF4/Button"
             data-ouia-safe="true"
-            type="button"
+            href="/create"
           >
             Create Project
-          </button>
+          </a>
         </div>
       </div>
     </section>
