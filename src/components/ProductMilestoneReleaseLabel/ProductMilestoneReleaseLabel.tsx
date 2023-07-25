@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@patternfly/react-core';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
@@ -27,8 +27,6 @@ interface IProductMilestoneReleaseProp {
  * @param link - Link to navigate to
  */
 export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent, link }: IProductMilestoneReleaseProp) => {
-  const navigate = useNavigate();
-
   let tooltipContent;
   let buttonClassName;
   let labelType;
@@ -66,10 +64,9 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     <span className={styles.label}>
       <Tooltip removeFindDomNode content={tooltipContent} isContentLeftAligned={true} position="auto">
         <Button
-          onClick={link ? () => navigate(link) : undefined}
           isSmall={true}
           className={buttonClassName}
-          component={labelType === 'milestone' ? 'a' : 'span'}
+          component={link && labelType === 'milestone' ? (props: any) => <Link {...props} to={link} /> : 'span'}
         >
           {productMilestoneRelease.version}
         </Button>
