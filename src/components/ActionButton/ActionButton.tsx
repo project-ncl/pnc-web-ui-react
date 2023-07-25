@@ -9,7 +9,7 @@ import {
   TagIcon,
   TrashIcon,
 } from '@patternfly/react-icons';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const iconDictionary = {
   create: <FileIcon />,
@@ -38,17 +38,14 @@ export interface IActionButtonProps {
  * @param action - function to perform on clicking the button
  * @param children - the inner components of the button (usually a textual description)
  */
-export const ActionButton = ({ iconType, link, action, children }: React.PropsWithChildren<IActionButtonProps>) => {
-  const navigate = useNavigate();
-
-  return (
-    <Button
-      variant="primary"
-      isSmall
-      icon={iconType ? iconDictionary[iconType] : null}
-      onClick={link ? () => navigate(link) : action}
-    >
-      {children}
-    </Button>
-  );
-};
+export const ActionButton = ({ iconType, link, action, children }: React.PropsWithChildren<IActionButtonProps>) => (
+  <Button
+    variant="primary"
+    isSmall
+    icon={iconType ? iconDictionary[iconType] : null}
+    component={link ? (props: any) => <Link {...props} to={link} /> : undefined}
+    onClick={action}
+  >
+    {children}
+  </Button>
+);
