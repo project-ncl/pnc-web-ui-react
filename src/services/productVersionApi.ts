@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ProductMilestonePage, ProductReleasePage, ProductVersion } from 'pnc-api-types-ts';
+import { GroupConfigPage, ProductMilestonePage, ProductReleasePage, ProductVersion } from 'pnc-api-types-ts';
 
 import { mockClient } from 'services/mockClient';
 
@@ -74,4 +74,15 @@ export const getProductMilestones = ({ id }: IProductVersionApiData, requestConf
  */
 export const getProductReleases = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductReleasePage>(`/product-versions/${id}/releases`, requestConfig);
+};
+
+/**
+ * Gets Group Configs of a Product Version.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Version ID
+ * @param requestConfig - Axios based request config
+ */
+export const getGroupConfigs = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<GroupConfigPage>(`/product-versions/${id}/group-configs`, requestConfig);
 };
