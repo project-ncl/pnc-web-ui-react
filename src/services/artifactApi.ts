@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Artifact, ArtifactPage } from 'pnc-api-types-ts';
+import { Artifact, ArtifactPage, BuildPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -26,4 +26,13 @@ export const getArtifacts = (requestConfig: AxiosRequestConfig = {}) => {
  */
 export const getArtifact = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<Artifact>(`/artifacts/${id}`, requestConfig);
+};
+
+/**
+ * Gets dependant Builds of an Artifact..
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getDependantBuilds = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPage>(`/artifacts/${id}/dependant-builds`, requestConfig);
 };
