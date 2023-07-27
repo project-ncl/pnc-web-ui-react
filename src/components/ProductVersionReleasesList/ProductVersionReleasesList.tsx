@@ -16,6 +16,7 @@ import { useServiceContainerProductVersion } from 'components/ProductVersionPage
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { createDateTime } from 'utils/utils';
 
@@ -50,7 +51,10 @@ export const ProductVersionReleasesList = ({
             <Thead>
               <Tr>
                 <Th width={25}>{productReleaseEntityAttributes.version.title}</Th>
-                <Th width={20}>{productReleaseEntityAttributes.releaseDate.title}</Th>
+                <Th width={20}>
+                  {productReleaseEntityAttributes.releaseDate.title}
+                  <TooltipWrapper tooltip={productReleaseEntityAttributes.releaseDate.tooltip} />
+                </Th>
                 <Th width={20}>{productReleaseEntityAttributes.productMilestone.title}</Th>
                 <Th width={20}>{productReleaseEntityAttributes.supportLevel.title}</Th>
                 <Th />

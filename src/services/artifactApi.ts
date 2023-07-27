@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Artifact, ArtifactPage, ArtifactRevisionPage, BuildPage } from 'pnc-api-types-ts';
+import { Artifact, ArtifactPage, ArtifactRevisionPage, BuildPage, MilestoneInfoPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -46,4 +46,15 @@ export const getQualityRevisions = ({ id }: IArtifactApiData, requestConfig: Axi
  */
 export const getDependantBuilds = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildPage>(`/artifacts/${id}/dependant-builds`, requestConfig);
+};
+
+/**
+ * Gets a list of Product Milestones that produced or consumed an Artifact.
+ *
+ * @param serviceData - object containing:
+ *  - id - Artifact ID
+ * @param requestConfig - Axios based request config
+ */
+export const getProductMilestonesReleases = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<MilestoneInfoPage>(`/artifacts/${id}/milestones`, requestConfig);
 };

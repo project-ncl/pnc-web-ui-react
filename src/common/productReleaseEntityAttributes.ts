@@ -24,6 +24,7 @@ export const productReleaseEntityAttributes = {
   releaseDate: {
     id: 'releaseDate',
     title: 'Release Date',
+    tooltip: 'Date the Product Milestone was released to the customers',
   },
   supportLevel: {
     id: 'supportLevel',
