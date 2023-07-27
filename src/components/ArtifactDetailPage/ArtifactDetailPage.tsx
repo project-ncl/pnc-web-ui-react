@@ -1,9 +1,13 @@
 import { Grid, GridItem, Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
+
 import { useServiceContainerArtifact } from 'components/ArtifactPages/ArtifactPages';
+import { ArtifactQualityRevisionsList } from 'components/ArtifactQualityRevisionsList/ArtifactQualityRevisionsList';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildName } from 'components/BuildName/BuildName';
@@ -14,10 +18,26 @@ import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQuali
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
+import * as artifactApi from 'services/artifactApi';
+
 import { calculateFileSize, createDateTime } from 'utils/utils';
 
-export const ArtifactDetailPage = () => {
+interface IArtifactDetailPageProps {
+  componentId?: string;
+}
+
+export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPageProps) => {
+  const { artifactId } = useParams();
+
   const { serviceContainerArtifact } = useServiceContainerArtifact();
+
+  const serviceContainerQualityRevisions = useServiceContainer(artifactApi.getQualityRevisions);
+  const serviceContainerQualityRevisionsRunner = serviceContainerQualityRevisions.run;
+
+  useQueryParamsEffect(
+    ({ requestConfig } = {}) => serviceContainerQualityRevisionsRunner({ serviceData: { id: artifactId }, requestConfig }),
+    { componentId }
+  );
 
   return (
     <Grid hasGutter>
@@ -149,6 +169,19 @@ export const ArtifactDetailPage = () => {
               <CopyToClipboard isInline>{serviceContainerArtifact.data?.targetRepository.repositoryPath}</CopyToClipboard>
             </AttributesItem>
           </Attributes>
+        </ContentBox>
+      </GridItem>
+
+      <GridItem span={12}>
+        <Toolbar>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Quality Revisions</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <ContentBox borderTop>
+          <ArtifactQualityRevisionsList {...{ serviceContainerQualityRevisions, componentId }} />
         </ContentBox>
       </GridItem>
     </Grid>

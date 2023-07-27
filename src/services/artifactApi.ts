@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Artifact, ArtifactPage, BuildPage } from 'pnc-api-types-ts';
+import { Artifact, ArtifactPage, ArtifactRevisionPage, BuildPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -26,6 +26,17 @@ export const getArtifacts = (requestConfig: AxiosRequestConfig = {}) => {
  */
 export const getArtifact = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<Artifact>(`/artifacts/${id}`, requestConfig);
+};
+
+/**
+ * Gets Quality Revisions of an Artifact.
+ *
+ * @param serviceData - object containing:
+ *  - id - Artifact ID
+ * @param requestConfig - Axios based request config
+ */
+export const getQualityRevisions = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ArtifactRevisionPage>(`/artifacts/${id}/revisions`, requestConfig);
 };
 
 /**
