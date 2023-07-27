@@ -14,7 +14,7 @@ export const productMilestoneEntityAttributes = {
   },
   version: {
     id: 'version',
-    title: 'Name',
+    title: 'Version',
     filter: {
       operator: '=like=',
     },

@@ -5,8 +5,8 @@ import { PageTitles } from 'common/constants';
 import { AboutPage } from 'components/AboutPage/AboutPage';
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 import { ArtifactDetailPage } from 'components/ArtifactDetailPage/ArtifactDetailPage';
-import { ArtifactMilestonesPage } from 'components/ArtifactMilestonesPage/ArtifactMilestonesPage';
 import { ArtifactPages } from 'components/ArtifactPages/ArtifactPages';
+import { ArtifactProductMilestonesReleasesPage } from 'components/ArtifactProductMilestonesReleasesPage/ArtifactProductMilestonesReleasesPage';
 import { ArtifactUsagesPage } from 'components/ArtifactUsagesPage/ArtifactUsagesPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
@@ -123,7 +123,7 @@ export const AppRoutes = () => (
       <Route path=":artifactId" element={<ArtifactPages />}>
         <Route path="details" element={<ArtifactDetailPage />} />
         <Route path="usages" element={<ArtifactUsagesPage />} />
-        <Route path="milestones" element={<ArtifactMilestonesPage />} />
+        <Route path="milestones" element={<ArtifactProductMilestonesReleasesPage />} />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
