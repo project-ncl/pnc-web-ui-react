@@ -18,6 +18,7 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { Username } from 'components/Username/Username';
 
 import { createDateTime } from 'utils/utils';
 
@@ -91,7 +92,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                     </Td>
                     <Td>{operation.result && <DeliverablesAnalysisResultLabelMapper result={operation.result} />}</Td>
                     <Td>{operation.submitTime && createDateTime({ date: operation.submitTime }).custom}</Td>
-                    <Td>{operation.user?.username}</Td>
+                    <Td>{operation.user?.username && <Username text={operation.user.username} />}</Td>
                   </Tr>
                 )
               )}

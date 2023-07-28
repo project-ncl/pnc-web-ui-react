@@ -1,3 +1,5 @@
+import { uiLogger } from 'services/uiLogger';
+
 interface ICreateDateTime {
   date: Date | string;
   includeDateInCustom?: boolean;
@@ -147,4 +149,27 @@ export const calculateFileSize = (sizeInBytes: number): string => {
   }
 
   return (sizeInBytes / Math.pow(THRESHOLD, exp)).toFixed(DECIMAL_PLACES) + SEPARATOR + units[exp];
+};
+
+interface ICheckColumnsCombinations {
+  columns: Array<string>;
+  combinations: Array<Array<string>>;
+}
+
+/**
+ * Function to check if the combination requirements has been satisfied.
+ *
+ * @param columns - columns to be checked
+ * @param combinations - the combination requirements that need to be satisfied
+ *
+ */
+export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumnsCombinations) => {
+  combinations.every((combination) => {
+    if (combination.length >= 2 && combination.some((element) => !columns.includes(element))) {
+      uiLogger.error(`Required combination unsatisfied: ${combination} should be used as a combination.`);
+      return false;
+    } else {
+      return true;
+    }
+  });
 };

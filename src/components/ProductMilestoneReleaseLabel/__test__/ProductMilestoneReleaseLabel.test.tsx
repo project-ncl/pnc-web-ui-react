@@ -8,6 +8,9 @@ import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneRelease
 import productMilestoneMock from './data/product-milestones-mock.json';
 import productReleaseMock from './data/product-releases-mock.json';
 
+jest.mock('services/keycloakService');
+jest.mock('services/webConfigService');
+
 describe('display MilestoneReleaseLabel component', () => {
   test('renders MilestoneReleaseLabels', () => {
     let testMilestoneDataList = productMilestoneMock as unknown as ProductMilestone[];

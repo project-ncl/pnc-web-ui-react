@@ -1,23 +1,36 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
-
 import { PageTitles } from 'common/constants';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-export const BuildConfigsPage = () => {
-  useTitle(PageTitles.buildConfig);
-  return (
-    <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">BuildConfigsPage</Text>
-          <Text component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quos unde, accusantium excepturi ad praesentium.
-          </Text>
-        </TextContent>
-      </PageSection>
+import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-      <Divider component="div" />
-    </>
+import * as buildConfigApi from 'services/buildConfigApi';
+
+interface IBuildConfigsPageProps {
+  componentId?: string;
+}
+
+export const BuildConfigsPage = ({ componentId = 'b1' }: IBuildConfigsPageProps) => {
+  const serviceContainerBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigsWithLatestBuild);
+
+  useQueryParamsEffect(serviceContainerBuildConfigs.run, { componentId });
+
+  useTitle(PageTitles.buildConfigs);
+
+  return (
+    <PageLayout
+      title={PageTitles.buildConfigs}
+      description={
+        <>
+          This page contains all Build Configs. Build Config contains all the information required to build a particular Project
+          and it produces Build during the build process.
+        </>
+      }
+    >
+      <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />
+    </PageLayout>
   );
 };

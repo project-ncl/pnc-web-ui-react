@@ -9,7 +9,7 @@ export const PageTitles = {
   productVersions: 'Product Versions',
   productMilestones: 'Product Milestones',
   productReleases: 'Product Releases',
-  buildConfig: 'Build Configs',
+  buildConfigs: 'Build Configs',
   groupConfigs: 'Group Configs',
   builds: 'Builds',
   groupBuilds: 'Group Builds',

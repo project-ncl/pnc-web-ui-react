@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Build } from 'pnc-api-types-ts';
+import { Build, BuildConfigPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -12,6 +12,15 @@ export interface IBuildStartParams {
   keepPodOnFailure?: boolean;
   alignmentPreference?: string;
 }
+
+/**
+ * Gets all BuildConfigs with latest build.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildConfigsWithLatestBuild = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', requestConfig);
+};
 
 /**
  * Triggers a Build of a specific Build Config.

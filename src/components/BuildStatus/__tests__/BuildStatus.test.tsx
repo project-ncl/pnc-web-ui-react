@@ -7,6 +7,9 @@ import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 
 import mockBuildData from './data/mock-build-data.json';
 
+jest.mock('services/keycloakService');
+jest.mock('services/webConfigService');
+
 describe('display BuildStatus component', () => {
   test('renders all BuildStatus variants', () => {
     (mockBuildData as (Build | GroupBuild)[]).forEach((build) =>
