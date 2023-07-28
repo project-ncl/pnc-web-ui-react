@@ -1,0 +1,158 @@
+{
+  "pageIndex": 0,
+  "pageSize": 2,
+  "totalPages": 525,
+  "totalHits": 1006,
+  "content": [
+    {
+      "id": "001",
+      "name": "12132",
+      "description": null,
+      "buildScript": "21",
+      "scmRevision": "master",
+      "creationTime": "2021-03-25T12:52:22.235Z",
+      "modificationTime": "2021-03-25T12:52:22.234Z",
+      "buildType": "MVN",
+      "defaultAlignmentParams": "-DdependencySource=REST",
+      "brewPullActive": false,
+      "scmRepository": {
+        "id": "185",
+        "internalUrl": "git+ssh://code.test.com/testUser/asdgsadg.git",
+        "externalUrl": "https://code.githob.com/testUser/asdgsadg.git",
+        "preBuildSyncEnabled": false
+      },
+      "project": {
+        "id": "146",
+        "name": "7088124162418874596",
+        "description": "hihi2",
+        "issueTrackerUrl": null,
+        "projectUrl": null,
+        "engineeringTeam": null,
+        "technicalLeader": null
+      },
+      "environment": {
+        "id": "27",
+        "name": "GraalVM-CE 19.2.0; Mvn 3.5.4",
+        "description": "GraalVM-CE 19.2.0; Mvn 3.5.4 [builder-rhel-7-graalvm-ce-19.2.0-mvn3.5.4:1.0.0]",
+        "systemImageRepositoryUrl": "test.io/rh-newcastle",
+        "systemImageId": "builder-rhel-7-graalvm-ce-1.2.0-mvn3.5.4:1.0.0",
+        "attributes": {
+          "JDK": "GraalVM-CE 1.2.0",
+          "MAVEN": "3.5.4",
+          "OS": "Linux"
+        },
+        "systemImageType": "DOCKER_IMAGE",
+        "deprecated": true,
+        "hidden": false
+      },
+      "dependencies": {},
+      "productVersion": null,
+      "groupConfigs": {},
+      "parameters": {
+        "BUILDER_POD_MEMORY": "12",
+        "BUILD_CATEGORY": "SERVICE"
+      },
+      "creationUser": {
+        "id": "127",
+        "username": "AnyUser"
+      },
+      "modificationUser": {
+        "id": "127",
+        "username": "SomeUser"
+      },
+      "alignmentStrategies": [],
+      "latestBuild": {
+        "id": "TCDAVLKJKUHKLKJ",
+        "submitTime": "2021-04-26T19:55:26.147Z",
+        "startTime": "2021-04-26T19:55:26.261Z",
+        "endTime": "2021-04-26T19:57:12.563Z",
+        "progress": "FINISHED",
+        "status": "SYSTEM_ERROR",
+        "buildContentId": null,
+        "temporaryBuild": false,
+        "alignmentPreference": null,
+        "scmUrl": "https://code.test.com/testUser/asdgsadg.git",
+        "scmRevision": "1561asd531531asd1352sa1d5a1s35sa",
+        "scmTag": "repour-35d153as15d31a5s31d35135as1d35sd-4d2354a",
+        "buildOutputChecksum": null,
+        "lastUpdateTime": null
+      },
+      "latestBuildUsername": "ThisUser"
+    },
+    {
+      "id": "002",
+      "name": "954684343",
+      "description": null,
+      "buildScript": "21",
+      "scmRevision": "master",
+      "creationTime": "2021-03-15T12:52:22.235Z",
+      "modificationTime": "2021-05-25T12:52:22.234Z",
+      "buildType": "MVN",
+      "defaultAlignmentParams": "-DdependencySource=REST",
+      "brewPullActive": false,
+      "scmRepository": {
+        "id": "185",
+        "internalUrl": "git+ssh://code.test.com/testUser/asdgsadg.git",
+        "externalUrl": "https://code.githob.com/testUser/asdgsadg.git",
+        "preBuildSyncEnabled": false
+      },
+      "project": {
+        "id": "146",
+        "name": "djauhuhgjyagkbd",
+        "description": "dasd",
+        "issueTrackerUrl": null,
+        "projectUrl": null,
+        "engineeringTeam": null,
+        "technicalLeader": null
+      },
+      "environment": {
+        "id": "27",
+        "name": "GraalVM-CE 19.2.0; Mvn 3.5.4",
+        "description": "GraalVM-CE 19.2.0; Mvn 3.5.4 [builder-rhel-7-graalvm-ce-19.2.0-mvn3.5.4:1.0.0]",
+        "systemImageRepositoryUrl": "test.io/rh-newcastle",
+        "systemImageId": "builder-rhel-7-graalvm-ce-1.2.0-mvn3.5.4:1.0.0",
+        "attributes": {
+          "JDK": "GraalVM-CE 1.2.0",
+          "MAVEN": "3.5.4",
+          "OS": "Linux"
+        },
+        "systemImageType": "DOCKER_IMAGE",
+        "deprecated": true,
+        "hidden": false
+      },
+      "dependencies": {},
+      "productVersion": null,
+      "groupConfigs": {},
+      "parameters": {
+        "BUILDER_POD_MEMORY": "12",
+        "BUILD_CATEGORY": "SERVICE"
+      },
+      "creationUser": {
+        "id": "127",
+        "username": "SomeUser"
+      },
+      "modificationUser": {
+        "id": "127",
+        "username": "SomeUser"
+      },
+      "alignmentStrategies": [],
+      "latestBuild": {
+        "id": "SHKGHYGSAJYHBJHYGJKNS",
+        "submitTime": "2021-04-26T19:55:26.147Z",
+        "startTime": "2021-04-26T19:55:26.261Z",
+        "endTime": "2021-04-26T19:57:12.563Z",
+        "progress": "FINISHED",
+        "status": "SYSTEM_ERROR",
+        "buildContentId": null,
+        "temporaryBuild": false,
+        "alignmentPreference": null,
+        "scmUrl": "https://code.test.com/testUser/asdgsadg.git",
+        "scmRevision": "1561asd531531asd1352sa1d5a1s35sa",
+        "scmTag": "repour-35d153as15d31a5s31d35135as1d35sd-4d2354a",
+        "buildOutputChecksum": null,
+        "lastUpdateTime": null
+      },
+      "latestBuildUsername": "SomeUser"
+    }
+  ]
+}

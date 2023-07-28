@@ -21,6 +21,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { Username } from 'components/Username/Username';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
 
@@ -140,7 +141,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                       </DescriptionListGroup>
                     </DescriptionList>
                   </Td>
-                  <Td>{build.user?.username}</Td>
+                  <Td>{build.user?.username && <Username text={build.user.username} />}</Td>
                 </Tr>
               ))}
             </Tbody>
