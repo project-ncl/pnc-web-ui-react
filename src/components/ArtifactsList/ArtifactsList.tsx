@@ -23,6 +23,7 @@ import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
+import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModalButton/ArtifactEditQualityModalButton';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
@@ -221,6 +222,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                     {artifactEntityAttributes['productMilestone.version'].title}
                   </Th>
                 )}
+                <Th></Th>
               </Tr>
             </Thead>
             {/* TODO: Change type from any, NCL-7766 */}
@@ -296,6 +298,9 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                       </Link>
                     </Td>
                   )}
+                  <Td isActionCell>
+                    <ArtifactEditQualityModalButton artifact={artifact} variant="list" />
+                  </Td>
                 </Tr>
                 <Tr isExpanded={isArtifactExpanded(artifact)}>
                   <Td />
