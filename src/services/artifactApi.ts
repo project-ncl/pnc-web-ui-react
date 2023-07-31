@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Artifact, ArtifactPage, ArtifactRevisionPage, BuildPage, MilestoneInfoPage } from 'pnc-api-types-ts';
+import { Artifact, ArtifactPage, ArtifactRevision, ArtifactRevisionPage, BuildPage, MilestoneInfoPage } from 'pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 
@@ -40,7 +40,7 @@ export const getQualityRevisions = ({ id }: IArtifactApiData, requestConfig: Axi
 };
 
 /**
- * Gets dependant Builds of an Artifact..
+ * Gets dependant Builds of an Artifact.
  *
  * @param requestConfig - Axios based request config
  */
@@ -57,4 +57,15 @@ export const getDependantBuilds = ({ id }: IArtifactApiData, requestConfig: Axio
  */
 export const getProductMilestonesReleases = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<MilestoneInfoPage>(`/artifacts/${id}/milestones`, requestConfig);
+};
+
+/**
+ * Edits quality of an Artifact.
+ *
+ * @param serviceData - object containing:
+ *  - id - Artifact ID
+ * @param requestConfig - Axios based request config
+ */
+export const editArtifactQuality = ({ id }: IArtifactApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<ArtifactRevision>(`/artifacts/${id}/artifacts/quality`, undefined, requestConfig);
 };
