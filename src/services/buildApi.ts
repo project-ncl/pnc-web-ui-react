@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { ArtifactPage, Build, BuildPage, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
 
-import { mockClient } from 'services/mockClient';
+import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
@@ -90,7 +90,7 @@ export const getDependencyGraph = ({ id }: IBuildApiData, requestConfig: AxiosRe
  * @param requestConfig - Axios based request config
  */
 export const getArtifactDependencyGrah = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/builds/${id}/artifact-dependency-graph`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/builds/${id}/artifact-dependency-graph`, requestConfig);
 };
 
 /**
@@ -99,5 +99,5 @@ export const getArtifactDependencyGrah = ({ id }: IBuildApiData, requestConfig: 
  * @param requestConfig - Axios based request config
  */
 export const getArtifactDependencies = (requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/build-artifact-dependencies`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/build-artifact-dependencies`, requestConfig);
 };

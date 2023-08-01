@@ -8,7 +8,7 @@ import {
   ProductMilestoneCloseResultPage,
 } from 'pnc-api-types-ts';
 
-import { mockClient } from 'services/mockClient';
+import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
 import { pncClient } from './pncClient';
 
@@ -75,7 +75,7 @@ export const getBuilds = ({ id }: IProductMilestoneApiData, requestConfig: Axios
  * @param requestConfig - Axios based request config
  */
 export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
 };
 
 /**
@@ -84,7 +84,7 @@ export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: A
  * @param requestConfig - Axios based request config
  */
 export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/product-milestones/${id}/interconnection-graph`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/product-milestones/${id}/interconnection-graph`, requestConfig);
 };
 
 /**
@@ -93,7 +93,7 @@ export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, reques
  * @param requestConfig - Axios based request config
  */
 export const getSharedDeliveredArtifacts = (requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/product-milestone-shared-delivered-artifacts`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/product-milestone-shared-delivered-artifacts`, requestConfig);
 };
 
 /**
@@ -107,5 +107,5 @@ export const getProductMilestoneComparison = (
   { data }: { data: { productMilestones: string[] } },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  return mockClient.getHttpClient().post<any>(`/product-milestone-comparison`, data, requestConfig);
+  return pncApiMocksClient.getHttpClient().post<any>(`/product-milestone-comparison`, data, requestConfig);
 };
