@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Build, BuildPage, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
+import { ArtifactPage, Build, BuildPage, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
 
 import { mockClient } from 'services/mockClient';
 
@@ -36,6 +36,17 @@ export const getBuilds = (requestConfig: AxiosRequestConfig = {}) => {
  */
 export const getBuild = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<Build>(`/builds/${id}`, requestConfig);
+};
+
+/**
+ * Gets Artifacts built in a Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuiltArtifacts = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ArtifactPage>(`/builds/${id}/artifacts/built`, requestConfig);
 };
 
 /**
