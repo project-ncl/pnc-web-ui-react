@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { GroupConfigPage, ProductMilestonePage, ProductReleasePage, ProductVersion } from 'pnc-api-types-ts';
 
-import { mockClient } from 'services/mockClient';
+import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
 import { pncClient } from './pncClient';
 
@@ -29,7 +29,7 @@ export const getProductVersion = ({ id }: IProductVersionApiData, requestConfig:
  * @param requestConfig - Axios based request config
  */
 export const getStatistics = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/product-versions/${id}/statistics`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/product-versions/${id}/statistics`, requestConfig);
 };
 
 /**
@@ -40,7 +40,7 @@ export const getStatistics = ({ id }: IProductVersionApiData, requestConfig: Axi
  * @param requestConfig - Axios based request config
  */
 export const getArtifactQualityStatistics = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/product-versions/${id}/artifact-quality-statistics`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/product-versions/${id}/artifact-quality-statistics`, requestConfig);
 };
 
 /**
@@ -51,7 +51,7 @@ export const getArtifactQualityStatistics = ({ id }: IProductVersionApiData, req
  * @param requestConfig - Axios based request config
  */
 export const getRepositoryTypeStatistics = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return mockClient.getHttpClient().get<any>(`/product-versions/${id}/repository-type-statistics`, requestConfig);
+  return pncApiMocksClient.getHttpClient().get<any>(`/product-versions/${id}/repository-type-statistics`, requestConfig);
 };
 
 /**

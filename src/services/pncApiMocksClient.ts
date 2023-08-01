@@ -1,9 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 
+import * as webConfigService from './webConfigService';
+
 /**
  * Mocked backend client. Use for WIP features.
  */
-class MockClient {
+class PncApiMocksClient {
   private httpClient: AxiosInstance;
 
   constructor() {
@@ -17,7 +19,7 @@ class MockClient {
    */
   private createHttpClient = (): AxiosInstance =>
     axios.create({
-      baseURL: `http://localhost:8020`,
+      baseURL: process.env.REACT_APP_PNC_API_MOCKS_URL || webConfigService.getPncApiMocksUrl(),
     });
 
   // PUBLIC
@@ -28,4 +30,4 @@ class MockClient {
   public getHttpClient = (): AxiosInstance => this.httpClient;
 }
 
-export const mockClient = new MockClient();
+export const pncApiMocksClient = new PncApiMocksClient();
