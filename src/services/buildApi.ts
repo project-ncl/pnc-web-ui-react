@@ -50,6 +50,17 @@ export const getBuiltArtifacts = ({ id }: IBuildApiData, requestConfig: AxiosReq
 };
 
 /**
+ * Gets dependency Artifacts of a Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getDependencies = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ArtifactPage>(`/builds/${id}/artifacts/dependencies`, requestConfig);
+};
+
+/**
  * Gets Build Metrics by a list of build Ids.
  *
  * @param serviceData
