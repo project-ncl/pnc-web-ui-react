@@ -99,7 +99,7 @@ export const ProductMilestoneDetailPage = () => {
           <CardFlexItem description={<div>The number of Artifacts produced by Builds contained in this Milestone.</div>}>
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in this Milestone">
-                {serviceContainerStatistics.data?.artifactsSource.thisMilestone}
+                {serviceContainerStatistics.data?.artifactsInMilestone}
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>Artifacts built in this Milestone</CardTitle>
@@ -131,7 +131,7 @@ export const ProductMilestoneDetailPage = () => {
                 variant="icon"
                 title="Delivered Artifacts built in other Milestones"
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.previousMilestones}
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.otherMilestones}
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>Delivered Artifacts built in other Milestones</CardTitle>

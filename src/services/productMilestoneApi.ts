@@ -75,7 +75,7 @@ export const getBuilds = ({ id }: IProductMilestoneApiData, requestConfig: Axios
  * @param requestConfig - Axios based request config
  */
 export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncApiMocksClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
+  return pncClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
 };
 
 /**
