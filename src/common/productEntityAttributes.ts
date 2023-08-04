@@ -13,6 +13,7 @@ export const productEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   abbreviation: {
     id: 'abbreviation',
@@ -20,6 +21,7 @@ export const productEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   productManagers: {
     id: 'productManagers',

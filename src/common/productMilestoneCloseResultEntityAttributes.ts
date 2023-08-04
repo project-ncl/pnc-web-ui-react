@@ -16,13 +16,16 @@ export const productMilestoneCloseResultEntityAttributes = {
     filter: {
       operator: '==',
     },
+    sort: {},
   },
   startingDate: {
     id: 'startingDate',
     title: 'Close Started',
+    sort: {},
   },
   endDate: {
     id: 'endDate',
     title: 'Close Finished',
+    sort: {},
   },
 } as const satisfies TEntityAttributes<ProductMilestoneCloseResult>;

@@ -29,6 +29,7 @@ export const scmRepositoryEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   externalUrl: {
     id: 'externalUrl',
@@ -37,6 +38,7 @@ export const scmRepositoryEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   preBuildSyncEnabled: {
     id: 'preBuildSyncEnabled',

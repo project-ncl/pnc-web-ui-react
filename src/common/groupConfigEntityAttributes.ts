@@ -17,6 +17,7 @@ export const groupConfigEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   buildConfigsCount: {
     id: 'buildConfigsCount',

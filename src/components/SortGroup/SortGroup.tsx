@@ -9,7 +9,7 @@ import {
 import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 
-import { ISortAttribute, ISortAttributes, SortFunction } from 'hooks/useSorting';
+import { ISortAttributes, SortFunction, TSortAttribute } from 'hooks/useSorting';
 
 import styles from './SortGroup.module.css';
 
@@ -28,10 +28,10 @@ export interface ISortGroupProps {
 
 export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISortGroupProps) => {
   const sortGroupAttributes = Object.values(sort.sortAttributes).filter(
-    (sortAttribute) => sort.sortGroup === sortAttribute.sortGroup
+    (sortAttribute) => sort.sortGroup === sortAttribute.sort.group
   );
   const isSortGroupActive =
-    !!sort.activeSortAttribute && sort.sortGroup === sort.sortAttributes[sort.activeSortAttribute].sortGroup;
+    !!sort.activeSortAttribute && sort.sortGroup === sort.sortAttributes[sort.activeSortAttribute].sort.group;
 
   return (
     <OptionsMenu
@@ -39,7 +39,7 @@ export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISo
       id="sort-options"
       menuItems={[
         <OptionsMenuItemGroup key={0}>
-          {sortGroupAttributes.map((sortAttribute: ISortAttribute, index: number) => (
+          {sortGroupAttributes.map((sortAttribute: TSortAttribute, index: number) => (
             <OptionsMenuItem
               key={index}
               isSelected={sort.activeSortAttribute === sortAttribute.id}

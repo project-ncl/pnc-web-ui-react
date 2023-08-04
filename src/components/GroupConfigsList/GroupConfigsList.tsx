@@ -1,13 +1,14 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 
 import { GroupConfiguration } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -16,14 +17,6 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-const sortAttributes: ISortAttributes = {
-  name: {
-    id: 'name',
-    title: 'Name',
-    tableColumnIndex: 0,
-  },
-};
 
 interface IGroupConfigsListProps {
   serviceContainerGroupConfigs: IServiceContainer;
@@ -37,7 +30,15 @@ interface IGroupConfigsListProps {
  * @param componentId - Component ID
  */
 export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: IGroupConfigsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: groupConfigEntityAttributes,
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -56,7 +57,7 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th sort={getSortParams(sortAttributes['name'].id)}>{groupConfigEntityAttributes.name.title}</Th>
+                <Th sort={getSortParams(sortOptions.sortAttributes['name'].id)}>{groupConfigEntityAttributes.name.title}</Th>
                 <Th width={20}>{groupConfigEntityAttributes.buildConfigsCount.title}</Th>
               </Tr>
             </Thead>

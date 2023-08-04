@@ -11,17 +11,17 @@ import {
 } from '@patternfly/react-core';
 import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Artifact } from 'pnc-api-types-ts';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -36,49 +36,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
-
-// TODO: filter based on columns property, NCL-7612
-const sortAttributes: ISortAttributes = {
-  identifier: {
-    id: 'identifier',
-    title: 'Identifier',
-    tableColumnIndex: 0,
-  },
-  'targetRepository.repositoryType': {
-    id: 'targetRepository.repositoryType',
-    title: 'Repository Type',
-    tableColumnIndex: 1,
-  },
-  buildCategory: {
-    id: 'buildCategory',
-    title: 'Build Category',
-    tableColumnIndex: 2,
-  },
-  filename: {
-    id: 'filename',
-    title: 'File Name',
-    tableColumnIndex: 3,
-  },
-  artifactQuality: {
-    id: 'artifactQuality',
-    title: 'Artifact Quality',
-    tableColumnIndex: 4,
-  },
-  'product.name': {
-    id: 'product.name',
-    title: 'Product Name',
-    tableColumnIndex: 5,
-  },
-  'productMilestone.version': {
-    id: 'productMilestone.version',
-    title: 'Miletone Version',
-    tableColumnIndex: 6,
-  },
-};
-
-const defaultSorting: IDefaultSorting = {
-  attribute: sortAttributes.identifier.id,
-};
 
 const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
@@ -107,7 +64,20 @@ const defaultColumns = [
  * @param componentId - Component ID
  */
 export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColumns, componentId }: IArtifactsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId, defaultSorting);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: artifactEntityAttributes,
+        defaultSorting: {
+          attribute: artifactEntityAttributes.identifier.id,
+          direction: 'asc',
+        },
+        customColumns: defaultColumns,
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
 
@@ -214,37 +184,37 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                 />
                 {columns.includes(artifactEntityAttributes.build.id) && <Th width={10} />}
                 {columns.includes(artifactEntityAttributes.identifier.id) && (
-                  <Th width={30} sort={getSortParams(sortAttributes['identifier'].id)}>
+                  <Th width={30} sort={getSortParams(sortOptions.sortAttributes['identifier'].id)}>
                     {artifactEntityAttributes.identifier.title}
                   </Th>
                 )}
                 {columns.includes(artifactEntityAttributes['targetRepository.repositoryType'].id) && (
-                  <Th width={15} sort={getSortParams(sortAttributes['targetRepository.repositoryType'].id)}>
+                  <Th width={15} sort={getSortParams(sortOptions.sortAttributes['targetRepository.repositoryType'].id)}>
                     {artifactEntityAttributes['targetRepository.repositoryType'].title}
                   </Th>
                 )}
                 {columns.includes(artifactEntityAttributes.buildCategory.id) && (
-                  <Th width={15} sort={getSortParams(sortAttributes['buildCategory'].id)}>
+                  <Th width={15} sort={getSortParams(sortOptions.sortAttributes['buildCategory'].id)}>
                     {artifactEntityAttributes.buildCategory.title}
                   </Th>
                 )}
                 {columns.includes(artifactEntityAttributes.filename.id) && (
-                  <Th width={25} sort={getSortParams(sortAttributes['filename'].id)}>
+                  <Th width={25} sort={getSortParams(sortOptions.sortAttributes['filename'].id)}>
                     {artifactEntityAttributes.filename.title}
                   </Th>
                 )}
                 {columns.includes(artifactEntityAttributes.artifactQuality.id) && (
-                  <Th width={15} sort={getSortParams(sortAttributes['artifactQuality'].id)}>
+                  <Th width={15} sort={getSortParams(sortOptions.sortAttributes['artifactQuality'].id)}>
                     {artifactEntityAttributes.artifactQuality.title}
                   </Th>
                 )}
                 {columns.includes(artifactEntityAttributes['product.name'].id) && (
-                  <Th width={30} sort={getSortParams(sortAttributes['product.name'].id)}>
+                  <Th width={30} sort={getSortParams(sortOptions.sortAttributes['product.name'].id)}>
                     {artifactEntityAttributes['product.name'].title}
                   </Th>
                 )}
                 {columns.includes(artifactEntityAttributes['productMilestone.version'].id) && (
-                  <Th width={30} sort={getSortParams(sortAttributes['productMilestone.version'].id)}>
+                  <Th width={30} sort={getSortParams(sortOptions.sortAttributes['productMilestone.version'].id)}>
                     {artifactEntityAttributes['productMilestone.version'].title}
                   </Th>
                 )}

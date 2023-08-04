@@ -1,4 +1,8 @@
+import { IDefaultSorting, ISortAttributes, ISortOptions, TSortAttribute } from 'hooks/useSorting';
+
 import { IFilterAttributes, IFilterOptions, TFilterAttribute } from 'components/Filtering/Filtering';
+
+import { uiLogger } from 'services/uiLogger';
 
 import { IQParamOperators } from 'utils/qParamHelper';
 
@@ -78,6 +82,21 @@ export interface IEntityAttribute<T = string> {
      */
     placeholder?: string;
   };
+
+  /**
+   * Sort related properties.
+   */
+  sort?: {
+    /**
+     * Possibility to add attribute into sorting group with the same name. Then sort dropdown is used instead. See for example Builds > "Times" column.
+     */
+    group?: string;
+
+    /**
+     * Unique table column index required by PatternFly library. It's supposed to be auto-generated.
+     */
+    tableColumnIndex?: number;
+  };
 }
 
 export interface IEntityAttributes {
@@ -103,5 +122,69 @@ export const getFilterAttributes = (
   return {
     filterAttributes,
     customKeys,
+  };
+};
+
+/**
+ * Get sort attributes derived from entity attributes. Validate default sorting parameters.
+ */
+export const getSortOptions = ({
+  entityAttributes,
+  defaultSorting,
+  customColumns,
+}: {
+  /**
+   * Entity attributes for given entity.
+   */
+  entityAttributes: IEntityAttributes;
+
+  /**
+   * Optional default sorting, otherwise no sorting is applied.
+   */
+  defaultSorting?: IDefaultSorting;
+
+  /**
+   * Entity attributes can contain 5 sort attributes, but only 3 of them can be displayed.
+   */
+  customColumns?: string[];
+}): ISortOptions => {
+  const sortAttributes: ISortAttributes = {};
+
+  // Process entity attributes
+  let i = 0;
+  (customColumns ? customColumns : Object.keys(entityAttributes)).forEach((entityAttributeKey) => {
+    const entityAttribute = entityAttributes[entityAttributeKey];
+
+    // Get only entity attributes with sort property defined
+    if (entityAttribute.sort) {
+      sortAttributes[entityAttributeKey] = JSON.parse(JSON.stringify(entityAttribute)) as TSortAttribute;
+
+      // Add auto-generated table column unique index required by PatternFly library
+      if (!sortAttributes[entityAttributeKey].sort.tableColumnIndex) {
+        sortAttributes[entityAttributeKey].sort.tableColumnIndex = i;
+      } else {
+        uiLogger.error(
+          `Sort attribute 'tableColumnIndex' for key ${entityAttributeKey} is already defined, original value: ${sortAttributes[entityAttributeKey].sort.tableColumnIndex}, new value: ${i}`
+        );
+      }
+
+      i++;
+    }
+  });
+
+  // Validate default sorting parameters
+  if (defaultSorting && !Object.keys(sortAttributes).includes(defaultSorting?.attribute)) {
+    uiLogger.error(
+      `Custom default sorting key '${
+        defaultSorting?.attribute
+      }' is not supported, it's probably entityAttribute without 'sort' property: ${JSON.stringify(
+        entityAttributes[defaultSorting?.attribute]
+      )}`
+    );
+  }
+
+  return {
+    sortAttributes,
+    defaultSorting,
   };
 };

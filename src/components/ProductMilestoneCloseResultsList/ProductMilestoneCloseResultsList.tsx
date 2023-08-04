@@ -1,13 +1,14 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -18,29 +19,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-const sortAttributes: ISortAttributes = {
-  startingDate: {
-    id: 'startingDate',
-    title: 'Start Date',
-    tableColumnIndex: 1,
-  },
-  endDate: {
-    id: 'endDate',
-    title: 'End Date',
-    tableColumnIndex: 2,
-  },
-  status: {
-    id: 'status',
-    title: 'Status',
-    tableColumnIndex: 3,
-  },
-};
-
-const defaultSorting: IDefaultSorting = {
-  attribute: sortAttributes.endDate.id,
-  direction: 'desc',
-};
 
 interface IProductMilestoneCloseResultsListProps {
   serviceContainerCloseResults: IServiceContainer;
@@ -57,7 +35,19 @@ export const ProductMilestoneCloseResultsList = ({
   serviceContainerCloseResults,
   componentId,
 }: IProductMilestoneCloseResultsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId, defaultSorting);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: productMilestoneCloseResultEntityAttributes,
+        defaultSorting: {
+          attribute: productMilestoneCloseResultEntityAttributes.endDate.id,
+          direction: 'desc',
+        },
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -73,13 +63,13 @@ export const ProductMilestoneCloseResultsList = ({
             <Thead>
               <Tr>
                 <Th width={20}>{productMilestoneCloseResultEntityAttributes.id.title}</Th>
-                <Th width={30} sort={getSortParams(sortAttributes['startingDate'].id)}>
+                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['startingDate'].id)}>
                   {productMilestoneCloseResultEntityAttributes.startingDate.title}
                 </Th>
-                <Th width={30} sort={getSortParams(sortAttributes['endDate'].id)}>
+                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['endDate'].id)}>
                   {productMilestoneCloseResultEntityAttributes.endDate.title}
                 </Th>
-                <Th width={20} sort={getSortParams(sortAttributes['status'].id)}>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['status'].id)}>
                   {productMilestoneCloseResultEntityAttributes.status.title}
                 </Th>
               </Tr>

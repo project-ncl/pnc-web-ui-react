@@ -1,13 +1,14 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -19,24 +20,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-const sortAttributes: ISortAttributes = {
-  submitTime: {
-    id: 'submitTime',
-    title: 'Submit Time',
-    tableColumnIndex: 3,
-  },
-  'user.username': {
-    id: 'user.username',
-    title: 'User',
-    tableColumnIndex: 4,
-  },
-};
-
-const defaultSorting: IDefaultSorting = {
-  attribute: sortAttributes.submitTime.id,
-  direction: 'desc',
-};
 
 interface IProductMilestoneDeliverablesAnalysisListProps {
   serviceContainerDeliverablesAnalysis: IServiceContainer;
@@ -53,7 +36,19 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
   serviceContainerDeliverablesAnalysis,
   componentId,
 }: IProductMilestoneDeliverablesAnalysisListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId, defaultSorting);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes,
+        defaultSorting: {
+          attribute: productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.id,
+          direction: 'desc',
+        },
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -74,10 +69,10 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                 <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.id.title}</Th>
                 <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.progressStatus.title}</Th>
                 <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.result.title}</Th>
-                <Th width={20} sort={getSortParams(sortAttributes['submitTime'].id)}>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
                   {productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}
                 </Th>
-                <Th width={20} sort={getSortParams(sortAttributes['user.username'].id)}>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
                   {productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}
                 </Th>
               </Tr>

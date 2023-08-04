@@ -1,13 +1,14 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 
 import { ArtifactRevision } from 'pnc-api-types-ts';
 
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -18,14 +19,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import { createDateTime } from 'utils/utils';
-
-const sortAttributes: ISortAttributes = {
-  modificationTime: {
-    id: 'modificationTime',
-    title: 'Modification Date',
-    tableColumnIndex: 0,
-  },
-};
 
 interface IArtifactQualityRevisionsListProps {
   serviceContainerQualityRevisions: IServiceContainer;
@@ -42,7 +35,15 @@ export const ArtifactQualityRevisionsList = ({
   serviceContainerQualityRevisions,
   componentId,
 }: IArtifactQualityRevisionsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: artifactQualityRevisionEntityAttributes,
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -57,7 +58,7 @@ export const ArtifactQualityRevisionsList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th sort={getSortParams(sortAttributes['modificationTime'].id)} width={20}>
+                <Th sort={getSortParams(sortOptions.sortAttributes['modificationTime'].id)} width={20}>
                   {artifactQualityRevisionEntityAttributes.modificationTime.title}
                 </Th>
                 <Th width={20}>{artifactQualityRevisionEntityAttributes['modificationUser.username'].title}</Th>
