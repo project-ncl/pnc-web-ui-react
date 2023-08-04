@@ -42,6 +42,7 @@ export const buildEntityAttributes = {
     filter: {
       operator: '==',
     },
+    sort: {},
   },
   temporaryBuild: {
     id: 'temporaryBuild',
@@ -57,6 +58,7 @@ export const buildEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   name: {
     id: 'name',
@@ -65,13 +67,22 @@ export const buildEntityAttributes = {
   submitTime: {
     id: 'submitTime',
     title: 'Submitted',
+    sort: {
+      group: 'times',
+    },
   },
   startTime: {
     id: 'startTime',
     title: 'Started',
+    sort: {
+      group: 'times',
+    },
   },
   endTime: {
     id: 'endTime',
     title: 'Ended',
+    sort: {
+      group: 'times',
+    },
   },
 } as const satisfies TEntityAttributes<IExtendedBuild>;

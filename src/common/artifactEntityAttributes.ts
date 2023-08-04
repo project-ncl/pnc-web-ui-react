@@ -44,6 +44,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   artifactQuality: {
     id: 'artifactQuality',
@@ -52,6 +53,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '==',
     },
+    sort: {},
   },
   buildCategory: {
     id: 'buildCategory',
@@ -60,6 +62,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '==',
     },
+    sort: {},
   },
   filename: {
     id: 'filename',
@@ -67,6 +70,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   'targetRepository.identifier': {
     id: 'targetRepository.identifier',
@@ -79,6 +83,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '==',
     },
+    sort: {},
   },
   'targetRepository.temporaryRepo': {
     id: 'targetRepository.temporaryRepo',
@@ -115,6 +120,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   'productMilestone.version': {
     id: 'productMilestone.version',
@@ -122,6 +128,7 @@ export const artifactEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   build: {
     id: 'build',

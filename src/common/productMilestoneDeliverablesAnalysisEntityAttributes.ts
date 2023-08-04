@@ -25,6 +25,7 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
   submitTime: {
     id: 'submitTime',
     title: 'Submit Time',
+    sort: {},
   },
   startTime: {
     id: 'startTime',
@@ -56,6 +57,7 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   parameters: {
     id: 'parameters',

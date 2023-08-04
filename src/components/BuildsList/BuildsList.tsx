@@ -1,16 +1,16 @@
 import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Build } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
@@ -28,42 +28,6 @@ const defaultFiltering: IDefaultFiltering = {
   attribute: buildEntityAttributes.status.id,
 };
 
-const sortAttributes: ISortAttributes = {
-  status: {
-    id: 'status',
-    title: 'Status',
-    tableColumnIndex: 0,
-  },
-  submitTime: {
-    id: 'submitTime',
-    title: 'Submitted',
-    tableColumnIndex: 3,
-    sortGroup: 'times',
-  },
-  startTime: {
-    id: 'startTime',
-    title: 'Started',
-    tableColumnIndex: 4,
-    sortGroup: 'times',
-  },
-  endTime: {
-    id: 'endTime',
-    title: 'Ended',
-    tableColumnIndex: 5,
-    sortGroup: 'times',
-  },
-  'user.username': {
-    id: 'user.username',
-    title: 'User',
-    tableColumnIndex: 6,
-  },
-};
-
-const defaultSorting: IDefaultSorting = {
-  attribute: sortAttributes.submitTime.id,
-  direction: 'desc',
-};
-
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainer;
   componentId: string;
@@ -76,7 +40,19 @@ interface IBuildsListProps {
  * @param componentId - Component ID
  */
 export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
-  const { getSortParams, getSortGroupParams } = useSorting(sortAttributes, componentId, defaultSorting);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: buildEntityAttributes,
+        defaultSorting: {
+          attribute: buildEntityAttributes.submitTime.id,
+          direction: 'desc',
+        },
+      }),
+    []
+  );
+
+  const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
 
@@ -101,7 +77,7 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={20} sort={getSortParams(sortAttributes['status'].id)}>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
                   {buildEntityAttributes.status.title}
                 </Th>
                 <Th width={15}>{buildEntityAttributes.id.title}</Th>
@@ -109,12 +85,12 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 <Th width={20} className="overflow-visible">
                   <SortGroup
                     title="Times"
-                    sort={getSortGroupParams(sortAttributes['submitTime'].id!)}
+                    sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
                     isDropdownOpen={isSortDropdownOpen}
                     onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
                   />
                 </Th>
-                <Th width={10} sort={getSortParams(sortAttributes['user.username'].id)}>
+                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
                   {buildEntityAttributes['user.username'].title}
                 </Th>
               </Tr>

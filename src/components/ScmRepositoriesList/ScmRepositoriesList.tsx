@@ -1,13 +1,14 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 
 import { SCMRepository } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -18,19 +19,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
-
-const sortAttributes: ISortAttributes = {
-  internalUrl: {
-    id: 'internalUrl',
-    title: 'Internal URL',
-    tableColumnIndex: 0,
-  },
-  externalUrl: {
-    id: 'externalUrl',
-    title: 'External URL',
-    tableColumnIndex: 1,
-  },
-};
 
 interface IScmRepositoriesListProps {
   serviceContainerScmRepositories: IServiceContainer;
@@ -44,7 +32,15 @@ interface IScmRepositoriesListProps {
  * @param componentId - Component ID
  */
 export const ScmRepositoriesList = ({ serviceContainerScmRepositories, componentId }: IScmRepositoriesListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: scmRepositoryEntityAttributes,
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -67,11 +63,11 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                   {scmRepositoryEntityAttributes.name.title}
                   <TooltipWrapper tooltip={scmRepositoryEntityAttributes.name.tooltip} />
                 </Th>
-                <Th width={30} sort={getSortParams(sortAttributes['internalUrl'].id)}>
+                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['internalUrl'].id)}>
                   {scmRepositoryEntityAttributes.internalUrl.title}
                   <TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />
                 </Th>
-                <Th width={30} sort={getSortParams(sortAttributes['externalUrl'].id)}>
+                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['externalUrl'].id)}>
                   {scmRepositoryEntityAttributes.externalUrl.title}
                   <TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />
                 </Th>

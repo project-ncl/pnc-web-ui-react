@@ -1,14 +1,15 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Product } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -16,19 +17,6 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-const sortAttributes: ISortAttributes = {
-  name: {
-    id: 'name',
-    title: 'Name',
-    tableColumnIndex: 0,
-  },
-  abbreviation: {
-    id: 'abbreviation',
-    title: 'Abbreviation',
-    tableColumnIndex: 1,
-  },
-};
 
 interface IProductsListProps {
   serviceContainerProducts: IServiceContainer;
@@ -42,7 +30,15 @@ interface IProductsListProps {
  * @param componentId - Component ID
  */
 export const ProductsList = ({ serviceContainerProducts, componentId }: IProductsListProps) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: productEntityAttributes,
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -61,10 +57,12 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={60} sort={getSortParams(sortAttributes['name'].id)}>
+                <Th width={60} sort={getSortParams(sortOptions.sortAttributes['name'].id)}>
                   {productEntityAttributes.name.title}
                 </Th>
-                <Th sort={getSortParams(sortAttributes['abbreviation'].id)}>{productEntityAttributes.abbreviation.title}</Th>
+                <Th sort={getSortParams(sortOptions.sortAttributes['abbreviation'].id)}>
+                  {productEntityAttributes.abbreviation.title}
+                </Th>
               </Tr>
             </Thead>
             <Tbody>

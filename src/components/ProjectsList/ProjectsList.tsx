@@ -1,14 +1,15 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Project } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -18,19 +19,6 @@ import { ProtectedComponent } from 'components/ProtectedContent/ProtectedCompone
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-const sortAttributes: ISortAttributes = {
-  name: {
-    id: 'name',
-    title: 'Name',
-    tableColumnIndex: 0,
-  },
-  description: {
-    id: 'description',
-    title: 'Description',
-    tableColumnIndex: 1,
-  },
-};
 
 interface IProjectsList {
   serviceContainerProjects: IServiceContainer;
@@ -44,7 +32,15 @@ interface IProjectsList {
  * @param componentId - Component ID
  */
 export const ProjectsList = ({ serviceContainerProjects, componentId }: IProjectsList) => {
-  const { getSortParams } = useSorting(sortAttributes, componentId);
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: projectEntityAttributes,
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
 
   return (
     <>
@@ -63,10 +59,12 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
                * Better solution can be implemented in the future.
                */}
               <Tr>
-                <Th width={30} sort={getSortParams(sortAttributes['name'].id)}>
+                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['name'].id)}>
                   {projectEntityAttributes.name.title}
                 </Th>
-                <Th sort={getSortParams(sortAttributes['description'].id)}>{projectEntityAttributes.description.title}</Th>
+                <Th sort={getSortParams(sortOptions.sortAttributes['description'].id)}>
+                  {projectEntityAttributes.description.title}
+                </Th>
                 <Th width={15}>{projectEntityAttributes.buildConfigsCount.title}</Th>
                 <Th>Actions</Th>
               </Tr>

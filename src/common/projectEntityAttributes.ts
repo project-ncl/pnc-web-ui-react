@@ -17,6 +17,7 @@ export const projectEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   description: {
     id: 'description',
@@ -24,6 +25,7 @@ export const projectEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   projectUrl: {
     id: 'projectUrl',

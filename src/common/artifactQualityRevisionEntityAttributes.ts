@@ -16,6 +16,7 @@ export const artifactQualityRevisionEntityAttributes = {
   modificationTime: {
     id: 'modificationTime',
     title: 'Modification Date',
+    sort: {},
   },
   'modificationUser.username': {
     id: 'modificationUser.username',
