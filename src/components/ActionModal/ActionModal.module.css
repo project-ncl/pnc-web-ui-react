@@ -1,0 +1,14 @@
+.action-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-modal-title {
+  padding-bottom: 0;
+}
+
+.action-modal-close-button {
+  margin-top: -15px;
+  padding: 0;
+}

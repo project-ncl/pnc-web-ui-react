@@ -47,6 +47,10 @@ code {
   gap: 5px !important;
 }
 
+.m-r-0 {
+  margin-right: 0 !important;
+}
+
 .m-t-5 {
   margin-top: 5px !important;
 }
