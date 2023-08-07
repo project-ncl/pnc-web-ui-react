@@ -21,6 +21,7 @@ export const buildConfigEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   description: {
     id: 'description',
@@ -33,6 +34,7 @@ export const buildConfigEntityAttributes = {
     filter: {
       operator: '==',
     },
+    sort: {},
   },
   'project.name': {
     id: 'project.name',
@@ -40,14 +42,21 @@ export const buildConfigEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   creationTime: {
     id: 'creationTime',
     title: 'Created',
+    sort: {
+      group: 'times',
+    },
   },
   modificationTime: {
     id: 'modificationTime',
     title: 'Modified',
+    sort: {
+      group: 'times',
+    },
   },
   buildStatus: {
     id: 'buildStatus',

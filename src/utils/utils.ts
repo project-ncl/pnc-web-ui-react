@@ -162,9 +162,11 @@ interface ICheckColumnsCombinations {
  * @param columns - columns to be checked
  * @param combinations - the combination requirements that need to be satisfied
  *
+ * @returns boolean value indicates whether the check passed or not
+ *
  */
-export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumnsCombinations) => {
-  combinations.every((combination) => {
+export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumnsCombinations): boolean => {
+  return combinations.every((combination) => {
     if (combination.length >= 2 && combination.some((element) => !columns.includes(element))) {
       uiLogger.error(`Required combination unsatisfied: ${combination} should be used as a combination.`);
       return false;
