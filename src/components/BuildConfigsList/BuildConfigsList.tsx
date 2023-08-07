@@ -1,15 +1,15 @@
 import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { BuildConfigurationWithLatestBuild } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
-import { IDefaultSorting, ISortAttributes, useSorting } from 'hooks/useSorting';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
@@ -29,41 +29,6 @@ import { areDatesEqual, checkColumnsCombinations, createDateTime } from 'utils/u
 
 const defaultFiltering: IDefaultFiltering = {
   attribute: buildConfigEntityAttributes.name.id,
-};
-
-const sortAttributes: ISortAttributes = {
-  name: {
-    id: 'name',
-    title: 'Name',
-    tableColumnIndex: 0,
-  },
-  buildType: {
-    id: 'buildType',
-    title: 'Build Type',
-    tableColumnIndex: 2,
-  },
-  'project.name': {
-    id: 'project.name',
-    title: 'Project',
-    tableColumnIndex: 3,
-  },
-  creationTime: {
-    id: 'creationTime',
-    title: 'Created',
-    tableColumnIndex: 4,
-    sortGroup: 'times',
-  },
-  modificationTime: {
-    id: 'modificationTime',
-    title: 'Modified',
-    tableColumnIndex: 5,
-    sortGroup: 'times',
-  },
-};
-
-const defaultSorting: IDefaultSorting = {
-  attribute: sortAttributes.name.id,
-  direction: 'asc',
 };
 
 interface IBuildConfigsListProps {
@@ -93,9 +58,22 @@ export const BuildConfigsList = ({
   columns = defaultColumns,
   componentId,
 }: IBuildConfigsListProps) => {
-  const { getSortParams, getSortGroupParams } = useSorting(sortAttributes, componentId, defaultSorting);
-
   const [isTimesSortDropdownOpen, setIsTimesSortDropdownOpen] = useState<boolean>(false);
+
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: buildConfigEntityAttributes,
+        defaultSorting: {
+          attribute: buildConfigEntityAttributes.name.id,
+          direction: 'asc',
+        },
+        customColumns: defaultColumns,
+      }),
+    []
+  );
+
+  const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
 
   checkColumnsCombinations({
     columns,
@@ -118,13 +96,9 @@ export const BuildConfigsList = ({
         <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
           <TableComposable isStriped variant="compact">
             <Thead>
-              {/**
-               * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
-               * Better solution can be implemented in the future.
-               */}
               <Tr>
                 {columns.includes(buildConfigEntityAttributes.name.id) && (
-                  <Th width={25} sort={getSortParams(sortAttributes.name.id)}>
+                  <Th width={25} sort={getSortParams(sortOptions.sortAttributes.name.id)}>
                     {buildConfigEntityAttributes.name.title}
                   </Th>
                 )}
@@ -132,12 +106,12 @@ export const BuildConfigsList = ({
                   <Th width={15}>{buildConfigEntityAttributes.description.title}</Th>
                 )}
                 {columns.includes(buildConfigEntityAttributes.buildType.id) && (
-                  <Th width={10} sort={getSortParams(sortAttributes.buildType.id)}>
+                  <Th width={10} sort={getSortParams(sortOptions.sortAttributes.buildType.id)}>
                     {buildConfigEntityAttributes.buildType.title}
                   </Th>
                 )}
                 {columns.includes(buildConfigEntityAttributes['project.name'].id) && (
-                  <Th width={15} sort={getSortParams(sortAttributes['project.name'].id)}>
+                  <Th width={15} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
                     {buildConfigEntityAttributes['project.name'].title}
                   </Th>
                 )}
@@ -146,7 +120,7 @@ export const BuildConfigsList = ({
                     <Th width={25} className="overflow-visible">
                       <SortGroup
                         title="Times"
-                        sort={getSortGroupParams(sortAttributes.creationTime.id)}
+                        sort={getSortGroupParams(sortOptions.sortAttributes.creationTime.id)}
                         isDropdownOpen={isTimesSortDropdownOpen}
                         onDropdownToggle={() => setIsTimesSortDropdownOpen(!isTimesSortDropdownOpen)}
                       />
