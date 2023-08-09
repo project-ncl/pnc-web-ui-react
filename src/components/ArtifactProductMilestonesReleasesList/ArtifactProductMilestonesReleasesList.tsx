@@ -6,7 +6,7 @@ import { MilestoneInfo } from 'pnc-api-types-ts';
 
 import { artifactProductMilestoneReleaseEntityAttributes } from 'common/artifactProductMilestoneReleaseEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -51,7 +51,10 @@ export const ArtifactProductMilestonesReleasesList = ({
       <Toolbar>
         <ToolbarItem>
           <Filtering
-            filterOptions={getFilterAttributes(artifactProductMilestoneReleaseEntityAttributes)}
+            filterOptions={useMemo(
+              () => getFilterOptions({ entityAttributes: artifactProductMilestoneReleaseEntityAttributes }),
+              []
+            )}
             componentId={componentId}
           />
         </ToolbarItem>

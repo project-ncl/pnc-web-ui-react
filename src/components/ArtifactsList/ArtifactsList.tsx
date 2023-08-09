@@ -18,7 +18,7 @@ import { Artifact } from 'pnc-api-types-ts';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -119,7 +119,10 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
       <Toolbar borderTop>
         <ToolbarItem>
           <Filtering
-            filterOptions={getFilterAttributes(artifactEntityAttributes, defaultColumns)}
+            filterOptions={useMemo(
+              () => getFilterOptions({ entityAttributes: artifactEntityAttributes, customColumns: columns }),
+              [columns]
+            )}
             componentId={componentId}
             onFilter={(filterAttribute: TFilterAttribute, _) => {
               if (

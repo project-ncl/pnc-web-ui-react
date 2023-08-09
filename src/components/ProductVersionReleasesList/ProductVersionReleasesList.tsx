@@ -1,9 +1,10 @@
 import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 
 import { ProductRelease } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterOptions } from 'common/entityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -41,7 +42,10 @@ export const ProductVersionReleasesList = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(productReleaseEntityAttributes)} componentId={componentId} />
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: productReleaseEntityAttributes }), [])}
+            componentId={componentId}
+          />
         </ToolbarItem>
       </Toolbar>
 

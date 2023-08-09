@@ -1,11 +1,12 @@
 import { Flex, FlexItem, FlexProps } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef, ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterOptions } from 'common/entityAttributes';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -37,7 +38,10 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(productVersionEntityAttributes)} componentId={componentId} />{' '}
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: productVersionEntityAttributes }), [])}
+            componentId={componentId}
+          />{' '}
         </ToolbarItem>
       </Toolbar>
 

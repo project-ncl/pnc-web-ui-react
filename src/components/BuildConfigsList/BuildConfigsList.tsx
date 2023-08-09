@@ -6,7 +6,7 @@ import { BuildConfigurationWithLatestBuild } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -14,7 +14,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IDefaultFiltering } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
@@ -26,10 +26,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
 import { areDatesEqual, checkColumnsCombinations, createDateTime } from 'utils/utils';
-
-const defaultFiltering: IDefaultFiltering = {
-  attribute: buildConfigEntityAttributes.name.id,
-};
 
 interface IBuildConfigsListProps {
   serviceContainerBuildConfigs: IServiceContainer;
@@ -85,9 +81,16 @@ export const BuildConfigsList = ({
       <Toolbar>
         <ToolbarItem>
           <Filtering
-            filterOptions={getFilterAttributes(buildConfigEntityAttributes, defaultColumns)}
+            filterOptions={useMemo(
+              () =>
+                getFilterOptions({
+                  entityAttributes: buildConfigEntityAttributes,
+                  customColumns: columns,
+                  defaultFiltering: { attribute: buildConfigEntityAttributes.name.id },
+                }),
+              [columns]
+            )}
             componentId={componentId}
-            defaultFiltering={defaultFiltering}
           />
         </ToolbarItem>
       </Toolbar>

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { GroupConfiguration } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -44,7 +44,10 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(groupConfigEntityAttributes)} componentId={componentId} />
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: groupConfigEntityAttributes }), [])}
+            componentId={componentId}
+          />
         </ToolbarItem>
       </Toolbar>
 

@@ -1,6 +1,6 @@
 import { IDefaultSorting, ISortAttributes, ISortOptions, TSortAttribute } from 'hooks/useSorting';
 
-import { IFilterAttributes, IFilterOptions, TFilterAttribute } from 'components/Filtering/Filtering';
+import { IDefaultFiltering, IFilterAttributes, IFilterOptions, TFilterAttribute } from 'components/Filtering/Filtering';
 
 import { uiLogger } from 'services/uiLogger';
 
@@ -107,21 +107,49 @@ export type TEntityAttributes<Entity> = {
   [key in keyof Entity]: IEntityAttribute<key>;
 };
 
-export const getFilterAttributes = (
-  entityAttributes: IEntityAttributes,
-  customKeys: IFilterOptions['customKeys'] = null
-): IFilterOptions => {
+export const getFilterOptions = ({
+  entityAttributes,
+  defaultFiltering,
+  customColumns,
+}: {
+  /**
+   * Entity attributes for given entity.
+   */
+  entityAttributes: IEntityAttributes;
+
+  /**
+   * Optional default filtering.
+   */
+  defaultFiltering?: IDefaultFiltering;
+
+  /**
+   * Used when a custom subset of columns is displayed in the list (rather than all of those defined in entity attributes).
+   */
+  customColumns?: string[];
+}): IFilterOptions => {
   const filterAttributes: IFilterAttributes = {};
 
-  (customKeys ? customKeys : Object.keys(entityAttributes)).forEach((entityAttributeKey) => {
+  (customColumns ? customColumns : Object.keys(entityAttributes)).forEach((entityAttributeKey) => {
     if (entityAttributes[entityAttributeKey]?.filter) {
       filterAttributes[entityAttributeKey] = entityAttributes[entityAttributeKey] as TFilterAttribute;
     }
   });
 
+  // Validate default filtering parameters
+  if (defaultFiltering && !Object.keys(filterAttributes).includes(defaultFiltering.attribute)) {
+    uiLogger.error(
+      `Custom default filtering key '${
+        defaultFiltering.attribute
+      }' is not supported, it's probably entityAttribute without 'filter' property: ${JSON.stringify(
+        entityAttributes[defaultFiltering.attribute]
+      )}`
+    );
+  }
+
   return {
     filterAttributes,
-    customKeys,
+    defaultFiltering,
+    customColumns,
   };
 };
 
@@ -144,7 +172,7 @@ export const getSortOptions = ({
   defaultSorting?: IDefaultSorting;
 
   /**
-   * Used when a custom subset of columns is displayed in the list (rather than all of those defined in entity attributes)
+   * Used when a custom subset of columns is displayed in the list (rather than all of those defined in entity attributes).
    */
   customColumns?: string[];
 }): ISortOptions => {

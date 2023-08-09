@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -56,7 +56,10 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
       <Toolbar>
         <ToolbarItem>
           <Filtering
-            filterOptions={getFilterAttributes(productMilestoneDeliverablesAnalysisEntityAttributes)}
+            filterOptions={useMemo(
+              () => getFilterOptions({ entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes }),
+              []
+            )}
             componentId={componentId}
           />
         </ToolbarItem>

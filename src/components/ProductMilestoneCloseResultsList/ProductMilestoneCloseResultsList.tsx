@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -53,7 +53,10 @@ export const ProductMilestoneCloseResultsList = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(productMilestoneCloseResultEntityAttributes)} componentId={componentId} />
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: productMilestoneCloseResultEntityAttributes }), [])}
+            componentId={componentId}
+          />
         </ToolbarItem>
       </Toolbar>
 

@@ -11,13 +11,13 @@ import {
 import { CubesIcon, TimesCircleIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, InnerScrollContainer, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { AxiosRequestConfig } from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterOptions } from 'common/entityAttributes';
 import { productMilestoneComparisonEntityAttributes } from 'common/productMilestoneComparisonEntityAttributes';
 
 import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
@@ -25,7 +25,7 @@ import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { Filtering } from 'components/Filtering/Filtering';
+import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -118,6 +118,12 @@ export const ProductMilestoneComparisonTable = ({
     : !!selectedProductMilestone
     ? 'Selected Milestone was not added.'
     : undefined;
+
+  // useMemo is React Hook. Hooks can not be executed conditionally.
+  const filterOptions: IFilterOptions = useMemo(
+    () => getFilterOptions({ entityAttributes: productMilestoneComparisonEntityAttributes }),
+    []
+  );
 
   const tableHead = (
     <Thead>
@@ -276,10 +282,7 @@ export const ProductMilestoneComparisonTable = ({
       {serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData && (
         <Toolbar borderTop>
           <ToolbarItem>
-            <Filtering
-              filterOptions={getFilterAttributes(productMilestoneComparisonEntityAttributes)}
-              componentId={componentId}
-            />
+            <Filtering filterOptions={filterOptions} componentId={componentId} />
           </ToolbarItem>
         </Toolbar>
       )}

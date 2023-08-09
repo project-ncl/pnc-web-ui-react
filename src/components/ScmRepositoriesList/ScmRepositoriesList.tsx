@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { SCMRepository } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -46,7 +46,10 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(scmRepositoryEntityAttributes)} componentId={componentId} />{' '}
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: scmRepositoryEntityAttributes }), [])}
+            componentId={componentId}
+          />{' '}
         </ToolbarItem>
       </Toolbar>
 

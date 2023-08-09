@@ -5,7 +5,7 @@ import { ArtifactRevision } from 'pnc-api-types-ts';
 
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -49,7 +49,10 @@ export const ArtifactQualityRevisionsList = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(artifactQualityRevisionEntityAttributes)} componentId={componentId} />
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: artifactQualityRevisionEntityAttributes }), [])}
+            componentId={componentId}
+          />
         </ToolbarItem>
       </Toolbar>
 
