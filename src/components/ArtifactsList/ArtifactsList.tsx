@@ -72,9 +72,9 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
           attribute: artifactEntityAttributes.identifier.id,
           direction: 'asc',
         },
-        customColumns: defaultColumns,
+        customColumns: columns,
       }),
-    []
+    [columns]
   );
 
   const { getSortParams } = useSorting(sortOptions, componentId);
