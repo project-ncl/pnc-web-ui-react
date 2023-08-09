@@ -35,23 +35,22 @@ export interface IFilterAttributes {
   [key: string]: TFilterAttribute;
 }
 
-export interface IFilterOptions {
-  filterAttributes: IFilterAttributes;
-  customKeys?: string[] | null;
-}
-
 export interface IDefaultFiltering {
   attribute: string;
+}
+export interface IFilterOptions {
+  filterAttributes: IFilterAttributes;
+  defaultFiltering?: IDefaultFiltering;
+  customColumns?: string[];
 }
 
 interface IFilteringProps {
   filterOptions: IFilterOptions;
   componentId: string;
-  defaultFiltering?: IDefaultFiltering;
   onFilter?: (filterAttribute: TFilterAttribute, filterValue: string) => void;
 }
 
-export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilter }: IFilteringProps) => {
+export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -60,7 +59,9 @@ export const Filtering = ({ filterOptions, componentId, defaultFiltering, onFilt
    */
 
   // custom default filter otherwise first attribute
-  const defaultAttributeKey = defaultFiltering ? defaultFiltering.attribute : Object.keys(filterOptions.filterAttributes)[0];
+  const defaultAttributeKey = filterOptions.defaultFiltering
+    ? filterOptions.defaultFiltering.attribute
+    : Object.keys(filterOptions.filterAttributes)[0];
 
   const [filterAttribute, setFilterAttribute] = useState<TFilterAttribute>(filterOptions.filterAttributes[defaultAttributeKey]);
   const [isFilterAttributeOpen, setIsFilterAttributeOpen] = useState<boolean>(false);

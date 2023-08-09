@@ -7,7 +7,7 @@ import { Build } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -15,7 +15,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { Filtering, IDefaultFiltering } from 'components/Filtering/Filtering';
+import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
@@ -24,10 +24,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
-
-const defaultFiltering: IDefaultFiltering = {
-  attribute: buildEntityAttributes.status.id,
-};
 
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainer;
@@ -62,9 +58,15 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
       <Toolbar>
         <ToolbarItem>
           <Filtering
-            filterOptions={getFilterAttributes(buildEntityAttributes)}
+            filterOptions={useMemo(
+              () =>
+                getFilterOptions({
+                  entityAttributes: buildEntityAttributes,
+                  defaultFiltering: { attribute: buildEntityAttributes.status.id },
+                }),
+              []
+            )}
             componentId={componentId}
-            defaultFiltering={defaultFiltering}
           />
         </ToolbarItem>
       </Toolbar>

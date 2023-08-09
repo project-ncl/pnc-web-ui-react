@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Project } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes, getSortOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -46,7 +46,10 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(projectEntityAttributes)} componentId={componentId} />{' '}
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: projectEntityAttributes }), [])}
+            componentId={componentId}
+          />{' '}
         </ToolbarItem>
       </Toolbar>
 

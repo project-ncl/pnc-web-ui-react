@@ -1,9 +1,10 @@
 import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { useMemo } from 'react';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterAttributes } from 'common/entityAttributes';
+import { getFilterOptions } from 'common/entityAttributes';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -40,7 +41,10 @@ export const ProductVersionMilestonesList = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <Filtering filterOptions={getFilterAttributes(productMilestoneEntityAttributes)} componentId={componentId} />
+          <Filtering
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: productMilestoneEntityAttributes }), [])}
+            componentId={componentId}
+          />
         </ToolbarItem>
       </Toolbar>
 
