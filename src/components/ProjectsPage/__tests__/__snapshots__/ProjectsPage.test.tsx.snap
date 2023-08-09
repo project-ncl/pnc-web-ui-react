@@ -103,9 +103,9 @@ Object {
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-label="Options menu"
-                      aria-labelledby=" pf-select-toggle-id-11"
+                      aria-labelledby=" pf-select-toggle-id-9"
                       class="pf-c-select__toggle"
-                      id="pf-select-toggle-id-11"
+                      id="pf-select-toggle-id-9"
                       type="button"
                     >
                       <div
@@ -854,9 +854,9 @@ Object {
                     aria-expanded="false"
                     aria-haspopup="listbox"
                     aria-label="Options menu"
-                    aria-labelledby=" pf-select-toggle-id-11"
+                    aria-labelledby=" pf-select-toggle-id-9"
                     class="pf-c-select__toggle"
-                    id="pf-select-toggle-id-11"
+                    id="pf-select-toggle-id-9"
                     type="button"
                   >
                     <div
