@@ -144,7 +144,7 @@ export const getSortOptions = ({
   defaultSorting?: IDefaultSorting;
 
   /**
-   * Entity attributes can contain 5 sort attributes, but only 3 of them can be displayed.
+   * Used when a custom subset of columns is displayed in the list (rather than all of those defined in entity attributes)
    */
   customColumns?: string[];
 }): ISortOptions => {
@@ -173,12 +173,12 @@ export const getSortOptions = ({
   });
 
   // Validate default sorting parameters
-  if (defaultSorting && !Object.keys(sortAttributes).includes(defaultSorting?.attribute)) {
+  if (defaultSorting && !Object.keys(sortAttributes).includes(defaultSorting.attribute)) {
     uiLogger.error(
       `Custom default sorting key '${
-        defaultSorting?.attribute
+        defaultSorting.attribute
       }' is not supported, it's probably entityAttribute without 'sort' property: ${JSON.stringify(
-        entityAttributes[defaultSorting?.attribute]
+        entityAttributes[defaultSorting.attribute]
       )}`
     );
   }
