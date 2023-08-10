@@ -25,8 +25,8 @@ export const BuildsPage = ({ componentId = 'b1' }: IBuildsPageProps) => {
       title={PageTitles.builds}
       description={
         <>
-          Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by
-          the Build and all Artifacts (Dependencies) that were used to build it.
+          This page contains all Builds. Build is a unit produced by the Build Config during the build process. It includes all
+          Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
         </>
       }
     >

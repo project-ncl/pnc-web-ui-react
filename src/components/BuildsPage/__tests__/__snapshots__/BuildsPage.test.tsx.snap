@@ -27,7 +27,7 @@ Object {
             data-ouia-safe="true"
             data-pf-content="true"
           >
-            Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
+            This page contains all Builds. Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
           </p>
         </div>
       </section>
@@ -951,7 +951,7 @@ Object {
           data-ouia-safe="true"
           data-pf-content="true"
         >
-          Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
+          This page contains all Builds. Build is a unit produced by the Build Config during the build process. It includes all Artifacts that were produced by the Build and all Artifacts (Dependencies) that were used to build it.
         </p>
       </div>
     </section>
