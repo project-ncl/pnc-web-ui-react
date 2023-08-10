@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
+import { uiLogger } from 'services/uiLogger';
+
 import { isBuild, isGroupBuild } from 'utils/entityRecognition';
 
 export const calculateBuildName = (build: Build | GroupBuild) => {
@@ -51,7 +53,7 @@ interface IConfigAppendix {
 
 const ConfigAppendix = ({ build, includeConfigLink }: IConfigAppendix) => {
   const configName = calculateBuildConfigName(build);
-  const configLink = 'TODO'; // TODO: FORMAT LINKS HERE
+  const configLink = '/TODO'; // TODO: FORMAT LINKS HERE
   return <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : configName}</>;
 };
 
@@ -76,7 +78,16 @@ interface IBuildName {
  */
 export const BuildName = ({ build, long, includeBuildLink, includeConfigLink }: IBuildName) => {
   const name = calculateBuildName(build);
-  const buildLink = `/builds/${build.id}`;
+
+  let buildLink = '';
+  if (isBuild(build)) {
+    buildLink = `/builds/${build.id}`;
+  } else if (isGroupBuild(build)) {
+    buildLink = `/group-builds/${build.id}`;
+  } else {
+    uiLogger.error(`Only Build or Group Build are allowed, entity was not recognized: ${JSON.stringify(build)}`);
+  }
+
   return (
     <span>
       {includeBuildLink ? <Link to={buildLink}>{name}</Link> : name}

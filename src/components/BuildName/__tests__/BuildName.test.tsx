@@ -7,6 +7,9 @@ import { BuildName } from 'components/BuildName/BuildName';
 
 import mockBuildData from './data/mock-build-data.json';
 
+jest.mock('services/keycloakService');
+jest.mock('services/webConfigService');
+
 describe('display BuildName component', () => {
   test('renders all BuildName variants', () => {
     (mockBuildData as (Build | GroupBuild)[]).forEach((build) =>
