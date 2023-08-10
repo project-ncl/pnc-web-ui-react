@@ -1,23 +1,32 @@
-import { Divider, PageSection, PageSectionVariants, Text, TextContent } from '@patternfly/react-core';
-
 import { PageTitles } from 'common/constants';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-export const GroupBuildsPage = () => {
-  useTitle(PageTitles.groupBuilds);
-  return (
-    <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-          <Text component="h1">GroupBuildsPage</Text>
-          <Text component="p">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam quos unde, accusantium excepturi ad praesentium.
-          </Text>
-        </TextContent>
-      </PageSection>
+import { GroupBuildsList } from 'components/GroupBuildsList/GroupBuildsList';
+import { PageLayout } from 'components/PageLayout/PageLayout';
 
-      <Divider component="div" />
-    </>
+import * as groupBuildApi from 'services/groupBuildApi';
+
+export const GroupBuildsPage = ({ componentId = 'g1' }) => {
+  const serviceContainerGroupBuilds = useServiceContainer(groupBuildApi.getGroupBuilds);
+
+  useQueryParamsEffect(serviceContainerGroupBuilds.run, { componentId });
+
+  useTitle(PageTitles.groupBuilds);
+
+  return (
+    <PageLayout
+      title={PageTitles.groupBuilds}
+      description={
+        <>
+          This page contains all Group Builds. Group Build is unit produced by Group Config during the build process. Usually one
+          Group Build may contain multiple Builds.
+        </>
+      }
+    >
+      <GroupBuildsList {...{ serviceContainerGroupBuilds, componentId }} />
+    </PageLayout>
   );
 };
