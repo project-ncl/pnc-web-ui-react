@@ -75,10 +75,6 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
         <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.builds}>
           <TableComposable isStriped variant="compact">
             <Thead>
-              {/**
-               * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
-               * Better solution can be implemented in the future.
-               */}
               <Tr>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
                   {buildEntityAttributes.status.title}
