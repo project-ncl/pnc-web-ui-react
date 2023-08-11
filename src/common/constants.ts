@@ -13,6 +13,7 @@ export const PageTitles = {
   groupConfigs: 'Group Configs',
   builds: 'Builds',
   groupBuilds: 'Group Builds',
+  buildHistory: 'Build History',
   artifacts: 'Artifacts',
   artifactQualityRevisions: 'Quality Revisions',
   scmRepositories: 'SCM Repositories',

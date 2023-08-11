@@ -24,6 +24,7 @@ import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
+import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
@@ -102,7 +103,10 @@ export const AppRoutes = () => (
       <Route path=":projectId" element={<ProjectDetailPage />} />
     </Route>
     <Route path="build-configs" element={<BuildConfigsPage />} />
-    <Route path="group-configs" element={<GroupConfigsPage />} />
+    <Route path="group-configs">
+      <Route index element={<GroupConfigsPage />} />
+      <Route path=":groupConfigId" element={<GroupConfigDetailPage />} />
+    </Route>
     <Route path="builds">
       <Route index element={<BuildsPage />} />
       <Route path=":buildId" element={<BuildPages />}>
