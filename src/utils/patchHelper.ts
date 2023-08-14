@@ -1,7 +1,7 @@
 import { Operation, compare } from 'fast-json-patch';
 import { merge } from 'lodash';
 
-import { IFields } from 'hooks/useForm';
+import { IFieldValues, IFields } from 'hooks/useNewForm';
 
 /**
  * Transforms form state object into object of just form input values.
@@ -9,7 +9,7 @@ import { IFields } from 'hooks/useForm';
  * @param data - form state
  * @returns Object of non-empty form values
  */
-export const transformFormToValues = (data: IFields): { [key: string]: string | boolean | null } => {
+export const transformFormToValues = (data: IFields): IFieldValues => {
   return Object.fromEntries(Object.entries(data).map(([k, v]) => [k, v.value || v.value === false ? v.value : null]));
 };
 
