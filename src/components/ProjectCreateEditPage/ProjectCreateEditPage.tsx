@@ -1,24 +1,10 @@
-import {
-  ActionGroup,
-  Button,
-  Flex,
-  FlexItem,
-  FlexProps,
-  Form,
-  FormGroup,
-  FormHelperText,
-  Label,
-  TextArea,
-  TextInput,
-} from '@patternfly/react-core';
-import { useEffect, useState } from 'react';
+import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, TextInput } from '@patternfly/react-core';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { Project } from 'pnc-api-types-ts';
 
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
-import { IFields, useForm } from 'hooks/useForm';
+import { IFieldValues, useNewForm } from 'hooks/useNewForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -29,34 +15,28 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 import * as projectApi from 'services/projectApi';
 
 import { validateUrl } from 'utils/formValidationHelpers';
-import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
+import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
-
-interface IProjectCreateEditPageProps {
-  isEditPage?: boolean;
-}
 
 const formConfig = {
   name: {
     isRequired: true,
   },
-  description: {},
   projectUrl: {
     validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
   },
   issueTrackerUrl: {
     validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
   },
-  engineeringTeam: {},
-  technicalLeader: {},
 };
 
-export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEditPageProps) => {
-  const flexDirection: FlexProps['direction'] = { default: 'column' };
+interface IProjectCreateEditPageProps {
+  isEditPage?: boolean;
+}
 
-  const [id, setId] = useState<string>('');
+export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEditPageProps) => {
+  const { projectId } = useParams();
   const navigate = useNavigate();
-  const urlPathParams = useParams();
 
   // create page
   const serviceContainerCreatePage = useServiceContainer(projectApi.createProject);
@@ -68,6 +48,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(projectApi.patchProject);
 
+  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useNewForm();
+
   useTitle(
     generatePageTitle({
       pageType: isEditPage ? 'Edit' : 'Create',
@@ -76,71 +58,43 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
     })
   );
 
-  const submitCreate = (data: IFields) => {
+  const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
-        serviceData: {
-          data: {
-            name: data.name.value,
-            description: data.description.value,
-            projectUrl: data.projectUrl.value,
-            issueTrackerUrl: data.issueTrackerUrl.value,
-            engineeringTeam: data.engineeringTeam.value,
-            technicalLeader: data.technicalLeader.value,
-          },
-        },
+        serviceData: { data },
       })
       .then((response: any) => {
-        const projectId = response?.data?.id;
-        if (!projectId) {
-          throw new Error(`Invalid projectId coming from Orch POST response: ${projectId}`);
+        const newProjectId = response?.data?.id;
+        if (!newProjectId) {
+          throw new Error(`Invalid projectId coming from Orch POST response: ${newProjectId}`);
         }
-        navigate(`/projects/${projectId}`);
+        navigate(`/projects/${newProjectId}`);
       })
       .catch((e: any) => {
         throw new Error('Failed to create project.');
       });
   };
 
-  const submitUpdate = (data: IFields) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, transformFormToValues(data));
+  const submitUpdate = (data: IFieldValues) => {
+    const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
 
     serviceContainerEditPagePatch
-      .run({ serviceData: { id, patchData } })
+      .run({ serviceData: { id: projectId, patchData } })
       .then(() => {
-        navigate(`/projects/${id}`);
+        navigate(`/projects/${projectId}`);
       })
       .catch(() => {
         throw new Error('Failed to edit project.');
       });
   };
 
-  const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
-    formConfig,
-    isEditPage ? submitUpdate : submitCreate
-  );
-
   useEffect(() => {
     if (isEditPage) {
-      if (urlPathParams.projectId) {
-        serviceContainerEditPageGetRunner({ serviceData: { id: urlPathParams.projectId } }).then((response: any) => {
-          const project: Project = response.data;
-
-          setId(project.id);
-          reinitialize({
-            name: project.name,
-            description: project.description,
-            projectUrl: project.projectUrl,
-            issueTrackerUrl: project.issueTrackerUrl,
-            engineeringTeam: project.engineeringTeam,
-            technicalLeader: project.technicalLeader,
-          });
-        });
-      } else {
-        throw new Error(`Invalid projectId: ${urlPathParams.projectId}`);
-      }
+      serviceContainerEditPageGetRunner({ serviceData: { id: projectId } }).then((response: any) => {
+        setFieldValues(response.data);
+      });
     }
-  }, [isEditPage, urlPathParams.projectId, serviceContainerEditPageGetRunner, reinitialize]);
+  }, [isEditPage, projectId, serviceContainerEditPageGetRunner, setFieldValues]);
 
   const formComponent = (
     <ContentBox padding isResponsive>
@@ -154,75 +108,61 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
           label={projectEntityAttributes.name.title}
           fieldId={projectEntityAttributes.name.id}
           helperText={
-            <FormHelperText isHidden={fields.name.state !== 'error'} isError>
-              {fields.name.errorMessages?.join(' ')}
+            <FormHelperText isHidden={getFieldState(projectEntityAttributes.name.id) !== 'error'} isError>
+              {getFieldErrors(projectEntityAttributes.name.id)}
             </FormHelperText>
           }
         >
           <TextInput
             isRequired
-            validated={fields.name.state}
             type="text"
             id={projectEntityAttributes.name.id}
             name={projectEntityAttributes.name.id}
-            value={fields.name.value as string}
             autoComplete="off"
-            onChange={(name) => {
-              onChange('name', name);
-            }}
+            {...register<string>(projectEntityAttributes.name.id, formConfig.name)}
           />
         </FormGroup>
         <FormGroup label={projectEntityAttributes.description.title} fieldId={projectEntityAttributes.description.id}>
           <TextArea
             id={projectEntityAttributes.description.id}
             name={projectEntityAttributes.description.id}
-            value={fields.description.value as string}
-            onChange={(description) => {
-              onChange('description', description);
-            }}
             autoResize
+            resizeOrientation="vertical"
+            {...register<string>(projectEntityAttributes.description.id)}
           />
         </FormGroup>
         <FormGroup
           label={projectEntityAttributes.projectUrl.title}
           fieldId={projectEntityAttributes.projectUrl.id}
           helperText={
-            <FormHelperText isHidden={fields.projectUrl.state !== 'error'} isError>
-              {fields.projectUrl.errorMessages?.join(' ')}
+            <FormHelperText isHidden={getFieldState(projectEntityAttributes.projectUrl.id) !== 'error'} isError>
+              {getFieldErrors(projectEntityAttributes.projectUrl.id)}
             </FormHelperText>
           }
         >
           <TextInput
-            validated={fields.projectUrl.state}
             type="url"
             id={projectEntityAttributes.projectUrl.id}
             name={projectEntityAttributes.projectUrl.id}
             autoComplete="off"
-            value={fields.projectUrl.value as string}
-            onChange={(url) => {
-              onChange('projectUrl', url);
-            }}
+            {...register<string>(projectEntityAttributes.projectUrl.id, formConfig.projectUrl)}
           />
         </FormGroup>
         <FormGroup
           label={projectEntityAttributes.issueTrackerUrl.title}
           fieldId={projectEntityAttributes.issueTrackerUrl.id}
           helperText={
-            <FormHelperText isHidden={fields.issueTrackerUrl.state !== 'error'} isError>
-              {fields.issueTrackerUrl.errorMessages?.join(' ')}
+            <FormHelperText isHidden={getFieldState(projectEntityAttributes.issueTrackerUrl.id) !== 'error'} isError>
+              {getFieldErrors(projectEntityAttributes.issueTrackerUrl.id)}
             </FormHelperText>
           }
         >
           <TextInput
-            validated={fields.issueTrackerUrl.state}
             type="url"
             id={projectEntityAttributes.issueTrackerUrl.id}
             name={projectEntityAttributes.issueTrackerUrl.id}
             autoComplete="off"
-            value={fields.issueTrackerUrl.value as string}
-            onChange={(url) => {
-              onChange('issueTrackerUrl', url);
-            }}
+            {...register<string>(projectEntityAttributes.issueTrackerUrl.id, formConfig.issueTrackerUrl)}
           />
         </FormGroup>
         <FormGroup label={projectEntityAttributes.engineeringTeam.title} fieldId={projectEntityAttributes.engineeringTeam.id}>
@@ -231,10 +171,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.engineeringTeam.id}
             name={projectEntityAttributes.engineeringTeam.id}
             autoComplete="off"
-            value={fields.engineeringTeam.value as string}
-            onChange={(engineeringTeam) => {
-              onChange('engineeringTeam', engineeringTeam);
-            }}
+            {...register<string>(projectEntityAttributes.engineeringTeam.id)}
           />
         </FormGroup>
         <FormGroup label={projectEntityAttributes.technicalLeader.title} fieldId={projectEntityAttributes.technicalLeader.id}>
@@ -243,19 +180,14 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.technicalLeader.id}
             name={projectEntityAttributes.technicalLeader.id}
             autoComplete="off"
-            value={fields.technicalLeader.value as string}
-            onChange={(technicalLeader) => {
-              onChange('technicalLeader', technicalLeader);
-            }}
+            {...register<string>(projectEntityAttributes.technicalLeader.id)}
           />
         </FormGroup>
         <ActionGroup>
           <Button
             variant="primary"
             isDisabled={isSubmitDisabled}
-            onClick={() => {
-              onSubmit();
-            }}
+            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
           >
             {isEditPage ? 'Update' : 'Create'} Project
           </Button>
@@ -278,21 +210,17 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
         )
       }
     >
-      <Flex direction={flexDirection}>
-        <FlexItem>
-          {isEditPage ? (
-            <ServiceContainerCreatingUpdating
-              {...serviceContainerEditPagePatch}
-              serviceContainerLoading={serviceContainerEditPageGet}
-              title="Project"
-            >
-              {formComponent}
-            </ServiceContainerCreatingUpdating>
-          ) : (
-            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
-          )}
-        </FlexItem>
-      </Flex>
+      {isEditPage ? (
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerEditPagePatch}
+          serviceContainerLoading={serviceContainerEditPageGet}
+          title="Project"
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
+      ) : (
+        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+      )}
     </PageLayout>
   );
 };
