@@ -27,13 +27,15 @@ import { Username } from 'components/Username/Username';
 
 import { areDatesEqual, checkColumnsCombinations, createDateTime } from 'utils/utils';
 
+type TColumns = Array<keyof typeof buildConfigEntityAttributes>;
+
 interface IBuildConfigsListProps {
   serviceContainerBuildConfigs: IServiceContainer;
-  columns?: Array<keyof typeof buildConfigEntityAttributes>;
+  columns?: TColumns;
   componentId: string;
 }
 
-const defaultColumns = [
+const defaultColumns: TColumns = [
   buildConfigEntityAttributes.name.id,
   buildConfigEntityAttributes.buildType.id,
   buildConfigEntityAttributes['project.name'].id,
@@ -64,9 +66,9 @@ export const BuildConfigsList = ({
           attribute: buildConfigEntityAttributes.name.id,
           direction: 'asc',
         },
-        customColumns: defaultColumns,
+        customColumns: columns,
       }),
-    []
+    [columns]
   );
 
   const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
