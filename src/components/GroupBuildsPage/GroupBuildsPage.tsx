@@ -9,7 +9,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 
 import * as groupBuildApi from 'services/groupBuildApi';
 
-export const GroupBuildsPage = ({ componentId = 'g1' }) => {
+export const GroupBuildsPage = ({ componentId = 'gb1' }) => {
   const serviceContainerGroupBuilds = useServiceContainer(groupBuildApi.getGroupBuilds);
 
   useQueryParamsEffect(serviceContainerGroupBuilds.run, { componentId });
