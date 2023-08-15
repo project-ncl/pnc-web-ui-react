@@ -45,6 +45,7 @@ export interface IFields {
  *  -> onChange         - callback for input fields on change
  *  -> onSubmit         - callback for submit button
  *  -> isSubmitDisabled - is submit button disabled?
+ *  -> hasChanged       - has the form been touched?
  *
  * initFields and fields objects hold whole state of a form.
  * their structure:
@@ -215,5 +216,5 @@ export const useForm = (initFields: Omit<Omit<IFields, 'errorMessages'>, 'state'
     }
   }, [fields, hasChanged]);
 
-  return { fields, reinitialize, onChange, onSubmit, isSubmitDisabled };
+  return { fields, reinitialize, onChange, onSubmit, isSubmitDisabled, hasChanged };
 };
