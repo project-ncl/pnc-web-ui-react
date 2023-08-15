@@ -167,7 +167,13 @@ interface ICheckColumnsCombinations {
  */
 export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumnsCombinations): boolean => {
   return combinations.every((combination) => {
-    if (combination.length >= 2 && combination.some((element) => !columns.includes(element))) {
+    if (
+      combination.length >= 2 &&
+      // if some of the combination items is included
+      combination.some((element) => columns.includes(element)) &&
+      // then all combination items have to be included too
+      combination.some((element) => !columns.includes(element))
+    ) {
       uiLogger.error(`Required combination unsatisfied: ${combination} should be used as a combination.`);
       return false;
     } else {
