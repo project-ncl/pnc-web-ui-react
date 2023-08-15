@@ -137,13 +137,11 @@ export const getFilterOptions = ({
 
   // Validate default filtering parameters
   if (defaultFiltering && !Object.keys(filterAttributes).includes(defaultFiltering.attribute)) {
-    uiLogger.error(
-      `Custom default filtering key '${
-        defaultFiltering.attribute
-      }' is not supported, it's probably entityAttribute without 'filter' property: ${JSON.stringify(
-        entityAttributes[defaultFiltering.attribute]
-      )}`
-    );
+    const reason = customColumns?.includes(defaultFiltering.attribute)
+      ? `it's probably entityAttribute without 'filter' property: ${JSON.stringify(entityAttributes[defaultFiltering.attribute])}`
+      : `it's not part of the customColumns: ${JSON.stringify(customColumns)}`;
+
+    uiLogger.error(`Default filtering key '${defaultFiltering.attribute}' is not supported, ${reason}`);
   }
 
   return {
@@ -202,13 +200,11 @@ export const getSortOptions = ({
 
   // Validate default sorting parameters
   if (defaultSorting && !Object.keys(sortAttributes).includes(defaultSorting.attribute)) {
-    uiLogger.error(
-      `Custom default sorting key '${
-        defaultSorting.attribute
-      }' is not supported, it's probably entityAttribute without 'sort' property: ${JSON.stringify(
-        entityAttributes[defaultSorting.attribute]
-      )}`
-    );
+    const reason = customColumns?.includes(defaultSorting.attribute)
+      ? `it's probably entityAttribute without 'sort' property: ${JSON.stringify(entityAttributes[defaultSorting.attribute])}`
+      : `it's not part of the customColumns: ${JSON.stringify(customColumns)}`;
+
+    uiLogger.error(`Default sorting key '${defaultSorting.attribute}' is not supported, ${reason}`);
   }
 
   return {
