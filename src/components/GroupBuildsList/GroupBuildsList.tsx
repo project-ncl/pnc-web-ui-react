@@ -27,14 +27,33 @@ import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { Username } from 'components/Username/Username';
 
-import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
+import { areDatesEqual, calculateDuration, checkColumnsCombinations, createDateTime } from 'utils/utils';
 
+type TColumns = Array<keyof typeof groupBuildEntityAttributes>;
 interface IGroupBuildsListProps {
   serviceContainerGroupBuilds: IServiceContainer;
+  columns?: TColumns;
   componentId: string;
 }
 
-export const GroupBuildsList = ({ serviceContainerGroupBuilds, componentId }: IGroupBuildsListProps) => {
+const defaultColumns: TColumns = [
+  groupBuildEntityAttributes.status.id,
+  groupBuildEntityAttributes.name.id,
+  groupBuildEntityAttributes.startTime.id,
+  groupBuildEntityAttributes.endTime.id,
+  groupBuildEntityAttributes['user.username'].id,
+];
+
+export const GroupBuildsList = ({
+  serviceContainerGroupBuilds,
+  columns = defaultColumns,
+  componentId,
+}: IGroupBuildsListProps) => {
+  checkColumnsCombinations({
+    columns,
+    combinations: [[groupBuildEntityAttributes.startTime.id, groupBuildEntityAttributes.endTime.id]],
+  });
+
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -43,8 +62,9 @@ export const GroupBuildsList = ({ serviceContainerGroupBuilds, componentId }: IG
           attribute: groupBuildEntityAttributes.startTime.id,
           direction: 'desc',
         },
+        customColumns: columns,
       }),
-    []
+    [columns]
   );
 
   const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
@@ -74,57 +94,78 @@ export const GroupBuildsList = ({ serviceContainerGroupBuilds, componentId }: IG
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
-                  {groupBuildEntityAttributes.status.title}
-                </Th>
-                <Th width={35}>{groupBuildEntityAttributes.name.title}</Th>
-                <Th width={30} className="overflow-visible">
-                  <SortGroup
-                    title="Times"
-                    sort={getSortGroupParams(sortOptions.sortAttributes.startTime.id!)}
-                    isDropdownOpen={isTimesSortDropdownOpen}
-                    onDropdownToggle={() => setIsTimesSortDropdownOpen(!isTimesSortDropdownOpen)}
-                  />
-                </Th>
-                <Th width={15} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
-                  {groupBuildEntityAttributes['user.username'].title}
-                </Th>
+                {columns.includes(groupBuildEntityAttributes.status.id) && (
+                  <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
+                    {groupBuildEntityAttributes.status.title}
+                  </Th>
+                )}
+
+                {columns.includes(groupBuildEntityAttributes.name.id) && (
+                  <Th width={35}>{groupBuildEntityAttributes.name.title}</Th>
+                )}
+
+                {columns.includes(groupBuildEntityAttributes.startTime.id) &&
+                  columns.includes(groupBuildEntityAttributes.endTime.id) && (
+                    <Th width={30} className="overflow-visible">
+                      <SortGroup
+                        title="Times"
+                        sort={getSortGroupParams(sortOptions.sortAttributes.startTime.id!)}
+                        isDropdownOpen={isTimesSortDropdownOpen}
+                        onDropdownToggle={() => setIsTimesSortDropdownOpen(!isTimesSortDropdownOpen)}
+                      />
+                    </Th>
+                  )}
+
+                {columns.includes(groupBuildEntityAttributes['user.username'].id) && (
+                  <Th width={15} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
+                    {groupBuildEntityAttributes['user.username'].title}
+                  </Th>
+                )}
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerGroupBuilds.data?.content.map((groupBuild: GroupBuild, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>
-                    <BuildStatusIcon build={groupBuild} long />
-                  </Td>
-                  <Td>
-                    <BuildName build={groupBuild} includeBuildLink includeConfigLink long />
-                  </Td>
-                  <Td>
-                    <DescriptionList className="gap-0" isHorizontal isCompact>
-                      <DescriptionListGroup>
-                        <DescriptionListTerm>{groupBuildEntityAttributes.startTime.title}</DescriptionListTerm>
-                        <DescriptionListDescription>
-                          {groupBuild.startTime && createDateTime({ date: groupBuild.startTime }).custom}
-                        </DescriptionListDescription>
-                      </DescriptionListGroup>
-                      <DescriptionListGroup>
-                        <DescriptionListTerm>{groupBuildEntityAttributes.endTime.title}</DescriptionListTerm>
-                        <DescriptionListDescription>
-                          {groupBuild.endTime &&
-                            createDateTime({
-                              date: groupBuild.endTime,
-                              includeDateInCustom:
-                                !groupBuild.startTime || !areDatesEqual(groupBuild.startTime, groupBuild.endTime),
-                            }).custom}
-                          {groupBuild.startTime &&
-                            groupBuild.endTime &&
-                            ` (took ${calculateDuration(groupBuild.startTime, groupBuild.endTime)})`}
-                        </DescriptionListDescription>
-                      </DescriptionListGroup>
-                    </DescriptionList>
-                  </Td>
-                  <Td>{groupBuild.user?.username && <Username text={groupBuild.user.username} />}</Td>
+                  {columns.includes(groupBuildEntityAttributes.status.id) && (
+                    <Td>
+                      <BuildStatusIcon build={groupBuild} long />
+                    </Td>
+                  )}
+                  {columns.includes(groupBuildEntityAttributes.name.id) && (
+                    <Td>
+                      <BuildName build={groupBuild} includeBuildLink includeConfigLink long />
+                    </Td>
+                  )}
+                  {columns.includes(groupBuildEntityAttributes.startTime.id) &&
+                    columns.includes(groupBuildEntityAttributes.endTime.id) && (
+                      <Td>
+                        <DescriptionList className="gap-0" isHorizontal isCompact>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{groupBuildEntityAttributes.startTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {groupBuild.startTime && createDateTime({ date: groupBuild.startTime }).custom}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{groupBuildEntityAttributes.endTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {groupBuild.endTime &&
+                                createDateTime({
+                                  date: groupBuild.endTime,
+                                  includeDateInCustom:
+                                    !groupBuild.startTime || !areDatesEqual(groupBuild.startTime, groupBuild.endTime),
+                                }).custom}
+                              {groupBuild.startTime &&
+                                groupBuild.endTime &&
+                                ` (took ${calculateDuration(groupBuild.startTime, groupBuild.endTime)})`}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                        </DescriptionList>
+                      </Td>
+                    )}
+                  {columns.includes(groupBuildEntityAttributes['user.username'].id) && (
+                    <Td>{groupBuild.user?.username && <Username text={groupBuild.user.username} />}</Td>
+                  )}
                 </Tr>
               ))}
             </Tbody>
