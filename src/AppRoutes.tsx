@@ -31,6 +31,7 @@ import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestone
 import { ProductMilestoneCloseResultDetailPage } from 'components/ProductMilestoneCloseResultDetailPage/ProductMilestoneCloseResultDetailPage';
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
+import { ProductMilestoneDeliverablesAnalysisDetailPage } from 'components/ProductMilestoneDeliverablesAnalysisDetailPage/ProductMilestoneDeliverablesAnalysisDetailPage';
 import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
@@ -98,6 +99,11 @@ export const AppRoutes = () => (
           </Route>
           <Route path="milestones/:productMilestoneId">
             <Route path="close-results/:closeResultId" index element={<ProductMilestoneCloseResultDetailPage />} />
+            <Route
+              path="deliverables-analysis/:deliverablesAnalysisId"
+              index
+              element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
+            />
           </Route>
         </Route>
       </Route>
