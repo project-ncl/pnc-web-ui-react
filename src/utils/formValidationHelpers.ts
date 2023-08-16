@@ -1,9 +1,16 @@
 // all validation functions should return boolean and accept empty string as valid
 
+const whitespacesRegex = /\s*/;
+
 // url regex taken from:
 // https://uibakery.io/regex-library/url
-// eslint-disable-next-line
-const urlRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+const rootUrlRegex =
+  // eslint-disable-next-line
+  /https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)/;
+const urlRegex = new RegExp(`^${rootUrlRegex.source}$`);
+
+const rootUrlsRegex = new RegExp(`(${whitespacesRegex.source}${rootUrlRegex.source}${whitespacesRegex.source})+`);
+const urlsRegex = new RegExp(`^${rootUrlsRegex.source}$`);
 
 // eslint-disable-next-line
 const scmUrlRegex =
@@ -31,6 +38,18 @@ export const validateUrl = (url: string): boolean => {
  */
 export const validateScmUrl = (url: string): boolean => {
   return !url || scmUrlRegex.test(url);
+};
+
+/**
+ * String of URLs validation function.
+ *
+ * Checks validity of format of string of URLs (separated by whitespace). Accepts empty string.
+ *
+ * @param urls - string of URLs
+ * @returns true if valid, false otherwise
+ */
+export const validateUrls = (urls: string): boolean => {
+  return !urls || urlsRegex.test(urls);
 };
 
 /**

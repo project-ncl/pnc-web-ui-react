@@ -1,4 +1,3 @@
-import { Button } from '@patternfly/react-core';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
@@ -10,11 +9,12 @@ import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContaine
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
+import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
 import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
 import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
 import { TabsItem } from 'components/Tabs/TabsItem';
@@ -43,10 +43,14 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const [isMarkModalOpen, setIsMarkModalOpen] = useState<boolean>(false);
   const [isCloseModalOpen, setIsCloseModalOpen] = useState<boolean>(false);
+  const [isAnalyzeDeliverablesModalOpen, setIsAnalyzeDeliverablesModalOpen] = useState<boolean>(false);
 
   const toggleMarkModal = () => setIsMarkModalOpen((isMarkModalOpen) => !isMarkModalOpen);
 
   const toggleCloseModal = () => setIsCloseModalOpen((isCloseModalOpen) => !isCloseModalOpen);
+
+  const toggleAnalyzeDeliverablesModal = () =>
+    setIsAnalyzeDeliverablesModalOpen((isAnalyzeDeliverablesModalOpen) => !isAnalyzeDeliverablesModalOpen);
 
   useEffect(() => {
     serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response: any) => {
@@ -98,11 +102,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       variant="detail"
     />,
     <ProductMilestoneCloseModalButton toggleModal={toggleCloseModal} variant="detail" />,
-    <ProtectedComponent>
-      <Button variant="tertiary" isSmall>
-        Analyze Deliverables
-      </Button>
-    </ProtectedComponent>,
+    <ProductMilestoneAnalyzeDeliverablesModalButton toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
   ];
 
   return (
@@ -123,6 +123,13 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         <ProductMilestoneCloseModal
           isModalOpen={isCloseModalOpen}
           toggleModal={toggleCloseModal}
+          productMilestone={serviceContainerProductMilestone.data}
+        />
+      )}
+      {isAnalyzeDeliverablesModalOpen && (
+        <ProductMilestoneAnalyzeDeliverablesModal
+          isModalOpen={isAnalyzeDeliverablesModalOpen}
+          toggleModal={toggleAnalyzeDeliverablesModal}
           productMilestone={serviceContainerProductMilestone.data}
         />
       )}
