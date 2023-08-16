@@ -15,6 +15,7 @@ const progressStatusValues: DeliverableAnalyzerOperation['progressStatus'][] = [
 
 interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOperation {
   'user.username': any;
+  deliverablesUrls: any;
 }
 
 export const productMilestoneDeliverablesAnalysisEntityAttributes = {
@@ -62,5 +63,9 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
   parameters: {
     id: 'parameters',
     title: 'Parameters',
+  },
+  deliverablesUrls: {
+    id: 'deliverablesUrls',
+    title: 'Deliverables URLs',
   },
 } as const satisfies TEntityAttributes<IExtendedDeliverableAnalyzerOperation>;

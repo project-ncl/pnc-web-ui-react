@@ -12,6 +12,8 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
+import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
+import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
 import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
@@ -117,7 +119,13 @@ export const ProductVersionMilestonesList = ({
                           ),
                         },
                         {
-                          title: 'Analyze Deliverables',
+                          style: actionItemStyle,
+                          title: (
+                            <ProductMilestoneAnalyzeDeliverablesModalButton
+                              toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'analyze-deliverables')}
+                              variant="list"
+                            />
+                          ),
                         },
                       ]}
                     />
@@ -136,6 +144,15 @@ export const ProductVersionMilestonesList = ({
                       <ProductMilestoneCloseModal
                         isModalOpen={currentModalProductMilestoneId === productMilestone.id && currentModalType === 'close'}
                         toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'close')}
+                        productMilestone={productMilestone}
+                      />
+                    )}
+                    {currentModalProductMilestoneId === productMilestone.id && currentModalType === 'analyze-deliverables' && (
+                      <ProductMilestoneAnalyzeDeliverablesModal
+                        isModalOpen={
+                          currentModalProductMilestoneId === productMilestone.id && currentModalType === 'analyze-deliverables'
+                        }
+                        toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'analyze-deliverables')}
                         productMilestone={productMilestone}
                       />
                     )}

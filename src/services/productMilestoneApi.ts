@@ -129,3 +129,18 @@ export const getProductMilestoneComparison = (
 export const closeProductMilestone = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().post<ProductMilestoneCloseResult>(`/product-milestones/${id}/close`, undefined, requestConfig);
 };
+
+/**
+ * Analyzes Deliverables.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
+ *  - data - list of Deliverables Analysis URLs
+ * @param requestConfig - Axios based request config
+ */
+export const analyzeDeliverables = (
+  { id, data }: { id: string; data: { deliverablesUrls: string[] } },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<any>(`/product-milestones/${id}/analyze-deliverables`, data, requestConfig);
+};
