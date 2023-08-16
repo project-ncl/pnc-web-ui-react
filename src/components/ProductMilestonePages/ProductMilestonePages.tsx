@@ -10,6 +10,8 @@ import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContaine
 import { useTitle } from 'hooks/useTitle';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
+import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
 import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -40,8 +42,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   const [isMarkModalOpen, setIsMarkModalOpen] = useState<boolean>(false);
+  const [isCloseModalOpen, setIsCloseModalOpen] = useState<boolean>(false);
 
   const toggleMarkModal = () => setIsMarkModalOpen((isMarkModalOpen) => !isMarkModalOpen);
+
+  const toggleCloseModal = () => setIsCloseModalOpen((isCloseModalOpen) => !isCloseModalOpen);
 
   useEffect(() => {
     serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response: any) => {
@@ -92,12 +97,8 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       serviceContainerProductVersion={serviceContainerProductVersion}
       variant="detail"
     />,
-    <ProtectedComponent disable>
-      <Button variant="tertiary" isSmall>
-        Close
-      </Button>
-    </ProtectedComponent>,
-    <ProtectedComponent disable>
+    <ProductMilestoneCloseModalButton toggleModal={toggleCloseModal} variant="detail" />,
+    <ProtectedComponent>
       <Button variant="tertiary" isSmall>
         Analyze Deliverables
       </Button>
@@ -106,7 +107,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   return (
     <ServiceContainerLoading {...serviceContainerProductMilestone} title="Product Milestone details">
-      <PageLayout title={`Product Milestone ${serviceContainerProductMilestone.data?.version}`} actions={actions} tabs={pageTabs}>
+      <PageLayout title={`Product Milestone ${serviceContainerProductMilestone.data?.version}`} tabs={pageTabs} actions={actions}>
         <Outlet context={{ serviceContainerProductMilestone }} />
       </PageLayout>
       {isMarkModalOpen && (
@@ -116,6 +117,13 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           productMilestone={serviceContainerProductMilestone.data}
           productVersion={serviceContainerProductVersion.data}
           variant="detail"
+        />
+      )}
+      {isCloseModalOpen && (
+        <ProductMilestoneCloseModal
+          isModalOpen={isCloseModalOpen}
+          toggleModal={toggleCloseModal}
+          productMilestone={serviceContainerProductMilestone.data}
         />
       )}
     </ServiceContainerLoading>

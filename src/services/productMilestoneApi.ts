@@ -5,6 +5,7 @@ import {
   BuildPage,
   DeliverableAnalyzerOperationPage,
   ProductMilestone,
+  ProductMilestoneCloseResult,
   ProductMilestoneCloseResultPage,
 } from 'pnc-api-types-ts';
 
@@ -116,4 +117,15 @@ export const getProductMilestoneComparison = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncApiMocksClient.getHttpClient().post<any>(`/product-milestone-comparison`, data, requestConfig);
+};
+
+/**
+ * Closes a Product Milestone.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
+ * @param requestConfig - Axios based request config
+ */
+export const closeProductMilestone = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<ProductMilestoneCloseResult>(`/product-milestones/${id}/close`, undefined, requestConfig);
 };
