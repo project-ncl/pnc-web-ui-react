@@ -29,7 +29,7 @@ export const ArtifactEditQualityModalButton = ({ artifact, variant }: IArtifactE
 
   return (
     <>
-      <ProtectedComponent>
+      <ProtectedComponent disable>
         <Button variant={variant === 'list' ? 'secondary' : 'tertiary'} onClick={toggleModal} isSmall>
           Edit Quality
         </Button>
