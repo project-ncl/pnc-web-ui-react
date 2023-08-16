@@ -81,7 +81,8 @@ export const ProductMilestoneCloseResultsList = ({
               {serviceContainerCloseResults.data?.content.map((closeResult: ProductMilestoneCloseResult, rowIndex: number) => (
                 <Tr key={rowIndex}>
                   <Td>
-                    <Link to="">{closeResult.id}</Link>
+                    {/* TODO: Make link absolute once Product data are available */}
+                    <Link to={closeResult.id}>{closeResult.id}</Link>
                   </Td>
                   <Td>{createDateTime({ date: closeResult.startingDate }).custom}</Td>
                   <Td>{closeResult.endDate && createDateTime({ date: closeResult.endDate }).custom}</Td>
