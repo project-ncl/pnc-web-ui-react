@@ -12,6 +12,8 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
+import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
+import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
 import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
@@ -29,6 +31,8 @@ interface IProductVersionMilestonesListProps {
   componentId: string;
 }
 
+type TModalType = 'mark-as-current' | 'close' | 'analyze-deliverables';
+
 /**
  * Component displaying list of Product Milestones.
  *
@@ -42,11 +46,14 @@ export const ProductVersionMilestonesList = ({
   const { serviceContainerProductVersion } = useServiceContainerProductVersion();
 
   const [currentModalProductMilestoneId, setCurrentModalProductMilestoneId] = useState<string>();
+  const [currentModalType, setCurrentModalType] = useState<TModalType>();
 
-  const toggleCurrentModalProductMilestoneId = (productMilestoneId: string) => () =>
+  const toggleCurrentModalProductMilestoneId = (productMilestoneId: string, modalType: TModalType) => () => {
     setCurrentModalProductMilestoneId((currentModalProductMilestoneId) =>
       currentModalProductMilestoneId ? undefined : productMilestoneId
     );
+    setCurrentModalType(currentModalProductMilestoneId ? undefined : modalType);
+  };
 
   return (
     <>
@@ -93,7 +100,7 @@ export const ProductVersionMilestonesList = ({
                           style: actionItemStyle,
                           title: (
                             <ProductMilestoneMarkModalButton
-                              toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id)}
+                              toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'mark-as-current')}
                               productMilestone={productMilestone}
                               serviceContainerProductVersion={serviceContainerProductVersion}
                               variant="list"
@@ -101,20 +108,35 @@ export const ProductVersionMilestonesList = ({
                           ),
                         },
                         {
-                          title: 'Close',
+                          style: actionItemStyle,
+                          title: (
+                            <ProductMilestoneCloseModalButton
+                              toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'close')}
+                              variant="list"
+                            />
+                          ),
                         },
                         {
                           title: 'Analyze Deliverables',
                         },
                       ]}
                     />
-                    {currentModalProductMilestoneId === productMilestone.id && (
+                    {currentModalProductMilestoneId === productMilestone.id && currentModalType === 'mark-as-current' && (
                       <ProductMilestoneMarkModal
-                        isModalOpen={currentModalProductMilestoneId === productMilestone.id}
-                        toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id)}
+                        isModalOpen={
+                          currentModalProductMilestoneId === productMilestone.id && currentModalType === 'mark-as-current'
+                        }
+                        toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'mark-as-current')}
                         productMilestone={productMilestone}
                         productVersion={serviceContainerProductVersion.data}
                         variant="list"
+                      />
+                    )}
+                    {currentModalProductMilestoneId === productMilestone.id && currentModalType === 'close' && (
+                      <ProductMilestoneCloseModal
+                        isModalOpen={currentModalProductMilestoneId === productMilestone.id && currentModalType === 'close'}
+                        toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'close')}
+                        productMilestone={productMilestone}
                       />
                     )}
                   </Td>
