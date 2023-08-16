@@ -86,7 +86,8 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                 (operation: DeliverableAnalyzerOperation, rowIndex: number) => (
                   <Tr key={rowIndex}>
                     <Td>
-                      <Link to="">{operation.id}</Link>
+                      {/* TODO: Make link absolute once Product data are available */}
+                      <Link to={operation.id}>{operation.id}</Link>
                     </Td>
                     <Td>
                       {operation.progressStatus && (

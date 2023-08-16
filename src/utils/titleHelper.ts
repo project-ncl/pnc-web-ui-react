@@ -12,6 +12,7 @@ type EntityType =
   | 'Version'
   | 'Milestone'
   | 'Close Result'
+  | 'Deliverables Analysis'
   | 'Artifact'
   | 'SCM Repository'
   | '';
