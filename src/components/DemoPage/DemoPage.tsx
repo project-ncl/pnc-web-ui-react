@@ -20,7 +20,7 @@ import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'reac
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { useDataBuffer } from 'hooks/useDataBuffer';
-import { IFields, useForm } from 'hooks/useForm';
+import { IFieldValues, useNewForm } from 'hooks/useNewForm';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -34,6 +34,7 @@ import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
+import { FormInput } from 'components/FormInput/FormInput';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
@@ -54,7 +55,6 @@ const buildRes: Build[] = mockBuildData;
 
 const formConfig = {
   inputFieldA: {
-    value: '',
     isRequired: true,
     validators: [
       { validator: minLength(2), errorMessage: 'Text must be at least two characters long.' },
@@ -64,11 +64,7 @@ const formConfig = {
       },
     ],
   },
-  textAreaA: {
-    value: '',
-  },
   selectA: {
-    value: '',
     isRequired: true,
   },
 };
@@ -224,116 +220,17 @@ export const DemoPage = () => {
     addLines(initLogData.splice(0, logLinesToRemove));
   }, [logLinesToRemove, addLines]);
 
-  const submitForm = (data: IFields) => {
+  const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useNewForm();
+
+  const submitForm = (data: IFieldValues) => {
     console.log('form state when submitted:', {
       ...data,
     });
   };
 
-  const { fields, onChange, onSubmit, isSubmitDisabled } = useForm(formConfig, submitForm);
+  const selectOptions = [{ value: 'Build' }, { value: 'Option' }, { value: 'Project' }, { value: 'Version' }];
 
-  const defaultSelectOptions = [{ value: 'Build' }, { value: 'Option' }, { value: 'Project' }, { value: 'Version' }];
-
-  const [selectOptions, setSelectOptions] = useState<any>(defaultSelectOptions);
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
-
-  const clearSelection = () => {
-    onChange('selectA', null);
-    setIsSelectOpen(false);
-    setSelectOptions(defaultSelectOptions);
-  };
-
-  const formComponent = (
-    <ContentBox padding isResponsive>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <FormGroup
-          isRequired
-          label="Input Field"
-          fieldId="inputFieldA"
-          helperText={
-            <FormHelperText isHidden={fields.inputFieldA.state !== 'error'} isError>
-              {fields.inputFieldA.errorMessages?.join(' ')}
-            </FormHelperText>
-          }
-        >
-          <TextInput
-            isRequired
-            validated={fields.inputFieldA.state}
-            type="text"
-            id="inputFieldA"
-            name="inputFieldA"
-            value={fields.inputFieldA.value as string}
-            autoComplete="off"
-            onChange={(text) => {
-              onChange('inputFieldA', text);
-            }}
-          />
-        </FormGroup>
-        <FormGroup label="Text Area" fieldId="textAreaA">
-          <TextArea
-            id="textAreaA"
-            name="textAreaA"
-            value={fields.textAreaA.value as string}
-            onChange={(text) => {
-              onChange('textAreaA', text);
-            }}
-            autoResize
-          />
-        </FormGroup>
-        <FormGroup
-          isRequired
-          label="Filtered Select"
-          fieldId="selectA"
-          helperText={
-            <FormHelperText isHidden={fields.selectA.state !== 'error'} isError>
-              {fields.selectA.errorMessages?.join(' ')}
-            </FormHelperText>
-          }
-        >
-          <Select
-            validated={fields.selectA.state}
-            id="selectA"
-            variant={SelectVariant.typeahead}
-            typeAheadAriaLabel="Select an option"
-            onToggle={(isOpen) => {
-              setIsSelectOpen(isOpen);
-            }}
-            onSelect={(event, selection, isPlaceholder) => {
-              if (isPlaceholder) clearSelection();
-              else {
-                onChange('selectA', selection);
-                setIsSelectOpen(false);
-              }
-            }}
-            onClear={clearSelection}
-            selections={fields.selectA.value}
-            isOpen={isSelectOpen}
-            aria-labelledby={'selectA'}
-            placeholderText="Select an option"
-          >
-            {selectOptions.map((option: any, index: any) => (
-              <SelectOption key={index} value={option.value} />
-            ))}
-          </Select>
-        </FormGroup>
-        <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled}
-            onClick={() => {
-              onSubmit();
-            }}
-          >
-            Submit
-          </Button>
-        </ActionGroup>
-      </Form>
-    </ContentBox>
-  );
 
   return (
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
@@ -378,8 +275,80 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="Form Demo" padding>
-            {formComponent}
+          <ContentBox title="Form Demo" padding isResponsive>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <FormGroup
+                isRequired
+                label="Input Field"
+                fieldId="inputFieldA"
+                helperText={
+                  <FormHelperText isHidden={getFieldState('inputFieldA') !== 'error'} isError>
+                    {getFieldErrors('inputFieldA')}
+                  </FormHelperText>
+                }
+              >
+                <TextInput
+                  isRequired
+                  type="text"
+                  id="inputFieldA"
+                  name="inputFieldA"
+                  autoComplete="off"
+                  {...register<string>('inputFieldA', formConfig.inputFieldA)}
+                />
+              </FormGroup>
+              <FormGroup label="Text Area" fieldId="textAreaA">
+                <TextArea id="textAreaA" name="textAreaA" autoResize {...register<string>('textAreaA')} />
+              </FormGroup>
+              <FormGroup
+                isRequired
+                label="Filtered Select"
+                fieldId="selectA"
+                helperText={
+                  <FormHelperText isHidden={getFieldState('selectA') !== 'error'} isError>
+                    {getFieldErrors('selectA')}
+                  </FormHelperText>
+                }
+              >
+                <FormInput<string>
+                  {...register<string>('selectA', formConfig.selectA)}
+                  render={({ value, onChange, validated }) => (
+                    <Select
+                      id="selectA"
+                      variant={SelectVariant.typeahead}
+                      placeholderText="Select an option"
+                      typeAheadAriaLabel="Select an option"
+                      isOpen={isSelectOpen}
+                      selections={value}
+                      validated={validated}
+                      onToggle={(isOpen) => {
+                        setIsSelectOpen(isOpen);
+                      }}
+                      onSelect={(_, selection) => {
+                        onChange(selection as string);
+                        setIsSelectOpen(false);
+                      }}
+                      onClear={() => {
+                        onChange('');
+                        setIsSelectOpen(false);
+                      }}
+                    >
+                      {selectOptions.map((option: any, index: any) => (
+                        <SelectOption key={index} value={option.value} />
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormGroup>
+              <ActionGroup>
+                <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(submitForm)}>
+                  Submit
+                </Button>
+              </ActionGroup>
+            </Form>
           </ContentBox>
         </FlexItem>
 
