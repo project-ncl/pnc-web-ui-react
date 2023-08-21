@@ -1,5 +1,26 @@
-import { ContentBox } from 'components/ContentBox/ContentBox';
+import { useParams } from 'react-router-dom';
 
-export const ProductVersionBuildConfigsPage = () => {
-  return <ContentBox padding></ContentBox>;
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { useServiceContainer } from 'hooks/useServiceContainer';
+
+import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
+
+import * as productVersionApi from 'services/productVersionApi';
+
+interface IProductVersionBuildConfigsPageProps {
+  componentId?: string;
+}
+
+export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductVersionBuildConfigsPageProps) => {
+  const { productVersionId } = useParams();
+
+  const serviceContainerBuildConfigs = useServiceContainer(productVersionApi.getBuildConfigs);
+  const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
+
+  useQueryParamsEffect(
+    ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    { componentId }
+  );
+
+  return <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />;
 };
