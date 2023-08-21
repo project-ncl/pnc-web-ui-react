@@ -173,7 +173,7 @@ export const ProductVersionDetailPage = () => {
           >
             <CardValue>
               <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Artifacts built in this Version">
-                {serviceContainerStatistics.data?.artifactsSource.thisVersion}
+                {serviceContainerStatistics.data?.artifactsInVersion}
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>Artifacts built in this Version</CardTitle>
@@ -235,7 +235,7 @@ export const ProductVersionDetailPage = () => {
                 variant="icon"
                 title="Delivered Artifacts built in other Versions"
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.previousVersions}
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.otherVersions}
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>Delivered Artifacts built in other Versions</CardTitle>
