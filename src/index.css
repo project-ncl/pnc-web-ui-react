@@ -108,23 +108,23 @@ code {
 }
 
 .p-t-global {
-  padding-top: var(--pf-global--spacer--lg);
+  padding-top: var(--global-spacer);
 }
 
 .p-b-global {
-  padding-bottom: var(--pf-global--spacer--lg);
+  padding-bottom: var(--global-spacer);
 }
 
 .p-l-global {
-  padding-left: var(--pf-global--spacer--lg);
+  padding-left: var(--global-spacer);
 }
 
 .p-r-global {
-  padding-right: var(--pf-global--spacer--lg);
+  padding-right: var(--global-spacer);
 }
 
 .p-global {
-  padding: var(--pf-global--spacer--lg);
+  padding: var(--global-spacer);
 }
 
 /* ====================
@@ -144,6 +144,9 @@ code {
   --c-info-text: black;
   --c-info-close-icon: black;
   --c-info-close-icon-hover: var(--pf-global--palette--black-700);
+
+  --global-gutter: var(--pf-global--gutter); /* outside spacing, typically between boxes */
+  --global-spacer: var(--pf-global--spacer--lg); /* inside spacing, typically inside boxes */
 }
 
 /* ====================
