@@ -38,9 +38,11 @@ export const getDeliveredArtifacts = ({ id }: IProductMilestoneApiData, requestC
   return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/${id}/delivered-artifacts`, requestConfig);
 };
 
-/*
+/**
  * Gets Product Milestone Deliverables Analysis.
  *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
 export const getDeliverablesAnalysis = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
@@ -52,6 +54,8 @@ export const getDeliverablesAnalysis = ({ id }: IProductMilestoneApiData, reques
 /**
  * Gets Product Milestone Close Results.
  *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
 export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
@@ -72,6 +76,8 @@ export const getBuilds = ({ id }: IProductMilestoneApiData, requestConfig: Axios
 /**
  * Gets Product Milestone statistics.
  *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
 export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
@@ -81,6 +87,8 @@ export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: A
 /**
  * Gets Product Milestone interconnection graph.
  *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
 export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
