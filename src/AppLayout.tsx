@@ -23,6 +23,8 @@ import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon 
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useResizeObserver } from 'hooks/useResizeObserver';
+
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TopBarError } from 'components/TopBar/TopBarError';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
@@ -41,6 +43,8 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
   const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
 
   const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+
+  const { ref: topBarsRef, height: topBarsHeight } = useResizeObserver();
 
   useEffect(() => {
     genericSettingsApi
@@ -257,15 +261,19 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
 
   return (
     <>
-      {announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}
-      {!keycloakService.isKeycloakAvailable && (
-        <TopBarError>
-          RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
-        </TopBarError>
-      )}
-      <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
-        {children}
-      </Page>
+      <div ref={topBarsRef}>
+        {announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}
+        {!keycloakService.isKeycloakAvailable && (
+          <TopBarError>
+            RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
+          </TopBarError>
+        )}
+      </div>
+      <div style={{ height: `calc(100% - ${topBarsHeight}px)` }}>
+        <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
+          {children}
+        </Page>
+      </div>
     </>
   );
 };
