@@ -56,14 +56,14 @@ export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISo
           <OptionsMenuItem
             id="ascending"
             isSelected={isSortGroupActive && sort.activeSortDirection === 'asc'}
-            onSelect={() => sort.sort({ sortAttribute: sortGroupAttributes[0].id, sortDirection: 'asc' })}
+            onSelect={() => sort.sort({ sortAttribute: sort.activeSortAttribute, sortDirection: 'asc' })}
           >
             Ascending
           </OptionsMenuItem>
           <OptionsMenuItem
             id="descending"
             isSelected={isSortGroupActive && sort.activeSortDirection === 'desc'}
-            onSelect={() => sort.sort({ sortAttribute: sortGroupAttributes[0].id, sortDirection: 'desc' })}
+            onSelect={() => sort.sort({ sortAttribute: sort.activeSortAttribute, sortDirection: 'desc' })}
           >
             Descending
           </OptionsMenuItem>
