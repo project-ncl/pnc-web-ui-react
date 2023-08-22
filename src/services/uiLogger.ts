@@ -70,16 +70,24 @@ const createData = (message?: string, error?: Error, additionalData?: Object): I
   };
 };
 
-const log = (message: string, error?: Error, additionalData?: Object) => {
+const log = (message: string, error?: Error, additionalData?: Object, logToConsole: boolean = true) => {
+  if (logToConsole) {
+    console.log(message || error?.message);
+  }
+
+  if (window.location.hostname === 'localhost') return;
+
   const uiLogData = createData(message, error, additionalData);
   uiLoggerApi.createUILog(uiLogData).catch((error: Error) => {
     console.error(`UI Logger: log could not be created: ${error.message}`);
   });
 };
 
-const error = (message?: string, error?: Error, additionalData?: Object) => {
-  console.error(message || error?.message);
-  log(message || '', error, additionalData);
+const error = (message?: string, error?: Error, additionalData?: Object, logToConsole: boolean = true) => {
+  if (logToConsole) {
+    console.error(message || error?.message);
+  }
+  log(message || '', error, additionalData, false);
 };
 
 export const uiLogger = { log, error };
