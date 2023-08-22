@@ -1,7 +1,10 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import ResizeObserver from 'resize-observer-polyfill';
 
 import { AppLayout } from '../AppLayout';
+
+global.ResizeObserver = ResizeObserver;
 
 jest.mock('services/keycloakService');
 jest.mock('services/genericSettingsApi');
