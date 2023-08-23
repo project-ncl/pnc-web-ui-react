@@ -165,7 +165,7 @@ export const AdministrationPage = () => {
         </FlexItem>
         <FlexItem>
           <ContentBox isResponsive>
-            <ServiceContainerLoading {...serviceContainerBuildCount} loadingStateDelay={0} title="Builds count">
+            <ServiceContainerLoading {...serviceContainerBuildCount} title="Builds count">
               <div className="p-global">
                 <Attributes>
                   <AttributesItem title="Running builds count">{serviceContainerBuildCount.data?.running}</AttributesItem>

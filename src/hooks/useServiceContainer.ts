@@ -6,6 +6,7 @@ export interface IServiceContainer {
   data: any;
   loading: boolean;
   error: string;
+  loadingStateDelay: number;
   run: ServiceContainerRunnerFunction;
 }
 
@@ -141,6 +142,7 @@ export const useServiceContainer = (service: Function, loadingStateDelay: number
 
     loading: loading,
     error: error,
+    loadingStateDelay,
     run: useCallback(serviceContainerRunner, [service, loadingStateDelay]),
   };
 };
