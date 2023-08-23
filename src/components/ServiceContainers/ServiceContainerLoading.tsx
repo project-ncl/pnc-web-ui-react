@@ -15,7 +15,7 @@ export interface IServiceContainerProps {
 
 interface IServiceContainerLoadingProps extends IServiceContainerProps {
   title: string;
-  loadingDelayMilliseconds?: number;
+  loadingStateDelay?: number;
   hasSkeleton?: boolean;
   variant?: 'block' | 'inline' | 'icon';
   notYetContent?: ReactNode;
@@ -38,7 +38,7 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
  * @param data - Real data to be displayed when its fully loaded
  * @param loading - True if a request is pending, false when a request is successfully finished or when a request resulted in error
  * @param error - Error description when data loading was not successful
- * @param loadingDelayMilliseconds - Waiting time before loading component gets rendered
+ * @param loadingStateDelay - Waiting time before loading component gets rendered
  * @param hasSkeleton - Display skeleton in loading state
  * @param variant - Style variant. Defaults to 'block'
  * @param notYetContent - Custom content to be displayed when service was not executed yet, typically used when service is executed manually after some user event (for example click), not automatically after rendering
@@ -49,7 +49,7 @@ export const ServiceContainerLoading = ({
   loading,
   error,
   title,
-  loadingDelayMilliseconds,
+  loadingStateDelay,
   hasSkeleton = false,
   variant = 'block',
   notYetContent,
@@ -59,7 +59,7 @@ export const ServiceContainerLoading = ({
   if (loading && !data)
     return (
       <LoadingStateCard
-        delayMilliseconds={loadingDelayMilliseconds}
+        delayMilliseconds={loadingStateDelay}
         title={title}
         hasSkeleton={hasSkeleton}
         isInline={variant !== 'block'}

@@ -17,7 +17,7 @@ export const TabsLabel = ({ serviceContainer, title, children }: PropsWithChildr
     <span className={styles['page-section-tabs-label']}>
       <Tooltip content={title}>
         <Label>
-          <ServiceContainerLoading loadingDelayMilliseconds={0} {...serviceContainer} variant="inline" title={title}>
+          <ServiceContainerLoading loadingStateDelay={0} {...serviceContainer} variant="inline" title={title}>
             {children}
           </ServiceContainerLoading>
         </Label>
