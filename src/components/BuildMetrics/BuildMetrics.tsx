@@ -13,6 +13,8 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as buildApi from 'services/buildApi';
 
+import { calculateDurationDiff } from 'utils/utils';
+
 import styles from './BuildMetrics.module.css';
 
 interface IBuildMetricsProps {
@@ -56,44 +58,11 @@ let barChart: Chart;
  */
 const generateTimeTitle = (metricValueData: number | string) => {
   // Chart.js converts null values to NaN string
-  let metricValue: number;
   if (metricValueData === null || metricValueData === 'NaN') {
     return 'Not Available';
-  } else {
-    metricValue = metricValueData as number;
   }
 
-  const SECOND_MS = 1000;
-  const MINUTE_MS = 60 * SECOND_MS;
-  const HOUR_MS = 60 * MINUTE_MS;
-  const DAYS_MS = 24 * HOUR_MS;
-
-  const time = {
-    milliseconds: metricValue % SECOND_MS,
-    seconds: Math.floor((metricValue / SECOND_MS) % 60),
-    minutes: Math.floor((metricValue / MINUTE_MS) % 60),
-    hours: Math.floor((metricValue / HOUR_MS) % 24),
-    days: Math.floor(metricValue / DAYS_MS),
-  };
-
-  // days
-  if (metricValue >= DAYS_MS) {
-    return time.days + 'd ' + (time.hours ? time.hours + 'h' : '');
-  }
-  // hours
-  if (metricValue >= HOUR_MS) {
-    return time.hours + 'h ' + (time.minutes ? time.minutes + 'm' : '');
-  }
-  // minutes
-  if (metricValue >= MINUTE_MS) {
-    return time.minutes + 'm ' + (time.seconds ? time.seconds + 's' : '');
-  }
-  // seconds
-  if (metricValue >= SECOND_MS) {
-    return time.seconds + (time.milliseconds ? '.' + time.milliseconds + ' s' : ' s');
-  }
-  // ms
-  return time.milliseconds + ' ms';
+  return calculateDurationDiff(metricValueData);
 };
 
 /**
