@@ -104,17 +104,42 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
   const startTimestamp = typeof startTime === 'string' ? new Date(startTime) : startTime;
   const endTimestamp = typeof endTime === 'string' ? new Date(endTime) : endTime;
 
-  const diffSeconds = Math.abs(startTimestamp.getTime() - endTimestamp.getTime()) / 1000;
+  const diffMs = Math.abs(startTimestamp.getTime() - endTimestamp.getTime());
 
-  const hours = Math.floor(diffSeconds / 3600);
-  const minutes = Math.floor((diffSeconds % 3600) / 60);
-  const seconds = Math.floor(diffSeconds % 60);
+  return calculateDurationDiff(diffMs);
+};
 
+/**
+ * Creates string representation of time interval duration.
+ *
+ * Returned string format is:
+ *   - 5h 1m
+ *   - 16s
+ * -> seconds are included just when hours and minutes are zero
+ *
+ * @param diffMs - time duration in milliseconds
+ * @returns String representing duration
+ */
+export const calculateDurationDiff = (diffMs: number | string): string | null => {
+  const diffMsValue = typeof diffMs === 'string' ? Number(diffMs) : diffMs;
+
+  const diffSec = diffMsValue / 1000;
+
+  const days = Math.floor(diffSec / 86400);
+  const hours = Math.floor((diffSec % 86400) / 3600);
+  const minutes = Math.floor((diffSec % 3600) / 60);
+  const seconds = Math.floor(diffSec % 60);
+  const milliSeconds = Math.floor(diffMsValue % 1000000);
+
+  const daysString = days !== 0 ? days + 'd' : '';
   const hoursString = hours !== 0 ? hours + 'h' : '';
-  const minutesString = minutes !== 0 ? minutes + 'm' : '';
-  const secondsString = hours === 0 && minutes === 0 ? seconds + 's' : '';
+  const minutesString = days === 0 && minutes !== 0 ? minutes + 'm' : '';
+  const secondsString = days === 0 && hours === 0 && minutes === 0 && seconds !== 0 ? seconds + 's' : '';
+  const milliSecondsString = days === 0 && hours === 0 && minutes === 0 && seconds === 0 ? milliSeconds + 'ms' : '';
 
-  return `${hoursString}${hoursString && minutesString ? ' ' : ''}${minutesString}${secondsString}`;
+  return `${daysString}${daysString && hoursString ? ' ' : ''}${hoursString}${
+    hoursString && minutesString ? ' ' : ''
+  }${minutesString}${secondsString}${milliSecondsString}`;
 };
 
 // Mathematical base to work in. Currently: Binary units (i.e. KiB etc). To use kB / MB etc switch to decimal (10).
