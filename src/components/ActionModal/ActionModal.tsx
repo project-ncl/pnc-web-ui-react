@@ -16,7 +16,7 @@ interface IActionModalProps {
   modalTitle: string;
   actionTitle: string;
   isOpen: boolean;
-  isSubmitDisabled: boolean;
+  isSubmitDisabled?: boolean;
   hasFormChanged: boolean;
   onToggle: () => void;
   onSubmit: () => void;
@@ -44,13 +44,13 @@ export const ActionModal = ({
   modalTitle,
   actionTitle,
   isOpen,
-  isSubmitDisabled,
   hasFormChanged,
   onToggle,
   onSubmit,
   serviceContainer,
   modalVariant,
   onSuccessActions,
+  isSubmitDisabled = serviceContainer.data !== DataValues.notYetData && !serviceContainer.error,
 }: PropsWithChildren<IActionModalProps>) => {
   const refresh = useRefresh();
 
