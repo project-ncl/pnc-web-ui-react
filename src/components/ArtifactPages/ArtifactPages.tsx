@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
 import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModalButton/ArtifactEditQualityModalButton';
+import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
+import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModalButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
@@ -21,6 +22,10 @@ export const ArtifactPages = () => {
 
   const serviceContainerArtifact = useServiceContainer(artifactApi.getArtifact);
   const serviceContainerArtifactRunner = serviceContainerArtifact.run;
+
+  const [isEditQualityModalOpen, setIsEditQualityModalOpen] = useState<boolean>(false);
+
+  const toggleEditQualityModal = () => setIsEditQualityModalOpen((isEditQualityModalOpen) => !isEditQualityModalOpen);
 
   useEffect(() => {
     serviceContainerArtifactRunner({ serviceData: { id: artifactId } });
@@ -46,11 +51,19 @@ export const ArtifactPages = () => {
     <ServiceContainerLoading {...serviceContainerArtifact} title="Artifact details">
       <PageLayout
         title={serviceContainerArtifact.data?.identifier}
-        actions={<ArtifactEditQualityModalButton artifact={serviceContainerArtifact.data} variant="detail" />}
+        actions={<ArtifactEditQualityModalButton toggleModal={toggleEditQualityModal} variant="detail" />}
         tabs={pageTabs}
       >
         <Outlet context={{ serviceContainerArtifact }} />
       </PageLayout>
+      {isEditQualityModalOpen && (
+        <ArtifactEditQualityModal
+          isModalOpen={isEditQualityModalOpen}
+          toggleModal={toggleEditQualityModal}
+          artifact={serviceContainerArtifact.data}
+          variant="detail"
+        />
+      )}
     </ServiceContainerLoading>
   );
 };
