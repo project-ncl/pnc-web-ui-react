@@ -6,6 +6,14 @@ export const getBuilds = () => {
   });
 };
 
+export const getUserBuilds = () => {
+  return new Promise((resolve) => {
+    import('./builds-mock.json').then((mockBuildsRequest) => {
+      resolve({ data: mockBuildsRequest });
+    });
+  });
+};
+
 export const getBuildMetrics = (buildIds?: Array<string>) => {
   throw new Error('getBuildMetrics: Not implemented yet');
 };
