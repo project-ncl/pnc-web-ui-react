@@ -11,35 +11,8 @@ import { IFields, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
 import * as artifactApi from 'services/artifactApi';
-
-interface IArtifactEditQualityModalButtonProps {
-  artifact: Artifact;
-  variant: IArtifactEditQualityModalProps['variant'];
-}
-
-export const ArtifactEditQualityModalButton = ({ artifact, variant }: IArtifactEditQualityModalButtonProps) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const toggleModal = () => {
-    setIsModalOpen((isModalOpen) => !isModalOpen);
-  };
-
-  return (
-    <>
-      <ProtectedComponent disable>
-        <Button variant={variant === 'list' ? 'secondary' : 'tertiary'} onClick={toggleModal} isSmall>
-          Edit Quality
-        </Button>
-      </ProtectedComponent>
-      {isModalOpen && (
-        <ArtifactEditQualityModal artifact={artifact} isModalOpen={isModalOpen} toggleModal={toggleModal} variant={variant} />
-      )}
-    </>
-  );
-};
 
 const formConfig = {
   artifactQuality: {
@@ -50,14 +23,14 @@ const formConfig = {
   },
 };
 
-interface IArtifactEditQualityModalProps {
-  artifact: Artifact;
+export interface IArtifactEditQualityModalProps {
   isModalOpen: boolean;
   toggleModal: () => void;
+  artifact: Artifact;
   variant: 'detail' | 'list';
 }
 
-const ArtifactEditQualityModal = ({ artifact, isModalOpen, toggleModal, variant }: IArtifactEditQualityModalProps) => {
+export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, variant }: IArtifactEditQualityModalProps) => {
   const serviceContainerArtifactEditQuality = useServiceContainer(artifactApi.editArtifactQuality, 0);
 
   const [isQualitySelectOpen, setIsQualitySelectOpen] = useState<boolean>(false);
