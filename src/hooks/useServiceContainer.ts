@@ -6,7 +6,7 @@ export interface IServiceContainer {
   data: any;
   loading: boolean;
   error: string;
-  loadingStateDelay: number;
+  loadingStateDelayMs: number; // in milliseconds
   run: ServiceContainerRunnerFunction;
 }
 
@@ -44,10 +44,10 @@ export const DataValues = {
  * Hook's request is terminated if unmounted from DOM.
  *
  * @param service - Service to be executed to load data
- * @param loadingStateDelay - Waiting time before loading state is activated
+ * @param loadingStateDelayMs - Waiting time before loading state is activated (in milliseconds)
  * @returns Object with data, loading and error property
  */
-export const useServiceContainer = (service: Function, loadingStateDelay: number = 200): IServiceContainer => {
+export const useServiceContainer = (service: Function, loadingStateDelayMs: number = 200): IServiceContainer => {
   const ERROR_INIT: string = '';
 
   // initial states when component is loaded for the first time
@@ -68,12 +68,12 @@ export const useServiceContainer = (service: Function, loadingStateDelay: number
     loadingCount.current++;
 
     // set delayed (delayed to prevent flashing experience and unnecessary renders) loading state
-    if (loadingStateDelay) {
+    if (loadingStateDelayMs) {
       setTimeout(() => {
         if (loadingCount.current) {
           setLoading(true);
         }
-      }, loadingStateDelay);
+      }, loadingStateDelayMs);
     } else {
       setLoading(true);
     }
@@ -142,7 +142,7 @@ export const useServiceContainer = (service: Function, loadingStateDelay: number
 
     loading: loading,
     error: error,
-    loadingStateDelay,
-    run: useCallback(serviceContainerRunner, [service, loadingStateDelay]),
+    loadingStateDelayMs,
+    run: useCallback(serviceContainerRunner, [service, loadingStateDelayMs]),
   };
 };
