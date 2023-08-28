@@ -43,7 +43,6 @@ export const ProductMilestoneMarkModal = ({
       modalTitle={`Mark Milestone ${productMilestone.version} as current?`}
       actionTitle="Mark Milestone as current"
       isOpen={isModalOpen}
-      hasFormChanged={true}
       onToggle={toggleModal}
       onSubmit={confirmModal}
       serviceContainer={serviceContainerProductVersionPatch}

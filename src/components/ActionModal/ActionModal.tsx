@@ -17,7 +17,7 @@ interface IActionModalProps {
   actionTitle: string;
   isOpen: boolean;
   isSubmitDisabled?: boolean;
-  hasFormChanged: boolean;
+  wereSubmitDataChanged?: boolean;
   onToggle: () => void;
   onSubmit: () => void;
   serviceContainer: IServiceContainer;
@@ -34,7 +34,7 @@ interface IActionModalProps {
  * @param isSubmitDisabled - is the confirm action button disabled?
  * @param onToggle - function toggling the modal visibility
  * @param onSubmit - confirm action button callback
- * @param hasFormChanged - has the form in the modal been changed?
+ * @param wereSubmitDataChanged - were the modal (form) data to be submitted changed (if there are any)?
  * @param serviceContainer - service container of the confirm action
  * @param modalVariant - modal size variant
  * @param onSuccessActions - additional action buttons to be displayed after successful confirm action
@@ -44,7 +44,7 @@ export const ActionModal = ({
   modalTitle,
   actionTitle,
   isOpen,
-  hasFormChanged,
+  wereSubmitDataChanged,
   onToggle,
   onSubmit,
   serviceContainer,
@@ -81,7 +81,8 @@ export const ActionModal = ({
           {(!serviceContainer.error || serviceContainer.loading) && (
             <ServiceContainerLoading variant="icon" {...serviceContainer} title={actionTitle} />
           )}{' '}
-          {wasLastActionSuccessful && !hasFormChanged && <CheckIcon />} {actionTitle}
+          {wasLastActionSuccessful && (wereSubmitDataChanged === undefined || !wereSubmitDataChanged) && <CheckIcon />}{' '}
+          {actionTitle}
         </Button>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
         <Button variant="link" onClick={onClose}>
