@@ -25,8 +25,21 @@ import { Username } from 'components/Username/Username';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
 
+type TColumns = Array<keyof typeof buildEntityAttributes>;
+
+const defaultColumns: TColumns = [
+  buildEntityAttributes.status.id,
+  buildEntityAttributes.id.id,
+  buildEntityAttributes.name.id,
+  buildEntityAttributes.submitTime.id,
+  buildEntityAttributes.startTime.id,
+  buildEntityAttributes.endTime.id,
+  buildEntityAttributes['user.username'].id,
+];
+
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainer;
+  columns?: TColumns;
   componentId: string;
 }
 
@@ -34,9 +47,10 @@ interface IBuildsListProps {
  * Component displaying list of Builds.
  *
  * @param serviceContainerBuilds - Service Container for Builds
+ * @param columns - The columns to be displayed
  * @param componentId - Component ID
  */
-export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListProps) => {
+export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, componentId }: IBuildsListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -45,8 +59,9 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
           attribute: buildEntityAttributes.submitTime.id,
           direction: 'desc',
         },
+        customColumns: columns,
       }),
-    []
+    [columns]
   );
 
   const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
@@ -63,8 +78,9 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
                 getFilterOptions({
                   entityAttributes: buildEntityAttributes,
                   defaultFiltering: { attribute: buildEntityAttributes.status.id },
+                  customColumns: columns,
                 }),
-              []
+              [columns]
             )}
             componentId={componentId}
           />
@@ -76,70 +92,90 @@ export const BuildsList = ({ serviceContainerBuilds, componentId }: IBuildsListP
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
-                  {buildEntityAttributes.status.title}
-                </Th>
-                <Th width={15}>{buildEntityAttributes.id.title}</Th>
-                <Th width={35}>{buildEntityAttributes.name.title}</Th>
-                <Th width={20} className="overflow-visible">
-                  <SortGroup
-                    title="Times"
-                    sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
-                    isDropdownOpen={isSortDropdownOpen}
-                    onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                  />
-                </Th>
-                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
-                  {buildEntityAttributes['user.username'].title}
-                </Th>
+                {columns.includes(buildEntityAttributes.status.id) && (
+                  <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
+                    {buildEntityAttributes.status.title}
+                  </Th>
+                )}
+                {columns.includes(buildEntityAttributes.id.id) && <Th width={15}>{buildEntityAttributes.id.title}</Th>}
+                {columns.includes(buildEntityAttributes.name.id) && <Th width={35}>{buildEntityAttributes.name.title}</Th>}
+                {columns.includes(buildEntityAttributes.submitTime.id) &&
+                  columns.includes(buildEntityAttributes.startTime.id) &&
+                  columns.includes(buildEntityAttributes.endTime.id) && (
+                    <Th width={20} className="overflow-visible">
+                      <SortGroup
+                        title="Times"
+                        sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
+                        isDropdownOpen={isSortDropdownOpen}
+                        onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                      />
+                    </Th>
+                  )}
+                {columns.includes(buildEntityAttributes['user.username'].id) && (
+                  <Th width={10} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
+                    {buildEntityAttributes['user.username'].title}
+                  </Th>
+                )}
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerBuilds.data?.content.map((build: Build, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>
-                    <BuildStatusIcon build={build} long />
-                  </Td>
-                  <Td>
-                    <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
-                  </Td>
-                  <Td>
-                    <BuildName build={build} includeBuildLink includeConfigLink long />
-                  </Td>
-                  <Td>
-                    <DescriptionList className="gap-0" isHorizontal isCompact>
-                      <DescriptionListGroup>
-                        <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
-                        <DescriptionListDescription>
-                          {build.submitTime && createDateTime({ date: build.submitTime }).custom}
-                        </DescriptionListDescription>
-                      </DescriptionListGroup>
-                      <DescriptionListGroup>
-                        <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
-                        <DescriptionListDescription>
-                          {build.startTime &&
-                            createDateTime({
-                              date: build.startTime,
-                              includeDateInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
-                            }).custom}
-                        </DescriptionListDescription>
-                      </DescriptionListGroup>
-                      <DescriptionListGroup>
-                        <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
-                        <DescriptionListDescription>
-                          {build.endTime &&
-                            createDateTime({
-                              date: build.endTime,
-                              includeDateInCustom:
-                                (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
-                                (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime)),
-                            }).custom}
-                          {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
-                        </DescriptionListDescription>
-                      </DescriptionListGroup>
-                    </DescriptionList>
-                  </Td>
-                  <Td>{build.user?.username && <Username text={build.user.username} />}</Td>
+                  {columns.includes(buildEntityAttributes.status.id) && (
+                    <Td>
+                      <BuildStatusIcon build={build} long />
+                    </Td>
+                  )}
+                  {columns.includes(buildEntityAttributes.id.id) && (
+                    <Td>
+                      <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
+                    </Td>
+                  )}
+                  {columns.includes(buildEntityAttributes.name.id) && (
+                    <Td>
+                      <BuildName build={build} includeBuildLink includeConfigLink long />
+                    </Td>
+                  )}
+                  {columns.includes(buildEntityAttributes.submitTime.id) &&
+                    columns.includes(buildEntityAttributes.startTime.id) &&
+                    columns.includes(buildEntityAttributes.endTime.id) && (
+                      <Td>
+                        <DescriptionList className="gap-0" isHorizontal isCompact>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {build.submitTime && createDateTime({ date: build.submitTime }).custom}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {build.startTime &&
+                                createDateTime({
+                                  date: build.startTime,
+                                  includeDateInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
+                                }).custom}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {build.endTime &&
+                                createDateTime({
+                                  date: build.endTime,
+                                  includeDateInCustom:
+                                    (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
+                                    (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime)),
+                                }).custom}
+                              {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                        </DescriptionList>
+                      </Td>
+                    )}
+                  {columns.includes(buildEntityAttributes['user.username'].id) && (
+                    <Td>{build.user?.username && <Username text={build.user.username} />}</Td>
+                  )}
                 </Tr>
               ))}
             </Tbody>
