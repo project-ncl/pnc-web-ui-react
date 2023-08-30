@@ -6,7 +6,7 @@ import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { StateCard } from './StateCard';
 
 interface ILoadingStateCard {
-  delayMilliseconds?: number;
+  delayMs?: number;
   title: string;
   hasSkeleton?: boolean;
   isInline?: boolean;
@@ -16,27 +16,22 @@ interface ILoadingStateCard {
  * Loading State component with delayed render. It will be displayed after defined waiting time
  * to prevent flashing user experience when spinner is displayed and almost immediately replaced.
  *
- * @param delayMilliseconds - Waiting time before component gets rendered
+ * @param delayMs - Waiting time before component gets rendered (in milliseconds)
  * @param title - Title subject, for example "Project List"
  * @param hasSkeleton - Display loading skeleton
  * @param isInline - Display component in inline style
  */
-export const LoadingStateCard = ({
-  delayMilliseconds = 750,
-  title,
-  hasSkeleton = false,
-  isInline = false,
-}: ILoadingStateCard) => {
+export const LoadingStateCard = ({ delayMs = 750, title, hasSkeleton = false, isInline = false }: ILoadingStateCard) => {
   const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
-    if (delayMilliseconds) {
-      const timer = setTimeout(() => setShow(true), delayMilliseconds);
+    if (delayMs) {
+      const timer = setTimeout(() => setShow(true), delayMs);
       return () => clearTimeout(timer);
     } else {
       setShow(true);
     }
-  }, [delayMilliseconds]);
+  }, [delayMs]);
 
   // skeleton needs to be shown immediately
   if (hasSkeleton) {

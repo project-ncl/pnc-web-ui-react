@@ -58,12 +58,7 @@ export const ServiceContainerLoading = ({
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
   if (loading && !data)
     return (
-      <LoadingStateCard
-        delayMilliseconds={loadingStateDelayMs}
-        title={title}
-        hasSkeleton={hasSkeleton}
-        isInline={variant !== 'block'}
-      />
+      <LoadingStateCard delayMs={loadingStateDelayMs} title={title} hasSkeleton={hasSkeleton} isInline={variant !== 'block'} />
     );
 
   // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
