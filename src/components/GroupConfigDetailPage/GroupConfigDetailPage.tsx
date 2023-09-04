@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -11,7 +11,6 @@ import { useTitle } from 'hooks/useTitle';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
-import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
@@ -77,53 +76,37 @@ export const GroupConfigDetailPage = () => {
   return (
     <ServiceContainerLoading {...serviceContainerGroupConfig} title="Group Config details">
       <PageLayout title={serviceContainerGroupConfig.data?.name}>
-        <Grid hasGutter>
-          <GridItem sm={12} lg={8}>
-            <ContentBox padding isResponsive>
-              <Attributes>
-                <AttributesItem title={groupConfigEntityAttributes.name.title}>
-                  {serviceContainerGroupConfig.data?.name}
-                </AttributesItem>
-                <AttributesItem title={groupConfigEntityAttributes.productVersion.title}>
-                  <ServiceContainerLoading
-                    variant="inline"
-                    {...serviceContainerProductVersion}
-                    title={groupConfigEntityAttributes.productVersion.title}
-                  >
-                    <ProductVersionLink productVersion={serviceContainerProductVersion.data} />
-                  </ServiceContainerLoading>
-                </AttributesItem>
-              </Attributes>
-            </ContentBox>
-            <br />
-            <Toolbar>
-              <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Build Configs</Text>
-                </TextContent>
-              </ToolbarItem>
-            </Toolbar>
-            <ContentBox borderTop>
-              <BuildConfigsList
-                columns={['name', 'project.name', 'buildType', 'buildStatus', 'actions']}
-                serviceContainerBuildConfigs={serviceContainerBuildConfigs}
-                {...{ componentId: 'bc' }}
-              />
-            </ContentBox>
-          </GridItem>
-          <GridItem sm={12} lg={4}>
-            <Toolbar>
-              <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Build History</Text>
-                </TextContent>
-              </ToolbarItem>
-            </Toolbar>
-            <ContentBox borderTop>
-              <BuildHistoryList {...{ serviceContainerBuilds: serviceContainerGroupBuilds, componentId: 'gb' }} />
-            </ContentBox>
-          </GridItem>
-        </Grid>
+        <ContentBox padding isResponsive>
+          <Attributes>
+            <AttributesItem title={groupConfigEntityAttributes.name.title}>
+              {serviceContainerGroupConfig.data?.name}
+            </AttributesItem>
+            <AttributesItem title={groupConfigEntityAttributes.productVersion.title}>
+              <ServiceContainerLoading
+                variant="inline"
+                {...serviceContainerProductVersion}
+                title={groupConfigEntityAttributes.productVersion.title}
+              >
+                <ProductVersionLink productVersion={serviceContainerProductVersion.data} />
+              </ServiceContainerLoading>
+            </AttributesItem>
+          </Attributes>
+        </ContentBox>
+        <br />
+        <Toolbar>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Build Configs</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <ContentBox borderTop>
+          <BuildConfigsList
+            columns={['name', 'project.name', 'buildType', 'buildStatus', 'actions']}
+            serviceContainerBuildConfigs={serviceContainerBuildConfigs}
+            {...{ componentId: 'bc' }}
+          />
+        </ContentBox>
       </PageLayout>
     </ServiceContainerLoading>
   );
