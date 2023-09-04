@@ -1,4 +1,4 @@
-import { IRegisterData } from 'hooks/useNewForm';
+import { IRegisterData } from 'hooks/useForm';
 
 interface IFormInputProps<T> extends IRegisterData<T> {
   render: (registerData: IRegisterData<T>) => JSX.Element;
@@ -6,7 +6,7 @@ interface IFormInputProps<T> extends IRegisterData<T> {
 
 /**
  * Form input wrapper component.
- * It's meant to be used with the {@link useNewForm} hook when the hook's API is not compatible with the component's API.
+ * It's meant to be used with the {@link useForm} hook when the hook's API is not compatible with the component's API.
  * For example, PatternFly's Select component (onSelect) vs useForm hook (onChange).
  *
  * @param value - Value of the input

@@ -68,7 +68,7 @@ export interface IFieldValues {
  *  - isSubmitDisabled - whether the submit button is disabled
  *  - hasFormChanged   - whether any of the form inputs has changed
  */
-export const useNewForm = () => {
+export const useForm = () => {
   const [fields, setFields] = useState<IFields>({});
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
   const [hasFormChanged, setHasFormChanged] = useState<boolean>(false);

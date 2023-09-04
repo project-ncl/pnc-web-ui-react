@@ -20,7 +20,7 @@ import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'reac
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { useDataBuffer } from 'hooks/useDataBuffer';
-import { IFieldValues, useNewForm } from 'hooks/useNewForm';
+import { IFieldValues, useForm } from 'hooks/useForm';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -220,7 +220,7 @@ export const DemoPage = () => {
     addLines(initLogData.splice(0, logLinesToRemove));
   }, [logLinesToRemove, addLines]);
 
-  const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useNewForm();
+  const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const submitForm = (data: IFieldValues) => {
     console.log('form state when submitted:', {

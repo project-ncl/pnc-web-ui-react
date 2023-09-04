@@ -7,7 +7,7 @@ import { Artifact } from 'pnc-api-types-ts';
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 
-import { IFieldValues, useNewForm } from 'hooks/useNewForm';
+import { IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
@@ -36,8 +36,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
 
   const [isQualitySelectOpen, setIsQualitySelectOpen] = useState<boolean>(false);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } =
-    useNewForm();
+  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
     serviceContainerArtifactEditQuality
