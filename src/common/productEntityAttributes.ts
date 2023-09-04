@@ -15,6 +15,10 @@ export const productEntityAttributes = {
     },
     sort: {},
   },
+  description: {
+    id: 'description',
+    title: 'Description',
+  },
   abbreviation: {
     id: 'abbreviation',
     title: 'Abbreviation',

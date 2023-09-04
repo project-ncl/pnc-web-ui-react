@@ -25,6 +25,7 @@ import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
+import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
@@ -58,6 +59,22 @@ export const AppRoutes = () => (
     {/* entity pages */}
     <Route path="products">
       <Route index element={<ProductsPage />} />
+      <Route
+        path="create"
+        element={
+          <ProtectedRoute title={PageTitles.productCreate}>
+            <ProductCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path=":productId/edit"
+        element={
+          <ProtectedRoute title={PageTitles.productEdit}>
+            <ProductCreateEditPage isEditPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path=":productId">
         <Route index element={<ProductDetailPage />} />
         <Route path="versions/:productVersionId" element={<ProductVersionPages />}>
