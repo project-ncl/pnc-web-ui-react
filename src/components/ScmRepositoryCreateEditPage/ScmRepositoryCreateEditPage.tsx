@@ -1,27 +1,15 @@
-import {
-  ActionGroup,
-  Button,
-  Flex,
-  FlexItem,
-  FlexProps,
-  Form,
-  FormGroup,
-  FormHelperText,
-  Switch,
-  TextInput,
-} from '@patternfly/react-core';
-import { useEffect, useState } from 'react';
+import { ActionGroup, Button, Form, FormGroup, FormHelperText, Switch, TextInput } from '@patternfly/react-core';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { SCMRepository } from 'pnc-api-types-ts';
 
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
-import { IFields, useForm } from 'hooks/useForm';
+import { IFieldValues, useNewForm } from 'hooks/useNewForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
@@ -31,7 +19,7 @@ import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { generateScmRepositoryName } from 'utils/entityNameGenerators';
 import { validateScmUrl } from 'utils/formValidationHelpers';
-import { createSafePatch, transformFormToValues } from 'utils/patchHelper';
+import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 interface IScmRepositoryCreateEditPageProps {
@@ -52,16 +40,11 @@ const editFormConfig = {
   externalUrl: {
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
-  preBuildSyncEnabled: {},
 };
 
-const flexDirectionColumn: FlexProps['direction'] = { default: 'column' };
-
 export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmRepositoryCreateEditPageProps) => {
-  const [id, setId] = useState<string>();
-  const [scmRepository, setScmRepository] = useState<SCMRepository>();
+  const { scmRepositoryId } = useParams();
   const navigate = useNavigate();
-  const urlPathParams = useParams();
 
   // create page
   const serviceContainerCreatePage = useServiceContainer(scmRepositoryApi.createScmRepository);
@@ -73,6 +56,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(scmRepositoryApi.patchScmRepository);
 
+  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useNewForm();
+
   useTitle(
     generatePageTitle({
       pageType: isEditPage ? 'Edit' : 'Create',
@@ -82,15 +67,10 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
     })
   );
 
-  const submitCreate = (data: IFields) => {
+  const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
-        serviceData: {
-          data: {
-            scmUrl: data.scmUrl.value,
-            preBuildSyncEnabled: data.preBuildSyncEnabled.value,
-          },
-        },
+        serviceData: { data },
       })
       .then((response: any) => {
         // @Todo: Verify the create result from the WS Message after WS was implemented, see NCL-7935.
@@ -101,42 +81,26 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
       });
   };
 
-  const submitUpdate = (data: IFields) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, transformFormToValues(data));
+  const submitUpdate = (data: IFieldValues) => {
+    const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
 
     serviceContainerEditPagePatch
-      .run({ serviceData: { id, patchData } })
+      .run({ serviceData: { id: scmRepositoryId, patchData } })
       .then(() => {
-        navigate(`/scm-repositories/${id}`);
+        navigate(`/scm-repositories/${scmRepositoryId}`);
       })
       .catch(() => {
         throw new Error('Failed to edit SCM Repository.');
       });
   };
 
-  const { fields, onChange, reinitialize, onSubmit, isSubmitDisabled } = useForm(
-    isEditPage ? editFormConfig : createFormConfig,
-    isEditPage ? submitUpdate : submitCreate
-  );
-
   useEffect(() => {
     if (isEditPage) {
-      if (urlPathParams.scmRepositoryId) {
-        serviceContainerEditPageGetRunner({ serviceData: { id: urlPathParams.scmRepositoryId } }).then((response: any) => {
-          const scmRepository: SCMRepository = response.data;
-
-          setScmRepository(scmRepository);
-          setId(scmRepository.id);
-          reinitialize({
-            externalUrl: scmRepository.externalUrl,
-            preBuildSyncEnabled: scmRepository.preBuildSyncEnabled,
-          });
-        });
-      } else {
-        throw new Error(`Invalid scmRepositoryId: ${urlPathParams.scmRepositoryId}`);
-      }
+      serviceContainerEditPageGetRunner({ serviceData: { id: scmRepositoryId } }).then((response: any) => {
+        setFieldValues(response.data);
+      });
     }
-  }, [isEditPage, urlPathParams.scmRepositoryId, serviceContainerEditPageGetRunner, reinitialize]);
+  }, [isEditPage, scmRepositoryId, serviceContainerEditPageGetRunner, setFieldValues]);
 
   const formComponent = (
     <ContentBox padding isResponsive>
@@ -152,22 +116,18 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             fieldId={scmRepositoryEntityAttributes.scmUrl.id}
             labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
             helperText={
-              <FormHelperText isHidden={fields.scmUrl.state !== 'error'} isError>
-                {fields.scmUrl.errorMessages?.join(' ')}
+              <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.scmUrl.id) !== 'error'} isError>
+                {getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}
               </FormHelperText>
             }
           >
             <TextInput
               isRequired
-              validated={fields.scmUrl.state}
               type="text"
               id={scmRepositoryEntityAttributes.scmUrl.id}
               name={scmRepositoryEntityAttributes.scmUrl.id}
-              value={fields.scmUrl.value as string}
               autoComplete="off"
-              onChange={(scmUrl) => {
-                onChange('scmUrl', scmUrl);
-              }}
+              {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, createFormConfig.scmUrl)}
             />
           </FormGroup>
         )}
@@ -178,29 +138,25 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               fieldId={scmRepositoryEntityAttributes.internalUrl.id}
               labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
             >
-              {scmRepository && <ScmRepositoryUrl internalScmRepository={scmRepository} />}
+              {serviceContainerEditPageGet.data && <ScmRepositoryUrl internalScmRepository={serviceContainerEditPageGet.data} />}
             </FormGroup>
             <FormGroup
               label={scmRepositoryEntityAttributes.externalUrl.title}
               fieldId={scmRepositoryEntityAttributes.externalUrl.id}
               labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />}
               helperText={
-                <FormHelperText isHidden={fields.externalUrl.state !== 'error'} isError>
-                  {fields.externalUrl.errorMessages?.join(' ')}
+                <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.externalUrl.id) !== 'error'} isError>
+                  {getFieldErrors(scmRepositoryEntityAttributes.externalUrl.id)}
                 </FormHelperText>
               }
             >
               <TextInput
                 isRequired
-                validated={fields.externalUrl.state}
                 type="text"
                 id={scmRepositoryEntityAttributes.externalUrl.id}
                 name={scmRepositoryEntityAttributes.externalUrl.id}
-                value={fields.externalUrl.value as string}
                 autoComplete="off"
-                onChange={(externalUrl) => {
-                  onChange('externalUrl', externalUrl);
-                }}
+                {...register<string>(scmRepositoryEntityAttributes.externalUrl.id, editFormConfig.externalUrl)}
               />
             </FormGroup>
           </>
@@ -210,29 +166,34 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
           labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
           helperText={
-            <FormHelperText isHidden={fields.preBuildSyncEnabled.state !== 'error'} isError>
-              {fields.preBuildSyncEnabled.errorMessages?.join(' ')}
+            <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.preBuildSyncEnabled.id) !== 'error'} isError>
+              {getFieldErrors(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
             </FormHelperText>
           }
         >
-          <Switch
-            id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-            name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-            label="Pre-build Sync Enabled"
-            labelOff="Pre-build Sync Disabled"
-            isChecked={fields.preBuildSyncEnabled?.value as boolean}
-            onChange={(preBuildSyncEnabled) => {
-              onChange('preBuildSyncEnabled', preBuildSyncEnabled);
-            }}
+          <FormInput<boolean>
+            {...register<boolean>(
+              scmRepositoryEntityAttributes.preBuildSyncEnabled.id,
+              !isEditPage ? createFormConfig.preBuildSyncEnabled : undefined
+            )}
+            render={({ value, onChange, onBlur }) => (
+              <Switch
+                id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                label="Pre-build Sync Enabled"
+                labelOff="Pre-build Sync Disabled"
+                isChecked={value}
+                onChange={onChange}
+                onBlur={onBlur}
+              />
+            )}
           />
         </FormGroup>
         <ActionGroup>
           <Button
             variant="primary"
             isDisabled={isSubmitDisabled}
-            onClick={() => {
-              onSubmit();
-            }}
+            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
           >
             {isEditPage ? 'Update' : 'Create'} SCM Repository
           </Button>
@@ -255,21 +216,17 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         )
       }
     >
-      <Flex direction={flexDirectionColumn}>
-        <FlexItem>
-          {isEditPage ? (
-            <ServiceContainerCreatingUpdating
-              {...serviceContainerEditPagePatch}
-              serviceContainerLoading={serviceContainerEditPageGet}
-              title="SCM Repository"
-            >
-              {formComponent}
-            </ServiceContainerCreatingUpdating>
-          ) : (
-            <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
-          )}
-        </FlexItem>
-      </Flex>
+      {isEditPage ? (
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerEditPagePatch}
+          serviceContainerLoading={serviceContainerEditPageGet}
+          title="SCM Repository"
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
+      ) : (
+        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+      )}
     </PageLayout>
   );
 };
