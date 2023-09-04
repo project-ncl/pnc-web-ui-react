@@ -6,6 +6,8 @@ export const PageTitles = {
   projectCreate: 'Create Project',
   projectEdit: 'Update Project',
   products: 'Products',
+  productCreate: 'Create Product',
+  productEdit: 'Update Product',
   productVersions: 'Product Versions',
   productMilestones: 'Product Milestones',
   productReleases: 'Product Releases',

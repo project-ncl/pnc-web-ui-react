@@ -57,7 +57,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
         description={serviceContainerProduct.data?.description}
         actions={
           <ProtectedComponent>
-            <ActionButton action={() => console.log('Not implemented yet!')}>Edit Product</ActionButton>
+            <ActionButton link="edit">Edit Product</ActionButton>
           </ProtectedComponent>
         }
       >

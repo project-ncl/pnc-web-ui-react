@@ -29,13 +29,13 @@ export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
       title={PageTitles.products}
       description={
         <>
-          This page contains list of products like <Label>EAP</Label>, usually product is a deliverable package composed of
-          multiple projects like <Label>JBoss Modules</Label> or <Label>Hibernate</Label>.
+          This page contains list of Products like <Label>EAP</Label>. Usually, Product is a deliverable package composed of
+          multiple Projects like <Label>JBoss Modules</Label> or <Label>Hibernate</Label>.
         </>
       }
       actions={
         <ProtectedComponent>
-          <ActionButton action={() => console.log('Not implemented yet!')}>Create Product</ActionButton>
+          <ActionButton link="create">Create Product</ActionButton>
         </ProtectedComponent>
       }
     >
