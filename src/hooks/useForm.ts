@@ -194,7 +194,7 @@ export const useForm = () => {
   const setFieldValues = useCallback((fieldValues: IFieldValues) => {
     setFields((fields) =>
       Object.fromEntries(
-        Object.entries(fields).map(([fieldName, field]) => [fieldName, { ...field, value: fieldValues[fieldName] }])
+        Object.entries(fields).map(([fieldName, field]) => [fieldName, { ...field, value: fieldValues[fieldName] || '' }])
       )
     );
   }, []);
