@@ -1,7 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
+import { BuildConfigPage, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
+
+import { addQParamItem } from 'utils/qParamHelper';
 
 import { pncClient } from './pncClient';
 
@@ -52,4 +54,23 @@ export const patchScmRepository = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().patch<SCMRepository>(`/scm-repositories/${id}`, patchData, requestConfig);
+};
+
+interface IGetByScmRepositoryData {
+  scmRepositoryId: string;
+}
+
+/**
+ * Get all Build Configs of a SCM Repository with the latest Build.
+ *
+ * @param scmRepositoryId - SCM Repository ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildConfigsWithLatestBuild = (
+  { scmRepositoryId }: IGetByScmRepositoryData,
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  const qParam = addQParamItem('scmRepository.id', scmRepositoryId, '==', requestConfig?.params?.q ? requestConfig.params.q : '');
+  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
+  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', newRequestConfig);
 };
