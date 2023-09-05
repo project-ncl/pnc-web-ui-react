@@ -4,12 +4,14 @@ import { useParams } from 'react-router-dom';
 
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
@@ -22,16 +24,27 @@ import * as scmRepositoryApi from 'services/scmRepositoryApi';
 import { generateScmRepositoryName } from 'utils/entityNameGenerators';
 import { generatePageTitle } from 'utils/titleHelper';
 
-export const ScmRepositoryDetailPage = () => {
+interface IScmRepositoryDetailPageProps {
+  componentId?: string;
+}
+
+export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDetailPageProps) => {
   const { scmRepositoryId } = useParams();
 
   const serviceContainerScmRepository = useServiceContainer(scmRepositoryApi.getScmRepository);
   const serviceContainerScmRepositoryRunner = serviceContainerScmRepository.run;
 
+  const serviceContainerBuildConfigs = useServiceContainer(scmRepositoryApi.getBuildConfigsWithLatestBuild);
+  const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
+
   useEffect(() => {
     serviceContainerScmRepositoryRunner({ serviceData: { id: scmRepositoryId } });
   }, [serviceContainerScmRepositoryRunner, scmRepositoryId]);
 
+  useQueryParamsEffect(
+    ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { scmRepositoryId }, requestConfig }),
+    { componentId }
+  );
   useTitle(
     generatePageTitle({
       serviceContainer: serviceContainerScmRepository,
@@ -82,9 +95,7 @@ export const ScmRepositoryDetailPage = () => {
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop>
-          <div style={{ width: '100%', height: '30vh', textAlign: 'center', paddingTop: '30px' }}>
-            TODO: Add Usages table here and remove the placeholder
-          </div>
+          <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />
         </ContentBox>
       </PageLayout>
     </ServiceContainerLoading>

@@ -13,3 +13,11 @@ export const getScmRepositories = () => {
     });
   });
 };
+
+export const getBuildConfigsWithLatestBuild = () => {
+  return new Promise((resolve) => {
+    import('./build-configs-mock.json').then((mockBuildConfigsRequest) => {
+      resolve({ data: mockBuildConfigsRequest });
+    });
+  });
+};
