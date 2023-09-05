@@ -8,6 +8,7 @@ import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { ActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
 import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
@@ -15,6 +16,7 @@ import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModa
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
 import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
 import { TabsItem } from 'components/Tabs/TabsItem';
@@ -103,6 +105,9 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     />,
     <ProductMilestoneCloseModalButton toggleModal={toggleCloseModal} variant="detail" />,
     <ProductMilestoneAnalyzeDeliverablesModalButton toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
+    <ProtectedComponent disable>
+      <ActionButton link="edit">Edit Milestone</ActionButton>
+    </ProtectedComponent>,
   ];
 
   return (

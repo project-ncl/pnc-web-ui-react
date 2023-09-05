@@ -83,3 +83,19 @@ export const maxLength = (max: number): Function => {
 };
 
 export const maxLengthValidator255 = { validator: maxLength(255), errorMessage: 'Maximal input length is 255 characters.' };
+
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Date format validation function.
+ * Accepted date format: YYYY-MM-DD
+ *
+ * Accepts empty date.
+ *
+ * @param date - Date string
+ * @returns true if valid, false otherwise
+ */
+export const validateDate = (date: string): boolean => {
+  const dateObject = new Date(date);
+  return !date || (dateRegex.test(date) && !isNaN(dateObject.getTime()));
+};
