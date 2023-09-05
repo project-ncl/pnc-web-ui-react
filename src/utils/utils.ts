@@ -1,3 +1,5 @@
+import { ProductMilestone } from 'pnc-api-types-ts';
+
 import { uiLogger } from 'services/uiLogger';
 
 interface ICreateDateTime {
@@ -223,4 +225,14 @@ export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumn
       return true;
     }
   });
+};
+
+/**
+ * Extracts Product Milestone version without the Product Version suffix.
+ *
+ * @param productMilestone - Product Milestone
+ * @returns Product Milestone version without the Product Version suffix
+ */
+export const getShortProductMilestoneVersion = (productMilestone: ProductMilestone): string => {
+  return productMilestone.version.replace(productMilestone.productVersion?.version + '.', '');
 };
