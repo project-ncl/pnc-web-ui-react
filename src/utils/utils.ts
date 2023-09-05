@@ -65,6 +65,24 @@ export const createDateTime = ({
 };
 
 /**
+ * Parse date string into Date object.
+ *
+ * @param date - Date string
+ * @returns Date object corresponding to date string if date has valid format, undefined otherwise
+ */
+export const parseDate = (date: string): Date | undefined => {
+  const split = date.split('-');
+  if (split.length !== 3) {
+    return undefined;
+  }
+
+  const year = split[0];
+  const month = split[1];
+  const day = split[2];
+  return new Date(`${year.padStart(4, '0')}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`);
+};
+
+/**
  * Compares dates equality.
  *
  * @param date1 - Date 1 (or string representing a date) to be compared
