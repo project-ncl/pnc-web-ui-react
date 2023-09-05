@@ -5,6 +5,7 @@ import { TEntityAttributes } from 'common/entityAttributes';
 interface IExtendedProductMilestone extends ProductMilestone {
   status: any; // derived from endDate
   lastCloseResult: any; // loaded from getCloseResults
+  isCurrent: boolean; // loaded from Product Version
 }
 
 export const productMilestoneEntityAttributes = {
@@ -38,5 +39,9 @@ export const productMilestoneEntityAttributes = {
   lastCloseResult: {
     id: 'lastCloseResult',
     title: 'Last Close Result',
+  },
+  isCurrent: {
+    id: 'isCurrent',
+    title: 'Is Product Milestone Current',
   },
 } as const satisfies TEntityAttributes<IExtendedProductMilestone>;

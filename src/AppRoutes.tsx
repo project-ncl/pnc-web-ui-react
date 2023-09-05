@@ -31,6 +31,7 @@ import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestone
 import { ProductMilestoneCloseResultDetailPage } from 'components/ProductMilestoneCloseResultDetailPage/ProductMilestoneCloseResultDetailPage';
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
+import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
 import { ProductMilestoneDeliverablesAnalysisDetailPage } from 'components/ProductMilestoneDeliverablesAnalysisDetailPage/ProductMilestoneDeliverablesAnalysisDetailPage';
 import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
@@ -79,31 +80,51 @@ export const AppRoutes = () => (
       />
       <Route path=":productId">
         <Route index element={<ProductDetailPage />} />
-        <Route path="versions/:productVersionId" element={<ProductVersionPages />}>
-          <Route path="details" element={<ProductVersionDetailPage />} />
-          <Route path="milestones" element={<ProductVersionMilestonesPage />} />
-          <Route path="releases" element={<ProductVersionReleasesPage />} />
-          <Route path="build-configs" element={<ProductVersionBuildConfigsPage />} />
-          <Route path="group-configs" element={<ProductVersionGroupConfigsPage />} />
-          <Route index element={<Navigate to="details" replace />} />
-        </Route>
-        <Route path="versions/:productVersionId">
-          <Route path="milestones/:productMilestoneId" element={<ProductMilestonePages />}>
-            <Route path="details" element={<ProductMilestoneDetailPage />} />
-            <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
-            <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
-            <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
-            <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
-            <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
+        <Route path="versions">
+          <Route path=":productVersionId" element={<ProductVersionPages />}>
+            <Route path="details" element={<ProductVersionDetailPage />} />
+            <Route path="milestones" element={<ProductVersionMilestonesPage />} />
+            <Route path="releases" element={<ProductVersionReleasesPage />} />
+            <Route path="build-configs" element={<ProductVersionBuildConfigsPage />} />
+            <Route path="group-configs" element={<ProductVersionGroupConfigsPage />} />
             <Route index element={<Navigate to="details" replace />} />
           </Route>
-          <Route path="milestones/:productMilestoneId">
-            <Route path="close-results/:closeResultId" index element={<ProductMilestoneCloseResultDetailPage />} />
-            <Route
-              path="deliverables-analysis/:deliverablesAnalysisId"
-              index
-              element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
-            />
+          <Route path=":productVersionId">
+            <Route path="milestones">
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute title={PageTitles.productMilestoneCreate}>
+                    <ProductMilestoneCreateEditPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path=":productMilestoneId">
+                <Route
+                  path="edit"
+                  element={
+                    <ProtectedRoute title={PageTitles.productMilestoneEdit}>
+                      <ProductMilestoneCreateEditPage isEditPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="close-results/:closeResultId" index element={<ProductMilestoneCloseResultDetailPage />} />
+                <Route
+                  path="deliverables-analysis/:deliverablesAnalysisId"
+                  index
+                  element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
+                />
+              </Route>
+              <Route path=":productMilestoneId" element={<ProductMilestonePages />}>
+                <Route path="details" element={<ProductMilestoneDetailPage />} />
+                <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
+                <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
+                <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+                <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
+                <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
+                <Route index element={<Navigate to="details" replace />} />
+              </Route>
+            </Route>
           </Route>
         </Route>
       </Route>

@@ -10,6 +10,8 @@ export const PageTitles = {
   productEdit: 'Update Product',
   productVersions: 'Product Versions',
   productMilestones: 'Product Milestones',
+  productMilestoneCreate: 'Create Product Milestone',
+  productMilestoneEdit: 'Update Product Milestone',
   productReleases: 'Product Releases',
   buildConfigs: 'Build Configs',
   groupConfigs: 'Group Configs',

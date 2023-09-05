@@ -1,9 +1,13 @@
+import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
+import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ProductVersionMilestonesList } from 'components/ProductVersionMilestonesList/ProductVersionMilestonesList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as productVersionApi from 'services/productVersionApi';
 
@@ -22,5 +26,21 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
     { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 
-  return <ProductVersionMilestonesList {...{ serviceContainerProductMilestones, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem>
+          <TextContent>
+            <Text component={TextVariants.h2}>Product Milestones</Text>
+          </TextContent>
+        </ToolbarItem>
+        <ToolbarItem>
+          <ActionButton link="create">Create Milestone</ActionButton>
+        </ToolbarItem>
+      </Toolbar>
+      <ContentBox borderTop>
+        <ProductVersionMilestonesList {...{ serviceContainerProductMilestones, componentId }} />
+      </ContentBox>
+    </>
+  );
 };
