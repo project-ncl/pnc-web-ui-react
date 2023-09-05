@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { Operation } from 'fast-json-patch';
 
 import {
   ArtifactPage,
@@ -26,6 +27,34 @@ interface IProductMilestoneApiData {
  */
 export const getProductMilestone = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<ProductMilestone>(`/product-milestones/${id}`, requestConfig);
+};
+
+/**
+ * Creates a new Product Milestone.
+ *
+ * @param data - object containing new Product Milestone data
+ * @param requestConfig - Axios based request config
+ */
+export const createProductMilestone = (
+  { data }: { data: Omit<ProductMilestone, 'id'> },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<ProductMilestone>('/product-milestones', data, requestConfig);
+};
+
+/**
+ * Patches a Product Milestone.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
+ *  - patchData - array of changes in JSON-Patch format
+ * @param requestConfig - Axios based request config
+ */
+export const patchProductMilestone = (
+  { id, patchData }: { id: string; patchData: Operation[] },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().patch<ProductMilestone>(`/product-milestones/${id}`, patchData, requestConfig);
 };
 
 /**
@@ -143,4 +172,19 @@ export const analyzeDeliverables = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().post<any>(`/product-milestones/${id}/analyze-deliverables`, data, requestConfig);
+};
+
+/**
+ * Validates a version of a Product Milestone.
+ *
+ * @param serviceData - object containing:
+ *  - data.productVersionId - ID of a Product Version of the Product Milestone
+ *  - data.version - Product Milestone version to be validated
+ * @param requestConfig - Axios based request config
+ */
+export const validateProductMilestoneVersion = (
+  { data }: { data: { productVersionId: string; version: string } },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<any>(`/product-milestones/validate-version`, data, requestConfig);
 };
