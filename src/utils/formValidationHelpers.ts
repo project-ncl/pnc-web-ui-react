@@ -99,3 +99,17 @@ export const validateDate = (date: string): boolean => {
   const dateObject = new Date(date);
   return !date || (dateRegex.test(date) && !isNaN(dateObject.getTime()));
 };
+
+const productVersionNameRegex = /^\d+\.\d+$/;
+
+/**
+ * Product Version name validation function.
+ *
+ * Accepts empty version.
+ *
+ * @param version - Version string
+ * @returns true if valid, false otherwise
+ */
+export const validateProductVersionName = (version: string): boolean => {
+  return !version || productVersionNameRegex.test(version);
+};

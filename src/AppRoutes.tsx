@@ -41,6 +41,7 @@ import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPag
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
+import { ProductVersionCreateEditPage } from 'components/ProductVersionCreateEditPage/ProductVersionCreateEditPage';
 import { ProductVersionDetailPage } from 'components/ProductVersionDetailPage/ProductVersionDetailPage';
 import { ProductVersionGroupConfigsPage } from 'components/ProductVersionGroupConfigsPage/ProductVersionGroupConfigsPage';
 import { ProductVersionMilestonesPage } from 'components/ProductVersionMilestonesPage/ProductVersionMilestonesPage';
@@ -83,6 +84,24 @@ export const AppRoutes = () => (
       <Route path=":productId">
         <Route index element={<ProductDetailPage />} />
         <Route path="versions">
+          <Route
+            path="create"
+            element={
+              <ProtectedRoute title={PageTitles.productVersionCreate}>
+                <ProductVersionCreateEditPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path=":productVersionId">
+            <Route
+              path="edit"
+              element={
+                <ProtectedRoute title={PageTitles.productVersionEdit}>
+                  <ProductVersionCreateEditPage isEditPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route path=":productVersionId" element={<ProductVersionPages />}>
             <Route path="details" element={<ProductVersionDetailPage />} />
             <Route path="milestones" element={<ProductVersionMilestonesPage />} />

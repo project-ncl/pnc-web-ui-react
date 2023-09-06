@@ -87,7 +87,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>
-              <ActionButton action={() => console.log('Not implemented yet!')}>Create Version</ActionButton>
+              <ActionButton link="versions/create">Create Version</ActionButton>
             </ProtectedComponent>
           </ToolbarItem>
         </Toolbar>
