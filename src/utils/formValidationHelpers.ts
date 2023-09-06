@@ -62,7 +62,7 @@ export const validateUrls = (urls: string): boolean => {
  * @param min - Minimal length of a string returned function will validate
  * @returns function validating minimal length
  */
-export const minLength = (min: number): Function => {
+export const minLength = (min: number) => {
   return (string: string): boolean => {
     return !string || string.length >= min;
   };
@@ -76,7 +76,7 @@ export const minLength = (min: number): Function => {
  * @param max - Maximal length of a string returned function will validate
  * @returns function validating maximal length
  */
-export const maxLength = (max: number): Function => {
+export const maxLength = (max: number) => {
   return (string: string): boolean => {
     return !string || string.length <= max;
   };

@@ -37,6 +37,16 @@ import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 import { createDateTime, getShortProductMilestoneVersion, parseDate } from 'utils/utils';
 
+const validateDates = (fieldValues: IFieldValues): boolean => {
+  return (
+    !fieldValues.startingDate ||
+    !fieldValues.plannedEndDate ||
+    !validateDate(fieldValues.startingDate) ||
+    !validateDate(fieldValues.plannedEndDate) ||
+    new Date(fieldValues.startingDate) < new Date(fieldValues.plannedEndDate)
+  );
+};
+
 const formConfig = {
   version: {
     // TODO: NCL-8162 implementing async validation
@@ -44,11 +54,25 @@ const formConfig = {
   },
   startingDate: {
     isRequired: true,
-    validators: [{ validator: validateDate, errorMessage: 'Invalid date format.' }],
+    validators: [
+      { validator: validateDate, errorMessage: 'Invalid date format.' },
+      {
+        validator: validateDates,
+        errorMessage: 'Start date must be before planned end date.',
+        relatedFields: ['plannedEndDate'],
+      },
+    ],
   },
   plannedEndDate: {
     isRequired: true,
-    validators: [{ validator: validateDate, errorMessage: 'Invalid date format.' }],
+    validators: [
+      { validator: validateDate, errorMessage: 'Invalid date format.' },
+      {
+        validator: validateDates,
+        errorMessage: 'Planned end date must be after start date.',
+        relatedFields: ['startingDate'],
+      },
+    ],
   },
 };
 

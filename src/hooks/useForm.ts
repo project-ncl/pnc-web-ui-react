@@ -6,8 +6,9 @@ import { transformFormToValues } from 'utils/patchHelper';
 type TState = TextInputProps['validated'];
 
 interface IValidator {
-  validator: Function;
+  validator: (value: any) => boolean;
   errorMessage: string;
+  relatedFields?: string[];
 }
 
 interface IField<T> {
@@ -53,6 +54,9 @@ export interface IFieldValues {
  *
  * Input strings are trimmed before they are passed to the submit callback.
  *
+ * For multi-field validations (validating relationships between multiple fields), use validator with relatedFields property defined.
+ * relatedFields specifies IDs of other fields that are in multi-field validation group.
+ *
  * See related components: {@link FormInput}
  *
  * See example usages: {@link ProjectCreateEditPage} {@link ScmRepositoryCreateEditPage}
@@ -89,7 +93,22 @@ export const useForm = () => {
   const handleChange = <T>(fieldName: string): OnChangeFunction<T> => {
     return (value: T) => {
       setFields((fields) => {
-        const newFields = { ...fields, [fieldName]: constructNewFieldOnChange<T>(fields[fieldName], value) };
+        const newFields = { ...fields };
+        newFields[fieldName] = constructNewFieldOnChange<T>(fieldName, newFields, value);
+
+        // to prevent multiple updates when one field is contained in multiple relatedFields
+        const updatedFields: string[] = [];
+
+        newFields[fieldName].validators
+          ?.filter((validator) => validator.relatedFields?.length)
+          ?.forEach((multiFieldValidator) => {
+            multiFieldValidator.relatedFields!.forEach((relatedField) => {
+              if (!updatedFields.includes(relatedField)) {
+                updatedFields.push(relatedField);
+                newFields[relatedField] = constructNewFieldOnChange<T>(relatedField, newFields);
+              }
+            });
+          });
 
         const isFormValid = () => {
           for (const fieldName in newFields) {
@@ -124,66 +143,72 @@ export const useForm = () => {
 
   const handleBlur = <T>(fieldName: string): OnBlurFunction => {
     return () => {
-      setFields((fields) => ({
-        ...fields,
-        [fieldName]: constructNewFieldOnBlur<T>(fields[fieldName], fields[fieldName].value),
-      }));
+      setFields((fields) => {
+        const newFields = { ...fields };
+
+        fields[fieldName] = constructNewFieldOnBlur<T>(fieldName, newFields);
+
+        return newFields;
+      });
     };
   };
 
-  const constructNewFieldOnChange = <T>(field: IField<T>, value: T): IField<T> => {
-    // field == React state, do not mutate nested objects and arrays directly
-    const newField: IField<T> = { ...field };
+  const constructNewFieldOnChange = <T>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
+    const newField = { ...fields[fieldName] };
 
-    newField.value = constructNewFieldValue<T>(value);
-    newField.errorMessages = consructNewFieldErrorMessages<T>(field, newField.value);
-    newField.state = constructNewFieldState<T>(newField.value, newField.errorMessages);
-
-    return newField;
-  };
-
-  const constructNewFieldOnBlur = <T>(field: IField<T>, value: T): IField<T> => {
-    // field == React state, do not mutate nested objects and arrays directly
-    const newField: IField<T> = { ...field };
-
-    newField.value = typeof value === 'string' ? (value?.trim() as T) : value;
+    if (newValue !== undefined) {
+      newField.value = constructNewFieldValue<T>(newValue);
+    }
+    newField.errorMessages = constructNewFieldErrorMessages(fieldName, { ...fields, [fieldName]: newField });
+    newField.state = constructNewFieldState(fieldName, { ...fields, [fieldName]: newField });
 
     return newField;
   };
 
-  const constructNewFieldValue = <T>(value: T): T => {
-    if (typeof value === 'string') {
-      return (value ? value : '') as T;
+  const constructNewFieldOnBlur = <T>(fieldName: string, fields: IFields): IField<T> => {
+    const newField = { ...fields[fieldName] };
+
+    newField.value = typeof newField.value === 'string' ? (newField.value?.trim() as T) : newField.value;
+
+    return newField;
+  };
+
+  const constructNewFieldValue = <T>(newValue: T): T => {
+    if (typeof newValue === 'string') {
+      return (newValue ? newValue : '') as T;
     }
 
-    return value;
+    return newValue;
   };
 
-  const consructNewFieldErrorMessages = <T>(field: IField<T>, value: T): string[] => {
-    const errorMessages = [];
+  const constructNewFieldErrorMessages = (fieldName: string, fields: IFields): string[] => {
+    const value = fields[fieldName].value;
+    const newErrorMessages = [];
 
-    if (field.isRequired) {
+    if (fields[fieldName].isRequired) {
       if (!value || (typeof value === 'string' && !value.trim())) {
-        errorMessages.push('Field must be filled.');
+        newErrorMessages.push('Field must be filled.');
       }
     }
 
-    if (field.validators?.length) {
-      for (const validator of field.validators) {
-        if (!validator.validator(value)) {
-          errorMessages.push(validator.errorMessage);
+    if (fields[fieldName].validators?.length) {
+      for (const validator of fields[fieldName].validators!) {
+        const data = validator.relatedFields?.length ? transformFormToValues(fields) : value;
+
+        if (!validator.validator(data)) {
+          newErrorMessages.push(validator.errorMessage);
         }
       }
     }
 
-    return errorMessages;
+    return newErrorMessages;
   };
 
-  const constructNewFieldState = <T>(value: T, errorMessages?: string[]): TState => {
-    if (errorMessages?.length) {
+  const constructNewFieldState = (fieldName: string, fields: IFields): TState => {
+    if (fields[fieldName]?.errorMessages?.length) {
       return 'error';
     } else {
-      if (value) {
+      if (fields[fieldName].value) {
         return 'success';
       } else {
         return 'default';
