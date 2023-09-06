@@ -6,7 +6,9 @@ import { PageTitles } from 'common/constants';
 import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { ActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
 import { TabsItem } from 'components/Tabs/TabsItem';
@@ -51,6 +53,11 @@ export const ProductVersionPages = () => {
       <PageLayout
         title={`${serviceContainerProductVersion.data?.product.name} ${serviceContainerProductVersion.data?.version}`}
         tabs={pageTabs}
+        actions={
+          <ProtectedComponent>
+            <ActionButton link="edit">Edit Product Version</ActionButton>
+          </ProtectedComponent>
+        }
       >
         <Outlet context={{ serviceContainerProductVersion }} />
       </PageLayout>

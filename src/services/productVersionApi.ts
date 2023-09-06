@@ -21,6 +21,31 @@ export const getProductVersion = ({ id }: IProductVersionApiData, requestConfig:
 };
 
 /**
+ * Creates a new Product Version.
+ *
+ * @param data - object containing new Product Version data
+ * @param requestConfig - Axios based request config
+ */
+export const createProductVersion = ({ data }: { data: Omit<ProductVersion, 'id'> }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<ProductVersion>('/product-versions', data, requestConfig);
+};
+
+/**
+ * Patches a Product Version.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Version ID
+ *  - patchData - array of changes in JSON-Patch format
+ * @param requestConfig - Axios based request config
+ */
+export const patchProductVersion = (
+  { id, patchData }: { id: string; patchData: Operation[] },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().patch<ProductVersion>(`/product-versions/${id}`, patchData, requestConfig);
+};
+
+/**
  * Gets Product Version statistics.
  *
  * @param serviceData - object containing:
@@ -95,19 +120,4 @@ export const getBuildConfigs = ({ id }: IProductVersionApiData, requestConfig: A
  */
 export const getGroupConfigs = ({ id }: IProductVersionApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<GroupConfigPage>(`/product-versions/${id}/group-configs`, requestConfig);
-};
-
-/**
- * Patch a Product Version.
- *
- * @param serviceData - object containing:
- *  - id - Product Version ID
- *  - patchData - array of changes in JSON-Patch format
- * @param requestConfig - Axios based request config
- */
-export const patchProductVersion = (
-  { id, patchData }: { id: string; patchData: Operation[] },
-  requestConfig: AxiosRequestConfig = {}
-) => {
-  return pncClient.getHttpClient().patch<ProductVersion>(`/product-versions/${id}`, patchData, requestConfig);
 };
