@@ -196,6 +196,10 @@ code {
   color: var(--pf-c-dropdown__menu-item--disabled--Color) !important;
 }
 
+.dropdown-item-font-size {
+  font-size: var(--pf-c-dropdown__menu-item--FontSize);
+}
+
 .pnc-info-icon {
   color: var(--pf-global--link--Color);
   text-decoration: var(--pf-global--link--TextDecoration);

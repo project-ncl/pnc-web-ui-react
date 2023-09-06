@@ -46,6 +46,7 @@ export const ProductMilestoneMarkModalButton = ({
             className={css(
               variant === 'list' && !isDisabled && 'black-color',
               variant === 'list' && isDisabled && 'disabled-color',
+              variant === 'list' && 'dropdown-item-font-size',
               'text-align-left'
             )}
             isBlock
