@@ -105,7 +105,7 @@ export const ProductVersionDetailPage = () => {
             <AttributesItem title={productVersionEntityAttributes.productDescription.title}>
               {serviceContainerProductVersion.data?.product.description}
             </AttributesItem>
-            <AttributesItem title={productVersionEntityAttributes.breTagPrefix.title}>
+            <AttributesItem title={productVersionEntityAttributes['attributes.brewTagPrefix'].title}>
               {serviceContainerProductVersion.data?.attributes.BREW_TAG_PREFIX}
             </AttributesItem>
             <AttributesItem title={productVersionEntityAttributes.latestProductMilestone.title}>

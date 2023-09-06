@@ -7,7 +7,7 @@ interface IExtendedProductVersion extends ProductVersion {
   productName: any;
   productDescription: any;
 
-  breTagPrefix: any; // derived from attributes
+  'attributes.brewTagPrefix': any; // derived from attributes
   latestProductMilestone: any; // derived from productMilestones
   latestProductRelease: any; // derived from productReleases
 }
@@ -32,8 +32,8 @@ export const productVersionEntityAttributes = {
     id: 'productDescription',
     title: 'Product Description',
   },
-  breTagPrefix: {
-    id: 'breTagPrefix',
+  'attributes.brewTagPrefix': {
+    id: 'attributes.brewTagPrefix',
     title: 'Brew Tag Prefix',
   },
   latestProductMilestone: {
