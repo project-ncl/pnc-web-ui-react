@@ -197,7 +197,7 @@ code {
 }
 
 .dropdown-item-font-size {
-  font-size: var(--pf-c-dropdown__menu-item--FontSize);
+  font-size: var(--pf-c-dropdown__menu-item--FontSize) !important;
 }
 
 .pnc-info-icon {
