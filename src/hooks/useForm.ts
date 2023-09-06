@@ -189,17 +189,18 @@ export const useForm = () => {
 
   const constructNewFieldErrorMessages = (fieldName: string, fields: IFields): string[] => {
     const value = fields[fieldName].value;
+    const trimmedValue = typeof value === 'string' ? value.trim() : value;
     const newErrorMessages = [];
 
     if (fields[fieldName].isRequired) {
-      if (!value || (typeof value === 'string' && !value.trim())) {
+      if (!trimmedValue) {
         newErrorMessages.push('Field must be filled.');
       }
     }
 
     if (fields[fieldName].validators?.length) {
       for (const validator of fields[fieldName].validators!) {
-        const data = validator.relatedFields?.length ? transformFormToValues(fields) : value;
+        const data = validator.relatedFields?.length ? transformFormToValues(fields) : trimmedValue;
 
         if (!validator.validator(data)) {
           newErrorMessages.push(validator.errorMessage);
