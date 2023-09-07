@@ -24,6 +24,7 @@ import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
+import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
@@ -208,7 +209,10 @@ export const AppRoutes = (
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
-    <Route path="group-builds" element={<GroupBuildsPage />} />
+    <Route path="group-builds">
+      <Route index element={<GroupBuildsPage />} />
+      <Route path=":groupBuildId" element={<GroupBuildDetailPage />} />
+    </Route>
     <Route path="artifacts">
       <Route index element={<ArtifactsPage />} />
       <Route path=":artifactId" element={<ArtifactPages />}>
