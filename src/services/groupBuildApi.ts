@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { BuildsGraph, GroupBuildPage } from 'pnc-api-types-ts';
+import { BuildPage, BuildsGraph, GroupBuild, GroupBuildPage } from 'pnc-api-types-ts';
 
 import { addQParamItem } from 'utils/qParamHelper';
 
@@ -16,7 +16,7 @@ interface IGroupBuildApiData {
  * @param requestConfig - Axios based request config
  */
 export const getGroupBuilds = (requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<GroupBuildPage>('group-builds', requestConfig);
+  return pncClient.getHttpClient().get<GroupBuildPage>('/group-builds', requestConfig);
 };
 
 /**
@@ -32,6 +32,28 @@ export const getUserGroupBuilds = ({ userId }: { userId: string }, requestConfig
   const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
 
   return pncClient.getHttpClient().get<GroupBuildPage>('/group-builds', newRequestConfig);
+};
+
+/**
+ * Gets a specific Group Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Group Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getGroupBuild = ({ id }: IGroupBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<GroupBuild>(`/group-builds/${id}`, requestConfig);
+};
+
+/**
+ * Gets the Builds contained in the Group Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Group Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuilds = ({ id }: IGroupBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPage>(`/group-builds/${id}/builds`, requestConfig);
 };
 
 /**

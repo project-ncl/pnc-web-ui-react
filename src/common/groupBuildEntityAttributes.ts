@@ -77,4 +77,8 @@ export const groupBuildEntityAttributes = {
       operator: '==',
     },
   },
+  groupConfig: {
+    id: 'groupConfig',
+    title: 'Group Config',
+  },
 } as const satisfies TEntityAttributes<IExtendedGroupBuild>;

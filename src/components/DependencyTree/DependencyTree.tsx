@@ -228,42 +228,40 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
   }, [serviceContainerDependencyGraph.data, buildItem]);
 
   return (
-    <>
-      <ServiceContainerLoading {...serviceContainerDependencyGraph} title="Dependency Tree">
-        {buildItem && isBuild(buildItem) && (
-          <>
-            <div className={styles['build-tree-component']}>
-              <div className={styles['sub-title-bar']}>
-                <strong>Direct Parents</strong>
-              </div>
-              {dependentStructure?.length ? (
-                <TreeView data={dependentStructure} allExpanded={allExpanded} hasGuides={true} />
-              ) : (
-                <div className={styles['no-data-text']}>No direct parent</div>
-              )}
+    <ServiceContainerLoading {...serviceContainerDependencyGraph} title="Dependency Tree">
+      {buildItem && isBuild(buildItem) && (
+        <>
+          <div className={styles['build-tree-component']}>
+            <div className={styles['sub-title-bar']}>
+              <strong>Direct Parents</strong>
             </div>
-            <Divider />
-          </>
-        )}
-        <div className={styles['build-tree-component']}>
-          <div className={styles['sub-title-bar']}>
-            <strong>Dependencies</strong>
-            <Button variant="tertiary" onClick={onClickExpandLevel1} isSmall>
-              Expand 1 Level
-            </Button>
-            <Button variant="tertiary" onClick={onClickExpandLevel2} isSmall>
-              Expand 2 Levels
-            </Button>
-            <Button variant="tertiary" onClick={onClickExpandAll} isSmall>
-              {allExpanded ? 'Collapse All' : 'Expand All'}
-            </Button>
-            <Button variant="tertiary" onClick={onClickExpandAllFailed} isSmall>
-              Expand All Failed
-            </Button>
+            {dependentStructure?.length ? (
+              <TreeView data={dependentStructure} allExpanded={allExpanded} hasGuides={true} />
+            ) : (
+              <div className={styles['no-data-text']}>No direct parent</div>
+            )}
           </div>
-          {display && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
+          <Divider />
+        </>
+      )}
+      <div className={styles['build-tree-component']}>
+        <div className={styles['sub-title-bar']}>
+          <strong>Dependencies</strong>
+          <Button variant="tertiary" onClick={onClickExpandLevel1} isSmall>
+            Expand 1 Level
+          </Button>
+          <Button variant="tertiary" onClick={onClickExpandLevel2} isSmall>
+            Expand 2 Levels
+          </Button>
+          <Button variant="tertiary" onClick={onClickExpandAll} isSmall>
+            {allExpanded ? 'Collapse All' : 'Expand All'}
+          </Button>
+          <Button variant="tertiary" onClick={onClickExpandAllFailed} isSmall>
+            Expand All Failed
+          </Button>
         </div>
-      </ServiceContainerLoading>
-    </>
+        {display && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
+      </div>
+    </ServiceContainerLoading>
   );
 };
