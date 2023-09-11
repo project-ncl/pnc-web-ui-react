@@ -51,6 +51,10 @@ code {
   display: flex !important;
 }
 
+.align-items-center {
+  align-items: center !important;
+}
+
 .gap-0 {
   gap: 0 !important;
 }
