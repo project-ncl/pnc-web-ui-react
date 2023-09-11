@@ -23,4 +23,8 @@ export const groupConfigEntityAttributes = {
     id: 'buildConfigsCount',
     title: 'Build Configs count',
   },
+  productVersion: {
+    id: 'productVersion',
+    title: 'Product Version',
+  },
 } as const satisfies TEntityAttributes<IExtendedGroupConfig>;
