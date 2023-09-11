@@ -98,6 +98,7 @@ export const useNetworkGraph = ({
         renderEdgeLabels: true,
         enableEdgeHoverEvents: true,
         enableEdgeClickEvents: true,
+        allowInvalidContainer: true,
         labelRenderer: drawLabel,
         edgeLabelColor: {
           color: 'black',
