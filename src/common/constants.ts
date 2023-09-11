@@ -16,6 +16,7 @@ export const PageTitles = {
   buildConfigs: 'Build Configs',
   groupConfigs: 'Group Configs',
   builds: 'Builds',
+  buildHistory: 'Build History',
   groupBuilds: 'Group Builds',
   artifacts: 'Artifacts',
   artifactQualityRevisions: 'Quality Revisions',
