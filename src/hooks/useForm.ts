@@ -3,6 +3,8 @@ import { useCallback, useState } from 'react';
 
 import { transformFormToValues } from 'utils/patchHelper';
 
+export type TValue = string | number | boolean;
+
 type TState = TextInputProps['validated'];
 
 interface IValidator {
@@ -11,7 +13,7 @@ interface IValidator {
   relatedFields?: string[];
 }
 
-interface IField<T> {
+interface IField<T extends TValue> {
   value?: T;
   errorMessages?: string[];
   state?: TState;
@@ -19,17 +21,21 @@ interface IField<T> {
   validators?: IValidator[];
 }
 
-export type TFieldConfig<T> = Omit<IField<T>, 'errorMessages' | 'state'>;
+export type TFieldConfig<T extends TValue> = Omit<IField<T>, 'errorMessages' | 'state'>;
 
 export interface IFields {
-  [fieldName: string]: IField<any>;
+  [fieldName: string]: IField<TValue>;
 }
 
-type OnChangeFunction<T> = (value: T) => void;
+export interface IFieldConfigs {
+  [fieldName: string]: TFieldConfig<TValue>;
+}
+
+type OnChangeFunction<T extends TValue> = (value: T) => void;
 
 type OnBlurFunction = () => void;
 
-export interface IRegisterData<T> {
+export interface IRegisterData<T extends TValue> {
   value: T;
   onChange: OnChangeFunction<T>;
   onBlur: OnBlurFunction;
@@ -77,20 +83,20 @@ export const useForm = () => {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
   const [hasFormChanged, setHasFormChanged] = useState<boolean>(false);
 
-  const register = <T>(fieldName: string, fieldConfig?: TFieldConfig<T>): IRegisterData<T> => {
+  const register = <T extends TValue>(fieldName: string, fieldConfig?: TFieldConfig<T>): IRegisterData<T> => {
     if (!fields[fieldName]) {
       setFields((fields) => ({ ...fields, [fieldName]: { ...fieldConfig, value: fieldConfig?.value || '', state: 'default' } }));
     }
 
     return {
-      value: fields[fieldName]?.value,
+      value: fields[fieldName]?.value as T,
       onChange: handleChange<T>(fieldName),
       onBlur: handleBlur<T>(fieldName),
       validated: fields[fieldName]?.state,
     };
   };
 
-  const handleChange = <T>(fieldName: string): OnChangeFunction<T> => {
+  const handleChange = <T extends TValue>(fieldName: string): OnChangeFunction<T> => {
     return (value: T) => {
       setFields((fields) => {
         const newFields = { ...fields };
@@ -122,8 +128,8 @@ export const useForm = () => {
 
         const areRequiredFilled = () => {
           for (const fieldName in newFields) {
-            const value =
-              typeof newFields[fieldName].value === 'string' ? newFields[fieldName].value?.trim() : newFields[fieldName].value;
+            const oldValue = newFields[fieldName].value;
+            const value = typeof oldValue === 'string' ? oldValue?.trim() : oldValue;
             if (newFields[fieldName].isRequired && !value) {
               return false;
             }
@@ -141,7 +147,7 @@ export const useForm = () => {
     };
   };
 
-  const handleBlur = <T>(fieldName: string): OnBlurFunction => {
+  const handleBlur = <T extends TValue>(fieldName: string): OnBlurFunction => {
     return () => {
       setFields((fields) => {
         const newFields = { ...fields };
@@ -153,8 +159,8 @@ export const useForm = () => {
     };
   };
 
-  const constructNewFieldOnChange = <T>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
-    const newField = { ...fields[fieldName] };
+  const constructNewFieldOnChange = <T extends TValue>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
+    const newField = { ...(fields[fieldName] as IField<T>) };
 
     if (newValue !== undefined) {
       newField.value = constructNewFieldValue<T>(newValue);
@@ -165,15 +171,15 @@ export const useForm = () => {
     return newField;
   };
 
-  const constructNewFieldOnBlur = <T>(fieldName: string, fields: IFields): IField<T> => {
-    const newField = { ...fields[fieldName] };
+  const constructNewFieldOnBlur = <T extends TValue>(fieldName: string, fields: IFields): IField<T> => {
+    const newField = { ...(fields[fieldName] as IField<T>) };
 
     newField.value = typeof newField.value === 'string' ? (newField.value?.trim() as T) : newField.value;
 
     return newField;
   };
 
-  const constructNewFieldValue = <T>(newValue: T): T => {
+  const constructNewFieldValue = <T extends TValue>(newValue: T): T => {
     if (typeof newValue === 'string') {
       return (newValue ? newValue : '') as T;
     }

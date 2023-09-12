@@ -1,6 +1,6 @@
-import { IRegisterData } from 'hooks/useForm';
+import { IRegisterData, TValue } from 'hooks/useForm';
 
-interface IFormInputProps<T> extends IRegisterData<T> {
+interface IFormInputProps<T extends TValue> extends IRegisterData<T> {
   render: (registerData: IRegisterData<T>) => JSX.Element;
 }
 
@@ -16,6 +16,6 @@ interface IFormInputProps<T> extends IRegisterData<T> {
  * @param render - Function to render the form input component
  * @returns
  */
-export const FormInput = <T,>({ value, onChange, onBlur, validated, render }: IFormInputProps<T>) => {
+export const FormInput = <T extends TValue>({ value, onChange, onBlur, validated, render }: IFormInputProps<T>) => {
   return render({ value, onChange, onBlur, validated });
 };
