@@ -20,7 +20,7 @@ import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'reac
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { useDataBuffer } from 'hooks/useDataBuffer';
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -53,7 +53,7 @@ import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
 
-const formConfig = {
+const fieldConfigs = {
   inputFieldA: {
     isRequired: true,
     validators: [
@@ -67,7 +67,7 @@ const formConfig = {
   selectA: {
     isRequired: true,
   },
-};
+} satisfies IFieldConfigs;
 
 const initLogData = [
   '[2022-08-15T14:11:36.929Z] Push 1 started.',
@@ -297,7 +297,7 @@ export const DemoPage = () => {
                   id="inputFieldA"
                   name="inputFieldA"
                   autoComplete="off"
-                  {...register<string>('inputFieldA', formConfig.inputFieldA)}
+                  {...register<string>('inputFieldA', fieldConfigs.inputFieldA)}
                 />
               </FormGroup>
               <FormGroup label="Text Area" fieldId="textAreaA">
@@ -314,7 +314,7 @@ export const DemoPage = () => {
                 }
               >
                 <FormInput<string>
-                  {...register<string>('selectA', formConfig.selectA)}
+                  {...register<string>('selectA', fieldConfigs.selectA)}
                   render={({ value, onChange, validated }) => (
                     <Select
                       id="selectA"

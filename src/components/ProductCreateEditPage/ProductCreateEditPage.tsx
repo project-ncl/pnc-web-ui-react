@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -17,14 +17,14 @@ import * as productApi from 'services/productApi';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
-const formConfig = {
+const fieldConfigs = {
   name: {
     isRequired: true,
   },
   abbreviation: {
     isRequired: true,
   },
-};
+} satisfies IFieldConfigs;
 
 interface IProductCreateEditPageProps {
   isEditPage?: boolean;
@@ -115,7 +115,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
             id={productEntityAttributes.name.id}
             name={productEntityAttributes.name.id}
             autoComplete="off"
-            {...register<string>(productEntityAttributes.name.id, formConfig.name)}
+            {...register<string>(productEntityAttributes.name.id, fieldConfigs.name)}
           />
         </FormGroup>
         <FormGroup
@@ -134,7 +134,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
             id={productEntityAttributes.abbreviation.id}
             name={productEntityAttributes.abbreviation.id}
             autoComplete="off"
-            {...register<string>(productEntityAttributes.abbreviation.id, formConfig.abbreviation)}
+            {...register<string>(productEntityAttributes.abbreviation.id, fieldConfigs.abbreviation)}
           />
         </FormGroup>
         <FormGroup label={productEntityAttributes.description.title} fieldId={productEntityAttributes.description.id}>

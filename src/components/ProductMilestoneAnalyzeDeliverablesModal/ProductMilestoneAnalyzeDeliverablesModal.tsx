@@ -5,7 +5,7 @@ import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
@@ -14,12 +14,12 @@ import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { validateUrls } from 'utils/formValidationHelpers';
 
-const formConfig = {
+const fieldConfigs = {
   deliverablesUrls: {
     isRequired: true,
     validators: [{ validator: validateUrls, errorMessage: 'Invalid format of URLs.' }],
   },
-};
+} satisfies IFieldConfigs;
 
 interface IProductMilestoneAnalyzeDeliverablesModalProps {
   isModalOpen: boolean;
@@ -105,7 +105,7 @@ https://url-path/to/file2.zip
 https://url-path/to/file3.zip`}
             {...register<string>(
               productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id,
-              formConfig.deliverablesUrls
+              fieldConfigs.deliverablesUrls
             )}
           />
         </FormGroup>

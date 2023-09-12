@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -18,7 +18,7 @@ import { maxLengthValidator255, urlValidator } from 'utils/formValidationHelpers
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
-const formConfig = {
+const fieldConfigs = {
   name: {
     isRequired: true,
     validators: [maxLengthValidator255],
@@ -35,7 +35,7 @@ const formConfig = {
   technicalLeader: {
     validators: [maxLengthValidator255],
   },
-};
+} satisfies IFieldConfigs;
 
 interface IProjectCreateEditPageProps {
   isEditPage?: boolean;
@@ -126,7 +126,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.name.id}
             name={projectEntityAttributes.name.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.name.id, formConfig.name)}
+            {...register<string>(projectEntityAttributes.name.id, fieldConfigs.name)}
           />
         </FormGroup>
         <FormGroup label={projectEntityAttributes.description.title} fieldId={projectEntityAttributes.description.id}>
@@ -152,7 +152,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.projectUrl.id}
             name={projectEntityAttributes.projectUrl.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.projectUrl.id, formConfig.projectUrl)}
+            {...register<string>(projectEntityAttributes.projectUrl.id, fieldConfigs.projectUrl)}
           />
         </FormGroup>
         <FormGroup
@@ -169,7 +169,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.issueTrackerUrl.id}
             name={projectEntityAttributes.issueTrackerUrl.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.issueTrackerUrl.id, formConfig.issueTrackerUrl)}
+            {...register<string>(projectEntityAttributes.issueTrackerUrl.id, fieldConfigs.issueTrackerUrl)}
           />
         </FormGroup>
         <FormGroup
@@ -186,7 +186,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.engineeringTeam.id}
             name={projectEntityAttributes.engineeringTeam.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.engineeringTeam.id, formConfig.engineeringTeam)}
+            {...register<string>(projectEntityAttributes.engineeringTeam.id, fieldConfigs.engineeringTeam)}
           />
         </FormGroup>
         <FormGroup
@@ -203,7 +203,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             id={projectEntityAttributes.technicalLeader.id}
             name={projectEntityAttributes.technicalLeader.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.technicalLeader.id, formConfig.technicalLeader)}
+            {...register<string>(projectEntityAttributes.technicalLeader.id, fieldConfigs.technicalLeader)}
           />
         </FormGroup>
         <ActionGroup>

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -26,7 +26,7 @@ interface IScmRepositoryCreateEditPageProps {
   isEditPage?: boolean;
 }
 
-const createFormConfig = {
+const createFieldConfigs = {
   scmUrl: {
     isRequired: true,
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
@@ -34,13 +34,13 @@ const createFormConfig = {
   preBuildSyncEnabled: {
     value: true,
   },
-};
+} satisfies IFieldConfigs;
 
-const editFormConfig = {
+const editFieldConfigs = {
   externalUrl: {
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
-};
+} satisfies IFieldConfigs;
 
 export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmRepositoryCreateEditPageProps) => {
   const { scmRepositoryId } = useParams();
@@ -127,7 +127,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               id={scmRepositoryEntityAttributes.scmUrl.id}
               name={scmRepositoryEntityAttributes.scmUrl.id}
               autoComplete="off"
-              {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, createFormConfig.scmUrl)}
+              {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, createFieldConfigs.scmUrl)}
             />
           </FormGroup>
         )}
@@ -156,7 +156,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                 id={scmRepositoryEntityAttributes.externalUrl.id}
                 name={scmRepositoryEntityAttributes.externalUrl.id}
                 autoComplete="off"
-                {...register<string>(scmRepositoryEntityAttributes.externalUrl.id, editFormConfig.externalUrl)}
+                {...register<string>(scmRepositoryEntityAttributes.externalUrl.id, editFieldConfigs.externalUrl)}
               />
             </FormGroup>
           </>
@@ -174,7 +174,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           <FormInput<boolean>
             {...register<boolean>(
               scmRepositoryEntityAttributes.preBuildSyncEnabled.id,
-              !isEditPage ? createFormConfig.preBuildSyncEnabled : undefined
+              !isEditPage ? createFieldConfigs.preBuildSyncEnabled : undefined
             )}
             render={({ value, onChange, onBlur }) => (
               <Switch

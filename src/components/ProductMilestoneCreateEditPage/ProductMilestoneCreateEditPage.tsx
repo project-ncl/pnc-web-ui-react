@@ -17,7 +17,7 @@ import { ProductMilestone } from 'pnc-api-types-ts';
 import { PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -47,7 +47,7 @@ const validateDates = (fieldValues: IFieldValues): boolean => {
   );
 };
 
-const formConfig = {
+const fieldConfigs = {
   version: {
     // TODO: NCL-8162 implementing async validation
     isRequired: true,
@@ -74,7 +74,7 @@ const formConfig = {
       },
     ],
   },
-};
+} satisfies IFieldConfigs;
 
 interface IProductMilestoneCreateEditPageProps {
   isEditPage?: boolean;
@@ -228,7 +228,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
               id={productMilestoneEntityAttributes.version.id}
               name={productMilestoneEntityAttributes.version.id}
               autoComplete="off"
-              {...register<string>(productMilestoneEntityAttributes.version.id, formConfig.version)}
+              {...register<string>(productMilestoneEntityAttributes.version.id, fieldConfigs.version)}
             />
           </InputGroup>
         </FormGroup>
@@ -245,7 +245,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
           <DatePicker
             id={productMilestoneEntityAttributes.startingDate.id}
             name={productMilestoneEntityAttributes.startingDate.id}
-            {...register<string>(productMilestoneEntityAttributes.startingDate.id, formConfig.startingDate)}
+            {...register<string>(productMilestoneEntityAttributes.startingDate.id, fieldConfigs.startingDate)}
           />
         </FormGroup>
         <FormGroup
@@ -261,7 +261,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
           <DatePicker
             id={productMilestoneEntityAttributes.plannedEndDate.id}
             name={productMilestoneEntityAttributes.plannedEndDate.id}
-            {...register<string>(productMilestoneEntityAttributes.plannedEndDate.id, formConfig.plannedEndDate)}
+            {...register<string>(productMilestoneEntityAttributes.plannedEndDate.id, fieldConfigs.plannedEndDate)}
           />
         </FormGroup>
         <FormGroup fieldId={productMilestoneEntityAttributes.isCurrent.id}>
