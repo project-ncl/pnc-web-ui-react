@@ -7,7 +7,7 @@ import { Artifact } from 'pnc-api-types-ts';
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 
-import { IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
@@ -15,14 +15,14 @@ import { FormInput } from 'components/FormInput/FormInput';
 
 import * as artifactApi from 'services/artifactApi';
 
-const formConfig = {
+const fieldConfigs = {
   artifactQuality: {
     isRequired: true,
   },
   qualityLevelReason: {
     isRequired: true,
   },
-};
+} satisfies IFieldConfigs;
 
 export interface IArtifactEditQualityModalProps {
   isModalOpen: boolean;
@@ -102,7 +102,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
           }
         >
           <FormInput<string>
-            {...register<string>(artifactQualityRevisionEntityAttributes.artifactQuality.id, formConfig.artifactQuality)}
+            {...register<string>(artifactQualityRevisionEntityAttributes.artifactQuality.id, fieldConfigs.artifactQuality)}
             render={({ value, validated, onChange, onBlur }) => (
               <Select
                 menuAppendTo="parent"
@@ -148,7 +148,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
             name={artifactQualityRevisionEntityAttributes.qualityLevelReason.id}
             resizeOrientation="vertical"
             autoComplete="off"
-            {...register<string>(artifactQualityRevisionEntityAttributes.qualityLevelReason.id, formConfig.qualityLevelReason)}
+            {...register<string>(artifactQualityRevisionEntityAttributes.qualityLevelReason.id, fieldConfigs.qualityLevelReason)}
           />
         </FormGroup>
       </Form>
