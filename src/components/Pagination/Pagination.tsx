@@ -1,5 +1,5 @@
 import { Pagination as PaginationPF, PaginationVariant } from '@patternfly/react-core';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
@@ -11,18 +11,30 @@ import { getComponentQueryParamsObject, updateQueryParamsInURL } from 'utils/que
 // threshold when compact mode of the pagination is toggled
 const PAGINATION_WIDTH_THRESHOLD_PX = 400;
 
+const pageSizeOptions = {
+  page10: { title: '10', value: 10 },
+  page15: { title: '15', value: 15 },
+  page20: { title: '20', value: 20 },
+  page50: { title: '50', value: 50 },
+  page200: { title: '200', value: 200 },
+};
+
+const perPageOptions = Object.values(pageSizeOptions);
+
 interface IPagination {
   componentId: string;
   count: number;
-  pageSizeDefault?: number;
+  pageSizeDefault?: keyof typeof pageSizeOptions;
 }
 
-export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagination) => {
+export const Pagination = ({ componentId, count, pageSizeDefault = 'page10' }: IPagination) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const pageSizeDefaultValue = useMemo(() => pageSizeOptions[pageSizeDefault].value, [pageSizeDefault]);
+
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(pageSizeDefault);
+  const [pageSize, setPageSize] = useState<number>(pageSizeDefaultValue);
 
   const { ref: paginationRef, width: paginationWidth } = useResizeObserver();
 
@@ -34,12 +46,12 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
     if (!(componentQueryParamsObject.pageIndex && componentQueryParamsObject.pageSize)) {
       // replace the current entry on the history stack, otherwise back button would not be working because of the redirection
       // from page without params to page with params
-      updateQueryParamsInURL({ pageIndex: 1, pageSize: pageSizeDefault }, componentId, location, navigate, true);
+      updateQueryParamsInURL({ pageIndex: 1, pageSize: pageSizeDefaultValue }, componentId, location, navigate, true);
     } else {
       setPageIndex(Number(componentQueryParamsObject.pageIndex));
       setPageSize(Number(componentQueryParamsObject.pageSize));
     }
-  }, [location.search, location, componentId, pageSizeDefault, navigate]); // primary: history.location.search
+  }, [location.search, location, componentId, pageSizeDefaultValue, navigate]); // primary: history.location.search
 
   // RENDERING
 
@@ -68,6 +80,7 @@ export const Pagination = ({ componentId, count, pageSizeDefault = 10 }: IPagina
           }}
           variant={PaginationVariant.bottom}
           isCompact={!!paginationWidth && paginationWidth < PAGINATION_WIDTH_THRESHOLD_PX}
+          perPageOptions={perPageOptions}
         />
       </div>
     </ContentBox>
