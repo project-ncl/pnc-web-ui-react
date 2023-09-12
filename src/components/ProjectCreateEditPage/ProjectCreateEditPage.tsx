@@ -14,19 +14,26 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 
 import * as projectApi from 'services/projectApi';
 
-import { validateUrl } from 'utils/formValidationHelpers';
+import { maxLengthValidator255, urlValidator } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 const formConfig = {
   name: {
     isRequired: true,
+    validators: [maxLengthValidator255],
   },
   projectUrl: {
-    validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
+    validators: [urlValidator, maxLengthValidator255],
   },
   issueTrackerUrl: {
-    validators: [{ validator: validateUrl, errorMessage: 'Invalid URL format.' }],
+    validators: [urlValidator, maxLengthValidator255],
+  },
+  engineeringTeam: {
+    validators: [maxLengthValidator255],
+  },
+  technicalLeader: {
+    validators: [maxLengthValidator255],
   },
 };
 
@@ -165,22 +172,38 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             {...register<string>(projectEntityAttributes.issueTrackerUrl.id, formConfig.issueTrackerUrl)}
           />
         </FormGroup>
-        <FormGroup label={projectEntityAttributes.engineeringTeam.title} fieldId={projectEntityAttributes.engineeringTeam.id}>
+        <FormGroup
+          label={projectEntityAttributes.engineeringTeam.title}
+          fieldId={projectEntityAttributes.engineeringTeam.id}
+          helperText={
+            <FormHelperText isHidden={getFieldState(projectEntityAttributes.engineeringTeam.id) !== 'error'} isError>
+              {getFieldErrors(projectEntityAttributes.engineeringTeam.id)}
+            </FormHelperText>
+          }
+        >
           <TextInput
             type="text"
             id={projectEntityAttributes.engineeringTeam.id}
             name={projectEntityAttributes.engineeringTeam.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.engineeringTeam.id)}
+            {...register<string>(projectEntityAttributes.engineeringTeam.id, formConfig.engineeringTeam)}
           />
         </FormGroup>
-        <FormGroup label={projectEntityAttributes.technicalLeader.title} fieldId={projectEntityAttributes.technicalLeader.id}>
+        <FormGroup
+          label={projectEntityAttributes.technicalLeader.title}
+          fieldId={projectEntityAttributes.technicalLeader.id}
+          helperText={
+            <FormHelperText isHidden={getFieldState(projectEntityAttributes.technicalLeader.id) !== 'error'} isError>
+              {getFieldErrors(projectEntityAttributes.technicalLeader.id)}
+            </FormHelperText>
+          }
+        >
           <TextInput
             type="text"
             id={projectEntityAttributes.technicalLeader.id}
             name={projectEntityAttributes.technicalLeader.id}
             autoComplete="off"
-            {...register<string>(projectEntityAttributes.technicalLeader.id)}
+            {...register<string>(projectEntityAttributes.technicalLeader.id, formConfig.technicalLeader)}
           />
         </FormGroup>
         <ActionGroup>
