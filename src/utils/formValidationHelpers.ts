@@ -28,6 +28,8 @@ export const validateUrl = (url: string): boolean => {
   return !url || urlRegex.test(url);
 };
 
+export const urlValidator = { validator: validateUrl, errorMessage: 'Invalid URL format.' };
+
 /**
  * SCM URL validation function.
  *
@@ -79,3 +81,5 @@ export const maxLength = (max: number): Function => {
     return !string || string.length <= max;
   };
 };
+
+export const maxLengthValidator255 = { validator: maxLength(255), errorMessage: 'Maximal input length is 255 characters.' };
