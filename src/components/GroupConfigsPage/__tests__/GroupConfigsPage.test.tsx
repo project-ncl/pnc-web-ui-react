@@ -1,5 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import ResizeObserver from 'resize-observer-polyfill';
 
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 
@@ -7,6 +8,7 @@ jest.mock('services/groupConfigApi');
 jest.mock('services/keycloakService');
 jest.mock('services/uiLogger');
 
+global.ResizeObserver = ResizeObserver;
 describe('display GroupConfigsPage component', () => {
   let groupConfigsMock: any;
 
