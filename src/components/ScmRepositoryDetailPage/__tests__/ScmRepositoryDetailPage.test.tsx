@@ -1,7 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import ResizeObserver from 'resize-observer-polyfill';
 
 import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmRepositoryDetailPage';
+
+global.ResizeObserver = ResizeObserver;
 
 jest.mock('services/scmRepositoryApi');
 jest.mock('services/keycloakService');
