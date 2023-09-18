@@ -648,7 +648,7 @@ Object {
                   />
                   <td
                     class=""
-                    colspan="6"
+                    colspan="7"
                   >
                     <div
                       class="pf-c-table__expandable-row-content"
@@ -1640,7 +1640,7 @@ Object {
                 />
                 <td
                   class=""
-                  colspan="6"
+                  colspan="7"
                 >
                   <div
                     class="pf-c-table__expandable-row-content"
