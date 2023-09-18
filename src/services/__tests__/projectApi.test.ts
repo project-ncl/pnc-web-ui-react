@@ -1,6 +1,9 @@
 import * as projectApi from 'services/projectApi';
 
 jest.mock('services/pncClient');
+jest.mock('services/keycloakService');
+jest.mock('services/uiLogger');
+jest.mock('services/webConfigService');
 
 describe('test all functions of the project service', () => {
   test('get projects', async () => {

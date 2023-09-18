@@ -17,3 +17,11 @@ export const getProject = (id: string) => {
 export const getProjectBuilds = (id: string) => {
   throw new Error('getProjectBuilds: Not implemented yet');
 };
+
+export const getBuildConfigsWithLatestBuild = () => {
+  return new Promise((resolve) => {
+    import('./build-configs-mock.json').then((mockBuildConfigsRequest) => {
+      resolve({ data: mockBuildConfigsRequest });
+    });
+  });
+};
