@@ -4,6 +4,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPage';
 
 jest.mock('services/projectApi');
+jest.mock('services/keycloakService');
+jest.mock('services/uiLogger');
+jest.mock('services/webConfigService');
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
