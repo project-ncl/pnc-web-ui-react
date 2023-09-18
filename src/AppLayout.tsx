@@ -4,8 +4,6 @@ import {
   Dropdown,
   DropdownItem,
   DropdownToggle,
-  Flex,
-  FlexItem,
   Nav,
   NavExpandable,
   NavItem,
@@ -26,7 +24,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useResizeObserver } from 'hooks/useResizeObserver';
 
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TopBarError } from 'components/TopBar/TopBarError';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
 import * as genericSettingsApi from 'services/genericSettingsApi';
@@ -69,7 +66,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
       <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
-      <ProtectedComponent role={AUTH_ROLE.Admin} hide={true} key="administration">
+      <ProtectedComponent role={AUTH_ROLE.Admin} hide key="administration">
         <DropdownItem component={<Link to="/admin/administration">Administration</Link>} />
       </ProtectedComponent>,
     ];
@@ -82,6 +79,10 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     ];
 
     const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
+
+    const headerKeycloakUnavailableDropdownItems = [
+      <DropdownItem component={<Link to="/admin/keycloak-status">Keycloak Status</Link>} key="keycloak-status" />,
+    ];
 
     function processLogin() {
       if (user) {
@@ -158,14 +159,22 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
                   dropdownItems={headerUserDropdownItems}
                 />
               ) : (
-                <Button isDisabled={true} variant={ButtonVariant.plain}>
-                  <Flex>
-                    <FlexItem>
-                      <UserIcon />
-                    </FlexItem>
-                    <FlexItem>KEYCLOAK UNAVAILABLE</FlexItem>
-                  </Flex>
-                </Button>
+                <Dropdown
+                  toggle={
+                    <DropdownToggle
+                      toggleIndicator={null}
+                      icon={<UserIcon />}
+                      onToggle={() => {
+                        setIsHeaderUserOpen((isHeaderUserOpen) => !isHeaderUserOpen);
+                      }}
+                    >
+                      KEYCLOAK UNAVAILABLE <CaretDownIcon />
+                    </DropdownToggle>
+                  }
+                  isOpen={isHeaderUserOpen}
+                  isPlain={true}
+                  dropdownItems={headerKeycloakUnavailableDropdownItems}
+                />
               )}
             </PageHeaderToolsItem>
           </PageHeaderToolsGroup>
@@ -261,14 +270,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
 
   return (
     <>
-      <div ref={topBarsRef}>
-        {announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}
-        {!keycloakService.isKeycloakAvailable && (
-          <TopBarError>
-            RESTRICTED MODE - Keycloak could not be initialized, check if there is network, vpn or certificate issue
-          </TopBarError>
-        )}
-      </div>
+      <div ref={topBarsRef}>{announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}</div>
       <div style={{ height: `calc(100% - ${topBarsHeight}px)` }}>
         <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
           {children}

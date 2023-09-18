@@ -18,7 +18,7 @@ import { Filtering } from 'components/Filtering/Filtering';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
-import { PROTECTED_TYPE, ProtectedContent } from 'components/ProtectedContent/ProtectedContent';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -132,9 +132,9 @@ export const BuildConfigsList = ({
                     </Th>
                   )}
                 {columns.includes(buildConfigEntityAttributes.actions.id) && (
-                  <ProtectedContent type={PROTECTED_TYPE.Component}>
+                  <ProtectedComponent>
                     <Th width={15}>{buildConfigEntityAttributes.actions.title}</Th>
-                  </ProtectedContent>
+                  </ProtectedComponent>
                 )}
               </Tr>
             </Thead>
@@ -203,9 +203,9 @@ export const BuildConfigsList = ({
                       )}
                     {columns.includes(buildConfigEntityAttributes.actions.id) && (
                       <Td>
-                        <ProtectedContent type={PROTECTED_TYPE.Component}>
+                        <ProtectedComponent>
                           <BuildStartButton buildConfig={buildConfig} size="sm" />
-                        </ProtectedContent>
+                        </ProtectedComponent>
                       </Td>
                     )}
                   </Tr>

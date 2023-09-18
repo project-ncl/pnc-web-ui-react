@@ -10,7 +10,7 @@ import '../../index.css';
 
 interface IErrorPageProps {
   pageTitle: string;
-  errorDescription: string;
+  errorDescription: React.ReactNode;
 }
 
 export const ErrorPage = ({ pageTitle, errorDescription }: IErrorPageProps) => {
@@ -20,7 +20,7 @@ export const ErrorPage = ({ pageTitle, errorDescription }: IErrorPageProps) => {
         title={pageTitle !== PageTitles.pageNotFound ? `Error when loading ${pageTitle}` : '404: Page does not exist'}
         icon={CubesIcon}
       >
-        <pre>{errorDescription}</pre>
+        <div>{errorDescription}</div>
         <Link className="m-t-15 pf-c-button pf-m-primary" to="/">
           Return to Dashboard
         </Link>

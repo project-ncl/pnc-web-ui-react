@@ -4,17 +4,24 @@ import { PROTECTED_TYPE, ProtectedContent } from './ProtectedContent';
 
 interface IProtectedComponentProps {
   role?: AUTH_ROLE;
+
+  // hide component, otherwise disabled component is visible
   hide?: boolean;
-  disable?: boolean;
 }
 
+/**
+ * Protected component content is automatically disabled when some of the requirements (for example role) are not fulfilled.
+ */
 export const ProtectedComponent = ({
   children,
   role = AUTH_ROLE.User,
   hide = false,
-  disable = false,
-}: React.PropsWithChildren<IProtectedComponentProps>) => (
-  <ProtectedContent type={PROTECTED_TYPE.Component} role={role} hide={hide} disable={disable}>
-    {children}
-  </ProtectedContent>
-);
+}: React.PropsWithChildren<IProtectedComponentProps>) => {
+  const type = hide ? PROTECTED_TYPE.ComponentHidden : PROTECTED_TYPE.ComponentDisabled;
+
+  return (
+    <ProtectedContent type={type} role={role}>
+      {children}
+    </ProtectedContent>
+  );
+};

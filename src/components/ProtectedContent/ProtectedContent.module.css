@@ -2,14 +2,14 @@
   pointer-events: none;
 }
 
-.disabled-content a {
-  pointer-events: none;
-  color: #6a6e73;
-}
-
+.disabled-content a,
 .disabled-content button {
   pointer-events: none;
   color: #6a6e73 !important;
+}
+
+.disabled-content a:global(.pf-c-button),
+.disabled-content button {
   background-color: #d2d2d2 !important;
 }
 
