@@ -105,7 +105,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     />,
     <ProductMilestoneCloseModalButton toggleModal={toggleCloseModal} variant="detail" />,
     <ProductMilestoneAnalyzeDeliverablesModalButton toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
-    <ProtectedComponent disable>
+    <ProtectedComponent>
       <ActionButton link="edit">Edit Milestone</ActionButton>
     </ProtectedComponent>,
   ];

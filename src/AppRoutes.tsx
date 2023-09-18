@@ -202,6 +202,9 @@ export const AppRoutes = () => (
     </Route>
 
     {/* special pages */}
+    <Route path="system">
+      <Route path="keycloak-status" element={<KeycloakStatusPage />} />
+    </Route>
     <Route path="admin">
       <Route path="demo" element={<DemoPage />} />
       <Route path="variables" element={<VariablesPage />} />
@@ -213,7 +216,6 @@ export const AppRoutes = () => (
           </ProtectedRoute>
         }
       />
-      <Route path="keycloak-status" element={<KeycloakStatusPage displayAsError={false} title="Keycloak service" />} />
     </Route>
     <Route path="insights">
       <Route path="product-milestone-comparison" element={<ProductMilestoneComparisonPage />} />
