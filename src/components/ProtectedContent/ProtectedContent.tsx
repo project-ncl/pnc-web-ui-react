@@ -12,27 +12,26 @@ export enum PROTECTED_TYPE {
   ComponentHidden,
 }
 
-interface IProtectedContentProps {
-  type: PROTECTED_TYPE;
-  role?: AUTH_ROLE;
-  title?: string;
-}
-
 const HiddenContent = () => null;
 
 interface IDisabledContentProps {
   reason: string;
 }
+
 const DisabledContent = ({ children, reason }: React.PropsWithChildren<IDisabledContentProps>) => (
   <div title={reason}>
     <div className={styles['disabled-content']}>{children}</div>
   </div>
 );
 
+interface IProtectedContentProps {
+  type: PROTECTED_TYPE;
+  role?: AUTH_ROLE;
+  title?: string;
+}
+
 /**
- * Internal component.
- *
- * Only {@link ProtectedComponent} and {@link ProtectedRoute} are assumed to use this component directly and they should be used instead.
+ * {@link ProtectedComponent} and {@link ProtectedRoute} use this component. They are meant to be used directly instead of this component.
  */
 export const ProtectedContent = ({
   children,
@@ -49,7 +48,7 @@ export const ProtectedContent = ({
     const reason = 'Keycloak service is not available.';
     switch (type) {
       case PROTECTED_TYPE.Route:
-        return <KeycloakStatusPage displayAsError={true} title={title as string} />;
+        return <KeycloakStatusPage errorPageTitle={title!} />;
       case PROTECTED_TYPE.ComponentHidden:
         return <HiddenContent />;
       case PROTECTED_TYPE.ComponentDisabled:
@@ -67,7 +66,7 @@ export const ProtectedContent = ({
     const reason = `User not allowed to enter this page, the following permissions are required: ${role}`;
     switch (type) {
       case PROTECTED_TYPE.Route:
-        return <ErrorPage pageTitle={title as string} errorDescription={reason} />;
+        return <ErrorPage pageTitle={title!} errorDescription={reason} />;
       case PROTECTED_TYPE.ComponentHidden:
         return <HiddenContent />;
       case PROTECTED_TYPE.ComponentDisabled:

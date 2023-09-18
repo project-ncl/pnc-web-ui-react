@@ -10,11 +10,8 @@ import * as webConfigService from 'services/webConfigService';
 const webConfig = webConfigService.getWebConfig();
 
 interface IKeycloakStatusPageProps {
-  // Text that will be used when constructing page title
-  title: string;
-
-  // Whether page content should be presented as error (page could not be displayed due to Keycloak), or it's just status page
-  displayAsError: boolean;
+  // If undefined, Keycloak status page will be rendered. Otherwise, the title will be used as the title of the error page that is rendered instead.
+  errorPageTitle?: string;
 }
 
 /**
@@ -24,7 +21,7 @@ interface IKeycloakStatusPageProps {
  *    b) Keycloak service is NOT available
  *  2) Error page - requested page (for example projects/create) could not be displayed due to Keycloak
  */
-export const KeycloakStatusPage = ({ title, displayAsError }: IKeycloakStatusPageProps) => {
+export const KeycloakStatusPage = ({ errorPageTitle }: IKeycloakStatusPageProps) => {
   const content = (
     <>
       {webConfig.keycloak.url.startsWith('http') ? (
@@ -39,7 +36,7 @@ export const KeycloakStatusPage = ({ title, displayAsError }: IKeycloakStatusPag
                 {webConfig.keycloak.url}
               </a>{' '}
               <br />
-              directly, if there is an error, check your network, vpn and certificates are configured correctly
+              directly; if there is an error, check whether your network, vpn and certificates are configured correctly
             </li>
             <li>- {MESSAGE_WAIT_AND_REFRESH}</li>
           </ul>
@@ -50,11 +47,11 @@ export const KeycloakStatusPage = ({ title, displayAsError }: IKeycloakStatusPag
     </>
   );
 
-  // Error page - requested page (for example projects/create) could not be displayed due to Keycloak
   if (!keycloakService.isKeycloakAvailable) {
-    return displayAsError ? (
+    return errorPageTitle ? (
+      // Error page - requested page (for example projects/create) could not be displayed due to Keycloak
       <ErrorPage
-        pageTitle={title}
+        pageTitle={errorPageTitle}
         errorDescription={
           <>
             <b>Keycloak service is not available.</b>
@@ -66,7 +63,7 @@ export const KeycloakStatusPage = ({ title, displayAsError }: IKeycloakStatusPag
       />
     ) : (
       // Status page - Keycloak service is NOT available
-      <PageLayout title={`${title} is not available`}>
+      <PageLayout title="Keycloak service is not available">
         <ContentBox padding isResponsive>
           {content}
         </ContentBox>
@@ -76,10 +73,11 @@ export const KeycloakStatusPage = ({ title, displayAsError }: IKeycloakStatusPag
 
   // Status page - Keycloak service is available
   return (
-    <PageLayout title={`Keycloak service is successfully initialized`}>
+    <PageLayout title="Keycloak service is successfully initialized">
       <ContentBox padding isResponsive>
         <b>
-          Keycloak service is available and successfully initialized, if you still have login issues, try to proceed steps below.
+          Keycloak service is available and successfully initialized, if you still have login issues, try to follow the steps
+          below.
         </b>
         <br />
         <br />

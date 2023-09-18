@@ -81,7 +81,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
     const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
 
     const headerKeycloakUnavailableDropdownItems = [
-      <DropdownItem component={<Link to="/admin/keycloak-status">Keycloak Status</Link>} key="keycloak-status" />,
+      <DropdownItem component={<Link to="/system/keycloak-status">Keycloak Status</Link>} key="keycloak-status" />,
     ];
 
     function processLogin() {
@@ -117,7 +117,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
                   </DropdownToggle>
                 }
                 isOpen={isHeaderConfigOpen}
-                isPlain={true}
+                isPlain
                 dropdownItems={headerConfigDropdownItems}
               />
             </PageHeaderToolsItem>
