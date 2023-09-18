@@ -9,6 +9,7 @@ global.ResizeObserver = ResizeObserver;
 jest.mock('services/artifactApi');
 jest.mock('services/keycloakService');
 jest.mock('services/uiLogger');
+jest.mock('services/webConfigService');
 
 describe('display ArtifactsPage component', () => {
   let artifactsMock: any;

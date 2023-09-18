@@ -9,6 +9,7 @@ global.ResizeObserver = ResizeObserver;
 jest.mock('services/productApi');
 jest.mock('services/keycloakService');
 jest.mock('services/uiLogger');
+jest.mock('services/webConfigService');
 
 test('renders ProductsPage', () => {
   render(

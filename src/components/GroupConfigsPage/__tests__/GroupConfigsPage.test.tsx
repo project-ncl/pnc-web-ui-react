@@ -7,6 +7,7 @@ import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 jest.mock('services/groupConfigApi');
 jest.mock('services/keycloakService');
 jest.mock('services/uiLogger');
+jest.mock('services/webConfigService');
 
 global.ResizeObserver = ResizeObserver;
 describe('display GroupConfigsPage component', () => {

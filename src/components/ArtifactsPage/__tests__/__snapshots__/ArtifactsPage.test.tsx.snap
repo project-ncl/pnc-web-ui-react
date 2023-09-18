@@ -621,18 +621,22 @@ Object {
                     class="pf-c-table__action"
                   >
                     <div
-                      class="disabled-content"
+                      title="Keycloak service is not available."
                     >
-                      <button
-                        aria-disabled="false"
-                        class="pf-c-button pf-m-secondary pf-m-small"
-                        data-ouia-component-id="OUIA-Generated-Button-secondary-2"
-                        data-ouia-component-type="PF4/Button"
-                        data-ouia-safe="true"
-                        type="button"
+                      <div
+                        class="disabled-content"
                       >
-                        Edit Quality
-                      </button>
+                        <button
+                          aria-disabled="false"
+                          class="pf-c-button pf-m-secondary pf-m-small"
+                          data-ouia-component-id="OUIA-Generated-Button-secondary-2"
+                          data-ouia-component-type="PF4/Button"
+                          data-ouia-safe="true"
+                          type="button"
+                        >
+                          Edit Quality
+                        </button>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -1615,18 +1619,22 @@ Object {
                   class="pf-c-table__action"
                 >
                   <div
-                    class="disabled-content"
+                    title="Keycloak service is not available."
                   >
-                    <button
-                      aria-disabled="false"
-                      class="pf-c-button pf-m-secondary pf-m-small"
-                      data-ouia-component-id="OUIA-Generated-Button-secondary-2"
-                      data-ouia-component-type="PF4/Button"
-                      data-ouia-safe="true"
-                      type="button"
+                    <div
+                      class="disabled-content"
                     >
-                      Edit Quality
-                    </button>
+                      <button
+                        aria-disabled="false"
+                        class="pf-c-button pf-m-secondary pf-m-small"
+                        data-ouia-component-id="OUIA-Generated-Button-secondary-2"
+                        data-ouia-component-type="PF4/Button"
+                        data-ouia-safe="true"
+                        type="button"
+                      >
+                        Edit Quality
+                      </button>
+                    </div>
                   </div>
                 </td>
               </tr>
