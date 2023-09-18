@@ -9,7 +9,7 @@ interface IProductMilestoneCloseModalButtonProps {
 }
 
 export const ProductMilestoneCloseModalButton = ({ toggleModal, variant }: IProductMilestoneCloseModalButtonProps) => (
-  <ProtectedComponent disable>
+  <ProtectedComponent>
     <Button
       variant={variant === 'list' ? 'plain' : 'tertiary'}
       onClick={toggleModal}

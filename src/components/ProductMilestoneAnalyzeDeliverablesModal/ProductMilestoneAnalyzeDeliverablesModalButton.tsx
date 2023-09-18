@@ -12,7 +12,7 @@ export const ProductMilestoneAnalyzeDeliverablesModalButton = ({
   toggleModal,
   variant,
 }: IProductMilestoneAnalyzeDeliverablesModalButtonProps) => (
-  <ProtectedComponent disable>
+  <ProtectedComponent>
     <Button
       variant={variant === 'list' ? 'plain' : 'tertiary'}
       onClick={toggleModal}

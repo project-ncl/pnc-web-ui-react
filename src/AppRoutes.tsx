@@ -26,6 +26,7 @@ import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
+import { KeycloakStatusPage } from 'components/KeycloakStatusPage/KeycloakStatusPage';
 import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
@@ -212,6 +213,7 @@ export const AppRoutes = () => (
           </ProtectedRoute>
         }
       />
+      <Route path="keycloak-status" element={<KeycloakStatusPage displayAsError={false} title="Keycloak service" />} />
     </Route>
     <Route path="insights">
       <Route path="product-milestone-comparison" element={<ProductMilestoneComparisonPage />} />

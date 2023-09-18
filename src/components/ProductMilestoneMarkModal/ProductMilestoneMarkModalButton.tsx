@@ -36,7 +36,7 @@ export const ProductMilestoneMarkModalButton = ({
 
   return (
     <>
-      <ProtectedComponent disable>
+      <ProtectedComponent>
         <TooltipWrapper tooltip={disabledButtonReason}>
           {/* TODO: progress button - NCL-8010 */}
           <Button

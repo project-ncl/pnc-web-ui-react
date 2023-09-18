@@ -9,7 +9,7 @@ interface IArtifactEditQualityModalButtonProps {
 }
 
 export const ArtifactEditQualityModalButton = ({ toggleModal, variant }: IArtifactEditQualityModalButtonProps) => (
-  <ProtectedComponent disable>
+  <ProtectedComponent>
     <Button variant={variant === 'list' ? 'secondary' : 'tertiary'} onClick={toggleModal} isSmall>
       Edit Quality
     </Button>
