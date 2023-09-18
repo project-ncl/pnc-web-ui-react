@@ -318,7 +318,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                 </Tr>
                 <Tr isExpanded={isArtifactExpanded(artifact)}>
                   <Td />
-                  <Td colSpan={6}>
+                  <Td colSpan={7}>
                     <ExpandableRowContent>
                       <DescriptionList className="gap-5" isHorizontal isCompact>
                         <DescriptionListGroup>
