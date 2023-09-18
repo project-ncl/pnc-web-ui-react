@@ -1,7 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { BuildPage, Project, ProjectPage } from 'pnc-api-types-ts';
+import { BuildConfigPage, BuildPage, Project, ProjectPage } from 'pnc-api-types-ts';
+
+import { addQParamItem } from 'utils/qParamHelper';
 
 import { pncClient } from './pncClient';
 
@@ -63,4 +65,17 @@ export const patchProject = (
  */
 export const getProjectBuilds = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildPage>(`/projects/${id}/builds`, requestConfig);
+};
+
+/**
+ * Gets all Build Configs of a Project with the latest Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Project ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildConfigsWithLatestBuild = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
+  const qParam = addQParamItem('project.id', id, '==', requestConfig?.params?.q ? requestConfig.params.q : '');
+  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
+  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', newRequestConfig);
 };

@@ -2,14 +2,17 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -20,15 +23,35 @@ import * as projectApi from 'services/projectApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
-export const ProjectDetailPage = () => {
+const buildConfigsListColumns = [
+  buildConfigEntityAttributes.name.id,
+  buildConfigEntityAttributes.buildType.id,
+  buildConfigEntityAttributes.creationTime.id,
+  buildConfigEntityAttributes.modificationTime.id,
+  buildConfigEntityAttributes.buildStatus.id,
+];
+
+interface IProjectDetailPageProps {
+  componentId?: string;
+}
+
+export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProps) => {
   const { projectId } = useParams();
 
   const serviceContainerProject = useServiceContainer(projectApi.getProject);
   const serviceContainerProjectRunner = serviceContainerProject.run;
 
+  const serviceContainerBuildConfigs = useServiceContainer(projectApi.getBuildConfigsWithLatestBuild);
+  const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
+
   useEffect(() => {
     serviceContainerProjectRunner({ serviceData: { id: projectId } });
   }, [serviceContainerProjectRunner, projectId]);
+
+  useQueryParamsEffect(
+    ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { id: projectId }, requestConfig }),
+    { componentId }
+  );
 
   useTitle(generatePageTitle({ serviceContainer: serviceContainerProject, firstLevelEntity: 'Project' }));
 
@@ -74,10 +97,8 @@ export const ProjectDetailPage = () => {
             <ActionButton action={() => console.log('Not implemented yet!')}>Create Build Config</ActionButton>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop>
-          <div style={{ width: '100%', height: '30vh', textAlign: 'center', paddingTop: '30px' }}>
-            TODO: Add Build Config table here and remove the style object
-          </div>
+        <ContentBox borderTop shadow={false}>
+          <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId, columns: buildConfigsListColumns }} />
         </ContentBox>
       </PageLayout>
     </ServiceContainerLoading>
