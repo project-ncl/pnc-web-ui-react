@@ -1,4 +1,5 @@
 import { TextInputProps } from '@patternfly/react-core';
+import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
 
 import { transformFormToValues } from 'utils/patchHelper';
@@ -42,7 +43,7 @@ export interface IRegisterData<T extends TValue> {
   validated: TState;
 }
 
-type OnSubmitCallback = (data: IFieldValues) => void;
+type OnSubmitCallback = (data: IFieldValues) => Promise<any>;
 
 type OnSubmitFunction = () => void;
 
@@ -250,11 +251,15 @@ export const useForm = () => {
         fieldsCopy[fieldName].state = 'default';
       }
 
-      onSubmit(transformFormToValues(fields));
-
       setFields(fieldsCopy);
       setHasFormChanged(false);
       setIsSubmitDisabled(true);
+
+      onSubmit(transformFormToValues(fields)).catch((error: AxiosError) => {
+        if (error.code === 'ERR_NETWORK') {
+          setIsSubmitDisabled(false);
+        }
+      });
     };
   };
 

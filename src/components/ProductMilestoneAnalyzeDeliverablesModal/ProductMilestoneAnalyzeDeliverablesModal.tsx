@@ -37,7 +37,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
   const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    serviceContainerProductMilestoneAnalyzeDeliverables
+    return serviceContainerProductMilestoneAnalyzeDeliverables
       .run({
         serviceData: {
           id: productMilestone.id,
@@ -46,8 +46,9 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
           },
         },
       })
-      .catch(() => {
+      .catch((error: any) => {
         console.error('Failed to analyze Deliverables.');
+        throw error;
       });
   };
 

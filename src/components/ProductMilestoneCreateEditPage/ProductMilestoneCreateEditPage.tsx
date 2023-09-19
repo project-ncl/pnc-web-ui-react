@@ -137,18 +137,20 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
             currentProductMilestone: { id: newProductMilestoneId },
           });
 
-          serviceContainerProductVersionPatch
+          return serviceContainerProductVersionPatch
             .run({ serviceData: { id: serviceContainerProductVersion.data?.id, patchData: patchProductVersionData } })
             .then(() => navigate(`../${newProductMilestoneId}`))
-            .catch(() => {
+            .catch((error: any) => {
               console.error('Failed to edit current Product Milestone.');
+              throw error;
             });
         } else {
           navigate(`../${newProductMilestoneId}`);
         }
       })
-      .catch((e: any) => {
-        throw new Error('Failed to create Product Milestone.');
+      .catch((error: any) => {
+        console.error('Failed to create Product Milestone.');
+        throw error;
       });
   };
 
@@ -159,7 +161,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
       plannedEndDate: parseDate(data.plannedEndDate),
     });
 
-    serviceContainerEditPagePatch
+    return serviceContainerEditPagePatch
       .run({ serviceData: { id: productMilestoneId, patchData } })
       .then(() => {
         if (data.isCurrent) {
@@ -167,18 +169,20 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
             currentProductMilestone: { id: productMilestoneId },
           });
 
-          serviceContainerProductVersionPatch
+          return serviceContainerProductVersionPatch
             .run({ serviceData: { id: serviceContainerProductVersion.data?.id, patchData: patchProductVersionData } })
             .then(() => navigate('..'))
-            .catch(() => {
+            .catch((error: any) => {
               console.error('Failed to edit current Product Milestone.');
+              throw error;
             });
         } else {
           navigate('..');
         }
       })
-      .catch(() => {
-        throw new Error('Failed to edit Product Milestone.');
+      .catch((error: any) => {
+        console.error('Failed to edit Product Milestone.');
+        throw error;
       });
   };
 

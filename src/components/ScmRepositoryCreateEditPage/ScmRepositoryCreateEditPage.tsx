@@ -76,21 +76,23 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         // @Todo: Verify the create result from the WS Message after WS was implemented, see NCL-7935.
         // navigate(`/scm-repositories/${scmRepositoryId}`);
       })
-      .catch((e: any) => {
-        throw new Error('Failed to create SCM Repository.');
+      .catch((error: any) => {
+        console.error('Failed to create SCM Repository.');
+        throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
 
-    serviceContainerEditPagePatch
+    return serviceContainerEditPagePatch
       .run({ serviceData: { id: scmRepositoryId, patchData } })
       .then(() => {
         navigate(`/scm-repositories/${scmRepositoryId}`);
       })
-      .catch(() => {
-        throw new Error('Failed to edit SCM Repository.');
+      .catch((error: any) => {
+        console.error('Failed to edit SCM Repository.');
+        throw error;
       });
   };
 

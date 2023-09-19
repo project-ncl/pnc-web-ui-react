@@ -66,21 +66,23 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
         }
         navigate(`/products/${newProductId}`);
       })
-      .catch((e: any) => {
-        throw new Error('Failed to create Product.');
+      .catch((error: any) => {
+        console.error('Failed to create Product.');
+        throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
 
-    serviceContainerEditPagePatch
+    return serviceContainerEditPagePatch
       .run({ serviceData: { id: productId, patchData } })
       .then(() => {
         navigate(`/products/${productId}`);
       })
-      .catch(() => {
-        throw new Error('Failed to edit Product.');
+      .catch((error: any) => {
+        console.error('Failed to edit Product.');
+        throw error;
       });
   };
 

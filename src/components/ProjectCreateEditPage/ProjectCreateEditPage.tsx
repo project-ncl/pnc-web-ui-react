@@ -77,21 +77,23 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
         }
         navigate(`/projects/${newProjectId}`);
       })
-      .catch((e: any) => {
-        throw new Error('Failed to create project.');
+      .catch((error: any) => {
+        console.error('Failed to create Project.');
+        throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
 
-    serviceContainerEditPagePatch
+    return serviceContainerEditPagePatch
       .run({ serviceData: { id: projectId, patchData } })
       .then(() => {
         navigate(`/projects/${projectId}`);
       })
-      .catch(() => {
-        throw new Error('Failed to edit project.');
+      .catch((error: any) => {
+        console.error('Failed to edit Project.');
+        throw error;
       });
   };
 

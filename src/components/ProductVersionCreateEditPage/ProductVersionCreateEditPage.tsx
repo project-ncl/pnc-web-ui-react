@@ -78,8 +78,9 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
         }
         navigate(`../${newProductVersionId}`);
       })
-      .catch((e: any) => {
-        throw new Error('Failed to create Product Version.');
+      .catch((error: any) => {
+        console.error('Failed to create Product Version.');
+        throw error;
       });
   };
 
@@ -89,13 +90,14 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       attributes: { BREW_TAG_PREFIX: data['attributes.brewTagPrefix'] },
     });
 
-    serviceContainerEditPagePatch
+    return serviceContainerEditPagePatch
       .run({ serviceData: { id: productVersionId, patchData } })
       .then(() => {
         navigate(`..`);
       })
-      .catch(() => {
-        throw new Error('Failed to edit Product Version.');
+      .catch((error: any) => {
+        console.error('Failed to edit Product Version.');
+        throw error;
       });
   };
 
