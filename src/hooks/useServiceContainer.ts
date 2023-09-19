@@ -106,12 +106,7 @@ export const useServiceContainer = (service: Function, loadingStateDelayMs: numb
         return response;
       })
       .catch((error: Error | AxiosError) => {
-        let errorMessage: string;
-        if (isAxiosError(error)) {
-          errorMessage = error.response?.data?.errorMessage ? error.response.data.errorMessage : error.toString();
-        } else {
-          errorMessage = error.message;
-        }
+        const errorMessage = getErrorMessage(error);
 
         if (error.name !== 'CanceledError') {
           // execute only for last request
@@ -145,4 +140,22 @@ export const useServiceContainer = (service: Function, loadingStateDelayMs: numb
     loadingStateDelayMs,
     run: useCallback(serviceContainerRunner, [service, loadingStateDelayMs]),
   };
+};
+
+const getErrorMessage = (error: Error | AxiosError): string => {
+  if (isAxiosError(error)) {
+    if (error.code === AxiosError.ERR_NETWORK) {
+      return 'Action was not successful due to the network error. Please, try again.';
+    }
+
+    const genericErrorMessage = error.response?.data?.errorMessage ? error.response.data.errorMessage : error.toString();
+
+    if (error.response?.status === 401) {
+      return `Action was not successful, please login first and try again. [${genericErrorMessage}]`;
+    }
+
+    return genericErrorMessage;
+  }
+
+  return error.message;
 };
