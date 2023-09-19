@@ -39,7 +39,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
   const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    serviceContainerArtifactEditQuality
+    return serviceContainerArtifactEditQuality
       .run({
         serviceData: {
           id: artifact.id,
@@ -51,8 +51,9 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
           },
         },
       })
-      .catch(() => {
+      .catch((error: any) => {
         console.error('Failed to edit Artifact Quality.');
+        throw error;
       });
   };
 
