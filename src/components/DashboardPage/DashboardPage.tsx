@@ -1,6 +1,7 @@
 import { Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
+import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -9,11 +10,13 @@ import { useTitle } from 'hooks/useTitle';
 import { BuildsList } from 'components/BuildsList/BuildsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
+import { GroupBuildsList } from 'components/GroupBuildsList/GroupBuildsList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as buildApi from 'services/buildApi';
+import * as groupBuildApi from 'services/groupBuildApi';
 import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
 
@@ -62,7 +65,9 @@ export const DashboardPage = () => {
                 </TextContent>
               </ToolbarItem>
             </Toolbar>
-            <ContentBox borderTop></ContentBox>
+            <ContentBox borderTop>
+              <MyGroupBuildsList />
+            </ContentBox>
           </GridItem>
         </ProtectedComponent>
       </Grid>
@@ -78,23 +83,51 @@ const userBuildsListColumns = [
   buildEntityAttributes.endTime.id,
 ];
 
-const MyBuildsList = () => {
+interface IMyBuildsListProps {
+  componentId?: string;
+}
+
+const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
   const serviceContainerUserBuilds = useServiceContainer(buildApi.getUserBuilds);
   const serviceContainerUserBuildsRunner = serviceContainerUserBuilds.run;
-
-  const userBuildsComponentId = 'b1';
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) =>
       serviceContainerUserBuildsRunner({ serviceData: { userId: userService.getUserId() }, requestConfig }),
-    { componentId: userBuildsComponentId }
+    { componentId }
   );
 
   return (
-    <BuildsList
-      serviceContainerBuilds={serviceContainerUserBuilds}
-      columns={userBuildsListColumns}
-      componentId={userBuildsComponentId}
+    <BuildsList serviceContainerBuilds={serviceContainerUserBuilds} columns={userBuildsListColumns} componentId={componentId} />
+  );
+};
+
+const userGroupBuildsListColumns = [
+  groupBuildEntityAttributes.status.id,
+  groupBuildEntityAttributes.name.id,
+  groupBuildEntityAttributes.startTime.id,
+  groupBuildEntityAttributes.endTime.id,
+];
+
+interface IMyGroupBuildsListProps {
+  componentId?: string;
+}
+
+const MyGroupBuildsList = ({ componentId = 'g1' }: IMyGroupBuildsListProps) => {
+  const serviceContainerUserGroupBuilds = useServiceContainer(groupBuildApi.getUserGroupBuilds);
+  const serviceContainerUserGroupBuildsRunner = serviceContainerUserGroupBuilds.run;
+
+  useQueryParamsEffect(
+    ({ requestConfig } = {}) =>
+      serviceContainerUserGroupBuildsRunner({ serviceData: { userId: userService.getUserId() }, requestConfig }),
+    { componentId }
+  );
+
+  return (
+    <GroupBuildsList
+      serviceContainerGroupBuilds={serviceContainerUserGroupBuilds}
+      columns={userGroupBuildsListColumns}
+      componentId={componentId}
     />
   );
 };
