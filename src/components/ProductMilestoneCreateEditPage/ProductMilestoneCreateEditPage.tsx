@@ -14,6 +14,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
+import { PncError } from 'common/PncError';
 import { PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
@@ -129,7 +130,10 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
       .then((response: any) => {
         const newProductMilestoneId = response?.data?.id;
         if (!newProductMilestoneId) {
-          throw new Error(`Invalid productMilestoneId coming from Orch POST response: ${newProductMilestoneId}`);
+          throw new PncError({
+            code: 'NEW_ENTITY_ID_ERROR',
+            message: `Invalid productMilestoneId coming from Orch POST response: ${newProductMilestoneId}`,
+          });
         }
 
         if (data.isCurrent) {

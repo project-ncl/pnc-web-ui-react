@@ -2,6 +2,7 @@ import { ActionGroup, Button, Form, FormGroup, FormHelperText, TextInput } from 
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { PncError } from 'common/PncError';
 import { PageTitles } from 'common/constants';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
@@ -74,7 +75,10 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       .then((response: any) => {
         const newProductVersionId = response?.data?.id;
         if (!newProductVersionId) {
-          throw new Error(`Invalid newProductVersionId coming from Orch POST response: ${newProductVersionId}`);
+          throw new PncError({
+            code: 'NEW_ENTITY_ID_ERROR',
+            message: `Invalid productVersionId coming from Orch POST response: ${newProductVersionId}`,
+          });
         }
         navigate(`../${newProductVersionId}`);
       })
