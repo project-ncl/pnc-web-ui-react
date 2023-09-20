@@ -2,6 +2,7 @@ import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, 
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { PncError } from 'common/PncError';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
@@ -73,7 +74,10 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
       .then((response: any) => {
         const newProjectId = response?.data?.id;
         if (!newProjectId) {
-          throw new Error(`Invalid projectId coming from Orch POST response: ${newProjectId}`);
+          throw new PncError({
+            code: 'NEW_ENTITY_ID_ERROR',
+            message: `Invalid projectId coming from Orch POST response: ${newProjectId}`,
+          });
         }
         navigate(`/projects/${newProjectId}`);
       })

@@ -1,6 +1,10 @@
 import { TextInputProps } from '@patternfly/react-core';
-import { AxiosError } from 'axios';
+import { AxiosError, isAxiosError } from 'axios';
 import { useCallback, useState } from 'react';
+
+import { PncError, isPncError } from 'common/PncError';
+
+import { uiLogger } from 'services/uiLogger';
 
 import { transformFormToValues } from 'utils/patchHelper';
 
@@ -255,9 +259,17 @@ export const useForm = () => {
       setHasFormChanged(false);
       setIsSubmitDisabled(true);
 
-      onSubmit(transformFormToValues(fields)).catch((error: AxiosError) => {
-        if (error.code === 'ERR_NETWORK') {
-          setIsSubmitDisabled(false);
+      onSubmit(transformFormToValues(fields)).catch((error: AxiosError | PncError) => {
+        if (isAxiosError(error)) {
+          if (error.code === AxiosError.ERR_NETWORK) {
+            setIsSubmitDisabled(false);
+          }
+        } else if (isPncError(error)) {
+          if (error.code === 'NEW_ENTITY_ID_ERROR') {
+            uiLogger.error(error.message);
+          }
+        } else {
+          uiLogger.error(error.message);
         }
       });
     };
