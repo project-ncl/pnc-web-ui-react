@@ -15,12 +15,13 @@ import styles from './ActionModal.module.css';
 interface IActionModalProps {
   modalTitle: string;
   actionTitle: string;
+  cancelTitle?: string;
   isOpen: boolean;
   isSubmitDisabled?: boolean;
   wereSubmitDataChanged?: boolean;
   onToggle: () => void;
   onSubmit: () => void;
-  serviceContainer: IServiceContainer;
+  serviceContainer?: IServiceContainer;
   modalVariant: ModalProps['variant'];
   onSuccessActions?: ReactElement[];
 }
@@ -30,6 +31,7 @@ interface IActionModalProps {
  *
  * @param modalTitle - title of the modal
  * @param actionTitle - title of the confirm action button
+ * @param cancelTitle - title of the cancel modal button
  * @param isOpen - is the modal open?
  * @param isSubmitDisabled - is the confirm action button disabled?
  * @param onToggle - function toggling the modal visibility
@@ -43,6 +45,7 @@ export const ActionModal = ({
   children,
   modalTitle,
   actionTitle,
+  cancelTitle,
   isOpen,
   wereSubmitDataChanged,
   onToggle,
@@ -50,12 +53,12 @@ export const ActionModal = ({
   serviceContainer,
   modalVariant,
   onSuccessActions,
-  isSubmitDisabled = serviceContainer.data !== DataValues.notYetData && !serviceContainer.error,
+  isSubmitDisabled = serviceContainer && serviceContainer.data !== DataValues.notYetData && !serviceContainer.error,
 }: PropsWithChildren<IActionModalProps>) => {
   const refresh = useRefresh();
 
   const wasLastActionSuccessful =
-    serviceContainer.data !== DataValues.notYetData && !serviceContainer.error && !serviceContainer.loading;
+    serviceContainer && serviceContainer.data !== DataValues.notYetData && !serviceContainer.error && !serviceContainer.loading;
   const [wasAnyActionSuccessful, setWasAnyActionSuccessful] = useState<boolean>(false);
 
   if (wasLastActionSuccessful && !wasAnyActionSuccessful) {
@@ -70,6 +73,20 @@ export const ActionModal = ({
     }
   };
 
+  const modalContent = (
+    <div className={css('p-t-global', 'p-l-global', 'p-r-global')}>
+      <div className={css('p-b-global', styles['action-modal-header'])}>
+        <TextContent className={styles['action-modal-title']}>
+          <Text component={TextVariants.h1}>{modalTitle}</Text>
+        </TextContent>
+        <Button variant="plain" onClick={onClose} className={styles['action-modal-close-button']}>
+          <TimesIcon />
+        </Button>
+      </div>
+      {children}
+    </div>
+  );
+
   return (
     <Modal
       variant={modalVariant}
@@ -77,8 +94,8 @@ export const ActionModal = ({
       onClose={onClose}
       actions={[
         // TODO: NCL-8010
-        <Button variant="primary" onClick={onSubmit} isDisabled={isSubmitDisabled || serviceContainer.loading}>
-          {(!serviceContainer.error || serviceContainer.loading) && (
+        <Button variant="primary" onClick={onSubmit} isDisabled={isSubmitDisabled || serviceContainer?.loading}>
+          {serviceContainer && (!serviceContainer.error || serviceContainer.loading) && (
             <ServiceContainerLoading variant="icon" {...serviceContainer} title={actionTitle} />
           )}{' '}
           {wasLastActionSuccessful && (wereSubmitDataChanged === undefined || !wereSubmitDataChanged) && <CheckIcon />}{' '}
@@ -86,7 +103,7 @@ export const ActionModal = ({
         </Button>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
         <Button variant="link" onClick={onClose}>
-          {wasAnyActionSuccessful ? 'Close and refresh' : 'Cancel'}
+          {cancelTitle || (wasAnyActionSuccessful ? 'Close and refresh' : 'Cancel')}
         </Button>,
       ]}
       aria-label={modalTitle}
@@ -94,21 +111,15 @@ export const ActionModal = ({
       // custom close icon is implemented instead
       showClose={false}
     >
-      <div className="m-r-0">
-        <ServiceContainerCreatingUpdating {...serviceContainer} title={actionTitle}>
-          <div className={css('p-t-global', 'p-l-global', 'p-r-global')}>
-            <div className={css('p-b-global', styles['action-modal-header'])}>
-              <TextContent className={styles['action-modal-title']}>
-                <Text component={TextVariants.h1}>{modalTitle}</Text>
-              </TextContent>
-              <Button variant="plain" onClick={onClose} className={styles['action-modal-close-button']}>
-                <TimesIcon />
-              </Button>
-            </div>
-            {children}
-          </div>
-        </ServiceContainerCreatingUpdating>
-      </div>
+      {serviceContainer ? (
+        <div className="m-r-0">
+          <ServiceContainerCreatingUpdating {...serviceContainer} title={actionTitle}>
+            {modalContent}
+          </ServiceContainerCreatingUpdating>
+        </div>
+      ) : (
+        <>{modalContent}</>
+      )}
     </Modal>
   );
 };
