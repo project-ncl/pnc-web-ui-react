@@ -44,3 +44,47 @@ export const createSafePatch = (original: Object | any[], modified: Object | any
 export const createDestructivePatch = (original: Object | any[], modified: Object | any[]): Operation[] => {
   return compare(original, modified);
 };
+
+interface EntityWithId extends Object {
+  id: string;
+}
+
+/**
+ * Compares changes between original and modified array property of an object and creates destructive JSON patch.
+ *
+ * Uses a standard JSON Patch comparison between original and modified objects, any items that
+ * are not present on the modified array that are present on the original will cause a delete operation to be
+ * added to the patch.
+ *
+ * To be used when complete original data are available.
+ *
+ * @param originalArray - original array data
+ * @param modifiedArray - modified array data
+ * @param arrayName - name of the array property in the object
+ * @returns Array of changes in JSON patch format
+ */
+export const createArrayPatch = (originalArray: EntityWithId[], modifiedArray: EntityWithId[], arrayName: string) => {
+  const originalIds = { [arrayName]: Object.fromEntries(originalArray.map((i) => [i.id, { id: i.id }])) };
+  const modifiedIds = { [arrayName]: Object.fromEntries(modifiedArray.map((i) => [i.id, { id: i.id }])) };
+
+  return createDestructivePatch(originalIds, modifiedIds);
+};
+
+/**
+ * Creates JSON patch of an array property of an object.
+ *
+ * Items from to-remove-array are transformed to deletion operations in the patch.
+ * Items from to-add-array are transformed to addition operations in the patch.
+ *
+ * To be used when complete original data are NOT available.
+ *
+ * @param toRemoveArray - items to be removed from the original array
+ * @param toAddArray - items to be added to the original array
+ * @returns Array of changes in JSON patch format
+ */
+export const createArrayPatchSimple = (toRemoveArray: EntityWithId[], toAddArray: EntityWithId[], arrayName: string) => {
+  const toRemove = toRemoveArray.map((entity) => ({ op: 'remove', path: `/${arrayName}/${entity.id}` }));
+  const toAdd = toAddArray.map((entity) => ({ op: 'add', path: `/${arrayName}/${entity.id}`, value: { id: entity.id } }));
+
+  return [...toRemove, ...toAdd];
+};
