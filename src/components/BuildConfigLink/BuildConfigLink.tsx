@@ -10,4 +10,4 @@ interface IBuildConfigLinkProps {
  *
  * @param id - id of the BuildConfig to link to
  */
-export const BuildConfigLink = ({ id, children }: IBuildConfigLinkProps) => <Link to={id}>{children}</Link>;
+export const BuildConfigLink = ({ id, children }: IBuildConfigLinkProps) => <Link to={`/build-configs/${id}`}>{children}</Link>;
