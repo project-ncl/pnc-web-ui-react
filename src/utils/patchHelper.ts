@@ -45,7 +45,7 @@ export const createDestructivePatch = (original: Object | any[], modified: Objec
   return compare(original, modified);
 };
 
-interface EntityWithId extends Object {
+export interface EntityWithId extends Object {
   id: string;
 }
 
