@@ -40,6 +40,7 @@ import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilest
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
+import { ProductVersionBuildConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionBuildConfigsEditPage';
 import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
 import { ProductVersionCreateEditPage } from 'components/ProductVersionCreateEditPage/ProductVersionCreateEditPage';
 import { ProductVersionDetailPage } from 'components/ProductVersionDetailPage/ProductVersionDetailPage';
@@ -111,6 +112,14 @@ export const AppRoutes = () => (
             <Route index element={<Navigate to="details" replace />} />
           </Route>
           <Route path=":productVersionId">
+            <Route
+              path="build-configs/edit"
+              element={
+                <ProtectedRoute title={PageTitles.productVersionEdit}>
+                  <ProductVersionBuildConfigsEditPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="milestones">
               <Route
                 path="create"

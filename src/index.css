@@ -47,6 +47,10 @@ code {
   overflow-wrap: break-word;
 }
 
+.visibility-hidden {
+  visibility: hidden !important;
+}
+
 .display-flex {
   display: flex !important;
 }
