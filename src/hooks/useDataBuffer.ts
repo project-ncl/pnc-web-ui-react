@@ -30,7 +30,7 @@ export const useDataBuffer = (
   // lengths of batches of new lines (added with addLines)
   const newLinesCounts = useRef<number[]>([]);
 
-  const bufferInterval: MutableRefObject<NodeJS.Timer | undefined> = useRef();
+  const bufferInterval: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
 
   useEffect(() => {
     bufferInterval.current = setInterval(() => {

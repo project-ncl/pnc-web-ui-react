@@ -13,7 +13,7 @@ export const useInterval = (callback: Function, delay: number, runImmediately: b
   const savedCallback: MutableRefObject<Function | undefined> = useRef();
   // useRef needs to be used here since if it was declared as a let variable,
   // it would not persist the state during rerenders
-  const savedTimer: MutableRefObject<NodeJS.Timer | undefined> = useRef();
+  const savedTimer: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
 
   useEffect(() => {
     savedCallback.current = callback;

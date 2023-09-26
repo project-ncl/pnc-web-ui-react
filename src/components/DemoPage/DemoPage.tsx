@@ -195,7 +195,7 @@ export const DemoPage = () => {
   useTitle('Demo Page');
 
   const [logLinesToRemove, setLogLinesToRemove] = useState<number>(0);
-  const savedTimer: MutableRefObject<NodeJS.Timer | undefined> = useRef();
+  const savedTimer: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
 
   const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
 
