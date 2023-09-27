@@ -14,6 +14,15 @@ export interface IBuildStartParams {
 }
 
 /**
+ * Gets all Build Configs.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildConfigs = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs', requestConfig);
+};
+
+/**
  * Gets all BuildConfigs with latest build.
  *
  * @param requestConfig - Axios based request config
