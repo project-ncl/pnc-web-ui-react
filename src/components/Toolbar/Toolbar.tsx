@@ -7,6 +7,7 @@ const styleGap = { gap: '1.5rem' };
 
 interface IToolbarProps {
   borderTop?: boolean;
+  borderBottom?: boolean;
   padding?: boolean;
   disablePaddingTop?: boolean;
   disablePaddingBottom?: boolean;
@@ -15,12 +16,14 @@ interface IToolbarProps {
 export const Toolbar = ({
   children,
   borderTop,
+  borderBottom,
   padding = true,
   disablePaddingTop,
   disablePaddingBottom,
 }: React.PropsWithChildren<IToolbarProps>) => (
   <ContentBox
     borderTop={borderTop}
+    borderBottom={borderBottom}
     paddingTop={padding && !disablePaddingTop}
     paddingBottom={padding && !disablePaddingBottom}
     paddingLeft={padding}
