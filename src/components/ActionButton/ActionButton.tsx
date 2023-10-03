@@ -1,4 +1,4 @@
-import { Button } from '@patternfly/react-core';
+import { Button, ButtonProps } from '@patternfly/react-core';
 import {
   CopyIcon,
   ExternalLinkAltIcon,
@@ -24,6 +24,7 @@ const iconDictionary = {
 
 export interface IActionButtonProps {
   iconType?: keyof typeof iconDictionary;
+  variant?: ButtonProps['variant'];
   link?: string;
   action?: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -34,13 +35,20 @@ export interface IActionButtonProps {
  * Only either action or link prop should be specified.
  *
  * @param iconType - specifies the icon of the button (view typescript definition for all possible options)
+ * @param variant - button style variant
  * @param link - optional prop if the button should serve as a link component (will redirect to the specified link)
  * @param action - function to perform on clicking the button
  * @param children - the inner components of the button (usually a textual description)
  */
-export const ActionButton = ({ iconType, link, action, children }: React.PropsWithChildren<IActionButtonProps>) => (
+export const ActionButton = ({
+  iconType,
+  variant = 'primary',
+  link,
+  action,
+  children,
+}: React.PropsWithChildren<IActionButtonProps>) => (
   <Button
-    variant="primary"
+    variant={variant}
     isSmall
     icon={iconType ? iconDictionary[iconType] : null}
     component={link ? (props: any) => <Link {...props} to={link} /> : undefined}
