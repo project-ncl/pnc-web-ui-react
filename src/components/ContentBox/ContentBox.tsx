@@ -9,6 +9,7 @@ interface IContentBoxProps {
   shadow?: boolean;
   background?: boolean;
   borderTop?: boolean;
+  borderBottom?: boolean;
   padding?: boolean;
   paddingTop?: boolean;
   paddingBottom?: boolean;
@@ -31,7 +32,8 @@ interface IContentBoxProps {
  * @param description - Section description containing brief page introduction and information about displayed entities
  * @param shadow - Whether to display shadow
  * @param background - Whether to display background
- * @param borderTop - Whether to display border on the top 
+ * @param borderTop - Whether to display border on the top
+ * @param borderBottom - Whether to display border on the bottom 
  * @param padding - Whether to set padding
  * @param paddingTop - Whether to set padding-top
  * @param paddingBottom - Whether to set padding-left
@@ -61,6 +63,7 @@ export const ContentBox = ({
   shadow = true,
   background = true,
   borderTop,
+  borderBottom,
   padding,
   paddingTop,
   paddingBottom,
@@ -84,6 +87,10 @@ export const ContentBox = ({
 
   if (borderTop) {
     classList.push(styles['border-t-gray']);
+  }
+
+  if (borderBottom) {
+    classList.push(styles['border-b-gray']);
   }
 
   if (padding) {
