@@ -1,4 +1,4 @@
-import { Button, Form, FormGroup, FormHelperText, TextArea } from '@patternfly/react-core';
+import { Button, Form, FormGroup, FormHelperText, Switch, TextArea } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
@@ -9,6 +9,8 @@ import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
+import { FormInput } from 'components/FormInput/FormInput';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -18,6 +20,9 @@ const fieldConfigs = {
   deliverablesUrls: {
     isRequired: true,
     validators: [{ validator: validateUrls, errorMessage: 'Invalid format of URLs.' }],
+  },
+  runAsScratchAnalysis: {
+    value: false,
   },
 } satisfies IFieldConfigs;
 
@@ -43,6 +48,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
           id: productMilestone.id,
           data: {
             deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
+            runAsScratchAnalysis: data.runAsScratchAnalysis,
           },
         },
       })
@@ -107,6 +113,31 @@ https://url-path/to/file3.zip`}
             {...register<string>(
               productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id,
               fieldConfigs.deliverablesUrls
+            )}
+          />
+        </FormGroup>
+        <FormGroup
+          label={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}
+          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+          labelIcon={
+            <TooltipWrapper tooltip={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.tooltip} />
+          }
+        >
+          <FormInput<boolean>
+            {...register<boolean>(
+              productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id,
+              fieldConfigs.runAsScratchAnalysis
+            )}
+            render={({ value, onChange, onBlur }) => (
+              <Switch
+                id={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                name={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                label="Scratch Option Enabled"
+                labelOff="Scratch Option Disabled"
+                isChecked={value}
+                onChange={onChange}
+                onBlur={onBlur}
+              />
             )}
           />
         </FormGroup>

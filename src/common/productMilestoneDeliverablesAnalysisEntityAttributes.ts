@@ -16,6 +16,7 @@ const progressStatusValues: DeliverableAnalyzerOperation['progressStatus'][] = [
 interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOperation {
   'user.username': any;
   deliverablesUrls: any;
+  runAsScratchAnalysis: any;
 }
 
 export const productMilestoneDeliverablesAnalysisEntityAttributes = {
@@ -67,5 +68,10 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
   deliverablesUrls: {
     id: 'deliverablesUrls',
     title: 'Deliverables URLs',
+  },
+  runAsScratchAnalysis: {
+    id: 'runAsScratchAnalysis',
+    title: 'Run as Scratch',
+    tooltip: "This analysis will be run as a 'scratch' analysis, perhaps for testing purposes.",
   },
 } as const satisfies TEntityAttributes<IExtendedDeliverableAnalyzerOperation>;
