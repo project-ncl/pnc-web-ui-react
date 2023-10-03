@@ -6,7 +6,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
@@ -29,7 +28,7 @@ export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductV
 
   return (
     <>
-      <Toolbar>
+      <Toolbar borderBottom>
         <ToolbarItem>
           <TextContent>
             <Text component={TextVariants.h2}>Build Configs</Text>
@@ -42,9 +41,7 @@ export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductV
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop shadow={false}>
-        <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />
-      </ContentBox>
+      <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />
     </>
   );
 };

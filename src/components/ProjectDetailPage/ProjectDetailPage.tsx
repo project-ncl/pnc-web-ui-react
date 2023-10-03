@@ -87,7 +87,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
           </Attributes>
         </ContentBox>
 
-        <Toolbar>
+        <Toolbar borderBottom>
           <ToolbarItem>
             <TextContent>
               <Text component={TextVariants.h2}>Build Configs</Text>
@@ -97,9 +97,8 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
             <ActionButton action={() => console.log('Not implemented yet!')}>Create Build Config</ActionButton>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop shadow={false}>
-          <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId, columns: buildConfigsListColumns }} />
-        </ContentBox>
+
+        <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId, columns: buildConfigsListColumns }} />
       </PageLayout>
     </ServiceContainerLoading>
   );

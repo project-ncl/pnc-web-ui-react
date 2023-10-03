@@ -173,16 +173,15 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       </GridItem>
 
       <GridItem span={12}>
-        <Toolbar>
+        <Toolbar borderBottom>
           <ToolbarItem>
             <TextContent>
               <Text component={TextVariants.h2}>Quality Revisions</Text>
             </TextContent>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop>
-          <ArtifactQualityRevisionsList {...{ serviceContainerQualityRevisions, componentId }} />
-        </ContentBox>
+
+        <ArtifactQualityRevisionsList {...{ serviceContainerQualityRevisions, componentId }} />
       </GridItem>
     </Grid>
   );

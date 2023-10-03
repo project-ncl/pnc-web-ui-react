@@ -75,7 +75,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
           </Attributes>
         </ContentBox>
 
-        <Toolbar>
+        <Toolbar borderBottom>
           <ToolbarItem reservedWidth>
             <TextContent>
               <Text component={TextVariants.h2}>Product Versions</Text>
@@ -91,9 +91,8 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
             </ProtectedComponent>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop>
-          <ProductVersionsList {...{ serviceContainerProductVersions, componentId }} />
-        </ContentBox>
+
+        <ProductVersionsList {...{ serviceContainerProductVersions, componentId }} />
       </PageLayout>
     </ServiceContainerLoading>
   );
