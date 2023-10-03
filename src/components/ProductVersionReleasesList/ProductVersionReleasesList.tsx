@@ -1,5 +1,6 @@
-import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 import { ProductReleasePage } from 'pnc-api-types-ts';
 
@@ -15,6 +16,7 @@ import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -83,16 +85,9 @@ export const ProductVersionReleasesList = ({
                   </Td>
                   <Td>{productRelease.supportLevel}</Td>
                   <Td isActionCell>
-                    <ActionsColumn
-                      items={[
-                        {
-                          title: 'Edit Release',
-                        },
-                        {
-                          title: 'Delete Release',
-                        },
-                      ]}
-                    />
+                    <ProtectedComponent>
+                      <Link to={`${productRelease.id}/edit`}>edit</Link>
+                    </ProtectedComponent>
                   </Td>
                 </Tr>
               ))}

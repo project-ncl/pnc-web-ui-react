@@ -14,6 +14,8 @@ export const PageTitles = {
   productMilestones: 'Product Milestones',
   productMilestoneCreate: 'Create Product Milestone',
   productMilestoneEdit: 'Update Product Milestone',
+  productReleaseCreate: 'Create Product Release',
+  productReleaseEdit: 'Update Product Release',
   productReleases: 'Product Releases',
   buildConfigs: 'Build Configs',
   groupConfigs: 'Group Configs',
