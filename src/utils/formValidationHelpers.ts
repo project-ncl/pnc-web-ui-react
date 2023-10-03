@@ -113,3 +113,17 @@ const productVersionNameRegex = /^\d+\.\d+$/;
 export const validateProductVersionName = (version: string): boolean => {
   return !version || productVersionNameRegex.test(version);
 };
+
+const productReleaseNameRegex = /^\d+\.[a-zA-Z0-9]+$/;
+
+/**
+ * Product Release name validation function.
+ *
+ * Accepts empty version.
+ *
+ * @param version - Version string
+ * @returns true if valid, false otherwise
+ */
+export const validateProductReleaseName = (version: string): boolean => {
+  return !version || productReleaseNameRegex.test(version);
+};
