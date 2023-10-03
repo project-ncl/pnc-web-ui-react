@@ -62,6 +62,7 @@ export const ProductVersionBuildConfigsEditPage = ({
     : '';
 
   const [buildConfigChanges, setBuildConfigChanges] = useState<IBuildConfigChange[]>([]);
+  const [wereBuildConfigsChanged, setWereBuildConfigsChanged] = useState<boolean>(false);
   const removedBuildConfigs = buildConfigChanges
     .filter((buildConfigChange) => buildConfigChange.operation === 'remove')
     .map((buildConfigChange) => buildConfigChange.data);
@@ -81,6 +82,12 @@ export const ProductVersionBuildConfigsEditPage = ({
     setBuildConfigChanges((buildConfigChanges) => {
       return buildConfigChanges.filter((buildConfigChange) => buildConfigChange.data.id !== buildConfig.id);
     });
+
+  useEffect(() => {
+    if (buildConfigChanges.length) {
+      setWereBuildConfigsChanged(true);
+    }
+  }, [buildConfigChanges.length]);
 
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
   const toggleSubmitModal = () => setIsSubmitModalOpen((isSubmitModalOpen) => !isSubmitModalOpen);
@@ -216,8 +223,11 @@ export const ProductVersionBuildConfigsEditPage = ({
         <ActionConfirmModal
           title="Submit changes?"
           isOpen={isSubmitModalOpen}
+          wereSubmitDataChanged={wereBuildConfigsChanged}
           onToggle={toggleSubmitModal}
           onSubmit={() => {
+            setWereBuildConfigsChanged(false);
+
             const patchData = createArrayPatchSimple(removedBuildConfigs, addedBuildConfigs, 'buildConfigs');
 
             serviceContainerProductVersionPatch
