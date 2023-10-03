@@ -34,9 +34,9 @@ interface IActionModalProps {
  * @param cancelTitle - title of the cancel modal button
  * @param isOpen - is the modal open?
  * @param isSubmitDisabled - is the confirm action button disabled?
+ * @param wereSubmitDataChanged - were the modal (form) data to be submitted changed (if there are any)?
  * @param onToggle - function toggling the modal visibility
  * @param onSubmit - confirm action button callback
- * @param wereSubmitDataChanged - were the modal (form) data to be submitted changed (if there are any)?
  * @param serviceContainer - service container of the confirm action
  * @param modalVariant - modal size variant
  * @param onSuccessActions - additional action buttons to be displayed after successful confirm action
@@ -64,6 +64,8 @@ export const ActionModal = ({
   if (wasLastActionSuccessful && !wasAnyActionSuccessful) {
     setWasAnyActionSuccessful(true);
   }
+
+  const wereSubmitDataChangedOrUndefined = wereSubmitDataChanged === undefined || !wereSubmitDataChanged;
 
   const onClose = () => {
     if (wasAnyActionSuccessful) {
@@ -98,8 +100,7 @@ export const ActionModal = ({
           {serviceContainer && (!serviceContainer.error || serviceContainer.loading) && (
             <ServiceContainerLoading variant="icon" {...serviceContainer} title={actionTitle} />
           )}{' '}
-          {wasLastActionSuccessful && (wereSubmitDataChanged === undefined || !wereSubmitDataChanged) && <CheckIcon />}{' '}
-          {actionTitle}
+          {wasLastActionSuccessful && wereSubmitDataChangedOrUndefined && <CheckIcon />} {actionTitle}
         </Button>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
         <Button variant="link" onClick={onClose}>
@@ -111,7 +112,7 @@ export const ActionModal = ({
       // custom close icon is implemented instead
       showClose={false}
     >
-      {serviceContainer ? (
+      {serviceContainer && wereSubmitDataChangedOrUndefined ? (
         <div className="m-r-0">
           <ServiceContainerCreatingUpdating {...serviceContainer} title={actionTitle}>
             {modalContent}

@@ -6,11 +6,12 @@ import { ActionModal } from 'components/ActionModal/ActionModal';
 
 interface IActionConfirmModalProps {
   title: string;
-  isOpen: boolean;
-  onToggle: () => void;
-  onSubmit: () => void;
   actionTitle?: string;
   cancelTitle?: string;
+  isOpen: boolean;
+  wereSubmitDataChanged?: boolean;
+  onToggle: () => void;
+  onSubmit: () => void;
   serviceContainer?: IServiceContainer;
 }
 
@@ -21,6 +22,7 @@ interface IActionConfirmModalProps {
  * @param actionTitle - title of the confirm submit action button
  * @param cancelTitle - title of the cancel modal button
  * @param isOpen - is the modal open?
+ * @param wereSubmitDataChanged - were the modal (form) data to be submitted changed (if there are any)?
  * @param onToggle - function toggling the modal visibility
  * @param onSubmit - confirm action button callback
  * @param serviceContainer - service container of the confirm action
@@ -31,6 +33,7 @@ export const ActionConfirmModal = ({
   actionTitle = 'Confirm',
   cancelTitle = 'Cancel',
   isOpen,
+  wereSubmitDataChanged,
   onToggle,
   onSubmit,
   serviceContainer,
@@ -40,6 +43,7 @@ export const ActionConfirmModal = ({
     actionTitle={actionTitle}
     cancelTitle={cancelTitle}
     isOpen={isOpen}
+    wereSubmitDataChanged={wereSubmitDataChanged}
     onToggle={onToggle}
     onSubmit={onSubmit}
     serviceContainer={serviceContainer}
