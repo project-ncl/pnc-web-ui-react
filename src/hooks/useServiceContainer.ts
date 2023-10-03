@@ -154,6 +154,10 @@ const getErrorMessage = (error: Error | AxiosError): string => {
       return `Action was not successful, please login first and try again. [${genericErrorMessage}]`;
     }
 
+    if (error.response?.status === 409) {
+      return `Action was not successful due to the conflict with the current state of the target resource. Please, refresh the page and try again. [HTTP 409 Conflict]`;
+    }
+
     return genericErrorMessage;
   }
 
