@@ -1,4 +1,4 @@
-import { ProductMilestone } from 'pnc-api-types-ts';
+import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
 import { uiLogger } from 'services/uiLogger';
 
@@ -228,11 +228,11 @@ export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumn
 };
 
 /**
- * Extracts Product Milestone version without the Product Version suffix.
+ * Extracts Product Milestone / Release suffix from the Product Version name.
  *
- * @param productMilestone - Product Milestone
- * @returns Product Milestone version without the Product Version suffix
+ * @param productMilestoneRelease - Product Milestone or Release
+ * @returns Product Milestone / Release suffix of the Product Version name
  */
-export const getShortProductMilestoneVersion = (productMilestone: ProductMilestone): string => {
-  return productMilestone.version.replace(productMilestone.productVersion?.version + '.', '');
+export const getProductVersionSuffix = (productMilestoneRelease: ProductMilestone | ProductRelease): string => {
+  return productMilestoneRelease.version!.replace(/\d+\.\d+\./, '');
 };

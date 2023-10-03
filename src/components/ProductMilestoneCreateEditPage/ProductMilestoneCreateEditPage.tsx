@@ -37,7 +37,7 @@ import * as productVersionApi from 'services/productVersionApi';
 import { validateDate } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
-import { createDateTime, getShortProductMilestoneVersion, parseDate } from 'utils/utils';
+import { createDateTime, getProductVersionSuffix, parseDate } from 'utils/utils';
 
 const validateDates = (fieldValues: IFieldValues): boolean => {
   return (
@@ -194,7 +194,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
         const productMilestone: ProductMilestone = response.data;
-        const productMilestoneVersionShort = getShortProductMilestoneVersion(productMilestone);
+        const productMilestoneVersionShort = getProductVersionSuffix(productMilestone);
         const startingDate = productMilestone.startingDate && createDateTime({ date: productMilestone.startingDate }).date;
         const plannedEndDate = productMilestone.plannedEndDate && createDateTime({ date: productMilestone.plannedEndDate }).date;
 
