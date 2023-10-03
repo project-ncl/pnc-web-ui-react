@@ -42,6 +42,7 @@ import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilest
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
+import { ProductReleaseCreateEditPage } from 'components/ProductReleaseCreateEditPage/ProductReleaseCreateEditPage';
 import { ProductVersionBuildConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionBuildConfigsEditPage';
 import { ProductVersionGroupConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionGroupConfigsEditPage';
 import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
@@ -164,6 +165,26 @@ export const AppRoutes = (
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
                 <Route index element={<Navigate to="details" replace />} />
+              </Route>
+            </Route>
+            <Route path="releases">
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute title={PageTitles.productReleaseCreate}>
+                    <ProductReleaseCreateEditPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path=":productReleaseId">
+                <Route
+                  path="edit"
+                  element={
+                    <ProtectedRoute title={PageTitles.productReleaseEdit}>
+                      <ProductReleaseCreateEditPage isEditPage />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
             </Route>
           </Route>

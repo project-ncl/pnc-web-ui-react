@@ -11,6 +11,7 @@ type EntityType =
   | 'Product'
   | 'Version'
   | 'Milestone'
+  | 'Release'
   | 'Close Result'
   | 'Deliverables Analysis'
   | 'Artifact'
