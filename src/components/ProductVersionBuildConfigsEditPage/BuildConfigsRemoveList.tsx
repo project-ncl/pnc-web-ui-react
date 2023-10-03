@@ -90,27 +90,29 @@ export const BuildConfigsRemoveList = ({
         </ToolbarItem>
       </Toolbar>
 
-      <Toolbar disablePaddingTop>
-        <ToolbarItem>
-          <Button
-            variant="tertiary"
-            onClick={() => {
-              checkedItems.forEach((checkedItem) => {
-                onBuildConfigRemove(checkedItem);
-                toggleItemCheck(checkedItem, false);
-              });
-            }}
-            isDisabled={!checkedItems.length}
-          >
-            Remove selected
-          </Button>
-        </ToolbarItem>
-        {!!checkedItems.length && (
+      {!!serviceContainerBuildConfigs.data?.content?.length && (
+        <Toolbar disablePaddingTop>
           <ToolbarItem>
-            <b>{checkedItems.length}</b> to be removed
+            <Button
+              variant="tertiary"
+              onClick={() => {
+                checkedItems.forEach((checkedItem) => {
+                  onBuildConfigRemove(checkedItem);
+                  toggleItemCheck(checkedItem, false);
+                });
+              }}
+              isDisabled={!checkedItems.length}
+            >
+              Remove selected
+            </Button>
           </ToolbarItem>
-        )}
-      </Toolbar>
+          {!!checkedItems.length && (
+            <ToolbarItem>
+              <b>{checkedItems.length}</b> to be removed
+            </ToolbarItem>
+          )}
+        </Toolbar>
+      )}
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
