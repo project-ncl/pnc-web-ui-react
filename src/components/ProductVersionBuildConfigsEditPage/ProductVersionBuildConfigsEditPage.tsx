@@ -13,7 +13,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { BuildConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsAddList';
 import { BuildConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsChangesList';
@@ -148,44 +147,42 @@ export const ProductVersionBuildConfigsEditPage = ({
     >
       <Grid hasGutter>
         <GridItem lg={12} xl2={6}>
-          <Toolbar>
+          <Toolbar borderBottom>
             <ToolbarItem>
               <TextContent>
                 <Text component={TextVariants.h2}>Build Configs currently in the Version</Text>
               </TextContent>
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop>
-            <BuildConfigsRemoveList
-              serviceContainerBuildConfigs={serviceContainerProductVersionBuildConfigs}
-              componentId={componentIdProductVersionBuildConfigs}
-              onBuildConfigRemove={(buildConfig: BuildConfiguration) => {
-                addBuildConfigChange(buildConfig, 'remove');
-              }}
-              removedBuildConfigs={removedBuildConfigs}
-            />
-          </ContentBox>
+
+          <BuildConfigsRemoveList
+            serviceContainerBuildConfigs={serviceContainerProductVersionBuildConfigs}
+            componentId={componentIdProductVersionBuildConfigs}
+            onBuildConfigRemove={(buildConfig: BuildConfiguration) => {
+              addBuildConfigChange(buildConfig, 'remove');
+            }}
+            removedBuildConfigs={removedBuildConfigs}
+          />
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
-          <Toolbar>
+          <Toolbar borderBottom>
             <ToolbarItem>
               <TextContent>
                 <Text component={TextVariants.h2}>Add new Build Configs</Text>
               </TextContent>
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop>
-            <BuildConfigsAddList
-              serviceContainerBuildConfigs={serviceContainerProjectBuildConfigs}
-              componentId={componentIdProjectBuildConfigs}
-              onBuildConfigAdd={(buildConfig: BuildConfiguration) => {
-                addBuildConfigChange(buildConfig, 'add');
-              }}
-              addedBuildConfigs={addedBuildConfigs}
-              productVersionToExclude={productVersionId!}
-            />
-          </ContentBox>
+
+          <BuildConfigsAddList
+            serviceContainerBuildConfigs={serviceContainerProjectBuildConfigs}
+            componentId={componentIdProjectBuildConfigs}
+            onBuildConfigAdd={(buildConfig: BuildConfiguration) => {
+              addBuildConfigChange(buildConfig, 'add');
+            }}
+            addedBuildConfigs={addedBuildConfigs}
+            productVersionToExclude={productVersionId!}
+          />
         </GridItem>
 
         <GridItem span={12}>
@@ -207,6 +204,7 @@ export const ProductVersionBuildConfigsEditPage = ({
               </Button>
             </ToolbarItem>
           </Toolbar>
+
           <BuildConfigsChangesList
             buildConfigChanges={buildConfigChanges}
             onCancel={(buildConfig: BuildConfiguration) => {

@@ -87,16 +87,15 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
           </Attributes>
         </ContentBox>
 
-        <Toolbar>
+        <Toolbar borderBottom>
           <ToolbarItem>
             <TextContent>
               <Text component={TextVariants.h2}>Usages</Text>
             </TextContent>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop>
-          <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />
-        </ContentBox>
+
+        <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId }} />
       </PageLayout>
     </ServiceContainerLoading>
   );

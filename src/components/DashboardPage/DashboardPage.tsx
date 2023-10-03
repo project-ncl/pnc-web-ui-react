@@ -8,7 +8,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { BuildsList } from 'components/BuildsList/BuildsList';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
 import { GroupBuildsList } from 'components/GroupBuildsList/GroupBuildsList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -46,28 +45,26 @@ export const DashboardPage = () => {
         </GridItem>
         <ProtectedComponent hide>
           <GridItem lg={12} xl2={6}>
-            <Toolbar>
+            <Toolbar borderBottom>
               <ToolbarItem>
                 <TextContent>
                   <Text component={TextVariants.h2}>My Builds</Text>
                 </TextContent>
               </ToolbarItem>
             </Toolbar>
-            <ContentBox borderTop>
-              <MyBuildsList />
-            </ContentBox>
+
+            <MyBuildsList />
           </GridItem>
           <GridItem lg={12} xl2={6}>
-            <Toolbar>
+            <Toolbar borderBottom>
               <ToolbarItem>
                 <TextContent>
                   <Text component={TextVariants.h2}>My Group Builds</Text>
                 </TextContent>
               </ToolbarItem>
             </Toolbar>
-            <ContentBox borderTop>
-              <MyGroupBuildsList />
-            </ContentBox>
+
+            <MyGroupBuildsList />
           </GridItem>
         </ProtectedComponent>
       </Grid>

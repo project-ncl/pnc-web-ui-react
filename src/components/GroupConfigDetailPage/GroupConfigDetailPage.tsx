@@ -122,20 +122,19 @@ export const GroupConfigDetailPage = ({
           </Attributes>
         </ContentBox>
 
-        <Toolbar>
+        <Toolbar borderBottom>
           <ToolbarItem>
             <TextContent>
               <Text component={TextVariants.h2}>Build Configs</Text>
             </TextContent>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop>
-          <BuildConfigsList
-            columns={buildConfigsListColumns}
-            serviceContainerBuildConfigs={serviceContainerBuildConfigs}
-            componentId={componentIdBuildConfigs}
-          />
-        </ContentBox>
+
+        <BuildConfigsList
+          columns={buildConfigsListColumns}
+          serviceContainerBuildConfigs={serviceContainerBuildConfigs}
+          componentId={componentIdBuildConfigs}
+        />
       </PageLayout>
     </ServiceContainerLoading>
   );
