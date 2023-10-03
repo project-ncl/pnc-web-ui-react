@@ -94,27 +94,29 @@ export const BuildConfigsAddList = ({
         </ToolbarItem>
       </Toolbar>
 
-      <Toolbar disablePaddingTop>
-        <ToolbarItem>
-          <Button
-            variant="tertiary"
-            onClick={() => {
-              checkedItems.forEach((checkedItem) => {
-                onBuildConfigAdd(checkedItem);
-                toggleItemCheck(checkedItem, false);
-              });
-            }}
-            isDisabled={!checkedItems.length}
-          >
-            Add selected
-          </Button>
-        </ToolbarItem>
-        {!!checkedItems.length && (
+      {!!serviceContainerBuildConfigs.data?.content?.length && (
+        <Toolbar disablePaddingTop>
           <ToolbarItem>
-            <b>{checkedItems.length}</b> to be added
+            <Button
+              variant="tertiary"
+              onClick={() => {
+                checkedItems.forEach((checkedItem) => {
+                  onBuildConfigAdd(checkedItem);
+                  toggleItemCheck(checkedItem, false);
+                });
+              }}
+              isDisabled={!checkedItems.length}
+            >
+              Add selected
+            </Button>
           </ToolbarItem>
-        )}
-      </Toolbar>
+          {!!checkedItems.length && (
+            <ToolbarItem>
+              <b>{checkedItems.length}</b> to be added
+            </ToolbarItem>
+          )}
+        </Toolbar>
+      )}
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
