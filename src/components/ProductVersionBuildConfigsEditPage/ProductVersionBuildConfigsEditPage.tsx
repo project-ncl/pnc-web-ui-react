@@ -8,6 +8,7 @@ import { BuildConfiguration } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 
+import { usePatchOperation } from 'hooks/usePatchOperation';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -15,7 +16,7 @@ import { useTitle } from 'hooks/useTitle';
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsAddList';
-import { ConfigsChangesList, TBuildConfigChange } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
+import { ConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
 import { ConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsRemoveList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -54,27 +55,16 @@ export const ProductVersionBuildConfigsEditPage = ({
     ? `${serviceContainerProductVersion.data?.product?.name} ${serviceContainerProductVersion.data?.version}`
     : '';
 
-  const [buildConfigChanges, setBuildConfigChanges] = useState<TBuildConfigChange[]>([]);
   const [wereBuildConfigsChanged, setWereBuildConfigsChanged] = useState<boolean>(false);
-  const removedBuildConfigs = buildConfigChanges
-    .filter((buildConfigChange) => buildConfigChange.operation === 'remove')
-    .map((buildConfigChange) => buildConfigChange.data);
-  const addedBuildConfigs = buildConfigChanges
-    .filter((buildConfigChange) => buildConfigChange.operation === 'add')
-    .map((buildConfigChange) => buildConfigChange.data);
 
-  const addBuildConfigChange = (buildConfig: BuildConfiguration, operation: TBuildConfigChange['operation']) =>
-    setBuildConfigChanges((buildConfigChanges) => {
-      const otherBuildConfigChanges = buildConfigChanges.filter(
-        (buildConfigChange) => buildConfigChange.data.id !== buildConfig.id
-      );
-      return [...otherBuildConfigChanges, { data: buildConfig, operation: operation }];
-    });
-
-  const cancelBuildConfigChange = (buildConfig: BuildConfiguration) =>
-    setBuildConfigChanges((buildConfigChanges) => {
-      return buildConfigChanges.filter((buildConfigChange) => buildConfigChange.data.id !== buildConfig.id);
-    });
+  const {
+    operations: buildConfigChanges,
+    removedData: removedBuildConfigs,
+    addedData: addedBuildConfigs,
+    insertOperation: insertBuildConfigChange,
+    cancelOperation: cancelBuildConfigChange,
+    cancelAllOperations: cancelAllBuildConfigChanges,
+  } = usePatchOperation<BuildConfiguration>();
 
   useEffect(() => {
     if (buildConfigChanges.length) {
@@ -155,7 +145,7 @@ export const ProductVersionBuildConfigsEditPage = ({
             serviceContainerConfigs={serviceContainerProductVersionBuildConfigs}
             componentId={componentIdProductVersionBuildConfigs}
             onConfigRemove={(buildConfig: BuildConfiguration) => {
-              addBuildConfigChange(buildConfig, 'remove');
+              insertBuildConfigChange(buildConfig, 'remove');
             }}
             removedConfigs={removedBuildConfigs}
           />
@@ -175,7 +165,7 @@ export const ProductVersionBuildConfigsEditPage = ({
             serviceContainerConfigs={serviceContainerProjectBuildConfigs}
             componentId={componentIdProjectBuildConfigs}
             onConfigAdd={(buildConfig: BuildConfiguration) => {
-              addBuildConfigChange(buildConfig, 'add');
+              insertBuildConfigChange(buildConfig, 'add');
             }}
             addedConfigs={addedBuildConfigs}
             productVersionToExclude={productVersionId!}
@@ -256,7 +246,7 @@ export const ProductVersionBuildConfigsEditPage = ({
           isOpen={isCancelAllModalOpen}
           onToggle={toggleCancelAllModal}
           onSubmit={() => {
-            setBuildConfigChanges([]);
+            cancelAllBuildConfigChanges();
             toggleCancelAllModal();
           }}
         >

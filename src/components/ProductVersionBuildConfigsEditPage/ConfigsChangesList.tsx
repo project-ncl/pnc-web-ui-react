@@ -8,6 +8,8 @@ import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 
+import { IOperation } from 'hooks/usePatchOperation';
+
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
@@ -15,18 +17,9 @@ import { StateCard } from 'components/StateCard/StateCard';
 
 import { isBuildConfig } from 'utils/entityRecognition';
 
-interface IConfigChange<T extends BuildConfiguration | GroupConfiguration> {
-  data: T;
-  operation: 'add' | 'remove';
-}
-
-export type TBuildConfigChange = IConfigChange<BuildConfiguration>;
-
-export type TGroupConfigChange = IConfigChange<GroupConfiguration>;
-
 interface IConfigsChangesListProps<T extends BuildConfiguration | GroupConfiguration> {
   variant: 'Build' | 'Group Build';
-  configChanges: IConfigChange<T>[];
+  configChanges: IOperation<T>[];
   onCancel: (config: T) => void;
 }
 
@@ -56,10 +49,10 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
               </Tr>
             </Thead>
             <Tbody>
-              {configChanges.map((configChange: IConfigChange<T>, rowIndex: number) => (
+              {configChanges.map((configChange: IOperation<T>, rowIndex: number) => (
                 <Tr key={rowIndex}>
                   <Td>
-                    {configChange.operation === 'add' ? (
+                    {configChange.operator === 'add' ? (
                       <PlusCircleIcon title="Marked to be added." color="green" />
                     ) : (
                       <MinusCircleIcon title="Marked to be removed." color="red" />
