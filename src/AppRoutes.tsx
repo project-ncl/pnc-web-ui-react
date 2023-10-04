@@ -42,6 +42,7 @@ import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPag
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductVersionBuildConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionBuildConfigsEditPage';
+import { ProductVersionGroupConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionGroupConfigsEditPage';
 import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
 import { ProductVersionCreateEditPage } from 'components/ProductVersionCreateEditPage/ProductVersionCreateEditPage';
 import { ProductVersionDetailPage } from 'components/ProductVersionDetailPage/ProductVersionDetailPage';
@@ -118,6 +119,14 @@ export const AppRoutes = (
               element={
                 <ProtectedRoute title={PageTitles.productVersionEdit}>
                   <ProductVersionBuildConfigsEditPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="group-configs/edit"
+              element={
+                <ProtectedRoute title={PageTitles.productVersionEdit}>
+                  <ProductVersionGroupConfigsEditPage />
                 </ProtectedRoute>
               }
             />
