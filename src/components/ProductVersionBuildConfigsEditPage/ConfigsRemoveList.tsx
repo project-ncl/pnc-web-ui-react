@@ -2,11 +2,12 @@ import { Button } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { BuildConfiguration } from 'pnc-api-types-ts';
+import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
 import { useCheckbox } from 'hooks/useCheckbox';
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -22,44 +23,54 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-interface IBuildConfigsRemoveListProps {
-  serviceContainerBuildConfigs: IServiceContainer;
+import { isBuildConfig } from 'utils/entityRecognition';
+
+interface IConfigsRemoveListProps<T extends BuildConfiguration | GroupConfiguration> {
+  variant: 'Build' | 'Group Build';
+  serviceContainerConfigs: IServiceContainer;
   componentId: string;
-  onBuildConfigRemove: (buildConfig: BuildConfiguration) => void;
-  removedBuildConfigs: BuildConfiguration[];
+  onConfigRemove: (config: T) => void;
+  removedConfigs: T[];
 }
 
 /**
- * Component displaying list of Build Configs that can be added to the to-be-removed list.
+ * Component displaying list of Build/Group Configs that can be added to the to-be-removed list.
  *
- * @param serviceContainerBuildConfigs - Service Container for Build Configs
+ * @param variant - Build or Group Config variant
+ * @param serviceContainerConfigs - Service Container for Build/Group Configs
  * @param componentId - Component ID
- * @param onBuildConfigRemove - Callback to add a Build Config to the to-be-removed list with
- * @param removedBuildConfigs - List of already removed Build Configs
+ * @param onConfigRemove - Callback to add a Build/Group Config to the to-be-removed list with
+ * @param removedConfigs - List of already removed Build/Group Configs
  */
-export const BuildConfigsRemoveList = ({
-  serviceContainerBuildConfigs,
+export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfiguration>({
+  variant,
+  serviceContainerConfigs,
   componentId,
-  onBuildConfigRemove,
-  removedBuildConfigs,
-}: IBuildConfigsRemoveListProps) => {
+  onConfigRemove,
+  removedConfigs,
+}: IConfigsRemoveListProps<T>) => {
+  const isBuildVariant = useMemo(() => variant === 'Build', [variant]);
+  const entityAttributes = useMemo(
+    () => (isBuildVariant ? buildConfigEntityAttributes : groupConfigEntityAttributes),
+    [isBuildVariant]
+  );
+
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
-        entityAttributes: buildConfigEntityAttributes,
+        entityAttributes,
         defaultSorting: {
-          attribute: buildConfigEntityAttributes.name.id,
+          attribute: entityAttributes.name.id,
           direction: 'asc',
         },
       }),
-    []
+    [entityAttributes]
   );
 
   const { getSortParams } = useSorting(sortOptions, componentId);
 
-  const checkableBuildConfigs: BuildConfiguration[] = (serviceContainerBuildConfigs.data?.content || []).filter(
-    (buildConfig: BuildConfiguration) =>
-      removedBuildConfigs.every((removedBuildConfig) => removedBuildConfig.id !== buildConfig.id)
+  const checkableConfigs: T[] = (serviceContainerConfigs.data?.content || []).filter((config: T) =>
+    removedConfigs.every((removedConfig) => removedConfig.id !== config.id)
   );
 
   const {
@@ -70,7 +81,7 @@ export const BuildConfigsRemoveList = ({
     areAllItemsChecked,
     checkAllItems,
     uncheckAllItems,
-  } = useCheckbox<BuildConfiguration>({ items: checkableBuildConfigs });
+  } = useCheckbox<T>({ items: checkableConfigs });
 
   return (
     <>
@@ -80,24 +91,26 @@ export const BuildConfigsRemoveList = ({
             filterOptions={useMemo(
               () =>
                 getFilterOptions({
-                  entityAttributes: buildConfigEntityAttributes,
-                  defaultFiltering: { attribute: buildConfigEntityAttributes.name.id },
+                  entityAttributes: entityAttributes,
+                  defaultFiltering: {
+                    attribute: isBuildVariant ? buildConfigEntityAttributes['project.name'].id : entityAttributes.name.id,
+                  },
                 }),
-              []
+              [entityAttributes, isBuildVariant]
             )}
             componentId={componentId}
           />
         </ToolbarItem>
       </Toolbar>
 
-      {!!serviceContainerBuildConfigs.data?.content?.length && (
+      {!!serviceContainerConfigs.data?.content?.length && (
         <Toolbar disablePaddingTop>
           <ToolbarItem>
             <Button
               variant="tertiary"
               onClick={() => {
                 checkedItems.forEach((checkedItem) => {
-                  onBuildConfigRemove(checkedItem);
+                  onConfigRemove(checkedItem);
                   toggleItemCheck(checkedItem, false);
                 });
               }}
@@ -115,7 +128,10 @@ export const BuildConfigsRemoveList = ({
       )}
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
+        <ServiceContainerLoading
+          {...serviceContainerConfigs}
+          title={isBuildVariant ? PageTitles.buildConfigs : PageTitles.groupConfigs}
+        >
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
@@ -126,17 +142,19 @@ export const BuildConfigsRemoveList = ({
                   }}
                 />
                 <Th width={40} sort={getSortParams(sortOptions.sortAttributes.name.id)}>
-                  {buildConfigEntityAttributes.name.title}
+                  {entityAttributes.name.title}
                 </Th>
-                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
-                  {buildConfigEntityAttributes['project.name'].title}
-                </Th>
+                {isBuildVariant && (
+                  <Th width={30} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
+                    {buildConfigEntityAttributes['project.name'].title}
+                  </Th>
+                )}
                 <Th />
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerBuildConfigs.data?.content.map((buildConfig: BuildConfiguration, rowIndex: number) => {
-                const isRemoved = removedBuildConfigs.some((removedBuildConfig) => removedBuildConfig.id === buildConfig.id);
+              {serviceContainerConfigs.data?.content.map((config: T, rowIndex: number) => {
+                const isRemoved = removedConfigs.some((removedConfig) => removedConfig.id === config.id);
 
                 const disabledReason = isRemoved ? 'Already marked to be removed.' : '';
 
@@ -145,24 +163,24 @@ export const BuildConfigsRemoveList = ({
                     <Td
                       select={{
                         rowIndex,
-                        onSelect: (_, isSelecting) => toggleItemCheckWithBulk(buildConfig, isSelecting),
-                        isSelected: isItemChecked(buildConfig),
+                        onSelect: (_, isSelecting) => toggleItemCheckWithBulk(config, isSelecting),
+                        isSelected: isItemChecked(config),
                         disable: !!disabledReason,
                       }}
                     />
                     <Td>
-                      <BuildConfigLink id={buildConfig.id}>{buildConfig.name}</BuildConfigLink>
+                      <BuildConfigLink id={config.id}>{config.name}</BuildConfigLink>
                     </Td>
-                    <Td>
-                      {buildConfig.project && <ProjectLink id={buildConfig.project.id}>{buildConfig.project.name}</ProjectLink>}
-                    </Td>
+                    {isBuildConfig(config) && (
+                      <Td>{config.project && <ProjectLink id={config.project.id}>{config.project.name}</ProjectLink>}</Td>
+                    )}
                     <Td isActionCell>
                       <TooltipWrapper tooltip={disabledReason}>
                         <Button
                           variant="secondary"
                           onClick={() => {
-                            onBuildConfigRemove(buildConfig);
-                            toggleItemCheck(buildConfig, false);
+                            onConfigRemove(config);
+                            toggleItemCheck(config, false);
                           }}
                           isAriaDisabled={!!disabledReason}
                           isSmall
@@ -179,7 +197,7 @@ export const BuildConfigsRemoveList = ({
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerBuildConfigs.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerConfigs.data?.totalHits} />
     </>
   );
 };
