@@ -19,12 +19,14 @@ import { uiLogger } from 'services/uiLogger';
  * Operator =like= is converted to =notlike= automatically when qValue starts with ! character,
  * there is no need to declare it manually.
  */
-export type IQParamOperators = '=like=' | '==' | '!=';
+export type TQParamValue = string | boolean | number;
+
+export type IQParamOperators = '=like=' | '==' | '!=' | '=isnull=';
 
 /**
  * List of all supported RSQL operators.
  */
-const qParamSupportedOperators = ['=like=', '=notlike=', '==', '!='];
+const qParamSupportedOperators = ['=like=', '=notlike=', '==', '!=', '=isnull='];
 
 /**
  * @example
@@ -53,7 +55,7 @@ const parseQParamShallow = (qParamString: string): string[] => {
   return qParamArray;
 };
 
-const constructQParamItem = (id: string, value: string, operator: IQParamOperators): string => {
+const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators): string => {
   switch (operator) {
     case '=like=':
       // #support =notlike=
@@ -70,7 +72,7 @@ const constructQParamItem = (id: string, value: string, operator: IQParamOperato
  * 1) new Q string containing new param
  * 2) null when Q param is already contained in Q string
  */
-export const addQParamItem = (id: string, value: string, operator: IQParamOperators, qParam: string): string | null => {
+export const addQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators, qParam: string): string | null => {
   const qParamItems = parseQParamShallow(qParam);
   const newItem = constructQParamItem(id, value, operator);
 
@@ -90,7 +92,7 @@ export const addQParamItem = (id: string, value: string, operator: IQParamOperat
  * 1) New Q string without specified param
  * 2) Empty string when last param was removed
  */
-export const removeQParamItem = (id: string, value: string, operator: IQParamOperators, qParam: string): string => {
+export const removeQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators, qParam: string): string => {
   const qParamItems = parseQParamShallow(qParam);
 
   // #support =notlike=
