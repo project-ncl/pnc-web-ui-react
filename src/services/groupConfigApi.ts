@@ -20,6 +20,29 @@ export const getGroupConfigs = (requestConfig: AxiosRequestConfig = {}) => {
 };
 
 /**
+ * Gets all Group Configs with no assigned Product Version.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getUnassignedGroupConfigs = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<GroupConfigPage>(
+    '/group-configs',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        qItems: [
+          {
+            id: 'productVersion',
+            value: true,
+            operator: '=isnull=',
+          },
+        ],
+      },
+    })
+  );
+};
+
+/**
  * Gets a specific Group Config.
  *
  * @param id - Group Config ID
