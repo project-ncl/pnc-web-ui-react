@@ -2,11 +2,12 @@ import { Button } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { BuildConfiguration } from 'pnc-api-types-ts';
+import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
 import { useCheckbox } from 'hooks/useCheckbox';
 import { IServiceContainer } from 'hooks/useServiceContainer';
@@ -22,48 +23,59 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-interface IBuildConfigsAddListProps {
-  serviceContainerBuildConfigs: IServiceContainer;
+import { isBuildConfig } from 'utils/entityRecognition';
+
+interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration> {
+  variant: 'Build' | 'Group Build';
+  serviceContainerConfigs: IServiceContainer;
   componentId: string;
-  onBuildConfigAdd: (buildConfig: BuildConfiguration) => void;
-  addedBuildConfigs: BuildConfiguration[];
-  productVersionToExclude: string;
+  onConfigAdd: (config: T) => void;
+  addedConfigs: T[];
+  productVersionToExclude?: string;
 }
 
 /**
- * Component displaying list of Build Configs that can be added to the to-be-added list.
+ * Component displaying list of Build/Group Configs that can be added to the to-be-added list.
  *
- * @param serviceContainerBuildConfigs - Service Container for Build Configs
+ * @param variant - Build or Group Build variant
+ * @param serviceContainerConfigs - Service Container for Build/Group Configs
  * @param componentId - Component ID
- * @param onBuildConfigAdd - Callback to add a Build Config to the to-be-added list with
- * @param addedBuildConfigs - List of already added Build Configs
- * @param productVersionToExclude - ID of Product Version, Build Configs of which cannot be added
+ * @param onConfigAdd - Callback to add a Build/Group Config to the to-be-added list with
+ * @param addedConfigs - List of already added Build/Group Configs
+ * @param productVersionToExclude - ID of Product Version, Build/Group Configs of which cannot be added
  */
-export const BuildConfigsAddList = ({
-  serviceContainerBuildConfigs,
+export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration>({
+  variant,
+  serviceContainerConfigs,
   componentId,
-  onBuildConfigAdd,
-  addedBuildConfigs,
+  onConfigAdd,
+  addedConfigs,
   productVersionToExclude,
-}: IBuildConfigsAddListProps) => {
+}: IConfigsAddListProps<T>) => {
+  const isBuildVariant = useMemo(() => variant === 'Build', [variant]);
+  const entityAttributes = useMemo(
+    () => (isBuildVariant ? buildConfigEntityAttributes : groupConfigEntityAttributes),
+    [isBuildVariant]
+  );
+
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
-        entityAttributes: buildConfigEntityAttributes,
+        entityAttributes,
         defaultSorting: {
-          attribute: buildConfigEntityAttributes.name.id,
+          attribute: entityAttributes.name.id,
           direction: 'asc',
         },
       }),
-    []
+    [entityAttributes]
   );
 
   const { getSortParams } = useSorting(sortOptions, componentId);
 
-  const checkableBuildConfigs: BuildConfiguration[] = (serviceContainerBuildConfigs.data?.content || []).filter(
-    (buildConfig: BuildConfiguration) =>
-      addedBuildConfigs.every((addedBuildConfig) => addedBuildConfig.id !== buildConfig.id) &&
-      buildConfig.productVersion?.id !== productVersionToExclude
+  const checkableConfigs: T[] = (serviceContainerConfigs.data?.content || []).filter(
+    (config: T) =>
+      addedConfigs.every((addedConfig) => addedConfig.id !== config.id) &&
+      (!productVersionToExclude || config.productVersion?.id !== productVersionToExclude)
   );
 
   const {
@@ -74,7 +86,7 @@ export const BuildConfigsAddList = ({
     areAllItemsChecked,
     checkAllItems,
     uncheckAllItems,
-  } = useCheckbox<BuildConfiguration>({ items: checkableBuildConfigs });
+  } = useCheckbox<T>({ items: checkableConfigs });
 
   return (
     <>
@@ -84,24 +96,26 @@ export const BuildConfigsAddList = ({
             filterOptions={useMemo(
               () =>
                 getFilterOptions({
-                  entityAttributes: buildConfigEntityAttributes,
-                  defaultFiltering: { attribute: buildConfigEntityAttributes['project.name'].id },
+                  entityAttributes,
+                  defaultFiltering: {
+                    attribute: isBuildVariant ? buildConfigEntityAttributes['project.name'].id : entityAttributes.name.id,
+                  },
                 }),
-              []
+              [entityAttributes, isBuildVariant]
             )}
             componentId={componentId}
           />
         </ToolbarItem>
       </Toolbar>
 
-      {!!serviceContainerBuildConfigs.data?.content?.length && (
+      {!!serviceContainerConfigs.data?.content?.length && (
         <Toolbar disablePaddingTop>
           <ToolbarItem>
             <Button
               variant="tertiary"
               onClick={() => {
                 checkedItems.forEach((checkedItem) => {
-                  onBuildConfigAdd(checkedItem);
+                  onConfigAdd(checkedItem);
                   toggleItemCheck(checkedItem, false);
                 });
               }}
@@ -119,7 +133,10 @@ export const BuildConfigsAddList = ({
       )}
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
+        <ServiceContainerLoading
+          {...serviceContainerConfigs}
+          title={isBuildVariant ? PageTitles.buildConfigs : PageTitles.groupConfigs}
+        >
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
@@ -130,51 +147,55 @@ export const BuildConfigsAddList = ({
                   }}
                 />
                 <Th width={40} sort={getSortParams(sortOptions.sortAttributes.name.id)}>
-                  {buildConfigEntityAttributes.name.title}
+                  {entityAttributes.name.title}
                 </Th>
-                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
-                  {buildConfigEntityAttributes['project.name'].title}
-                </Th>
+                {isBuildVariant && (
+                  <Th width={30} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
+                    {buildConfigEntityAttributes['project.name'].title}
+                  </Th>
+                )}
                 <Th />
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerBuildConfigs.data?.content.map((buildConfig: BuildConfiguration, rowIndex: number) => {
-                const isAdded = addedBuildConfigs.some((addedBuildConfig) => addedBuildConfig.id === buildConfig.id);
+              {serviceContainerConfigs.data?.content.map((config: T, rowIndex: number) => {
+                const isAdded = addedConfigs.some((addedConfig) => addedConfig.id === config.id);
 
                 const disabledReason = isAdded
                   ? 'Already marked to be added.'
-                  : buildConfig.productVersion?.id === productVersionToExclude
+                  : !!productVersionToExclude && config.productVersion?.id === productVersionToExclude
                   ? 'Already in the Version.'
                   : '';
 
                 const warningReason =
-                  buildConfig.productVersion &&
-                  `Build Config is already assigned to different Version. Once added to this Version, it will be removed from the original one.`;
+                  config.productVersion &&
+                  `${
+                    isBuildVariant ? 'Build' : 'Group'
+                  } Config is already assigned to different Version. Once added to this Version, it will be removed from the original one.`;
 
                 return (
                   <Tr key={rowIndex}>
                     <Td
                       select={{
                         rowIndex,
-                        onSelect: (_, isSelecting) => toggleItemCheckWithBulk(buildConfig, isSelecting),
-                        isSelected: isItemChecked(buildConfig),
+                        onSelect: (_, isSelecting) => toggleItemCheckWithBulk(config, isSelecting),
+                        isSelected: isItemChecked(config),
                         disable: !!disabledReason,
                       }}
                     />
                     <Td>
-                      <BuildConfigLink id={buildConfig.id}>{buildConfig.name}</BuildConfigLink>
+                      <BuildConfigLink id={config.id}>{config.name}</BuildConfigLink>
                     </Td>
-                    <Td>
-                      {buildConfig.project && <ProjectLink id={buildConfig.project.id}>{buildConfig.project.name}</ProjectLink>}
-                    </Td>
+                    {isBuildConfig(config) && (
+                      <Td>{config.project && <ProjectLink id={config.project.id}>{config.project.name}</ProjectLink>}</Td>
+                    )}
                     <Td isActionCell>
                       <TooltipWrapper tooltip={disabledReason || warningReason}>
                         <Button
                           variant={warningReason ? 'warning' : 'secondary'}
                           onClick={() => {
-                            onBuildConfigAdd(buildConfig);
-                            toggleItemCheck(buildConfig, false);
+                            onConfigAdd(config);
+                            toggleItemCheck(config, false);
                           }}
                           isAriaDisabled={!!disabledReason}
                           isSmall
@@ -191,7 +212,7 @@ export const BuildConfigsAddList = ({
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerBuildConfigs.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerConfigs.data?.totalHits} />
     </>
   );
 };
