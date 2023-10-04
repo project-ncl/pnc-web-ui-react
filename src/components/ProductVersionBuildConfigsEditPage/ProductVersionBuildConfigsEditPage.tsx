@@ -14,9 +14,9 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { BuildConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsAddList';
-import { BuildConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsChangesList';
-import { BuildConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsRemoveList';
+import { ConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsAddList';
+import { ConfigsChangesList, TBuildConfigChange } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
+import { ConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsRemoveList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -25,11 +25,6 @@ import * as productVersionApi from 'services/productVersionApi';
 
 import { createArrayPatchSimple } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
-
-export interface IBuildConfigChange {
-  data: BuildConfiguration;
-  operation: 'add' | 'remove';
-}
 
 interface IProductVersionBuildConfigsEditPageProps {
   componentIdProductVersionBuildConfigs?: string;
@@ -59,7 +54,7 @@ export const ProductVersionBuildConfigsEditPage = ({
     ? `${serviceContainerProductVersion.data?.product?.name} ${serviceContainerProductVersion.data?.version}`
     : '';
 
-  const [buildConfigChanges, setBuildConfigChanges] = useState<IBuildConfigChange[]>([]);
+  const [buildConfigChanges, setBuildConfigChanges] = useState<TBuildConfigChange[]>([]);
   const [wereBuildConfigsChanged, setWereBuildConfigsChanged] = useState<boolean>(false);
   const removedBuildConfigs = buildConfigChanges
     .filter((buildConfigChange) => buildConfigChange.operation === 'remove')
@@ -68,7 +63,7 @@ export const ProductVersionBuildConfigsEditPage = ({
     .filter((buildConfigChange) => buildConfigChange.operation === 'add')
     .map((buildConfigChange) => buildConfigChange.data);
 
-  const addBuildConfigChange = (buildConfig: BuildConfiguration, operation: IBuildConfigChange['operation']) =>
+  const addBuildConfigChange = (buildConfig: BuildConfiguration, operation: TBuildConfigChange['operation']) =>
     setBuildConfigChanges((buildConfigChanges) => {
       const otherBuildConfigChanges = buildConfigChanges.filter(
         (buildConfigChange) => buildConfigChange.data.id !== buildConfig.id
@@ -155,13 +150,14 @@ export const ProductVersionBuildConfigsEditPage = ({
             </ToolbarItem>
           </Toolbar>
 
-          <BuildConfigsRemoveList
-            serviceContainerBuildConfigs={serviceContainerProductVersionBuildConfigs}
+          <ConfigsRemoveList<BuildConfiguration>
+            variant="Build"
+            serviceContainerConfigs={serviceContainerProductVersionBuildConfigs}
             componentId={componentIdProductVersionBuildConfigs}
-            onBuildConfigRemove={(buildConfig: BuildConfiguration) => {
+            onConfigRemove={(buildConfig: BuildConfiguration) => {
               addBuildConfigChange(buildConfig, 'remove');
             }}
-            removedBuildConfigs={removedBuildConfigs}
+            removedConfigs={removedBuildConfigs}
           />
         </GridItem>
 
@@ -174,13 +170,14 @@ export const ProductVersionBuildConfigsEditPage = ({
             </ToolbarItem>
           </Toolbar>
 
-          <BuildConfigsAddList
-            serviceContainerBuildConfigs={serviceContainerProjectBuildConfigs}
+          <ConfigsAddList<BuildConfiguration>
+            variant="Build"
+            serviceContainerConfigs={serviceContainerProjectBuildConfigs}
             componentId={componentIdProjectBuildConfigs}
-            onBuildConfigAdd={(buildConfig: BuildConfiguration) => {
+            onConfigAdd={(buildConfig: BuildConfiguration) => {
               addBuildConfigChange(buildConfig, 'add');
             }}
-            addedBuildConfigs={addedBuildConfigs}
+            addedConfigs={addedBuildConfigs}
             productVersionToExclude={productVersionId!}
           />
         </GridItem>
@@ -204,9 +201,9 @@ export const ProductVersionBuildConfigsEditPage = ({
               </Button>
             </ToolbarItem>
           </Toolbar>
-
-          <BuildConfigsChangesList
-            buildConfigChanges={buildConfigChanges}
+          <ConfigsChangesList<BuildConfiguration>
+            variant="Build"
+            configChanges={buildConfigChanges}
             onCancel={(buildConfig: BuildConfiguration) => {
               cancelBuildConfigChange(buildConfig);
             }}
