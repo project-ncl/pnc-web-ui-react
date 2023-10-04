@@ -18,7 +18,6 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { BuildConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsAddList';
 import { BuildConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsChangesList';
 import { BuildConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage/BuildConfigsRemoveList';
-import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -190,32 +189,30 @@ export const ProductVersionBuildConfigsEditPage = ({
         </GridItem>
 
         <GridItem span={12}>
-          <ServiceContainerCreatingUpdating {...serviceContainerProductVersionPatch}>
-            <Toolbar>
-              <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Changes Summary</Text>
-                </TextContent>
-              </ToolbarItem>
-              <ToolbarItem>
-                <Button
-                  variant="tertiary"
-                  onClick={() => {
-                    toggleCancelAllModal();
-                  }}
-                  isDisabled={!buildConfigChanges.length}
-                >
-                  Cancel all
-                </Button>
-              </ToolbarItem>
-            </Toolbar>
-            <BuildConfigsChangesList
-              buildConfigChanges={buildConfigChanges}
-              onCancel={(buildConfig: BuildConfiguration) => {
-                cancelBuildConfigChange(buildConfig);
-              }}
-            />
-          </ServiceContainerCreatingUpdating>
+          <Toolbar>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Changes Summary</Text>
+              </TextContent>
+            </ToolbarItem>
+            <ToolbarItem>
+              <Button
+                variant="tertiary"
+                onClick={() => {
+                  toggleCancelAllModal();
+                }}
+                isDisabled={!buildConfigChanges.length}
+              >
+                Cancel all
+              </Button>
+            </ToolbarItem>
+          </Toolbar>
+          <BuildConfigsChangesList
+            buildConfigChanges={buildConfigChanges}
+            onCancel={(buildConfig: BuildConfiguration) => {
+              cancelBuildConfigChange(buildConfig);
+            }}
+          />
         </GridItem>
       </Grid>
 
