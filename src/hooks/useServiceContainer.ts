@@ -108,7 +108,7 @@ export const useServiceContainer = (service: Function, loadingStateDelayMs: numb
       .catch((error: Error | AxiosError) => {
         const errorMessage = getErrorMessage(error);
 
-        if (error.name !== 'CanceledError') {
+        if (isServiceError(error)) {
           // execute only for last request
           if (loadingCount.current <= 1) {
             // In a future React version (potentially in React 17) this could be removed as it will be default behavior
@@ -119,8 +119,9 @@ export const useServiceContainer = (service: Function, loadingStateDelayMs: numb
               setData(DataValues.noData);
             });
           }
-          throw error;
         }
+
+        throw error;
       })
       .finally(() => {
         loadingCount.current--;
@@ -141,6 +142,8 @@ export const useServiceContainer = (service: Function, loadingStateDelayMs: numb
     run: useCallback(serviceContainerRunner, [service, loadingStateDelayMs]),
   };
 };
+
+export const isServiceError = (error: Error | AxiosError): boolean => error.name !== 'CanceledError';
 
 const getErrorMessage = (error: Error | AxiosError): string => {
   if (isAxiosError(error)) {

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { isServiceError, useServiceContainer } from 'hooks/useServiceContainer';
 
 import '../../index.css';
 import styles from './SearchSelect.module.css';
@@ -110,7 +110,7 @@ export const SearchSelect = ({
           }
         })
         .catch((error: Error) => {
-          if (error.name !== 'CanceledError') {
+          if (isServiceError(error)) {
             setPageIndex(pageIndexDefault);
             setFetchedData([]);
           }
