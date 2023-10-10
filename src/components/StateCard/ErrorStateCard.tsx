@@ -38,9 +38,7 @@ export const ErrorStateCard = ({ title, error, variant = 'block' }: IErrorStateC
     return (
       <span>
         <TooltipWrapper tooltip={errorTitle}>
-          <Icon status="danger">
-            <ExclamationCircleIcon />
-          </Icon>
+          <ExclamationCircleIcon color="#c9190b" />
         </TooltipWrapper>
       </span>
     );
