@@ -21,7 +21,7 @@ export const Username = ({ text, length = 20 }: IUsernameProps) => {
   return text !== resultText ? (
     <TooltipWrapper tooltip={text}>
       <span>
-        <Label isCompact>SA</Label> {resultText}
+        {text.startsWith(removeKeyword) && <Label isCompact>SA</Label>} {resultText}
       </span>
     </TooltipWrapper>
   ) : (
