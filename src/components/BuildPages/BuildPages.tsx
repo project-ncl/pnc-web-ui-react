@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
 import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
+import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -22,6 +24,10 @@ export const BuildPages = () => {
 
   const serviceContainerBuild = useServiceContainer(buildApi.getBuild);
   const serviceContainerBuildRunner = serviceContainerBuild.run;
+
+  const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
+
+  const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
 
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
@@ -48,11 +54,25 @@ export const BuildPages = () => {
     </Tabs>
   );
 
+  const actions = [<BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data} />];
+
   return (
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
-      <PageLayout title={<BuildStatus build={serviceContainerBuild.data} long hideDatetime hideUsername />} tabs={pageTabs}>
+      <PageLayout
+        title={<BuildStatus build={serviceContainerBuild.data} long hideDatetime hideUsername />}
+        tabs={pageTabs}
+        actions={actions}
+      >
         <Outlet context={{ serviceContainerBuild }} />
       </PageLayout>
+      {isBrewPushModalOpen && (
+        <BrewPushModal
+          isModalOpen={isBrewPushModalOpen}
+          toggleModal={toggleBewPushModal}
+          build={serviceContainerBuild.data}
+          variant="Build"
+        />
+      )}
     </ServiceContainerLoading>
   );
 };
