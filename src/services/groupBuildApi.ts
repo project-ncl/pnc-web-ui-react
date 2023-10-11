@@ -54,3 +54,14 @@ export const getUserGroupBuilds = ({ userId }: { userId: string }, requestConfig
 export const getDependencyGraph = ({ id }: IGroupBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildsGraph>(`/group-builds/${id}/dependency-graph`, requestConfig);
 };
+
+/**
+ * Pushes all performed Build of the Group Build to Brew.
+ *
+ * @param serviceData - object containing:
+ *  - id - Group Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const pushToBrew = ({ id, data }: { id: string; data: { tagPrefix: string } }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<any>(`/group-builds/${id}/brew-push`, data, requestConfig);
+};

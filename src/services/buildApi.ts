@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ArtifactPage, Build, BuildPage, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
+import { ArtifactPage, Build, BuildPage, BuildPushResult, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
 
 import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
@@ -138,4 +138,15 @@ export const getArtifactDependencyGrah = ({ id }: IBuildApiData, requestConfig: 
  */
 export const getArtifactDependencies = (requestConfig: AxiosRequestConfig = {}) => {
   return pncApiMocksClient.getHttpClient().get<any>(`/build-artifact-dependencies`, requestConfig);
+};
+
+/**
+ * Pushes the Build to Brew.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const pushToBrew = ({ id, data }: { id: string; data: { tagPrefix: string } }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<BuildPushResult>(`/builds/${id}/brew-push`, data, requestConfig);
 };
