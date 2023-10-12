@@ -3,69 +3,11 @@ import { ExclamationTriangleIcon, OutlinedClockIcon } from '@patternfly/react-ic
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
+import { buildStatusData } from 'common/buildStatusData';
+
 import { isBuild } from 'utils/entityRecognition';
 
 import styles from './BuildStatusIcon.module.css';
-import iconBlue from './icons/blue.svg';
-import iconError from './icons/error.svg';
-import iconGreen from './icons/green.svg';
-import iconGrey from './icons/grey.svg';
-import iconNoBuilds from './icons/no-builds.svg';
-import iconOrange from './icons/orange.svg';
-import iconRed from './icons/red.svg';
-
-const iconData: { [buildStatus: string]: { tooltip: string; icon: any; className?: string } } = {
-  SUCCESS: {
-    tooltip: 'Build completed successfully',
-    icon: iconGreen,
-  },
-  FAILED: {
-    tooltip: 'Build Failed',
-    icon: iconRed,
-  },
-  NO_REBUILD_REQUIRED: {
-    tooltip: 'No rebuild required',
-    icon: iconGreen,
-    className: 'added-opacity',
-  },
-  ENQUEUED: {
-    tooltip: 'Enqueued',
-    icon: iconBlue,
-  },
-  WAITING_FOR_DEPENDENCIES: {
-    tooltip: 'Waiting for dependencies',
-    icon: iconBlue,
-  },
-  BUILDING: {
-    tooltip: 'Build in progress',
-    icon: iconBlue,
-    className: 'animate-flicker',
-  },
-  REJECTED: {
-    tooltip: 'Build rejected',
-    icon: iconRed,
-  },
-  REJECTED_FAILED_DEPENDENCIES: {
-    tooltip: 'Build rejected: dependencies failed',
-    icon: iconOrange,
-  },
-  CANCELLED: {
-    tooltip: 'Build cancelled',
-    icon: iconGrey,
-  },
-  SYSTEM_ERROR: {
-    tooltip: 'A system error occurred',
-    icon: iconError,
-  },
-  NEW: {
-    tooltip: 'New',
-    icon: iconGrey,
-  },
-  UNKNOWN: {
-    tooltip: 'Unknown build status',
-    icon: iconNoBuilds,
-  },
-};
 
 const alignmentData = {
   PREFER_TEMPORARY: {
@@ -100,7 +42,7 @@ interface IBuildStatusIcon {
  * @param long - Whether the component should be of the long version
  */
 export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
-  const selectedIconData = build.status ? iconData[build.status] : iconData.UNKNOWN;
+  const selectedIconData = build.status ? buildStatusData[build.status] : buildStatusData.UNKNOWN;
   const selectedIconImage = selectedIconData.icon;
   const isCorrupted =
     isBuild(build) &&
@@ -109,7 +51,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
 
   return (
     <span className={styles['build-status-icon']}>
-      <Tooltip removeFindDomNode content={<div>{selectedIconData.tooltip}</div>}>
+      <Tooltip removeFindDomNode content={<span>{selectedIconData.tooltip}</span>}>
         <img
           src={selectedIconImage}
           width="28px"
@@ -122,7 +64,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
         <Tooltip
           removeFindDomNode
           position="right"
-          content={<div>The build may have completed successfully but has since been corrupted by a system error.</div>}
+          content={<span>The build may have completed successfully but has since been corrupted by a system error.</span>}
         >
           <ExclamationTriangleIcon />
         </Tooltip>
@@ -131,7 +73,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
         <Tooltip
           removeFindDomNode
           position="right"
-          content={<div>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</div>}
+          content={<span>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</span>}
         >
           <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
         </Tooltip>
