@@ -23,7 +23,7 @@ export const AttributesItem = ({ children, title, tooltip, forceStringWrap }: Pr
     </GridItem>
     <GridItem xl2={10} lg={9} sm={12} className={css(forceStringWrap && 'overflow-break-word')}>
       {/* zero is falsy */}
-      {children || children === 0 ? children : <EmptyStateSymbol variant="text" />}
+      {children || children === 0 ? children : <EmptyStateSymbol />}
     </GridItem>
   </>
 );
