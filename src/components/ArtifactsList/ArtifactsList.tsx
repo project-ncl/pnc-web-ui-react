@@ -345,7 +345,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                               ) : (
                                 <>
                                   <TooltipWrapper tooltip="This Artifact was not produced by any PNC Build." />{' '}
-                                  <EmptyStateSymbol variant="text" />
+                                  <EmptyStateSymbol />
                                 </>
                               )}
                             </DescriptionListDescription>

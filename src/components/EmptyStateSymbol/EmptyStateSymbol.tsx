@@ -2,13 +2,21 @@ import styles from './EmptyStateSymbol.module.css';
 
 interface IEmptyStateSymbol {
   title?: string;
-  variant?: 'text' | 'mdash' | 'ndash';
+  text?: string | boolean;
 }
 
-export const EmptyStateSymbol = ({ title, variant = 'mdash' }: IEmptyStateSymbol) => (
-  <span title={title ? `${title} is not available` : ''}>
-    {variant === 'text' && <span className={styles['value-empty']}>Empty</span>}
-    {variant === 'mdash' && <>&mdash;</>}
-    {variant === 'ndash' && <>&ndash;</>}
+/**
+ * Empty inline content that will be displayed when data is not available.
+ *
+ * @example
+ * ```tsx
+ * <EmptyStateSymbol />                     // default text will be displayed
+ * <EmptyStateSymbol text="custom Text" />  // custom text will be displayed
+ * <EmptyStateSymbol text={false} />        // dash symbol will be displayed
+ * ```
+ */
+export const EmptyStateSymbol = ({ title, text = 'Empty' }: IEmptyStateSymbol) => (
+  <span title={title ? `${title} is not available` : undefined}>
+    {text === false ? <>&mdash;</> : <span className={styles['value-empty']}>{text}</span>}
   </span>
 );

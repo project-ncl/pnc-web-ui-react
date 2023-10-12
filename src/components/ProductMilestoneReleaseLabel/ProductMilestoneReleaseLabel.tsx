@@ -36,13 +36,13 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['tooltip-text']}>
         <strong>{productMilestoneEntityAttributes.startingDate.title}: </strong>
-        {createDateTime({ date: productMilestone.startingDate! }).date || <EmptyStateSymbol />}
+        {createDateTime({ date: productMilestone.startingDate! }).date || <EmptyStateSymbol text={false} />}
         <br />
         <strong>{productMilestoneEntityAttributes.plannedEndDate.title}: </strong>
-        {createDateTime({ date: productMilestone.plannedEndDate! }).date || <EmptyStateSymbol />}
+        {createDateTime({ date: productMilestone.plannedEndDate! }).date || <EmptyStateSymbol text={false} />}
         <br />
         <strong>{productMilestoneEntityAttributes.endDate.title}: </strong>
-        {createDateTime({ date: productMilestone.endDate! }).date || <EmptyStateSymbol />}
+        {createDateTime({ date: productMilestone.endDate! }).date || <EmptyStateSymbol text={false} />}
       </div>
     );
     buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
@@ -52,7 +52,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['toolip-text']}>
         <strong>{productReleaseEntityAttributes.releaseDate.title}: </strong>
-        {createDateTime({ date: productRelease.releaseDate! }).date || <EmptyStateSymbol />}
+        {createDateTime({ date: productRelease.releaseDate! }).date || <EmptyStateSymbol text={false} />}
         <br />
         <strong>{productReleaseEntityAttributes.supportLevel.title}: </strong>
         {productRelease.supportLevel}

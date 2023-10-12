@@ -26,5 +26,5 @@ export const LabelMapper = ({ mapperItem }: ILabelMapperProps) => {
   if (!mapperItem) {
     uiLogger.error(`Error attempting to get mapper item: mapper item undefined`);
   }
-  return mapperItem ? <LabelPF color={mapperItem.color}>{mapperItem.text}</LabelPF> : <EmptyStateSymbol />;
+  return mapperItem ? <LabelPF color={mapperItem.color}>{mapperItem.text}</LabelPF> : <EmptyStateSymbol text={false} />;
 };

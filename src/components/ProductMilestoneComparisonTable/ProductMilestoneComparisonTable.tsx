@@ -372,7 +372,7 @@ export const ProductMilestoneComparisonTable = ({
                                           )
                                         </>
                                       ) : (
-                                        <EmptyStateSymbol variant="text" />
+                                        <EmptyStateSymbol />
                                       )}
                                     </DescriptionListDescription>
                                   </DescriptionListGroup>

@@ -43,8 +43,8 @@ export const AboutPage = () => {
               </a>
             </TextListItem>
             <TextListItem component="dd">
-              {process.env.REACT_APP_VERSION || <EmptyStateSymbol title="Version" />} (
-              {process.env.REACT_APP_GIT_SHORT_SHA || <EmptyStateSymbol title="Revision" />})
+              {process.env.REACT_APP_VERSION || <EmptyStateSymbol text={false} title="Version" />} (
+              {process.env.REACT_APP_GIT_SHORT_SHA || <EmptyStateSymbol text={false} title="Revision" />})
             </TextListItem>
           </TextList>
         </TextContent>
