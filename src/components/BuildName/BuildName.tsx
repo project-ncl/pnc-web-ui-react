@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
+import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
+import { GroupConfigLink } from 'components/GroupConfigLink/GroupConfigLink';
+
 import { uiLogger } from 'services/uiLogger';
 
 import { isBuild, isGroupBuild } from 'utils/entityRecognition';
@@ -53,8 +56,23 @@ interface IConfigAppendix {
 
 const ConfigAppendix = ({ build, includeConfigLink }: IConfigAppendix) => {
   const configName = calculateBuildConfigName(build);
-  const configLink = '/TODO'; // TODO: FORMAT LINKS HERE
-  return <> of {includeConfigLink ? <Link to={configLink}>{configName}</Link> : configName}</>;
+
+  let configLink;
+  if (isBuild(build)) {
+    const recognizedBuild: Build = build;
+    configLink = (
+      <BuildConfigLink id={recognizedBuild.buildConfigRevision?.id!} rev={recognizedBuild.buildConfigRevision?.rev!}>
+        {configName}
+      </BuildConfigLink>
+    );
+  } else if (isGroupBuild(build)) {
+    const recognizedGroupBuild: GroupBuild = build;
+    configLink = <GroupConfigLink id={recognizedGroupBuild.groupConfig?.id!}>{configName}</GroupConfigLink>;
+  } else {
+    uiLogger.error('Build entity was not recognized');
+  }
+
+  return <> of {includeConfigLink ? configLink : configName}</>;
 };
 
 interface IBuildName {

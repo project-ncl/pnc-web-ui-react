@@ -5,6 +5,7 @@ import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContaine
 import { useTitle } from 'hooks/useTitle';
 
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
+import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Tabs } from 'components/Tabs/Tabs';
@@ -49,7 +50,7 @@ export const BuildPages = () => {
 
   return (
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
-      <PageLayout title={`Build ${calculateLongBuildName(serviceContainerBuild.data)}`} tabs={pageTabs}>
+      <PageLayout title={<BuildStatus build={serviceContainerBuild.data} long hideDatetime hideUsername />} tabs={pageTabs}>
         <Outlet context={{ serviceContainerBuild }} />
       </PageLayout>
     </ServiceContainerLoading>
