@@ -21,6 +21,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
 import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
@@ -97,8 +98,16 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                     {buildEntityAttributes.status.title}
                   </Th>
                 )}
-                {columns.includes(buildEntityAttributes.id.id) && <Th width={15}>{buildEntityAttributes.id.title}</Th>}
-                {columns.includes(buildEntityAttributes.name.id) && <Th width={35}>{buildEntityAttributes.name.title}</Th>}
+                {columns.includes(buildEntityAttributes.id.id) && (
+                  <Th width={15}>
+                    {buildEntityAttributes.id.title} <TooltipWrapper tooltip={buildEntityAttributes.id.tooltip} />
+                  </Th>
+                )}
+                {columns.includes(buildEntityAttributes.name.id) && (
+                  <Th width={35}>
+                    {buildEntityAttributes.name.title} <TooltipWrapper tooltip={buildEntityAttributes.name.tooltip} />
+                  </Th>
+                )}
                 {columns.includes(buildEntityAttributes.submitTime.id) &&
                   columns.includes(buildEntityAttributes.startTime.id) &&
                   columns.includes(buildEntityAttributes.endTime.id) && (
