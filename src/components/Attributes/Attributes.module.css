@@ -2,7 +2,7 @@
   font-weight: bold;
 }
 
-.uniform-grid {
-  grid-auto-rows: 1fr;
+.minmax-grid {
+  grid-auto-rows: minmax(35px, auto);
   align-items: center;
 }
