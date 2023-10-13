@@ -14,6 +14,8 @@ interface IBuildStatus {
   long?: boolean;
   includeBuildLink?: boolean;
   includeConfigLink?: boolean;
+  hideDatetime?: boolean;
+  hideUsername?: boolean;
 }
 
 /**
@@ -26,8 +28,10 @@ interface IBuildStatus {
  * @param long - Whether the component should be of the long version
  * @param includeBuildLink - Whether the build name should be a link to the build page
  * @param includeConfigLink - Whether the build config (in the long version) should be a link to the build config page
+ * @param hideDatetime - Whether build datetime will be displayed
+ * @param hideUsername - Whether build username will be displayed
  */
-export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink }: IBuildStatus) => {
+export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink, hideDatetime, hideUsername }: IBuildStatus) => {
   let dateString, dateTitle;
   if ((dateString = build.endTime)) {
     dateTitle = 'End Time';
@@ -37,11 +41,11 @@ export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink }
     dateTitle = 'Submit Time';
   }
   return (
-    <div className="build-status">
+    <span className="build-status">
       <BuildStatusIcon build={build} />
       <BuildName build={build} includeBuildLink={includeBuildLink} includeConfigLink={includeConfigLink} long={long} />
-      <span title={dateTitle}>{createDateTime({ date: dateString! }).custom}</span>
-      <b>{build.user?.username && <Username text={build.user.username} />}</b>
-    </div>
+      {!hideDatetime && <span title={dateTitle}>{createDateTime({ date: dateString! }).custom}</span>}
+      {!hideUsername && <b>{build.user?.username && <Username text={build.user.username} />}</b>}
+    </span>
   );
 };

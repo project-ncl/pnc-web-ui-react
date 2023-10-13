@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { PageWithSidebar } from 'components/PageWithSidebar/PageWithSidebar';
 
 interface IAppLayoutProps {
-  title: string;
+  title: React.ReactNode;
   description?: React.ReactNode; // not just string, also components can be used
   actions?: React.ReactNode;
   tabs?: React.ReactNode;

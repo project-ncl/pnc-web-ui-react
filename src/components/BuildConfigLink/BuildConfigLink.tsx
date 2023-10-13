@@ -1,7 +1,9 @@
+import { HistoryIcon } from '@patternfly/react-icons';
 import { Link } from 'react-router-dom';
 
 interface IBuildConfigLinkProps {
   id: string;
+  rev?: number;
   children?: React.ReactNode;
 }
 
@@ -10,4 +12,21 @@ interface IBuildConfigLinkProps {
  *
  * @param id - id of the BuildConfig to link to
  */
-export const BuildConfigLink = ({ id, children }: IBuildConfigLinkProps) => <Link to={`/build-configs/${id}`}>{children}</Link>;
+export const BuildConfigLink = ({ id, rev, children }: IBuildConfigLinkProps) => {
+  return (
+    <>
+      <Link to={`/build-configs/${id}`}>{children}</Link>
+      {rev && (
+        <>
+          &nbsp;&nbsp;
+          <Link
+            to={`/build-configs/${id}/revisions/${rev}`}
+            title={`Go to specific Build Config revision (${rev}) that was used for this Build`}
+          >
+            <HistoryIcon />
+          </Link>
+        </>
+      )}
+    </>
+  );
+};
