@@ -1,18 +1,15 @@
 import { Grid } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { PropsWithChildren } from 'react';
 
 import styles from './Attributes.module.css';
 
-interface IAttributesProps {
-  isGridUniform?: boolean;
-}
+interface IAttributesProps {}
 
 /**
  * Represents a stylized name-value table component.
  */
-export const Attributes = ({ children, isGridUniform = true }: PropsWithChildren<IAttributesProps>) => (
-  <Grid hasGutter className={css(isGridUniform && styles['uniform-grid'])}>
+export const Attributes = ({ children }: PropsWithChildren<IAttributesProps>) => (
+  <Grid hasGutter className={styles['minmax-grid']}>
     {children}
   </Grid>
 );
