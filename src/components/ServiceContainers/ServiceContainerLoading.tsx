@@ -93,5 +93,6 @@ export const ServiceContainerLoading = ({
   if (Array.isArray(data) && !data.length) return <EmptyStateCard title={title} />;
 
   // Real data: display real data when it's loaded successfully and it's not empty (or is empty and inline)
+  // children are evaluated even if not rendered, see https://stackoverflow.com/q/71398045
   return <>{children}</>;
 };
