@@ -8,12 +8,12 @@ import iconNoBuilds from 'components/BuildStatusIcon/icons/no-builds.svg';
 import iconOrange from 'components/BuildStatusIcon/icons/orange.svg';
 import iconRed from 'components/BuildStatusIcon/icons/red.svg';
 
-export type BuildStatuses = NonNullable<Build['status']>;
+export type BuildStatus = NonNullable<Build['status']>;
 
-type BuildStatusesWithUnknown = BuildStatuses | 'UNKNOWN';
+type BuildStatusWithUnknown = BuildStatus | 'UNKNOWN';
 
 type TBuildStatusData = {
-  [buildStatus in BuildStatusesWithUnknown]: {
+  [buildStatus in BuildStatusWithUnknown]: {
     tooltip: string;
     icon: any;
     className?: string;
