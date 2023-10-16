@@ -3,7 +3,7 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useEffect } from 'react';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
-import { BuildStatuses, buildStatusData } from 'common/buildStatusData';
+import { BuildStatus, buildStatusData } from 'common/buildStatusData';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -24,66 +24,52 @@ import { Username } from 'components/Username/Username';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as webConfigService from 'services/webConfigService';
 
-import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
+import { calculateDuration, createDateTime } from 'utils/utils';
 
 interface INotAvailableBasedOnProps {
-  buildStatus: BuildStatuses;
+  buildStatus: BuildStatus;
 }
 
 /**
  * Displays Something Went Wrong message. When Build failed, displays also warning with tooltip.
  */
-const NotAvailableBasedOn = ({ buildStatus }: INotAvailableBasedOnProps) => {
-  return (
-    <>
-      <span
-        title={
-          buildStatusData[buildStatus].failed
-            ? 'Something went wrong, probably during alignment process, you should check alignment logs for more details.'
-            : ''
-        }
-      >
-        {buildStatusData[buildStatus].failed && (
-          <>
-            <ExclamationTriangleIcon />
-            &nbsp;
-          </>
-        )}
-        <EmptyStateSymbol text="Not available, based on:" />
-      </span>
-    </>
-  );
-};
+const NotAvailableBasedOn = ({ buildStatus }: INotAvailableBasedOnProps) => (
+  <span
+    title={
+      buildStatusData[buildStatus].failed
+        ? 'Something went wrong, probably during alignment process, you should check alignment logs for more details.'
+        : ''
+    }
+  >
+    {buildStatusData[buildStatus].failed && (
+      <>
+        <ExclamationTriangleIcon />
+        &nbsp;
+      </>
+    )}
+    <EmptyStateSymbol text="Not available, based on:" />
+  </span>
+);
 
 interface IOnceBuildStartedProps {
-  buildStatus: BuildStatuses;
+  buildStatus: BuildStatus;
 }
 
 /**
  * When Build started, display child content, otherwise not started yet content will be displayed.
  */
-const OnceBuildStarted = ({ children, buildStatus }: PropsWithChildren<IOnceBuildStartedProps>) => {
-  return buildStatusData[buildStatus].progress === 'PENDING' ? (
-    <EmptyStateSymbol text="Build has not started yet" />
-  ) : (
-    <>{children}</>
-  );
-};
+const OnceBuildStarted = ({ children, buildStatus }: PropsWithChildren<IOnceBuildStartedProps>) =>
+  buildStatusData[buildStatus].progress === 'PENDING' ? <EmptyStateSymbol text="Build has not started yet" /> : <>{children}</>;
 
 interface IOnceBuildIsFinishedProps {
-  buildStatus: BuildStatuses;
+  buildStatus: BuildStatus;
 }
 
 /**
  * When Build is finished, display child content, otherwise not ready yet content will be displayed.
  */
-const OnceBuildIsFinished = ({ children, buildStatus }: PropsWithChildren<IOnceBuildIsFinishedProps>) => {
-  return buildStatusData[buildStatus].progress === 'FINISHED' ? (
-    <>{children}</>
-  ) : (
-    <EmptyStateSymbol text="Build is not finished yet" />
-  );
-};
+const OnceBuildIsFinished = ({ children, buildStatus }: PropsWithChildren<IOnceBuildIsFinishedProps>) =>
+  buildStatusData[buildStatus].progress === 'FINISHED' ? <>{children}</> : <EmptyStateSymbol text="Build is not finished yet" />;
 
 export const BuildDetailPage = () => {
   const { serviceContainerBuild } = useServiceContainerBuild();
@@ -104,8 +90,8 @@ export const BuildDetailPage = () => {
 
   return (
     <Grid hasGutter>
+      {/* Build properties */}
       <GridItem span={12}>
-        {/* Build properties */}
         <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={buildEntityAttributes.status.title}>
@@ -138,15 +124,12 @@ export const BuildDetailPage = () => {
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.startTime.title}>
-              {(buildStatusData[serviceContainerBuild.data.status as BuildStatuses].progress !== 'FINISHED' ||
+              {(buildStatusData[serviceContainerBuild.data.status as BuildStatus].progress !== 'FINISHED' ||
                 serviceContainerBuild.data.startTime) && (
                 <OnceBuildStarted buildStatus={serviceContainerBuild.data.status}>
                   {serviceContainerBuild.data.startTime &&
                     createDateTime({
                       date: serviceContainerBuild.data.startTime,
-                      includeDateInCustom:
-                        !serviceContainerBuild.data.submitTime ||
-                        !areDatesEqual(serviceContainerBuild.data.submitTime, serviceContainerBuild.data.startTime),
                     }).custom}
                 </OnceBuildStarted>
               )}
@@ -160,11 +143,6 @@ export const BuildDetailPage = () => {
                       // end (date)time
                       createDateTime({
                         date: serviceContainerBuild.data.endTime,
-                        includeDateInCustom:
-                          (!!serviceContainerBuild.data.startTime &&
-                            !areDatesEqual(serviceContainerBuild.data.startTime, serviceContainerBuild.data.endTime)) ||
-                          (!!serviceContainerBuild.data.submitTime &&
-                            !areDatesEqual(serviceContainerBuild.data.submitTime, serviceContainerBuild.data.endTime)),
                       }).custom +
                         // duration
                         (serviceContainerBuild.data.startTime
@@ -180,22 +158,26 @@ export const BuildDetailPage = () => {
             </AttributesItem>
           </Attributes>
         </ContentBox>
+      </GridItem>
 
-        {/* Build attributes */}
-        {serviceContainerBuild.data?.attributes && !!Object.keys(serviceContainerBuild.data.attributes).length && (
-          <ContentBox marginTop padding isResponsive>
+      {/* Build attributes */}
+      {serviceContainerBuild.data?.attributes && !!Object.keys(serviceContainerBuild.data.attributes).length && (
+        <GridItem span={12}>
+          <ContentBox padding isResponsive>
             <Attributes>
-              {Object.keys(serviceContainerBuild.data.attributes).map((attributeKey, index) => (
+              {Object.entries(serviceContainerBuild.data.attributes).map(([attributeKey, attribute], index) => (
                 <AttributesItem key={index} title={attributeKey}>
-                  {serviceContainerBuild.data.attributes[attributeKey]}
+                  {attribute}
                 </AttributesItem>
               ))}
             </Attributes>
           </ContentBox>
-        )}
+        </GridItem>
+      )}
 
-        {/* SCM properties */}
-        <ContentBox marginTop padding isResponsive>
+      {/* SCM properties */}
+      <GridItem span={12}>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={buildEntityAttributes.scmUrl.title}>
               {serviceContainerBuild.data.scmUrl ? (
@@ -217,6 +199,7 @@ export const BuildDetailPage = () => {
                 <CopyToClipboard isInline>{serviceContainerBuild.data.buildConfigRevision.scmRevision}</CopyToClipboard>
               )}
             </AttributesItem>
+
             <AttributesItem
               title={buildEntityAttributes.scmBuildConfigRevision.title}
               tooltip={buildEntityAttributes.scmBuildConfigRevision.tooltip}
@@ -225,29 +208,29 @@ export const BuildDetailPage = () => {
                 <CopyToClipboard isInline>{serviceContainerBuild.data.scmBuildConfigRevision}</CopyToClipboard>
               )}
             </AttributesItem>
+
             <AttributesItem title={buildEntityAttributes.scmTag.title} tooltip={buildEntityAttributes.scmTag.tooltip}>
               {serviceContainerBuild.data.scmTag && (
                 <CopyToClipboard isInline>{serviceContainerBuild.data.scmTag}</CopyToClipboard>
               )}
             </AttributesItem>
+
             <AttributesItem title={buildEntityAttributes.scmRevision.title} tooltip={buildEntityAttributes.scmRevision.tooltip}>
               {serviceContainerBuild.data.scmRevision ? (
-                <>
-                  <CopyToClipboard
-                    isInline
-                    suffixComponent={
-                      <>
-                        [
-                        <a href={`${webConfigService.getPncUrl()}/builds/${serviceContainerBuild.data.id}/scm-archive`}>
-                          Download Source Code Tarball
-                        </a>
-                        ]
-                      </>
-                    }
-                  >
-                    {serviceContainerBuild.data.scmRevision}
-                  </CopyToClipboard>
-                </>
+                <CopyToClipboard
+                  isInline
+                  suffixComponent={
+                    <>
+                      [
+                      <a href={`${webConfigService.getPncUrl()}/builds/${serviceContainerBuild.data.id}/scm-archive`}>
+                        Download Source Code Tarball
+                      </a>
+                      ]
+                    </>
+                  }
+                >
+                  {serviceContainerBuild.data.scmRevision}
+                </CopyToClipboard>
               ) : (
                 serviceContainerBuild.data.buildConfigRevision.scmRevision && (
                   <>
@@ -259,9 +242,11 @@ export const BuildDetailPage = () => {
             </AttributesItem>
           </Attributes>
         </ContentBox>
+      </GridItem>
 
-        {/* Build Config properties */}
-        <ContentBox marginBottom marginTop padding isResponsive>
+      {/* Build Config properties */}
+      <GridItem span={12}>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={buildEntityAttributes.buildConfigName.title}>
               <BuildConfigLink
@@ -292,8 +277,10 @@ export const BuildDetailPage = () => {
             </AttributesItem>
           </Attributes>
         </ContentBox>
+      </GridItem>
 
-        {/* Build Config parameters */}
+      {/* Build Config parameters */}
+      <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
             <TextContent>
@@ -306,10 +293,10 @@ export const BuildDetailPage = () => {
             {serviceContainerBuildConfigRev.data?.parameters &&
             Object.keys(serviceContainerBuildConfigRev.data.parameters).length ? (
               <Attributes>
-                {Object.keys(serviceContainerBuildConfigRev.data.parameters).map((parameterKey, index) => (
+                {Object.entries(serviceContainerBuildConfigRev.data.parameters).map(([parameterKey, parameter], index) => (
                   <AttributesItem key={index} title={parameterKey}>
                     <CodeBlock>
-                      <CodeBlockCode>{serviceContainerBuildConfigRev.data.parameters[parameterKey]}</CodeBlockCode>
+                      <CodeBlockCode>{parameter}</CodeBlockCode>
                     </CodeBlock>
                   </AttributesItem>
                 ))}
