@@ -18,10 +18,10 @@ export const BuildConfigLink = ({ id, rev, children }: IBuildConfigLinkProps) =>
       <Link to={`/build-configs/${id}`}>{children}</Link>
       {rev && (
         <>
-          &nbsp;&nbsp;
           <Link
             to={`/build-configs/${id}/revisions/${rev}`}
             title={`Go to specific Build Config revision (${rev}) that was used for this Build`}
+            className="p-l-5"
           >
             <HistoryIcon />
           </Link>
