@@ -398,8 +398,8 @@ Object {
                       >
                         123
                       </a>
-                        
                       <a
+                        class="p-l-5"
                         href="/build-configs/469/revisions/3027"
                         title="Go to specific Build Config revision (3027) that was used for this Build"
                       >
@@ -549,8 +549,8 @@ Object {
                       >
                         123
                       </a>
-                        
                       <a
+                        class="p-l-5"
                         href="/build-configs/469/revisions/3027"
                         title="Go to specific Build Config revision (3027) that was used for this Build"
                       >
@@ -700,8 +700,8 @@ Object {
                       >
                         DnsSSHTest
                       </a>
-                        
                       <a
+                        class="p-l-5"
                         href="/build-configs/645/revisions/6927"
                         title="Go to specific Build Config revision (6927) that was used for this Build"
                       >
@@ -1419,8 +1419,8 @@ Object {
                     >
                       123
                     </a>
-                      
                     <a
+                      class="p-l-5"
                       href="/build-configs/469/revisions/3027"
                       title="Go to specific Build Config revision (3027) that was used for this Build"
                     >
@@ -1570,8 +1570,8 @@ Object {
                     >
                       123
                     </a>
-                      
                     <a
+                      class="p-l-5"
                       href="/build-configs/469/revisions/3027"
                       title="Go to specific Build Config revision (3027) that was used for this Build"
                     >
@@ -1721,8 +1721,8 @@ Object {
                     >
                       DnsSSHTest
                     </a>
-                      
                     <a
+                      class="p-l-5"
                       href="/build-configs/645/revisions/6927"
                       title="Go to specific Build Config revision (6927) that was used for this Build"
                     >
