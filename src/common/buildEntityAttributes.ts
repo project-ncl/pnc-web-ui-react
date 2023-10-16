@@ -21,12 +21,12 @@ interface IExtendedBuild extends Build {
   buildConfigName: any; // filtering only
   name: any; // derived from build and buildConfig
   'user.username': any;
-  buildType: string; // from buildConfigEntityAttributes
+  'buildConfigRevision.buildType': string; // from buildConfigEntityAttributes
   'buildConfigRevision.scmRevision': string;
   scmBuildConfigRevision: string; // not released yet
   'environment.description': string;
   'buildConfigRevision.buildScript': string;
-  'buildConfigRevision.brewPullActive': string;
+  'buildConfigRevision.brewPullActive': boolean;
   parameters: any;
 }
 
@@ -34,7 +34,7 @@ export const buildEntityAttributes = {
   id: {
     id: 'id',
     title: 'ID',
-    tooltip: 'Unique identification of Build',
+    tooltip: 'Unique identification of Build.',
   },
   buildConfigName: {
     id: 'buildConfigName',
@@ -95,7 +95,7 @@ export const buildEntityAttributes = {
       group: 'times',
     },
   },
-  buildType: buildConfigEntityAttributes.buildType,
+  'buildConfigRevision.buildType': { ...buildConfigEntityAttributes.buildType, id: 'buildConfigRevision.buildType' },
   scmUrl: {
     id: 'scmUrl',
     title: 'SCM URL',
@@ -104,22 +104,22 @@ export const buildEntityAttributes = {
     id: 'buildConfigRevision.scmRevision',
     title: 'Pre-alignment SCM Ref',
     tooltip:
-      'SCM Ref before Alignment is executed (the revision specified in the Build Config, previously named as Pre-alignment SCM Revision)',
+      'SCM Ref before Alignment is executed (the revision specified in the Build Config, previously named as Pre-alignment SCM Revision).',
   },
   scmBuildConfigRevision: {
     id: 'scmBuildConfigRevision',
     title: 'Pre-alignment SCM Revision',
-    tooltip: 'SCM Revision before Alignment is executed (the commit ID resolved from the Pre-alignment SCM Ref)',
+    tooltip: 'SCM Revision before Alignment is executed (the commit ID resolved from the Pre-alignment SCM Ref).',
   },
   scmTag: {
     id: 'scmTag',
     title: 'Post-alignment SCM Tag',
-    tooltip: 'SCM Tag after Alignment is executed (the tag created from PNC)',
+    tooltip: 'SCM Tag after Alignment is executed (the tag created from PNC).',
   },
   scmRevision: {
     id: 'scmRevision',
     title: 'Post-alignment SCM Revision',
-    tooltip: 'SCM Revision after Alignment is executed (the commit ID resolved from the Post-alignment SCM Tag)',
+    tooltip: 'SCM Revision after Alignment is executed (the commit ID resolved from the Post-alignment SCM Tag).',
   },
   'environment.description': {
     id: 'environment.description',
@@ -131,7 +131,7 @@ export const buildEntityAttributes = {
   },
   attributes: {
     id: 'attributes',
-    title: 'Parameters',
+    title: 'Attributes',
   },
   'buildConfigRevision.brewPullActive': {
     id: 'buildConfigRevision.brewPullActive',

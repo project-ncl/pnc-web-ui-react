@@ -272,7 +272,7 @@ export const BuildDetailPage = () => {
               </BuildConfigLink>
             </AttributesItem>
 
-            <AttributesItem title={buildEntityAttributes.buildType.title}>
+            <AttributesItem title={buildEntityAttributes['buildConfigRevision.buildType'].title}>
               <BuildConfigBuildTypeLabelMapper buildType={serviceContainerBuild.data.buildConfigRevision.buildType} />
             </AttributesItem>
 
