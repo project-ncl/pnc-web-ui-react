@@ -23,11 +23,11 @@ const perPageOptions = Object.values(pageSizeOptions);
 
 interface IPagination {
   componentId: string;
-  count: number;
+  count?: number;
   pageSizeDefault?: keyof typeof pageSizeOptions;
 }
 
-export const Pagination = ({ componentId, count, pageSizeDefault = 'page10' }: IPagination) => {
+export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page10' }: IPagination) => {
   const location = useLocation();
   const navigate = useNavigate();
 
