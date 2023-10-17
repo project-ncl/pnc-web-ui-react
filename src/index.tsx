@@ -2,17 +2,18 @@ import '@patternfly/react-core/dist/styles/base.css';
 
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
 
-import { AppLayout } from './AppLayout';
 import { AppRoutes } from './AppRoutes';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+
+const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: '/pnc-web' });
 
 const App = () => {
   const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);
@@ -92,11 +93,7 @@ const App = () => {
   if (isKeycloakInitiated || isKeycloakInitFail) {
     return (
       <ErrorBoundary>
-        <BrowserRouter basename="/pnc-web">
-          <AppLayout>
-            <AppRoutes></AppRoutes>
-          </AppLayout>
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </ErrorBoundary>
     );
   }

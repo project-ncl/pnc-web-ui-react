@@ -18,8 +18,8 @@ BreadcrumbItem,*/
   PageSidebar,
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
 
@@ -32,9 +32,7 @@ import * as webConfigService from 'services/webConfigService';
 
 import pncLogoText from './pnc-logo-text.svg';
 
-interface IAppLayoutProps {}
-
-export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>) => {
+export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
 
   const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
@@ -273,7 +271,7 @@ export const AppLayout = ({ children }: React.PropsWithChildren<IAppLayoutProps>
       <div ref={topBarsRef}>{announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}</div>
       <div style={{ height: `calc(100% - ${topBarsHeight}px)` }}>
         <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
-          {children}
+          <Outlet />
         </Page>
       </div>
     </>

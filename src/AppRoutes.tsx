@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { AppLayout } from 'AppLayout';
+import { Navigate, Route } from 'react-router-dom';
 
 import { PageTitles } from 'common/constants';
 
@@ -60,8 +61,8 @@ import { VariablesPage } from 'components/VariablesPage/VariablesPage';
 
 import { AUTH_ROLE } from 'services/keycloakService';
 
-export const AppRoutes = () => (
-  <Routes>
+export const AppRoutes = (
+  <Route element={<AppLayout />}>
     <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
     <Route path="products">
@@ -255,5 +256,5 @@ export const AppRoutes = () => (
         <ErrorPage pageTitle={PageTitles.pageNotFound} errorDescription="The requested resource could not be found."></ErrorPage>
       }
     />
-  </Routes>
+  </Route>
 );
