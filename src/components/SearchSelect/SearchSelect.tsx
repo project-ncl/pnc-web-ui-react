@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { areServiceDataPaginated, useServiceContainer } from 'hooks/useServiceContainer';
 
 import '../../index.css';
 import styles from './SearchSelect.module.css';
@@ -189,7 +189,11 @@ export const SearchSelect = ({
     // When error, then noResultsFoundText property is used to display error message
     if (serviceContainer.error) return undefined;
 
-    if (serviceContainer.data && pageIndex < serviceContainer.data.totalPages) {
+    if (
+      areServiceDataPaginated(serviceContainer.data) &&
+      serviceContainer.data?.totalPages &&
+      pageIndex < serviceContainer.data.totalPages
+    ) {
       return { text: 'View more', onClick: onViewMoreClick };
     }
   };
