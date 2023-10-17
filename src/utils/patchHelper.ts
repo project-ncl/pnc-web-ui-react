@@ -26,7 +26,7 @@ export const transformFormToValues = (data: IFields): IFieldValues => {
  * @param modified - modified data
  * @returns Array of changes in JSON patch format
  */
-export const createSafePatch = (original: Object | any[], modified: Object | any[]): Operation[] => {
+export const createSafePatch = (original: Object | Object[], modified: Object | Object[]): Operation[] => {
   return compare(original, merge({}, original, modified));
 };
 
@@ -41,7 +41,7 @@ export const createSafePatch = (original: Object | any[], modified: Object | any
  * @param modified - modified data
  * @returns Array of changes in JSON patch format
  */
-export const createDestructivePatch = (original: Object | any[], modified: Object | any[]): Operation[] => {
+export const createDestructivePatch = (original: Object | Object[], modified: Object | Object[]): Operation[] => {
   return compare(original, modified);
 };
 
@@ -63,7 +63,11 @@ export interface EntityWithId extends Object {
  * @param arrayName - name of the array property in the object
  * @returns Array of changes in JSON patch format
  */
-export const createArrayPatch = (originalArray: EntityWithId[], modifiedArray: EntityWithId[], arrayName: string) => {
+export const createArrayPatch = (
+  originalArray: EntityWithId[],
+  modifiedArray: EntityWithId[],
+  arrayName: string
+): Operation[] => {
   const originalIds = { [arrayName]: Object.fromEntries(originalArray.map((i) => [i.id, { id: i.id }])) };
   const modifiedIds = { [arrayName]: Object.fromEntries(modifiedArray.map((i) => [i.id, { id: i.id }])) };
 
@@ -82,9 +86,13 @@ export const createArrayPatch = (originalArray: EntityWithId[], modifiedArray: E
  * @param toAddArray - items to be added to the original array
  * @returns Array of changes in JSON patch format
  */
-export const createArrayPatchSimple = (toRemoveArray: EntityWithId[], toAddArray: EntityWithId[], arrayName: string) => {
+export const createArrayPatchSimple = (
+  toRemoveArray: EntityWithId[],
+  toAddArray: EntityWithId[],
+  arrayName: string
+): Operation[] => {
   const toRemove = toRemoveArray.map((entity) => ({ op: 'remove', path: `/${arrayName}/${entity.id}` }));
   const toAdd = toAddArray.map((entity) => ({ op: 'add', path: `/${arrayName}/${entity.id}`, value: { id: entity.id } }));
 
-  return [...toRemove, ...toAdd];
+  return [...toRemove, ...toAdd] as Operation[];
 };
