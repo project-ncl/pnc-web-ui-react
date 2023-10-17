@@ -2,14 +2,14 @@ import { ToolbarItem } from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
+import { BuildPage, GroupBuildPage } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
@@ -27,7 +27,7 @@ const buildHistoryListFiltrableColumns = [
 ];
 
 interface IBuildHistoryListProps {
-  serviceContainerBuilds: IServiceContainer;
+  serviceContainerBuilds: IServiceContainerState<BuildPage | GroupBuildPage>;
   variant: 'Build' | 'Group Build';
   componentId: string;
 }
@@ -79,7 +79,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
         <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.buildHistory}>
           <TableComposable isStriped variant="compact">
             <Tbody>
-              {serviceContainerBuilds.data?.content.map((build: Build | GroupBuild, rowIndex: number) => (
+              {serviceContainerBuilds.data?.content?.map((build, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     <BuildStatus build={build} includeBuildLink />

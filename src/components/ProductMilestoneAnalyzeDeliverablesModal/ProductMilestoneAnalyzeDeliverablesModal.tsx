@@ -52,7 +52,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
           },
         },
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to analyze Deliverables.');
         throw error;
       });

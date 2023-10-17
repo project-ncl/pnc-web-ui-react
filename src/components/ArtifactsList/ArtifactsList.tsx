@@ -14,13 +14,13 @@ import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from 
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Artifact } from 'pnc-api-types-ts';
+import { Artifact, ArtifactPage } from 'pnc-api-types-ts';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
@@ -39,10 +39,12 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import { isArtifactWithProductMilestone } from 'utils/entityRecognition';
+
 const spaceItemsLg: FlexProps['spaceItems'] = { default: 'spaceItemsLg' };
 
 interface IArtifactsListProps {
-  serviceContainerArtifacts: IServiceContainer;
+  serviceContainerArtifacts: IServiceContainerState<ArtifactPage>;
   columns?: string[];
   componentId: string;
 }
@@ -107,15 +109,15 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
     if (areBuildArtifactsExpanded) {
       setExpandedArtifacts(
         serviceContainerArtifacts.data?.content
-          .filter((artifact: Artifact) => artifact.build)
-          .map((artifact: Artifact) => artifact.identifier)
+          ?.filter((artifact: Artifact) => artifact.build)
+          .map((artifact: Artifact) => artifact.identifier) || []
       );
     }
   }, [areBuildArtifactsExpanded, serviceContainerArtifacts.data?.content]);
 
   useEffect(() => {
     if (areAllArtifactsExpanded === true) {
-      setExpandedArtifacts(serviceContainerArtifacts.data?.content.map((artifact: Artifact) => artifact.identifier));
+      setExpandedArtifacts(serviceContainerArtifacts.data?.content?.map((artifact: Artifact) => artifact.identifier) || []);
     } else if (areAllArtifactsExpanded === false) {
       setExpandedArtifacts([]);
     }
@@ -232,7 +234,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
               </Tr>
             </Thead>
             {/* TODO: Change type from any, NCL-7766 */}
-            {serviceContainerArtifacts.data?.content.map((artifact: any, rowIndex: number) => (
+            {serviceContainerArtifacts.data?.content?.map((artifact, rowIndex) => (
               <Tbody key={rowIndex}>
                 <Tr>
                   <Td
@@ -282,7 +284,9 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                   )}
                   {columns.includes(artifactEntityAttributes.filename.id) && (
                     <Td>
-                      <DownloadLink url={artifact.publicUrl} title={artifact.filename} />
+                      {artifact.publicUrl && artifact.filename && (
+                        <DownloadLink url={artifact.publicUrl} title={artifact.filename} />
+                      )}
                     </Td>
                   )}
                   {columns.includes(artifactEntityAttributes.artifactQuality.id) && (
@@ -292,16 +296,20 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                   )}
                   {columns.includes(artifactEntityAttributes['product.name'].id) && (
                     <Td>
-                      <Link to={`/products/${artifact.product?.id}`}>{artifact.product?.name}</Link>
+                      {isArtifactWithProductMilestone(artifact) && (
+                        <Link to={`/products/${artifact.product.id}`}>{artifact.product.name}</Link>
+                      )}
                     </Td>
                   )}
                   {columns.includes(artifactEntityAttributes['productMilestone.version'].id) && (
                     <Td>
-                      <Link
-                        to={`/products/${artifact.product?.id}/versions/${artifact.productVersion?.id}/milestones/${artifact.productMilestone?.id}`}
-                      >
-                        {artifact.productMilestone?.version}
-                      </Link>
+                      {isArtifactWithProductMilestone(artifact) && (
+                        <Link
+                          to={`/products/${artifact.product.id}/versions/${artifact.productVersion.id}/milestones/${artifact.productMilestone.id}`}
+                        >
+                          {artifact.productMilestone?.version}
+                        </Link>
+                      )}
                     </Td>
                   )}
                   <Td isActionCell>

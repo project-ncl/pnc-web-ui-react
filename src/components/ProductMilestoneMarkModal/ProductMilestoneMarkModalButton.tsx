@@ -1,9 +1,9 @@
 import { Button } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
+import { ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
-import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
+import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { IProductMilestoneMarkModalProps } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -13,7 +13,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 interface IProductMilestoneMarkModalButtonProps {
   toggleModal: () => void;
   productMilestone: ProductMilestone;
-  serviceContainerProductVersion: IServiceContainer;
+  serviceContainerProductVersion: IServiceContainerState<ProductVersion>;
   variant: IProductMilestoneMarkModalProps['variant'];
 }
 

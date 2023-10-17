@@ -1,5 +1,4 @@
-import { useParams } from 'react-router-dom';
-
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -12,7 +11,7 @@ interface IBuildArtifactsPageProps {
 }
 
 export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPageProps) => {
-  const { buildId } = useParams();
+  const { buildId } = useParamsRequired();
 
   const serviceContainerArtifacts = useServiceContainer(buildApi.getBuiltArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;

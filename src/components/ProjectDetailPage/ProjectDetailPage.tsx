@@ -1,10 +1,10 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -36,7 +36,7 @@ interface IProjectDetailPageProps {
 }
 
 export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProps) => {
-  const { projectId } = useParams();
+  const { projectId } = useParamsRequired();
 
   const serviceContainerProject = useServiceContainer(projectApi.getProject);
   const serviceContainerProjectRunner = serviceContainerProject.run;

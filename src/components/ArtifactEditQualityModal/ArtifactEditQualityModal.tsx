@@ -51,7 +51,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
           },
         },
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to edit Artifact Quality.');
         throw error;
       });

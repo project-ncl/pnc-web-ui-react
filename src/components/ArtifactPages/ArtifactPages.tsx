@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router-dom';
+
+import { Artifact } from 'pnc-api-types-ts';
 
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
-import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
+import { useParamsRequired } from 'hooks/useParamsRequired';
+import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
@@ -18,10 +21,10 @@ import * as artifactApi from 'services/artifactApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
-type ContextType = { serviceContainerArtifact: IServiceContainer };
+type ContextType = { serviceContainerArtifact: IServiceContainerState<Artifact> };
 
 export const ArtifactPages = () => {
-  const { artifactId } = useParams();
+  const { artifactId } = useParamsRequired();
 
   const serviceContainerArtifact = useServiceContainer(artifactApi.getArtifact);
   const serviceContainerArtifactRunner = serviceContainerArtifact.run;
@@ -73,7 +76,7 @@ export const ArtifactPages = () => {
         <ArtifactEditQualityModal
           isModalOpen={isEditQualityModalOpen}
           toggleModal={toggleEditQualityModal}
-          artifact={serviceContainerArtifact.data}
+          artifact={serviceContainerArtifact.data!}
           variant="detail"
         />
       )}

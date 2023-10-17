@@ -1,14 +1,14 @@
 import { Label, Tooltip } from '@patternfly/react-core';
 import { PropsWithChildren } from 'react';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import styles from './PageTabsLabel.module.css';
 
 interface IPageTabsLabelProps {
-  serviceContainer: IServiceContainer;
+  serviceContainer: IServiceContainerState<Object>;
   title: string;
 }
 

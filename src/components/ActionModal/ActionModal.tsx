@@ -5,7 +5,7 @@ import { css } from '@patternfly/react-styles';
 import { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { useRefresh } from 'hooks/useRefresh';
-import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
+import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -21,7 +21,7 @@ interface IActionModalProps {
   wereSubmitDataChanged?: boolean;
   onToggle: () => void;
   onSubmit: () => void;
-  serviceContainer?: IServiceContainer;
+  serviceContainer?: IServiceContainerState<Object>;
   modalVariant: ModalProps['variant'];
   onSuccessActions?: ReactElement[];
 }

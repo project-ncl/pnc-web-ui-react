@@ -81,7 +81,7 @@ export const BuildDetailPage = () => {
   const serviceContainerBuildConfigRevRunner = serviceContainerBuildConfigRev.run;
 
   useEffect(() => {
-    if (serviceContainerBuild.data.buildConfigRevision.id && serviceContainerBuild.data.buildConfigRevision.rev) {
+    if (serviceContainerBuild.data?.buildConfigRevision?.id && serviceContainerBuild.data?.buildConfigRevision.rev) {
       serviceContainerBuildConfigRevRunner({
         serviceData: {
           buildConfigId: serviceContainerBuild.data.buildConfigRevision.id,
@@ -89,7 +89,7 @@ export const BuildDetailPage = () => {
         },
       });
     }
-  }, [serviceContainerBuildConfigRevRunner, serviceContainerBuild.data.buildConfigRevision]);
+  }, [serviceContainerBuildConfigRevRunner, serviceContainerBuild.data?.buildConfigRevision]);
 
   return (
     <Grid hasGutter>
@@ -98,21 +98,25 @@ export const BuildDetailPage = () => {
         <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={buildEntityAttributes.status.title}>
-              <BuildStatusIcon build={serviceContainerBuild.data} long />
+              <BuildStatusIcon build={serviceContainerBuild.data!} long />
             </AttributesItem>
 
             <AttributesItem title="Plain Text Log">
-              <OnceBuildIsFinished buildStatus={serviceContainerBuild.data.status}>
-                <BuildLogLink buildId={serviceContainerBuild.data.id} />
-              </OnceBuildIsFinished>
+              {serviceContainerBuild.data?.status && (
+                <OnceBuildIsFinished buildStatus={serviceContainerBuild.data.status}>
+                  <BuildLogLink buildId={serviceContainerBuild.data.id} />
+                </OnceBuildIsFinished>
+              )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.id.title} tooltip={buildEntityAttributes.id.tooltip}>
-              {serviceContainerBuild.data.id}
+              {serviceContainerBuild.data?.id}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes['user.username'].title}>
-              <Username text={serviceContainerBuild.data.user.username} length={40} />
+              {serviceContainerBuild.data?.user?.username && (
+                <Username text={serviceContainerBuild.data.user.username} length={40} />
+              )}
             </AttributesItem>
 
             {/* Build times */}
@@ -121,28 +125,31 @@ export const BuildDetailPage = () => {
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.startTime.title}>
-              {(buildStatusData[serviceContainerBuild.data.status as BuildStatus].progress !== 'FINISHED' ||
-                serviceContainerBuild.data.startTime) && (
-                <OnceBuildStarted buildStatus={serviceContainerBuild.data.status}>
-                  {serviceContainerBuild.data?.startTime && <DateTime date={serviceContainerBuild.data.startTime} />}
-                </OnceBuildStarted>
-              )}
+              {(buildStatusData[serviceContainerBuild.data?.status as BuildStatus].progress !== 'FINISHED' ||
+                serviceContainerBuild.data?.startTime) &&
+                serviceContainerBuild.data?.status && (
+                  <OnceBuildStarted buildStatus={serviceContainerBuild.data.status}>
+                    {serviceContainerBuild.data?.startTime && <DateTime date={serviceContainerBuild.data.startTime} />}
+                  </OnceBuildStarted>
+                )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.endTime.title}>
-              <OnceBuildIsFinished buildStatus={serviceContainerBuild.data.status}>
-                {serviceContainerBuild.data?.endTime && (
-                  <>
-                    {/* end (date)time */}
-                    <DateTime date={serviceContainerBuild.data.endTime} />
-                    {
-                      // duration
-                      serviceContainerBuild.data.startTime &&
-                        ` (took ${calculateDuration(serviceContainerBuild.data.startTime, serviceContainerBuild.data.endTime)})`
-                    }
-                  </>
-                )}
-              </OnceBuildIsFinished>
+              {serviceContainerBuild.data?.status && (
+                <OnceBuildIsFinished buildStatus={serviceContainerBuild.data.status}>
+                  {serviceContainerBuild.data.endTime && (
+                    <>
+                      {/* end (date)time */}
+                      <DateTime date={serviceContainerBuild.data.endTime} />
+                      {
+                        // duration
+                        serviceContainerBuild.data.startTime &&
+                          ` (took ${calculateDuration(serviceContainerBuild.data.startTime, serviceContainerBuild.data.endTime)})`
+                      }
+                    </>
+                  )}
+                </OnceBuildIsFinished>
+              )}
             </AttributesItem>
           </Attributes>
         </ContentBox>
@@ -168,13 +175,15 @@ export const BuildDetailPage = () => {
         <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={buildEntityAttributes.scmUrl.title}>
-              {serviceContainerBuild.data.scmUrl ? (
+              {serviceContainerBuild.data?.scmUrl ? (
                 /* scmRepository is not available, creating abstract internal repository */
                 <ScmRepositoryUrl internalScmRepository={{ id: '0', internalUrl: serviceContainerBuild.data.scmUrl }} />
               ) : (
                 <>
-                  <NotAvailableBasedOn buildStatus={serviceContainerBuild.data.status} />
-                  <ScmRepositoryUrl internalScmRepository={serviceContainerBuild.data.scmRepository} />
+                  {serviceContainerBuild.data?.status && <NotAvailableBasedOn buildStatus={serviceContainerBuild.data.status} />}
+                  {serviceContainerBuild.data?.scmRepository && (
+                    <ScmRepositoryUrl internalScmRepository={serviceContainerBuild.data.scmRepository} />
+                  )}
                 </>
               )}
             </AttributesItem>
@@ -183,7 +192,7 @@ export const BuildDetailPage = () => {
               title={buildEntityAttributes['buildConfigRevision.scmRevision'].title}
               tooltip={buildEntityAttributes['buildConfigRevision.scmRevision'].tooltip}
             >
-              {serviceContainerBuild.data.buildConfigRevision.scmRevision && (
+              {serviceContainerBuild.data?.buildConfigRevision?.scmRevision && (
                 <CopyToClipboard isInline>{serviceContainerBuild.data.buildConfigRevision.scmRevision}</CopyToClipboard>
               )}
             </AttributesItem>
@@ -192,19 +201,19 @@ export const BuildDetailPage = () => {
               title={buildEntityAttributes.scmBuildConfigRevision.title}
               tooltip={buildEntityAttributes.scmBuildConfigRevision.tooltip}
             >
-              {serviceContainerBuild.data.scmBuildConfigRevision && (
-                <CopyToClipboard isInline>{serviceContainerBuild.data.scmBuildConfigRevision}</CopyToClipboard>
+              {(serviceContainerBuild.data as any)?.scmBuildConfigRevision && (
+                <CopyToClipboard isInline>{(serviceContainerBuild.data as any).scmBuildConfigRevision}</CopyToClipboard>
               )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.scmTag.title} tooltip={buildEntityAttributes.scmTag.tooltip}>
-              {serviceContainerBuild.data.scmTag && (
+              {serviceContainerBuild.data?.scmTag && (
                 <CopyToClipboard isInline>{serviceContainerBuild.data.scmTag}</CopyToClipboard>
               )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.scmRevision.title} tooltip={buildEntityAttributes.scmRevision.tooltip}>
-              {serviceContainerBuild.data.scmRevision ? (
+              {serviceContainerBuild.data?.scmRevision ? (
                 <CopyToClipboard
                   isInline
                   suffixComponent={
@@ -220,9 +229,11 @@ export const BuildDetailPage = () => {
                   {serviceContainerBuild.data.scmRevision}
                 </CopyToClipboard>
               ) : (
-                serviceContainerBuild.data.buildConfigRevision.scmRevision && (
+                serviceContainerBuild.data?.buildConfigRevision?.scmRevision && (
                   <>
-                    <NotAvailableBasedOn buildStatus={serviceContainerBuild.data.status} />
+                    {serviceContainerBuild.data?.status && (
+                      <NotAvailableBasedOn buildStatus={serviceContainerBuild.data.status} />
+                    )}
                     {serviceContainerBuild.data.buildConfigRevision.scmRevision}
                   </>
                 )
@@ -237,23 +248,27 @@ export const BuildDetailPage = () => {
         <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={buildEntityAttributes.buildConfigName.title}>
-              <BuildConfigLink
-                id={serviceContainerBuild.data.buildConfigRevision.id}
-                rev={serviceContainerBuild.data.buildConfigRevision.rev}
-              >
-                {serviceContainerBuild.data.buildConfigRevision.name}
-              </BuildConfigLink>
+              {serviceContainerBuild.data?.buildConfigRevision && (
+                <BuildConfigLink
+                  id={serviceContainerBuild.data.buildConfigRevision.id}
+                  rev={serviceContainerBuild.data.buildConfigRevision.rev}
+                >
+                  {serviceContainerBuild.data.buildConfigRevision.name}
+                </BuildConfigLink>
+              )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes['buildConfigRevision.buildType'].title}>
-              <BuildConfigBuildTypeLabelMapper buildType={serviceContainerBuild.data.buildConfigRevision.buildType} />
+              {serviceContainerBuild.data?.buildConfigRevision?.buildType && (
+                <BuildConfigBuildTypeLabelMapper buildType={serviceContainerBuild.data.buildConfigRevision.buildType} />
+              )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes['environment.description'].title}>
-              {serviceContainerBuild.data.environment.description}
+              {serviceContainerBuild.data?.environment?.description}
             </AttributesItem>
             <AttributesItem title={buildEntityAttributes['buildConfigRevision.buildScript'].title}>
-              {serviceContainerBuild.data.buildConfigRevision.buildScript && (
+              {serviceContainerBuild.data?.buildConfigRevision?.buildScript && (
                 <CodeBlock>
                   <CodeBlockCode>{serviceContainerBuild.data.buildConfigRevision.buildScript}</CodeBlockCode>
                 </CodeBlock>
@@ -261,7 +276,7 @@ export const BuildDetailPage = () => {
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes['buildConfigRevision.brewPullActive'].title}>
-              {serviceContainerBuild.data.buildConfigRevision.brewPullActive ? 'enabled' : 'disabled'}
+              {serviceContainerBuild.data?.buildConfigRevision?.brewPullActive ? 'enabled' : 'disabled'}
             </AttributesItem>
           </Attributes>
         </ContentBox>
@@ -305,7 +320,7 @@ export const BuildDetailPage = () => {
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive>
-          <DependencyTree build={serviceContainerBuild.data} />
+          <DependencyTree build={serviceContainerBuild.data!} />
         </ContentBox>
       </GridItem>
     </Grid>

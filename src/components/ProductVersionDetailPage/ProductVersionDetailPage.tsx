@@ -1,11 +1,12 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -29,7 +30,7 @@ import * as productVersionApi from 'services/productVersionApi';
 import { stackedBarChartDataTransform, stackedBarChartHeight, stackedBarChartLabelTransform } from 'utils/dataTransformHelper';
 
 export const ProductVersionDetailPage = () => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const { serviceContainerProductVersion } = useServiceContainerProductVersion();
 
@@ -82,10 +83,10 @@ export const ProductVersionDetailPage = () => {
     });
   }, [serviceContainerStatisticsRunner, productVersionId]);
 
-  const latestProductMilestone: ProductMilestoneRef =
+  const latestProductMilestone: ProductMilestoneRef | undefined =
     serviceContainerProductVersion.data?.productMilestones &&
     Object.values(serviceContainerProductVersion.data.productMilestones).at(-1);
-  const latestProductRelease: ProductReleaseRef =
+  const latestProductRelease: ProductReleaseRef | undefined =
     serviceContainerProductVersion.data?.productReleases &&
     Object.values(serviceContainerProductVersion.data.productReleases).at(-1);
 
@@ -98,15 +99,15 @@ export const ProductVersionDetailPage = () => {
               {serviceContainerProductVersion.data?.version}
             </AttributesItem>
             <AttributesItem title={productVersionEntityAttributes.productName.title}>
-              <Link to={`/products/${serviceContainerProductVersion.data?.product.id}`}>
-                {serviceContainerProductVersion.data?.product.name}
+              <Link to={`/products/${serviceContainerProductVersion.data?.product?.id}`}>
+                {serviceContainerProductVersion.data?.product?.name}
               </Link>
             </AttributesItem>
             <AttributesItem title={productVersionEntityAttributes.productDescription.title}>
-              {serviceContainerProductVersion.data?.product.description}
+              {serviceContainerProductVersion.data?.product?.description}
             </AttributesItem>
             <AttributesItem title={productVersionEntityAttributes['attributes.brewTagPrefix'].title}>
-              {serviceContainerProductVersion.data?.attributes.BREW_TAG_PREFIX}
+              {serviceContainerProductVersion.data?.attributes?.BREW_TAG_PREFIX}
             </AttributesItem>
             <AttributesItem title={productVersionEntityAttributes.latestProductMilestone.title}>
               {latestProductMilestone && (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { buildPushResultEntityAttributes } from 'common/buildPushResultEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
@@ -14,7 +14,7 @@ import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
 import * as buildApi from 'services/buildApi';
 
 export const BuildBrewPushPage = () => {
-  const { buildId } = useParams();
+  const { buildId } = useParamsRequired();
 
   const [isBrewPushEmpty, setIsBrewPushEmpty] = useState<boolean>(false);
 

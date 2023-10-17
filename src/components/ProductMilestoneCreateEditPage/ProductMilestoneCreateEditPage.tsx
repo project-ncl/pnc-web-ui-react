@@ -10,7 +10,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
@@ -19,6 +19,7 @@ import { PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -82,8 +83,7 @@ interface IProductMilestoneCreateEditPageProps {
 }
 
 export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductMilestoneCreateEditPageProps) => {
-  const { productMilestoneId } = useParams();
-  const { productVersionId } = useParams();
+  const { productMilestoneId, productVersionId } = useParamsRequired();
   const navigate = useNavigate();
 
   // create page
@@ -124,10 +124,10 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
             startingDate: parseDate(data.startingDate),
             plannedEndDate: parseDate(data.plannedEndDate),
             productVersion: { id: serviceContainerProductVersion.data?.id },
-          },
+          } as ProductMilestone,
         },
       })
-      .then((response: any) => {
+      .then((response) => {
         const newProductMilestoneId = response?.data?.id;
         if (!newProductMilestoneId) {
           throw new PncError({
@@ -137,14 +137,14 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
         }
 
         if (data.isCurrent) {
-          const patchProductVersionData = createSafePatch(serviceContainerProductVersion.data, {
+          const patchProductVersionData = createSafePatch(serviceContainerProductVersion.data!, {
             currentProductMilestone: { id: newProductMilestoneId },
           });
 
           return serviceContainerProductVersionPatch
-            .run({ serviceData: { id: serviceContainerProductVersion.data?.id, patchData: patchProductVersionData } })
+            .run({ serviceData: { id: serviceContainerProductVersion.data!.id, patchData: patchProductVersionData } })
             .then(() => navigate(`../${newProductMilestoneId}`))
-            .catch((error: any) => {
+            .catch((error) => {
               console.error('Failed to edit current Product Milestone.');
               throw error;
             });
@@ -152,14 +152,14 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
           navigate(`../${newProductMilestoneId}`);
         }
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to create Product Milestone.');
         throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, {
+    const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: serviceContainerProductVersion.data?.version + '.' + data.version,
       startingDate: parseDate(data.startingDate),
       plannedEndDate: parseDate(data.plannedEndDate),
@@ -169,14 +169,14 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
       .run({ serviceData: { id: productMilestoneId, patchData } })
       .then(() => {
         if (data.isCurrent) {
-          const patchProductVersionData = createSafePatch(serviceContainerProductVersion.data, {
+          const patchProductVersionData = createSafePatch(serviceContainerProductVersion.data!, {
             currentProductMilestone: { id: productMilestoneId },
           });
 
           return serviceContainerProductVersionPatch
-            .run({ serviceData: { id: serviceContainerProductVersion.data?.id, patchData: patchProductVersionData } })
+            .run({ serviceData: { id: serviceContainerProductVersion.data!.id, patchData: patchProductVersionData } })
             .then(() => navigate('..'))
-            .catch((error: any) => {
+            .catch((error) => {
               console.error('Failed to edit current Product Milestone.');
               throw error;
             });
@@ -184,7 +184,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
           navigate('..');
         }
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to edit Product Milestone.');
         throw error;
       });
@@ -192,7 +192,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productMilestoneId } }).then((response: any) => {
+      serviceContainerEditPageGetRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
         const productMilestone: ProductMilestone = response.data;
         const productMilestoneVersionShort = getShortProductMilestoneVersion(productMilestone);
         const startingDate = productMilestone.startingDate && createDateTime({ date: productMilestone.startingDate }).date;

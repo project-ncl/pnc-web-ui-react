@@ -1,5 +1,4 @@
-import { useParams } from 'react-router-dom';
-
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -12,7 +11,7 @@ interface IArtifactProductMilestonesReleasesPageProps {
 }
 
 export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IArtifactProductMilestonesReleasesPageProps) => {
-  const { artifactId } = useParams();
+  const { artifactId } = useParamsRequired();
 
   const serviceContainerArtifactProductMilestonesReleases = useServiceContainer(artifactApi.getProductMilestonesReleases);
   const serviceContainerArtifactProductMilestonesReleasesRunner = serviceContainerArtifactProductMilestonesReleases.run;

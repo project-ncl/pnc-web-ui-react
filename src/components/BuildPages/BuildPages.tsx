@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router-dom';
+
+import { Build } from 'pnc-api-types-ts';
 
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
-import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
+import { useParamsRequired } from 'hooks/useParamsRequired';
+import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
@@ -20,10 +23,10 @@ import * as buildApi from 'services/buildApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
-type ContextType = { serviceContainerBuild: IServiceContainer };
+type ContextType = { serviceContainerBuild: IServiceContainerState<Build> };
 
 export const BuildPages = () => {
-  const { buildId } = useParams();
+  const { buildId } = useParamsRequired();
 
   const serviceContainerBuild = useServiceContainer(buildApi.getBuild);
   const serviceContainerBuildRunner = serviceContainerBuild.run;
@@ -49,7 +52,7 @@ export const BuildPages = () => {
     generatePageTitle({
       serviceContainer: serviceContainerBuild,
       firstLevelEntity: 'Build',
-      entityName: calculateLongBuildName(serviceContainerBuild.data),
+      entityName: (serviceContainerBuild.data && calculateLongBuildName(serviceContainerBuild.data)) || undefined,
     })
   );
 
@@ -76,12 +79,12 @@ export const BuildPages = () => {
     </PageTabs>
   );
 
-  const actions = [<BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data} />];
+  const actions = [<BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data!} />];
 
   return (
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
       <PageLayout
-        title={<BuildStatus build={serviceContainerBuild.data} long hideDatetime hideUsername />}
+        title={<BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername />}
         tabs={pageTabs}
         actions={actions}
       >
@@ -91,7 +94,7 @@ export const BuildPages = () => {
         <BrewPushModal
           isModalOpen={isBrewPushModalOpen}
           toggleModal={toggleBewPushModal}
-          build={serviceContainerBuild.data}
+          build={serviceContainerBuild.data!}
           variant="Build"
         />
       )}

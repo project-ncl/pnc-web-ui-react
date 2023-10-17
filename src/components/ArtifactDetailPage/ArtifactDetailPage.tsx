@@ -1,8 +1,9 @@
 import { Grid, GridItem, Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -28,7 +29,7 @@ interface IArtifactDetailPageProps {
 }
 
 export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPageProps) => {
-  const { artifactId } = useParams();
+  const { artifactId } = useParamsRequired();
 
   const { serviceContainerArtifact } = useServiceContainerArtifact();
 
@@ -64,7 +65,9 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
               {serviceContainerArtifact.data?.size && calculateFileSize(serviceContainerArtifact.data.size)}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes.artifactQuality.title}>
-              <ArtifactQualityLabelMapper quality={serviceContainerArtifact.data?.artifactQuality} />
+              {serviceContainerArtifact.data?.artifactQuality && (
+                <ArtifactQualityLabelMapper quality={serviceContainerArtifact.data.artifactQuality} />
+              )}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes.importDate.title}>
               {serviceContainerArtifact.data?.importDate && <DateTime date={serviceContainerArtifact.data.importDate} />}
@@ -122,21 +125,27 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
               tooltip={artifactEntityAttributes.publicUrl.tooltip}
               forceStringWrap
             >
-              <DownloadLink url={serviceContainerArtifact.data?.publicUrl} title={serviceContainerArtifact.data?.publicUrl} />
+              {serviceContainerArtifact.data?.publicUrl && (
+                <DownloadLink url={serviceContainerArtifact.data.publicUrl} title={serviceContainerArtifact.data.publicUrl} />
+              )}
             </AttributesItem>
             <AttributesItem
               title={artifactEntityAttributes.originUrl.title}
               tooltip={artifactEntityAttributes.originUrl.tooltip}
               forceStringWrap
             >
-              <DownloadLink url={serviceContainerArtifact.data?.originUrl} title={serviceContainerArtifact.data?.originUrl} />
+              {serviceContainerArtifact.data?.originUrl && (
+                <DownloadLink url={serviceContainerArtifact.data.originUrl} title={serviceContainerArtifact.data.originUrl} />
+              )}
             </AttributesItem>
             <AttributesItem
               title={artifactEntityAttributes.deployUrl.title}
               tooltip={artifactEntityAttributes.deployUrl.tooltip}
               forceStringWrap
             >
-              <DownloadLink url={serviceContainerArtifact.data?.deployUrl} title={serviceContainerArtifact.data?.deployUrl} />
+              {serviceContainerArtifact.data?.deployUrl && (
+                <DownloadLink url={serviceContainerArtifact.data.deployUrl} title={serviceContainerArtifact.data.deployUrl} />
+              )}
             </AttributesItem>
           </Attributes>
         </ContentBox>
@@ -153,20 +162,20 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
         <ContentBox borderTop padding isResponsive>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes['targetRepository.identifier'].title}>
-              {serviceContainerArtifact.data?.targetRepository.identifier}
+              {serviceContainerArtifact.data?.targetRepository?.identifier}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes['targetRepository.repositoryType'].title}>
-              {serviceContainerArtifact.data?.targetRepository.repositoryType && (
+              {serviceContainerArtifact.data?.targetRepository?.repositoryType && (
                 <ArtifactRepositoryTypeLabelMapper
                   repositoryType={serviceContainerArtifact.data.targetRepository.repositoryType}
                 />
               )}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes['targetRepository.temporaryRepo'].title}>
-              {serviceContainerArtifact.data?.targetRepository.temporaryRepo ? 'true' : 'false'}
+              {serviceContainerArtifact.data?.targetRepository?.temporaryRepo ? 'true' : 'false'}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes['targetRepository.repositoryPath'].title}>
-              <CopyToClipboard isInline>{serviceContainerArtifact.data?.targetRepository.repositoryPath}</CopyToClipboard>
+              <CopyToClipboard isInline>{serviceContainerArtifact.data?.targetRepository?.repositoryPath}</CopyToClipboard>
             </AttributesItem>
           </Attributes>
         </ContentBox>

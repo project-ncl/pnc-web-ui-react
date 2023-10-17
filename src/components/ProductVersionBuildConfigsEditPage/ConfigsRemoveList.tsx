@@ -8,9 +8,10 @@ import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes'
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
+import { ConfigPage } from 'common/types';
 
 import { useCheckbox } from 'hooks/useCheckbox';
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
@@ -27,7 +28,7 @@ import { isBuildConfig } from 'utils/entityRecognition';
 
 interface IConfigsRemoveListProps<T extends BuildConfiguration | GroupConfiguration> {
   variant: 'Build' | 'Group Build';
-  serviceContainerConfigs: IServiceContainer;
+  serviceContainerConfigs: IServiceContainerState<ConfigPage<T>>;
   componentId: string;
   onConfigRemove: (config: T) => void;
   removedConfigs: T[];
@@ -153,9 +154,8 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerConfigs.data?.content.map((config: T, rowIndex: number) => {
+              {serviceContainerConfigs.data?.content?.map((config, rowIndex) => {
                 const isRemoved = removedConfigs.some((removedConfig) => removedConfig.id === config.id);
-
                 const disabledReason = isRemoved ? 'Already marked to be removed.' : '';
 
                 return (

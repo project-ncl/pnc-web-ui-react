@@ -1,13 +1,13 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { GroupConfiguration } from 'pnc-api-types-ts';
+import { GroupConfigPage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -19,7 +19,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IGroupConfigsListProps {
-  serviceContainerGroupConfigs: IServiceContainer;
+  serviceContainerGroupConfigs: IServiceContainerState<GroupConfigPage>;
   componentId: string;
 }
 
@@ -65,7 +65,7 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerGroupConfigs.data?.content.map((groupConfig: GroupConfiguration, rowIndex: number) => (
+              {serviceContainerGroupConfigs.data?.content?.map((groupConfig, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>{<GroupConfigLink id={groupConfig.id}>{groupConfig.name}</GroupConfigLink>}</Td>
                   <Td>{Object.keys(groupConfig.buildConfigs || []).length}</Td>

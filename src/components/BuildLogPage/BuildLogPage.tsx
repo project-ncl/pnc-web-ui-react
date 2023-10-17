@@ -7,8 +7,8 @@ import {
   Popover,
 } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
@@ -22,7 +22,7 @@ import * as buildApi from 'services/buildApi';
 import { userService } from 'services/userService';
 
 export const BuildLogPage = () => {
-  const { buildId } = useParams();
+  const { buildId } = useParamsRequired();
 
   const { serviceContainerBuild } = useServiceContainerBuild();
 
@@ -36,7 +36,7 @@ export const BuildLogPage = () => {
     () => userService.getUserId() === serviceContainerBuild.data?.user?.id,
     [serviceContainerBuild.data]
   );
-  const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/), [serviceContainerBuildLog.data]);
+  const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/) || [], [serviceContainerBuildLog.data]);
 
   useEffect(() => {
     serviceContainerBuildLogRunner({ serviceData: { id: buildId } });

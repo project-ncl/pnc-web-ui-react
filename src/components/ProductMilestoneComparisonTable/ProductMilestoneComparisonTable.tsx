@@ -14,7 +14,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
+import { Artifact, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions } from 'common/entityAttributes';
@@ -35,6 +35,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productApi from 'services/productApi';
+import { IProductMilestoneComparisonData } from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
 
 interface IProductMilestoneColumn {
@@ -49,7 +50,7 @@ const spaceItemsXs: FlexProps['spaceItems'] = { default: 'spaceItemsXs' };
 const flexWrapNone: FlexProps['flexWrap'] = { default: 'nowrap' };
 
 interface IProductMilestoneComparisonTableProps {
-  serviceContainerProductMilestoneComparisonTable: IServiceContainer;
+  serviceContainerProductMilestoneComparisonTable: IServiceContainer<any, IProductMilestoneComparisonData>;
   componentId: string;
 }
 
@@ -72,12 +73,12 @@ export const ProductMilestoneComparisonTable = ({
 
   const [expandedArtifacts, setExpandedArtifacts] = useState<string[]>([]);
   const [areAllArtifactsExpanded, setAreAllArtifactsExpanded] = useState<boolean>();
-  const setArtifactExpanded = (artifact: any, isExpanding = true) =>
+  const setArtifactExpanded = (artifact: Artifact, isExpanding = true) =>
     setExpandedArtifacts((prevExpanded) => {
       const otherExpandedArtifactIdentifiers = prevExpanded.filter((identifier) => identifier !== artifact.identifier);
       return isExpanding ? [...otherExpandedArtifactIdentifiers, artifact.identifier] : otherExpandedArtifactIdentifiers;
     });
-  const isArtifactExpanded = (artifact: any) => expandedArtifacts?.includes(artifact.identifier);
+  const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts?.includes(artifact.identifier);
 
   const fetchProductVersions = useCallback(
     (requestConfig: AxiosRequestConfig = {}) => {
@@ -100,7 +101,7 @@ export const ProductMilestoneComparisonTable = ({
   useEffect(() => {
     if (areAllArtifactsExpanded === true) {
       setExpandedArtifacts(
-        serviceContainerProductMilestoneComparisonTable.data?.content.map((artifact: any) => artifact.identifier)
+        serviceContainerProductMilestoneComparisonTable.data?.content?.map((artifact: any) => artifact.identifier)
       );
     } else if (areAllArtifactsExpanded === false) {
       setExpandedArtifacts([]);

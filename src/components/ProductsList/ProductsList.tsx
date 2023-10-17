@@ -2,13 +2,13 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Product } from 'pnc-api-types-ts';
+import { ProductPage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -19,7 +19,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IProductsListProps {
-  serviceContainerProducts: IServiceContainer;
+  serviceContainerProducts: IServiceContainerState<ProductPage>;
   componentId: string;
 }
 
@@ -69,7 +69,7 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerProducts.data?.content.map((product: Product, rowIndex: number) => (
+              {serviceContainerProducts.data?.content?.map((product, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     <Link to={product.id}>{product.name}</Link>

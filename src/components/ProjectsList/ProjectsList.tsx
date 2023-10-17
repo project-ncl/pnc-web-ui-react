@@ -2,13 +2,13 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Project } from 'pnc-api-types-ts';
+import { ProjectPage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -21,7 +21,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IProjectsList {
-  serviceContainerProjects: IServiceContainer;
+  serviceContainerProjects: IServiceContainerState<ProjectPage>;
   componentId: string;
 }
 
@@ -73,7 +73,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerProjects.data?.content.map((project: Project, rowIndex: number) => (
+              {serviceContainerProjects.data?.content?.map((project, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>{<ProjectLink id={project.id}>{project.name}</ProjectLink>}</Td>
                   <Td>{project.description}</Td>

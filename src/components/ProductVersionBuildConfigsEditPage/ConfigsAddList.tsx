@@ -8,9 +8,10 @@ import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes'
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
+import { ConfigPage } from 'common/types';
 
 import { useCheckbox } from 'hooks/useCheckbox';
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
@@ -27,7 +28,7 @@ import { isBuildConfig } from 'utils/entityRecognition';
 
 interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration> {
   variant: 'Build' | 'Group Build';
-  serviceContainerConfigs: IServiceContainer;
+  serviceContainerConfigs: IServiceContainerState<ConfigPage<T>>;
   componentId: string;
   onConfigAdd: (config: T) => void;
   addedConfigs: T[];
@@ -158,15 +159,13 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerConfigs.data?.content.map((config: T, rowIndex: number) => {
+              {serviceContainerConfigs.data?.content?.map((config, rowIndex) => {
                 const isAdded = addedConfigs.some((addedConfig) => addedConfig.id === config.id);
-
                 const disabledReason = isAdded
                   ? 'Already marked to be added.'
                   : !!productVersionToExclude && config.productVersion?.id === productVersionToExclude
                   ? 'Already in the Version.'
                   : '';
-
                 const warningReason =
                   config.productVersion &&
                   `${

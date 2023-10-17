@@ -77,8 +77,8 @@ export const AdministrationPage = () => {
   useEffect(() => {
     genericSettingsApi
       .getAnnouncementBanner()
-      .then((response: any) => {
-        const rawAnnouncement: string = response.data.banner;
+      .then((response) => {
+        const rawAnnouncement: string = response.data?.banner || '';
         const rawAnnouncementSet: Array<string> = rawAnnouncement ? rawAnnouncement.split(', ETA: ') : [];
         setAnnouncementMessage(rawAnnouncementSet[0]);
         if (rawAnnouncementSet[1]) {
@@ -92,7 +92,7 @@ export const AdministrationPage = () => {
         }
         setIsMaintenanceModeOn(!!rawAnnouncementSet[1]);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error(error);
       });
 

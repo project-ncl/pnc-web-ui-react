@@ -1,12 +1,15 @@
 import { ActionGroup, Button, Form, FormGroup, FormHelperText, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { ProductVersion } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
 import { PageTitles } from 'common/constants';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -41,8 +44,7 @@ interface IProductVersionCreateEditPageProps {
 }
 
 export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVersionCreateEditPageProps) => {
-  const { productId } = useParams();
-  const { productVersionId } = useParams();
+  const { productId, productVersionId } = useParamsRequired();
   const navigate = useNavigate();
 
   // create page
@@ -63,16 +65,18 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       serviceContainer: serviceContainerEditPageGet,
       firstLevelEntity: 'Product',
       nestedEntity: 'Version',
-      entityName: `${serviceContainerEditPageGet.data?.version} ${PageTitles.delimiterSymbol} ${serviceContainerEditPageGet.data?.product.name}`,
+      entityName:
+        serviceContainerEditPageGet.data?.product &&
+        `${serviceContainerEditPageGet.data.version} ${PageTitles.delimiterSymbol} ${serviceContainerEditPageGet.data.product.name}`,
     })
   );
 
   const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
-        serviceData: { data: { ...data, product: { id: productId } } },
+        serviceData: { data: { ...data, product: { id: productId } } as ProductVersion },
       })
-      .then((response: any) => {
+      .then((response) => {
         const newProductVersionId = response?.data?.id;
         if (!newProductVersionId) {
           throw new PncError({
@@ -82,14 +86,14 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
         }
         navigate(`../${newProductVersionId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to create Product Version.');
         throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, {
+    const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: data.version,
       attributes: { BREW_TAG_PREFIX: data['attributes.brewTagPrefix'] },
     });
@@ -99,7 +103,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       .then(() => {
         navigate(`..`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to edit Product Version.');
         throw error;
       });
@@ -107,7 +111,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productVersionId } }).then((response: any) => {
+      serviceContainerEditPageGetRunner({ serviceData: { id: productVersionId } }).then((response) => {
         setFieldValues({
           version: response.data?.version,
           'attributes.brewTagPrefix': response.data?.attributes?.BREW_TAG_PREFIX,

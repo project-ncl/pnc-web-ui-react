@@ -1,9 +1,9 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -29,7 +29,7 @@ interface IScmRepositoryDetailPageProps {
 }
 
 export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDetailPageProps) => {
-  const { scmRepositoryId } = useParams();
+  const { scmRepositoryId } = useParamsRequired();
 
   const serviceContainerScmRepository = useServiceContainer(scmRepositoryApi.getScmRepository);
   const serviceContainerScmRepositoryRunner = serviceContainerScmRepository.run;
@@ -48,7 +48,10 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
   useTitle(
     generatePageTitle({
       serviceContainer: serviceContainerScmRepository,
-      entityName: generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data }),
+      entityName:
+        (serviceContainerScmRepository.data &&
+          generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data })) ||
+        undefined,
       firstLevelEntity: 'SCM Repository',
     })
   );
@@ -56,7 +59,7 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
   return (
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout
-        title={generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data })}
+        title={generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data! })}
         actions={<ActionButton link="edit">Edit SCM Repository</ActionButton>}
       >
         <ContentBox padding marginBottom isResponsive>

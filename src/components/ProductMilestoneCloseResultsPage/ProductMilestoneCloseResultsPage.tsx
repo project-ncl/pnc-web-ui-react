@@ -1,5 +1,4 @@
-import { useParams } from 'react-router-dom';
-
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -12,7 +11,7 @@ interface IProductMilestoneCloseResultsPageProps {
 }
 
 export const ProductMilestoneCloseResultsPage = ({ componentId = 'c1' }: IProductMilestoneCloseResultsPageProps) => {
-  const { productMilestoneId } = useParams();
+  const { productMilestoneId } = useParamsRequired();
 
   const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;

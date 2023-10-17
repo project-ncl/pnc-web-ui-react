@@ -3,13 +3,13 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Build } from 'pnc-api-types-ts';
+import { BuildPage } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
@@ -40,7 +40,7 @@ const defaultColumns: TColumns = [
 ];
 
 interface IBuildsListProps {
-  serviceContainerBuilds: IServiceContainer;
+  serviceContainerBuilds: IServiceContainerState<BuildPage>;
   columns?: TColumns;
   componentId: string;
 }
@@ -129,7 +129,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerBuilds.data?.content.map((build: Build, rowIndex: number) => (
+              {serviceContainerBuilds.data?.content?.map((build, rowIndex) => (
                 <Tr key={rowIndex}>
                   {columns.includes(buildEntityAttributes.status.id) && (
                     <Td>

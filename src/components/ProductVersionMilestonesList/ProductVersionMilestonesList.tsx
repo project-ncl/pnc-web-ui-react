@@ -1,13 +1,13 @@
 import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
+import { ProductMilestone, ProductMilestonePage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions } from 'common/entityAttributes';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -28,7 +28,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 const actionItemStyle = { padding: 0 };
 
 interface IProductVersionMilestonesListProps {
-  serviceContainerProductMilestones: IServiceContainer;
+  serviceContainerProductMilestones: IServiceContainerState<ProductMilestonePage>;
   componentId: string;
 }
 
@@ -81,7 +81,7 @@ export const ProductVersionMilestonesList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerProductMilestones.data?.content.map((productMilestone: ProductMilestone, rowIndex: number) => (
+              {serviceContainerProductMilestones.data?.content?.map((productMilestone: ProductMilestone, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     <ProductMilestoneReleaseLabel
@@ -139,7 +139,7 @@ export const ProductVersionMilestonesList = ({
                         }
                         toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'mark-as-current')}
                         productMilestone={productMilestone}
-                        productVersion={serviceContainerProductVersion.data}
+                        productVersion={serviceContainerProductVersion.data!}
                         variant="list"
                       />
                     )}

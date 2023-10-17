@@ -1,9 +1,9 @@
 import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -28,7 +28,7 @@ interface IProductDetailPageProps {
 }
 
 export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProps) => {
-  const { productId } = useParams();
+  const { productId } = useParamsRequired();
 
   const serviceContainerProduct = useServiceContainer(productApi.getProduct);
   const serviceContainerProductRunner = serviceContainerProduct.run;

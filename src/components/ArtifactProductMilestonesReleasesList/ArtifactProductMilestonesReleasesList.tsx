@@ -2,13 +2,13 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { MilestoneInfo } from 'pnc-api-types-ts';
+import { MilestoneInfoPage } from 'pnc-api-types-ts';
 
 import { artifactProductMilestoneReleaseEntityAttributes } from 'common/artifactProductMilestoneReleaseEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -21,7 +21,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface IArtifactProductMilestonesReleasesListProps {
-  serviceContainerArtifactProductMilestonesReleases: IServiceContainer;
+  serviceContainerArtifactProductMilestonesReleases: IServiceContainerState<MilestoneInfoPage>;
   componentId: string;
 }
 
@@ -78,8 +78,8 @@ export const ArtifactProductMilestonesReleasesList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerArtifactProductMilestonesReleases.data?.content.map(
-                (artifactProductMilestoneRelease: MilestoneInfo, rowIndex: number) => (
+              {serviceContainerArtifactProductMilestonesReleases.data?.content?.map(
+                (artifactProductMilestoneRelease, rowIndex) => (
                   <Tr key={rowIndex}>
                     <Td>
                       {artifactProductMilestoneRelease.productId && (
