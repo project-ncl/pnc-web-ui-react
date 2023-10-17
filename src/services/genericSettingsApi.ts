@@ -21,7 +21,7 @@ export const getAnnouncementBanner = (requestConfig: AxiosRequestConfig = {}) =>
  * @param requestConfig - Axios based request config
  */
 export const setAnnouncementBanner = ({ message }: { message: string }, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<void>('/generic-setting/announcement-banner', message, requestConfig);
+  return pncClient.getHttpClient().post<undefined>('/generic-setting/announcement-banner', message, requestConfig);
 };
 
 /**
@@ -41,5 +41,5 @@ export const getPncVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const setPncVersion = ({ version }: { version: string }, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<void>('/generic-setting/pnc-version', version, requestConfig);
+  return pncClient.getHttpClient().post<undefined>('/generic-setting/pnc-version', version, requestConfig);
 };

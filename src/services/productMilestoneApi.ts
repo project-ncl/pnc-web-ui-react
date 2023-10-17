@@ -14,7 +14,7 @@ import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
 import { pncClient } from './pncClient';
 
-interface IProductMilestoneApiData {
+export interface IProductMilestoneApiData {
   id: string;
 }
 
@@ -134,6 +134,10 @@ export const getSharedDeliveredArtifacts = (requestConfig: AxiosRequestConfig = 
   return pncApiMocksClient.getHttpClient().get<any>(`/product-milestone-shared-delivered-artifacts`, requestConfig);
 };
 
+export interface IProductMilestoneComparisonData {
+  data: { productMilestones: string[] };
+}
+
 /**
  * Gets Product Milestone Comparison table.
  *
@@ -142,7 +146,7 @@ export const getSharedDeliveredArtifacts = (requestConfig: AxiosRequestConfig = 
  * @param requestConfig - Axios based request config
  */
 export const getProductMilestoneComparison = (
-  { data }: { data: { productMilestones: string[] } },
+  { data }: IProductMilestoneComparisonData,
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncApiMocksClient.getHttpClient().post<any>(`/product-milestone-comparison`, data, requestConfig);
@@ -168,7 +172,7 @@ export const closeProductMilestone = ({ id }: IProductMilestoneApiData, requestC
  * @param requestConfig - Axios based request config
  */
 export const analyzeDeliverables = (
-  { id, data }: { id: string; data: { deliverablesUrls: string[] } },
+  { id, data }: { id: string; data: { deliverablesUrls: string[]; runAsScratchAnalysis: boolean } },
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().post<any>(`/product-milestones/${id}/analyze-deliverables`, data, requestConfig);

@@ -1,6 +1,14 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ArtifactPage, Build, BuildPage, BuildPushResult, BuildsGraph, RunningBuildCount } from 'pnc-api-types-ts';
+import {
+  ArtifactPage,
+  Build,
+  BuildPage,
+  BuildPushResult,
+  BuildsGraph,
+  RunningBuildCount,
+  SSHCredentials,
+} from 'pnc-api-types-ts';
 
 import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
@@ -16,7 +24,7 @@ interface BuildMetrics {
   };
 }
 
-interface IBuildApiData {
+export interface IBuildApiData {
   id: string;
 }
 
@@ -127,10 +135,8 @@ export const getBrewPush = ({ id }: IBuildApiData, requestConfig: AxiosRequestCo
  *  - buildIds - List of Build IDs
  * @param requestConfig - Axios based request config
  */
-export const getBuildMetrics = ({ buildIds }: { buildIds?: Array<string> }, requestConfig: AxiosRequestConfig = {}) => {
-  if (buildIds) {
-    return kafkaClient.getHttpClient().post<BuildMetrics>('/builds', { buildIds }, requestConfig);
-  }
+export const getBuildMetrics = ({ buildIds }: { buildIds: Array<string> }, requestConfig: AxiosRequestConfig = {}) => {
+  return kafkaClient.getHttpClient().post<BuildMetrics>('/builds', { buildIds }, requestConfig);
 };
 
 /**
@@ -141,7 +147,7 @@ export const getBuildMetrics = ({ buildIds }: { buildIds?: Array<string> }, requ
  * @param requestConfig - Axios based request config
  */
 export const getSshCredentials = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<ArtifactPage>(`/builds/ssh-credentials/${id}`, requestConfig);
+  return pncClient.getHttpClient().get<SSHCredentials>(`/builds/ssh-credentials/${id}`, requestConfig);
 };
 
 /**

@@ -11,7 +11,7 @@ class UserService {
   public fetchUser() {
     return userApi
       .getCurrentUser()
-      .then((response: any) => {
+      .then((response) => {
         this.user = response.data;
       })
       .catch(() => {
