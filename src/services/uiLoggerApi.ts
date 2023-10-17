@@ -10,5 +10,5 @@ import { uiLoggerClient } from 'services/uiLoggerClient';
  * @param requestConfig  - Axios based request config
  */
 export const createUILog = (data: IUILog, requestConfig: AxiosRequestConfig = {}) => {
-  return uiLoggerClient.getHttpClient().post<void>('/rest/logs', data, requestConfig);
+  return uiLoggerClient.getHttpClient().post<undefined>('/rest/logs', data, requestConfig);
 };

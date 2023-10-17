@@ -5,7 +5,7 @@ import { BuildConfigPage, GroupConfigPage, ProductMilestonePage, ProductReleaseP
 
 import { pncClient } from './pncClient';
 
-interface IProductVersionApiData {
+export interface IProductVersionApiData {
   id: string;
 }
 
