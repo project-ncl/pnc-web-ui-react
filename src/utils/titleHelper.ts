@@ -1,6 +1,6 @@
 import { PageTitles } from 'common/constants';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 type EntityType =
   | 'Project'
@@ -19,7 +19,7 @@ type EntityType =
 
 interface IGeneratePageTitle {
   pageType?: 'Detail' | 'Edit' | 'Create';
-  serviceContainer: IServiceContainer;
+  serviceContainer: IServiceContainerState<Object>;
   firstLevelEntity: EntityType;
   nestedEntity?: EntityType;
   entityName?: string;
@@ -43,7 +43,7 @@ export const generatePageTitle = ({
   serviceContainer,
   firstLevelEntity,
   nestedEntity = '',
-  entityName = serviceContainer.data?.name,
+  entityName = serviceContainer.data && 'name' in serviceContainer.data ? (serviceContainer.data.name as string) : undefined,
 }: IGeneratePageTitle) => {
   const entity = nestedEntity ? nestedEntity : firstLevelEntity;
   const entityPrefix = pageType === 'Detail' ? '' : pageType;
