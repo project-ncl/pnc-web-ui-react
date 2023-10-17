@@ -1,19 +1,19 @@
 import { ReactNode } from 'react';
 
-import { DataValues } from 'hooks/useServiceContainer';
+import { DataValues, IServiceContainerState, TServiceData, areServiceDataPaginated } from 'hooks/useServiceContainer';
 
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
 import { ErrorStateCard } from 'components/StateCard/ErrorStateCard';
 import { LoadingStateCard } from 'components/StateCard/LoadingStateCard';
 import { RefreshStateCard } from 'components/StateCard/RefreshStateCard';
 
-export interface IServiceContainerProps {
-  data: any;
-  loading: boolean;
-  error: string;
+export interface IServiceContainerProps<T extends TServiceData> {
+  data: IServiceContainerState<T>['data'];
+  loading: IServiceContainerState<T>['loading'];
+  error: IServiceContainerState<T>['error'];
 }
 
-interface IServiceContainerLoadingProps extends IServiceContainerProps {
+interface IServiceContainerLoadingProps<T extends TServiceData> extends IServiceContainerProps<T> {
   title: string;
   loadingStateDelayMs?: number; // in milliseconds
   hasSkeleton?: boolean;
@@ -46,7 +46,7 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
  * @param allowEmptyData - Allows empty data even when no error ocurred
  * @param children - React children property
  */
-export const ServiceContainerLoading = ({
+export const ServiceContainerLoading = <T extends TServiceData>({
   data,
   loading,
   error,
@@ -57,7 +57,7 @@ export const ServiceContainerLoading = ({
   notYetContent,
   allowEmptyData = false,
   children,
-}: React.PropsWithChildren<IServiceContainerLoadingProps>) => {
+}: React.PropsWithChildren<IServiceContainerLoadingProps<T>>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
   if (loading && !data)
     return (
@@ -87,7 +87,7 @@ export const ServiceContainerLoading = ({
   //  - content property is available (= content property means table data with pagination are expected),
   //  - but no items are available
   //  - style variant is block
-  if (data.content && !data.content.length && variant === 'block') return <EmptyStateCard title={title} />;
+  if (areServiceDataPaginated(data) && !data.content?.length && variant === 'block') return <EmptyStateCard title={title} />;
 
   // Empty state: display Empty card when
   //  - request was successfully finished,
