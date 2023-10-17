@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ServiceContainerRunnerFunction } from 'hooks/useServiceContainer';
+import { IService, ServiceContainerRunnerFunction, TServiceData, TServiceParams } from 'hooks/useServiceContainer';
 
 import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAreEqual } from 'utils/queryParamsHelper';
+
+/**
+ * Function returning void is used when no data are returned.
+ * This typically happens when no service is passed, but callback updating state based on the URL.
+ */
+type ServiceContainerRunnerFunctionVoid<U extends TServiceParams> = (iService?: IService<U>) => void;
 
 interface IMandatoryQueryParams {
   pagination?: boolean;
@@ -51,8 +57,8 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
  *   componentId - component ID used when parsing component related Query Parameters from the URL
  *   mandatoryQueryParams - Query Parameters required to be present in the URL before service method can be executed
  */
-export const useQueryParamsEffect = (
-  service: ServiceContainerRunnerFunction,
+export const useQueryParamsEffect = <T extends TServiceData, U extends TServiceParams>(
+  service: ServiceContainerRunnerFunction<T, U> | ServiceContainerRunnerFunctionVoid<U>,
   {
     componentId = '',
     mandatoryQueryParams = listMandatoryQueryParams,
