@@ -49,7 +49,7 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
               </Tr>
             </Thead>
             <Tbody>
-              {configChanges.map((configChange: IOperation<T>, rowIndex: number) => (
+              {configChanges.map((configChange, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     {configChange.operator === 'add' ? (

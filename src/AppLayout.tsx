@@ -44,10 +44,10 @@ export const AppLayout = () => {
   useEffect(() => {
     genericSettingsApi
       .getAnnouncementBanner()
-      .then((response: any) => {
-        setAnnouncementMessage(response.data.banner);
+      .then((response) => {
+        setAnnouncementMessage(response.data.banner || '');
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error(error);
       });
   }, []);

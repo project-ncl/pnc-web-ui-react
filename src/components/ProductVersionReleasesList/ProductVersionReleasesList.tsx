@@ -1,13 +1,13 @@
 import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { ProductRelease } from 'pnc-api-types-ts';
+import { ProductReleasePage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions } from 'common/entityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -21,7 +21,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface IProductVersionReleasesListProps {
-  serviceContainerProductReleases: IServiceContainer;
+  serviceContainerProductReleases: IServiceContainerState<ProductReleasePage>;
   componentId: string;
 }
 
@@ -64,7 +64,7 @@ export const ProductVersionReleasesList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerProductReleases.data?.content.map((productRelease: ProductRelease, rowIndex: number) => (
+              {serviceContainerProductReleases.data?.content?.map((productRelease, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     <ProductMilestoneReleaseLabel productMilestoneRelease={productRelease} isCurrent={false} />

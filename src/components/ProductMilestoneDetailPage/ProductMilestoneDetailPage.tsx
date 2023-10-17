@@ -1,9 +1,9 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
@@ -26,7 +26,7 @@ import * as productMilestoneApi from 'services/productMilestoneApi';
 import { doughnutChartDataTransform, doughnutChartLabelTransform } from 'utils/dataTransformHelper';
 
 export const ProductMilestoneDetailPage = () => {
-  const { productMilestoneId } = useParams();
+  const { productMilestoneId } = useParamsRequired();
 
   const { serviceContainerProductMilestone } = useServiceContainerProductMilestone();
 
@@ -92,7 +92,9 @@ export const ProductMilestoneDetailPage = () => {
                   variant="inline"
                   title="Product Milestone latest close result"
                 >
-                  <ProductMilestoneCloseStatusLabelMapper status={serviceContainerCloseResults.data?.content[0]?.status} />
+                  {serviceContainerCloseResults.data?.content?.[0]?.status && (
+                    <ProductMilestoneCloseStatusLabelMapper status={serviceContainerCloseResults.data.content[0].status} />
+                  )}
                 </ServiceContainerLoading>
               </div>
             </AttributesItem>

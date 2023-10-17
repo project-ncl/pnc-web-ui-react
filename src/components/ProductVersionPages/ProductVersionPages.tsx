@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router-dom';
+
+import { ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
-import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
+import { useParamsRequired } from 'hooks/useParamsRequired';
+import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -18,10 +21,10 @@ import * as productVersionApi from 'services/productVersionApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
-type ContextType = { serviceContainerProductVersion: IServiceContainer };
+type ContextType = { serviceContainerProductVersion: IServiceContainerState<ProductVersion> };
 
 export const ProductVersionPages = () => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
@@ -59,7 +62,9 @@ export const ProductVersionPages = () => {
       serviceContainer: serviceContainerProductVersion,
       firstLevelEntity: 'Product',
       nestedEntity: 'Version',
-      entityName: `${serviceContainerProductVersion.data?.version} ${PageTitles.delimiterSymbol} ${serviceContainerProductVersion.data?.product.name}`,
+      entityName:
+        serviceContainerProductVersion.data?.product &&
+        `${serviceContainerProductVersion.data.version} ${PageTitles.delimiterSymbol} ${serviceContainerProductVersion.data.product.name}`,
     })
   );
 
@@ -96,7 +101,7 @@ export const ProductVersionPages = () => {
   return (
     <ServiceContainerLoading {...serviceContainerProductVersion} title="Product Version details">
       <PageLayout
-        title={`${serviceContainerProductVersion.data?.product.name} ${serviceContainerProductVersion.data?.version}`}
+        title={`${serviceContainerProductVersion.data?.product?.name} ${serviceContainerProductVersion.data?.version}`}
         tabs={pageTabs}
         actions={
           <ProtectedComponent>

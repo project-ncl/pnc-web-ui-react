@@ -1,9 +1,10 @@
 import { Button, Label, NumberInput, SearchInput, Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useFullscreen } from 'hooks/useFullscreen';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -33,7 +34,7 @@ interface IProductMilestoneInterconnectionGraphPageProps {
 export const ProductMilestoneInterconnectionGraphPage = ({
   componentId = 'a1',
 }: IProductMilestoneInterconnectionGraphPageProps) => {
-  const { productMilestoneId } = useParams();
+  const { productMilestoneId } = useParamsRequired();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -175,7 +176,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
           >
             <ProductMilestoneInterconnectionGraph
               data={serviceContainerInterconnectionGraph.data}
-              mainNode={serviceContainerProductMilestone.data.version}
+              mainNode={serviceContainerProductMilestone.data!.version}
               hasLimitedNesting={hasLimitedNesting}
               nestingLevel={nestingLevel}
               searchValueMainLabel={searchValueProductMilestone}
@@ -199,7 +200,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
                   <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="icon" title="Product Milestone">
                     <span className={styles['product-milestone-label']}>
                       <ProductMilestoneReleaseLabel
-                        productMilestoneRelease={serviceContainerProductMilestone1.data}
+                        productMilestoneRelease={serviceContainerProductMilestone1.data!}
                         isCurrent={false}
                       />
                     </span>
@@ -208,7 +209,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
                   <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="icon" title="Product Milestone">
                     <span className={styles['product-milestone-label']}>
                       <ProductMilestoneReleaseLabel
-                        productMilestoneRelease={serviceContainerProductMilestone2.data}
+                        productMilestoneRelease={serviceContainerProductMilestone2.data!}
                         isCurrent={false}
                       />
                     </span>

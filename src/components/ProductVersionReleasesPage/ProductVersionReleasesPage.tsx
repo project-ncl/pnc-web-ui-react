@@ -1,5 +1,4 @@
-import { useParams } from 'react-router-dom';
-
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -12,7 +11,7 @@ interface IProductVersionReleasesPageProps {
 }
 
 export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersionReleasesPageProps) => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const serviceContainerProductReleases = useServiceContainer(productVersionApi.getProductReleases);
   const serviceContainerProductReleasesRunner = serviceContainerProductReleases.run;

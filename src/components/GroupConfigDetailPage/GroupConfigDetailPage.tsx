@@ -1,12 +1,10 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-import { GroupConfiguration } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -44,7 +42,7 @@ export const GroupConfigDetailPage = ({
   componentIdGroupBuilds = 'b1',
   componentIdBuildConfigs = 'c1',
 }: IGroupConfigDetailPageProps) => {
-  const { groupConfigId } = useParams();
+  const { groupConfigId } = useParamsRequired();
 
   const serviceContainerGroupConfig = useServiceContainer(groupConfigApi.getGroupConfig);
   const serviceContainerGroupConfigRunner = serviceContainerGroupConfig.run;
@@ -59,8 +57,8 @@ export const GroupConfigDetailPage = ({
   const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
 
   useEffect(() => {
-    serviceContainerGroupConfigRunner({ serviceData: { id: groupConfigId } }).then((response: any) => {
-      const groupConfig: GroupConfiguration = response.data;
+    serviceContainerGroupConfigRunner({ serviceData: { id: groupConfigId } }).then((response) => {
+      const groupConfig = response.data;
 
       if (groupConfig.productVersion) {
         serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } });
@@ -86,7 +84,6 @@ export const GroupConfigDetailPage = ({
     generatePageTitle({
       serviceContainer: serviceContainerGroupConfig,
       firstLevelEntity: 'Group Config',
-      entityName: serviceContainerGroupConfig.data?.identifier,
     })
   );
 
@@ -116,7 +113,7 @@ export const GroupConfigDetailPage = ({
                 variant="inline"
                 title={groupConfigEntityAttributes.productVersion.title}
               >
-                <ProductVersionLink productVersion={serviceContainerProductVersion.data} />
+                <ProductVersionLink productVersion={serviceContainerProductVersion.data!} />
               </ServiceContainerLoading>
             </AttributesItem>
           </Attributes>

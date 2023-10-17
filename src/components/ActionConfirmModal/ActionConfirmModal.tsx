@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
 
@@ -12,7 +12,7 @@ interface IActionConfirmModalProps {
   wereSubmitDataChanged?: boolean;
   onToggle: () => void;
   onSubmit: () => void;
-  serviceContainer?: IServiceContainer;
+  serviceContainer?: IServiceContainerState<Object>;
 }
 
 /**

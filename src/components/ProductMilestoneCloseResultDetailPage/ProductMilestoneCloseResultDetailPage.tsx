@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -22,13 +22,12 @@ import * as productMilestoneApi from 'services/productMilestoneApi';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneCloseResultDetailPage = () => {
-  const { productMilestoneId } = useParams();
-  const { closeResultId } = useParams();
+  const { productMilestoneId, closeResultId } = useParamsRequired();
 
   const serviceContainerProdutMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerProdutMilestoneCloseResultRunner = serviceContainerProdutMilestoneCloseResult.run;
 
-  const closeResult: ProductMilestoneCloseResult = serviceContainerProdutMilestoneCloseResult.data?.content[0];
+  const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProdutMilestoneCloseResult.data?.content?.[0];
 
   useEffect(() => {
     serviceContainerProdutMilestoneCloseResultRunner({
@@ -57,7 +56,7 @@ export const ProductMilestoneCloseResultDetailPage = () => {
           <Attributes>
             <AttributesItem title={productMilestoneCloseResultEntityAttributes.id.title}>{closeResult?.id}</AttributesItem>
             <AttributesItem title={productMilestoneCloseResultEntityAttributes.status.title}>
-              <ProductMilestoneCloseStatusLabelMapper status={closeResult?.status} />
+              {closeResult && <ProductMilestoneCloseStatusLabelMapper status={closeResult.status} />}
             </AttributesItem>
             <AttributesItem title={productMilestoneCloseResultEntityAttributes.startingDate.title}>
               {closeResult?.startingDate && <DateTime date={closeResult.startingDate} />}

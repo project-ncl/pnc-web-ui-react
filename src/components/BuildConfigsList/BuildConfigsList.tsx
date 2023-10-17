@@ -2,13 +2,13 @@ import { DescriptionList, DescriptionListDescription, DescriptionListGroup, Desc
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
-import { BuildConfigurationWithLatestBuild } from 'pnc-api-types-ts';
+import { BuildConfigWithLatestPage } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
@@ -31,7 +31,7 @@ import { areDatesEqual, checkColumnsCombinations } from 'utils/utils';
 type TColumns = Array<keyof typeof buildConfigEntityAttributes>;
 
 interface IBuildConfigsListProps {
-  serviceContainerBuildConfigs: IServiceContainer;
+  serviceContainerBuildConfigs: IServiceContainerState<BuildConfigWithLatestPage>;
   columns?: TColumns;
   componentId: string;
 }
@@ -140,80 +140,78 @@ export const BuildConfigsList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerBuildConfigs.data?.content.map(
-                (buildConfig: BuildConfigurationWithLatestBuild, rowIndex: number) => (
-                  <Tr key={rowIndex}>
-                    {columns.includes(buildConfigEntityAttributes.name.id) && (
+              {serviceContainerBuildConfigs.data?.content?.map((buildConfig, rowIndex) => (
+                <Tr key={rowIndex}>
+                  {columns.includes(buildConfigEntityAttributes.name.id) && (
+                    <Td>
+                      <BuildConfigLink id={buildConfig.id}>{buildConfig.name}</BuildConfigLink>
+                    </Td>
+                  )}
+                  {columns.includes(buildConfigEntityAttributes.description.id) && <Td>{buildConfig.description}</Td>}
+                  {columns.includes(buildConfigEntityAttributes.buildType.id) && (
+                    <Td>
+                      <BuildConfigBuildTypeLabelMapper buildType={buildConfig.buildType} />
+                    </Td>
+                  )}
+                  {columns.includes(buildConfigEntityAttributes['project.name'].id) && (
+                    <Td>
+                      {buildConfig.project && <ProjectLink id={buildConfig.project.id}>{buildConfig.project.name}</ProjectLink>}
+                    </Td>
+                  )}
+                  {columns.includes(buildConfigEntityAttributes.creationTime.id) &&
+                    columns.includes(buildConfigEntityAttributes.modificationTime.id) && (
                       <Td>
-                        <BuildConfigLink id={buildConfig.id}>{buildConfig.name}</BuildConfigLink>
+                        <DescriptionList className="gap-0" isHorizontal isCompact>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{buildConfigEntityAttributes.creationTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {buildConfig.creationTime && <DateTime date={buildConfig.creationTime} />}
+                              {buildConfig.creationUser?.username && (
+                                <span>
+                                  {' '}
+                                  by{' '}
+                                  <b>
+                                    <Username text={buildConfig.creationUser.username} />
+                                  </b>
+                                </span>
+                              )}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                          <DescriptionListGroup>
+                            <DescriptionListTerm>{buildConfigEntityAttributes.modificationTime.title}</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {buildConfig.modificationTime && (
+                                <DateTime
+                                  date={buildConfig.modificationTime}
+                                  displayDate={
+                                    !buildConfig.creationTime ||
+                                    !areDatesEqual(buildConfig.modificationTime, buildConfig.creationTime)
+                                  }
+                                />
+                              )}
+                              {buildConfig.modificationUser?.username && (
+                                <span>
+                                  {' '}
+                                  by{' '}
+                                  <b>
+                                    <Username text={buildConfig.modificationUser.username} />
+                                  </b>
+                                </span>
+                              )}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
+                        </DescriptionList>
                       </Td>
                     )}
-                    {columns.includes(buildConfigEntityAttributes.description.id) && <Td>{buildConfig.description}</Td>}
-                    {columns.includes(buildConfigEntityAttributes.buildType.id) && (
-                      <Td>
-                        <BuildConfigBuildTypeLabelMapper buildType={buildConfig.buildType} />
-                      </Td>
-                    )}
-                    {columns.includes(buildConfigEntityAttributes['project.name'].id) && (
-                      <Td>
-                        {buildConfig.project && <ProjectLink id={buildConfig.project.id}>{buildConfig.project.name}</ProjectLink>}
-                      </Td>
-                    )}
-                    {columns.includes(buildConfigEntityAttributes.creationTime.id) &&
-                      columns.includes(buildConfigEntityAttributes.modificationTime.id) && (
-                        <Td>
-                          <DescriptionList className="gap-0" isHorizontal isCompact>
-                            <DescriptionListGroup>
-                              <DescriptionListTerm>{buildConfigEntityAttributes.creationTime.title}</DescriptionListTerm>
-                              <DescriptionListDescription>
-                                {buildConfig.creationTime && <DateTime date={buildConfig.creationTime} />}
-                                {buildConfig.creationUser?.username && (
-                                  <span>
-                                    {' '}
-                                    by{' '}
-                                    <b>
-                                      <Username text={buildConfig.creationUser.username} />
-                                    </b>
-                                  </span>
-                                )}
-                              </DescriptionListDescription>
-                            </DescriptionListGroup>
-                            <DescriptionListGroup>
-                              <DescriptionListTerm>{buildConfigEntityAttributes.modificationTime.title}</DescriptionListTerm>
-                              <DescriptionListDescription>
-                                {buildConfig.modificationTime && (
-                                  <DateTime
-                                    date={buildConfig.modificationTime}
-                                    displayDate={
-                                      !buildConfig.creationTime ||
-                                      !areDatesEqual(buildConfig.modificationTime, buildConfig.creationTime)
-                                    }
-                                  />
-                                )}
-                                {buildConfig.modificationUser?.username && (
-                                  <span>
-                                    {' '}
-                                    by{' '}
-                                    <b>
-                                      <Username text={buildConfig.modificationUser.username} />
-                                    </b>
-                                  </span>
-                                )}
-                              </DescriptionListDescription>
-                            </DescriptionListGroup>
-                          </DescriptionList>
-                        </Td>
-                      )}
-                    {columns.includes(buildConfigEntityAttributes.actions.id) && (
-                      <Td>
-                        <ProtectedComponent>
-                          <BuildStartButton buildConfig={buildConfig} size="sm" />
-                        </ProtectedComponent>
-                      </Td>
-                    )}
-                  </Tr>
-                )
-              )}
+                  {columns.includes(buildConfigEntityAttributes.actions.id) && (
+                    <Td>
+                      <ProtectedComponent>
+                        <BuildStartButton buildConfig={buildConfig} size="sm" />
+                      </ProtectedComponent>
+                    </Td>
+                  )}
+                </Tr>
+              ))}
             </Tbody>
           </TableComposable>
         </ServiceContainerLoading>

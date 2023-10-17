@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -29,7 +29,7 @@ interface IGroupBuildDetailPageProps {
 }
 
 export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailPageProps) => {
-  const { groupBuildId } = useParams();
+  const { groupBuildId } = useParamsRequired();
 
   const [activeTabKey, setActiveTabKey] = useState<number>(0);
 
@@ -39,7 +39,9 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   const serviceContainerGroupBuildBuilds = useServiceContainer(groupBuildApi.getBuilds);
   const serviceContainerGroupBuildBuildsRunner = serviceContainerGroupBuildBuilds.run;
 
-  const longGroupBuildName = calculateLongBuildName(serviceContainerGroupBuild.data);
+  const longGroupBuildName = serviceContainerGroupBuild.data
+    ? calculateLongBuildName(serviceContainerGroupBuild.data)
+    : undefined;
 
   useTitle(
     generatePageTitle({
@@ -67,12 +69,14 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
               {serviceContainerGroupBuild.data?.status}
             </AttributesItem>
             <AttributesItem title={groupBuildEntityAttributes.groupConfig.title}>
-              <GroupConfigLink id={serviceContainerGroupBuild.data?.groupConfig.id}>
-                {serviceContainerGroupBuild.data?.groupConfig.name}
-              </GroupConfigLink>
+              {serviceContainerGroupBuild.data?.groupConfig?.id && (
+                <GroupConfigLink id={serviceContainerGroupBuild.data.groupConfig.id}>
+                  {serviceContainerGroupBuild.data?.groupConfig.name}
+                </GroupConfigLink>
+              )}
             </AttributesItem>
             <AttributesItem title={groupBuildEntityAttributes['user.username'].title}>
-              {serviceContainerGroupBuild.data?.user.username}
+              {serviceContainerGroupBuild.data?.user?.username}
             </AttributesItem>
             <AttributesItem title={groupBuildEntityAttributes.startTime.title}>
               {serviceContainerGroupBuild.data?.startTime &&
@@ -103,7 +107,7 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
         {activeTabKey === 1 && (
           <ContentBox padding>
-            <DependencyTree groupBuild={serviceContainerGroupBuild.data} />
+            <DependencyTree groupBuild={serviceContainerGroupBuild.data!} />
           </ContentBox>
         )}
       </PageLayout>

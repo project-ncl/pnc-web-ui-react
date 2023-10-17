@@ -2,12 +2,13 @@ import { Button, Grid, GridItem, List, ListItem, Text, TextContent, TextVariants
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { GroupConfiguration } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { usePatchOperation } from 'hooks/usePatchOperation';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -39,7 +40,7 @@ export const ProductVersionGroupConfigsEditPage = ({
   componentIdProductVersionGroupConfigs = 'v1',
   componentIdGroupConfigs = 'o1',
 }: IProductVersionBuildConfigsEditPageProps) => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const navigate = useNavigate();
 
@@ -91,7 +92,7 @@ export const ProductVersionGroupConfigsEditPage = ({
       serviceContainer: serviceContainerProductVersion,
       firstLevelEntity: 'Product',
       nestedEntity: 'Version',
-      entityName: `Group Configs of ${serviceContainerProductVersion.data?.version} ${PageTitles.delimiterSymbol} ${serviceContainerProductVersion.data?.product.name}`,
+      entityName: `Group Configs of ${serviceContainerProductVersion.data?.version} ${PageTitles.delimiterSymbol} ${serviceContainerProductVersion.data?.product?.name}`,
     })
   );
 

@@ -8,13 +8,13 @@ import {
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
-import { GroupBuild } from 'pnc-api-types-ts';
+import { GroupBuildPage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildName } from 'components/BuildName/BuildName';
@@ -31,8 +31,9 @@ import { Username } from 'components/Username/Username';
 import { areDatesEqual, calculateDuration, checkColumnsCombinations } from 'utils/utils';
 
 type TColumns = Array<keyof typeof groupBuildEntityAttributes>;
+
 interface IGroupBuildsListProps {
-  serviceContainerGroupBuilds: IServiceContainer;
+  serviceContainerGroupBuilds: IServiceContainerState<GroupBuildPage>;
   columns?: TColumns;
   componentId: string;
 }
@@ -125,7 +126,7 @@ export const GroupBuildsList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerGroupBuilds.data?.content.map((groupBuild: GroupBuild, rowIndex: number) => (
+              {serviceContainerGroupBuilds.data?.content?.map((groupBuild, rowIndex) => (
                 <Tr key={rowIndex}>
                   {columns.includes(groupBuildEntityAttributes.status.id) && (
                     <Td>

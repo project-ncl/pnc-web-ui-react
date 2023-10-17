@@ -1,6 +1,6 @@
 import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { useParams } from 'react-router-dom';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -16,7 +16,7 @@ interface IProductVersionBuildConfigsPageProps {
 }
 
 export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductVersionBuildConfigsPageProps) => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const serviceContainerBuildConfigs = useServiceContainer(productVersionApi.getBuildConfigs);
   const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;

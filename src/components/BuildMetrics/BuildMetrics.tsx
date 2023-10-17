@@ -499,14 +499,15 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     };
     /* Load data according to the current filter */
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
-    serviceContainerBuildMetricsRunner({ serviceData: { buildIds: transferBuildsToBuildId(currentFilteredBuilds) } }).then(
-      (res: AxiosResponse) => {
+    const buildIds = transferBuildsToBuildId(currentFilteredBuilds);
+    if (buildIds) {
+      serviceContainerBuildMetricsRunner({ serviceData: { buildIds } }).then((res: AxiosResponse) => {
         setBuildMetrics({
           builds: currentFilteredBuilds,
           buildMetricsData: res.data,
         });
-      }
-    );
+      });
+    }
   }, [builds, selected, serviceContainerBuildMetricsRunner]);
 
   const onToggle = () => {

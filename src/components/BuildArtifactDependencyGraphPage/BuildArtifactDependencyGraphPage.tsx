@@ -1,9 +1,10 @@
 import { Button, Label, NumberInput, SearchInput, Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useFullscreen } from 'hooks/useFullscreen';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -27,7 +28,7 @@ interface IBuildArtifactDependencyGraphPageProps {
 }
 
 export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildArtifactDependencyGraphPageProps) => {
-  const { buildId } = useParams();
+  const { buildId } = useParamsRequired();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -170,7 +171,7 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
           <ServiceContainerLoading {...serviceContainerDependencyGraph} hasSkeleton title="Build Artifact Dependency Graph">
             <BuildArtifactDependencyGraph
               data={serviceContainerDependencyGraph.data}
-              mainNode={serviceContainerBuild.data?.id}
+              mainNode={serviceContainerBuild.data!.id}
               hasLimitedNesting={hasLimitedNesting}
               nestingLevel={nestingLevel}
               searchValueMainLabel={searchValueBuild}
@@ -192,11 +193,11 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
                 <Text component={TextVariants.h2}>
                   Artifact dependencies used by{' '}
                   <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
-                    <BuildName build={serviceContainerDependentBuild.data} long includeBuildLink includeConfigLink />
+                    <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
                   </ServiceContainerLoading>{' '}
                   and produced by{' '}
                   <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
-                    <BuildName build={serviceContainerDependencyBuild.data} long includeBuildLink includeConfigLink />
+                    <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
                   </ServiceContainerLoading>
                 </Text>
               </TextContent>

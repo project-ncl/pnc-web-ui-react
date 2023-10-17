@@ -1,6 +1,6 @@
 import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { useParams } from 'react-router-dom';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -17,7 +17,7 @@ interface IProductVersionGroupConfigsPageProps {
 }
 
 export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductVersionGroupConfigsPageProps) => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const serviceContainerGroupConfigs = useServiceContainer(productVersionApi.getGroupConfigs);
   const serviceContainerGroupConfigsRunner = serviceContainerGroupConfigs.run;

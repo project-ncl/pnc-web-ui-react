@@ -2,12 +2,12 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
+import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
 
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -22,7 +22,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
 interface IProductMilestoneDeliverablesAnalysisListProps {
-  serviceContainerDeliverablesAnalysis: IServiceContainer;
+  serviceContainerDeliverablesAnalysis: IServiceContainerState<DeliverableAnalyzerOperationPage>;
   componentId: string;
 }
 
@@ -81,24 +81,22 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerDeliverablesAnalysis.data?.content.map(
-                (operation: DeliverableAnalyzerOperation, rowIndex: number) => (
-                  <Tr key={rowIndex}>
-                    <Td>
-                      {/* TODO: Make link absolute once Product data are available */}
-                      <Link to={operation.id}>{operation.id}</Link>
-                    </Td>
-                    <Td>
-                      {operation.progressStatus && (
-                        <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={operation.progressStatus} />
-                      )}
-                    </Td>
-                    <Td>{operation.result && <DeliverablesAnalysisResultLabelMapper result={operation.result} />}</Td>
-                    <Td>{operation.submitTime && <DateTime date={operation.submitTime} />}</Td>
-                    <Td>{operation.user?.username && <Username text={operation.user.username} />}</Td>
-                  </Tr>
-                )
-              )}
+              {serviceContainerDeliverablesAnalysis.data?.content?.map((operation, rowIndex) => (
+                <Tr key={rowIndex}>
+                  <Td>
+                    {/* TODO: Make link absolute once Product data are available */}
+                    <Link to={operation.id}>{operation.id}</Link>
+                  </Td>
+                  <Td>
+                    {operation.progressStatus && (
+                      <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={operation.progressStatus} />
+                    )}
+                  </Td>
+                  <Td>{operation.result && <DeliverablesAnalysisResultLabelMapper result={operation.result} />}</Td>
+                  <Td>{operation.submitTime && <DateTime date={operation.submitTime} />}</Td>
+                  <Td>{operation.user?.username && <Username text={operation.user.username} />}</Td>
+                </Tr>
+              ))}
             </Tbody>
           </TableComposable>
         </ServiceContainerLoading>

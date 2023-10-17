@@ -1,11 +1,14 @@
 import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { Product } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -32,7 +35,7 @@ interface IProductCreateEditPageProps {
 }
 
 export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEditPageProps) => {
-  const { productId } = useParams();
+  const { productId } = useParamsRequired();
   const navigate = useNavigate();
 
   // create page
@@ -58,9 +61,9 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
   const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
-        serviceData: { data },
+        serviceData: { data: data as Product },
       })
-      .then((response: any) => {
+      .then((response) => {
         const newProductId = response?.data?.id;
         if (!newProductId) {
           throw new PncError({
@@ -70,21 +73,21 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
         }
         navigate(`/products/${newProductId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to create Product.');
         throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
+    const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
     return serviceContainerEditPagePatch
       .run({ serviceData: { id: productId, patchData } })
       .then(() => {
         navigate(`/products/${productId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to edit Product.');
         throw error;
       });
@@ -92,7 +95,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productId } }).then((response: any) => {
+      serviceContainerEditPageGetRunner({ serviceData: { id: productId } }).then((response) => {
         setFieldValues(response.data);
       });
     }

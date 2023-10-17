@@ -1,13 +1,13 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { ArtifactRevision } from 'pnc-api-types-ts';
+import { ArtifactRevisionPage } from 'pnc-api-types-ts';
 
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -20,7 +20,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IArtifactQualityRevisionsListProps {
-  serviceContainerQualityRevisions: IServiceContainer;
+  serviceContainerQualityRevisions: IServiceContainerState<ArtifactRevisionPage>;
   componentId: string;
 }
 
@@ -69,7 +69,7 @@ export const ArtifactQualityRevisionsList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerQualityRevisions.data?.content.map((artifactRevision: ArtifactRevision, rowIndex: number) => (
+              {serviceContainerQualityRevisions.data?.content?.map((artifactRevision, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>{artifactRevision.modificationTime && <DateTime date={artifactRevision.modificationTime} />}</Td>
                   <Td>{artifactRevision.modificationUser?.username}</Td>

@@ -3,13 +3,13 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { ProductMilestoneRef, ProductReleaseRef, ProductVersion } from 'pnc-api-types-ts';
+import { ProductMilestoneRef, ProductReleaseRef, ProductVersionPage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions } from 'common/entityAttributes';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -23,7 +23,7 @@ const spaceItemsNone: FlexProps['spaceItems'] = { default: 'spaceItemsNone' };
 const flexGap = { gap: '5px' };
 
 interface IProductVersionsListProps {
-  serviceContainerProductVersions: IServiceContainer;
+  serviceContainerProductVersions: IServiceContainerState<ProductVersionPage>;
   componentId: string;
 }
 
@@ -56,7 +56,7 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerProductVersions.data?.content.map((productVersion: ProductVersion, rowIndex: number) => (
+              {serviceContainerProductVersions.data?.content?.map((productVersion, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     <Link to={`versions/${productVersion.id}`}>{productVersion.version}</Link>

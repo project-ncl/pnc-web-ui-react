@@ -1,11 +1,12 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
-import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
+import { useParamsRequired } from 'hooks/useParamsRequired';
+import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -29,10 +30,12 @@ import { generatePageTitle } from 'utils/titleHelper';
 
 interface IProductMilestonePagesProps {}
 
-type ContextType = { serviceContainerProductMilestone: IServiceContainer };
+type ContextType = {
+  serviceContainerProductMilestone: IServiceContainerState<ProductMilestone>;
+};
 
 export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePagesProps>) => {
-  const { productMilestoneId } = useParams();
+  const { productMilestoneId } = useParamsRequired();
 
   const serviceContainerProductMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
   const serviceContainerProductMilestoneRunner = serviceContainerProductMilestone.run;
@@ -61,8 +64,8 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     setIsAnalyzeDeliverablesModalOpen((isAnalyzeDeliverablesModalOpen) => !isAnalyzeDeliverablesModalOpen);
 
   useEffect(() => {
-    serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response: any) => {
-      const productMilestone: ProductMilestone = response.data;
+    serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
+      const productMilestone = response.data;
 
       if (productMilestone.productVersion) {
         serviceContainerProductVersionRunner({ serviceData: { id: productMilestone.productVersion.id } });
@@ -119,7 +122,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const actions = [
     <ProductMilestoneMarkModalButton
       toggleModal={toggleMarkModal}
-      productMilestone={serviceContainerProductMilestone.data}
+      productMilestone={serviceContainerProductMilestone.data!}
       serviceContainerProductVersion={serviceContainerProductVersion}
       variant="detail"
     />,
@@ -139,8 +142,8 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         <ProductMilestoneMarkModal
           isModalOpen={isMarkModalOpen}
           toggleModal={toggleMarkModal}
-          productMilestone={serviceContainerProductMilestone.data}
-          productVersion={serviceContainerProductVersion.data}
+          productMilestone={serviceContainerProductMilestone.data!}
+          productVersion={serviceContainerProductVersion.data!}
           variant="detail"
         />
       )}
@@ -148,14 +151,14 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         <ProductMilestoneCloseModal
           isModalOpen={isCloseModalOpen}
           toggleModal={toggleCloseModal}
-          productMilestone={serviceContainerProductMilestone.data}
+          productMilestone={serviceContainerProductMilestone.data!}
         />
       )}
       {isAnalyzeDeliverablesModalOpen && (
         <ProductMilestoneAnalyzeDeliverablesModal
           isModalOpen={isAnalyzeDeliverablesModalOpen}
           toggleModal={toggleAnalyzeDeliverablesModal}
-          productMilestone={serviceContainerProductMilestone.data}
+          productMilestone={serviceContainerProductMilestone.data!}
         />
       )}
     </ServiceContainerLoading>

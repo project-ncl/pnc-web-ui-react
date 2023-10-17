@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -23,12 +23,13 @@ import * as operationsApi from 'services/operationsApi';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
-  const { deliverablesAnalysisId } = useParams();
+  const { deliverablesAnalysisId } = useParamsRequired();
 
   const serviceContainerProdutMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
   const serviceContainerProdutMilestoneDeliverablesAnalysisRunner = serviceContainerProdutMilestoneDeliverablesAnalysis.run;
 
-  const deliverabledAnalysis: DeliverableAnalyzerOperation = serviceContainerProdutMilestoneDeliverablesAnalysis.data;
+  const deliverabledAnalysis: DeliverableAnalyzerOperation | undefined =
+    serviceContainerProdutMilestoneDeliverablesAnalysis.data || undefined;
 
   useEffect(() => {
     serviceContainerProdutMilestoneDeliverablesAnalysisRunner({

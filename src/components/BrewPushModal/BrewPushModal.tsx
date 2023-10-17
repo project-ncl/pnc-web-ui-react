@@ -37,7 +37,7 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
       .run({
         serviceData: {
           id: build.id,
-          data,
+          data: { tagPrefix: data.tagPrefix },
         },
       })
       .catch((error: any) => {

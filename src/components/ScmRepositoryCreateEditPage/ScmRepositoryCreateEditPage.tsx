@@ -1,10 +1,13 @@
 import { ActionGroup, Button, Form, FormGroup, FormHelperText, Switch, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { SCMRepository } from 'pnc-api-types-ts';
 
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -43,7 +46,7 @@ const editFieldConfigs = {
 } satisfies IFieldConfigs;
 
 export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmRepositoryCreateEditPageProps) => {
-  const { scmRepositoryId } = useParams();
+  const { scmRepositoryId } = useParamsRequired();
   const navigate = useNavigate();
 
   // create page
@@ -62,7 +65,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
     generatePageTitle({
       pageType: isEditPage ? 'Edit' : 'Create',
       serviceContainer: serviceContainerEditPageGet,
-      entityName: generateScmRepositoryName({ scmRepository: serviceContainerEditPageGet.data }),
+      entityName:
+        (serviceContainerEditPageGet.data && generateScmRepositoryName({ scmRepository: serviceContainerEditPageGet.data })) ||
+        undefined,
       firstLevelEntity: 'SCM Repository',
     })
   );
@@ -70,27 +75,27 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
-        serviceData: { data },
+        serviceData: { data: data as SCMRepository },
       })
-      .then((response: any) => {
+      .then((response) => {
         // @Todo: Verify the create result from the WS Message after WS was implemented, see NCL-7935.
         // navigate(`/scm-repositories/${scmRepositoryId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to create SCM Repository.');
         throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
+    const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
     return serviceContainerEditPagePatch
       .run({ serviceData: { id: scmRepositoryId, patchData } })
       .then(() => {
         navigate(`/scm-repositories/${scmRepositoryId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to edit SCM Repository.');
         throw error;
       });
@@ -98,7 +103,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: scmRepositoryId } }).then((response: any) => {
+      serviceContainerEditPageGetRunner({ serviceData: { id: scmRepositoryId } }).then((response) => {
         setFieldValues(response.data);
       });
     }

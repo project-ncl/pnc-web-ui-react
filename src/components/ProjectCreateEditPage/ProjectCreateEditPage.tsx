@@ -1,11 +1,12 @@
 import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { PncError } from 'common/PncError';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -43,7 +44,7 @@ interface IProjectCreateEditPageProps {
 }
 
 export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEditPageProps) => {
-  const { projectId } = useParams();
+  const { projectId } = useParamsRequired();
   const navigate = useNavigate();
 
   // create page
@@ -71,7 +72,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
       .run({
         serviceData: { data },
       })
-      .then((response: any) => {
+      .then((response) => {
         const newProjectId = response?.data?.id;
         if (!newProjectId) {
           throw new PncError({
@@ -81,21 +82,21 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
         }
         navigate(`/projects/${newProjectId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to create Project.');
         throw error;
       });
   };
 
   const submitUpdate = (data: IFieldValues) => {
-    const patchData = createSafePatch(serviceContainerEditPageGet.data, data);
+    const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
     return serviceContainerEditPagePatch
       .run({ serviceData: { id: projectId, patchData } })
       .then(() => {
         navigate(`/projects/${projectId}`);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Failed to edit Project.');
         throw error;
       });
@@ -103,7 +104,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: projectId } }).then((response: any) => {
+      serviceContainerEditPageGetRunner({ serviceData: { id: projectId } }).then((response) => {
         setFieldValues(response.data);
       });
     }

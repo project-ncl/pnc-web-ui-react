@@ -2,12 +2,12 @@ import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-tab
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
+import { ProductMilestoneCloseResultPage } from 'pnc-api-types-ts';
 
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -20,7 +20,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IProductMilestoneCloseResultsListProps {
-  serviceContainerCloseResults: IServiceContainer;
+  serviceContainerCloseResults: IServiceContainerState<ProductMilestoneCloseResultPage>;
   componentId: string;
 }
 
@@ -77,7 +77,7 @@ export const ProductMilestoneCloseResultsList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerCloseResults.data?.content.map((closeResult: ProductMilestoneCloseResult, rowIndex: number) => (
+              {serviceContainerCloseResults.data?.content?.map((closeResult, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     {/* TODO: Make link absolute once Product data are available */}

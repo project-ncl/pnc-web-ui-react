@@ -1,13 +1,13 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { SCMRepository } from 'pnc-api-types-ts';
+import { SCMRepositoryPage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
-import { IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -21,7 +21,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface IScmRepositoriesListProps {
-  serviceContainerScmRepositories: IServiceContainer;
+  serviceContainerScmRepositories: IServiceContainerState<SCMRepositoryPage>;
   componentId: string;
 }
 
@@ -81,7 +81,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerScmRepositories.data?.content.map((scmRepository: SCMRepository, rowIndex: number) => (
+              {serviceContainerScmRepositories.data?.content?.map((scmRepository, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>{<ScmRepositoryLink scmRepository={scmRepository} />}</Td>
                   <Td>{<ScmRepositoryUrl isInline internalScmRepository={scmRepository} />}</Td>

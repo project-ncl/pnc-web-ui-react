@@ -1,6 +1,6 @@
 import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { useParams } from 'react-router-dom';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -15,7 +15,7 @@ interface IProductVersionMilestonesPageProps {
 }
 
 export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVersionMilestonesPageProps) => {
-  const { productVersionId } = useParams();
+  const { productVersionId } = useParamsRequired();
 
   const serviceContainerProductMilestones = useServiceContainer(productVersionApi.getProductMilestones);
   const serviceContainerProductMilestonesRunner = serviceContainerProductMilestones.run;

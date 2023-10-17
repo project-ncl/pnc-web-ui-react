@@ -192,7 +192,9 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
       return;
     }
     const nodesData: Map<string, IDependencyBuild> = new Map();
-    const verticesData = new Map<string, IGraphVertex>(Object.entries(serviceContainerDependencyGraph.data.vertices));
+    const verticesData = new Map<string, IGraphVertex>(
+      Object.entries(serviceContainerDependencyGraph.data.vertices as { [field: string]: IGraphVertex })
+    );
     verticesData.forEach((vertex: IGraphVertex) => {
       nodesData.set(vertex.name, vertex.data);
     });
