@@ -1,4 +1,4 @@
-import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
+import { Artifact, BuildConfiguration, GroupConfiguration, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
 export const isBuild = (possibleBuild: any) => 'buildConfigRevision' in possibleBuild;
 
@@ -13,3 +13,12 @@ export const isGroupConfig = (config: BuildConfiguration | GroupConfiguration): 
 export const isProductMilestone = (possibleProductMilestone: any) => 'startingDate' in possibleProductMilestone;
 
 export const isProductRelease = (possibleProductRelease: any) => 'supportLevel' in possibleProductRelease;
+
+interface ArtifactWithProductMilestone extends Artifact {
+  product: Product;
+  productVersion: ProductVersion;
+  productMilestone: ProductMilestone;
+}
+
+export const isArtifactWithProductMilestone = (artifact: Artifact): artifact is ArtifactWithProductMilestone =>
+  'product' in artifact && 'productVersion' in artifact && 'productMilestone' in artifact;
