@@ -19,8 +19,11 @@ import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'reac
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
+import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
+
 import { useDataBuffer } from 'hooks/useDataBuffer';
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -41,8 +44,10 @@ import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneRelease
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
+import { TextInputAsyncValidated } from 'components/TextInputAsyncValidated/TextInputAsyncValidated';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as projectApi from 'services/projectApi';
 
 import { maxLength, minLength } from 'utils/formValidationHelpers';
@@ -65,6 +70,9 @@ const fieldConfigs = {
     ],
   },
   selectA: {
+    isRequired: true,
+  },
+  version: {
     isRequired: true,
   },
 } satisfies IFieldConfigs;
@@ -230,6 +238,9 @@ export const DemoPage = () => {
     });
   };
 
+  const serviceContainerValidateProductMilestone = useServiceContainer(productMilestoneApi.validateProductMilestoneVersion, 0);
+  const serviceContainerValidateProductMilestone2 = useServiceContainer(productMilestoneApi.validateProductMilestoneVersion, 0);
+
   const selectOptions = [{ value: 'Build' }, { value: 'Option' }, { value: 'Project' }, { value: 'Version' }];
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
@@ -343,6 +354,46 @@ export const DemoPage = () => {
                       ))}
                     </Select>
                   )}
+                />
+              </FormGroup>
+              <FormGroup
+                isRequired
+                label={productMilestoneEntityAttributes.version.title}
+                fieldId={productMilestoneEntityAttributes.version.id}
+                helperText={
+                  <FormHelperText isHidden={getFieldState(productMilestoneEntityAttributes.version.id) !== 'error'} isError>
+                    {getFieldErrors(productMilestoneEntityAttributes.version.id)}
+                  </FormHelperText>
+                }
+              >
+                <TextInputAsyncValidated
+                  isRequired
+                  type="text"
+                  id={productMilestoneEntityAttributes.version.id}
+                  name={productMilestoneEntityAttributes.version.id}
+                  autoComplete="off"
+                  {...register<string>(productMilestoneEntityAttributes.version.id, {
+                    ...fieldConfigs.version,
+                    validators: [
+                      {
+                        asyncValidator: (value) =>
+                          serviceContainerValidateProductMilestone.run({
+                            serviceData: {
+                              data: { productVersionId: '101', version: '2.0.' + value },
+                            },
+                          }),
+                      },
+                      {
+                        asyncValidator: (value) =>
+                          serviceContainerValidateProductMilestone2.run({
+                            serviceData: {
+                              data: { productVersionId: '101', version: '2.0.' + value },
+                            },
+                          }),
+                      },
+                    ],
+                  })}
+                  prefixComponent={<>2.0</>}
                 />
               </FormGroup>
               <ActionGroup>
