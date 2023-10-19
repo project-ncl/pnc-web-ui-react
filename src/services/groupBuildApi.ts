@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { BuildsGraph, GroupBuildPage } from 'pnc-api-types-ts';
 
-import { addQParamItem } from 'utils/qParamHelper';
+import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
 
@@ -27,11 +27,21 @@ export const getGroupBuilds = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getUserGroupBuilds = ({ userId }: { userId: string }, requestConfig: AxiosRequestConfig = {}) => {
-  // TODO: extend request config by user ID with the helper function
-  const qParam = addQParamItem('user.id', userId, '==', requestConfig?.params.q ? requestConfig.params.q : '');
-  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
-
-  return pncClient.getHttpClient().get<GroupBuildPage>('/group-builds', newRequestConfig);
+  return pncClient.getHttpClient().get<GroupBuildPage>(
+    '/group-builds',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        qItems: [
+          {
+            id: 'user.id',
+            value: userId,
+            operator: '==',
+          },
+        ],
+      },
+    })
+  );
 };
 
 /**

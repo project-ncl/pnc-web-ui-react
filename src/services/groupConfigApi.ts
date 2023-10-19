@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { BuildConfigPage, GroupBuild, GroupBuildPage, GroupConfigPage, GroupConfiguration } from 'pnc-api-types-ts';
 
-import { addQParamItem } from 'utils/qParamHelper';
+import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
 
@@ -53,15 +53,21 @@ export const getBuildConfigsWithLatestBuild = (
   { groupConfigId }: IGetByGroupConfigData,
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  const qParam = addQParamItem(
-    'groupConfigurations.id',
-    groupConfigId,
-    '==',
-    requestConfig?.params.q ? requestConfig.params.q : ''
+  return pncClient.getHttpClient().get<BuildConfigPage>(
+    '/build-configs/x-with-latest-build',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        qItems: [
+          {
+            id: 'groupConfigurations.id',
+            value: groupConfigId,
+            operator: '==',
+          },
+        ],
+      },
+    })
   );
-  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
-
-  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', newRequestConfig);
 };
 
 export interface IGroupBuildStartParams {
@@ -81,8 +87,12 @@ export const build = (
   { groupBuildStartParams }: { groupBuildStartParams: IGroupBuildStartParams },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  requestConfig.params = requestConfig.params
-    ? Object.assign(requestConfig.params, groupBuildStartParams)
-    : groupBuildStartParams;
-  return pncClient.getHttpClient().post<GroupBuild>(`/group-configs/${groupBuildStartParams.id}/build`, null, requestConfig);
+  return pncClient.getHttpClient().post<GroupBuild>(
+    `/group-configs/${groupBuildStartParams.id}/build`,
+    null,
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: groupBuildStartParams,
+    })
+  );
 };

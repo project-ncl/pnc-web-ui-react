@@ -4,7 +4,7 @@ import { ArtifactPage, Build, BuildPage, BuildsGraph, RunningBuildCount } from '
 
 import { pncApiMocksClient } from 'services/pncApiMocksClient';
 
-import { addQParamItem } from 'utils/qParamHelper';
+import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
@@ -37,11 +37,21 @@ export const getBuilds = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getUserBuilds = ({ userId }: { userId: string }, requestConfig: AxiosRequestConfig = {}) => {
-  // TODO: extend request config by user ID with the helper function
-  const qParam = addQParamItem('user.id', userId, '==', requestConfig?.params.q ? requestConfig.params.q : '');
-  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
-
-  return pncClient.getHttpClient().get<BuildPage>('/builds', newRequestConfig);
+  return pncClient.getHttpClient().get<BuildPage>(
+    '/builds',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        qItems: [
+          {
+            id: 'user.id',
+            value: userId,
+            operator: '==',
+          },
+        ],
+      },
+    })
+  );
 };
 
 /**
