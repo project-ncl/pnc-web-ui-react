@@ -3,7 +3,7 @@ import { Operation } from 'fast-json-patch';
 
 import { BuildConfigPage, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
-import { addQParamItem } from 'utils/qParamHelper';
+import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
 
@@ -70,7 +70,13 @@ export const getBuildConfigsWithLatestBuild = (
   { scmRepositoryId }: IGetByScmRepositoryData,
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  const qParam = addQParamItem('scmRepository.id', scmRepositoryId, '==', requestConfig?.params?.q ? requestConfig.params.q : '');
-  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
-  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', newRequestConfig);
+  return pncClient.getHttpClient().get<BuildConfigPage>(
+    '/build-configs/x-with-latest-build',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        qItems: [{ id: 'scmRepository.id', value: scmRepositoryId, operator: '==' }],
+      },
+    })
+  );
 };

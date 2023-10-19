@@ -3,7 +3,7 @@ import { Operation } from 'fast-json-patch';
 
 import { BuildConfigPage, BuildPage, Project, ProjectPage } from 'pnc-api-types-ts';
 
-import { addQParamItem } from 'utils/qParamHelper';
+import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
 
@@ -75,7 +75,13 @@ export const getProjectBuilds = ({ id }: IProjectApiData, requestConfig: AxiosRe
  * @param requestConfig - Axios based request config
  */
 export const getBuildConfigsWithLatestBuild = ({ id }: IProjectApiData, requestConfig: AxiosRequestConfig = {}) => {
-  const qParam = addQParamItem('project.id', id, '==', requestConfig?.params?.q ? requestConfig.params.q : '');
-  const newRequestConfig = { ...requestConfig, params: { ...requestConfig.params, q: qParam } };
-  return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', newRequestConfig);
+  return pncClient.getHttpClient().get<BuildConfigPage>(
+    '/build-configs/x-with-latest-build',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        qItems: [{ id: 'project.id', value: id, operator: '==' }],
+      },
+    })
+  );
 };

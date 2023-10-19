@@ -2,6 +2,8 @@ import { AxiosRequestConfig } from 'axios';
 
 import { Build, BuildConfigPage, BuildConfigurationRevision } from 'pnc-api-types-ts';
 
+import { extendRequestConfig } from 'utils/requestConfigHelper';
+
 import { pncClient } from './pncClient';
 
 export interface IBuildStartParams {
@@ -38,8 +40,14 @@ export const getBuildConfigsWithLatestBuild = (requestConfig: AxiosRequestConfig
  * @param requestConfig - Axios based request config
  */
 export const build = ({ buildStartParams }: { buildStartParams: IBuildStartParams }, requestConfig: AxiosRequestConfig = {}) => {
-  requestConfig.params = requestConfig.params ? Object.assign(requestConfig.params, buildStartParams) : buildStartParams;
-  return pncClient.getHttpClient().post<Build>(`/build-configs/${buildStartParams.id}/build`, null, requestConfig);
+  return pncClient.getHttpClient().post<Build>(
+    `/build-configs/${buildStartParams.id}/build`,
+    null,
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: buildStartParams,
+    })
+  );
 };
 
 /**
