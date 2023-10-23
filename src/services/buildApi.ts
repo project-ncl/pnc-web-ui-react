@@ -66,6 +66,17 @@ export const getBuild = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfi
 };
 
 /**
+ * Gets Build Log of a Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildLog = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<string>(`/builds/${id}/logs/build`, { ...requestConfig, responseType: 'text' });
+};
+
+/**
  * Gets Artifacts built in a Build.
  *
  * @param serviceData - object containing:
@@ -109,6 +120,17 @@ export const getBuildMetrics = ({ buildIds }: { buildIds?: Array<string> }, requ
   if (buildIds) {
     return kafkaClient.getHttpClient().post<BuildMetrics>('/builds', { buildIds }, requestConfig);
   }
+};
+
+/**
+ * Gets SSH credentials of a Build created by the current user.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getSshCredentials = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ArtifactPage>(`/builds/ssh-credentials/${id}`, requestConfig);
 };
 
 /**
