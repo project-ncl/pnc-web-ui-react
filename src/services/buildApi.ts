@@ -77,6 +77,17 @@ export const getBuildLog = ({ id }: IBuildApiData, requestConfig: AxiosRequestCo
 };
 
 /**
+ * Gets Alignment Log of a Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getAlignmentLog = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<string>(`/builds/${id}/logs/align`, { ...requestConfig, responseType: 'text' });
+};
+
+/**
  * Gets Artifacts built in a Build.
  *
  * @param serviceData - object containing:
