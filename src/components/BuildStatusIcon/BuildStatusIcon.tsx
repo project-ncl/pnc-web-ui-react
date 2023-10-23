@@ -5,6 +5,8 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { buildStatusData } from 'common/buildStatusData';
 
+import { IconWrapper } from 'components/IconWrapper/IconWrapper';
+
 import { isBuild } from 'utils/entityRecognition';
 
 import styles from './BuildStatusIcon.module.css';
@@ -66,7 +68,9 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
           position="right"
           content={<span>The build may have completed successfully but has since been corrupted by a system error.</span>}
         >
-          <ExclamationTriangleIcon />
+          <IconWrapper>
+            <ExclamationTriangleIcon />
+          </IconWrapper>
         </Tooltip>
       )}
       {build.temporaryBuild && (
@@ -75,7 +79,9 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
           position="right"
           content={<span>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</span>}
         >
-          <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
+          <IconWrapper>
+            <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
+          </IconWrapper>
         </Tooltip>
       )}
       {long && build.status}
