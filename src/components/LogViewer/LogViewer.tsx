@@ -1,9 +1,10 @@
 import { Button, Switch, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
 import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 interface ILogViewerProps {
+  variant: 'static' | 'live';
   data: string | string[];
 }
 
@@ -30,10 +31,13 @@ interface IOnScrollProps {
  * <LogViewer data={logData} follow={false} />
  * ```
  *
+ * @param variant - static variant if whole log is available, live variant for dynamically loaded log lines
  * @param data - data log viewer will render
  */
-export const LogViewer = ({ data }: ILogViewerProps) => {
+export const LogViewer = ({ variant, data }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
+
+  const isStaticVariant = useMemo(() => variant === 'static', [variant]);
 
   // data that are actually rendered
   const [renderedData, setRenderedData] = useState(data);
@@ -44,7 +48,7 @@ export const LogViewer = ({ data }: ILogViewerProps) => {
   // is log viewer paused? (data are still stored, but not rendered)
   const [isPaused, setIsPaused] = useState(true);
   // count of rendered lines
-  // is assigned to 'scrolToRow' only if log viewer is paused (so no automatic scrolling happens when paused)
+  // is assigned to 'scrollToRow' only if log viewer is paused (so no automatic scrolling happens when paused)
   const [lineCount, setLineCount] = useState(0);
   // if paused, how many lines were not rendered?
   const [linesBehind, setLinesBehind] = useState(0);
@@ -57,12 +61,14 @@ export const LogViewer = ({ data }: ILogViewerProps) => {
   }, []);
 
   useEffect(() => {
-    if (!isPaused && data.length > 0) {
+    if ((!isPaused || isStaticVariant) && data.length > 0) {
       setLineCount(data.length);
       setRenderedData(data);
-      logViewerRef?.current?.scrollToBottom();
+      if (!isStaticVariant) {
+        logViewerRef?.current?.scrollToBottom();
+      }
     }
-  }, [isPaused, data]);
+  }, [isPaused, data, isStaticVariant]);
 
   useEffect(() => {
     setLinesBehind(data.length - lineCount);
@@ -90,9 +96,9 @@ export const LogViewer = ({ data }: ILogViewerProps) => {
         <ToolbarItem>
           <Button
             onClick={() => {
-              if (logViewerRef?.current.state.scrollOffset) {
+              if (logViewerRef.current?.state.scrollOffset) {
                 setIsPaused(true);
-                logViewerRef?.current?.scrollTo(0, 0);
+                logViewerRef.current.scrollTo(0, 0);
               }
             }}
             variant="control"
@@ -105,6 +111,7 @@ export const LogViewer = ({ data }: ILogViewerProps) => {
           <Button
             onClick={() => {
               setIsPaused(false);
+              logViewerRef.current?.scrollToItem(lineCount);
             }}
             variant="control"
             icon={<LongArrowAltDownIcon />}
@@ -112,17 +119,19 @@ export const LogViewer = ({ data }: ILogViewerProps) => {
             Bottom
           </Button>
         </ToolbarItem>
-        <ToolbarItem>
-          <Switch
-            label="Force Following"
-            labelOff="Force Following"
-            isChecked={isFollowing}
-            onChange={(checked) => {
-              setIsFollowing(checked);
-              window.localStorage.setItem('log-viewer-following', `${checked}`);
-            }}
-          />
-        </ToolbarItem>
+        {!isStaticVariant && (
+          <ToolbarItem>
+            <Switch
+              label="Force Following"
+              labelOff="Force Following"
+              isChecked={isFollowing}
+              onChange={(checked) => {
+                setIsFollowing(checked);
+                window.localStorage.setItem('log-viewer-following', `${checked}`);
+              }}
+            />
+          </ToolbarItem>
+        )}
         <ToolbarItem>
           <Switch
             label="Wrap Lines"
@@ -149,10 +158,10 @@ export const LogViewer = ({ data }: ILogViewerProps) => {
     <LogViewerPF
       innerRef={logViewerRef}
       data={renderedData}
-      scrollToRow={!isPaused || isFollowing ? lineCount : 0}
+      scrollToRow={(!isPaused || isFollowing) && !isStaticVariant ? lineCount : 0}
       onScroll={onScroll}
       toolbar={<HeaderToolbar />}
-      footer={isPaused && <FooterButton />}
+      footer={isPaused && !!linesBehind && <FooterButton />}
       isTextWrapped={areLinesWrapped}
     />
   );

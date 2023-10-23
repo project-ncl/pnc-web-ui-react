@@ -272,7 +272,7 @@ export const DemoPage = () => {
 
         <FlexItem>
           <ContentBox padding>
-            <LogViewer data={buffer} />
+            <LogViewer variant="live" data={buffer} />
           </ContentBox>
         </FlexItem>
 
