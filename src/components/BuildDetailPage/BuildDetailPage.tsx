@@ -10,6 +10,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
+import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -102,13 +103,7 @@ export const BuildDetailPage = () => {
 
             <AttributesItem title="Plain Text Log">
               <OnceBuildIsFinished buildStatus={serviceContainerBuild.data.status}>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={`${webConfigService.getPncUrl()}/builds/${serviceContainerBuild.data.id}/logs/build`}
-                >
-                  view
-                </a>
+                <BuildLogLink buildId={serviceContainerBuild.data.id} />
               </OnceBuildIsFinished>
             </AttributesItem>
 
