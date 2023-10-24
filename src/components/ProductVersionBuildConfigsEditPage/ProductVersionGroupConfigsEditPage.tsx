@@ -22,6 +22,7 @@ import { ConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as groupConfigApi from 'services/groupConfigApi';
 import * as productVersionApi from 'services/productVersionApi';
@@ -63,7 +64,7 @@ export const ProductVersionGroupConfigsEditPage = ({
     addedData: addedGroupConfigs,
     insertOperation: insertGroupConfigChange,
     cancelOperation: cancelGroupConfigChange,
-    cancelAllOperations: cancelAllgroupConfigChanges,
+    cancelAllOperations: cancelAllGroupConfigChanges,
   } = usePatchOperation<GroupConfiguration>();
 
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
@@ -150,7 +151,10 @@ export const ProductVersionGroupConfigsEditPage = ({
           <Toolbar>
             <ToolbarItem>
               <TextContent>
-                <Text component={TextVariants.h2}>Add new Group Configs</Text>
+                <Text component={TextVariants.h2}>
+                  Add new Group Configs{' '}
+                  <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
+                </Text>
               </TextContent>
             </ToolbarItem>
           </Toolbar>
@@ -241,7 +245,7 @@ export const ProductVersionGroupConfigsEditPage = ({
           isOpen={isCancelAllModalOpen}
           onToggle={toggleCancelAllModal}
           onSubmit={() => {
-            cancelAllgroupConfigChanges();
+            cancelAllGroupConfigChanges();
             toggleCancelAllModal();
           }}
         >

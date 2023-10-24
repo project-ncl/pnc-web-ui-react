@@ -20,6 +20,7 @@ import { ConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPag
 import { ConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsRemoveList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as productVersionApi from 'services/productVersionApi';
@@ -155,7 +156,10 @@ export const ProductVersionBuildConfigsEditPage = ({
           <Toolbar borderBottom>
             <ToolbarItem>
               <TextContent>
-                <Text component={TextVariants.h2}>Add new Build Configs</Text>
+                <Text component={TextVariants.h2}>
+                  Add new Build Configs{' '}
+                  <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Version are displayed. If you add assigned Build Config, it will be removed from its original Version." />
+                </Text>
               </TextContent>
             </ToolbarItem>
           </Toolbar>
