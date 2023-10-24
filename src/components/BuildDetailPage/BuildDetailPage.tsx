@@ -15,6 +15,7 @@ import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DateTime } from 'components/DateTime/DateTime';
+import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
@@ -297,6 +298,19 @@ export const BuildDetailPage = () => {
               <EmptyStateSymbol />
             )}
           </ServiceContainerLoading>
+        </ContentBox>
+      </GridItem>
+
+      <GridItem span={12}>
+        <Toolbar>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Dependency Tree</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <ContentBox borderTop padding isResponsive>
+          <DependencyTree build={serviceContainerBuild.data} />
         </ContentBox>
       </GridItem>
     </Grid>
