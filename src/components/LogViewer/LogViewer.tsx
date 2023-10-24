@@ -1,11 +1,12 @@
 import { Button, Switch, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
 import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 interface ILogViewerProps {
   variant: 'static' | 'live';
   data: string | string[];
+  customActions?: ReactNode[];
 }
 
 interface IOnScrollProps {
@@ -34,7 +35,7 @@ interface IOnScrollProps {
  * @param variant - static variant if whole log is available, live variant for dynamically loaded log lines
  * @param data - data log viewer will render
  */
-export const LogViewer = ({ variant, data }: ILogViewerProps) => {
+export const LogViewer = ({ variant, data, customActions }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
   const isStaticVariant = useMemo(() => variant === 'static', [variant]);
@@ -119,6 +120,7 @@ export const LogViewer = ({ variant, data }: ILogViewerProps) => {
             Bottom
           </Button>
         </ToolbarItem>
+        {!!customActions?.length && customActions.map((node, index) => <ToolbarItem key={index}>{node}</ToolbarItem>)}
         {!isStaticVariant && (
           <ToolbarItem>
             <Switch
