@@ -58,10 +58,15 @@ import mockBuildData from './data/mock-build-data.json';
 
 const buildRes: Build[] = mockBuildData;
 
+const validateMultipleFields = (fieldValues: IFieldValues): boolean => {
+  return !!fieldValues.inputFieldA && !!fieldValues.version;
+};
+
 const fieldConfigs = {
   inputFieldA: {
     isRequired: true,
     validators: [
+      { validator: validateMultipleFields, errorMessage: 'inputFieldA and version must be defined.', relatedFields: ['version'] },
       { validator: minLength(2), errorMessage: 'Text must be at least two characters long.' },
       {
         validator: maxLength(10),
@@ -74,6 +79,13 @@ const fieldConfigs = {
   },
   version: {
     isRequired: true,
+    validators: [
+      {
+        validator: validateMultipleFields,
+        errorMessage: 'version and inputFieldA must be defined.',
+        relatedFields: ['inputFieldA'],
+      },
+    ],
   },
 } satisfies IFieldConfigs;
 
@@ -375,6 +387,7 @@ export const DemoPage = () => {
                   {...register<string>(productMilestoneEntityAttributes.version.id, {
                     ...fieldConfigs.version,
                     validators: [
+                      ...fieldConfigs.version.validators,
                       {
                         asyncValidator: (value) =>
                           serviceContainerValidateProductMilestone.run({
