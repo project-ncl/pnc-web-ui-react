@@ -58,6 +58,9 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   const serviceContainerGroupBuildBuildsRunner = serviceContainerGroupBuildBuilds.run;
   const serviceContainerGroupBuildBuildsSetter = serviceContainerGroupBuildBuilds.setData;
 
+  const serviceContainerDependencyGraph = useServiceContainer(groupBuildApi.getDependencyGraph);
+  const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
+
   const [isCancelGroupBuildModalOpen, setIsCancelGroupBuildModalOpen] = useState<boolean>(false);
 
   const toggleCancelGroupBuildModal = () =>
@@ -104,7 +107,8 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
   useEffect(() => {
     serviceContainerGroupBuildRunner({ serviceData: { id: groupBuildId } });
-  }, [serviceContainerGroupBuildRunner, groupBuildId]);
+    serviceContainerDependencyGraphRunner({ serviceData: { id: groupBuildId } });
+  }, [serviceContainerGroupBuildRunner, serviceContainerDependencyGraphRunner, groupBuildId]);
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) => serviceContainerGroupBuildBuildsRunner({ serviceData: { id: groupBuildId }, requestConfig }),
@@ -168,7 +172,10 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
         {activeTabKey === 1 && (
           <ContentBox padding>
-            <DependencyTree groupBuild={serviceContainerGroupBuild.data!} />
+            <DependencyTree
+              rootBuild={serviceContainerGroupBuild.data!}
+              serviceContainerDependencyGraph={serviceContainerDependencyGraph}
+            />
           </ContentBox>
         )}
       </PageLayout>
