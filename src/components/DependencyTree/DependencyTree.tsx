@@ -1,244 +1,103 @@
-import { Button, Divider, TreeViewDataItem } from '@patternfly/react-core';
-import { TreeView } from '@patternfly/react-core';
+import { Button, Divider, TreeView, TreeViewDataItem } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
+import { Build, BuildsGraph, GroupBuild } from 'pnc-api-types-ts';
 
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
-import * as buildApi from 'services/buildApi';
-import * as groupBuildApi from 'services/groupBuildApi';
-
-import { isBuild } from 'utils/entityRecognition';
+import { isBuild, isGroupBuild } from 'utils/entityRecognition';
+import { getNumberGenerator } from 'utils/utils';
 
 import styles from './DependencyTree.module.css';
 
-interface IGraphEdge {
-  source: string;
-  target: string;
-}
+const FAILED_BUILD_STATUSES = [
+  'FAILED',
+  'CANCELLED',
+  'REJECTED',
+  'REJECTED_FAILED_DEPENDENCIES',
+  'SYSTEM_ERROR',
+  'ENQUEUED',
+  'WAITING_FOR_DEPENDENCIES',
+  'BUILDING',
+];
 
-interface IGraphVertex {
-  name: string;
-  dataType: string;
-  data: Build | GroupBuild;
-  _dependencyBuildIds: Array<string>;
-  _dependentBuildIds: Array<string>;
-}
-
-interface IDependencyTreeProps {
-  build?: Build;
-  groupBuild?: GroupBuild;
-}
-
-interface IDependencyBuild extends Build, GroupBuild {
-  _buildIds?: Array<string>;
-  _dependencyBuildIds?: Array<string>;
-  _dependentBuildIds?: Array<string>;
-}
-
-interface IDependencyDataItem extends TreeViewDataItem {
-  data: IDependencyBuild;
-  children?: IDependencyDataItem[];
+interface IDependencyDataItem<T extends Build | GroupBuild> extends TreeViewDataItem {
+  data: T;
   level: number;
+  children?: IDependencyDataItem<T>[];
+}
+
+interface IDependencyTreeProps<T extends Build | GroupBuild> {
+  serviceContainerDependencyGraph: IServiceContainerState<BuildsGraph>;
+  rootBuild: T;
 }
 
 /**
- * Display a dependency tree for builds or group builds.
+ * Displays a dependency tree for a Build or a Group Build.
  *
- * @param build - The current build of the dependency tree
- * @param groupBuild - The current group build of the dependency tree
- *
- * @example
- * ```tsx
- * <DependencyTree build={buildObject}></DependencyTree>
- * `
- *
+ * @param serviceContainerDependencyGraph - Service container for the dependency tree
+ * @param rootBuild - The root Build / Group Build of the dependency tree
  */
-export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
-  const [display, setDisplay] = useState<boolean>(true);
-  const [dependentStructure, setDependentStructure] = useState<Array<IDependencyDataItem>>();
-  const [dependencyStructure, setDependencyStructure] = useState<IDependencyDataItem>();
-  const [buildItem, setBuildItem] = useState<IDependencyBuild>();
-  const [allExpanded, setAllExpanded] = useState<boolean | undefined>(undefined);
+export const DependencyTree = <T extends Build | GroupBuild>({
+  serviceContainerDependencyGraph,
+  rootBuild,
+}: IDependencyTreeProps<T>) => {
+  const [buildDependencies, setBuildDependencies] = useState<IDependencyDataItem<T>>();
+  const [buildDirectParents, setBuildDirectParents] = useState<IDependencyDataItem<T>[]>();
 
-  const serviceContainerDependencyGraph = useServiceContainer(
-    build ? buildApi.getDependencyGraph : groupBuildApi.getDependencyGraph
-  );
-  const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
+  const [areAllBuildDependenciesExpanded, setAreAllBuildDependenciesExpanded] = useState<boolean | undefined>(undefined);
 
-  const refreshComponent = () => {
-    setDisplay(false);
+  const refreshTreeExpanding = () => {
+    setAreAllBuildDependenciesExpanded(false);
     setTimeout(() => {
-      setDisplay(true);
+      setAreAllBuildDependenciesExpanded(undefined);
     }, 0);
   };
 
-  const onClickExpandLevel1 = () => {
-    setAllExpanded(undefined);
-    setDefaultExpandByLevel(1, dependencyStructure!);
-  };
-  const onClickExpandLevel2 = () => {
-    setAllExpanded(undefined);
-    setDefaultExpandByLevel(2, dependencyStructure!);
-  };
-  const onClickExpandAll = () => {
-    setAllExpanded(allExpanded !== undefined ? !allExpanded : true);
+  // 'defaultExpanded' is not official way to set the expand level, but there seems to be no other way
+  const setBuildDependenciesExpandedByLevel = (level: number) => {
+    const getExpandedGraph = (node: IDependencyDataItem<T>, level: number): IDependencyDataItem<T> => {
+      const newChildrenNodes = node?.children?.map((childNode) => getExpandedGraph(childNode, level));
+      return { ...node, defaultExpanded: node.level < level, children: newChildrenNodes };
+    };
+
+    refreshTreeExpanding();
+    setBuildDependencies((buildDependencies) => buildDependencies && getExpandedGraph(buildDependencies, level));
   };
 
-  const onClickExpandAllFailed = () => {
-    setAllExpanded(undefined);
-    setExpandFailed(dependencyStructure!);
-  };
+  const setBuildDependenciesWithErrorExpanded = () => {
+    const getExpandedGraph = (node: IDependencyDataItem<T>): IDependencyDataItem<T> => {
+      const newChildrenNodes = node?.children?.map((childNode) => getExpandedGraph(childNode));
+      return { ...node, defaultExpanded: FAILED_BUILD_STATUSES.includes(node.data.status!), children: newChildrenNodes };
+    };
 
-  const setExpandFailed = (dependStructure: IDependencyDataItem) => {
-    dependStructure.defaultExpanded = [
-      'FAILED',
-      'CANCELLED',
-      'REJECTED',
-      'REJECTED_FAILED_DEPENDENCIES',
-      'SYSTEM_ERROR',
-      'ENQUEUED',
-      'WAITING_FOR_DEPENDENCIES',
-      'BUILDING',
-    ].includes(dependStructure.data.status!);
-    dependStructure.children?.forEach((child) => setExpandFailed(child));
-    dependStructure.level === 0 && refreshComponent();
+    refreshTreeExpanding();
+    setBuildDependencies((buildDependencies) => buildDependencies && getExpandedGraph(buildDependencies));
   };
-
-  const setDefaultExpandByLevel = (level: number, dependStructure: IDependencyDataItem) => {
-    dependStructure.defaultExpanded = dependStructure.level < level;
-    dependStructure.children?.forEach((child) => setDefaultExpandByLevel(level, child));
-    dependStructure.level === 0 && refreshComponent();
-  };
-
-  const generateTreeItem = (build: IDependencyBuild) =>
-    build && (
-      <span className={styles['tree-item']}>
-        <BuildStatus build={build} includeBuildLink includeConfigLink long />
-      </span>
-    );
 
   useEffect(() => {
-    setBuildItem(build ? build : groupBuild);
-    serviceContainerDependencyGraphRunner({ serviceData: { id: build ? build!.id : groupBuild!.id } });
-  }, [build, groupBuild, serviceContainerDependencyGraphRunner]);
-
-  useEffect(() => {
-    const getRootNodes = (edgesData: Array<IGraphEdge>, nodesData: Map<string, IDependencyBuild>) => {
-      const rootNodes: Array<string> = [];
-      nodesData.forEach((node) => {
-        !edgesData.map((edge) => edge.target).includes(node.id) && rootNodes.push(node.id);
-      });
-      return rootNodes;
-    };
-
-    const addSuffixToDependencyId = (dependencyDataStructure: IDependencyDataItem) => {
-      dependencyDataStructure.id = dependencyDataStructure.id! + '-' + Math.floor(Math.random() * 1000);
-      dependencyDataStructure.children?.map((child) => addSuffixToDependencyId(child));
-      return dependencyDataStructure;
-    };
-    const addSuffixToDependentId = (dependentDataStructure: IDependencyDataItem[]) => {
-      return dependentDataStructure.map((dependentData) => {
-        dependentData.id = dependentData.id + '-' + Math.floor(Math.random() * 1000);
-        return dependentData;
-      });
-    };
-    const attachChildFromEdges = (
-      currentNode: IDependencyDataItem,
-      edgesData: Array<IGraphEdge>,
-      nodesData: Map<string, IDependencyBuild>,
-      level: number = 1
-    ) => {
-      if (level === 1 && !isBuild(buildItem)) {
-        const rootNodes: Array<string> = getRootNodes(edgesData, nodesData);
-        const targetChildren = rootNodes.map((rootNode) => ({
-          id: rootNode,
-          name: generateTreeItem(nodesData?.get(rootNode)!),
-          data: nodesData?.get(rootNode)!,
-          defaultExpanded: false,
-          level: level,
-        }));
-        if (currentNode.children) {
-          currentNode.children.concat(targetChildren);
-        } else {
-          currentNode.children = targetChildren;
-        }
-      } else {
-        edgesData!
-          .filter((edge) => edge.source === currentNode.id)
-          .forEach((edge) => {
-            const targetChild = {
-              id: edge.target,
-              name: generateTreeItem(nodesData?.get(edge.target)!),
-              data: nodesData?.get(edge.target)!,
-              defaultExpanded: false,
-              level: level,
-            };
-            if (currentNode.children) {
-              currentNode.children.push(targetChild);
-            } else {
-              currentNode.children = [targetChild];
-            }
-          });
-      }
-      currentNode.children?.forEach((child) => attachChildFromEdges(child, edgesData, nodesData, level + 1));
-      return currentNode;
-    };
     if (!serviceContainerDependencyGraph.data) {
       return;
     }
-    const nodesData: Map<string, IDependencyBuild> = new Map();
-    const verticesData = new Map<string, IGraphVertex>(
-      Object.entries(serviceContainerDependencyGraph.data.vertices as { [field: string]: IGraphVertex })
-    );
-    verticesData.forEach((vertex: IGraphVertex) => {
-      nodesData.set(vertex.name, vertex.data);
-    });
 
-    const _dependencyStructure: IDependencyDataItem = {
-      id: buildItem?.id,
-      name: generateTreeItem(buildItem!),
-      data: buildItem!,
-      defaultExpanded: true,
-      level: 0,
-    };
-    const _dependentStructure: Array<IDependencyDataItem> = [];
-
-    const edgesData: Array<IGraphEdge> = [];
-    Object.assign(edgesData, serviceContainerDependencyGraph.data.edges);
-
-    // Generate parent dependents
-    edgesData
-      .filter((edge) => edge.target === buildItem!.id)
-      .forEach((edge) => {
-        _dependentStructure.push({
-          data: nodesData.get(edge.source)!,
-          id: edge.target,
-          name: generateTreeItem(nodesData.get(edge.source)!),
-          defaultExpanded: false,
-          level: 0,
-        });
-      });
-    setDependentStructure(addSuffixToDependentId(_dependentStructure));
-
-    // Generate children dependency
-    setDependencyStructure(addSuffixToDependencyId(attachChildFromEdges(_dependencyStructure, edgesData, nodesData, 1)));
-  }, [serviceContainerDependencyGraph.data, buildItem]);
+    setBuildDependencies(generateDependencyGraph(serviceContainerDependencyGraph.data, rootBuild));
+    setBuildDirectParents(generateDirectParents(serviceContainerDependencyGraph.data, rootBuild));
+  }, [serviceContainerDependencyGraph.data, rootBuild]);
 
   return (
     <ServiceContainerLoading {...serviceContainerDependencyGraph} title="Dependency Tree">
-      {buildItem && isBuild(buildItem) && (
+      {isBuild(rootBuild) && (
         <>
-          <div className={styles['build-tree-component']}>
+          <div className="m-b-20">
             <div className={styles['sub-title-bar']}>
               <strong>Direct Parents</strong>
             </div>
-            {dependentStructure?.length ? (
-              <TreeView data={dependentStructure} allExpanded={allExpanded} hasGuides={true} />
+            {buildDirectParents?.length ? (
+              <TreeView data={buildDirectParents} hasGuides />
             ) : (
               <div className={styles['no-data-text']}>No direct parent</div>
             )}
@@ -246,24 +105,95 @@ export const DependencyTree = ({ build, groupBuild }: IDependencyTreeProps) => {
           <Divider />
         </>
       )}
-      <div className={styles['build-tree-component']}>
+      <div className={css(isBuild(rootBuild) && 'm-t-20')}>
         <div className={styles['sub-title-bar']}>
           <strong>Dependencies</strong>
-          <Button variant="tertiary" onClick={onClickExpandLevel1} isSmall>
+          <Button variant="tertiary" onClick={() => setBuildDependenciesExpandedByLevel(1)} isSmall>
             Expand 1 Level
           </Button>
-          <Button variant="tertiary" onClick={onClickExpandLevel2} isSmall>
+          <Button variant="tertiary" onClick={() => setBuildDependenciesExpandedByLevel(2)} isSmall>
             Expand 2 Levels
           </Button>
-          <Button variant="tertiary" onClick={onClickExpandAll} isSmall>
-            {allExpanded ? 'Collapse All' : 'Expand All'}
+          <Button
+            variant="tertiary"
+            onClick={() =>
+              setAreAllBuildDependenciesExpanded(
+                areAllBuildDependenciesExpanded !== undefined ? !areAllBuildDependenciesExpanded : true
+              )
+            }
+            isSmall
+          >
+            {areAllBuildDependenciesExpanded ? 'Collapse All' : 'Expand All'}
           </Button>
-          <Button variant="tertiary" onClick={onClickExpandAllFailed} isSmall>
+          <Button variant="tertiary" onClick={() => setBuildDependenciesWithErrorExpanded()} isSmall>
             Expand All Failed
           </Button>
         </div>
-        {display && dependencyStructure && <TreeView data={[dependencyStructure]} allExpanded={allExpanded} hasGuides={true} />}
+        {buildDependencies && <TreeView data={[buildDependencies]} allExpanded={areAllBuildDependenciesExpanded} hasGuides />}
       </div>
     </ServiceContainerLoading>
   );
+};
+
+const generateTreeItem = <T extends Build | GroupBuild>(build: T) =>
+  build && (
+    <span className={styles['tree-item']}>
+      <BuildStatus build={build} includeBuildLink includeConfigLink long />
+    </span>
+  );
+
+const generateDependencyGraph = <T extends Build | GroupBuild>(graph: BuildsGraph, rootBuild: T): IDependencyDataItem<T> => {
+  const idGenerator = getNumberGenerator();
+  const getNextId = () => idGenerator.next().value;
+
+  const edgeTargets = graph.edges!.map((edge) => edge.target);
+
+  const generateDependencyGraphNode = <T extends Build | GroupBuild>(
+    graph: BuildsGraph,
+    build: T,
+    level = 0
+  ): IDependencyDataItem<T> => {
+    const vertexChildren =
+      isGroupBuild(build) && level === 0
+        ? Object.values(graph.vertices!)
+            .filter((node) => !edgeTargets.includes(node.data!.id))
+            .map((node) => node.data as T)
+        : graph.edges!.filter((edge) => edge.source === build.id).map((edge) => graph.vertices![edge.target!].data as T);
+    const nodeChildren = vertexChildren.length
+      ? vertexChildren.map((node) => generateDependencyGraphNode(graph, node, level + 1))
+      : undefined;
+
+    return {
+      id: `${getNextId()}`,
+      name: generateTreeItem(build),
+      data: build,
+      level,
+      defaultExpanded: level === 0,
+      children: nodeChildren,
+    };
+  };
+
+  return generateDependencyGraphNode(graph, rootBuild);
+};
+
+const generateDirectParents = <T extends Build | GroupBuild>(graph: BuildsGraph, rootBuild: T): IDependencyDataItem<T>[] => {
+  const idGenerator = getNumberGenerator();
+  const getNextId = () => idGenerator.next().value;
+
+  const generateDirectParentNodes = <T extends Build | GroupBuild>(graph: BuildsGraph, build: T): IDependencyDataItem<T>[] => {
+    return graph
+      .edges!.filter((edge) => edge.target === build.id)
+      .map((edge) => {
+        const node = graph.vertices![edge.source!].data as T;
+        return {
+          id: `${getNextId()}`,
+          name: generateTreeItem(node),
+          data: node,
+          level: 0,
+          defaultExpanded: false,
+        };
+      });
+  };
+
+  return generateDirectParentNodes(graph, rootBuild);
 };

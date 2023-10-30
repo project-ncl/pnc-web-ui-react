@@ -21,6 +21,7 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { useDataBuffer } from 'hooks/useDataBuffer';
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -43,6 +44,8 @@ import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import * as buildApi from 'services/buildApi';
+import * as groupBuildApi from 'services/groupBuildApi';
 import * as projectApi from 'services/projectApi';
 
 import { maxLength, minLength } from 'utils/formValidationHelpers';
@@ -183,7 +186,7 @@ const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
   status: 'REJECTED_FAILED_DEPENDENCIES',
   groupConfig: {
     id: '166',
-    name: 'DnsGCProductVersion2208',
+    name: 'DnsGCProductVersioserviceContainerGroupDependencyGraphRunnern2208',
   },
   user: {
     id: '3',
@@ -194,6 +197,12 @@ const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
 export const DemoPage = () => {
   useTitle('Demo Page');
 
+  const serviceContainerDependencyGraph = useServiceContainer(buildApi.getDependencyGraph);
+  const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
+
+  const serviceContainerGroupDependencyGraph = useServiceContainer(groupBuildApi.getDependencyGraph);
+  const serviceContainerGroupDependencyGraphRunner = serviceContainerGroupDependencyGraph.run;
+
   const [logLinesToRemove, setLogLinesToRemove] = useState<number>(0);
   const savedTimer: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
 
@@ -203,6 +212,11 @@ export const DemoPage = () => {
   const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig = {}) => {
     return projectApi.getProjects(requestConfig);
   }, []);
+
+  useEffect(() => {
+    serviceContainerDependencyGraphRunner({ serviceData: { id: DEPENDENCY_TREE_ROOT_BUILD.id } });
+    serviceContainerGroupDependencyGraphRunner({ serviceData: { id: DEPENDENCY_TREE_ROOT_GROUP_BUILD.id } });
+  }, [serviceContainerDependencyGraphRunner, serviceContainerGroupDependencyGraphRunner]);
 
   useEffect(() => {
     savedTimer.current = setInterval(() => {
@@ -260,13 +274,19 @@ export const DemoPage = () => {
 
         <FlexItem>
           <ContentBox title="DependencyTree - Build" padding>
-            <DependencyTree build={DEPENDENCY_TREE_ROOT_BUILD}></DependencyTree>
+            <DependencyTree<Build>
+              rootBuild={DEPENDENCY_TREE_ROOT_BUILD}
+              serviceContainerDependencyGraph={serviceContainerDependencyGraph}
+            />
           </ContentBox>
         </FlexItem>
 
         <FlexItem>
           <ContentBox title="DependencyTree - Group Build" padding>
-            <DependencyTree groupBuild={DEPENDENCY_TREE_ROOT_GROUP_BUILD}></DependencyTree>
+            <DependencyTree<GroupBuild>
+              rootBuild={DEPENDENCY_TREE_ROOT_GROUP_BUILD}
+              serviceContainerDependencyGraph={serviceContainerGroupDependencyGraph}
+            />
           </ContentBox>
         </FlexItem>
 

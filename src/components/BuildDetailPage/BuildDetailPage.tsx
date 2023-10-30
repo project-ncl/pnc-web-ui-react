@@ -5,6 +5,7 @@ import { PropsWithChildren, useEffect } from 'react';
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { BuildStatus, buildStatusData } from 'common/buildStatusData';
 
+import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
@@ -24,6 +25,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { Username } from 'components/Username/Username';
 
+import * as buildApi from 'services/buildApi';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as webConfigService from 'services/webConfigService';
 
@@ -75,10 +77,15 @@ const OnceBuildIsFinished = ({ children, buildStatus }: PropsWithChildren<IOnceB
   buildStatusData[buildStatus].progress === 'FINISHED' ? <>{children}</> : <EmptyStateSymbol text="Build is not finished yet" />;
 
 export const BuildDetailPage = () => {
+  const { buildId } = useParamsRequired();
+
   const { serviceContainerBuild } = useServiceContainerBuild();
 
   const serviceContainerBuildConfigRev = useServiceContainer(buildConfigApi.getRevision);
   const serviceContainerBuildConfigRevRunner = serviceContainerBuildConfigRev.run;
+
+  const serviceContainerDependencyGraph = useServiceContainer(buildApi.getDependencyGraph);
+  const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
 
   useEffect(() => {
     if (serviceContainerBuild.data?.buildConfigRevision?.id && serviceContainerBuild.data?.buildConfigRevision.rev) {
@@ -90,6 +97,10 @@ export const BuildDetailPage = () => {
       });
     }
   }, [serviceContainerBuildConfigRevRunner, serviceContainerBuild.data?.buildConfigRevision]);
+
+  useEffect(() => {
+    serviceContainerDependencyGraphRunner({ serviceData: { id: buildId } });
+  }, [serviceContainerDependencyGraphRunner, buildId]);
 
   return (
     <Grid hasGutter>
@@ -320,7 +331,10 @@ export const BuildDetailPage = () => {
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding>
-          <DependencyTree build={serviceContainerBuild.data!} />
+          <DependencyTree
+            rootBuild={serviceContainerBuild.data!}
+            serviceContainerDependencyGraph={serviceContainerDependencyGraph}
+          />
         </ContentBox>
       </GridItem>
     </Grid>
