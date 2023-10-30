@@ -266,3 +266,14 @@ export const convertTaskId = (response: string): string => response.replace(/"ta
  * @returns The new debounced function
  */
 export const debounce = (callback: (...args: any) => any, wait: number = 250) => lodashDebounce(callback, wait);
+
+/**
+ * Returns generator iterating over integer number sequence, each number incremented by one.
+ */
+export const getNumberGenerator = function* () {
+  let i = 0;
+  while (true) {
+    yield i;
+    i++;
+  }
+};
