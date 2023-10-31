@@ -19,6 +19,7 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
   hasSkeleton?: boolean;
   variant?: 'block' | 'inline' | 'icon';
   notYetContent?: ReactNode;
+  allowEmptyData?: boolean;
 }
 
 /**
@@ -42,6 +43,7 @@ interface IServiceContainerLoadingProps extends IServiceContainerProps {
  * @param hasSkeleton - Display skeleton in loading state
  * @param variant - Style variant. Defaults to 'block'
  * @param notYetContent - Custom content to be displayed when service was not executed yet, typically used when service is executed manually after some user event (for example click), not automatically after rendering
+ * @param allowEmptyData - Allows empty data even when no error ocurred
  * @param children - React children property
  */
 export const ServiceContainerLoading = ({
@@ -53,6 +55,7 @@ export const ServiceContainerLoading = ({
   hasSkeleton = false,
   variant = 'block',
   notYetContent,
+  allowEmptyData = false,
   children,
 }: React.PropsWithChildren<IServiceContainerLoadingProps>) => {
   // Initial loading: display Loading card when loading and no previous data is available (the component is rendered for the first time)
@@ -73,6 +76,8 @@ export const ServiceContainerLoading = ({
   // Service not executed yet
   // When service is executed automatically after rendering, then null prevents flickering experience before other states are displayed
   if (data === DataValues.notYetData) return notYetContent ? <>{notYetContent}</> : null;
+
+  if (!data && allowEmptyData) return <EmptyStateCard title={title} />;
 
   // Invalid state, Error state should be triggered before this
   if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
