@@ -1,10 +1,10 @@
 import { Button, Switch, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
 import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 interface ILogViewerProps {
-  variant: 'static' | 'live';
+  isStatic?: boolean;
   data: string | string[];
   customActions?: ReactNode[];
 }
@@ -32,13 +32,11 @@ interface IOnScrollProps {
  * <LogViewer data={logData} follow={false} />
  * ```
  *
- * @param variant - static variant if whole log is available, live variant for dynamically loaded log lines
+ * @param isStatic - true for static variant if whole log is available at once, false for live variant for dynamically loaded log lines
  * @param data - data log viewer will render
  */
-export const LogViewer = ({ variant, data, customActions }: ILogViewerProps) => {
+export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
-
-  const isStaticVariant = useMemo(() => variant === 'static', [variant]);
 
   // data that are actually rendered
   const [renderedData, setRenderedData] = useState(data);
@@ -62,14 +60,14 @@ export const LogViewer = ({ variant, data, customActions }: ILogViewerProps) => 
   }, []);
 
   useEffect(() => {
-    if ((!isPaused || isStaticVariant) && data.length > 0) {
+    if ((!isPaused || isStatic) && data.length > 0) {
       setLineCount(data.length);
       setRenderedData(data);
-      if (!isStaticVariant) {
+      if (!isStatic) {
         logViewerRef?.current?.scrollToBottom();
       }
     }
-  }, [isPaused, data, isStaticVariant]);
+  }, [isPaused, data, isStatic]);
 
   useEffect(() => {
     setLinesBehind(data.length - lineCount);
@@ -121,7 +119,7 @@ export const LogViewer = ({ variant, data, customActions }: ILogViewerProps) => 
           </Button>
         </ToolbarItem>
         {!!customActions?.length && customActions.map((node, index) => <ToolbarItem key={index}>{node}</ToolbarItem>)}
-        {!isStaticVariant && (
+        {!isStatic && (
           <ToolbarItem>
             <Switch
               label="Force Following"
@@ -160,7 +158,7 @@ export const LogViewer = ({ variant, data, customActions }: ILogViewerProps) => 
     <LogViewerPF
       innerRef={logViewerRef}
       data={renderedData}
-      scrollToRow={(!isPaused || isFollowing) && !isStaticVariant ? lineCount : 0}
+      scrollToRow={(!isPaused || isFollowing) && !isStatic ? lineCount : 0}
       onScroll={onScroll}
       toolbar={<HeaderToolbar />}
       footer={isPaused && !!linesBehind && <FooterButton />}
