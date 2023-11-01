@@ -88,6 +88,17 @@ export const getDependencies = ({ id }: IBuildApiData, requestConfig: AxiosReque
 };
 
 /**
+ * Gets Brew Push of a Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBrewPush = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPushResult>(`/builds/${id}/brew-push`, requestConfig);
+};
+
+/**
  * Gets Build Metrics by a list of build Ids.
  *
  * @param serviceData
