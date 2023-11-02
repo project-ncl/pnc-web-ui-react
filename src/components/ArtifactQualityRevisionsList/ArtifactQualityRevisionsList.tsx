@@ -11,14 +11,13 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-import { createDateTime } from 'utils/utils';
 
 interface IArtifactQualityRevisionsListProps {
   serviceContainerQualityRevisions: IServiceContainer;
@@ -72,9 +71,7 @@ export const ArtifactQualityRevisionsList = ({
             <Tbody>
               {serviceContainerQualityRevisions.data?.content.map((artifactRevision: ArtifactRevision, rowIndex: number) => (
                 <Tr key={rowIndex}>
-                  <Td>
-                    {artifactRevision.modificationTime && createDateTime({ date: artifactRevision.modificationTime }).custom}
-                  </Td>
+                  <Td>{artifactRevision.modificationTime && <DateTime date={artifactRevision.modificationTime} />}</Td>
                   <Td>{artifactRevision.modificationUser?.username}</Td>
                   <Td>
                     {artifactRevision.artifactQuality && (

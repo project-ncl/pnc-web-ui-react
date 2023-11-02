@@ -2,10 +2,10 @@ import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Username } from 'components/Username/Username';
 
 import { isBuild } from 'utils/entityRecognition';
-import { createDateTime } from 'utils/utils';
 
 import './BuildStatus.css';
 
@@ -44,7 +44,7 @@ export const BuildStatus = ({ build, long, includeBuildLink, includeConfigLink, 
     <span className="build-status">
       <BuildStatusIcon build={build} />
       <BuildName build={build} includeBuildLink={includeBuildLink} includeConfigLink={includeConfigLink} long={long} />
-      {!hideDatetime && <span title={dateTitle}>{createDateTime({ date: dateString! }).custom}</span>}
+      {!hideDatetime && <span title={dateTitle}>{dateString && <DateTime date={dateString} />}</span>}
       {!hideUsername && <b>{build.user?.username && <Username text={build.user.username} />}</b>}
     </span>
   );

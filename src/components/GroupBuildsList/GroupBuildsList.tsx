@@ -20,6 +20,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -27,7 +28,7 @@ import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { Username } from 'components/Username/Username';
 
-import { areDatesEqual, calculateDuration, checkColumnsCombinations, createDateTime } from 'utils/utils';
+import { areDatesEqual, calculateDuration, checkColumnsCombinations } from 'utils/utils';
 
 type TColumns = Array<keyof typeof groupBuildEntityAttributes>;
 interface IGroupBuildsListProps {
@@ -143,18 +144,18 @@ export const GroupBuildsList = ({
                           <DescriptionListGroup>
                             <DescriptionListTerm>{groupBuildEntityAttributes.startTime.title}</DescriptionListTerm>
                             <DescriptionListDescription>
-                              {groupBuild.startTime && createDateTime({ date: groupBuild.startTime }).custom}
+                              {groupBuild.startTime && <DateTime date={groupBuild.startTime} />}
                             </DescriptionListDescription>
                           </DescriptionListGroup>
                           <DescriptionListGroup>
                             <DescriptionListTerm>{groupBuildEntityAttributes.endTime.title}</DescriptionListTerm>
                             <DescriptionListDescription>
-                              {groupBuild.endTime &&
-                                createDateTime({
-                                  date: groupBuild.endTime,
-                                  includeDateInCustom:
-                                    !groupBuild.startTime || !areDatesEqual(groupBuild.startTime, groupBuild.endTime),
-                                }).custom}
+                              {groupBuild.endTime && (
+                                <DateTime
+                                  date={groupBuild.endTime}
+                                  displayDate={!groupBuild.startTime || !areDatesEqual(groupBuild.startTime, groupBuild.endTime)}
+                                />
+                              )}
                               {groupBuild.startTime &&
                                 groupBuild.endTime &&
                                 ` (took ${calculateDuration(groupBuild.startTime, groupBuild.endTime)})`}

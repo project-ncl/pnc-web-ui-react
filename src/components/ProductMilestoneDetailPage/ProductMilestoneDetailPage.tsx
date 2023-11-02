@@ -14,6 +14,7 @@ import { CardTitle } from 'components/CardFlex/CardTitle';
 import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -23,7 +24,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { doughnutChartDataTransform, doughnutChartLabelTransform } from 'utils/dataTransformHelper';
-import { createDateTime } from 'utils/utils';
 
 export const ProductMilestoneDetailPage = () => {
   const { productMilestoneId } = useParams();
@@ -71,13 +71,19 @@ export const ProductMilestoneDetailPage = () => {
               {serviceContainerProductMilestone.data?.endDate ? 'CLOSED' : 'OPEN'}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.startingDate.title}>
-              {createDateTime({ date: serviceContainerProductMilestone.data.startingDate }).date}
+              {serviceContainerProductMilestone.data?.startingDate && (
+                <DateTime date={serviceContainerProductMilestone.data.startingDate} displayTime={false} />
+              )}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.plannedEndDate.title}>
-              {createDateTime({ date: serviceContainerProductMilestone.data.plannedEndDate }).date}
+              {serviceContainerProductMilestone.data?.plannedEndDate && (
+                <DateTime date={serviceContainerProductMilestone.data.plannedEndDate} displayTime={false} />
+              )}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.endDate.title}>
-              {createDateTime({ date: serviceContainerProductMilestone.data.endDate }).date}
+              {serviceContainerProductMilestone.data?.endDate && (
+                <DateTime date={serviceContainerProductMilestone.data.endDate} displayTime={false} />
+              )}
             </AttributesItem>
             <AttributesItem title={productMilestoneEntityAttributes.lastCloseResult.title}>
               <div style={{ height: '25px' }}>

@@ -12,6 +12,7 @@ import { useTitle } from 'hooks/useTitle';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
 import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -20,7 +21,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as operationsApi from 'services/operationsApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
-import { createDateTime } from 'utils/utils';
 
 export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
   const { deliverablesAnalysisId } = useParams();
@@ -68,13 +68,13 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
               {deliverabledAnalysis?.result && <DeliverablesAnalysisResultLabelMapper result={deliverabledAnalysis.result} />}
             </AttributesItem>
             <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}>
-              {deliverabledAnalysis?.submitTime && createDateTime({ date: deliverabledAnalysis.submitTime }).custom}
+              {deliverabledAnalysis?.submitTime && <DateTime date={deliverabledAnalysis.submitTime} />}
             </AttributesItem>
             <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.startTime.title}>
-              {deliverabledAnalysis?.startTime && createDateTime({ date: deliverabledAnalysis.startTime }).custom}
+              {deliverabledAnalysis?.startTime && <DateTime date={deliverabledAnalysis.startTime} />}
             </AttributesItem>
             <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.endTime.title}>
-              {deliverabledAnalysis?.endTime && createDateTime({ date: deliverabledAnalysis.endTime }).custom}
+              {deliverabledAnalysis?.endTime && <DateTime date={deliverabledAnalysis.endTime} />}
             </AttributesItem>
             <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.parameters.title}>
               {deliverabledAnalysis?.parameters &&

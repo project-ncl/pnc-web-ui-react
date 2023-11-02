@@ -14,6 +14,7 @@ import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
+import { DateTime } from 'components/DateTime/DateTime';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
@@ -24,7 +25,7 @@ import { Username } from 'components/Username/Username';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as webConfigService from 'services/webConfigService';
 
-import { calculateDuration, createDateTime } from 'utils/utils';
+import { calculateDuration } from 'utils/utils';
 
 interface INotAvailableBasedOnProps {
   buildStatus: BuildStatus;
@@ -120,37 +121,28 @@ export const BuildDetailPage = () => {
 
             {/* Build times */}
             <AttributesItem title={buildEntityAttributes.submitTime.title}>
-              {serviceContainerBuild.data.submitTime && createDateTime({ date: serviceContainerBuild.data.submitTime }).custom}
+              {serviceContainerBuild.data?.submitTime && <DateTime date={serviceContainerBuild.data.submitTime} />}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.startTime.title}>
               {(buildStatusData[serviceContainerBuild.data.status as BuildStatus].progress !== 'FINISHED' ||
                 serviceContainerBuild.data.startTime) && (
                 <OnceBuildStarted buildStatus={serviceContainerBuild.data.status}>
-                  {serviceContainerBuild.data.startTime &&
-                    createDateTime({
-                      date: serviceContainerBuild.data.startTime,
-                    }).custom}
+                  {serviceContainerBuild.data?.startTime && <DateTime date={serviceContainerBuild.data.startTime} />}
                 </OnceBuildStarted>
               )}
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.endTime.title}>
               <OnceBuildIsFinished buildStatus={serviceContainerBuild.data.status}>
-                {serviceContainerBuild.data.endTime && (
+                {serviceContainerBuild.data?.endTime && (
                   <>
+                    {/* end (date)time */}
+                    <DateTime date={serviceContainerBuild.data.endTime} />
                     {
-                      // end (date)time
-                      createDateTime({
-                        date: serviceContainerBuild.data.endTime,
-                      }).custom +
-                        // duration
-                        (serviceContainerBuild.data.startTime
-                          ? ` (took ${calculateDuration(
-                              serviceContainerBuild.data.startTime,
-                              serviceContainerBuild.data.endTime
-                            )})`
-                          : '')
+                      // duration
+                      serviceContainerBuild.data.startTime &&
+                        ` (took ${calculateDuration(serviceContainerBuild.data.startTime, serviceContainerBuild.data.endTime)})`
                     }
                   </>
                 )}

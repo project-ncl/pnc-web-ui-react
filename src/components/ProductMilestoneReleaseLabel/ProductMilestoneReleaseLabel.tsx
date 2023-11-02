@@ -6,10 +6,10 @@ import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 
+import { DateTime } from 'components/DateTime/DateTime';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 
 import { isProductMilestone, isProductRelease } from 'utils/entityRecognition';
-import { createDateTime } from 'utils/utils';
 
 import styles from './ProductMilestoneReleaseLabel.module.css';
 
@@ -36,13 +36,19 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['tooltip-text']}>
         <strong>{productMilestoneEntityAttributes.startingDate.title}: </strong>
-        {createDateTime({ date: productMilestone.startingDate! }).date || <EmptyStateSymbol text={false} />}
+        {(productMilestone.startingDate && <DateTime date={productMilestone.startingDate} displayTime={false} />) || (
+          <EmptyStateSymbol text={false} />
+        )}
         <br />
         <strong>{productMilestoneEntityAttributes.plannedEndDate.title}: </strong>
-        {createDateTime({ date: productMilestone.plannedEndDate! }).date || <EmptyStateSymbol text={false} />}
+        {(productMilestone.plannedEndDate && <DateTime date={productMilestone.plannedEndDate} displayTime={false} />) || (
+          <EmptyStateSymbol text={false} />
+        )}
         <br />
         <strong>{productMilestoneEntityAttributes.endDate.title}: </strong>
-        {createDateTime({ date: productMilestone.endDate! }).date || <EmptyStateSymbol text={false} />}
+        {(productMilestone.endDate && <DateTime date={productMilestone.endDate} displayTime={false} />) || (
+          <EmptyStateSymbol text={false} />
+        )}
       </div>
     );
     buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
@@ -52,7 +58,9 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
     tooltipContent = (
       <div className={styles['toolip-text']}>
         <strong>{productReleaseEntityAttributes.releaseDate.title}: </strong>
-        {createDateTime({ date: productRelease.releaseDate! }).date || <EmptyStateSymbol text={false} />}
+        {(productRelease.releaseDate && <DateTime date={productRelease.releaseDate} displayTime={false} />) || (
+          <EmptyStateSymbol text={false} />
+        )}
         <br />
         <strong>{productReleaseEntityAttributes.supportLevel.title}: </strong>
         {productRelease.supportLevel}

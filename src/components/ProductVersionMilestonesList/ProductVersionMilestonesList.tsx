@@ -10,6 +10,7 @@ import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityA
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
@@ -23,8 +24,6 @@ import { useServiceContainerProductVersion } from 'components/ProductVersionPage
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-
-import { createDateTime } from 'utils/utils';
 
 const actionItemStyle = { padding: 0 };
 
@@ -92,9 +91,13 @@ export const ProductVersionMilestonesList = ({
                     />
                   </Td>
                   <Td>{productMilestone.endDate ? 'CLOSED' : 'OPEN'}</Td>
-                  <Td>{productMilestone.startingDate && createDateTime({ date: productMilestone.startingDate }).custom}</Td>
-                  <Td>{productMilestone.plannedEndDate && createDateTime({ date: productMilestone.plannedEndDate }).custom}</Td>
-                  <Td>{productMilestone.endDate && createDateTime({ date: productMilestone.endDate }).custom}</Td>
+                  <Td>
+                    {productMilestone.startingDate && <DateTime date={productMilestone.startingDate} displayTime={false} />}
+                  </Td>
+                  <Td>
+                    {productMilestone.plannedEndDate && <DateTime date={productMilestone.plannedEndDate} displayTime={false} />}
+                  </Td>
+                  <Td>{productMilestone.endDate && <DateTime date={productMilestone.endDate} displayTime={false} />}</Td>
                   <Td isActionCell>
                     <ActionsColumn
                       items={[

@@ -12,14 +12,13 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
-
-import { createDateTime } from 'utils/utils';
 
 interface IArtifactProductMilestonesReleasesListProps {
   serviceContainerArtifactProductMilestonesReleases: IServiceContainer;
@@ -108,13 +107,15 @@ export const ArtifactProductMilestonesReleasesList = ({
                       )}
                     </Td>
                     <Td>
-                      {artifactProductMilestoneRelease.milestoneEndDate &&
-                        createDateTime({ date: artifactProductMilestoneRelease.milestoneEndDate }).custom}
+                      {artifactProductMilestoneRelease.milestoneEndDate && (
+                        <DateTime date={artifactProductMilestoneRelease.milestoneEndDate} />
+                      )}
                     </Td>
                     <Td>{artifactProductMilestoneRelease.releaseVersion}</Td>
                     <Td>
-                      {artifactProductMilestoneRelease.releaseReleaseDate &&
-                        createDateTime({ date: artifactProductMilestoneRelease.releaseReleaseDate }).custom}
+                      {artifactProductMilestoneRelease.releaseReleaseDate && (
+                        <DateTime date={artifactProductMilestoneRelease.releaseReleaseDate} />
+                      )}
                     </Td>
                   </Tr>
                 )
