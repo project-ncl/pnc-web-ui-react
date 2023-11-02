@@ -15,6 +15,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -24,7 +25,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
-import { areDatesEqual, calculateDuration, createDateTime } from 'utils/utils';
+import { areDatesEqual, calculateDuration } from 'utils/utils';
 
 type TColumns = Array<keyof typeof buildEntityAttributes>;
 
@@ -153,29 +154,32 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                           <DescriptionListGroup>
                             <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
                             <DescriptionListDescription>
-                              {build.submitTime && createDateTime({ date: build.submitTime }).custom}
+                              {build.submitTime && <DateTime date={build.submitTime} />}
                             </DescriptionListDescription>
                           </DescriptionListGroup>
                           <DescriptionListGroup>
                             <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
                             <DescriptionListDescription>
-                              {build.startTime &&
-                                createDateTime({
-                                  date: build.startTime,
-                                  includeDateInCustom: !build.submitTime || !areDatesEqual(build.submitTime, build.startTime),
-                                }).custom}
+                              {build.startTime && (
+                                <DateTime
+                                  date={build.startTime}
+                                  displayDate={!build.submitTime || !areDatesEqual(build.submitTime, build.startTime)}
+                                />
+                              )}
                             </DescriptionListDescription>
                           </DescriptionListGroup>
                           <DescriptionListGroup>
                             <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
                             <DescriptionListDescription>
-                              {build.endTime &&
-                                createDateTime({
-                                  date: build.endTime,
-                                  includeDateInCustom:
+                              {build.endTime && (
+                                <DateTime
+                                  date={build.endTime}
+                                  displayDate={
                                     (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
-                                    (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime)),
-                                }).custom}
+                                    (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime))
+                                  }
+                                />
+                              )}
                               {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
                             </DescriptionListDescription>
                           </DescriptionListGroup>

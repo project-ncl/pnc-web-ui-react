@@ -11,6 +11,13 @@ interface IDateTimeProps {
   displayTime?: boolean;
 }
 
+/**
+ * Component to display and visually transform datetime.
+ *
+ * @param date - String timestamp or Date object
+ * @param displayDate - Whether to display the date
+ * @param displayTime - Whether to display the time
+ */
 export const DateTime = ({ date, displayDate = true, displayTime = true }: IDateTimeProps) => {
   const dateTimeObject = useMemo(
     () => createDateTime({ date, includeDateInCustom: displayDate, includeTimeInCustom: displayTime }),

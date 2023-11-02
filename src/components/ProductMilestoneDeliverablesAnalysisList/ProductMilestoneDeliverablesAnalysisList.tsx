@@ -11,6 +11,7 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
 import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
@@ -19,8 +20,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
-
-import { createDateTime } from 'utils/utils';
 
 interface IProductMilestoneDeliverablesAnalysisListProps {
   serviceContainerDeliverablesAnalysis: IServiceContainer;
@@ -95,7 +94,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                       )}
                     </Td>
                     <Td>{operation.result && <DeliverablesAnalysisResultLabelMapper result={operation.result} />}</Td>
-                    <Td>{operation.submitTime && createDateTime({ date: operation.submitTime }).custom}</Td>
+                    <Td>{operation.submitTime && <DateTime date={operation.submitTime} />}</Td>
                     <Td>{operation.user?.username && <Username text={operation.user.username} />}</Td>
                   </Tr>
                 )

@@ -13,6 +13,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
+import { DateTime } from 'components/DateTime/DateTime';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
@@ -20,7 +21,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as artifactApi from 'services/artifactApi';
 
-import { calculateFileSize, createDateTime } from 'utils/utils';
+import { calculateFileSize } from 'utils/utils';
 
 interface IArtifactDetailPageProps {
   componentId?: string;
@@ -66,8 +67,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
               <ArtifactQualityLabelMapper quality={serviceContainerArtifact.data?.artifactQuality} />
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes.importDate.title}>
-              {serviceContainerArtifact.data?.importDate &&
-                createDateTime({ date: serviceContainerArtifact.data.importDate }).custom}
+              {serviceContainerArtifact.data?.importDate && <DateTime date={serviceContainerArtifact.data.importDate} />}
             </AttributesItem>
           </Attributes>
         </ContentBox>

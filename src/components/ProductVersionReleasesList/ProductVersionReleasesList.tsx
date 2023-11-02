@@ -10,6 +10,7 @@ import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttri
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
@@ -18,8 +19,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
-
-import { createDateTime } from 'utils/utils';
 
 interface IProductVersionReleasesListProps {
   serviceContainerProductReleases: IServiceContainer;
@@ -70,7 +69,7 @@ export const ProductVersionReleasesList = ({
                   <Td>
                     <ProductMilestoneReleaseLabel productMilestoneRelease={productRelease} isCurrent={false} />
                   </Td>
-                  <Td>{productRelease.releaseDate && createDateTime({ date: productRelease.releaseDate }).date}</Td>
+                  <Td>{productRelease.releaseDate && <DateTime date={productRelease.releaseDate} displayTime={false} />}</Td>
                   <Td>
                     {productRelease.productMilestone && (
                       <ProductMilestoneReleaseLabel

@@ -14,6 +14,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -25,7 +26,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
-import { areDatesEqual, checkColumnsCombinations, createDateTime } from 'utils/utils';
+import { areDatesEqual, checkColumnsCombinations } from 'utils/utils';
 
 type TColumns = Array<keyof typeof buildConfigEntityAttributes>;
 
@@ -165,7 +166,7 @@ export const BuildConfigsList = ({
                             <DescriptionListGroup>
                               <DescriptionListTerm>{buildConfigEntityAttributes.creationTime.title}</DescriptionListTerm>
                               <DescriptionListDescription>
-                                {buildConfig.creationTime && createDateTime({ date: buildConfig.creationTime }).custom}
+                                {buildConfig.creationTime && <DateTime date={buildConfig.creationTime} />}
                                 {buildConfig.creationUser?.username && (
                                   <span>
                                     {' '}
@@ -180,13 +181,15 @@ export const BuildConfigsList = ({
                             <DescriptionListGroup>
                               <DescriptionListTerm>{buildConfigEntityAttributes.modificationTime.title}</DescriptionListTerm>
                               <DescriptionListDescription>
-                                {buildConfig.modificationTime &&
-                                  createDateTime({
-                                    date: buildConfig.modificationTime,
-                                    includeDateInCustom:
+                                {buildConfig.modificationTime && (
+                                  <DateTime
+                                    date={buildConfig.modificationTime}
+                                    displayDate={
                                       !buildConfig.creationTime ||
-                                      !areDatesEqual(buildConfig.modificationTime, buildConfig.creationTime),
-                                  }).custom}
+                                      !areDatesEqual(buildConfig.modificationTime, buildConfig.creationTime)
+                                    }
+                                  />
+                                )}
                                 {buildConfig.modificationUser?.username && (
                                   <span>
                                     {' '}

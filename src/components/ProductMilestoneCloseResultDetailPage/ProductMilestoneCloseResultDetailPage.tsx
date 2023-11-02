@@ -12,6 +12,7 @@ import { useTitle } from 'hooks/useTitle';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -19,7 +20,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
-import { createDateTime } from 'utils/utils';
 
 export const ProductMilestoneCloseResultDetailPage = () => {
   const { productMilestoneId } = useParams();
@@ -60,10 +60,10 @@ export const ProductMilestoneCloseResultDetailPage = () => {
               <ProductMilestoneCloseStatusLabelMapper status={closeResult?.status} />
             </AttributesItem>
             <AttributesItem title={productMilestoneCloseResultEntityAttributes.startingDate.title}>
-              {closeResult?.startingDate && createDateTime({ date: closeResult.startingDate }).custom}
+              {closeResult?.startingDate && <DateTime date={closeResult.startingDate} />}
             </AttributesItem>
             <AttributesItem title={productMilestoneCloseResultEntityAttributes.endDate.title}>
-              {closeResult?.endDate && createDateTime({ date: closeResult.endDate }).custom}
+              {closeResult?.endDate && <DateTime date={closeResult.endDate} />}
             </AttributesItem>
           </Attributes>
         </ContentBox>
