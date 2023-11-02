@@ -65,8 +65,6 @@ export const ActionModal = ({
     setWasAnyActionSuccessful(true);
   }
 
-  const wereSubmitDataChangedOrUndefined = wereSubmitDataChanged === undefined || !wereSubmitDataChanged;
-
   const onClose = () => {
     if (wasAnyActionSuccessful) {
       refresh();
@@ -100,7 +98,7 @@ export const ActionModal = ({
           {serviceContainer && (!serviceContainer.error || serviceContainer.loading) && (
             <ServiceContainerLoading variant="icon" {...serviceContainer} title={actionTitle} />
           )}{' '}
-          {wasLastActionSuccessful && wereSubmitDataChangedOrUndefined && <CheckIcon />} {actionTitle}
+          {wasLastActionSuccessful && !wereSubmitDataChanged && <CheckIcon />} {actionTitle}
         </Button>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
         <Button variant="link" onClick={onClose}>
@@ -112,7 +110,7 @@ export const ActionModal = ({
       // custom close icon is implemented instead
       showClose={false}
     >
-      {serviceContainer && wereSubmitDataChangedOrUndefined ? (
+      {serviceContainer ? (
         <div className="m-r-0">
           <ServiceContainerCreatingUpdating {...serviceContainer} title={actionTitle}>
             {modalContent}
