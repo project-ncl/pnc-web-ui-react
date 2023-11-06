@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Build } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -107,6 +108,7 @@ export const BuildPages = () => {
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
       <PageLayout
         title={<BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername />}
+        breadcrumbs={[{ entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id }]}
         tabs={pageTabs}
         actions={actions}
       >

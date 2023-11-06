@@ -1,6 +1,7 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -60,6 +61,12 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
     <ServiceContainerLoading {...serviceContainerScmRepository} title="SCM Repository details">
       <PageLayout
         title={generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data! })}
+        breadcrumbs={[
+          {
+            entity: breadcrumbData.scmRepository.id,
+            title: generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data! }),
+          },
+        ]}
         actions={<ActionButton link="edit">Edit SCM Repository</ActionButton>}
       >
         <ContentBox padding marginBottom isResponsive>

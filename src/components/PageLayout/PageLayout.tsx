@@ -1,7 +1,8 @@
-import { Divider, PageSection, PageSectionVariants, Switch, Text, TextContent } from '@patternfly/react-core';
+import { Divider, PageBreadcrumb, PageSection, PageSectionVariants, Switch, Text, TextContent } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React, { useState } from 'react';
 
+import { Breadcrumb, IBreadcrumbData } from 'components/Breadcrumb/Breadcrumb';
 import { PageWithSidebar } from 'components/PageWithSidebar/PageWithSidebar';
 
 interface IAppLayoutProps {
@@ -9,6 +10,7 @@ interface IAppLayoutProps {
   description?: React.ReactNode; // not just string, also components can be used
   actions?: React.ReactNode;
   tabs?: React.ReactNode;
+  breadcrumbs?: IBreadcrumbData[];
   sidebar?: {
     content: React.ReactNode;
     title: string;
@@ -42,12 +44,18 @@ export const PageLayout = ({
   description,
   actions,
   tabs,
+  breadcrumbs,
   sidebar,
 }: React.PropsWithChildren<IAppLayoutProps>) => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);
 
   const pageContent = (
     <>
+      {breadcrumbs && (
+        <PageBreadcrumb>
+          <Breadcrumb pageBreadcrumbs={breadcrumbs} />
+        </PageBreadcrumb>
+      )}
       <PageSection variant={PageSectionVariants.light}>
         <TextContent className={css((actions || sidebar) && 'pull-left')}>
           <Text component="h1">{title}</Text>

@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Build, BuildConfiguration } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -137,6 +138,7 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
     <ServiceContainerLoading {...serviceContainerBuildConfig} title="Build Config details">
       <PageLayout
         title={serviceContainerBuildConfig.data?.name}
+        breadcrumbs={[{ entity: breadcrumbData.buildConfig.id, title: serviceContainerBuildConfig.data?.name }]}
         tabs={pageTabs}
         actions={
           <ProtectedComponent>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { GroupConfiguration, Product, ProductVersion } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 import { productEntityAttributes } from 'common/productEntityAttributes';
@@ -268,6 +269,14 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   return (
     <PageLayout
       title={isEditPage ? PageTitles.groupConfigEdit : PageTitles.groupConfigCreate}
+      breadcrumbs={
+        isEditPage
+          ? [
+              { entity: breadcrumbData.groupConfig.id, title: serviceContainerEditPageGet.data?.name, url: '-/edit' },
+              { entity: breadcrumbData.edit.id, title: PageTitles.groupConfigEdit, custom: true },
+            ]
+          : [{ entity: breadcrumbData.create.id, title: PageTitles.groupConfigCreate }]
+      }
       description={
         isEditPage ? (
           <>You can edit current Group Config attributes below.</>

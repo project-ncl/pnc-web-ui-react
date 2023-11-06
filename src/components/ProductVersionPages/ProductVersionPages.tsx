@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { ProductVersion } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -103,6 +104,10 @@ export const ProductVersionPages = () => {
       <PageLayout
         title={`${serviceContainerProductVersion.data?.product?.name} ${serviceContainerProductVersion.data?.version}`}
         tabs={pageTabs}
+        breadcrumbs={[
+          { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+          { entity: breadcrumbData.productVersion.id, title: serviceContainerProductVersion.data?.version },
+        ]}
         actions={
           <ProtectedComponent>
             <ActionButton link="edit">Edit Product Version</ActionButton>

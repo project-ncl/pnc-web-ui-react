@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -105,7 +106,10 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
   return (
     <ServiceContainerLoading {...serviceContainerGroupBuild} title="Group Build details">
-      <PageLayout title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}>
+      <PageLayout
+        title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}
+        breadcrumbs={[{ entity: breadcrumbData.groupBuild.id, title: serviceContainerGroupBuild.data?.id }]}
+      >
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
             <AttributesItem title={groupBuildEntityAttributes.status.title}>

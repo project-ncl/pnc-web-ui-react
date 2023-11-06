@@ -1,6 +1,7 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
@@ -60,6 +61,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
       <PageLayout
         title={serviceContainerProject.data?.name}
         description={serviceContainerProject.data?.description}
+        breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
         actions={<ActionButton link="edit">Edit Project</ActionButton>}
       >
         <ContentBox padding marginBottom isResponsive>

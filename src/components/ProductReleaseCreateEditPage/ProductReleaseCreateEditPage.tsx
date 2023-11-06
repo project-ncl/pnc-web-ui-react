@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProductMilestone, ProductMilestoneRef, ProductRelease, ProductVersionRef } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
@@ -348,6 +349,20 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
     <PageLayout
       title={isEditPage ? PageTitles.productReleaseEdit : PageTitles.productReleaseCreate}
       description={isEditPage ? <>You can edit current Release attributes below.</> : <>You can create a new Product Release.</>}
+      breadcrumbs={
+        isEditPage
+          ? [
+              { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+              { entity: breadcrumbData.productVersion.id, title: serviceContainerProductVersion.data?.version },
+              { entity: breadcrumbData.productRelease.id, title: serviceContainerEditPageGet.data?.version },
+              { entity: breadcrumbData.edit.id, title: PageTitles.productReleaseEdit, custom: true },
+            ]
+          : [
+              { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+              { entity: breadcrumbData.productVersion.id, title: serviceContainerProductVersion.data?.version },
+              { entity: breadcrumbData.productRelease.id, title: PageTitles.productReleaseCreate },
+            ]
+      }
     >
       {isEditPage ? (
         <ServiceContainerCreatingUpdating

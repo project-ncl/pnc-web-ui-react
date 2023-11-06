@@ -1,6 +1,7 @@
 import { AppLayout } from 'AppLayout';
 import { Navigate, Route } from 'react-router-dom';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles } from 'common/constants';
 
 import { AboutPage } from 'components/AboutPage/AboutPage';
@@ -82,10 +83,11 @@ export const AppRoutes = (
   <Route element={<AppLayout />}>
     <Route path="/" element={<DashboardPage />} />
     {/* entity pages */}
-    <Route path="products">
+    <Route path="products" handle={breadcrumbData.products.id}>
       <Route index element={<ProductsPage />} />
       <Route
         path="create"
+        handle={breadcrumbData.create.id}
         element={
           <ProtectedRoute title={PageTitles.productCreate}>
             <ProductCreateEditPage />
@@ -94,17 +96,19 @@ export const AppRoutes = (
       />
       <Route
         path=":productId/edit"
+        handle={breadcrumbData.product.id}
         element={
           <ProtectedRoute title={PageTitles.productEdit}>
             <ProductCreateEditPage isEditPage />
           </ProtectedRoute>
         }
       />
-      <Route path=":productId">
+      <Route path=":productId" handle={breadcrumbData.product.id}>
         <Route index element={<ProductDetailPage />} />
         <Route path="versions">
           <Route
             path="create"
+            handle={breadcrumbData.create.id}
             element={
               <ProtectedRoute title={PageTitles.productVersionCreate}>
                 <ProductVersionCreateEditPage />
@@ -114,6 +118,7 @@ export const AppRoutes = (
           <Route path=":productVersionId">
             <Route
               path="edit"
+              handle={breadcrumbData.productVersion.id}
               element={
                 <ProtectedRoute title={PageTitles.productVersionEdit}>
                   <ProductVersionCreateEditPage isEditPage />
@@ -121,7 +126,7 @@ export const AppRoutes = (
               }
             />
           </Route>
-          <Route path=":productVersionId" element={<ProductVersionPages />}>
+          <Route path=":productVersionId" element={<ProductVersionPages />} handle={breadcrumbData.productVersion.id}>
             <Route path="details" element={<ProductVersionDetailPage />} />
             <Route path="milestones" element={<ProductVersionMilestonesPage />} />
             <Route path="releases" element={<ProductVersionReleasesPage />} />
@@ -129,9 +134,10 @@ export const AppRoutes = (
             <Route path="group-configs" element={<ProductVersionGroupConfigsPage />} />
             <Route index element={<Navigate to="details" replace />} />
           </Route>
-          <Route path=":productVersionId">
+          <Route path=":productVersionId" handle={breadcrumbData.productVersion.id}>
             <Route
               path="build-configs/edit"
+              handle={breadcrumbData.buildConfigs.id}
               element={
                 <ProtectedRoute title={PageTitles.productVersionEdit}>
                   <ProductVersionBuildConfigsEditPage />
@@ -140,6 +146,7 @@ export const AppRoutes = (
             />
             <Route
               path="group-configs/edit"
+              handle={breadcrumbData.groupConfigs.id}
               element={
                 <ProtectedRoute title={PageTitles.productVersionEdit}>
                   <ProductVersionGroupConfigsEditPage />
@@ -149,6 +156,7 @@ export const AppRoutes = (
             <Route path="milestones">
               <Route
                 path="create"
+                handle={breadcrumbData.create.id}
                 element={
                   <ProtectedRoute title={PageTitles.productMilestoneCreate}>
                     <ProductMilestoneCreateEditPage />
@@ -158,20 +166,27 @@ export const AppRoutes = (
               <Route path=":productMilestoneId">
                 <Route
                   path="edit"
+                  handle={breadcrumbData.productMilestone.id}
                   element={
                     <ProtectedRoute title={PageTitles.productMilestoneEdit}>
                       <ProductMilestoneCreateEditPage isEditPage />
                     </ProtectedRoute>
                   }
                 />
-                <Route path="close-results/:closeResultId" index element={<ProductMilestoneCloseResultDetailPage />} />
+                <Route
+                  path="close-results/:closeResultId"
+                  index
+                  handle={breadcrumbData.productMilestone.id}
+                  element={<ProductMilestoneCloseResultDetailPage />}
+                />
                 <Route
                   path="deliverables-analysis/:deliverablesAnalysisId"
                   index
+                  handle={breadcrumbData.productMilestone.id}
                   element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
                 />
               </Route>
-              <Route path=":productMilestoneId" element={<ProductMilestonePages />}>
+              <Route path=":productMilestoneId" element={<ProductMilestonePages />} handle={breadcrumbData.productMilestone.id}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
                 <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
@@ -188,7 +203,7 @@ export const AppRoutes = (
                 <Route index element={<Navigate to="details" replace />} />
               </Route>
             </Route>
-            <Route path="releases">
+            <Route path="releases" handle={breadcrumbData.productRelease.id}>
               <Route
                 path="create"
                 element={
@@ -212,10 +227,11 @@ export const AppRoutes = (
         </Route>
       </Route>
     </Route>
-    <Route path="projects">
+    <Route path="projects" handle={breadcrumbData.projects.id}>
       <Route index element={<ProjectsPage />} />
       <Route
         path="create"
+        handle={breadcrumbData.create.id}
         element={
           <ProtectedRoute title={PageTitles.projectCreate}>
             <ProjectCreateEditPage />
@@ -223,9 +239,10 @@ export const AppRoutes = (
         }
       />
       <Route path=":projectId">
-        <Route index element={<ProjectDetailPage />} />
+        <Route index element={<ProjectDetailPage />} handle={breadcrumbData.project.id} />
         <Route
           path="edit"
+          handle={breadcrumbData.project.id}
           element={
             <ProtectedRoute title={PageTitles.projectEdit}>
               <ProjectCreateEditPage isEditPage />
@@ -234,6 +251,7 @@ export const AppRoutes = (
         />
         <Route
           path="build-configs/create"
+          handle={breadcrumbData.project.id}
           element={
             <ProtectedRoute title={PageTitles.buildConfigCreate}>
               <BuildConfigCreateEditPage />
@@ -242,9 +260,9 @@ export const AppRoutes = (
         />
       </Route>
     </Route>
-    <Route path="build-configs">
+    <Route path="build-configs" handle={breadcrumbData.buildConfigs.id}>
       <Route index element={<BuildConfigsPage />} />
-      <Route path=":buildConfigId" element={<BuildConfigPages />}>
+      <Route path=":buildConfigId" element={<BuildConfigPages />} handle={breadcrumbData.buildConfig.id}>
         <Route path="details" element={<BuildConfigDetailPage />} />
         <Route path="dependencies" element={<BuildConfigDependenciesPage />} />
         <Route path="dependants" element={<BuildConfigDependantsPage />} />
@@ -258,6 +276,7 @@ export const AppRoutes = (
       <Route path=":buildConfigId">
         <Route
           path="edit"
+          handle={breadcrumbData.buildConfig.id}
           element={
             <ProtectedRoute title={PageTitles.buildConfigEdit}>
               <BuildConfigCreateEditPage isEditPage />
@@ -266,6 +285,7 @@ export const AppRoutes = (
         />
         <Route
           path="dependencies/edit"
+          handle={breadcrumbData.buildConfig.id}
           element={
             <ProtectedRoute title={PageTitles.buildConfigEdit}>
               <BuildConfigDependenciesEditPage />
@@ -274,12 +294,13 @@ export const AppRoutes = (
         />
       </Route>
     </Route>
-    <Route path="group-configs">
+    <Route path="group-configs" handle={breadcrumbData.groupConfigs.id}>
       <Route index element={<GroupConfigsPage />} />
       <Route path=":groupConfigId">
-        <Route index element={<GroupConfigDetailPage />} />
+        <Route index element={<GroupConfigDetailPage />} handle={breadcrumbData.groupConfig.id} />
         <Route
           path="edit"
+          handle={breadcrumbData.groupConfig.id}
           element={
             <ProtectedRoute title={PageTitles.groupConfigEdit}>
               <GroupConfigCreateEditPage isEditPage />
@@ -288,6 +309,7 @@ export const AppRoutes = (
         />
         <Route
           path="build-configs/edit"
+          handle={breadcrumbData.groupConfig.id}
           element={
             <ProtectedRoute title={PageTitles.groupConfigEdit}>
               <GroupConfigBuildConfigsEditPage />
@@ -297,6 +319,7 @@ export const AppRoutes = (
       </Route>
       <Route
         path="create"
+        handle={breadcrumbData.create.id}
         element={
           <ProtectedRoute title={PageTitles.groupConfigCreate}>
             <GroupConfigCreateEditPage />
@@ -304,9 +327,9 @@ export const AppRoutes = (
         }
       />
     </Route>
-    <Route path="builds">
+    <Route path="builds" handle={breadcrumbData.builds.id}>
       <Route index element={<BuildsPage />} />
-      <Route path=":buildId" element={<BuildPages />}>
+      <Route path=":buildId" element={<BuildPages />} handle={breadcrumbData.build.id}>
         <Route path="details" element={<BuildDetailPage />} />
         <Route path="build-log" element={<BuildLogPage />} />
         <Route path="alignment-log" element={<BuildAlignmentLogPage />} />
@@ -325,23 +348,24 @@ export const AppRoutes = (
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
-    <Route path="group-builds">
+    <Route path="group-builds" handle={breadcrumbData.groupBuilds.id}>
       <Route index element={<GroupBuildsPage />} />
-      <Route path=":groupBuildId" element={<GroupBuildDetailPage />} />
+      <Route path=":groupBuildId" element={<GroupBuildDetailPage />} handle={breadcrumbData.groupBuild.id} />
     </Route>
-    <Route path="artifacts">
+    <Route path="artifacts" handle={breadcrumbData.artifacts.id}>
       <Route index element={<ArtifactsPage />} />
-      <Route path=":artifactId" element={<ArtifactPages />}>
+      <Route path=":artifactId" element={<ArtifactPages />} handle={breadcrumbData.artifact.id}>
         <Route path="details" element={<ArtifactDetailPage />} />
         <Route path="usages" element={<ArtifactUsagesPage />} />
         <Route path="milestones" element={<ArtifactProductMilestonesReleasesPage />} />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
-    <Route path="scm-repositories">
+    <Route path="scm-repositories" handle={breadcrumbData.scmRepositories.id}>
       <Route index element={<ScmRepositoriesPage />} />
       <Route
         path="create"
+        handle={breadcrumbData.create.id}
         element={
           <ProtectedRoute title={PageTitles.scmRepositoryCreate}>
             <ScmRepositoryCreateEditPage />
@@ -350,13 +374,14 @@ export const AppRoutes = (
       />
       <Route
         path=":scmRepositoryId/edit"
+        handle={breadcrumbData.scmRepository.id}
         element={
           <ProtectedRoute title={PageTitles.scmRepositoryEdit}>
             <ScmRepositoryCreateEditPage isEditPage />
           </ProtectedRoute>
         }
       />
-      <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} />
+      <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} handle={breadcrumbData.scmRepository.id} />
     </Route>
 
     {/* special pages */}

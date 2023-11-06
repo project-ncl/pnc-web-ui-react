@@ -3,6 +3,7 @@ import { useCallback, useEffect } from 'react';
 
 import { GroupBuild } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
@@ -119,6 +120,7 @@ export const GroupConfigDetailPage = ({
     <ServiceContainerLoading {...serviceContainerGroupConfig} title="Group Config details">
       <PageLayout
         title={serviceContainerGroupConfig.data?.name}
+        breadcrumbs={[{ entity: breadcrumbData.groupConfig.id, title: serviceContainerGroupConfig.data?.name }]}
         actions={[
           <ProtectedComponent>
             <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />

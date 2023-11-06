@@ -13,8 +13,6 @@ import {
   PageHeaderTools,
   PageHeaderToolsGroup,
   PageHeaderToolsItem,
-  /*Breadcrumb,
-BreadcrumbItem,*/
   PageSidebar,
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
@@ -259,19 +257,6 @@ export const AppLayout = () => {
   };
 
   const AppSidebar = <PageSidebar nav={<AppNavigation />} />;
-
-  /*
-  const AppBreadcrumb = (
-    <Breadcrumb>
-      <BreadcrumbItem>Section home</BreadcrumbItem>
-      <BreadcrumbItem to="#">Section title</BreadcrumbItem>
-      <BreadcrumbItem to="#">Section title</BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
-        Section landing
-      </BreadcrumbItem>
-    </Breadcrumb>
-  );
-  */
 
   return (
     <>
