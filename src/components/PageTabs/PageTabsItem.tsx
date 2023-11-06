@@ -3,11 +3,11 @@ import styles from '@patternfly/react-styles/css/components/Tabs/tabs';
 import { PropsWithChildren } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-interface ITabsItemProps {
+interface IPageTabsItemProps {
   url: string;
 }
 
-export const TabsItem = ({ children, url }: PropsWithChildren<ITabsItemProps>) => {
+export const PageTabsItem = ({ children, url }: PropsWithChildren<IPageTabsItemProps>) => {
   const { pathname } = useLocation();
 
   return (

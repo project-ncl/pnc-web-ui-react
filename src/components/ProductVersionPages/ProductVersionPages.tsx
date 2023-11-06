@@ -8,10 +8,10 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageTabs } from 'components/PageTabs/PageTabs';
+import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { Tabs } from 'components/Tabs/Tabs';
-import { TabsItem } from 'components/Tabs/TabsItem';
 
 import * as productVersionApi from 'services/productVersionApi';
 
@@ -39,13 +39,13 @@ export const ProductVersionPages = () => {
   );
 
   const pageTabs = (
-    <Tabs>
-      <TabsItem url="details">Details</TabsItem>
-      <TabsItem url="milestones">Milestones</TabsItem>
-      <TabsItem url="releases">Releases</TabsItem>
-      <TabsItem url="build-configs">Build Configs</TabsItem>
-      <TabsItem url="group-configs">Group Configs</TabsItem>
-    </Tabs>
+    <PageTabs>
+      <PageTabsItem url="details">Details</PageTabsItem>
+      <PageTabsItem url="milestones">Milestones</PageTabsItem>
+      <PageTabsItem url="releases">Releases</PageTabsItem>
+      <PageTabsItem url="build-configs">Build Configs</PageTabsItem>
+      <PageTabsItem url="group-configs">Group Configs</PageTabsItem>
+    </PageTabs>
   );
 
   return (

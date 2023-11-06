@@ -4,18 +4,18 @@ import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 
-import styles from './Tabs.module.css';
+import styles from './PageTabs.module.css';
 
 const stickyOnBreakpoint: PageSectionProps['stickyOnBreakpoint'] = { default: 'top' };
 
 const SCROLL_OFFSET = 150;
 const SCROLL_DISABLED_AREA = 5;
 
-interface ITabsProps {
+interface IPageTabsProps {
   children: ReactElement | ReactElement[];
 }
 
-export const Tabs = ({ children }: ITabsProps) => {
+export const PageTabs = ({ children }: IPageTabsProps) => {
   const [isScrollButtonDisplayed, setIsScrollButtonDisplayed] = useState<boolean>(false);
   const [isScrollLeftDisabled, setIsScrollLeftDisabled] = useState<boolean>(true);
   const [isScrollRightDisabled, setIsScrollRightDisabled] = useState<boolean>(false);

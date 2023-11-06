@@ -5,14 +5,14 @@ import { IServiceContainer } from 'hooks/useServiceContainer';
 
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
-import styles from './TabsLabel.module.css';
+import styles from './PageTabsLabel.module.css';
 
-interface ITabsLabelProps {
+interface IPageTabsLabelProps {
   serviceContainer: IServiceContainer;
   title: string;
 }
 
-export const TabsLabel = ({ serviceContainer, title, children }: PropsWithChildren<ITabsLabelProps>) => {
+export const PageTabsLabel = ({ serviceContainer, title, children }: PropsWithChildren<IPageTabsLabelProps>) => {
   return (
     <span className={styles['page-section-tabs-label']}>
       <Tooltip content={title}>

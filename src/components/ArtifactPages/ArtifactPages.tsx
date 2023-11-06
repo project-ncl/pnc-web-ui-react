@@ -7,9 +7,9 @@ import { useTitle } from 'hooks/useTitle';
 import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
 import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModalButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageTabs } from 'components/PageTabs/PageTabs';
+import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { Tabs } from 'components/Tabs/Tabs';
-import { TabsItem } from 'components/Tabs/TabsItem';
 
 import * as artifactApi from 'services/artifactApi';
 
@@ -40,11 +40,11 @@ export const ArtifactPages = () => {
   );
 
   const pageTabs = (
-    <Tabs>
-      <TabsItem url="details">Details</TabsItem>
-      <TabsItem url="usages">Usages</TabsItem>
-      <TabsItem url="milestones">Milestones and Releases</TabsItem>
-    </Tabs>
+    <PageTabs>
+      <PageTabsItem url="details">Details</PageTabsItem>
+      <PageTabsItem url="usages">Usages</PageTabsItem>
+      <PageTabsItem url="milestones">Milestones and Releases</PageTabsItem>
+    </PageTabs>
   );
 
   return (
