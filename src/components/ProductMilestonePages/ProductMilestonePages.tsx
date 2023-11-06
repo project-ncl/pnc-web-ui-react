@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -167,6 +168,14 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           title={`${serviceContainerProductVersion.data?.product?.name ?? ''} ${serviceContainerProductMilestone.data?.version}`}
           tabs={pageTabs}
           actions={actions}
+          breadcrumbs={[
+            { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+            {
+              entity: breadcrumbData.productVersion.id,
+              title: serviceContainerProductMilestone.data?.productVersion?.version,
+            },
+            { entity: breadcrumbData.productMilestone.id, title: serviceContainerProductMilestone.data?.version },
+          ]}
         >
           <Outlet context={{ serviceContainerProductMilestone }} />
         </PageLayout>

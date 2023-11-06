@@ -28,6 +28,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
@@ -65,6 +66,7 @@ import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
 import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
+import * as projectApi from 'services/projectApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { maxLengthValidator255, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
@@ -137,6 +139,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const serviceContainerCreateWithoutScm = useServiceContainer(buildConfigApi.createBuildConfig);
   const serviceContainerCreateWithScm = useServiceContainer(buildConfigApi.createBuildConfigWithScm);
   const serviceContainerCreateWithScmTaskId = serviceContainerCreateWithScm.data?.taskId;
+
+  const serviceContainerProject = useServiceContainer(projectApi.getProject);
+  const serviceContainerProjectRunner = serviceContainerProject.run;
 
   // edit page - get method
   const serviceContainerEditPageGet = useServiceContainer(buildConfigApi.getBuildConfig);
@@ -335,6 +340,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   };
 
   useEffect(() => {
+    if (!isEditPage && projectId) {
+      serviceContainerProjectRunner({ serviceData: { id: projectId } });
+    }
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: buildConfigId } }).then((response) => {
         const buildConfig = response.data;
@@ -363,7 +371,15 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         }
       });
     }
-  }, [isEditPage, buildConfigId, serviceContainerEditPageGetRunner, serviceContainerProductVersionRunner, setFieldValues]);
+  }, [
+    isEditPage,
+    buildConfigId,
+    projectId,
+    serviceContainerEditPageGetRunner,
+    serviceContainerProductVersionRunner,
+    serviceContainerProjectRunner,
+    setFieldValues,
+  ]);
 
   useEffect(() => {
     serviceContainerParametersRunner().then((response) => {
@@ -1046,6 +1062,21 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   return (
     <PageLayout
       title={isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
+      breadcrumbs={
+        isEditPage
+          ? [
+              { entity: breadcrumbData.buildConfig.id, title: serviceContainerEditPageGet.data?.name, url: '-/edit' },
+              { entity: breadcrumbData.edit.id, title: PageTitles.buildConfigEdit, custom: true },
+            ]
+          : [
+              {
+                entity: breadcrumbData.project.id,
+                title: serviceContainerProject.data?.name,
+                url: '-/build-configs/create',
+              },
+              { entity: breadcrumbData.create.id, title: PageTitles.buildConfigCreate, custom: true },
+            ]
+      }
       description={
         isEditPage ? <>You can update current Build Config attributes below.</> : <>You can create a new Build Config.</>
       }

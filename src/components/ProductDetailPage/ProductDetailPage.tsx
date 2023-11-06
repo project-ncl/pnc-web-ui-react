@@ -1,6 +1,7 @@
 import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect } from 'react';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -29,7 +30,6 @@ interface IProductDetailPageProps {
 
 export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProps) => {
   const { productId } = useParamsRequired();
-
   const serviceContainerProduct = useServiceContainer(productApi.getProduct);
   const serviceContainerProductRunner = serviceContainerProduct.run;
 
@@ -55,6 +55,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
       <PageLayout
         title={serviceContainerProduct.data?.name}
         description={serviceContainerProduct.data?.description}
+        breadcrumbs={[{ entity: breadcrumbData.product.id, title: serviceContainerProduct.data?.name }]}
         actions={
           <ProtectedComponent>
             <ActionButton link="edit">Edit Product</ActionButton>

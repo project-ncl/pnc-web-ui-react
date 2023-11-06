@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { GroupConfiguration } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -115,6 +116,11 @@ export const ProductVersionGroupConfigsEditPage = ({
             Submit changes
           </Button>
         </>,
+      ]}
+      breadcrumbs={[
+        { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+        { entity: breadcrumbData.productVersion.id, title: serviceContainerProductVersion.data?.version },
+        { entity: breadcrumbData.groupConfigs.id, title: PageTitles.groupConfigEdit },
       ]}
       description={
         <>

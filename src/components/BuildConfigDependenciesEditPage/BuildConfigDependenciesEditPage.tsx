@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { BuildConfiguration } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
+import { PageTitles } from 'common/constants';
+
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { usePatchOperation } from 'hooks/usePatchOperation';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -95,9 +98,14 @@ export const BuildConfigDependenciesEditPage = ({
 
   return (
     <PageLayout
-      title={`Add and remove Build Config dependencies${
-        serviceContainerBuildConfig.data?.name ? ' in ' + serviceContainerBuildConfig.data.name : ''
-      }`}
+      title={
+        PageTitles.buildConfigAddRemoveDependencies +
+        `${serviceContainerBuildConfig.data?.name ? ' in ' + serviceContainerBuildConfig.data.name : ''}`
+      }
+      breadcrumbs={[
+        { entity: breadcrumbData.buildConfig.id, title: serviceContainerBuildConfig.data?.name, url: '-/dependencies/edit' },
+        { entity: breadcrumbData.edit.id, title: PageTitles.buildConfigAddRemoveDependencies, custom: true },
+      ]}
       actions={[
         <>
           <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>

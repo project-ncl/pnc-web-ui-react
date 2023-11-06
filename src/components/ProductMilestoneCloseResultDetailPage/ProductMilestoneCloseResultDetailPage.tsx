@@ -3,7 +3,8 @@ import { useCallback, useEffect } from 'react';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
-import { PageTitles } from 'common/constants';
+import { breadcrumbData } from 'common/breadcrumbData';
+import { EntityTitles, PageTitles } from 'common/constants';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -22,15 +23,19 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
+import * as productVersionApi from 'services/productVersionApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneCloseResultDetailPage = () => {
-  const { productMilestoneId, closeResultId } = useParamsRequired();
+  const { productMilestoneId, closeResultId, productVersionId } = useParamsRequired();
 
   const serviceContainerProdutMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerProdutMilestoneCloseResultRunner = serviceContainerProdutMilestoneCloseResult.run;
   const serviceContainerProductMilestoneCloseResultSetter = serviceContainerProdutMilestoneCloseResult.setData;
+
+  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
+  const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
   const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProdutMilestoneCloseResult.data?.content?.[0];
 
@@ -43,7 +48,14 @@ export const ProductMilestoneCloseResultDetailPage = () => {
         },
       },
     });
-  }, [serviceContainerProdutMilestoneCloseResultRunner, productMilestoneId, closeResultId]);
+    serviceContainerProductVersionRunner({ serviceData: { id: productVersionId } });
+  }, [
+    serviceContainerProdutMilestoneCloseResultRunner,
+    serviceContainerProductVersionRunner,
+    productVersionId,
+    productMilestoneId,
+    closeResultId,
+  ]);
 
   usePncWebSocketEffect(
     useCallback(
@@ -70,34 +82,64 @@ export const ProductMilestoneCloseResultDetailPage = () => {
   );
 
   return (
-    <ServiceContainerLoading {...serviceContainerProdutMilestoneCloseResult} title="Product Milestone Close Result details">
-      <PageLayout title="Close Result">
-        <ContentBox padding marginBottom isResponsive>
-          <Attributes>
-            <AttributesItem title={productMilestoneCloseResultEntityAttributes.id.title}>{closeResult?.id}</AttributesItem>
-            <AttributesItem title={productMilestoneCloseResultEntityAttributes.status.title}>
-              {closeResult && <ProductMilestoneCloseStatusLabelMapper status={closeResult.status} />}
-            </AttributesItem>
-            <AttributesItem title={productMilestoneCloseResultEntityAttributes.startingDate.title}>
-              {closeResult?.startingDate && <DateTime date={closeResult.startingDate} />}
-            </AttributesItem>
-            <AttributesItem title={productMilestoneCloseResultEntityAttributes.endDate.title}>
-              {closeResult?.endDate && <DateTime date={closeResult.endDate} />}
-            </AttributesItem>
-          </Attributes>
-        </ContentBox>
+    <ServiceContainerLoading {...serviceContainerProductVersion} title={EntityTitles.productVersion}>
+      <ServiceContainerLoading {...serviceContainerProdutMilestoneCloseResult} title="Product Milestone Close Result details">
+        <PageLayout
+          title="Close Result"
+          breadcrumbs={[
+            {
+              entity: breadcrumbData.product.id,
+              title: serviceContainerProductVersion.data?.product?.name,
+            },
+            {
+              entity: breadcrumbData.productVersion.id,
+              title: serviceContainerProductVersion.data?.version,
+            },
+            {
+              entity: breadcrumbData.productMilestone.id,
+              title: serviceContainerProdutMilestoneCloseResult.data?.content?.at(0)?.milestone?.version,
+              url: '-/close-results/',
+            },
+            {
+              entity: breadcrumbData.closeResults.id,
+              title: breadcrumbData.closeResults.title,
+              url: '+/close-results',
+              custom: true,
+            },
+            {
+              entity: breadcrumbData.closeResult.id,
+              title: serviceContainerProdutMilestoneCloseResult.data?.content?.at(0)?.id,
+              custom: true,
+            },
+          ]}
+        >
+          <ContentBox padding marginBottom isResponsive>
+            <Attributes>
+              <AttributesItem title={productMilestoneCloseResultEntityAttributes.id.title}>{closeResult?.id}</AttributesItem>
+              <AttributesItem title={productMilestoneCloseResultEntityAttributes.status.title}>
+                {closeResult && <ProductMilestoneCloseStatusLabelMapper status={closeResult.status} />}
+              </AttributesItem>
+              <AttributesItem title={productMilestoneCloseResultEntityAttributes.startingDate.title}>
+                {closeResult?.startingDate && <DateTime date={closeResult.startingDate} />}
+              </AttributesItem>
+              <AttributesItem title={productMilestoneCloseResultEntityAttributes.endDate.title}>
+                {closeResult?.endDate && <DateTime date={closeResult.endDate} />}
+              </AttributesItem>
+            </Attributes>
+          </ContentBox>
 
-        <Toolbar borderBottom>
-          <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Pushed Builds</Text>
-            </TextContent>
-          </ToolbarItem>
-        </Toolbar>
-        <PushedBuildsList pushedBuilds={closeResult?.buildPushResults} />
+          <Toolbar borderBottom>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Pushed Builds</Text>
+              </TextContent>
+            </ToolbarItem>
+          </Toolbar>
+          <PushedBuildsList pushedBuilds={closeResult?.buildPushResults} />
 
-        {/* TODO: Log*/}
-      </PageLayout>
+          {/* TODO: Log*/}
+        </PageLayout>
+      </ServiceContainerLoading>
     </ServiceContainerLoading>
   );
 };

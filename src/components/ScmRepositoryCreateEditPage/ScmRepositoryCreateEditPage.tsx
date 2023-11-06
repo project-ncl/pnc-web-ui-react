@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { SCMRepository } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
@@ -244,6 +245,18 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   return (
     <PageLayout
       title={isEditPage ? PageTitles.scmRepositoryEdit : PageTitles.scmRepositoryCreate}
+      breadcrumbs={
+        isEditPage
+          ? [
+              {
+                entity: breadcrumbData.scmRepository.id,
+                title: generateScmRepositoryName({ scmRepository: serviceContainerEditPageGet.data! }),
+                url: '-/edit',
+              },
+              { entity: breadcrumbData.edit.id, title: PageTitles.scmRepositoryEdit, custom: true },
+            ]
+          : [{ entity: breadcrumbData.create.id, title: PageTitles.scmRepositoryCreate }]
+      }
       description={
         isEditPage ? (
           <>You can edit current SCM Repository attributes below.</>

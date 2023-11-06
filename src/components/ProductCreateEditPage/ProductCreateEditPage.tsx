@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Product } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
@@ -186,6 +187,14 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
   return (
     <PageLayout
       title={isEditPage ? PageTitles.productEdit : PageTitles.productCreate}
+      breadcrumbs={
+        isEditPage
+          ? [
+              { entity: breadcrumbData.product.id, title: serviceContainerEditPageGet.data?.name, url: '-/edit' },
+              { entity: breadcrumbData.edit.id, title: PageTitles.productEdit, custom: true },
+            ]
+          : [{ entity: breadcrumbData.create.id, title: PageTitles.productCreate }]
+      }
       description={
         isEditPage ? (
           <>You can edit current Product attributes below.</>

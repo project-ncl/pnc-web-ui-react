@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProductVersion } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
@@ -16,7 +17,9 @@ import { useTitle } from 'hooks/useTitle';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
+import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 
 import { validateProductVersionName } from 'utils/formValidationHelpers';
@@ -46,6 +49,10 @@ interface IProductVersionCreateEditPageProps {
 export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVersionCreateEditPageProps) => {
   const { productId, productVersionId } = useParamsRequired();
   const navigate = useNavigate();
+
+  // breadcrumb purposes
+  const serviceContainerProduct = useServiceContainer(productApi.getProduct);
+  const serviceContainerProductRunner = serviceContainerProduct.run;
 
   // create page
   const serviceContainerCreatePage = useServiceContainer(productVersionApi.createProductVersion);
@@ -110,6 +117,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
   };
 
   useEffect(() => {
+    serviceContainerProductRunner({ serviceData: { id: productId } });
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: productVersionId } }).then((response) => {
         setFieldValues({
@@ -118,7 +126,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
         });
       });
     }
-  }, [isEditPage, productVersionId, serviceContainerEditPageGetRunner, setFieldValues]);
+  }, [isEditPage, productVersionId, productId, serviceContainerProductRunner, serviceContainerEditPageGetRunner, setFieldValues]);
 
   const formComponent = (
     <ContentBox padding isResponsive>
@@ -183,23 +191,37 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
   );
 
   return (
-    <PageLayout
-      title={isEditPage ? PageTitles.productVersionEdit : PageTitles.productVersionCreate}
-      description={
-        isEditPage ? <>You can edit current Product Version attributes below.</> : <>You can create a new Product Version.</>
-      }
-    >
-      {isEditPage ? (
-        <ServiceContainerCreatingUpdating
-          {...serviceContainerEditPagePatch}
-          serviceContainerLoading={serviceContainerEditPageGet}
-          title="Product Version"
-        >
-          {formComponent}
-        </ServiceContainerCreatingUpdating>
-      ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
-      )}
-    </PageLayout>
+    <ServiceContainerLoading {...serviceContainerProduct} title={EntityTitles.product}>
+      <PageLayout
+        title={isEditPage ? PageTitles.productVersionEdit : PageTitles.productVersionCreate}
+        description={
+          isEditPage ? <>You can edit current Product Version attributes below.</> : <>You can create a new Product Version.</>
+        }
+        breadcrumbs={
+          isEditPage
+            ? [
+                { entity: breadcrumbData.product.id, title: serviceContainerEditPageGet.data?.product?.name },
+                { entity: breadcrumbData.productVersion.id, title: serviceContainerEditPageGet.data?.version, url: '-/edit' },
+                { entity: breadcrumbData.edit.id, title: PageTitles.productVersionEdit, custom: true },
+              ]
+            : [
+                { entity: breadcrumbData.product.id, title: serviceContainerProduct.data?.name },
+                { entity: breadcrumbData.create.id, title: PageTitles.productVersionCreate },
+              ]
+        }
+      >
+        {isEditPage ? (
+          <ServiceContainerCreatingUpdating
+            {...serviceContainerEditPagePatch}
+            serviceContainerLoading={serviceContainerEditPageGet}
+            title="Product Version"
+          >
+            {formComponent}
+          </ServiceContainerCreatingUpdating>
+        ) : (
+          <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        )}
+      </PageLayout>
+    </ServiceContainerLoading>
   );
 };

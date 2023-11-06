@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Project } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
@@ -228,6 +229,14 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   return (
     <PageLayout
       title={isEditPage ? PageTitles.projectEdit : PageTitles.projectCreate}
+      breadcrumbs={
+        isEditPage
+          ? [
+              { entity: breadcrumbData.project.id, title: serviceContainerEditPageGet.data?.name, url: '-/edit' },
+              { entity: breadcrumbData.edit.id, title: PageTitles.projectEdit, custom: true },
+            ]
+          : [{ entity: breadcrumbData.create.id, title: PageTitles.projectCreate }]
+      }
       description={
         isEditPage ? (
           <>You can edit current project attributes below.</>

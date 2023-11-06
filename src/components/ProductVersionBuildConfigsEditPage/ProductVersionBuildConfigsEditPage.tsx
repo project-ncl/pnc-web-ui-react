@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { BuildConfiguration } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -121,6 +122,11 @@ export const ProductVersionBuildConfigsEditPage = ({
             Submit changes
           </Button>
         </>,
+      ]}
+      breadcrumbs={[
+        { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+        { entity: breadcrumbData.productVersion.id, title: serviceContainerProductVersion.data?.version },
+        { entity: breadcrumbData.buildConfigs.id, title: PageTitles.buildConfigEdit },
       ]}
       description={
         <>

@@ -21,6 +21,8 @@ export const PageTitles = {
   buildConfigRevision: 'Build Config Revision',
   buildConfigCreate: 'Create Build Config',
   buildConfigEdit: 'Edit Build Config',
+  buildConfigAddRemoveDependencies: 'Add and remove Build Config dependencies',
+  buildConfigAddRemove: 'Add and remove Build Configs',
   groupConfigs: 'Group Configs',
   groupConfigCreate: 'Create Group Config',
   groupConfigEdit: 'Edit Group Config',
@@ -46,7 +48,10 @@ export const ButtonTitles = {
 };
 
 export const EntityTitles = {
+  artifact: 'Artifact',
+  build: 'Build',
   buildConfig: 'Build Config',
+  groupBuild: 'Group Build',
   groupConfig: 'Group Config',
   project: 'Project',
   product: 'Product',

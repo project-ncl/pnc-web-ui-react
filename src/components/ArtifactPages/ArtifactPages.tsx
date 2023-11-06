@@ -3,6 +3,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Artifact } from 'pnc-api-types-ts';
 
+import { breadcrumbData } from 'common/breadcrumbData';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -79,6 +80,7 @@ export const ArtifactPages = () => {
     <ServiceContainerLoading {...serviceContainerArtifact} title="Artifact details">
       <PageLayout
         title={serviceContainerArtifact.data?.identifier}
+        breadcrumbs={[{ entity: breadcrumbData.artifact.id, title: serviceContainerArtifact.data?.identifier }]}
         actions={<ArtifactEditQualityModalButton toggleModal={toggleEditQualityModal} variant="detail" />}
         tabs={pageTabs}
       >

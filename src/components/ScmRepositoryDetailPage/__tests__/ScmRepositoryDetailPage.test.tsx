@@ -11,11 +11,24 @@ jest.mock('services/keycloakService');
 jest.mock('services/uiLogger');
 jest.mock('services/webConfigService');
 
+const mockMatches = [
+  { id: '0', pathname: '/', params: { scmRepositoryId: '111' }, data: undefined, handle: undefined },
+  { id: '0-8', pathname: '/scm-repositories', params: { scmRepositoryId: '111' }, data: undefined, handle: 'scmRepositories' },
+  {
+    id: '0-8-3',
+    pathname: '/scm-repositories/111',
+    params: { scmRepositoryId: '111' },
+    data: undefined,
+    handle: undefined, //scmRepository but test is failing
+  },
+];
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
   useParams: () => ({
     scmRepositoryId: '111',
   }),
+  useMatches: () => mockMatches,
 }));
 
 describe('display ScmRepositoryDetailPage component', () => {

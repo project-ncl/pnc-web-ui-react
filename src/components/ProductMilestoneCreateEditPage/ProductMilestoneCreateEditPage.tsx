@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
@@ -311,23 +312,45 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
   );
 
   return (
-    <PageLayout
-      title={isEditPage ? PageTitles.productMilestoneEdit : PageTitles.productMilestoneCreate}
-      description={
-        isEditPage ? <>You can edit current Milestone attributes below.</> : <>You can create a new Product Milestone.</>
-      }
-    >
-      {isEditPage ? (
-        <ServiceContainerCreatingUpdating
-          {...serviceContainerEditPagePatch}
-          serviceContainerLoading={serviceContainerEditPageGet}
-          title="Product Milestone"
-        >
-          {formComponent}
-        </ServiceContainerCreatingUpdating>
-      ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
-      )}
-    </PageLayout>
+    <ServiceContainerLoading {...serviceContainerProductVersion} title={EntityTitles.productVersion}>
+      <PageLayout
+        title={isEditPage ? PageTitles.productMilestoneEdit : PageTitles.productMilestoneCreate}
+        description={
+          isEditPage ? <>You can edit current Milestone attributes below.</> : <>You can create a new Product Milestone.</>
+        }
+        breadcrumbs={
+          isEditPage
+            ? [
+                { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+                {
+                  entity: breadcrumbData.productVersion.id,
+                  title: serviceContainerProductVersion.data?.version,
+                },
+                { entity: breadcrumbData.productMilestone.id, title: serviceContainerEditPageGet.data?.version, url: '-/edit' },
+                { entity: breadcrumbData.edit.id, title: PageTitles.productMilestoneEdit, custom: true },
+              ]
+            : [
+                { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
+                {
+                  entity: breadcrumbData.productVersion.id,
+                  title: serviceContainerProductVersion.data?.version,
+                },
+                { entity: breadcrumbData.create.id, title: PageTitles.productMilestoneCreate },
+              ]
+        }
+      >
+        {isEditPage ? (
+          <ServiceContainerCreatingUpdating
+            {...serviceContainerEditPagePatch}
+            serviceContainerLoading={serviceContainerEditPageGet}
+            title="Product Milestone"
+          >
+            {formComponent}
+          </ServiceContainerCreatingUpdating>
+        ) : (
+          <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        )}
+      </PageLayout>
+    </ServiceContainerLoading>
   );
 };
