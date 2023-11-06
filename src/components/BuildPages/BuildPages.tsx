@@ -9,9 +9,9 @@ import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButto
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageTabs } from 'components/PageTabs/PageTabs';
+import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { Tabs } from 'components/Tabs/Tabs';
-import { TabsItem } from 'components/Tabs/TabsItem';
 
 import * as buildApi from 'services/buildApi';
 
@@ -42,16 +42,16 @@ export const BuildPages = () => {
   );
 
   const pageTabs = (
-    <Tabs>
-      <TabsItem url="details">Details</TabsItem>
-      <TabsItem url="build-log">Build Log</TabsItem>
-      <TabsItem url="alignment-log">Alignment Log</TabsItem>
-      <TabsItem url="artifacts">Artifacts</TabsItem>
-      <TabsItem url="dependencies">Dependencies</TabsItem>
-      <TabsItem url="brew-push">Brew Push</TabsItem>
-      <TabsItem url="build-metrics">Build Metrics</TabsItem>
-      <TabsItem url="artifact-dependency-graph">Artifact Dependency Graph</TabsItem>
-    </Tabs>
+    <PageTabs>
+      <PageTabsItem url="details">Details</PageTabsItem>
+      <PageTabsItem url="build-log">Build Log</PageTabsItem>
+      <PageTabsItem url="alignment-log">Alignment Log</PageTabsItem>
+      <PageTabsItem url="artifacts">Artifacts</PageTabsItem>
+      <PageTabsItem url="dependencies">Dependencies</PageTabsItem>
+      <PageTabsItem url="brew-push">Brew Push</PageTabsItem>
+      <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
+      <PageTabsItem url="artifact-dependency-graph">Artifact Dependency Graph</PageTabsItem>
+    </PageTabs>
   );
 
   const actions = [<BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data} />];

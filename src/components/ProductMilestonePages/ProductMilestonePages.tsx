@@ -10,6 +10,9 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageTabs } from 'components/PageTabs/PageTabs';
+import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
+import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
 import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
 import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
@@ -18,9 +21,6 @@ import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/
 import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { Tabs } from 'components/Tabs/Tabs';
-import { TabsItem } from 'components/Tabs/TabsItem';
-import { TabsLabel } from 'components/Tabs/TabsLabel';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
@@ -81,19 +81,19 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   );
 
   const pageTabs = (
-    <Tabs>
-      <TabsItem url="details">Details</TabsItem>
-      <TabsItem url="builds-performed">Builds Performed</TabsItem>
-      <TabsItem url="close-results">Close Results</TabsItem>
-      <TabsItem url="deliverables-analysis">Deliverables Analysis</TabsItem>
-      <TabsItem url="delivered-artifacts">
+    <PageTabs>
+      <PageTabsItem url="details">Details</PageTabsItem>
+      <PageTabsItem url="builds-performed">Builds Performed</PageTabsItem>
+      <PageTabsItem url="close-results">Close Results</PageTabsItem>
+      <PageTabsItem url="deliverables-analysis">Deliverables Analysis</PageTabsItem>
+      <PageTabsItem url="delivered-artifacts">
         Delivered Artifacts{' '}
-        <TabsLabel serviceContainer={serviceContainerArtifacts} title={'Delivered Artifacts Count'}>
+        <PageTabsLabel serviceContainer={serviceContainerArtifacts} title={'Delivered Artifacts Count'}>
           {serviceContainerArtifacts.data?.totalHits}
-        </TabsLabel>
-      </TabsItem>
-      <TabsItem url="interconnection-graph">Interconnection Graph</TabsItem>
-    </Tabs>
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="interconnection-graph">Interconnection Graph</PageTabsItem>
+    </PageTabs>
   );
 
   const actions = [
