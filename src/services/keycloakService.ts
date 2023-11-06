@@ -20,7 +20,7 @@ class KeycloakService {
   // We can't get KeycloakInstance type because of dynamic loading of Keycloak library
   private keycloakAuth: any = null;
 
-  private KEYCLOAK_TOKEN_MIN_EXP = 86400; // Default: 24 Hours
+  private KEYCLOAK_TOKEN_MIN_EXP = webConfigService.getWebConfig().ssoTokenLifespan;
 
   private isKeycloakInitialized;
 
