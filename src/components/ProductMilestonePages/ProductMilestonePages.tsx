@@ -40,6 +40,12 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion, 0);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
+  const serviceContainerBuilds = useServiceContainer(productMilestoneApi.getBuilds);
+  const serviceContainerBuildsRunner = serviceContainerBuilds.run;
+
+  const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
+  const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
+
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
@@ -63,10 +69,14 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       }
     });
 
+    serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
     serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [
     serviceContainerProductMilestoneRunner,
     serviceContainerProductVersionRunner,
+    serviceContainerBuildsRunner,
+    serviceContainerCloseResultsRunner,
     serviceContainerArtifactsRunner,
     productMilestoneId,
   ]);
@@ -83,12 +93,22 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const pageTabs = (
     <PageTabs>
       <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="builds-performed">Builds Performed</PageTabsItem>
-      <PageTabsItem url="close-results">Close Results</PageTabsItem>
+      <PageTabsItem url="builds-performed">
+        Builds Performed{' '}
+        <PageTabsLabel serviceContainer={serviceContainerBuilds} title="Build Performed Count">
+          {serviceContainerBuilds.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="close-results">
+        Close Results{' '}
+        <PageTabsLabel serviceContainer={serviceContainerCloseResults} title="Close Results Count">
+          {serviceContainerCloseResults.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
       <PageTabsItem url="deliverables-analysis">Deliverables Analysis</PageTabsItem>
       <PageTabsItem url="delivered-artifacts">
         Delivered Artifacts{' '}
-        <PageTabsLabel serviceContainer={serviceContainerArtifacts} title={'Delivered Artifacts Count'}>
+        <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Delivered Artifacts Count">
           {serviceContainerArtifacts.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
