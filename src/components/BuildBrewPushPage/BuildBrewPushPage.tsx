@@ -7,6 +7,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BuildPushStatusLabelMapper } from 'components/BuildPushStatusLabelMapper/BuildPushStatusLabelMapper';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
@@ -38,7 +39,9 @@ export const BuildBrewPushPage = () => {
           <ContentBox padding marginBottom isResponsive>
             <Attributes>
               <AttributesItem title={buildPushResultEntityAttributes.status.title}>
-                {serviceContainerBrewPush.data?.status}
+                {serviceContainerBrewPush.data?.status && (
+                  <BuildPushStatusLabelMapper status={serviceContainerBrewPush.data.status} />
+                )}
               </AttributesItem>
               <AttributesItem title={buildPushResultEntityAttributes.brewBuildId.title}>
                 {serviceContainerBrewPush.data?.brewBuildId}
