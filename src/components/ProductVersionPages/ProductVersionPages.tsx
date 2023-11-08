@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
-import { PageTitles } from 'common/constants';
+import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -10,6 +10,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
+import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
@@ -25,9 +26,33 @@ export const ProductVersionPages = () => {
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
+  const serviceContainerProductMilestones = useServiceContainer(productVersionApi.getProductMilestones);
+  const serviceContainerProductMilestonesRunner = serviceContainerProductMilestones.run;
+
+  const serviceContainerProductReleases = useServiceContainer(productVersionApi.getProductReleases);
+  const serviceContainerProductReleasesRunner = serviceContainerProductReleases.run;
+
+  const serviceContainerBuildConfigs = useServiceContainer(productVersionApi.getBuildConfigs);
+  const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
+
+  const serviceContainerGroupConfigs = useServiceContainer(productVersionApi.getGroupConfigs);
+  const serviceContainerGroupConfigsRunner = serviceContainerGroupConfigs.run;
+
   useEffect(() => {
     serviceContainerProductVersionRunner({ serviceData: { id: productVersionId } });
-  }, [serviceContainerProductVersionRunner, productVersionId]);
+
+    serviceContainerProductMilestonesRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerProductReleasesRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerBuildConfigsRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+  }, [
+    serviceContainerProductVersionRunner,
+    serviceContainerProductMilestonesRunner,
+    serviceContainerProductReleasesRunner,
+    serviceContainerBuildConfigsRunner,
+    serviceContainerGroupConfigsRunner,
+    productVersionId,
+  ]);
 
   useTitle(
     generatePageTitle({
@@ -41,10 +66,30 @@ export const ProductVersionPages = () => {
   const pageTabs = (
     <PageTabs>
       <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="milestones">Milestones</PageTabsItem>
-      <PageTabsItem url="releases">Releases</PageTabsItem>
-      <PageTabsItem url="build-configs">Build Configs</PageTabsItem>
-      <PageTabsItem url="group-configs">Group Configs</PageTabsItem>
+      <PageTabsItem url="milestones">
+        Milestones{' '}
+        <PageTabsLabel serviceContainer={serviceContainerProductMilestones} title="Milestones Count">
+          {serviceContainerProductMilestones.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="releases">
+        Releases{' '}
+        <PageTabsLabel serviceContainer={serviceContainerProductReleases} title="Releases Count">
+          {serviceContainerProductReleases.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="build-configs">
+        Build Configs{' '}
+        <PageTabsLabel serviceContainer={serviceContainerBuildConfigs} title="Build Configs Count">
+          {serviceContainerBuildConfigs.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="group-configs">
+        Group Configs{' '}
+        <PageTabsLabel serviceContainer={serviceContainerGroupConfigs} title="Group Configs Count">
+          {serviceContainerGroupConfigs.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
     </PageTabs>
   );
 
