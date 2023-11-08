@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 
+import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+
 import { IServiceContainer, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -11,6 +13,7 @@ import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
+import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildApi from 'services/buildApi';
@@ -25,13 +28,22 @@ export const BuildPages = () => {
   const serviceContainerBuild = useServiceContainer(buildApi.getBuild);
   const serviceContainerBuildRunner = serviceContainerBuild.run;
 
+  const serviceContainerArtifacts = useServiceContainer(buildApi.getBuiltArtifacts);
+  const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
+
+  const serviceContainerDependencies = useServiceContainer(buildApi.getDependencies);
+  const serviceContainerDependenciesRunner = serviceContainerDependencies.run;
+
   const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
 
   const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
 
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
-  }, [serviceContainerBuildRunner, buildId]);
+
+    serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+  }, [serviceContainerBuildRunner, serviceContainerArtifactsRunner, serviceContainerDependenciesRunner, buildId]);
 
   useTitle(
     generatePageTitle({
@@ -46,8 +58,18 @@ export const BuildPages = () => {
       <PageTabsItem url="details">Details</PageTabsItem>
       <PageTabsItem url="build-log">Build Log</PageTabsItem>
       <PageTabsItem url="alignment-log">Alignment Log</PageTabsItem>
-      <PageTabsItem url="artifacts">Artifacts</PageTabsItem>
-      <PageTabsItem url="dependencies">Dependencies</PageTabsItem>
+      <PageTabsItem url="artifacts">
+        Artifacts{' '}
+        <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Artifacts Count">
+          {serviceContainerArtifacts.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="dependencies">
+        Dependencies{' '}
+        <PageTabsLabel serviceContainer={serviceContainerDependencies} title="Dependencies Count">
+          {serviceContainerDependencies.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
       <PageTabsItem url="brew-push">Brew Push</PageTabsItem>
       <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
       <PageTabsItem url="artifact-dependency-graph">Artifact Dependency Graph</PageTabsItem>
