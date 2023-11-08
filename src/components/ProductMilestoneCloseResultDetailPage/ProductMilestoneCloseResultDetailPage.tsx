@@ -1,3 +1,4 @@
+import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 import { useEffect } from 'react';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
@@ -15,7 +16,9 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PushedBuildsList } from 'components/PushedBuildsList/PushedBuildsList';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -67,7 +70,14 @@ export const ProductMilestoneCloseResultDetailPage = () => {
           </Attributes>
         </ContentBox>
 
-        {/* TODO: Pushed Builds list*/}
+        <Toolbar borderBottom>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>Pushed Builds</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <PushedBuildsList pushedBuilds={closeResult?.buildPushResults} />
 
         {/* TODO: Log*/}
       </PageLayout>
