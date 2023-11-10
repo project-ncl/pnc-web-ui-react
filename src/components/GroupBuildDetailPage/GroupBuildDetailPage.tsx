@@ -84,28 +84,28 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
             </AttributesItem>
           </Attributes>
         </ContentBox>
+
         <NestedTabs activeTabKey={activeTabKey} onTabSelect={(tabKey) => setActiveTabKey(tabKey)}>
           <NestedTabsItem tabKey={0}>Builds</NestedTabsItem>
           <NestedTabsItem tabKey={1}>Build Dependencies</NestedTabsItem>
         </NestedTabs>
-        <ContentBox>
-          {activeTabKey === 0 && (
-            <ContentBox borderTop>
-              <BuildsList
-                {...{
-                  serviceContainerBuilds: serviceContainerGroupBuildBuilds,
-                  componentId,
-                }}
-              />
-            </ContentBox>
-          )}
 
-          {activeTabKey === 1 && (
-            <ContentBox padding borderTop>
-              <DependencyTree groupBuild={serviceContainerGroupBuild.data} />
-            </ContentBox>
-          )}
-        </ContentBox>
+        {activeTabKey === 0 && (
+          <ContentBox>
+            <BuildsList
+              {...{
+                serviceContainerBuilds: serviceContainerGroupBuildBuilds,
+                componentId,
+              }}
+            />
+          </ContentBox>
+        )}
+
+        {activeTabKey === 1 && (
+          <ContentBox padding>
+            <DependencyTree groupBuild={serviceContainerGroupBuild.data} />
+          </ContentBox>
+        )}
       </PageLayout>
     </ServiceContainerLoading>
   );
