@@ -22,6 +22,7 @@ import { BuildMetricsPage } from 'components/BuildMetricsPage/BuildMetricsPage';
 import { BuildPages } from 'components/BuildPages/BuildPages';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
+import { DeliverablesAnalysesPage } from 'components/DeliverablesAnalysesPage/DeliverablesAnalysesPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
@@ -241,6 +242,9 @@ export const AppRoutes = (
         }
       />
       <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} />
+    </Route>
+    <Route path="deliverables-analysis">
+      <Route index element={<DeliverablesAnalysesPage />} />
     </Route>
 
     {/* special pages */}
