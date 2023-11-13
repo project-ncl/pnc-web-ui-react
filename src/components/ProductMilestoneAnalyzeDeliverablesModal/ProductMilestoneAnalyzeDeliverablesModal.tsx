@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
-import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
+import { deliverablesAnalysisEntityAttributes } from 'common/deliverablesAnalysisEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -88,50 +88,45 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
       >
         <FormGroup
           isRequired
-          label={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.title}
-          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+          label={deliverablesAnalysisEntityAttributes.deliverablesUrls.title}
+          fieldId={deliverablesAnalysisEntityAttributes.deliverablesUrls.id}
           helperText={
             <FormHelperText
-              isHidden={getFieldState(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id) !== 'error'}
+              isHidden={getFieldState(deliverablesAnalysisEntityAttributes.deliverablesUrls.id) !== 'error'}
               isError
             >
-              {getFieldErrors(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
+              {getFieldErrors(deliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
             </FormHelperText>
           }
         >
           <TextArea
             isRequired
             type="text"
-            id={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
-            name={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+            id={deliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+            name={deliverablesAnalysisEntityAttributes.deliverablesUrls.id}
             resizeOrientation="vertical"
             autoResize
             autoComplete="off"
             placeholder={`https://url-path/to/file1.zip
 https://url-path/to/file2.zip
 https://url-path/to/file3.zip`}
-            {...register<string>(
-              productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id,
-              fieldConfigs.deliverablesUrls
-            )}
+            {...register<string>(deliverablesAnalysisEntityAttributes.deliverablesUrls.id, fieldConfigs.deliverablesUrls)}
           />
         </FormGroup>
         <FormGroup
-          label={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}
-          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-          labelIcon={
-            <TooltipWrapper tooltip={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.tooltip} />
-          }
+          label={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}
+          fieldId={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+          labelIcon={<TooltipWrapper tooltip={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.tooltip} />}
         >
           <FormInput<boolean>
             {...register<boolean>(
-              productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id,
+              deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id,
               fieldConfigs.runAsScratchAnalysis
             )}
             render={({ value, onChange, onBlur }) => (
               <Switch
-                id={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-                name={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                id={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                name={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
                 label="Scratch Option Enabled"
                 labelOff="Scratch Option Disabled"
                 isChecked={value}

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
 
+import { deliverablesAnalysisEntityAttributes } from 'common/deliverablesAnalysisEntityAttributes';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
-import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -39,9 +39,9 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
-        entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes,
+        entityAttributes: deliverablesAnalysisEntityAttributes,
         defaultSorting: {
-          attribute: productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.id,
+          attribute: deliverablesAnalysisEntityAttributes.submitTime.id,
           direction: 'desc',
         },
       }),
@@ -55,10 +55,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
       <Toolbar>
         <ToolbarItem>
           <Filtering
-            filterOptions={useMemo(
-              () => getFilterOptions({ entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes }),
-              []
-            )}
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: deliverablesAnalysisEntityAttributes }), [])}
             componentId={componentId}
           />
         </ToolbarItem>
@@ -69,14 +66,14 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.id.title}</Th>
-                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.progressStatus.title}</Th>
-                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.result.title}</Th>
+                <Th width={20}>{deliverablesAnalysisEntityAttributes.id.title}</Th>
+                <Th width={20}>{deliverablesAnalysisEntityAttributes.progressStatus.title}</Th>
+                <Th width={20}>{deliverablesAnalysisEntityAttributes.result.title}</Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
-                  {productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}
+                  {deliverablesAnalysisEntityAttributes.submitTime.title}
                 </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
-                  {productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}
+                  {deliverablesAnalysisEntityAttributes['user.username'].title}
                 </Th>
               </Tr>
             </Thead>

@@ -19,7 +19,7 @@ interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOpera
   runAsScratchAnalysis: any;
 }
 
-export const productMilestoneDeliverablesAnalysisEntityAttributes = {
+export const deliverablesAnalysisEntityAttributes = {
   id: {
     id: 'id',
     title: 'ID',

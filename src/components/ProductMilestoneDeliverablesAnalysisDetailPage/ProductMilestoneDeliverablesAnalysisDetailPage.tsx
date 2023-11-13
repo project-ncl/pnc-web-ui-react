@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
+import { deliverablesAnalysisEntityAttributes } from 'common/deliverablesAnalysisEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -54,30 +54,28 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
       <PageLayout title="Deliverables Analysis details">
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.id.title}>
-              {deliverabledAnalysis?.id}
-            </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.id.title}>{deliverabledAnalysis?.id}</AttributesItem>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes['user.username'].title}>
               {deliverabledAnalysis?.user?.username}
             </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.progressStatus.title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.progressStatus.title}>
               {deliverabledAnalysis?.progressStatus && (
                 <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={deliverabledAnalysis.progressStatus} />
               )}
             </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.result.title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.result.title}>
               {deliverabledAnalysis?.result && <DeliverablesAnalysisResultLabelMapper result={deliverabledAnalysis.result} />}
             </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.submitTime.title}>
               {deliverabledAnalysis?.submitTime && <DateTime date={deliverabledAnalysis.submitTime} />}
             </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.startTime.title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.startTime.title}>
               {deliverabledAnalysis?.startTime && <DateTime date={deliverabledAnalysis.startTime} />}
             </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.endTime.title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.endTime.title}>
               {deliverabledAnalysis?.endTime && <DateTime date={deliverabledAnalysis.endTime} />}
             </AttributesItem>
-            <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.parameters.title}>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.parameters.title}>
               {deliverabledAnalysis?.parameters &&
                 Object.values(deliverabledAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
             </AttributesItem>
