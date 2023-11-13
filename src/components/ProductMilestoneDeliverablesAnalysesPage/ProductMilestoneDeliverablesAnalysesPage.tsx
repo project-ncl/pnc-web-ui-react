@@ -13,7 +13,7 @@ interface IProductMilestoneDeliverablesAnalysisPage {
 export const ProductMilestoneDeliverablesAnalysesPage = ({ componentId = 'c1' }: IProductMilestoneDeliverablesAnalysisPage) => {
   const { productMilestoneId } = useParamsRequired();
 
-  const serviceContainerDeliverablesAnalyses = useServiceContainer(productMilestoneApi.getDeliverablesAnalysis);
+  const serviceContainerDeliverablesAnalyses = useServiceContainer(productMilestoneApi.getDeliverablesAnalyses);
   const serviceContainerDeliverablesAnalysesRunner = serviceContainerDeliverablesAnalyses.run;
 
   useQueryParamsEffect(
