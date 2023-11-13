@@ -36,8 +36,8 @@ import { ProductMilestoneCloseResultDetailPage } from 'components/ProductMilesto
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
+import { ProductMilestoneDeliverablesAnalysesPage } from 'components/ProductMilestoneDeliverablesAnalysesPage/ProductMilestoneDeliverablesAnalysesPage';
 import { ProductMilestoneDeliverablesAnalysisDetailPage } from 'components/ProductMilestoneDeliverablesAnalysisDetailPage/ProductMilestoneDeliverablesAnalysisDetailPage';
-import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
@@ -160,7 +160,7 @@ export const AppRoutes = (
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
                 <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
-                <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+                <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
                 <Route index element={<Navigate to="details" replace />} />

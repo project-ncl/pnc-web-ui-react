@@ -10,7 +10,7 @@ interface IProductMilestoneDeliverablesAnalysisPage {
   componentId?: string;
 }
 
-export const ProductMilestoneDeliverablesAnalysisPage = ({ componentId = 'c1' }: IProductMilestoneDeliverablesAnalysisPage) => {
+export const ProductMilestoneDeliverablesAnalysesPage = ({ componentId = 'c1' }: IProductMilestoneDeliverablesAnalysisPage) => {
   const { productMilestoneId } = useParamsRequired();
 
   const serviceContainerDeliverablesAnalyses = useServiceContainer(productMilestoneApi.getDeliverablesAnalysis);
