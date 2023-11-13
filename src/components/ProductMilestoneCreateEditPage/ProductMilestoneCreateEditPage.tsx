@@ -1,14 +1,4 @@
-import {
-  ActionGroup,
-  Button,
-  Form,
-  FormGroup,
-  FormHelperText,
-  InputGroup,
-  InputGroupText,
-  Switch,
-  TextInput,
-} from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, FormHelperText, Switch } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -28,6 +18,7 @@ import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { TextInputAsyncValidated } from 'components/TextInputAsyncValidated/TextInputAsyncValidated';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
@@ -52,6 +43,7 @@ const fieldConfigs = {
   version: {
     // TODO: NCL-8162 implementing async validation
     isRequired: true,
+    validators: [],
   },
   startingDate: {
     isRequired: true,
@@ -100,6 +92,8 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
   const serviceContainerProductVersionPatch = useServiceContainer(productVersionApi.patchProductVersion);
+
+  const serviceContainerValidateProductMilestone = useServiceContainer(productMilestoneApi.validateProductMilestoneVersion, 0);
 
   const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
@@ -224,21 +218,35 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
             </FormHelperText>
           }
         >
-          <InputGroup>
-            <InputGroupText>
+          <TextInputAsyncValidated
+            isRequired
+            type="text"
+            id={productMilestoneEntityAttributes.version.id}
+            name={productMilestoneEntityAttributes.version.id}
+            isDisabled={!serviceContainerProductVersion.data}
+            autoComplete="off"
+            {...register<string>(productMilestoneEntityAttributes.version.id, {
+              ...fieldConfigs.version,
+              validators: [
+                ...fieldConfigs.version.validators,
+                {
+                  asyncValidator: (value) =>
+                    serviceContainerProductVersion.data?.version
+                      ? serviceContainerValidateProductMilestone.run({
+                          serviceData: {
+                            data: { productVersionId, version: serviceContainerProductVersion.data.version + '.' + value },
+                          },
+                        })
+                      : Promise.reject(new Error('"version" property of Product Version is undefined')),
+                },
+              ],
+            })}
+            prefixComponent={
               <ServiceContainerLoading {...serviceContainerProductVersion} variant="icon" title="Product Version">
                 {serviceContainerProductVersion.data?.version}.
               </ServiceContainerLoading>
-            </InputGroupText>
-            <TextInput
-              isRequired
-              type="text"
-              id={productMilestoneEntityAttributes.version.id}
-              name={productMilestoneEntityAttributes.version.id}
-              autoComplete="off"
-              {...register<string>(productMilestoneEntityAttributes.version.id, fieldConfigs.version)}
-            />
-          </InputGroup>
+            }
+          />
         </FormGroup>
         <FormGroup
           isRequired
@@ -300,7 +308,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
         <ActionGroup>
           <Button
             variant="primary"
-            isDisabled={isSubmitDisabled || !!serviceContainerProductVersion.error}
+            isDisabled={isSubmitDisabled || !!serviceContainerProductVersion.loading || !!serviceContainerProductVersion.error}
             onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
           >
             {isEditPage ? 'Update' : 'Create'} Milestone

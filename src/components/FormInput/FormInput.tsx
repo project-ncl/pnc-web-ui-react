@@ -13,9 +13,17 @@ interface IFormInputProps<T extends TValue> extends IRegisterData<T> {
  * @param onChange - On-change callback of the input
  * @param onBlur - On-blur callback of the input
  * @param validated - Input state
+ * @param validationState - State of the input validation
  * @param render - Function to render the form input component
  * @returns
  */
-export const FormInput = <T extends TValue>({ value, onChange, onBlur, validated, render }: IFormInputProps<T>) => {
-  return render({ value, onChange, onBlur, validated });
+export const FormInput = <T extends TValue>({
+  value,
+  onChange,
+  onBlur,
+  validated,
+  validationState,
+  render,
+}: IFormInputProps<T>) => {
+  return render({ value, onChange, onBlur, validated, validationState });
 };
