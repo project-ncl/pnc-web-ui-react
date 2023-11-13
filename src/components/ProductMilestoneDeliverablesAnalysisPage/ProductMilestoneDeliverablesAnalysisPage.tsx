@@ -2,7 +2,7 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
-import { ProductMilestoneDeliverablesAnalysisList } from 'components/ProductMilestoneDeliverablesAnalysisList/ProductMilestoneDeliverablesAnalysisList';
+import { DeliverablesAnalysesList } from 'components/DeliverablesAnalysesList/DeliverablesAnalysesList';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -13,14 +13,14 @@ interface IProductMilestoneDeliverablesAnalysisPage {
 export const ProductMilestoneDeliverablesAnalysisPage = ({ componentId = 'c1' }: IProductMilestoneDeliverablesAnalysisPage) => {
   const { productMilestoneId } = useParamsRequired();
 
-  const serviceContainerDeliverablesAnalysis = useServiceContainer(productMilestoneApi.getDeliverablesAnalysis);
-  const serviceContainerDeliverablesAnalysisRunner = serviceContainerDeliverablesAnalysis.run;
+  const serviceContainerDeliverablesAnalyses = useServiceContainer(productMilestoneApi.getDeliverablesAnalysis);
+  const serviceContainerDeliverablesAnalysesRunner = serviceContainerDeliverablesAnalyses.run;
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) =>
-      serviceContainerDeliverablesAnalysisRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+      serviceContainerDeliverablesAnalysesRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
     { componentId }
   );
 
-  return <ProductMilestoneDeliverablesAnalysisList {...{ serviceContainerDeliverablesAnalysis, componentId }} />;
+  return <DeliverablesAnalysesList {...{ serviceContainerDeliverablesAnalyses, componentId }} />;
 };

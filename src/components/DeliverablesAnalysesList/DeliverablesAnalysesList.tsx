@@ -21,21 +21,21 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
-interface IProductMilestoneDeliverablesAnalysisListProps {
-  serviceContainerDeliverablesAnalysis: IServiceContainerState<DeliverableAnalyzerOperationPage>;
+interface IDeliverablesAnalysesListProps {
+  serviceContainerDeliverablesAnalyses: IServiceContainerState<DeliverableAnalyzerOperationPage>;
   componentId: string;
 }
 
 /**
- * Component displaying list of Deliverables Analysis.
+ * Component displaying list of Deliverables Analyses.
  *
- * @param serviceContainerDeliverablesAnalysis - Service Container for Deliverables Analysis
+ * @param serviceContainerDeliverablesAnalyses - Service Container for Deliverables Analyses
  * @param componentId - Component ID
  */
-export const ProductMilestoneDeliverablesAnalysisList = ({
-  serviceContainerDeliverablesAnalysis,
+export const DeliverablesAnalysesList = ({
+  serviceContainerDeliverablesAnalyses,
   componentId,
-}: IProductMilestoneDeliverablesAnalysisListProps) => {
+}: IDeliverablesAnalysesListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -62,7 +62,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerDeliverablesAnalysis} title="Deliverables Analysis">
+        <ServiceContainerLoading {...serviceContainerDeliverablesAnalyses} title="Deliverables Analyses">
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
@@ -78,7 +78,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerDeliverablesAnalysis.data?.content?.map((operation, rowIndex) => (
+              {serviceContainerDeliverablesAnalyses.data?.content?.map((operation, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     {/* TODO: Make link absolute once Product data are available */}
@@ -99,7 +99,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerDeliverablesAnalysis.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerDeliverablesAnalyses.data?.totalHits} />
     </>
   );
 };
