@@ -25,59 +25,59 @@ import { generatePageTitle } from 'utils/titleHelper';
 export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
   const { deliverablesAnalysisId } = useParamsRequired();
 
-  const serviceContainerProdutMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
-  const serviceContainerProdutMilestoneDeliverablesAnalysisRunner = serviceContainerProdutMilestoneDeliverablesAnalysis.run;
+  const serviceContainerProductMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
+  const serviceContainerProductMilestoneDeliverablesAnalysisRunner = serviceContainerProductMilestoneDeliverablesAnalysis.run;
 
-  const deliverabledAnalysis: DeliverableAnalyzerOperation | undefined =
-    serviceContainerProdutMilestoneDeliverablesAnalysis.data || undefined;
+  const deliverablesAnalysis: DeliverableAnalyzerOperation | undefined =
+    serviceContainerProductMilestoneDeliverablesAnalysis.data || undefined;
 
   useEffect(() => {
-    serviceContainerProdutMilestoneDeliverablesAnalysisRunner({
+    serviceContainerProductMilestoneDeliverablesAnalysisRunner({
       serviceData: { id: deliverablesAnalysisId },
     });
-  }, [serviceContainerProdutMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]);
+  }, [serviceContainerProductMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]);
 
   useTitle(
     generatePageTitle({
-      serviceContainer: serviceContainerProdutMilestoneDeliverablesAnalysis,
+      serviceContainer: serviceContainerProductMilestoneDeliverablesAnalysis,
       firstLevelEntity: 'Product',
       nestedEntity: 'Deliverables Analysis',
-      entityName: `Deliverables Analysis ${deliverabledAnalysis?.id} ${PageTitles.delimiterSymbol} ${deliverabledAnalysis?.productMilestone?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: `Deliverables Analysis ${deliverablesAnalysis?.id} ${PageTitles.delimiterSymbol} ${deliverablesAnalysis?.productMilestone?.version} ${PageTitles.delimiterSymbol} <unknown>`,
     })
   );
 
   return (
     <ServiceContainerLoading
-      {...serviceContainerProdutMilestoneDeliverablesAnalysis}
+      {...serviceContainerProductMilestoneDeliverablesAnalysis}
       title="Product Milestone Deliverables Analysis details"
     >
       <PageLayout title="Deliverables Analysis details">
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
-            <AttributesItem title={deliverablesAnalysisEntityAttributes.id.title}>{deliverabledAnalysis?.id}</AttributesItem>
+            <AttributesItem title={deliverablesAnalysisEntityAttributes.id.title}>{deliverablesAnalysis?.id}</AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes['user.username'].title}>
-              {deliverabledAnalysis?.user?.username}
+              {deliverablesAnalysis?.user?.username}
             </AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes.progressStatus.title}>
-              {deliverabledAnalysis?.progressStatus && (
-                <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={deliverabledAnalysis.progressStatus} />
+              {deliverablesAnalysis?.progressStatus && (
+                <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={deliverablesAnalysis.progressStatus} />
               )}
             </AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes.result.title}>
-              {deliverabledAnalysis?.result && <DeliverablesAnalysisResultLabelMapper result={deliverabledAnalysis.result} />}
+              {deliverablesAnalysis?.result && <DeliverablesAnalysisResultLabelMapper result={deliverablesAnalysis.result} />}
             </AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes.submitTime.title}>
-              {deliverabledAnalysis?.submitTime && <DateTime date={deliverabledAnalysis.submitTime} />}
+              {deliverablesAnalysis?.submitTime && <DateTime date={deliverablesAnalysis.submitTime} />}
             </AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes.startTime.title}>
-              {deliverabledAnalysis?.startTime && <DateTime date={deliverabledAnalysis.startTime} />}
+              {deliverablesAnalysis?.startTime && <DateTime date={deliverablesAnalysis.startTime} />}
             </AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes.endTime.title}>
-              {deliverabledAnalysis?.endTime && <DateTime date={deliverabledAnalysis.endTime} />}
+              {deliverablesAnalysis?.endTime && <DateTime date={deliverablesAnalysis.endTime} />}
             </AttributesItem>
             <AttributesItem title={deliverablesAnalysisEntityAttributes.parameters.title}>
-              {deliverabledAnalysis?.parameters &&
-                Object.values(deliverabledAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
+              {deliverablesAnalysis?.parameters &&
+                Object.values(deliverablesAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
             </AttributesItem>
           </Attributes>
         </ContentBox>
