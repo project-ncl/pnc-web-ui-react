@@ -12,6 +12,7 @@ import { ActionModal } from 'components/ActionModal/ActionModal';
 import { FormInput } from 'components/FormInput/FormInput';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import * as operationsApi from 'services/operationsApi';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { validateUrls } from 'utils/formValidationHelpers';
@@ -26,56 +27,61 @@ const fieldConfigs = {
   },
 } satisfies IFieldConfigs;
 
-interface IProductMilestoneAnalyzeDeliverablesModalProps {
+interface IAnalyzeDeliverablesModalProps {
   isModalOpen: boolean;
   toggleModal: () => void;
-  productMilestone: ProductMilestone;
+  productMilestone?: ProductMilestone;
 }
 
-export const ProductMilestoneAnalyzeDeliverablesModal = ({
-  isModalOpen,
-  toggleModal,
-  productMilestone,
-}: IProductMilestoneAnalyzeDeliverablesModalProps) => {
-  const serviceContainerProductMilestoneAnalyzeDeliverables = useServiceContainer(productMilestoneApi.analyzeDeliverables, 0);
+export const AnalyzeDeliverablesModal = ({ isModalOpen, toggleModal, productMilestone }: IAnalyzeDeliverablesModalProps) => {
+  const serviceContainerAnalyzeDeliverables = useServiceContainer(
+    productMilestone ? productMilestoneApi.analyzeDeliverables : operationsApi.analyzeDeliverables,
+    0
+  );
 
   const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    return serviceContainerProductMilestoneAnalyzeDeliverables
-      .run({
-        serviceData: {
+    const serviceData = productMilestone
+      ? {
           id: productMilestone.id,
           data: {
             deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
             runAsScratchAnalysis: data.runAsScratchAnalysis,
           },
-        },
-      })
-      .catch((error) => {
-        console.error('Failed to analyze Deliverables.');
-        throw error;
-      });
+        }
+      : {
+          data: {
+            deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
+          },
+        };
+
+    return serviceContainerAnalyzeDeliverables.run({ serviceData: serviceData as any }).catch((error) => {
+      console.error('Failed to analyze Deliverables.');
+      throw error;
+    });
   };
 
   return (
     <ActionModal
-      modalTitle={`Analyze Deliverables: ${productMilestone.version}?`}
+      modalTitle={'Analyze Deliverables' + (productMilestone ? `: ${productMilestone.version}?` : '?')}
       actionTitle="Analyze Deliverables"
       isOpen={isModalOpen}
       isSubmitDisabled={isSubmitDisabled}
       wereSubmitDataChanged={hasFormChanged}
       onToggle={toggleModal}
       onSubmit={handleSubmit(confirmModal)}
-      serviceContainer={serviceContainerProductMilestoneAnalyzeDeliverables}
+      serviceContainer={serviceContainerAnalyzeDeliverables}
       modalVariant="large"
       onSuccessActions={[
         <Button
           variant="secondary"
           // TODO: Make link absolute once Product data are available
-          component={(props: any) => (
-            <Link {...props} to={`deliverables-analysis/${serviceContainerProductMilestoneAnalyzeDeliverables.data?.id}`} />
-          )}
+          component={
+            productMilestone
+              ? (props: any) => <Link {...props} to={`deliverables-analysis/${serviceContainerAnalyzeDeliverables.data?.id}`} />
+              : undefined
+          }
         >
           Open Deliverables Analysis details
         </Button>,
@@ -129,12 +135,15 @@ https://url-path/to/file3.zip`}
                 name={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
                 label="Scratch Option Enabled"
                 labelOff="Scratch Option Disabled"
-                isChecked={value}
+                isChecked={productMilestone ? value : true}
                 onChange={onChange}
                 onBlur={onBlur}
+                isDisabled={!productMilestone}
               />
             )}
           />
+
+          <FormHelperText isHidden={!!productMilestone}>Milestone-less analyses run as scratch.</FormHelperText>
         </FormGroup>
       </Form>
     </ActionModal>
