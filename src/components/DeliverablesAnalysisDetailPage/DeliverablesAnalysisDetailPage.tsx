@@ -22,35 +22,35 @@ import * as operationsApi from 'services/operationsApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 
-export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
+export const DeliverablesAnalysisDetailPage = () => {
   const { deliverablesAnalysisId } = useParamsRequired();
 
-  const serviceContainerProductMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
-  const serviceContainerProductMilestoneDeliverablesAnalysisRunner = serviceContainerProductMilestoneDeliverablesAnalysis.run;
+  const serviceContainerDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
+  const serviceContainerDeliverablesAnalysisRunner = serviceContainerDeliverablesAnalysis.run;
 
-  const deliverablesAnalysis: DeliverableAnalyzerOperation | undefined =
-    serviceContainerProductMilestoneDeliverablesAnalysis.data || undefined;
+  const deliverablesAnalysis: DeliverableAnalyzerOperation | undefined = serviceContainerDeliverablesAnalysis.data || undefined;
 
   useEffect(() => {
-    serviceContainerProductMilestoneDeliverablesAnalysisRunner({
+    serviceContainerDeliverablesAnalysisRunner({
       serviceData: { id: deliverablesAnalysisId },
     });
-  }, [serviceContainerProductMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]);
+  }, [serviceContainerDeliverablesAnalysisRunner, deliverablesAnalysisId]);
 
   useTitle(
     generatePageTitle({
-      serviceContainer: serviceContainerProductMilestoneDeliverablesAnalysis,
+      serviceContainer: serviceContainerDeliverablesAnalysis,
       firstLevelEntity: 'Product',
       nestedEntity: 'Deliverables Analysis',
-      entityName: `Deliverables Analysis ${deliverablesAnalysis?.id} ${PageTitles.delimiterSymbol} ${deliverablesAnalysis?.productMilestone?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName:
+        `Deliverables Analysis ${deliverablesAnalysis?.id}` +
+        (deliverablesAnalysis?.productMilestone
+          ? ` ${PageTitles.delimiterSymbol} ${deliverablesAnalysis?.productMilestone.version} ${PageTitles.delimiterSymbol} <unknown>`
+          : ''),
     })
   );
 
   return (
-    <ServiceContainerLoading
-      {...serviceContainerProductMilestoneDeliverablesAnalysis}
-      title="Product Milestone Deliverables Analysis details"
-    >
+    <ServiceContainerLoading {...serviceContainerDeliverablesAnalysis} title="Deliverables Analysis details">
       <PageLayout title="Deliverables Analysis details">
         <ContentBox padding marginBottom isResponsive>
           <Attributes>

@@ -23,6 +23,7 @@ import { BuildPages } from 'components/BuildPages/BuildPages';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DeliverablesAnalysesPage } from 'components/DeliverablesAnalysesPage/DeliverablesAnalysesPage';
+import { DeliverablesAnalysisDetailPage } from 'components/DeliverablesAnalysisDetailPage/DeliverablesAnalysisDetailPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
@@ -38,7 +39,6 @@ import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneClo
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
 import { ProductMilestoneDeliverablesAnalysesPage } from 'components/ProductMilestoneDeliverablesAnalysesPage/ProductMilestoneDeliverablesAnalysesPage';
-import { ProductMilestoneDeliverablesAnalysisDetailPage } from 'components/ProductMilestoneDeliverablesAnalysisDetailPage/ProductMilestoneDeliverablesAnalysisDetailPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
@@ -151,11 +151,7 @@ export const AppRoutes = (
                   }
                 />
                 <Route path="close-results/:closeResultId" index element={<ProductMilestoneCloseResultDetailPage />} />
-                <Route
-                  path="deliverables-analysis/:deliverablesAnalysisId"
-                  index
-                  element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
-                />
+                <Route path="deliverables-analysis/:deliverablesAnalysisId" index element={<DeliverablesAnalysisDetailPage />} />
               </Route>
               <Route path=":productMilestoneId" element={<ProductMilestonePages />}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
@@ -245,6 +241,7 @@ export const AppRoutes = (
     </Route>
     <Route path="deliverables-analysis">
       <Route index element={<DeliverablesAnalysesPage />} />
+      <Route path=":deliverablesAnalysisId" element={<DeliverablesAnalysisDetailPage />} />
     </Route>
 
     {/* special pages */}
