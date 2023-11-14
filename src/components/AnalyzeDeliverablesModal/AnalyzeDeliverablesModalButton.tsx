@@ -3,15 +3,12 @@ import { css } from '@patternfly/react-styles';
 
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
-interface IProductMilestoneAnalyzeDeliverablesModalButtonProps {
+interface IAnalyzeDeliverablesModalButtonProps {
   toggleModal: () => void;
   variant: 'detail' | 'list';
 }
 
-export const ProductMilestoneAnalyzeDeliverablesModalButton = ({
-  toggleModal,
-  variant,
-}: IProductMilestoneAnalyzeDeliverablesModalButtonProps) => (
+export const AnalyzeDeliverablesModalButton = ({ toggleModal, variant }: IAnalyzeDeliverablesModalButtonProps) => (
   <ProtectedComponent>
     <Button
       variant={variant === 'list' ? 'plain' : 'tertiary'}

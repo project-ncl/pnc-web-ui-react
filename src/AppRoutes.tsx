@@ -22,6 +22,8 @@ import { BuildMetricsPage } from 'components/BuildMetricsPage/BuildMetricsPage';
 import { BuildPages } from 'components/BuildPages/BuildPages';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
+import { DeliverablesAnalysesPage } from 'components/DeliverablesAnalysesPage/DeliverablesAnalysesPage';
+import { DeliverablesAnalysisDetailPage } from 'components/DeliverablesAnalysisDetailPage/DeliverablesAnalysisDetailPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
@@ -36,8 +38,7 @@ import { ProductMilestoneCloseResultDetailPage } from 'components/ProductMilesto
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
-import { ProductMilestoneDeliverablesAnalysisDetailPage } from 'components/ProductMilestoneDeliverablesAnalysisDetailPage/ProductMilestoneDeliverablesAnalysisDetailPage';
-import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
+import { ProductMilestoneDeliverablesAnalysesPage } from 'components/ProductMilestoneDeliverablesAnalysesPage/ProductMilestoneDeliverablesAnalysesPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
@@ -150,17 +151,13 @@ export const AppRoutes = (
                   }
                 />
                 <Route path="close-results/:closeResultId" index element={<ProductMilestoneCloseResultDetailPage />} />
-                <Route
-                  path="deliverables-analysis/:deliverablesAnalysisId"
-                  index
-                  element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
-                />
+                <Route path="deliverables-analysis/:deliverablesAnalysisId" index element={<DeliverablesAnalysisDetailPage />} />
               </Route>
               <Route path=":productMilestoneId" element={<ProductMilestonePages />}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
                 <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
-                <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+                <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
                 <Route index element={<Navigate to="details" replace />} />
@@ -241,6 +238,10 @@ export const AppRoutes = (
         }
       />
       <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} />
+    </Route>
+    <Route path="deliverables-analysis">
+      <Route index element={<DeliverablesAnalysesPage />} />
+      <Route path=":deliverablesAnalysisId" element={<DeliverablesAnalysisDetailPage />} />
     </Route>
 
     {/* special pages */}

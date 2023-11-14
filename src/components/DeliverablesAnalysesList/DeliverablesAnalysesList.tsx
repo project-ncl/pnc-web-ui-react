@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
 
+import { deliverablesAnalysisEntityAttributes } from 'common/deliverablesAnalysisEntityAttributes';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
-import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
@@ -21,27 +21,27 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
-interface IProductMilestoneDeliverablesAnalysisListProps {
-  serviceContainerDeliverablesAnalysis: IServiceContainerState<DeliverableAnalyzerOperationPage>;
+interface IDeliverablesAnalysesListProps {
+  serviceContainerDeliverablesAnalyses: IServiceContainerState<DeliverableAnalyzerOperationPage>;
   componentId: string;
 }
 
 /**
- * Component displaying list of Deliverables Analysis.
+ * Component displaying list of Deliverables Analyses.
  *
- * @param serviceContainerDeliverablesAnalysis - Service Container for Deliverables Analysis
+ * @param serviceContainerDeliverablesAnalyses - Service Container for Deliverables Analyses
  * @param componentId - Component ID
  */
-export const ProductMilestoneDeliverablesAnalysisList = ({
-  serviceContainerDeliverablesAnalysis,
+export const DeliverablesAnalysesList = ({
+  serviceContainerDeliverablesAnalyses,
   componentId,
-}: IProductMilestoneDeliverablesAnalysisListProps) => {
+}: IDeliverablesAnalysesListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
-        entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes,
+        entityAttributes: deliverablesAnalysisEntityAttributes,
         defaultSorting: {
-          attribute: productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.id,
+          attribute: deliverablesAnalysisEntityAttributes.submitTime.id,
           direction: 'desc',
         },
       }),
@@ -55,33 +55,30 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
       <Toolbar>
         <ToolbarItem>
           <Filtering
-            filterOptions={useMemo(
-              () => getFilterOptions({ entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes }),
-              []
-            )}
+            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: deliverablesAnalysisEntityAttributes }), [])}
             componentId={componentId}
           />
         </ToolbarItem>
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerDeliverablesAnalysis} title="Deliverables Analysis">
+        <ServiceContainerLoading {...serviceContainerDeliverablesAnalyses} title="Deliverables Analyses">
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.id.title}</Th>
-                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.progressStatus.title}</Th>
-                <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.result.title}</Th>
+                <Th width={20}>{deliverablesAnalysisEntityAttributes.id.title}</Th>
+                <Th width={20}>{deliverablesAnalysisEntityAttributes.progressStatus.title}</Th>
+                <Th width={20}>{deliverablesAnalysisEntityAttributes.result.title}</Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
-                  {productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}
+                  {deliverablesAnalysisEntityAttributes.submitTime.title}
                 </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
-                  {productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}
+                  {deliverablesAnalysisEntityAttributes['user.username'].title}
                 </Th>
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerDeliverablesAnalysis.data?.content?.map((operation, rowIndex) => (
+              {serviceContainerDeliverablesAnalyses.data?.content?.map((operation, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
                     {/* TODO: Make link absolute once Product data are available */}
@@ -102,7 +99,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerDeliverablesAnalysis.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerDeliverablesAnalyses.data?.totalHits} />
     </>
   );
 };

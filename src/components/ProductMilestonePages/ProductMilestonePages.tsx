@@ -10,12 +10,12 @@ import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceCon
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
+import { AnalyzeDeliverablesModal } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModal';
+import { AnalyzeDeliverablesModalButton } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModalButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
-import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
-import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
 import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
@@ -127,7 +127,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       variant="detail"
     />,
     <ProductMilestoneCloseModalButton toggleModal={toggleCloseModal} variant="detail" />,
-    <ProductMilestoneAnalyzeDeliverablesModalButton toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
+    <AnalyzeDeliverablesModalButton toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
     <ProtectedComponent>
       <ActionButton link="edit">Edit Milestone</ActionButton>
     </ProtectedComponent>,
@@ -155,7 +155,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         />
       )}
       {isAnalyzeDeliverablesModalOpen && (
-        <ProductMilestoneAnalyzeDeliverablesModal
+        <AnalyzeDeliverablesModal
           isModalOpen={isAnalyzeDeliverablesModalOpen}
           toggleModal={toggleAnalyzeDeliverablesModal}
           productMilestone={serviceContainerProductMilestone.data!}

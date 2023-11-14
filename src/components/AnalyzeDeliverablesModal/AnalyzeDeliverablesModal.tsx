@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
-import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
+import { deliverablesAnalysisEntityAttributes } from 'common/deliverablesAnalysisEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -12,6 +12,7 @@ import { ActionModal } from 'components/ActionModal/ActionModal';
 import { FormInput } from 'components/FormInput/FormInput';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import * as operationsApi from 'services/operationsApi';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { validateUrls } from 'utils/formValidationHelpers';
@@ -26,56 +27,61 @@ const fieldConfigs = {
   },
 } satisfies IFieldConfigs;
 
-interface IProductMilestoneAnalyzeDeliverablesModalProps {
+interface IAnalyzeDeliverablesModalProps {
   isModalOpen: boolean;
   toggleModal: () => void;
-  productMilestone: ProductMilestone;
+  productMilestone?: ProductMilestone;
 }
 
-export const ProductMilestoneAnalyzeDeliverablesModal = ({
-  isModalOpen,
-  toggleModal,
-  productMilestone,
-}: IProductMilestoneAnalyzeDeliverablesModalProps) => {
-  const serviceContainerProductMilestoneAnalyzeDeliverables = useServiceContainer(productMilestoneApi.analyzeDeliverables, 0);
+export const AnalyzeDeliverablesModal = ({ isModalOpen, toggleModal, productMilestone }: IAnalyzeDeliverablesModalProps) => {
+  const serviceContainerAnalyzeDeliverables = useServiceContainer(
+    productMilestone ? productMilestoneApi.analyzeDeliverables : operationsApi.analyzeDeliverables,
+    0
+  );
 
   const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    return serviceContainerProductMilestoneAnalyzeDeliverables
-      .run({
-        serviceData: {
+    const serviceData = productMilestone
+      ? {
           id: productMilestone.id,
           data: {
             deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
             runAsScratchAnalysis: data.runAsScratchAnalysis,
           },
-        },
-      })
-      .catch((error) => {
-        console.error('Failed to analyze Deliverables.');
-        throw error;
-      });
+        }
+      : {
+          data: {
+            deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
+          },
+        };
+
+    return serviceContainerAnalyzeDeliverables.run({ serviceData: serviceData as any }).catch((error) => {
+      console.error('Failed to analyze Deliverables.');
+      throw error;
+    });
   };
 
   return (
     <ActionModal
-      modalTitle={`Analyze Deliverables: ${productMilestone.version}?`}
+      modalTitle={'Analyze Deliverables' + (productMilestone ? `: ${productMilestone.version}?` : '?')}
       actionTitle="Analyze Deliverables"
       isOpen={isModalOpen}
       isSubmitDisabled={isSubmitDisabled}
       wereSubmitDataChanged={hasFormChanged}
       onToggle={toggleModal}
       onSubmit={handleSubmit(confirmModal)}
-      serviceContainer={serviceContainerProductMilestoneAnalyzeDeliverables}
+      serviceContainer={serviceContainerAnalyzeDeliverables}
       modalVariant="large"
       onSuccessActions={[
         <Button
           variant="secondary"
           // TODO: Make link absolute once Product data are available
-          component={(props: any) => (
-            <Link {...props} to={`deliverables-analysis/${serviceContainerProductMilestoneAnalyzeDeliverables.data?.id}`} />
-          )}
+          component={
+            productMilestone
+              ? (props: any) => <Link {...props} to={`deliverables-analysis/${serviceContainerAnalyzeDeliverables.data?.id}`} />
+              : undefined
+          }
         >
           Open Deliverables Analysis details
         </Button>,
@@ -88,58 +94,56 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
       >
         <FormGroup
           isRequired
-          label={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.title}
-          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+          label={deliverablesAnalysisEntityAttributes.deliverablesUrls.title}
+          fieldId={deliverablesAnalysisEntityAttributes.deliverablesUrls.id}
           helperText={
             <FormHelperText
-              isHidden={getFieldState(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id) !== 'error'}
+              isHidden={getFieldState(deliverablesAnalysisEntityAttributes.deliverablesUrls.id) !== 'error'}
               isError
             >
-              {getFieldErrors(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
+              {getFieldErrors(deliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
             </FormHelperText>
           }
         >
           <TextArea
             isRequired
             type="text"
-            id={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
-            name={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+            id={deliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+            name={deliverablesAnalysisEntityAttributes.deliverablesUrls.id}
             resizeOrientation="vertical"
             autoResize
             autoComplete="off"
             placeholder={`https://url-path/to/file1.zip
 https://url-path/to/file2.zip
 https://url-path/to/file3.zip`}
-            {...register<string>(
-              productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id,
-              fieldConfigs.deliverablesUrls
-            )}
+            {...register<string>(deliverablesAnalysisEntityAttributes.deliverablesUrls.id, fieldConfigs.deliverablesUrls)}
           />
         </FormGroup>
         <FormGroup
-          label={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}
-          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-          labelIcon={
-            <TooltipWrapper tooltip={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.tooltip} />
-          }
+          label={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}
+          fieldId={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+          labelIcon={<TooltipWrapper tooltip={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.tooltip} />}
         >
           <FormInput<boolean>
             {...register<boolean>(
-              productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id,
+              deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id,
               fieldConfigs.runAsScratchAnalysis
             )}
             render={({ value, onChange, onBlur }) => (
               <Switch
-                id={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-                name={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                id={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                name={deliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
                 label="Scratch Option Enabled"
                 labelOff="Scratch Option Disabled"
-                isChecked={value}
+                isChecked={productMilestone ? value : true}
                 onChange={onChange}
                 onBlur={onBlur}
+                isDisabled={!productMilestone}
               />
             )}
           />
+
+          <FormHelperText isHidden={!!productMilestone}>Milestone-less analyses run as scratch.</FormHelperText>
         </FormGroup>
       </Form>
     </ActionModal>
