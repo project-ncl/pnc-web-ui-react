@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 import { ProductReleasePage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -37,6 +38,20 @@ export const ProductVersionReleasesList = ({
   serviceContainerProductReleases,
   componentId,
 }: IProductVersionReleasesListProps) => {
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: productReleaseEntityAttributes,
+        defaultSorting: {
+          attribute: productReleaseEntityAttributes.releaseDate.id,
+          direction: 'desc',
+        },
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
+
   const { serviceContainerProductVersion } = useServiceContainerProductVersion();
 
   return (
@@ -55,13 +70,17 @@ export const ProductVersionReleasesList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={25}>{productReleaseEntityAttributes.version.title}</Th>
-                <Th width={20}>
+                <Th width={25} sort={getSortParams(sortOptions.sortAttributes.version.id)}>
+                  {productReleaseEntityAttributes.version.title}
+                </Th>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes.releaseDate.id)}>
                   {productReleaseEntityAttributes.releaseDate.title}
                   <TooltipWrapper tooltip={productReleaseEntityAttributes.releaseDate.tooltip} />
                 </Th>
                 <Th width={20}>{productReleaseEntityAttributes.productMilestone.title}</Th>
-                <Th width={20}>{productReleaseEntityAttributes.supportLevel.title}</Th>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes.supportLevel.id)}>
+                  {productReleaseEntityAttributes.supportLevel.title}
+                </Th>
                 <Th />
               </Tr>
             </Thead>
