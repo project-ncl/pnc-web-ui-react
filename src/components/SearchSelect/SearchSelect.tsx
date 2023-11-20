@@ -164,10 +164,7 @@ export const SearchSelect = ({
 
         // set options to an empty array for a while so loading state is visible
         setFetchedData([]);
-        onSelect?.(
-          selection,
-          fetchedData.find((entity: any) => entity[titleAttribute] === selection)
-        );
+        onSelect?.(selection.toString(), (selection as any).entity);
       }
       setIsSelectOpen(false);
     }
@@ -240,14 +237,14 @@ export const SearchSelect = ({
         noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
         loadingVariant={getLoadingVariant()}
       >
-        {fetchedData?.map((option: any, index: number) => {
-          const highlightText = getHighlightText?.(option);
-          const description = descriptionAttribute && option[descriptionAttribute];
+        {fetchedData?.map((entity: any, index: number) => {
+          const highlightText = getHighlightText?.(entity);
+          const description = descriptionAttribute && entity[descriptionAttribute];
 
           return (
             <SelectOption
               key={index}
-              value={option[titleAttribute]}
+              value={{ entity, toString: () => entity[titleAttribute] } as SelectOptionObject}
               description={
                 <>
                   {highlightText}
