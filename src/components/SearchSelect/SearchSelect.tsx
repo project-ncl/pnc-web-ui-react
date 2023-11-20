@@ -1,7 +1,7 @@
 import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant, Spinner } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
@@ -28,6 +28,7 @@ interface ISearchSelectProps {
   width?: SelectProps['width'];
   placeholderText?: SelectProps['placeholderText'];
   isDisabled?: SelectProps['isDisabled'];
+  getHighlightText?: (optionEntity: any) => ReactNode;
 }
 
 /**
@@ -54,6 +55,7 @@ interface ISearchSelectProps {
  * @param width - select width
  * @param placeholderText - select placeholder
  * @param isDisabled - whether is select disabled
+ * @param getHighlightText - gets option highlight text based on the option entity
  */
 export const SearchSelect = ({
   selectedItem,
@@ -68,6 +70,7 @@ export const SearchSelect = ({
   width,
   placeholderText = FILTERING_PLACEHOLDER_DEFAULT,
   isDisabled,
+  getHighlightText,
 }: ISearchSelectProps) => {
   // data downloaded using fetchCallback
   const [fetchedData, setFetchedData] = useState<any[]>([]);
@@ -237,13 +240,24 @@ export const SearchSelect = ({
         noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
         loadingVariant={getLoadingVariant()}
       >
-        {fetchedData?.map((option: any, index: number) => (
-          <SelectOption
-            key={index}
-            value={option[titleAttribute]}
-            description={descriptionAttribute && option[descriptionAttribute]}
-          />
-        ))}
+        {fetchedData?.map((option: any, index: number) => {
+          const highlightText = getHighlightText?.(option);
+          const description = descriptionAttribute && option[descriptionAttribute];
+
+          return (
+            <SelectOption
+              key={index}
+              value={option[titleAttribute]}
+              description={
+                <>
+                  {highlightText}
+                  {highlightText && description && ' | '}
+                  {description}
+                </>
+              }
+            />
+          );
+        })}
       </Select>
     </div>
   );
