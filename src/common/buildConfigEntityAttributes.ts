@@ -62,6 +62,42 @@ export const buildConfigEntityAttributes = {
     id: 'buildStatus',
     title: 'Latest Build Status',
   },
+  creationUser: {
+    id: 'creationUser',
+    title: 'Created by',
+  },
+  modificationUser: {
+    id: 'modificationUser',
+    title: 'Modified by',
+  },
+  environment: {
+    id: 'environment',
+    title: 'Environment',
+  },
+  scmRepository: {
+    id: 'scmRepository',
+    title: 'SCM Repository',
+  },
+  scmRevision: {
+    id: 'scmRevision',
+    title: 'SCM Revision',
+  },
+  buildScript: {
+    id: 'buildScript',
+    title: 'Build Script',
+  },
+  brewPullActive: {
+    id: 'brewPullActive',
+    title: 'Brew Pull Active',
+  },
+  productVersion: {
+    id: 'productVersion',
+    title: 'Product Version',
+  },
+  parameters: {
+    id: 'parameters',
+    title: 'Parameters',
+  },
   actions: {
     id: 'actions',
     title: 'Actions',
