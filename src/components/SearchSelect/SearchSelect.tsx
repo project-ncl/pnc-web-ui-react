@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
+import { IRegisterData } from 'hooks/useForm';
 import { areServiceDataPaginated, useServiceContainer } from 'hooks/useServiceContainer';
 
 import '../../index.css';
@@ -16,6 +17,7 @@ type OnClearFunction = () => void;
 
 interface ISearchSelectProps {
   selectedItem?: string;
+  validated?: IRegisterData<any>['validated'];
   onSelect?: OnSelectFunction;
   onClear?: OnClearFunction;
   fetchCallback: FetchCallbackFunction;
@@ -41,6 +43,7 @@ interface ISearchSelectProps {
  * onSelect callback is used so selected option is accessible from outside.
  *
  * @param selectedItem - selectected item string
+ * @param validated - input validation state
  * @param onSelect - onSelect callback
  * @param onClear - onClear callback
  * @param fetchCallback - function to fetch the data from backend
@@ -54,6 +57,7 @@ interface ISearchSelectProps {
  */
 export const SearchSelect = ({
   selectedItem,
+  validated,
   onSelect,
   onClear,
   fetchCallback,
@@ -213,6 +217,7 @@ export const SearchSelect = ({
         ref={selectRef}
         variant={SelectVariant.typeahead}
         selections={searchValue}
+        validated={validated}
         onSelect={selectItem}
         onClear={clear}
         onTypeaheadInputChanged={filterSelect}
