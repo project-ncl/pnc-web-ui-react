@@ -18,11 +18,12 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Environment } from 'pnc-api-types-ts';
+import { Environment, Product, ProductVersion } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
 import { PageTitles } from 'common/constants';
+import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -38,6 +39,7 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
+import * as productApi from 'services/productApi';
 
 import { maxLengthValidator255 } from 'utils/formValidationHelpers';
 import { generatePageTitle } from 'utils/titleHelper';
@@ -83,8 +85,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   const useFormObject = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
+  const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
 
   const [showGeneralAttributesSection, setShowGeneralAttributesSection] = useState<boolean>(true);
+  const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
 
   useTitle(
     generatePageTitle({
@@ -121,6 +125,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           useFormObject={useFormObject}
           selectedEnvironment={selectedEnvironment}
           onEnvironmentSelect={setSelectedEnvironment}
+        />
+
+        <ProductVersionSection
+          isExpanded={showProductVersionSection}
+          onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
+          useFormObject={useFormObject}
+          onProductVersionSelect={setSelectedProductVersion}
         />
 
         <ActionGroup>
@@ -358,6 +369,78 @@ const GeneralAttributesSection = ({
                 isChecked={value}
                 onChange={onChange}
                 onBlur={onBlur}
+              />
+            )}
+          />
+        </FormGroup>
+      </ContentBox>
+    </ExpandableFormSection>
+  );
+};
+
+interface IProductVersionSectionProps {
+  isExpanded: boolean;
+  onToggle: IExpandableFormSectionProps['onToggle'];
+  useFormObject: ReturnType<typeof useForm>;
+  onProductVersionSelect: (productVersion: ProductVersion | undefined) => void;
+}
+
+const ProductVersionSection = ({ isExpanded, onToggle, useFormObject, onProductVersionSelect }: IProductVersionSectionProps) => {
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
+
+  const fetchProductVersions = useCallback(
+    (requestConfig = {}) => {
+      return selectedProduct ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig) : Promise.resolve([]);
+    },
+    [selectedProduct]
+  );
+
+  const productVersionRegisterObject = useFormObject.register<string>(buildConfigEntityAttributes.productVersion.id);
+
+  return (
+    <ExpandableFormSection title="Product Version" isExpanded={isExpanded} onToggle={onToggle}>
+      <ContentBox padding>
+        <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
+          <SearchSelect
+            selectedItem={selectedProduct?.name}
+            onSelect={(_, product: Product) => {
+              setSelectedProduct(product);
+              productVersionRegisterObject.onChange('');
+              onProductVersionSelect(undefined);
+            }}
+            onClear={() => {
+              setSelectedProduct(undefined);
+              productVersionRegisterObject.onChange('');
+              onProductVersionSelect(undefined);
+            }}
+            fetchCallback={productApi.getProducts}
+            titleAttribute="name"
+            placeholderText="Select Product"
+          />
+        </FormGroup>
+
+        <FormGroup
+          label={buildConfigEntityAttributes.productVersion.title}
+          fieldId={buildConfigEntityAttributes.productVersion.id}
+        >
+          <FormInput<string>
+            {...productVersionRegisterObject}
+            render={({ value, validated, onChange }) => (
+              <SearchSelect
+                selectedItem={value}
+                validated={validated}
+                onSelect={(_, productVersion: ProductVersion) => {
+                  onChange(productVersion.version);
+                  onProductVersionSelect(productVersion);
+                }}
+                onClear={() => {
+                  onChange('');
+                  onProductVersionSelect(undefined);
+                }}
+                fetchCallback={fetchProductVersions}
+                titleAttribute="version"
+                placeholderText="Select Version"
+                isDisabled={!selectedProduct}
               />
             )}
           />
