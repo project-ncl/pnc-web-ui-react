@@ -1,7 +1,7 @@
 import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant, Spinner } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
@@ -23,6 +23,7 @@ interface ISearchSelectProps {
   fetchCallback: FetchCallbackFunction;
   titleAttribute: string;
   descriptionAttribute?: string;
+  getCustomDescription?: (optionEntity: any) => ReactNode;
   delayMilliseconds?: number;
   pageSizeDefault?: number;
   width?: SelectProps['width'];
@@ -48,7 +49,8 @@ interface ISearchSelectProps {
  * @param onClear - onClear callback
  * @param fetchCallback - function to fetch the data from backend
  * @param titleAttribute - primary attribute to filter by (in query params), displayed as option name
- * @param descriptionAttribute - secondary attribute to filter by (in query params), displayed as option description
+ * @param descriptionAttribute - secondary attribute to filter by (in query params), displayed as option description (if getCustomDescription is undefined)
+ * @param getCustomDescription - callback to construct the option description based on the option entity
  * @param delayMilliseconds - fetch delay for filter input change
  * @param pageSizeDefault - count of entries fetched defaultly
  * @param width - select width
@@ -63,6 +65,7 @@ export const SearchSelect = ({
   fetchCallback,
   titleAttribute,
   descriptionAttribute,
+  getCustomDescription,
   delayMilliseconds = 200,
   pageSizeDefault = 10,
   width,
@@ -237,13 +240,13 @@ export const SearchSelect = ({
         noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
         loadingVariant={getLoadingVariant()}
       >
-        {fetchedData?.map((option: any, index: number) => (
-          <SelectOption
-            key={index}
-            value={option[titleAttribute]}
-            description={descriptionAttribute && option[descriptionAttribute]}
-          />
-        ))}
+        {fetchedData?.map((option: any, index: number) => {
+          const description = getCustomDescription
+            ? getCustomDescription(option)
+            : descriptionAttribute && option[descriptionAttribute];
+
+          return <SelectOption key={index} value={option[titleAttribute]} description={description} />;
+        })}
       </Select>
     </div>
   );
