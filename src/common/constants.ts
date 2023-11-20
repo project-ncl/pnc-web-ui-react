@@ -18,6 +18,8 @@ export const PageTitles = {
   productReleaseEdit: 'Edit Product Release',
   productReleases: 'Product Releases',
   buildConfigs: 'Build Configs',
+  buildConfigCreate: 'Create Build Config',
+  buildConfigEdit: 'Edit Build Config',
   groupConfigs: 'Group Configs',
   builds: 'Builds',
   buildHistory: 'Build History',

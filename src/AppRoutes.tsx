@@ -14,6 +14,7 @@ import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAli
 import { BuildArtifactDependencyGraphPage } from 'components/BuildArtifactDependencyGraphPage/BuildArtifactDependencyGraphPage';
 import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
 import { BuildBrewPushPage } from 'components/BuildBrewPushPage/BuildBrewPushPage';
+import { BuildConfigCreateEditPage } from 'components/BuildConfigCreateEditPage/BuildConfigCreateEditPage';
 import { BuildConfigDetailPage } from 'components/BuildConfigDetailPage/BuildConfigDetailPage';
 import { BuildConfigPages } from 'components/BuildConfigPages/BuildConfigPages';
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
@@ -215,6 +216,14 @@ export const AppRoutes = (
     </Route>
     <Route path="build-configs">
       <Route index element={<BuildConfigsPage />} />
+      <Route
+        path="create"
+        element={
+          <ProtectedRoute title={PageTitles.buildConfigCreate}>
+            <BuildConfigCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path=":buildConfigId" element={<BuildConfigPages />}>
         <Route path="details" element={<BuildConfigDetailPage />} />
         <Route index element={<Navigate to="details" replace />} />
