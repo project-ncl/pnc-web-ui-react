@@ -7,6 +7,10 @@ import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
 
+interface IBuildConfigApiData {
+  id: string;
+}
+
 export interface IBuildStartParams {
   id: string;
   temporaryBuild?: boolean;
@@ -32,6 +36,10 @@ export const getBuildConfigs = (requestConfig: AxiosRequestConfig = {}) => {
  */
 export const getBuildConfigsWithLatestBuild = (requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', requestConfig);
+};
+
+export const getBuildConfig = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfiguration>(`/build-configs/${id}`, requestConfig);
 };
 
 /**
