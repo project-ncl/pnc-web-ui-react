@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { Build, BuildConfigPage, BuildConfiguration, BuildConfigurationRevision } from 'pnc-api-types-ts';
+import { Build, BuildConfigPage, BuildConfiguration, BuildConfigurationRevision, Parameter } from 'pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 
@@ -36,6 +36,15 @@ export const getBuildConfigs = (requestConfig: AxiosRequestConfig = {}) => {
  */
 export const getBuildConfigsWithLatestBuild = (requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildConfigPage>('/build-configs/x-with-latest-build', requestConfig);
+};
+
+/**
+ * Gets supported parameters of Build Configs.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getSupportedParameters = (requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<Parameter[]>('/build-configs/supported-parameters', requestConfig);
 };
 
 export const getBuildConfig = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
