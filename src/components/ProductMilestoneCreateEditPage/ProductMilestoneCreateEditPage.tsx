@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
-import { PageTitles } from 'common/constants';
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
@@ -158,7 +158,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
       });
   };
 
-  const submitUpdate = (data: IFieldValues) => {
+  const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: serviceContainerProductVersion.data?.version + '.' + data.version,
       startingDate: parseDate(data.startingDate),
@@ -301,9 +301,9 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
           <Button
             variant="primary"
             isDisabled={isSubmitDisabled || !!serviceContainerProductVersion.error}
-            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
+            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
           >
-            {isEditPage ? 'Update' : 'Create'} Milestone
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.productMilestone}
           </Button>
         </ActionGroup>
       </Form>
@@ -312,9 +312,9 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
 
   return (
     <PageLayout
-      title={isEditPage ? 'Update Milestone' : 'Create Milestone'}
+      title={isEditPage ? PageTitles.productMilestoneEdit : PageTitles.productMilestoneCreate}
       description={
-        isEditPage ? <>You can update current Milestone attributes below.</> : <>You can create a new Product Milestone.</>
+        isEditPage ? <>You can edit current Milestone attributes below.</> : <>You can create a new Product Milestone.</>
       }
     >
       {isEditPage ? (

@@ -125,9 +125,9 @@ export const ProductVersionBuildConfigsEditPage = ({
       description={
         <>
           <div>
-            Update the list of Build Configs associated with the Version by removing existing ones or adding new ones. All the
-            Build Configs marked to be removed or added are listed in the Changes Summary section. To submit the changes, use the
-            Submit button.
+            Edit the list of Build Configs associated with the Version by removing existing ones or adding new ones. All the Build
+            Configs marked to be removed or added are listed in the Changes Summary section. To submit the changes, use the Submit
+            button.
           </div>
         </>
       }

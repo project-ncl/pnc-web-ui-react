@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProductVersion } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
-import { PageTitles } from 'common/constants';
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
@@ -92,7 +92,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       });
   };
 
-  const submitUpdate = (data: IFieldValues) => {
+  const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: data.version,
       attributes: { BREW_TAG_PREFIX: data['attributes.brewTagPrefix'] },
@@ -174,12 +174,8 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
           </FormGroup>
         )}
         <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled}
-            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
-          >
-            {isEditPage ? 'Update' : 'Create'} Product Version
+          <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.productVersion}
           </Button>
         </ActionGroup>
       </Form>
@@ -188,9 +184,9 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
 
   return (
     <PageLayout
-      title={isEditPage ? 'Update Product Version' : 'Create Product Version'}
+      title={isEditPage ? PageTitles.productVersionEdit : PageTitles.productVersionCreate}
       description={
-        isEditPage ? <>You can update current Product Version attributes below.</> : <>You can create a new Product Version.</>
+        isEditPage ? <>You can edit current Product Version attributes below.</> : <>You can create a new Product Version.</>
       }
     >
       {isEditPage ? (

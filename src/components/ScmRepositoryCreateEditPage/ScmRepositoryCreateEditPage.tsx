@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { SCMRepository } from 'pnc-api-types-ts';
 
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
@@ -87,7 +88,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
       });
   };
 
-  const submitUpdate = (data: IFieldValues) => {
+  const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
     return serviceContainerEditPagePatch
@@ -197,12 +198,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           />
         </FormGroup>
         <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled}
-            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
-          >
-            {isEditPage ? 'Update' : 'Create'} SCM Repository
+          <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.scmRepository}
           </Button>
         </ActionGroup>
       </Form>
@@ -211,7 +208,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
   return (
     <PageLayout
-      title={isEditPage ? 'Edit SCM Repository' : 'Create SCM Repository'}
+      title={isEditPage ? PageTitles.scmRepositoryEdit : PageTitles.scmRepositoryCreate}
       description={
         isEditPage ? (
           <>You can edit current SCM Repository attributes below.</>
