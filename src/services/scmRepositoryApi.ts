@@ -21,6 +21,25 @@ export const getScmRepositories = (requestConfig: AxiosRequestConfig = {}) => {
 };
 
 /**
+ * Gets all SCM Repositories filtered by search URL.
+ *
+ * @param serviceData - object containing:
+ *  - searchUrl - external URL to search for
+ * @param requestConfig - Axios based request config
+ */
+export const getScmRepositoriesSearch = ({ searchUrl }: { searchUrl: string }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<SCMRepositoryPage>(
+    '/scm-repositories',
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        'search-url': searchUrl,
+      },
+    })
+  );
+};
+
+/**
  * Gets a specific SCM Repository.
  *
  * @param serviceData - object containing:
