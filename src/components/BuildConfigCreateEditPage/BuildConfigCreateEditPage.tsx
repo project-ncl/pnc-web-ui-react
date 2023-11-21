@@ -22,10 +22,11 @@ import {
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository } from 'pnc-api-types-ts';
 
+import { PncError } from 'common/PncError';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
 import { PageTitles } from 'common/constants';
@@ -54,6 +55,7 @@ import * as productApi from 'services/productApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { maxLengthValidator255, urlValidator } from 'utils/formValidationHelpers';
+import { parseQueryParamsToObject } from 'utils/queryParamsHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 import styles from './BuildConfigCreateEditPage.module.css';
@@ -90,6 +92,7 @@ const fieldConfigs = {
 
 export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCreateEditPageProps) => {
   const { buildConfigId } = useParamsRequired();
+  const location = useLocation();
   const navigate = useNavigate();
 
   // create page
@@ -124,7 +127,39 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return Promise.resolve();
+    return serviceContainerCreatePage
+      .run({
+        serviceData: {
+          data: {
+            project: { id: parseQueryParamsToObject(location.search).project as string },
+            name: data.name,
+            description: data.description,
+            environment: selectedEnvironment,
+            buildType: data.buildType,
+            buildScript: data.buildScript,
+            brewPullActive: data.brewPullActive,
+            productVersion: selectedProductVersion,
+            parameters: Object.fromEntries(Object.entries(parametersData).filter(([_, v]) => v)),
+            dependencies: dependenciesData,
+            scmRepository: selectedScmRepository,
+            scmRevision: data.scmRevision,
+          } as BuildConfiguration,
+        },
+      })
+      .then((response) => {
+        const newBuildConfigId = response?.data?.id;
+        if (!newBuildConfigId) {
+          throw new PncError({
+            code: 'NEW_ENTITY_ID_ERROR',
+            message: `Invalid buildConfigId coming from Orch POST response: ${newBuildConfigId}`,
+          });
+        }
+        navigate(`/build-configs/${newBuildConfigId}`);
+      })
+      .catch((error) => {
+        console.error('Failed to create Build Config.');
+        throw error;
+      });
   };
 
   const submitEdit = (data: IFieldValues) => {
@@ -184,7 +219,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         <ActionGroup>
           <Button
             variant="primary"
-            isDisabled={useFormObject.isSubmitDisabled && !selectedScmRepository}
+            isDisabled={useFormObject.isSubmitDisabled || !selectedEnvironment || !selectedScmRepository}
             onClick={useFormObject.handleSubmit(isEditPage ? submitEdit : submitCreate)}
           >
             {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}

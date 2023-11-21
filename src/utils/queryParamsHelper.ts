@@ -24,7 +24,7 @@ export interface IQueryParamsObject {
  * @param queryParamsString - URL Query Params in string representation
  * @returns URL Query Params in object representation
  */
-const parseQueryParamsToObject = (queryParamsString: string): IQueryParamsObject => {
+export const parseQueryParamsToObject = (queryParamsString: string): IQueryParamsObject => {
   const searchParams = new URLSearchParams(queryParamsString);
   const queryParamsObject: IQueryParamsObject = {};
 
