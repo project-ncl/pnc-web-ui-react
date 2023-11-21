@@ -86,9 +86,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const useFormObject = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
+  const [parametersData, setParametersData] = useState<IParametersData>({});
 
   const [showGeneralAttributesSection, setShowGeneralAttributesSection] = useState<boolean>(true);
   const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
+  const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
 
   useTitle(
     generatePageTitle({
@@ -132,6 +134,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
           useFormObject={useFormObject}
           onProductVersionSelect={setSelectedProductVersion}
+        />
+
+        <BuildParametersSection
+          isExpanded={showBuildParametersSection}
+          onToggle={(isExpanded) => setShowBuildParametersSection(isExpanded)}
+          parametersData={parametersData}
+          onParametersDataChange={setParametersData}
         />
 
         <ActionGroup>
@@ -445,6 +454,63 @@ const ProductVersionSection = ({ isExpanded, onToggle, useFormObject, onProductV
             )}
           />
         </FormGroup>
+      </ContentBox>
+    </ExpandableFormSection>
+  );
+};
+
+interface IParametersData {
+  [key: string]: string;
+}
+
+interface IBuildParametersSectionProps {
+  isExpanded: boolean;
+  onToggle: IExpandableFormSectionProps['onToggle'];
+  parametersData: IParametersData;
+  onParametersDataChange: (parametersData: IParametersData) => void;
+}
+
+const BuildParametersSection = ({
+  isExpanded,
+  onToggle,
+  parametersData,
+  onParametersDataChange,
+}: IBuildParametersSectionProps) => {
+  const serviceContainerParameters = useServiceContainer(buildConfigApi.getSupportedParameters);
+  const serviceContainerParametersRunner = serviceContainerParameters.run;
+
+  useEffect(() => {
+    serviceContainerParametersRunner().then((response) => {
+      onParametersDataChange(Object.fromEntries(response.data!.map((parameter) => [parameter.name!, ''])));
+    });
+  }, [serviceContainerParametersRunner, onParametersDataChange]);
+
+  return (
+    <ExpandableFormSection title="Build Parameters" isExpanded={isExpanded} onToggle={onToggle}>
+      <ContentBox padding>
+        {serviceContainerParameters.data?.map((parameter, index) => (
+          <FormGroup
+            key={index}
+            label={parameter.name}
+            helperText={
+              <FormHelperText isHidden={false}>
+                <HelperText>
+                  <HelperTextItem>{parameter.description}</HelperTextItem>
+                </HelperText>
+              </FormHelperText>
+            }
+            isHelperTextBeforeField
+            className="m-b-15"
+          >
+            <TextInput
+              id="parameter-value"
+              type="text"
+              autoComplete="off"
+              value={parametersData[parameter.name!]}
+              onChange={(value) => onParametersDataChange({ ...parametersData, [parameter.name!]: value })}
+            />
+          </FormGroup>
+        ))}
       </ContentBox>
     </ExpandableFormSection>
   );
