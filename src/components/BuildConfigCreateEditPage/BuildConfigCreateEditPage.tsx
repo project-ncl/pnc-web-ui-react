@@ -24,7 +24,7 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { BuildConfiguration, Environment, Product, ProductVersion } from 'pnc-api-types-ts';
+import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
@@ -51,8 +51,9 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
 import * as productApi from 'services/productApi';
+import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
-import { maxLengthValidator255 } from 'utils/formValidationHelpers';
+import { maxLengthValidator255, urlValidator } from 'utils/formValidationHelpers';
 import { generatePageTitle } from 'utils/titleHelper';
 
 import styles from './BuildConfigCreateEditPage.module.css';
@@ -78,6 +79,13 @@ const fieldConfigs = {
   brewPullActive: {
     value: false,
   },
+  scmRepository: {
+    isRequired: true,
+    validators: [urlValidator],
+  },
+  scmRevision: {
+    isRequired: true,
+  },
 } satisfies IFieldConfigs;
 
 export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCreateEditPageProps) => {
@@ -99,11 +107,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
   const [parametersData, setParametersData] = useState<IParametersData>({});
   const [dependenciesData, setDependenciesData] = useState<IDependenciesData>({});
+  const [selectedScmRepository, setSelectedScmRepository] = useState<SCMRepository>();
 
   const [showGeneralAttributesSection, setShowGeneralAttributesSection] = useState<boolean>(true);
   const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
   const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
+  const [showRepositorySection, setShowRepositorySection] = useState<boolean>(true);
 
   useTitle(
     generatePageTitle({
@@ -163,10 +173,18 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           onDependenciesDataChange={setDependenciesData}
         />
 
+        <RepositorySection
+          isExpanded={showRepositorySection}
+          onToggle={(isExpanded) => setShowRepositorySection(isExpanded)}
+          useFormObject={useFormObject}
+          selectedScmRepository={selectedScmRepository}
+          onScmRepositorySelect={setSelectedScmRepository}
+        />
+
         <ActionGroup>
           <Button
             variant="primary"
-            isDisabled={useFormObject.isSubmitDisabled}
+            isDisabled={useFormObject.isSubmitDisabled && !selectedScmRepository}
             onClick={useFormObject.handleSubmit(isEditPage ? submitEdit : submitCreate)}
           >
             {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
@@ -611,6 +629,94 @@ const DependenciesSection = ({
           </ContentBox>
         </GridItem>
       </Grid>
+    </ExpandableFormSection>
+  );
+};
+
+interface IRepositorySectionProps {
+  isExpanded: boolean;
+  onToggle: IExpandableFormSectionProps['onToggle'];
+  useFormObject: ReturnType<typeof useForm>;
+  selectedScmRepository: SCMRepository | undefined;
+  onScmRepositorySelect: (scmRepository: SCMRepository | undefined) => void;
+}
+
+const RepositorySection = ({
+  isExpanded,
+  onToggle,
+  useFormObject,
+  selectedScmRepository,
+  onScmRepositorySelect,
+}: IRepositorySectionProps) => {
+  const serviceContainerScmRepositoriesSearch = useServiceContainer(scmRepositoryApi.getScmRepositoriesSearch);
+
+  return (
+    <ExpandableFormSection title="Repository" isExpanded={isExpanded} onToggle={onToggle}>
+      <ContentBox padding>
+        <FormGroup
+          isRequired
+          label={`${buildConfigEntityAttributes.scmRepository.title} URL`}
+          fieldId={buildConfigEntityAttributes.scmRepository.id}
+          helperText={
+            <FormHelperText
+              isHidden={useFormObject.getFieldState(buildConfigEntityAttributes.scmRepository.id) !== 'error'}
+              isError
+            >
+              {useFormObject.getFieldErrors(buildConfigEntityAttributes.scmRepository.id)}
+            </FormHelperText>
+          }
+        >
+          <FormInput
+            render={({ onChange, ...rest }) => (
+              <TextInput
+                isRequired
+                type="text"
+                id={buildConfigEntityAttributes.scmRepository.id}
+                name={buildConfigEntityAttributes.scmRepository.id}
+                autoComplete="off"
+                onChange={(value) => {
+                  if (urlValidator.validator(value)) {
+                    serviceContainerScmRepositoriesSearch.run({ serviceData: { searchUrl: value } }).then((response) => {
+                      const scmRepositoryMatch = response.data?.content?.find(
+                        (scmRepository) => value === scmRepository.externalUrl
+                      );
+                      onScmRepositorySelect(scmRepositoryMatch);
+                    });
+                  } else {
+                    onScmRepositorySelect(undefined);
+                  }
+                  onChange(value);
+                }}
+                {...rest}
+              />
+            )}
+            {...useFormObject.register<string>(buildConfigEntityAttributes.scmRepository.id, fieldConfigs.scmRepository)}
+          />
+        </FormGroup>
+
+        <FormGroup
+          isRequired
+          label={buildConfigEntityAttributes.scmRevision.title}
+          fieldId={buildConfigEntityAttributes.scmRevision.id}
+          helperText={
+            <FormHelperText
+              isHidden={useFormObject.getFieldState(buildConfigEntityAttributes.scmRevision.id) !== 'error'}
+              isError
+            >
+              {useFormObject.getFieldErrors(buildConfigEntityAttributes.scmRevision.id)}
+            </FormHelperText>
+          }
+        >
+          <TextInput
+            isRequired
+            type="text"
+            id={buildConfigEntityAttributes.scmRevision.id}
+            name={buildConfigEntityAttributes.scmRevision.id}
+            autoComplete="off"
+            {...useFormObject.register<string>(buildConfigEntityAttributes.scmRevision.id, fieldConfigs.scmRevision)}
+          />
+        </FormGroup>
+      </ContentBox>
     </ExpandableFormSection>
   );
 };
