@@ -6,19 +6,25 @@ import {
   Form,
   FormGroup,
   FormHelperText,
+  Grid,
+  GridItem,
   HelperText,
   HelperTextItem,
   Select,
   SelectOption,
   Switch,
+  Text,
   TextArea,
+  TextContent,
   TextInput,
+  TextVariants,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Environment, Product, ProductVersion } from 'pnc-api-types-ts';
+import { BuildConfiguration, Environment, Product, ProductVersion } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
@@ -27,15 +33,20 @@ import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { usePatchOperation } from 'hooks/usePatchOperation';
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { BuildConfigsAddDependenciesList } from 'components/BuildConfigCreateEditPage/BuildConfigsAddDependenciesList';
+import { BuildConfigsDependenciesChangesList } from 'components/BuildConfigCreateEditPage/BuildConfigsDependenciesChangesList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ExpandableFormSection, IExpandableFormSectionProps } from 'components/ExpandableFormSection/ExpandableFormSection';
 import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
@@ -87,10 +98,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
   const [parametersData, setParametersData] = useState<IParametersData>({});
+  const [dependenciesData, setDependenciesData] = useState<IDependenciesData>({});
 
   const [showGeneralAttributesSection, setShowGeneralAttributesSection] = useState<boolean>(true);
   const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
+  const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
 
   useTitle(
     generatePageTitle({
@@ -141,6 +154,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           onToggle={(isExpanded) => setShowBuildParametersSection(isExpanded)}
           parametersData={parametersData}
           onParametersDataChange={setParametersData}
+        />
+
+        <DependenciesSection
+          isExpanded={showDependenciesSection}
+          onToggle={(isExpanded) => setShowDependenciesSection(isExpanded)}
+          dependenciesData={dependenciesData}
+          onDependenciesDataChange={setDependenciesData}
         />
 
         <ActionGroup>
@@ -512,6 +532,85 @@ const BuildParametersSection = ({
           </FormGroup>
         ))}
       </ContentBox>
+    </ExpandableFormSection>
+  );
+};
+
+interface IDependenciesData {
+  [key: number]: { id: string };
+}
+
+interface IDependenciesSectionProps {
+  isExpanded: boolean;
+  onToggle: IExpandableFormSectionProps['onToggle'];
+  dependenciesData: IDependenciesData;
+  onDependenciesDataChange: (dependenciesData: IDependenciesData) => void;
+  componentIdBuildConfigs?: string;
+}
+
+const DependenciesSection = ({
+  isExpanded,
+  onToggle,
+  dependenciesData,
+  onDependenciesDataChange,
+  componentIdBuildConfigs = 'bc1',
+}: IDependenciesSectionProps) => {
+  const serviceContainerProjectBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigs);
+  const serviceContainerProjectBuildConfigsRunner = serviceContainerProjectBuildConfigs.run;
+  const {
+    operations: buildConfigChanges,
+    addedData: addedBuildConfigs,
+    insertOperation: insertBuildConfigChange,
+    cancelOperation: cancelBuildConfigChange,
+  } = usePatchOperation<BuildConfiguration>();
+
+  useQueryParamsEffect(serviceContainerProjectBuildConfigsRunner, { componentId: componentIdBuildConfigs });
+
+  return (
+    <ExpandableFormSection title="Dependencies" isExpanded={isExpanded} onToggle={onToggle}>
+      <Grid hasGutter>
+        <GridItem lg={12} xl2={6}>
+          <Toolbar>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Add Build Config dependencies</Text>
+              </TextContent>
+            </ToolbarItem>
+          </Toolbar>
+          <ContentBox shadow={false} background={false} borderTop>
+            <BuildConfigsAddDependenciesList
+              serviceContainerBuildConfigs={serviceContainerProjectBuildConfigs}
+              componentId={componentIdBuildConfigs}
+              onBuildConfigAdd={(buildConfig: BuildConfiguration) => {
+                insertBuildConfigChange(buildConfig, 'add');
+                onDependenciesDataChange({ ...dependenciesData, [buildConfig.id]: { id: buildConfig.id } });
+              }}
+              addedBuildConfigs={addedBuildConfigs}
+            />
+          </ContentBox>
+        </GridItem>
+
+        <GridItem lg={12} xl2={6}>
+          <Toolbar>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Build Configs to be added as dependencies</Text>
+              </TextContent>
+            </ToolbarItem>
+          </Toolbar>
+          <ContentBox shadow={false} background={false} borderTop>
+            <BuildConfigsDependenciesChangesList
+              buildConfigChanges={buildConfigChanges}
+              onCancel={(buildConfig: BuildConfiguration) => {
+                cancelBuildConfigChange(buildConfig);
+                onDependenciesDataChange(
+                  Object.fromEntries(Object.entries(dependenciesData).filter(([k, _]) => k !== buildConfig.id))
+                );
+              }}
+            />
+          </ContentBox>
+        </GridItem>
+      </Grid>
     </ExpandableFormSection>
   );
 };
