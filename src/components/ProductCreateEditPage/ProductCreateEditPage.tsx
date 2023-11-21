@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Product } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
@@ -79,7 +80,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
       });
   };
 
-  const submitUpdate = (data: IFieldValues) => {
+  const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
     return serviceContainerEditPagePatch
@@ -174,12 +175,8 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
           />
         </FormGroup>
         <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled}
-            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
-          >
-            {isEditPage ? 'Update' : 'Create'} Product
+          <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.product}
           </Button>
         </ActionGroup>
       </Form>
@@ -188,10 +185,10 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
 
   return (
     <PageLayout
-      title={isEditPage ? 'Update Product' : 'Create Product'}
+      title={isEditPage ? PageTitles.productEdit : PageTitles.productCreate}
       description={
         isEditPage ? (
-          <>You can update current Product attributes below.</>
+          <>You can edit current Product attributes below.</>
         ) : (
           <>
             You can create a product like <Label>EAP</Label>. Usually, Product is a deliverable package composed of multiple

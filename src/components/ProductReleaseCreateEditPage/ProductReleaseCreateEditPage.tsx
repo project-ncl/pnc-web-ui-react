@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProductMilestone, ProductMilestoneRef, ProductRelease, ProductVersionRef } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
-import { PageTitles } from 'common/constants';
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 
@@ -142,7 +142,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
       });
   };
 
-  const submitUpdate = (data: IFieldValues) => {
+  const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: serviceContainerProductVersion.data?.version + '.' + data.version,
       releaseDate: parseDate(data.releaseDate),
@@ -334,12 +334,8 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           />
         </FormGroup>
         <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled}
-            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
-          >
-            {isEditPage ? 'Update' : 'Create'} Release
+          <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.productRelease}
           </Button>
         </ActionGroup>
       </Form>
@@ -348,10 +344,8 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
 
   return (
     <PageLayout
-      title={isEditPage ? 'Update Release' : 'Create Release'}
-      description={
-        isEditPage ? <>You can update current Release attributes below.</> : <>You can create a new Product Release.</>
-      }
+      title={isEditPage ? PageTitles.productReleaseEdit : PageTitles.productReleaseCreate}
+      description={isEditPage ? <>You can edit current Release attributes below.</> : <>You can create a new Product Release.</>}
     >
       {isEditPage ? (
         <ServiceContainerCreatingUpdating

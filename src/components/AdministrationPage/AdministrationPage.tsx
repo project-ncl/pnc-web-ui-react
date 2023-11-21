@@ -15,6 +15,8 @@ import {
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { CSSProperties, FormEvent, useCallback, useEffect, useState } from 'react';
 
+import { ButtonTitles } from 'common/constants';
+
 import { useInterval } from 'hooks/useInterval';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -155,7 +157,7 @@ export const AdministrationPage = () => {
                         });
                       }}
                     >
-                      Update Version
+                      {ButtonTitles.update} Version
                     </Button>
                   </ActionGroup>
                 </Form>
@@ -305,7 +307,7 @@ export const AdministrationPage = () => {
                           });
                       }}
                     >
-                      Update
+                      {ButtonTitles.update}
                     </Button>
                   </ActionGroup>
                 </Form>

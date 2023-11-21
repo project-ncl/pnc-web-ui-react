@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { PncError } from 'common/PncError';
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
@@ -88,7 +89,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
       });
   };
 
-  const submitUpdate = (data: IFieldValues) => {
+  const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
     return serviceContainerEditPagePatch
@@ -214,12 +215,8 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
           />
         </FormGroup>
         <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled}
-            onClick={handleSubmit(isEditPage ? submitUpdate : submitCreate)}
-          >
-            {isEditPage ? 'Update' : 'Create'} Project
+          <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.project}
           </Button>
         </ActionGroup>
       </Form>
@@ -228,10 +225,10 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
 
   return (
     <PageLayout
-      title={isEditPage ? 'Update Project' : 'Create Project'}
+      title={isEditPage ? PageTitles.projectEdit : PageTitles.projectCreate}
       description={
         isEditPage ? (
-          <>You can update current project attributes below.</>
+          <>You can edit current project attributes below.</>
         ) : (
           <>
             You can create a standalone project like <Label>Hibernate</Label> or <Label>JBoss Modules</Label>, usually a project
