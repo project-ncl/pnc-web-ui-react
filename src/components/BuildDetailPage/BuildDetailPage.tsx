@@ -201,8 +201,8 @@ export const BuildDetailPage = () => {
               title={buildEntityAttributes.scmBuildConfigRevision.title}
               tooltip={buildEntityAttributes.scmBuildConfigRevision.tooltip}
             >
-              {(serviceContainerBuild.data as any)?.scmBuildConfigRevision && (
-                <CopyToClipboard isInline>{(serviceContainerBuild.data as any).scmBuildConfigRevision}</CopyToClipboard>
+              {serviceContainerBuild.data?.scmBuildConfigRevision && (
+                <CopyToClipboard isInline>{serviceContainerBuild.data.scmBuildConfigRevision}</CopyToClipboard>
               )}
             </AttributesItem>
 

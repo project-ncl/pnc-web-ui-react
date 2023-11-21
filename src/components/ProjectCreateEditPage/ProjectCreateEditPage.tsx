@@ -2,6 +2,8 @@ import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Project } from 'pnc-api-types-ts';
+
 import { PncError } from 'common/PncError';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
@@ -70,7 +72,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
-        serviceData: { data },
+        serviceData: { data: data as Project },
       })
       .then((response) => {
         const newProjectId = response?.data?.id;
