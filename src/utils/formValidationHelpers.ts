@@ -1,4 +1,7 @@
 // all validation functions should return boolean and accept empty string as valid
+import { buildTypeData } from 'common/buildTypeData';
+
+import { IFieldValues } from 'hooks/useForm';
 
 const whitespacesRegex = /\s*/;
 
@@ -126,4 +129,27 @@ const productReleaseNameRegex = /^\d+\.[a-zA-Z0-9]+$/;
  */
 export const validateProductReleaseName = (version: string): boolean => {
   return !version || productReleaseNameRegex.test(version);
+};
+
+const buildScriptChecker = (buildScript: string) => {
+  const MAVEN = 'mvn';
+  const MANDATORY_ARGS = ['deploy'];
+
+  const lines = buildScript.toLowerCase().split('\n');
+
+  return lines.every((line) => !line.includes(MAVEN) || MANDATORY_ARGS.every((arg) => line.includes(arg)));
+};
+
+/**
+ * Build script validation function.
+ *
+ * Accepts empty Build script.
+ *
+ * @param version - Build script string
+ * @returns true if valid, false otherwise
+ */
+export const validateBuildScript = (fieldValues: IFieldValues): boolean => {
+  return (
+    !fieldValues.buildScript || fieldValues.buildType !== buildTypeData.MVN.id || buildScriptChecker(fieldValues.buildScript)
+  );
 };
