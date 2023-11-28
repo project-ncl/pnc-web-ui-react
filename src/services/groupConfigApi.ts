@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { Operation } from 'fast-json-patch';
 
 import { BuildConfigPage, GroupBuild, GroupBuildPage, GroupConfigPage, GroupConfiguration } from 'pnc-api-types-ts';
 
@@ -128,4 +129,19 @@ export const build = (
       newParams: groupBuildStartParams,
     })
   );
+};
+
+/**
+ * Patches a Group Config.
+ *
+ * @param serviceData - object containing:
+ *  - id - Group Config ID
+ *  - patchData - array of changes in JSON-Patch format
+ * @param requestConfig - Axios based request config
+ */
+export const patchGroupConfig = (
+  { id, patchData }: { id: string; patchData: Operation[] },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().patch<GroupConfiguration>(`/group-configs/${id}`, patchData, requestConfig);
 };
