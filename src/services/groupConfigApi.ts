@@ -62,6 +62,16 @@ export const getGroupBuilds = ({ id }: IGroupConfigApiData, requestConfig: Axios
   return pncClient.getHttpClient().get<GroupBuildPage>(`/group-configs/${id}/group-builds`, requestConfig);
 };
 
+/**
+ * Gets Build Configs of a Group Config.
+ *
+ * @param id - Group Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildConfigs = ({ id }: IGroupConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfigPage>(`/group-configs/${id}/build-configs`, requestConfig);
+};
+
 interface IGetByGroupConfigData {
   groupConfigId: string;
 }
