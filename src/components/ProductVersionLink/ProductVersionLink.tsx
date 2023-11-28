@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 
-import { ProductVersion } from 'pnc-api-types-ts';
+import { Product, ProductVersion } from 'pnc-api-types-ts';
 
 interface IProductVersionLinkProps {
   productVersion: ProductVersion;
+  product?: Product;
 }
 
 /**
@@ -11,8 +12,14 @@ interface IProductVersionLinkProps {
  *
  * @param productVersion - Product Version object
  */
-export const ProductVersionLink = ({ productVersion }: IProductVersionLinkProps) => (
-  <Link to={`/products/${productVersion.product?.id}/versions/${productVersion.id}`}>
-    {productVersion.product?.name} - {productVersion.version}
-  </Link>
-);
+export const ProductVersionLink = ({ productVersion, product = productVersion.product }: IProductVersionLinkProps) => {
+  if (!product) {
+    throw new Error('product has to be defined in ProductVersionLink component');
+  }
+
+  return (
+    <Link to={`/products/${product.id}/versions/${productVersion.id}`}>
+      {product.name} - {productVersion.version}
+    </Link>
+  );
+};
