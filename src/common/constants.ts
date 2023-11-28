@@ -21,6 +21,7 @@ export const PageTitles = {
   buildConfigCreate: 'Create Build Config',
   buildConfigEdit: 'Edit Build Config',
   groupConfigs: 'Group Configs',
+  groupConfigEdit: 'Edit Group Config',
   builds: 'Builds',
   buildHistory: 'Build History',
   groupBuilds: 'Group Builds',
