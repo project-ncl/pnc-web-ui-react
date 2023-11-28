@@ -9,6 +9,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { ActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
@@ -16,6 +17,7 @@ import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -124,6 +126,11 @@ export const GroupConfigDetailPage = ({
             <TextContent>
               <Text component={TextVariants.h2}>Build Configs</Text>
             </TextContent>
+          </ToolbarItem>
+          <ToolbarItem>
+            <ProtectedComponent>
+              <ActionButton link="build-configs/edit">Edit list</ActionButton>
+            </ProtectedComponent>
           </ToolbarItem>
         </Toolbar>
 
