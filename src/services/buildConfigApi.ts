@@ -1,10 +1,22 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Build, BuildConfigPage, BuildConfigurationRevision } from 'pnc-api-types-ts';
+import {
+  Build,
+  BuildConfigPage,
+  BuildConfigRevisionPage,
+  BuildConfiguration,
+  BuildConfigurationRevision,
+  BuildPage,
+  GroupConfigPage,
+} from 'pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
+
+interface IBuildConfigApiData {
+  id: string;
+}
 
 export interface IBuildStartParams {
   id: string;
@@ -34,20 +46,24 @@ export const getBuildConfigsWithLatestBuild = (requestConfig: AxiosRequestConfig
 };
 
 /**
- * Triggers a Build of a specific Build Config.
+ * Gets a specific Build Config.
  *
- * @param buildStartParams - Object containing parameters to start a Build
+ * @param id - Build Config ID
  * @param requestConfig - Axios based request config
  */
-export const build = ({ buildStartParams }: { buildStartParams: IBuildStartParams }, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<Build>(
-    `/build-configs/${buildStartParams.id}/build`,
-    null,
-    extendRequestConfig({
-      originalConfig: requestConfig,
-      newParams: buildStartParams,
-    })
-  );
+export const getBuildConfig = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfiguration>(`/build-configs/${id}`, requestConfig);
+};
+
+/**
+ * Gets Revisions of a Build Config.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const getRevisions = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfigRevisionPage>(`/build-configs/${id}/revisions`, requestConfig);
 };
 
 /**
@@ -65,4 +81,65 @@ export const getRevision = (
   return pncClient
     .getHttpClient()
     .get<BuildConfigurationRevision>(`/build-configs/${buildConfigId}/revisions/${buildConfigRev}`, requestConfig);
+};
+
+/**
+ * Gets Dependencies of a Build Config.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const getDependencies = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPage>(`/build-configs/${id}/dependencies`, requestConfig);
+};
+
+/**
+ * Gets Dependendants of a Build Config.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const getDependendants = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPage>(`/build-configs/${id}/dependants`, requestConfig);
+};
+
+/**
+ * Gets Group Configs of a Build Config.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const getGroupConfigs = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<GroupConfigPage>(`/build-configs/${id}/group-configs`, requestConfig);
+};
+
+/**
+ * Gets Builds of a Build Config.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuilds = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPage>(`/build-configs/${id}/builds`, requestConfig);
+};
+
+/**
+ * Triggers a Build of a specific Build Config.
+ *
+ * @param buildStartParams - Object containing parameters to start a Build
+ * @param requestConfig - Axios based request config
+ */
+export const build = ({ buildStartParams }: { buildStartParams: IBuildStartParams }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<Build>(
+    `/build-configs/${buildStartParams.id}/build`,
+    null,
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: buildStartParams,
+    })
+  );
 };
