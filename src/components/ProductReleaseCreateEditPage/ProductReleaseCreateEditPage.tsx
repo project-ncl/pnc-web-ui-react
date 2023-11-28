@@ -116,13 +116,13 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
         serviceData: {
           data: {
             version: serviceContainerProductVersion.data?.version + '.' + data.version,
-            releaseDate: `${parseDate(data.releaseDate)}`,
+            releaseDate: parseDate(data.releaseDate),
             supportLevel: data.supportLevel,
             commonPlatformEnumeration: data.commonPlatformEnumeration,
             productPagesCode: data.productPagesCode,
             productVersion: { id: serviceContainerProductVersion.data?.id } as ProductVersionRef,
             productMilestone: { id: selectedProductMilestone!.id } as ProductMilestoneRef,
-          },
+          } as ProductRelease,
         },
       })
       .then((response: any) => {
