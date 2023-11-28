@@ -1,6 +1,6 @@
 import { GridItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -9,7 +9,7 @@ import styles from './Attributes.module.css';
 
 interface IAttributesItemProps {
   title: React.ReactNode;
-  tooltip?: string;
+  tooltip?: ReactNode;
   forceStringWrap?: boolean;
 }
 

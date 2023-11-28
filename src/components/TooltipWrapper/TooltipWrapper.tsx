@@ -1,8 +1,9 @@
 import { Tooltip } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
+import { ReactNode } from 'react';
 
 interface ITooltipWrapperProps {
-  tooltip?: string;
+  tooltip?: ReactNode;
 }
 /**
  * Tooltip Wrapper to make any component (like icon) to become a tooltip component.
