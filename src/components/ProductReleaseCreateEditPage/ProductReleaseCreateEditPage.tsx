@@ -289,7 +289,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
                 name={productReleaseEntityAttributes.supportLevel.id}
                 variant="single"
                 isOpen={isSupportLevelSelectOpen}
-                selections={value}
+                selections={value || undefined}
                 validated={validated}
                 onToggle={setIsSupportLevelSelectOpen}
                 onSelect={(_, supportLevel, isPlaceholder) => {
@@ -299,9 +299,11 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
                   }
                 }}
                 onBlur={onBlur}
+                hasPlaceholderStyle
+                placeholderText="Select support level"
               >
-                {productReleaseEntityAttributes.supportLevel.values.map((supportLevel) => (
-                  <SelectOption key={supportLevel} value={supportLevel} />
+                {productReleaseEntityAttributes.supportLevel.values.map((supportLevel, index) => (
+                  <SelectOption key={index} value={supportLevel} />
                 ))}
               </Select>
             )}
