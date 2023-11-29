@@ -21,6 +21,7 @@ import { BuildConfigDependenciesPage } from 'components/BuildConfigDependenciesP
 import { BuildConfigDetailPage } from 'components/BuildConfigDetailPage/BuildConfigDetailPage';
 import { BuildConfigGroupConfigsPage } from 'components/BuildConfigGroupConfigsPage/BuildConfigGroupConfigsPage';
 import { BuildConfigPages } from 'components/BuildConfigPages/BuildConfigPages';
+import { BuildConfigRevisionsPage } from 'components/BuildConfigRevisionsPage/BuildConfigRevisionsPage';
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
 import { BuildDependenciesPage } from 'components/BuildDependenciesPage/BuildDependenciesPage';
 import { BuildDetailPage } from 'components/BuildDetailPage/BuildDetailPage';
@@ -236,6 +237,7 @@ export const AppRoutes = (
         <Route path="dependants" element={<BuildConfigDependantsPage />} />
         <Route path="group-configs" element={<BuildConfigGroupConfigsPage />} />
         <Route path="build-metrics" element={<BuildConfigBuildMetricsPage />} />
+        <Route path="revisions/:rev?" element={<BuildConfigRevisionsPage />} />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>

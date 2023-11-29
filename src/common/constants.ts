@@ -20,6 +20,8 @@ export const PageTitles = {
   buildConfigs: 'Build Configs',
   buildConfigCreate: 'Create Build Config',
   buildConfigEdit: 'Edit Build Config',
+  buildConfigDetail: 'Build Config Detail',
+  buildConfigRevision: 'Build Config Revision',
   groupConfigs: 'Group Configs',
   groupConfigCreate: 'Create Group Config',
   groupConfigEdit: 'Edit Group Config',
