@@ -321,6 +321,9 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
                 callback: generateTimeTitle,
               },
             },
+            x: {
+              reverse: true,
+            },
           },
         };
       } else if (chartType === 'horizontalBar') {
