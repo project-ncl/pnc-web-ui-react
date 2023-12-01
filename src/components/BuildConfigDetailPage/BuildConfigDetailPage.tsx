@@ -36,7 +36,7 @@ export const BuildConfigDetailPage = () => {
     if (serviceContainerBuildConfig.data?.productVersion) {
       serviceContainerProductVersionRunner({ serviceData: { id: serviceContainerBuildConfig.data.productVersion.id } });
     }
-  }, [serviceContainerProductVersionRunner, serviceContainerBuildConfig]);
+  }, [serviceContainerProductVersionRunner, serviceContainerBuildConfig.data?.productVersion]);
 
   return (
     <Grid hasGutter>
