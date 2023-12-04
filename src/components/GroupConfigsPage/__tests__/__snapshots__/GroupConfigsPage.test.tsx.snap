@@ -217,7 +217,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/101"
+                      href="/group-configs/101"
                     >
                       Example Build Group 1
                     </a>
@@ -238,7 +238,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/102"
+                      href="/group-configs/102"
                     >
                       Example Build Group 2
                     </a>
@@ -259,7 +259,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/103"
+                      href="/group-configs/103"
                     >
                       Example Build Group 3
                     </a>
@@ -280,7 +280,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/104"
+                      href="/group-configs/104"
                     >
                       Example Build Group 4
                     </a>
@@ -301,7 +301,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/105"
+                      href="/group-configs/105"
                     >
                       Example Build Group 5
                     </a>
@@ -322,7 +322,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/106"
+                      href="/group-configs/106"
                     >
                       Example Build Group 6
                     </a>
@@ -343,7 +343,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/107"
+                      href="/group-configs/107"
                     >
                       Example Build Group 7
                     </a>
@@ -364,7 +364,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/109"
+                      href="/group-configs/109"
                     >
                       Example Build Group 8
                     </a>
@@ -385,7 +385,7 @@ Object {
                     class=""
                   >
                     <a
-                      href="/110"
+                      href="/group-configs/110"
                     >
                       Example Build Group 9
                     </a>
@@ -829,7 +829,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/101"
+                    href="/group-configs/101"
                   >
                     Example Build Group 1
                   </a>
@@ -850,7 +850,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/102"
+                    href="/group-configs/102"
                   >
                     Example Build Group 2
                   </a>
@@ -871,7 +871,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/103"
+                    href="/group-configs/103"
                   >
                     Example Build Group 3
                   </a>
@@ -892,7 +892,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/104"
+                    href="/group-configs/104"
                   >
                     Example Build Group 4
                   </a>
@@ -913,7 +913,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/105"
+                    href="/group-configs/105"
                   >
                     Example Build Group 5
                   </a>
@@ -934,7 +934,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/106"
+                    href="/group-configs/106"
                   >
                     Example Build Group 6
                   </a>
@@ -955,7 +955,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/107"
+                    href="/group-configs/107"
                   >
                     Example Build Group 7
                   </a>
@@ -976,7 +976,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/109"
+                    href="/group-configs/109"
                   >
                     Example Build Group 8
                   </a>
@@ -997,7 +997,7 @@ Object {
                   class=""
                 >
                   <a
-                    href="/110"
+                    href="/group-configs/110"
                   >
                     Example Build Group 9
                   </a>
