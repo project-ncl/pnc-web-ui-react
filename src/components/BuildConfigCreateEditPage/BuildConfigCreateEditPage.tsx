@@ -17,11 +17,12 @@ import {
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Environment } from 'pnc-api-types-ts';
+import { Environment, Product, ProductVersion } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
 import { PageTitles } from 'common/constants';
+import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -29,6 +30,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
@@ -37,6 +39,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
+import * as productApi from 'services/productApi';
 
 import { maxLengthValidator255, validateBuildScript } from 'utils/formValidationHelpers';
 import { generatePageTitle } from 'utils/titleHelper';
@@ -91,11 +94,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(buildConfigApi.patchBuildConfig);
 
+  const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
+
   const { register, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
+  const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
 
   const [showDeprecatedEnvironments, setShowDeprecatedEnvironments] = useState<boolean>(false);
   const [isBuildTypeSelectOpen, setIsBuildTypeSelectOpen] = useState<boolean>(false);
+
+  const productVersionRegisterObject = register<string>(buildConfigEntityAttributes.productVersion.id);
 
   const fetchEnvironments = useCallback(
     (requestConfig = {}) => {
@@ -105,6 +114,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       );
     },
     [showDeprecatedEnvironments]
+  );
+
+  const fetchProductVersions = useCallback(
+    (requestConfig = {}) => {
+      return selectedProduct ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig) : Promise.resolve([]);
+    },
+    [selectedProduct]
   );
 
   useTitle(
@@ -314,11 +330,83 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </Form>
       </ContentBox>
 
-      <ActionGroup>
-        <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
-          {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
-        </Button>
-      </ActionGroup>
+      <ExpandableSection
+        title="Product Version"
+        isExpanded={showProductVersionSection}
+        onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
+      >
+        <ContentBox padding>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
+              <SearchSelect
+                selectedItem={selectedProduct?.name}
+                onSelect={(_, product: Product) => {
+                  setSelectedProduct(product);
+                  productVersionRegisterObject.onChange('');
+                  setSelectedProductVersion(undefined);
+                }}
+                onClear={() => {
+                  setSelectedProduct(undefined);
+                  productVersionRegisterObject.onChange('');
+                  setSelectedProductVersion(undefined);
+                }}
+                fetchCallback={productApi.getProducts}
+                titleAttribute="name"
+                placeholderText="Select Product"
+              />
+            </FormGroup>
+
+            <FormGroup
+              isRequired={!!selectedProduct}
+              label={buildConfigEntityAttributes.productVersion.title}
+              fieldId={buildConfigEntityAttributes.productVersion.id}
+              helperText={
+                <FormHelperText isHidden={!selectedProduct || !!selectedProductVersion} isError>
+                  Field must be filled.
+                </FormHelperText>
+              }
+            >
+              <FormInput<string>
+                {...productVersionRegisterObject}
+                render={({ value, validated, onChange }) => (
+                  <SearchSelect
+                    selectedItem={value}
+                    validated={validated}
+                    onSelect={(_, productVersion: ProductVersion) => {
+                      onChange(productVersion.version);
+                      setSelectedProductVersion(productVersion);
+                    }}
+                    onClear={() => {
+                      onChange('');
+                      setSelectedProductVersion(undefined);
+                    }}
+                    fetchCallback={fetchProductVersions}
+                    titleAttribute="version"
+                    placeholderText="Select Version"
+                    isDisabled={!selectedProduct}
+                  />
+                )}
+              />
+            </FormGroup>
+          </Form>
+        </ContentBox>
+      </ExpandableSection>
+
+      <ContentBox marginTop background={false} shadow={false}>
+        <ActionGroup>
+          <Button
+            variant="primary"
+            isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion)}
+            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
+          >
+            {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
+          </Button>
+        </ActionGroup>
+      </ContentBox>
     </>
   );
 
