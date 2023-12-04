@@ -11,4 +11,6 @@ interface IGroupConfigLinkProps {
  * @param id - id of the group config to link to
  * @param children - the children of the link
  */
-export const GroupConfigLink = ({ id, children }: IGroupConfigLinkProps) => <Link to={id} children={children} />;
+export const GroupConfigLink = ({ id, children }: IGroupConfigLinkProps) => (
+  <Link to={`/group-configs/${id}`} children={children} />
+);
