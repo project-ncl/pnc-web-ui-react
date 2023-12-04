@@ -92,18 +92,18 @@ export const getRevision = (
  * @param requestConfig - Axios based request config
  */
 export const getDependencies = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<BuildPage>(`/build-configs/${id}/dependencies`, requestConfig);
+  return pncClient.getHttpClient().get<BuildConfigPage>(`/build-configs/${id}/dependencies`, requestConfig);
 };
 
 /**
- * Gets Dependendants of a Build Config.
+ * Gets Dependants of a Build Config.
  *
  * @param serviceData - object containing:
  *  - id - Build Config ID
  * @param requestConfig - Axios based request config
  */
-export const getDependendants = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<BuildPage>(`/build-configs/${id}/dependants`, requestConfig);
+export const getDependants = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildConfigPage>(`/build-configs/${id}/dependants`, requestConfig);
 };
 
 /**
