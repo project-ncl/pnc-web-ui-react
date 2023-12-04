@@ -93,6 +93,11 @@ export const GroupConfigDetailPage = ({
     <ServiceContainerLoading {...serviceContainerGroupConfig} title="Group Config details">
       <PageLayout
         title={serviceContainerGroupConfig.data?.name}
+        actions={
+          <ProtectedComponent>
+            <ActionButton link="edit">Edit Group Config</ActionButton>
+          </ProtectedComponent>
+        }
         sidebar={{
           title: 'Build History',
           content: (
