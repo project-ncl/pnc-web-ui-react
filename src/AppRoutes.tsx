@@ -15,6 +15,7 @@ import { BuildArtifactDependencyGraphPage } from 'components/BuildArtifactDepend
 import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
 import { BuildBrewPushPage } from 'components/BuildBrewPushPage/BuildBrewPushPage';
 import { BuildConfigCreateEditPage } from 'components/BuildConfigCreateEditPage/BuildConfigCreateEditPage';
+import { BuildConfigDependantsPage } from 'components/BuildConfigDependantsPage/BuildConfigDependantsPage';
 import { BuildConfigDetailPage } from 'components/BuildConfigDetailPage/BuildConfigDetailPage';
 import { BuildConfigPages } from 'components/BuildConfigPages/BuildConfigPages';
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
@@ -226,6 +227,7 @@ export const AppRoutes = (
       />
       <Route path=":buildConfigId" element={<BuildConfigPages />}>
         <Route path="details" element={<BuildConfigDetailPage />} />
+        <Route path="dependants" element={<BuildConfigDependantsPage />} />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
