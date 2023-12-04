@@ -39,16 +39,16 @@ Object {
             <div
               class="disabled-content"
             >
-              <button
+              <a
                 aria-disabled="false"
                 class="pf-c-button pf-m-primary pf-m-small"
                 data-ouia-component-id="OUIA-Generated-Button-primary-2"
                 data-ouia-component-type="PF4/Button"
                 data-ouia-safe="true"
-                type="button"
+                href="/create"
               >
                 Create Group Config
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -651,16 +651,16 @@ Object {
           <div
             class="disabled-content"
           >
-            <button
+            <a
               aria-disabled="false"
               class="pf-c-button pf-m-primary pf-m-small"
               data-ouia-component-id="OUIA-Generated-Button-primary-2"
               data-ouia-component-type="PF4/Button"
               data-ouia-safe="true"
-              type="button"
+              href="/create"
             >
               Create Group Config
-            </button>
+            </a>
           </div>
         </div>
       </div>

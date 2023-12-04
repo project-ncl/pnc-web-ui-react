@@ -132,6 +132,16 @@ export const build = (
 };
 
 /**
+ * Creates a new Group Config.
+ *
+ * @param data - object containing new Group Config data
+ * @param requestConfig - Axios based request config
+ */
+export const createGroupConfig = ({ data }: { data: Omit<GroupConfiguration, 'id'> }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<GroupConfiguration>('/group-configs', data, requestConfig);
+};
+
+/**
  * Patches a Group Config.
  *
  * @param serviceData - object containing:

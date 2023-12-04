@@ -33,6 +33,7 @@ import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigBuildConfigsEditPage } from 'components/GroupConfigBuildConfigsEditPage/GroupConfigBuildConfigsEditPage';
+import { GroupConfigCreateEditPage } from 'components/GroupConfigCreateEditPage/GroupConfigCreateEditPage';
 import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 import { KeycloakStatusPage } from 'components/KeycloakStatusPage/KeycloakStatusPage';
@@ -241,6 +242,14 @@ export const AppRoutes = (
       <Route path=":groupConfigId">
         <Route index element={<GroupConfigDetailPage />} />
         <Route
+          path="edit"
+          element={
+            <ProtectedRoute title={PageTitles.groupConfigEdit}>
+              <GroupConfigCreateEditPage isEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="build-configs/edit"
           element={
             <ProtectedRoute title={PageTitles.groupConfigEdit}>
@@ -249,6 +258,14 @@ export const AppRoutes = (
           }
         />
       </Route>
+      <Route
+        path="create"
+        element={
+          <ProtectedRoute title={PageTitles.groupConfigCreate}>
+            <GroupConfigCreateEditPage />
+          </ProtectedRoute>
+        }
+      />
     </Route>
     <Route path="builds">
       <Route index element={<BuildsPage />} />
