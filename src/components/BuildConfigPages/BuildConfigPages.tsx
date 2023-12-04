@@ -41,8 +41,8 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
   const serviceContainerDependencies = useServiceContainer(buildConfigApi.getDependencies);
   const serviceContainerDependenciesRunner = serviceContainerDependencies.run;
 
-  const serviceContainerDependendants = useServiceContainer(buildConfigApi.getDependendants);
-  const serviceContainerDependendantsRunner = serviceContainerDependendants.run;
+  const serviceContainerDependants = useServiceContainer(buildConfigApi.getDependants);
+  const serviceContainerDependantsRunner = serviceContainerDependants.run;
 
   const serviceContainerGroupConfigs = useServiceContainer(buildConfigApi.getGroupConfigs);
   const serviceContainerGroupConfigsRunner = serviceContainerGroupConfigs.run;
@@ -60,13 +60,13 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
   useEffect(() => {
     serviceContainerBuildConfigRunner({ serviceData: { id: buildConfigId } });
     serviceContainerDependenciesRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerDependendantsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerDependantsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
     serviceContainerGroupConfigsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
     serviceContainerRevisionsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [
     serviceContainerBuildConfigRunner,
     serviceContainerDependenciesRunner,
-    serviceContainerDependendantsRunner,
+    serviceContainerDependantsRunner,
     serviceContainerGroupConfigsRunner,
     serviceContainerRevisionsRunner,
     buildConfigId,
@@ -88,10 +88,10 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
           {serviceContainerDependencies.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="dependendants">
-        Dependendants{' '}
-        <PageTabsLabel serviceContainer={serviceContainerDependendants} title="Dependendants Count">
-          {serviceContainerDependendants.data?.totalHits}
+      <PageTabsItem url="dependants">
+        Dependants{' '}
+        <PageTabsLabel serviceContainer={serviceContainerDependants} title="Dependants Count">
+          {serviceContainerDependants.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
       <PageTabsItem url="group-configs">
