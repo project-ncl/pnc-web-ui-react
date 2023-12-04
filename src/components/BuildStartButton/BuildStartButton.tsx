@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   Divider,
   Dropdown,
@@ -14,6 +13,10 @@ import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/reac
 import { useState } from 'react';
 
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
+
+import { useServiceContainer } from 'hooks/useServiceContainer';
+
+import { ProgressButton } from 'components/ProgressButton/ProgressButton';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as groupConfigApi from 'services/groupConfigApi';
@@ -148,6 +151,11 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownAlignmentsDirection: DropdownProps['alignments'] = { sm: 'right', md: 'right', lg: 'right' };
 
+  const serviceContainerBuildStart = useServiceContainer(buildConfigApi.build);
+  const serviceContainerGroupBuildStart = useServiceContainer(groupConfigApi.build);
+
+  const serviceContainer = buildConfig ? serviceContainerBuildStart : serviceContainerGroupBuildStart;
+
   const params: buildConfigApi.IBuildStartParams | groupConfigApi.IGroupBuildStartParams = {
     id: '',
     temporaryBuild: false,
@@ -169,26 +177,27 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
       buildStartParams.keepPodOnFailure = keepPodOnFailure;
       buildStartParams.buildDependencies = buildDependencies;
       buildStartParams.id = buildConfig.id;
-      buildConfigApi.build({ buildStartParams });
+      serviceContainerBuildStart.run({ serviceData: { buildStartParams } });
     } else if (groupConfig) {
       const groupBuildStartParams = params as groupConfigApi.IGroupBuildStartParams;
       params.id = groupConfig.id;
-      groupConfigApi.build({ groupBuildStartParams });
+      serviceContainerGroupBuildStart.run({ serviceData: { groupBuildStartParams } });
     }
   };
 
   return (
     <>
-      <Button
+      <ProgressButton
+        onClick={triggerBuild}
+        serviceContainer={serviceContainer}
         icon={<BuildIcon />}
-        variant="primary"
         isSmall={size === 'sm'}
         isLarge={size === 'lg'}
-        onClick={triggerBuild}
         className={styles['button-build']}
       >
         Build
-      </Button>
+      </ProgressButton>
+
       <Dropdown
         alignments={dropdownAlignmentsDirection}
         toggle={
