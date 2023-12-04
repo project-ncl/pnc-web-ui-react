@@ -20,6 +20,7 @@ import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as groupConfigApi from 'services/groupConfigApi';
 import * as productApi from 'services/productApi';
@@ -75,7 +76,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         serviceData: {
           data: {
             name: data.name,
-            productVersion: { id: selectedProductVersion!.id } as ProductVersion,
+            productVersion: selectedProductVersion ? ({ id: selectedProductVersion.id } as ProductVersion) : null,
           } as GroupConfiguration,
         },
       })
@@ -97,7 +98,10 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   };
 
   const submitEdit = (data: IFieldValues) => {
-    const newData = { name: data.name, productVersion: { id: selectedProductVersion!.id } };
+    const newData = {
+      name: data.name,
+      productVersion: selectedProductVersion ? ({ id: selectedProductVersion.id } as ProductVersion) : null,
+    } as GroupConfiguration;
 
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, newData);
 
@@ -125,6 +129,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         const groupConfig: GroupConfiguration = response.data;
 
         if (groupConfig.productVersion) {
+          setFieldValues({ name: groupConfig.name });
           serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } }).then((response) => {
             const productVersion: ProductVersion = response.data;
 
@@ -139,6 +144,49 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
       });
     }
   }, [isEditPage, groupConfigId, setFieldValues, serviceContainerEditPageGetRunner, serviceContainerProductVersionRunner]);
+
+  const productSearchSelect = (
+    <SearchSelect
+      selectedItem={selectedProduct?.name}
+      onSelect={(_, product: Product) => {
+        setSelectedProduct(product);
+        productVersionRegisterObject.onChange('');
+        setSelectedProductVersion(undefined);
+      }}
+      onClear={() => {
+        setSelectedProduct(undefined);
+        productVersionRegisterObject.onChange('');
+        setSelectedProductVersion(undefined);
+      }}
+      fetchCallback={productApi.getProducts}
+      titleAttribute="name"
+      placeholderText="Select Product"
+    />
+  );
+
+  const productVersionSearchSelect = (
+    <FormInput<string>
+      {...productVersionRegisterObject}
+      render={({ value, validated, onChange }) => (
+        <SearchSelect
+          selectedItem={value}
+          validated={validated}
+          onSelect={(_, productVersion: ProductVersion) => {
+            onChange(productVersion.version);
+            setSelectedProductVersion(productVersion);
+          }}
+          onClear={() => {
+            onChange('');
+            setSelectedProductVersion(undefined);
+          }}
+          fetchCallback={fetchProductVersions}
+          titleAttribute="version"
+          placeholderText="Select Version"
+          isDisabled={!selectedProduct}
+        />
+      )}
+    />
+  );
 
   const formComponent = (
     <ContentBox padding isResponsive>
@@ -168,22 +216,17 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         </FormGroup>
 
         <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
-          <SearchSelect
-            selectedItem={selectedProduct?.name}
-            onSelect={(_, product: Product) => {
-              setSelectedProduct(product);
-              productVersionRegisterObject.onChange('');
-              setSelectedProductVersion(undefined);
-            }}
-            onClear={() => {
-              setSelectedProduct(undefined);
-              productVersionRegisterObject.onChange('');
-              setSelectedProductVersion(undefined);
-            }}
-            fetchCallback={productApi.getProducts}
-            titleAttribute="name"
-            placeholderText="Select Product"
-          />
+          {serviceContainerEditPageGet.data?.productVersion ? (
+            <ServiceContainerLoading
+              {...serviceContainerProductVersion}
+              variant="inline"
+              title={`Product ${productEntityAttributes.name.title}`}
+            >
+              {productSearchSelect}
+            </ServiceContainerLoading>
+          ) : (
+            productSearchSelect
+          )}
         </FormGroup>
 
         <FormGroup
@@ -196,27 +239,17 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
             </FormHelperText>
           }
         >
-          <FormInput<string>
-            {...productVersionRegisterObject}
-            render={({ value, validated, onChange }) => (
-              <SearchSelect
-                selectedItem={value}
-                validated={validated}
-                onSelect={(_, productVersion: ProductVersion) => {
-                  onChange(productVersion.version);
-                  setSelectedProductVersion(productVersion);
-                }}
-                onClear={() => {
-                  onChange('');
-                  setSelectedProductVersion(undefined);
-                }}
-                fetchCallback={fetchProductVersions}
-                titleAttribute="version"
-                placeholderText="Select Version"
-                isDisabled={!selectedProduct}
-              />
-            )}
-          />
+          {serviceContainerEditPageGet.data?.productVersion ? (
+            <ServiceContainerLoading
+              {...serviceContainerProductVersion}
+              variant="inline"
+              title={groupConfigEntityAttributes.productVersion.title}
+            >
+              {productVersionSearchSelect}
+            </ServiceContainerLoading>
+          ) : (
+            productVersionSearchSelect
+          )}
         </FormGroup>
 
         <ActionGroup>
