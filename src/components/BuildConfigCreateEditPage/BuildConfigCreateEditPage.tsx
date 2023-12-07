@@ -8,6 +8,7 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
+  InputGroup,
   Select,
   SelectOption,
   Switch,
@@ -30,11 +31,14 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { CreatableSelect } from 'components/CreatableSelect/CreatableSelect';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
@@ -43,6 +47,15 @@ import * as productApi from 'services/productApi';
 
 import { maxLengthValidator255, validateBuildScript } from 'utils/formValidationHelpers';
 import { generatePageTitle } from 'utils/titleHelper';
+
+interface IBuildParamOption {
+  title: string;
+  description?: string;
+}
+
+interface IBuildParamData {
+  [title: string]: { value: string; description?: string };
+}
 
 interface IBuildConfigCreateEditPageProps {
   isEditPage?: boolean;
@@ -94,15 +107,24 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(buildConfigApi.patchBuildConfig);
 
+  const serviceContainerParameters = useServiceContainer(buildConfigApi.getSupportedParameters);
+  const serviceContainerParametersRunner = serviceContainerParameters.run;
+
   const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
+  const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
 
   const { register, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
+  const [buildParamData, setBuildParamData] = useState<IBuildParamData>({});
 
   const [showDeprecatedEnvironments, setShowDeprecatedEnvironments] = useState<boolean>(false);
   const [isBuildTypeSelectOpen, setIsBuildTypeSelectOpen] = useState<boolean>(false);
+  const [buildParamOptions, setBuildParamOptions] = useState<IBuildParamOption[]>([]);
+  const [selectedBuildParamOption, setSelectedBuildParamOption] = useState<string>();
+  const [isBuildParamSelectOpen, setIsBuildParamSelectOpen] = useState<boolean>(false);
+  const [isBuildCategorySelectOpen, setIsBuildCategorySelectOpen] = useState<boolean>(false);
 
   const productVersionRegisterObject = register<string>(buildConfigEntityAttributes.productVersion.id);
 
@@ -144,6 +166,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       serviceContainerEditPageGetRunner({ serviceData: { id: buildConfigId } });
     }
   }, [isEditPage, buildConfigId, serviceContainerEditPageGetRunner]);
+
+  useEffect(() => {
+    serviceContainerParametersRunner().then((response) => {
+      setBuildParamOptions(response.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description })));
+    });
+  }, [serviceContainerParametersRunner]);
 
   const formComponent = (
     <>
@@ -330,83 +358,221 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </Form>
       </ContentBox>
 
-      <ExpandableSection
-        title="Product Version"
-        isExpanded={showProductVersionSection}
-        onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
-      >
-        <ContentBox padding>
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
-              <SearchSelect
-                selectedItem={selectedProduct?.name}
-                onSelect={(_, product: Product) => {
-                  setSelectedProduct(product);
-                  productVersionRegisterObject.onChange('');
-                  setSelectedProductVersion(undefined);
-                }}
-                onClear={() => {
-                  setSelectedProduct(undefined);
-                  productVersionRegisterObject.onChange('');
-                  setSelectedProductVersion(undefined);
-                }}
-                fetchCallback={productApi.getProducts}
-                titleAttribute="name"
-                placeholderText="Select Product"
-              />
-            </FormGroup>
-
-            <FormGroup
-              isRequired={!!selectedProduct}
-              label={buildConfigEntityAttributes.productVersion.title}
-              fieldId={buildConfigEntityAttributes.productVersion.id}
-              helperText={
-                <FormHelperText isHidden={!selectedProduct || !!selectedProductVersion} isError>
-                  Field must be filled.
-                </FormHelperText>
-              }
+      <ContentBox marginBottom background={false} shadow={false}>
+        <ExpandableSection
+          title="Product Version"
+          isExpanded={showProductVersionSection}
+          onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
+        >
+          <ContentBox padding>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
             >
-              <FormInput<string>
-                {...productVersionRegisterObject}
-                render={({ value, validated, onChange }) => (
-                  <SearchSelect
-                    selectedItem={value}
-                    validated={validated}
-                    onSelect={(_, productVersion: ProductVersion) => {
-                      onChange(productVersion.version);
-                      setSelectedProductVersion(productVersion);
-                    }}
-                    onClear={() => {
-                      onChange('');
-                      setSelectedProductVersion(undefined);
-                    }}
-                    fetchCallback={fetchProductVersions}
-                    titleAttribute="version"
-                    placeholderText="Select Version"
-                    isDisabled={!selectedProduct}
-                  />
-                )}
-              />
-            </FormGroup>
-          </Form>
-        </ContentBox>
-      </ExpandableSection>
+              <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
+                <SearchSelect
+                  selectedItem={selectedProduct?.name}
+                  onSelect={(_, product: Product) => {
+                    setSelectedProduct(product);
+                    productVersionRegisterObject.onChange('');
+                    setSelectedProductVersion(undefined);
+                  }}
+                  onClear={() => {
+                    setSelectedProduct(undefined);
+                    productVersionRegisterObject.onChange('');
+                    setSelectedProductVersion(undefined);
+                  }}
+                  fetchCallback={productApi.getProducts}
+                  titleAttribute="name"
+                  placeholderText="Select Product"
+                />
+              </FormGroup>
 
-      <ContentBox marginTop background={false} shadow={false}>
-        <ActionGroup>
-          <Button
-            variant="primary"
-            isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion)}
-            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
-          >
-            {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
-          </Button>
-        </ActionGroup>
+              <FormGroup
+                isRequired={!!selectedProduct}
+                label={buildConfigEntityAttributes.productVersion.title}
+                fieldId={buildConfigEntityAttributes.productVersion.id}
+                helperText={
+                  <FormHelperText isHidden={!selectedProduct || !!selectedProductVersion} isError>
+                    Field must be filled.
+                  </FormHelperText>
+                }
+              >
+                <FormInput<string>
+                  {...productVersionRegisterObject}
+                  render={({ value, validated, onChange }) => (
+                    <SearchSelect
+                      selectedItem={value}
+                      validated={validated}
+                      onSelect={(_, productVersion: ProductVersion) => {
+                        onChange(productVersion.version);
+                        setSelectedProductVersion(productVersion);
+                      }}
+                      onClear={() => {
+                        onChange('');
+                        setSelectedProductVersion(undefined);
+                      }}
+                      fetchCallback={fetchProductVersions}
+                      titleAttribute="version"
+                      placeholderText="Select Version"
+                      isDisabled={!selectedProduct}
+                    />
+                  )}
+                />
+              </FormGroup>
+            </Form>
+          </ContentBox>
+        </ExpandableSection>
       </ContentBox>
+
+      <ContentBox marginBottom background={false} shadow={false}>
+        <ExpandableSection
+          title="Build parameters"
+          isExpanded={showBuildParametersSection}
+          onToggle={(isExpanded) => setShowBuildParametersSection(isExpanded)}
+        >
+          <ContentBox padding>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <ServiceContainerLoading {...serviceContainerParameters} title="Build parameters" variant="inline">
+                <InputGroup>
+                  <CreatableSelect
+                    onSelect={(_, selection) => {
+                      if (selection) {
+                        setSelectedBuildParamOption(selection as string);
+                        setBuildParamData({
+                          ...buildParamData,
+                          [selection as string]: {
+                            value: '',
+                            description: buildParamOptions.find((option) => option.title === selection)?.description,
+                          },
+                        });
+                        setIsBuildParamSelectOpen(false);
+                      }
+                    }}
+                    onCreateOption={(newOption) => {
+                      setSelectedBuildParamOption(undefined);
+                      setBuildParamOptions([...buildParamOptions, { title: newOption }]);
+                      setBuildParamData({
+                        ...buildParamData,
+                        [newOption]: {
+                          value: '',
+                        },
+                      });
+                      setIsBuildParamSelectOpen(false);
+                    }}
+                    onToggle={setIsBuildParamSelectOpen}
+                    selectedItem={selectedBuildParamOption}
+                    isOpen={isBuildParamSelectOpen}
+                    placeholderText="Select Parameter or type a new one"
+                    creatableOptionText="Create custom Parameter"
+                    width="40%"
+                    dropdownDirection="up"
+                  >
+                    {buildParamOptions.map((option, index) => (
+                      <SelectOption
+                        key={index}
+                        value={option.title}
+                        description={option.description}
+                        isDisabled={!!buildParamData[option.title]}
+                      />
+                    ))}
+                  </CreatableSelect>
+                </InputGroup>
+              </ServiceContainerLoading>
+
+              {Object.entries(buildParamData).map(([key, buildParam], index) => (
+                <FormInput<string>
+                  {...register(key, { isRequired: true })}
+                  render={({ onChange, onRemove, ...rest }) => (
+                    <FormGroup
+                      isRequired
+                      key={index}
+                      label={
+                        <>
+                          <TooltipWrapper tooltip="Remove the parameter">
+                            <RemoveItemButton
+                              onRemove={() => {
+                                setBuildParamData(Object.fromEntries(Object.entries(buildParamData).filter(([k]) => k !== key)));
+                                onRemove();
+                              }}
+                            />
+                          </TooltipWrapper>
+                          {key}
+                        </>
+                      }
+                      fieldId={key}
+                      helperText={
+                        <FormHelperText isHidden={getFieldState(key) !== 'error'} isError>
+                          {getFieldErrors(key)}
+                        </FormHelperText>
+                      }
+                    >
+                      <FormHelperText isHidden={!buildParam.description}>
+                        <HelperText>
+                          <HelperTextItem>{buildParam.description}</HelperTextItem>
+                        </HelperText>
+                      </FormHelperText>
+
+                      {key === 'BUILD_CATEGORY' ? (
+                        <Select
+                          menuAppendTo="parent"
+                          id={key}
+                          name={key}
+                          variant="single"
+                          isOpen={isBuildCategorySelectOpen}
+                          selections={rest.value || undefined}
+                          validated={rest.validated}
+                          onToggle={setIsBuildCategorySelectOpen}
+                          onSelect={(_, buildCategory, isPlaceholder) => {
+                            if (!isPlaceholder) {
+                              onChange(buildCategory as string);
+                              setIsBuildCategorySelectOpen(false);
+                            }
+                          }}
+                          onBlur={rest.onBlur}
+                          hasPlaceholderStyle
+                          placeholderText="Select Build category"
+                        >
+                          <SelectOption value="STANDARD">STANDARD</SelectOption>
+                          <SelectOption value="SERVICE">SERVICE</SelectOption>
+                        </Select>
+                      ) : (
+                        <TextArea
+                          isRequired
+                          id={key}
+                          name={key}
+                          autoResize
+                          resizeOrientation="vertical"
+                          onChange={(value) => {
+                            setBuildParamData({ ...buildParamData, [key]: { ...buildParamData[key], value } });
+                            onChange(value);
+                          }}
+                          {...rest}
+                        />
+                      )}
+                    </FormGroup>
+                  )}
+                />
+              ))}
+            </Form>
+          </ContentBox>
+        </ExpandableSection>
+      </ContentBox>
+
+      <ActionGroup>
+        <Button
+          variant="primary"
+          isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion)}
+          onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
+        >
+          {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
+        </Button>
+      </ActionGroup>
     </>
   );
 
