@@ -93,7 +93,16 @@ export const useForm = () => {
 
   const register = <T extends TValue>(fieldName: string, fieldConfig?: TFieldConfig<T>): IRegisterData<T> => {
     if (!fields[fieldName]) {
-      setFields((fields) => ({ ...fields, [fieldName]: { ...fieldConfig, value: fieldConfig?.value || '', state: 'default' } }));
+      setFields((fields) => {
+        const newFields = {
+          ...fields,
+          [fieldName]: { ...fieldConfig, value: fieldConfig?.value || '', state: 'default' },
+        } as IFields;
+
+        refreshSubmitDisabled(newFields);
+
+        return newFields;
+      });
     }
 
     return {
@@ -125,29 +134,7 @@ export const useForm = () => {
             });
           });
 
-        const isFormValid = () => {
-          for (const fieldName in newFields) {
-            if (newFields[fieldName].errorMessages?.length) {
-              return false;
-            }
-          }
-
-          return true;
-        };
-
-        const areRequiredFilled = () => {
-          for (const fieldName in newFields) {
-            const oldValue = newFields[fieldName].value;
-            const value = typeof oldValue === 'string' ? oldValue?.trim() : oldValue;
-            if (newFields[fieldName].isRequired && !value) {
-              return false;
-            }
-          }
-
-          return true;
-        };
-
-        setIsSubmitDisabled(!isFormValid() || !areRequiredFilled());
+        refreshSubmitDisabled(newFields);
 
         return newFields;
       });
@@ -169,7 +156,15 @@ export const useForm = () => {
   };
 
   const handleRemove = (fieldName: string) => {
-    return () => setFields((fields) => Object.fromEntries(Object.entries(fields).filter(([key]) => key !== fieldName)));
+    return () => {
+      setFields((fields) => {
+        const newFields = Object.fromEntries(Object.entries(fields).filter(([key]) => key !== fieldName));
+
+        refreshSubmitDisabled(newFields);
+
+        return newFields;
+      });
+    };
   };
 
   const constructNewFieldOnChange = <T extends TValue>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
@@ -281,6 +276,32 @@ export const useForm = () => {
         }
       });
     };
+  };
+
+  const refreshSubmitDisabled = (fields: IFields) => {
+    const isFormValid = () => {
+      for (const fieldName in fields) {
+        if (fields[fieldName].errorMessages?.length) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const areRequiredFilled = () => {
+      for (const fieldName in fields) {
+        const oldValue = fields[fieldName].value;
+        const value = typeof oldValue === 'string' ? oldValue?.trim() : oldValue;
+        if (fields[fieldName].isRequired && !value) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    setIsSubmitDisabled(!isFormValid() || !areRequiredFilled());
   };
 
   return {
