@@ -12,10 +12,11 @@ interface IFormInputProps<T extends TValue> extends IRegisterData<T> {
  * @param value - Value of the input
  * @param onChange - On-change callback of the input
  * @param onBlur - On-blur callback of the input
+ * @param onRemove - Callback removing/deleting the input
  * @param validated - Input state
  * @param render - Function to render the form input component
  * @returns
  */
-export const FormInput = <T extends TValue>({ value, onChange, onBlur, validated, render }: IFormInputProps<T>) => {
-  return render({ value, onChange, onBlur, validated });
+export const FormInput = <T extends TValue>({ value, onChange, onBlur, onRemove, validated, render }: IFormInputProps<T>) => {
+  return render({ value, onChange, onBlur, onRemove, validated });
 };
