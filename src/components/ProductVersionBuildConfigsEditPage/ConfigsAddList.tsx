@@ -33,6 +33,7 @@ interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration
   onConfigAdd: (config: T) => void;
   addedConfigs: T[];
   productVersionToExclude?: string;
+  buildConfigToExclude?: string;
   groupConfigToExclude?: string;
 }
 
@@ -45,6 +46,7 @@ interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration
  * @param onConfigAdd - Callback to add a Build/Group Config to the to-be-added list with
  * @param addedConfigs - List of already added Build/Group Configs
  * @param productVersionToExclude - ID of Product Version, Build/Group Configs of which cannot be added
+ * @param buildConfigToExclude - ID of Build Config, Build Configs of which cannot be added
  * @param groupConfigToExclude - ID of Group Config, Build Configs of which cannot be added
  */
 export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration>({
@@ -54,6 +56,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
   onConfigAdd,
   addedConfigs,
   productVersionToExclude,
+  buildConfigToExclude,
   groupConfigToExclude,
 }: IConfigsAddListProps<T>) => {
   const isBuildVariant = useMemo(() => variant === 'Build', [variant]);
@@ -80,6 +83,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
     (config: T) =>
       addedConfigs.every((addedConfig) => addedConfig.id !== config.id) &&
       (!productVersionToExclude || config.productVersion?.id !== productVersionToExclude) &&
+      (!buildConfigToExclude || !isBuildConfig(config) || config.id !== buildConfigToExclude) &&
       (!groupConfigToExclude || !isBuildConfig(config) || !config.groupConfigs?.[groupConfigToExclude])
   );
 
@@ -169,11 +173,13 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
                   ? 'Already marked to be added.'
                   : !!productVersionToExclude && config.productVersion?.id === productVersionToExclude
                   ? 'Already in the Version.'
+                  : !!buildConfigToExclude && isBuildConfig(config) && config.id === buildConfigToExclude
+                  ? 'Build Config cannot depend on itself.'
                   : !!groupConfigToExclude && isBuildConfig(config) && config.groupConfigs?.[groupConfigToExclude]
                   ? 'Already in the Group Config.'
                   : '';
                 const warningReason =
-                  config.productVersion && !groupConfigToExclude
+                  config.productVersion && !buildConfigToExclude && !groupConfigToExclude
                     ? `${
                         isBuildVariant ? 'Build' : 'Group'
                       } Config is already assigned to different Version. Once added to this Version, it will be removed from the original one.`
