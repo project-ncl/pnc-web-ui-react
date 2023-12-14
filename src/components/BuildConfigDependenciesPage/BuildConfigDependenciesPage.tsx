@@ -32,7 +32,7 @@ export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }) => {
         </ToolbarItem>
         <ToolbarItem>
           <ProtectedComponent>
-            <ActionButton link="edit">Edit</ActionButton>
+            <ActionButton link="edit">Edit list</ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>
