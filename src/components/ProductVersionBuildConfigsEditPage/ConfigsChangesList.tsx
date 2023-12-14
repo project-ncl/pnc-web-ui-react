@@ -1,5 +1,3 @@
-import { Button } from '@patternfly/react-core';
-import { TimesCircleIcon } from '@patternfly/react-icons';
 import { MinusCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import { CubesIcon } from '@patternfly/react-icons';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
@@ -13,6 +11,7 @@ import { IOperation } from 'hooks/usePatchOperation';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
+import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { StateCard } from 'components/StateCard/StateCard';
 
 import { isBuildConfig } from 'utils/entityRecognition';
@@ -69,14 +68,10 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
                     </Td>
                   )}
                   <Td isActionCell>
-                    <Button
-                      variant="plain"
-                      icon={<TimesCircleIcon />}
-                      onClick={() => {
+                    <RemoveItemButton
+                      onRemove={() => {
                         onCancel(configChange.data);
                       }}
-                      isSmall
-                      isInline
                     />
                   </Td>
                 </Tr>
