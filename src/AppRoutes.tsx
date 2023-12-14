@@ -17,6 +17,7 @@ import { BuildBrewPushPage } from 'components/BuildBrewPushPage/BuildBrewPushPag
 import { BuildConfigBuildMetricsPage } from 'components/BuildConfigBuildMetricsPage/BuildConfigBuildMetricsPage';
 import { BuildConfigCreateEditPage } from 'components/BuildConfigCreateEditPage/BuildConfigCreateEditPage';
 import { BuildConfigDependantsPage } from 'components/BuildConfigDependantsPage/BuildConfigDependantsPage';
+import { BuildConfigDependenciesEditPage } from 'components/BuildConfigDependenciesEditPage/BuildConfigDependenciesEditPage';
 import { BuildConfigDependenciesPage } from 'components/BuildConfigDependenciesPage/BuildConfigDependenciesPage';
 import { BuildConfigDetailPage } from 'components/BuildConfigDetailPage/BuildConfigDetailPage';
 import { BuildConfigGroupConfigsPage } from 'components/BuildConfigGroupConfigsPage/BuildConfigGroupConfigsPage';
@@ -237,6 +238,16 @@ export const AppRoutes = (
         <Route path="group-configs" element={<BuildConfigGroupConfigsPage />} />
         <Route path="build-metrics" element={<BuildConfigBuildMetricsPage />} />
         <Route index element={<Navigate to="details" replace />} />
+      </Route>
+      <Route path=":buildConfigId">
+        <Route
+          path="dependencies/edit"
+          element={
+            <ProtectedRoute title={PageTitles.buildConfigEdit}>
+              <BuildConfigDependenciesEditPage />
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Route>
     <Route path="group-configs">
