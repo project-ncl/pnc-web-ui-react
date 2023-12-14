@@ -96,7 +96,7 @@ export const ActionModal = ({
         // TODO: NCL-8010
         <Button variant="primary" onClick={onSubmit} isDisabled={isSubmitDisabled || serviceContainer?.loading}>
           {serviceContainer && (!serviceContainer.error || serviceContainer.loading) && (
-            <ServiceContainerLoading variant="icon" {...serviceContainer} title={actionTitle} />
+            <ServiceContainerLoading allowEmptyData variant="icon" {...serviceContainer} title={actionTitle} />
           )}{' '}
           {wasLastActionSuccessful && !wereSubmitDataChanged && <CheckIcon />} {actionTitle}
         </Button>,
