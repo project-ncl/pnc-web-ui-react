@@ -27,7 +27,7 @@
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
     "react-test-renderer": "^17.0.2",
-    "sigma": "^3.0.0-alpha3",
+    "sigma": "3.0.0-alpha3",
     "typescript": "^4.3.2",
     "web-vitals": "^2.1.4"
   },
