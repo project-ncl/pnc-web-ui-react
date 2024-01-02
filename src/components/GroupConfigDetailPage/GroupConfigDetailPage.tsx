@@ -14,6 +14,7 @@ import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
+import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
@@ -93,11 +94,14 @@ export const GroupConfigDetailPage = ({
     <ServiceContainerLoading {...serviceContainerGroupConfig} title="Group Config details">
       <PageLayout
         title={serviceContainerGroupConfig.data?.name}
-        actions={
+        actions={[
+          <ProtectedComponent>
+            <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />
+          </ProtectedComponent>,
           <ProtectedComponent>
             <ActionButton link="edit">Edit Group Config</ActionButton>
-          </ProtectedComponent>
-        }
+          </ProtectedComponent>,
+        ]}
         sidebar={{
           title: 'Build History',
           content: (
