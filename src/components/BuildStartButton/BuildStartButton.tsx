@@ -186,7 +186,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
   };
 
   return (
-    <>
+    <span>
       <ProgressButton
         onClick={triggerBuild}
         serviceContainer={serviceContainer}
@@ -410,6 +410,6 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
           </small>
         </div>
       </Dropdown>
-    </>
+    </span>
   );
 };
