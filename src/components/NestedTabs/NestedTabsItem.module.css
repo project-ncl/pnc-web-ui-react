@@ -16,7 +16,7 @@
   background-color: #ffffff80 !important;
 }
 
-:global(.pf-m-current) button {
+.nested-tabs-item:global(.pf-m-current) button {
   background-color: white !important;
 }
 
