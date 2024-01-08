@@ -122,3 +122,13 @@ export const getRepourUrl = (): string => {
 
   return repourUrl;
 };
+
+export const getBifrostUrl = (): string => {
+  const bifrostUrl = getWebConfig().externalBifrostUrl;
+
+  if (!bifrostUrl) {
+    throw new Error(`Bifrost URL does not contain any data: #${bifrostUrl}#`);
+  }
+
+  return bifrostUrl;
+};
