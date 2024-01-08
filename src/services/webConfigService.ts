@@ -132,3 +132,13 @@ export const getBifrostUrl = (): string => {
 
   return bifrostUrl;
 };
+
+export const getDependencyAnalyzerUrl = (): string => {
+  const dependencyAnalyzerUrl = getWebConfig().externalDaUrl;
+
+  if (!dependencyAnalyzerUrl) {
+    throw new Error(`Dependency Analyzer URL does not contain any data: #${dependencyAnalyzerUrl}#`);
+  }
+
+  return dependencyAnalyzerUrl;
+};
