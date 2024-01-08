@@ -1,8 +1,9 @@
-import { TextContent, TextList, TextListItem } from '@patternfly/react-core';
 import { useEffect } from 'react';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
+import { Attributes } from 'components/Attributes/Attributes';
+import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -24,30 +25,30 @@ export const AboutPage = () => {
   return (
     <PageLayout title="About PNC Build System" description="System for managing, executing and tracking builds">
       <ContentBox padding marginBottom isResponsive>
-        <TextContent>
-          <TextList component="dl">
-            <TextListItem component="dt">
+        <Attributes>
+          <AttributesItem
+            title={
               <a href={pncRepositoryUrl} target="_blank" rel="noopener noreferrer">
                 PNC System Version
               </a>
-            </TextListItem>
-            <TextListItem component="dd">
-              <ServiceContainerLoading {...serviceContainerPncVersionGet} variant="inline" title="PNC version">
-                {serviceContainerPncVersionGet.data}
-              </ServiceContainerLoading>
-            </TextListItem>
+            }
+          >
+            <ServiceContainerLoading {...serviceContainerPncVersionGet} variant="inline" title="PNC version">
+              {serviceContainerPncVersionGet.data}
+            </ServiceContainerLoading>
+          </AttributesItem>
 
-            <TextListItem component="dt">
+          <AttributesItem
+            title={
               <a href={pncWebUiRepositoryUrl} target="_blank" rel="noopener noreferrer">
                 PNC Web UI Version (Revision)
               </a>
-            </TextListItem>
-            <TextListItem component="dd">
-              {process.env.REACT_APP_VERSION || <EmptyStateSymbol text={false} title="Version" />} (
-              {process.env.REACT_APP_GIT_SHORT_SHA || <EmptyStateSymbol text={false} title="Revision" />})
-            </TextListItem>
-          </TextList>
-        </TextContent>
+            }
+          >
+            {process.env.REACT_APP_VERSION || <EmptyStateSymbol text={false} title="Version" />} (
+            {process.env.REACT_APP_GIT_SHORT_SHA || <EmptyStateSymbol text={false} title="Revision" />})
+          </AttributesItem>
+        </Attributes>
       </ContentBox>
     </PageLayout>
   );
