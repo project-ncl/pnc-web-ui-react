@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version && npm --version
-      - run: npm install -g npm@^9.1.0
+      - run: npm install -g npm@^10.2.5
       - run: npm --version
       - run: npm ci
       - run: npm run build
@@ -40,7 +40,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version && npm --version
-      - run: npm install -g npm@^9.1.0
+      - run: npm install -g npm@^10.2.5
       - run: npm --version
       - run: ls
       - run: rm -v package-lock.json
@@ -63,7 +63,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -72,7 +72,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: node --version && npm --version
-      - run: npm install -g npm@^9.1.0
+      - run: npm install -g npm@^10.2.5
       - run: npm --version
       - run: npm install
       - name: Fail if npm install changed package-lock.json
@@ -84,7 +84,7 @@ jobs:
     strategy:
       matrix:
         # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v3
