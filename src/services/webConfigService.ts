@@ -112,3 +112,13 @@ export const getUILoggerUrl = (): string => {
 
   return uiLoggerUrl;
 };
+
+export const getRepourUrl = (): string => {
+  const repourUrl = getWebConfig().externalRepourUrl;
+
+  if (!repourUrl) {
+    throw new Error(`Repour URL does not contain any data: #${repourUrl}#`);
+  }
+
+  return repourUrl;
+};
