@@ -38,7 +38,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) => serviceContainerQualityRevisionsRunner({ serviceData: { id: artifactId }, requestConfig }),
-    { componentId }
+    { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 
   return (

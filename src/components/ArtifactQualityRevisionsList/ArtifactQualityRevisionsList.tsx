@@ -1,23 +1,17 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useMemo } from 'react';
 
 import { ArtifactRevisionPage } from 'pnc-api-types-ts';
 
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
-import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
-import { Filtering } from 'components/Filtering/Filtering';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { Toolbar } from 'components/Toolbar/Toolbar';
-import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IArtifactQualityRevisionsListProps {
   serviceContainerQualityRevisions: IServiceContainerState<ArtifactRevisionPage>;
@@ -34,35 +28,14 @@ export const ArtifactQualityRevisionsList = ({
   serviceContainerQualityRevisions,
   componentId,
 }: IArtifactQualityRevisionsListProps) => {
-  const sortOptions: ISortOptions = useMemo(
-    () =>
-      getSortOptions({
-        entityAttributes: artifactQualityRevisionEntityAttributes,
-      }),
-    []
-  );
-
-  const { getSortParams } = useSorting(sortOptions, componentId);
-
   return (
     <>
-      <Toolbar>
-        <ToolbarItem>
-          <Filtering
-            filterOptions={useMemo(() => getFilterOptions({ entityAttributes: artifactQualityRevisionEntityAttributes }), [])}
-            componentId={componentId}
-          />
-        </ToolbarItem>
-      </Toolbar>
-
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerQualityRevisions} title={PageTitles.artifactQualityRevisions}>
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th sort={getSortParams(sortOptions.sortAttributes['modificationTime'].id)} width={20}>
-                  {artifactQualityRevisionEntityAttributes.modificationTime.title}
-                </Th>
+                <Th width={20}>{artifactQualityRevisionEntityAttributes.modificationTime.title}</Th>
                 <Th width={20}>{artifactQualityRevisionEntityAttributes['modificationUser.username'].title}</Th>
                 <Th width={20}>{artifactQualityRevisionEntityAttributes.artifactQuality.title}</Th>
                 <Th width={40}>{artifactQualityRevisionEntityAttributes.qualityLevelReason.title}</Th>
