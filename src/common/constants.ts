@@ -53,6 +53,16 @@ export const EntityTitles = {
   scmRepository: 'SCM Repository',
 };
 
+export const RepositoryUrls = {
+  pncRepository: 'https://github.com/project-ncl/pnc',
+  pncWebUiRepository: 'https://github.com/project-ncl/pnc-web-ui-react',
+  kafkaRepository: 'https://github.com/project-ncl/kafka-store',
+  uiLoggerRepository: 'https://github.com/project-ncl/uilogger',
+  repourRepository: 'https://github.com/project-ncl/repour',
+  bifrostRepository: 'https://github.com/project-ncl/bifrost',
+  dependencyAnalyzerRepository: 'https://github.com/project-ncl/dependency-analysis',
+};
+
 // For getting total item count
 export const SINGLE_PAGE_REQUEST_CONFIG: AxiosRequestConfig = { params: { pageSize: 1 } };
 
