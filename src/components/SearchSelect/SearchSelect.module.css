@@ -4,6 +4,10 @@
   z-index: 100;
 }
 
+.search-select-spinner-filtered-and-validated {
+  right: 105px;
+}
+
 .search-select-spinner-filtered {
   right: 90px;
 }

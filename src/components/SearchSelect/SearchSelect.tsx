@@ -209,7 +209,11 @@ export const SearchSelect = ({
           size="md"
           className={css(
             styles['search-select-spinner'],
-            getFilterText() ? styles['search-select-spinner-filtered'] : styles['search-select-spinner-nofilter']
+            getFilterText() && validated && validated !== 'default'
+              ? styles['search-select-spinner-filtered-and-validated']
+              : getFilterText() || (validated && validated !== 'default')
+              ? styles['search-select-spinner-filtered']
+              : styles['search-select-spinner-nofilter']
           )}
         />
       )}
