@@ -35,6 +35,7 @@ interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration
   productVersionToExclude?: string;
   buildConfigToExclude?: string;
   groupConfigToExclude?: string;
+  dependenciesToExclude?: string[];
 }
 
 /**
@@ -48,6 +49,7 @@ interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration
  * @param productVersionToExclude - ID of Product Version, Build/Group Configs of which cannot be added
  * @param buildConfigToExclude - ID of Build Config, Build Configs of which cannot be added
  * @param groupConfigToExclude - ID of Group Config, Build Configs of which cannot be added
+ * @param dependenciesToExclude - IDs of Build Configs which cannot be added as dependencies
  */
 export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration>({
   variant,
@@ -58,6 +60,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
   productVersionToExclude,
   buildConfigToExclude,
   groupConfigToExclude,
+  dependenciesToExclude,
 }: IConfigsAddListProps<T>) => {
   const isBuildVariant = useMemo(() => variant === 'Build', [variant]);
   const entityAttributes = useMemo(
@@ -84,6 +87,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
       addedConfigs.every((addedConfig) => addedConfig.id !== config.id) &&
       (!productVersionToExclude || config.productVersion?.id !== productVersionToExclude) &&
       (!buildConfigToExclude || !isBuildConfig(config) || config.id !== buildConfigToExclude) &&
+      (!dependenciesToExclude || !isBuildConfig(config) || !dependenciesToExclude.includes(config.id)) &&
       (!groupConfigToExclude || !isBuildConfig(config) || !config.groupConfigs?.[groupConfigToExclude])
   );
 
@@ -175,6 +179,8 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
                   ? 'Already in the Version.'
                   : !!buildConfigToExclude && isBuildConfig(config) && config.id === buildConfigToExclude
                   ? 'Build Config cannot depend on itself.'
+                  : !!dependenciesToExclude && isBuildConfig(config) && dependenciesToExclude.includes(config.id)
+                  ? 'Already dependent on the Build Config.'
                   : !!groupConfigToExclude && isBuildConfig(config) && config.groupConfigs?.[groupConfigToExclude]
                   ? 'Already in the Group Config.'
                   : '';
