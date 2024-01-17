@@ -87,6 +87,10 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
       addedConfigs.every((addedConfig) => addedConfig.id !== config.id) &&
       (!productVersionToExclude || config.productVersion?.id !== productVersionToExclude) &&
       (!buildConfigToExclude || !isBuildConfig(config) || config.id !== buildConfigToExclude) &&
+      (!buildConfigToExclude ||
+        !isBuildConfig(config) ||
+        !config.dependencies ||
+        !Object.keys(config.dependencies).includes(buildConfigToExclude)) &&
       (!dependenciesToExclude || !isBuildConfig(config) || !dependenciesToExclude.includes(config.id)) &&
       (!groupConfigToExclude || !isBuildConfig(config) || !config.groupConfigs?.[groupConfigToExclude])
   );
@@ -179,6 +183,11 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
                   ? 'Already in the Version.'
                   : !!buildConfigToExclude && isBuildConfig(config) && config.id === buildConfigToExclude
                   ? 'Build Config cannot depend on itself.'
+                  : !!buildConfigToExclude &&
+                    isBuildConfig(config) &&
+                    config.dependencies &&
+                    Object.keys(config.dependencies).includes(buildConfigToExclude)
+                  ? 'Cannot add cyclic dependency.'
                   : !!dependenciesToExclude && isBuildConfig(config) && dependenciesToExclude.includes(config.id)
                   ? 'Already dependent on the Build Config.'
                   : !!groupConfigToExclude && isBuildConfig(config) && config.groupConfigs?.[groupConfigToExclude]
