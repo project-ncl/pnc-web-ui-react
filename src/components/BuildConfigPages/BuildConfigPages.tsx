@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import { Outlet, useNavigate, useOutletContext } from 'react-router-dom';
 
 import { BuildConfiguration } from 'pnc-api-types-ts';
 
@@ -12,6 +12,7 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
+import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
@@ -32,6 +33,8 @@ interface IBuildConfigPagesProps {
 export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConfigPagesProps) => {
   const { buildConfigId } = useParamsRequired();
 
+  const navigate = useNavigate();
+
   const serviceContainerBuildConfig = useServiceContainer(buildConfigApi.getBuildConfig);
   const serviceContainerBuildConfigRunner = serviceContainerBuildConfig.run;
 
@@ -49,6 +52,15 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
 
   const serviceContainerRevisions = useServiceContainer(buildConfigApi.getRevisions);
   const serviceContainerRevisionsRunner = serviceContainerRevisions.run;
+
+  const serviceContainerBuildConfigClone = useServiceContainer(buildConfigApi.cloneBuildConfig);
+  const serviceContainerBuildConfigCloneRunner = serviceContainerBuildConfigClone.run;
+
+  const cloneBuildConfig = () => {
+    serviceContainerBuildConfigCloneRunner({ serviceData: { id: buildConfigId } }).then((response) => {
+      navigate(`/build-configs/${response.data.id}`);
+    });
+  };
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) => {
@@ -115,11 +127,17 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
       <PageLayout
         title={serviceContainerBuildConfig.data?.name}
         tabs={pageTabs}
-        actions={
+        actions={[
+          <ProtectedComponent>
+            <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} />
+          </ProtectedComponent>,
+          <ProtectedComponent>
+            <ActionButton action={cloneBuildConfig}>Clone</ActionButton>
+          </ProtectedComponent>,
           <ProtectedComponent>
             <ActionButton link="edit">Edit Build Config</ActionButton>
-          </ProtectedComponent>
-        }
+          </ProtectedComponent>,
+        ]}
         sidebar={{
           title: 'Build History',
           content: (

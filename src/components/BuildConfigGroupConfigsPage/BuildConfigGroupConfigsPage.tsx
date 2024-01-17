@@ -10,7 +10,11 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 
-export const BuildConfigGroupConfigsPage = ({ componentId = 'bcg' }) => {
+interface IBuildConfigGroupConfigsPageProps {
+  componentId?: string;
+}
+
+export const BuildConfigGroupConfigsPage = ({ componentId = 'bcg' }: IBuildConfigGroupConfigsPageProps) => {
   const { buildConfigId } = useParamsRequired();
 
   const serviceContainerGroupConfigs = useServiceContainer(buildConfigApi.getGroupConfigs);
