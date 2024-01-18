@@ -1,15 +1,5 @@
-import {
-  Checkbox,
-  Divider,
-  Dropdown,
-  DropdownProps,
-  DropdownToggle,
-  List,
-  ListItem,
-  Popover,
-  Radio,
-} from '@patternfly/react-core';
-import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
+import { Checkbox, Divider, Dropdown, DropdownToggle, List, ListItem, Popover, Radio } from '@patternfly/react-core';
+import { InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
 import { useState } from 'react';
 
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
@@ -24,20 +14,9 @@ import * as groupConfigApi from 'services/groupConfigApi';
 import styles from './BuildStartButton.module.css';
 
 interface IBuildStartButtonProp {
-  /**
-   * Object: The configuration representing Build Config
-   */
   buildConfig?: BuildConfiguration;
-
-  /**
-   * Object: The configuration representing Group Config
-   */
   groupConfig?: GroupConfiguration;
-
-  /**
-   * String: Value representing bootstrap button size: lg, md(default if empty), sm
-   */
-  size?: string;
+  isCompact?: boolean;
 }
 
 interface IParamOption {
@@ -142,14 +121,20 @@ const rebuildModePopoverText = (
   </>
 );
 
-export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBuildStartButtonProp) => {
+/**
+ * ContentBox component containing contents with general style control.
+ *
+ * @param buildConfig - The configuration representing Build Config
+ * @param groupConfig - The configuration representing Group Config
+ * @param isCompact - Whether use compact variant or not
+ */
+export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }: IBuildStartButtonProp) => {
   const [isTempBuild, setIsTempBuild] = useState<boolean>(false);
   const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(undefined);
   const [rebuildMode, setRebuildMode] = useState<IParamOption>(rebuildModes[REBUILD_MODE_DEFAULT_INDEX]);
   const [keepPodOnFailure, setKeepPodOnFailure] = useState<boolean>(false);
   const [buildDependencies, setBuildDependencies] = useState<boolean>(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const dropdownAlignmentsDirection: DropdownProps['alignments'] = { sm: 'right', md: 'right', lg: 'right' };
 
   const serviceContainerBuildStart = useServiceContainer(buildConfigApi.build);
   const serviceContainerGroupBuildStart = useServiceContainer(groupConfigApi.build);
@@ -186,23 +171,19 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
   };
 
   return (
-    <span>
-      <ProgressButton
-        onClick={triggerBuild}
-        serviceContainer={serviceContainer}
-        icon={<BuildIcon />}
-        isSmall={size === 'sm'}
-        isLarge={size === 'lg'}
-        className={styles['button-build']}
-      >
+    <span className={styles['wrapper']}>
+      <ProgressButton onClick={triggerBuild} serviceContainer={serviceContainer} isSmall className={styles['button-build']}>
         Build
       </ProgressButton>
 
       <Dropdown
-        alignments={dropdownAlignmentsDirection}
         toggle={
-          <DropdownToggle onToggle={() => setIsDropdownOpen(!isDropdownOpen)} id="dropdown-toggle">
-            {size !== 'sm' ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
+          <DropdownToggle
+            className={isCompact ? styles['toggle-button-compact'] : styles['toggle-button']}
+            onToggle={() => setIsDropdownOpen(!isDropdownOpen)}
+            id="dropdown-toggle"
+          >
+            {!isCompact ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
           </DropdownToggle>
         }
         isOpen={isDropdownOpen}

@@ -656,17 +656,18 @@ export const DemoPage = () => {
                 id: '334',
                 name: 'microprofile-config-1.4',
               }}
-            ></BuildStartButton>
+            />
             Build Config Verison
             <br />
             <br />
             <BuildStartButton
+              isCompact
               groupConfig={{
                 id: '166',
                 name: 'DnsGCProductVersion2208',
               }}
-            ></BuildStartButton>
-            Group Config Version
+            />
+            Group Config Version compact variant
           </ContentBox>
         </FlexItem>
 
