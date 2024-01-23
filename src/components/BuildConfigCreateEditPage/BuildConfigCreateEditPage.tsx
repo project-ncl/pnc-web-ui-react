@@ -6,19 +6,23 @@ import {
   Form,
   FormGroup,
   FormHelperText,
+  Grid,
+  GridItem,
   HelperText,
   HelperTextItem,
   InputGroup,
   Select,
   SelectOption,
   Switch,
+  Text,
   TextArea,
+  TextContent,
   TextInput,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Environment, Product, ProductVersion } from 'pnc-api-types-ts';
+import { BuildConfiguration, Environment, Product, ProductVersion } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
@@ -27,18 +31,25 @@ import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { usePatchOperation } from 'hooks/usePatchOperation';
+import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CreatableSelect } from 'components/CreatableSelect/CreatableSelect';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsAddList';
+import { ConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
@@ -110,8 +121,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const serviceContainerParameters = useServiceContainer(buildConfigApi.getSupportedParameters);
   const serviceContainerParametersRunner = serviceContainerParameters.run;
 
+  const serviceContainerProjectBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigs);
+  const serviceContainerProjectBuildConfigsRunner = serviceContainerProjectBuildConfigs.run;
+
+  const componentIdBuildConfigs = 'bc1';
+
   const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
+  const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
 
   const { register, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
@@ -125,6 +142,16 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [selectedBuildParamOption, setSelectedBuildParamOption] = useState<string>();
   const [isBuildParamSelectOpen, setIsBuildParamSelectOpen] = useState<boolean>(false);
   const [isBuildCategorySelectOpen, setIsBuildCategorySelectOpen] = useState<boolean>(false);
+  const [isCancelAllModalOpen, setIsCancelAllModalOpen] = useState<boolean>(false);
+  const toggleCancelAllModal = () => setIsCancelAllModalOpen((isCancelAllModalOpen) => !isCancelAllModalOpen);
+
+  const {
+    operations: buildConfigChanges,
+    addedData: addedBuildConfigs,
+    insertOperation: insertBuildConfigChange,
+    cancelOperation: cancelBuildConfigChange,
+    cancelAllOperations: cancelAllBuildConfigChanges,
+  } = usePatchOperation<BuildConfiguration>();
 
   const productVersionRegisterObject = register<string>(buildConfigEntityAttributes.productVersion.id);
 
@@ -172,6 +199,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       setBuildParamOptions(response.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description })));
     });
   }, [serviceContainerParametersRunner]);
+
+  useQueryParamsEffect(serviceContainerProjectBuildConfigsRunner, { componentId: componentIdBuildConfigs });
 
   const formComponent = (
     <>
@@ -564,6 +593,63 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </ExpandableSection>
       </ContentBox>
 
+      <ContentBox marginBottom background={false} shadow={false}>
+        <ExpandableSection
+          title="Dependencies"
+          isExpanded={showDependenciesSection}
+          onToggle={(isExpanded) => setShowDependenciesSection(isExpanded)}
+        >
+          <Grid hasGutter>
+            <GridItem lg={12} xl2={6}>
+              <Toolbar borderBottom>
+                <ToolbarItem>
+                  <TextContent>
+                    <Text component="h2">Add Build Config dependencies</Text>
+                  </TextContent>
+                </ToolbarItem>
+              </Toolbar>
+              <ConfigsAddList<BuildConfiguration>
+                variant="Build"
+                serviceContainerConfigs={serviceContainerProjectBuildConfigs}
+                componentId={componentIdBuildConfigs}
+                onConfigAdd={(buildConfig: BuildConfiguration) => {
+                  insertBuildConfigChange(buildConfig, 'add');
+                }}
+                addedConfigs={addedBuildConfigs}
+              />
+            </GridItem>
+
+            <GridItem lg={12} xl2={6}>
+              <Toolbar>
+                <ToolbarItem>
+                  <TextContent>
+                    <Text component="h2">Dependencies to be added</Text>
+                  </TextContent>
+                </ToolbarItem>
+                <ToolbarItem>
+                  <Button
+                    variant="tertiary"
+                    onClick={() => {
+                      toggleCancelAllModal();
+                    }}
+                    isDisabled={!buildConfigChanges.length}
+                  >
+                    Cancel all
+                  </Button>
+                </ToolbarItem>
+              </Toolbar>
+              <ConfigsChangesList<BuildConfiguration>
+                variant="Build"
+                configChanges={buildConfigChanges}
+                onCancel={(buildConfig: BuildConfiguration) => {
+                  cancelBuildConfigChange(buildConfig);
+                }}
+              />
+            </GridItem>
+          </Grid>
+        </ExpandableSection>
+      </ContentBox>
+
       <ActionGroup>
         <Button
           variant="primary"
@@ -573,6 +659,22 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
         </Button>
       </ActionGroup>
+
+      {isCancelAllModalOpen && (
+        <ActionConfirmModal
+          title="Cancel all changes?"
+          actionTitle="Cancel all"
+          cancelTitle="Keep the changes"
+          isOpen={isCancelAllModalOpen}
+          onToggle={toggleCancelAllModal}
+          onSubmit={() => {
+            cancelAllBuildConfigChanges();
+            toggleCancelAllModal();
+          }}
+        >
+          All changes made will be forgotten.
+        </ActionConfirmModal>
+      )}
     </>
   );
 
