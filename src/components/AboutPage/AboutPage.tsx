@@ -7,6 +7,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { DateTime } from 'components/DateTime/DateTime';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -64,6 +65,7 @@ export const AboutPage = () => {
                 version={serviceContainerPncVersion.data?.version}
                 revision={serviceContainerPncVersion.data?.commit}
                 repositoryUrl={RepositoryUrls.pncRepository}
+                builtOn={serviceContainerPncVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
@@ -94,6 +96,7 @@ export const AboutPage = () => {
                 version={serviceContainerKafkaVersion.data?.version}
                 revision={serviceContainerKafkaVersion.data?.commit}
                 repositoryUrl={RepositoryUrls.kafkaRepository}
+                builtOn={serviceContainerKafkaVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
@@ -110,6 +113,7 @@ export const AboutPage = () => {
                 version={serviceContainerUiLoggerVersion.data?.version}
                 revision={serviceContainerUiLoggerVersion.data?.commit}
                 repositoryUrl={RepositoryUrls.uiLoggerRepository}
+                builtOn={serviceContainerUiLoggerVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
@@ -126,6 +130,7 @@ export const AboutPage = () => {
                 version={serviceContainerRepourVersion.data?.version}
                 revision={serviceContainerRepourVersion.data?.commit}
                 repositoryUrl={RepositoryUrls.repourRepository}
+                builtOn={serviceContainerRepourVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
@@ -142,6 +147,7 @@ export const AboutPage = () => {
                 version={serviceContainerBifrostVersion.data?.version}
                 revision={serviceContainerBifrostVersion.data?.commit}
                 repositoryUrl={RepositoryUrls.bifrostRepository}
+                builtOn={serviceContainerBifrostVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
@@ -162,6 +168,7 @@ export const AboutPage = () => {
                 version={serviceContainerDependencyAnalyzerVersion.data?.version}
                 revision={serviceContainerDependencyAnalyzerVersion.data?.commit}
                 repositoryUrl={RepositoryUrls.dependencyAnalyzerRepository}
+                builtOn={serviceContainerDependencyAnalyzerVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
@@ -175,9 +182,10 @@ interface IVersionText {
   version?: string;
   revision?: string;
   repositoryUrl?: string;
+  builtOn?: string;
 }
 
-const VersionText = ({ version, revision, repositoryUrl }: IVersionText) => (
+const VersionText = ({ version, revision, repositoryUrl, builtOn }: IVersionText) => (
   <>
     {version || <EmptyStateSymbol text={false} title="Version" />} (
     {(revision && repositoryUrl && (
@@ -187,5 +195,10 @@ const VersionText = ({ version, revision, repositoryUrl }: IVersionText) => (
     )) ||
       revision || <EmptyStateSymbol text={false} title="Revision" />}
     )
+    {builtOn && (
+      <>
+        , built on <DateTime date={builtOn} />
+      </>
+    )}
   </>
 );
