@@ -187,7 +187,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
               {serviceContainerConfigs.data?.content?.map((config, rowIndex) => {
                 const disabledReason = getConfigDisabledReason(config);
                 const warningReason =
-                  config.productVersion && !buildConfigToExclude && !groupConfigToExclude
+                  productVersionToExclude && config.productVersion
                     ? `${
                         isBuildVariant ? 'Build' : 'Group'
                       } Config is already assigned to different Version. Once added to this Version, it will be removed from the original one.`
