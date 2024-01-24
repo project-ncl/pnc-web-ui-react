@@ -22,12 +22,13 @@ import {
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 
-import { BuildConfiguration, Environment, Product, ProductVersion } from 'pnc-api-types-ts';
+import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
 import { PageTitles } from 'common/constants';
 import { productEntityAttributes } from 'common/productEntityAttributes';
+import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -45,9 +46,11 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
+import { ScmRepositoryUrlAlert } from 'components/ScmRepositoryUrlAlert/ScmRepositoryUrlAlert';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { TextInputFindMatch } from 'components/TextInputFindMatch/TextInputFindMatch';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -55,8 +58,9 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
 import * as productApi from 'services/productApi';
+import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
-import { maxLengthValidator255, validateBuildScript } from 'utils/formValidationHelpers';
+import { maxLengthValidator255, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
 import { generatePageTitle } from 'utils/titleHelper';
 
 interface IBuildParamOption {
@@ -103,6 +107,13 @@ const fieldConfigs = {
   brewPullActive: {
     value: false,
   },
+  scmUrl: {
+    isRequired: true,
+    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid URL format.' }],
+  },
+  scmRevision: {
+    isRequired: true,
+  },
 } satisfies IFieldConfigs;
 
 export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCreateEditPageProps) => {
@@ -121,6 +132,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const serviceContainerParameters = useServiceContainer(buildConfigApi.getSupportedParameters);
   const serviceContainerParametersRunner = serviceContainerParameters.run;
 
+  const serviceContainerScmRepositories = useServiceContainer(scmRepositoryApi.getScmRepositoriesFiltered, 0);
+
   const serviceContainerProjectBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigs);
   const serviceContainerProjectBuildConfigsRunner = serviceContainerProjectBuildConfigs.run;
 
@@ -135,6 +148,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
   const [buildParamData, setBuildParamData] = useState<IBuildParamData>({});
+  const [selectedScmRepository, setSelectedScmRepository] = useState<SCMRepository>();
 
   const [showDeprecatedEnvironments, setShowDeprecatedEnvironments] = useState<boolean>(false);
   const [isBuildTypeSelectOpen, setIsBuildTypeSelectOpen] = useState<boolean>(false);
@@ -384,6 +398,98 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               }}
             />
           </FormGroup>
+        </Form>
+      </ContentBox>
+
+      <ContentBox padding marginBottom>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <FormGroup
+            isRequired
+            label={scmRepositoryEntityAttributes.scmUrl.title}
+            fieldId={scmRepositoryEntityAttributes.scmUrl.id}
+            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
+            helperText={
+              <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.scmUrl.id) !== 'error'} isError>
+                {getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}
+              </FormHelperText>
+            }
+          >
+            <FormInput
+              {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, fieldConfigs.scmUrl)}
+              render={(registerData) => (
+                <TextInputFindMatch
+                  isRequired
+                  type="text"
+                  id={scmRepositoryEntityAttributes.scmUrl.id}
+                  name={scmRepositoryEntityAttributes.scmUrl.id}
+                  autoComplete="off"
+                  validator={(value) => !!value && validateScmUrl(value)}
+                  fetchCallback={(value) => serviceContainerScmRepositories.run({ serviceData: { matchUrl: value } })}
+                  onMatch={(scmRepositories: SCMRepositoryPage) => setSelectedScmRepository(scmRepositories.content?.[0])}
+                  onNoMatch={() => setSelectedScmRepository(undefined)}
+                  {...registerData}
+                />
+              )}
+            />
+          </FormGroup>
+
+          <FormGroup
+            isRequired
+            label={buildConfigEntityAttributes.scmRevision.title}
+            fieldId={buildConfigEntityAttributes.scmRevision.id}
+            helperText={
+              <FormHelperText isHidden={getFieldState(buildConfigEntityAttributes.scmRevision.id) !== 'error'} isError>
+                {getFieldErrors(buildConfigEntityAttributes.scmRevision.id)}
+              </FormHelperText>
+            }
+          >
+            <TextInput
+              isRequired
+              type="text"
+              id={buildConfigEntityAttributes.scmRevision.id}
+              name={buildConfigEntityAttributes.scmRevision.id}
+              autoComplete="off"
+              {...register<string>(buildConfigEntityAttributes.scmRevision.id, fieldConfigs.scmRevision)}
+            />
+          </FormGroup>
+
+          <FormGroup
+            label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+            fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
+          >
+            <FormInput<boolean>
+              {...register<boolean>(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
+              render={({ value, onChange, onBlur }) => (
+                <TooltipWrapper tooltip={selectedScmRepository && 'Option already set in synced repository.'}>
+                  <Switch
+                    id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                    name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                    label="Enabled"
+                    labelOff="Disabled"
+                    isChecked={selectedScmRepository?.preBuildSyncEnabled || value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    isDisabled={!!selectedScmRepository}
+                  />
+                </TooltipWrapper>
+              )}
+            />
+          </FormGroup>
+
+          {getFieldState(scmRepositoryEntityAttributes.scmUrl.id) === 'success' && (
+            <ServiceContainerLoading
+              title="SCM Repository"
+              emptyContent={<ScmRepositoryUrlAlert variant="not-synced" {...selectedScmRepository} />}
+              {...serviceContainerScmRepositories}
+            >
+              <ScmRepositoryUrlAlert variant="synced" {...selectedScmRepository} />
+            </ServiceContainerLoading>
+          )}
         </Form>
       </ContentBox>
 
@@ -653,7 +759,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       <ActionGroup>
         <Button
           variant="primary"
-          isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion)}
+          isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion) || serviceContainerScmRepositories.loading}
           onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
         >
           {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
