@@ -19,6 +19,7 @@ interface IServiceContainerLoadingProps<T extends TServiceData> extends IService
   hasSkeleton?: boolean;
   variant?: 'block' | 'inline' | 'icon';
   notYetContent?: ReactNode;
+  emptyContent?: ReactNode;
   allowEmptyData?: boolean;
 }
 
@@ -43,6 +44,7 @@ interface IServiceContainerLoadingProps<T extends TServiceData> extends IService
  * @param hasSkeleton - Display skeleton in loading state
  * @param variant - Style variant. Defaults to 'block'
  * @param notYetContent - Custom content to be displayed when service was not executed yet, typically used when service is executed manually after some user event (for example click), not automatically after rendering
+ * @param emptyContent - Custom content to be displayed when service returned no data (or empty paginated data)
  * @param allowEmptyData - Allows empty data even when no error ocurred
  * @param children - React children property
  */
@@ -55,6 +57,7 @@ export const ServiceContainerLoading = <T extends TServiceData>({
   hasSkeleton = false,
   variant = 'block',
   notYetContent,
+  emptyContent,
   allowEmptyData = false,
   children,
 }: React.PropsWithChildren<IServiceContainerLoadingProps<T>>) => {
@@ -64,11 +67,16 @@ export const ServiceContainerLoading = <T extends TServiceData>({
       <LoadingStateCard delayMs={loadingStateDelayMs} title={title} hasSkeleton={hasSkeleton} isInline={variant !== 'block'} />
     );
 
+  const areDataEmpty = !data || (areServiceDataPaginated(data) && !data.content.length);
+
   // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
   // (the component was rendered at some point before)
   //  - for example: when page index is changed from page 1 to page 2
   //  - this will make UI more smooth and it prevents flickering user experience
-  if (loading && data) return <RefreshStateCard isInline={variant !== 'block'}>{children}</RefreshStateCard>;
+  if (loading && data)
+    return (
+      <RefreshStateCard isInline={variant !== 'block'}>{areDataEmpty && emptyContent ? emptyContent : children}</RefreshStateCard>
+    );
 
   // Error state: display Error card when error
   if (error) return <ErrorStateCard title={title} error={error} variant={variant} />;
@@ -77,7 +85,9 @@ export const ServiceContainerLoading = <T extends TServiceData>({
   // When service is executed automatically after rendering, then null prevents flickering experience before other states are displayed
   if (data === DataValues.notYetData) return notYetContent ? <>{notYetContent}</> : null;
 
-  if (!data && allowEmptyData) return <EmptyStateCard title={title} />;
+  if (areDataEmpty && emptyContent) return <>{emptyContent}</>;
+
+  if (areDataEmpty && allowEmptyData) return <EmptyStateCard title={title} />;
 
   // Invalid state, Error state should be triggered before this
   if (!data) throw new Error('ServiceContainerLoading invalid state: when no data are available, error state should be returned');
