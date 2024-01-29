@@ -15,10 +15,10 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
+import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
+import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
+import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { ConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsAddList';
-import { ConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
-import { ConfigsRemoveList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsRemoveList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
