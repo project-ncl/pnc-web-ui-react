@@ -94,7 +94,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
             </TextContent>
           </ToolbarItem>
           <ToolbarItem>
-            <ActionButton action={() => console.log('Not implemented yet!')}>Create Build Config</ActionButton>
+            <ActionButton link="build-configs/create">Create Build Config</ActionButton>
           </ToolbarItem>
         </Toolbar>
 
