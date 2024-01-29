@@ -24,7 +24,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import { isBuildConfig } from 'utils/entityRecognition';
+import { isBuildConfig, isGroupConfig } from 'utils/entityRecognition';
 
 interface IConfigsAddListProps<T extends BuildConfiguration | GroupConfiguration> {
   variant: 'Build' | 'Group Build';
@@ -87,6 +87,8 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
       ? 'Already marked to be added.'
       : !!productVersionToExclude && config.productVersion?.id === productVersionToExclude
       ? 'Already in the Version.'
+      : !!productVersionToExclude && isGroupConfig(config) && config.productVersion
+      ? 'Group Config is already assigned to different Version.'
       : !!buildConfigToExclude && isBuildConfig(config) && config.id === buildConfigToExclude
       ? 'Build Config cannot depend on itself.'
       : !!buildConfigToExclude &&
@@ -187,10 +189,8 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
               {serviceContainerConfigs.data?.content?.map((config, rowIndex) => {
                 const disabledReason = getConfigDisabledReason(config);
                 const warningReason =
-                  productVersionToExclude && config.productVersion
-                    ? `${
-                        isBuildVariant ? 'Build' : 'Group'
-                      } Config is already assigned to different Version. Once added to this Version, it will be removed from the original one.`
+                  productVersionToExclude && isBuildConfig(config) && config.productVersion
+                    ? 'Build Config is already assigned to different Version. Once added to this Version, it will be removed from the original one.'
                     : '';
 
                 return (
