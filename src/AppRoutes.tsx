@@ -211,26 +211,28 @@ export const AppRoutes = (
           </ProtectedRoute>
         }
       />
-      <Route
-        path=":projectId/edit"
-        element={
-          <ProtectedRoute title={PageTitles.projectEdit}>
-            <ProjectCreateEditPage isEditPage={true} />
-          </ProtectedRoute>
-        }
-      />
-      <Route path=":projectId" element={<ProjectDetailPage />} />
+      <Route path=":projectId">
+        <Route index element={<ProjectDetailPage />} />
+        <Route
+          path="edit"
+          element={
+            <ProtectedRoute title={PageTitles.projectEdit}>
+              <ProjectCreateEditPage isEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="build-configs/create"
+          element={
+            <ProtectedRoute title={PageTitles.buildConfigCreate}>
+              <BuildConfigCreateEditPage />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
     </Route>
     <Route path="build-configs">
       <Route index element={<BuildConfigsPage />} />
-      <Route
-        path="create"
-        element={
-          <ProtectedRoute title={PageTitles.buildConfigCreate}>
-            <BuildConfigCreateEditPage />
-          </ProtectedRoute>
-        }
-      />
       <Route path=":buildConfigId" element={<BuildConfigPages />}>
         <Route path="details" element={<BuildConfigDetailPage />} />
         <Route path="dependencies" element={<BuildConfigDependenciesPage />} />
@@ -240,6 +242,14 @@ export const AppRoutes = (
         <Route index element={<Navigate to="details" replace />} />
       </Route>
       <Route path=":buildConfigId">
+        <Route
+          path="edit"
+          element={
+            <ProtectedRoute title={PageTitles.buildConfigEdit}>
+              <BuildConfigCreateEditPage isEditPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="dependencies/edit"
           element={
