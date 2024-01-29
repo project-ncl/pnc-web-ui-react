@@ -37,13 +37,13 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
+import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
+import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CreatableSelect } from 'components/CreatableSelect/CreatableSelect';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { ConfigsAddList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsAddList';
-import { ConfigsChangesList } from 'components/ProductVersionBuildConfigsEditPage/ConfigsChangesList';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
