@@ -19,9 +19,10 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
-const buildHistoryListFiltrableColumns = [
+const buildHistoryListCustomColumns = [
   buildEntityAttributes.status.id,
   buildEntityAttributes.startTime.id,
+  buildEntityAttributes.submitTime.id,
   buildEntityAttributes.temporaryBuild.id,
   buildEntityAttributes['user.username'].id,
 ];
@@ -46,12 +47,12 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
       getSortOptions({
         entityAttributes: entityAttributes,
         defaultSorting: {
-          attribute: entityAttributes.startTime.id,
+          attribute: variant === 'Build' ? buildEntityAttributes.submitTime.id : entityAttributes.startTime.id,
           direction: 'desc',
         },
-        customColumns: buildHistoryListFiltrableColumns,
+        customColumns: buildHistoryListCustomColumns,
       }),
-    [entityAttributes]
+    [entityAttributes, variant]
   );
 
   useSorting(sortOptions, componentId);
@@ -66,7 +67,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
                 getFilterOptions({
                   entityAttributes: entityAttributes,
                   defaultFiltering: { attribute: entityAttributes.status.id },
-                  customColumns: buildHistoryListFiltrableColumns,
+                  customColumns: buildHistoryListCustomColumns,
                 }),
               [entityAttributes]
             )}
