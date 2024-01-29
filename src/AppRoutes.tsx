@@ -54,10 +54,10 @@ import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMile
 import { ProductMilestonePages } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductReleaseCreateEditPage } from 'components/ProductReleaseCreateEditPage/ProductReleaseCreateEditPage';
 import { ProductVersionBuildConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionBuildConfigsEditPage';
-import { ProductVersionGroupConfigsEditPage } from 'components/ProductVersionBuildConfigsEditPage/ProductVersionGroupConfigsEditPage';
 import { ProductVersionBuildConfigsPage } from 'components/ProductVersionBuildConfigsPage/ProductVersionBuildConfigsPage';
 import { ProductVersionCreateEditPage } from 'components/ProductVersionCreateEditPage/ProductVersionCreateEditPage';
 import { ProductVersionDetailPage } from 'components/ProductVersionDetailPage/ProductVersionDetailPage';
+import { ProductVersionGroupConfigsEditPage } from 'components/ProductVersionGroupConfigsEditPage/ProductVersionGroupConfigsEditPage';
 import { ProductVersionGroupConfigsPage } from 'components/ProductVersionGroupConfigsPage/ProductVersionGroupConfigsPage';
 import { ProductVersionMilestonesPage } from 'components/ProductVersionMilestonesPage/ProductVersionMilestonesPage';
 import { ProductVersionPages } from 'components/ProductVersionPages/ProductVersionPages';
