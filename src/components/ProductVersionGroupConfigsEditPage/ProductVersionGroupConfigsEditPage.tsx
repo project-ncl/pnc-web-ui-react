@@ -50,7 +50,7 @@ export const ProductVersionGroupConfigsEditPage = ({
   const serviceContainerProductVersionGroupConfigs = useServiceContainer(productVersionApi.getGroupConfigs);
   const serviceContainerProductVersionGroupConfigsRunner = serviceContainerProductVersionGroupConfigs.run;
 
-  const serviceContainerGroupConfigs = useServiceContainer(groupConfigApi.getUnassignedGroupConfigs);
+  const serviceContainerGroupConfigs = useServiceContainer(groupConfigApi.getGroupConfigs);
   const serviceContainerGroupConfigsRunner = serviceContainerGroupConfigs.run;
 
   const serviceContainerProductVersionPatch = useServiceContainer(productVersionApi.patchProductVersion, 0);
