@@ -15,10 +15,16 @@ export interface IParsedUrl {
  * @returns Object containing scmRepository URL, parsed URL and display name representing URL
  *  */
 export const parseInternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl => {
-  const protocol = url.split('://')[0];
-  const base = url.split('://')[1].split('/')[0];
-  const project = url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
-  return { scmRepositoryUrl: url, webUrl: 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary', name: 'Gerrit' };
+  const protocol = url.includes('git@') ? 'git@' : url.split('://')[0];
+  const base = url.includes('git@') ? url.split('@').at(1)?.split(':').at(0) : url.split('://')[1].split('/')[0];
+  const project = url.includes('git@')
+    ? url.split(':').at(1)
+    : url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
+  const webUrl = url.includes('git@')
+    ? 'https://' + base + '/' + project
+    : 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
+  const name = url.includes('git@') ? 'GitLab' : 'Gerrit';
+  return { scmRepositoryUrl: url, webUrl, name };
 };
 
 /**
