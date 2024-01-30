@@ -10,5 +10,14 @@ interface IGenerateScmRepositoryName {
  * @param scmRepository - SCM Repository containing internalUrl field
  * @returns SCM Repository name
  */
-export const generateScmRepositoryName = ({ scmRepository }: IGenerateScmRepositoryName): string =>
-  scmRepository && scmRepository.internalUrl ? scmRepository.internalUrl.split('/').splice(3).join('/') : '';
+export const generateScmRepositoryName = ({ scmRepository }: IGenerateScmRepositoryName): string => {
+  if (!scmRepository?.internalUrl) {
+    return '';
+  }
+
+  if (scmRepository.internalUrl.includes('git@')) {
+    return scmRepository.internalUrl.split(':').at(1) || '';
+  }
+
+  return scmRepository.internalUrl.split('/').splice(3).join('/');
+};
