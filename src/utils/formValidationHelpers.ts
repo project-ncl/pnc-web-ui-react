@@ -16,8 +16,7 @@ const rootUrlsRegex = new RegExp(`(${whitespacesRegex.source}${rootUrlRegex.sour
 const urlsRegex = new RegExp(`^${rootUrlsRegex.source}$`);
 
 // eslint-disable-next-line
-const scmUrlRegex =
-  /^(git|ssh|http|https|git\+ssh|git@):\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
+const scmUrlRegex = /^(?:git|ssh|http|https|git\+ssh|git@[\w\.\-]+):(?:\/\/)?[\w\.@:\/~_-]+(?:\/?|\#[\d\w\.\-_]+?)$/;
 
 /**
  * URL validation function.
