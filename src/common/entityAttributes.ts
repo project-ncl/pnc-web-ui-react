@@ -181,8 +181,12 @@ export const getSortOptions = ({
   (customColumns ? customColumns : Object.keys(entityAttributes)).forEach((entityAttributeKey) => {
     const entityAttribute = entityAttributes[entityAttributeKey];
 
+    if (entityAttribute === undefined) {
+      uiLogger.error(`getSortOptions: entityAttribute is undefined, customColumns definition should be reviewed`);
+    }
+
     // Get only entity attributes with sort property defined
-    if (entityAttribute.sort) {
+    if (entityAttribute?.sort) {
       sortAttributes[entityAttributeKey] = JSON.parse(JSON.stringify(entityAttribute)) as TSortAttribute;
 
       // Add auto-generated table column unique index required by PatternFly library
