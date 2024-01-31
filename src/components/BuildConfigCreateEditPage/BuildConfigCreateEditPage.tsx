@@ -20,6 +20,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { Operation } from 'fast-json-patch';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -64,6 +65,7 @@ import * as productVersionApi from 'services/productVersionApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { maxLengthValidator255, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
+import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 interface IBuildParamOption {
@@ -257,7 +259,35 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   };
 
   const submitEdit = (data: IFieldValues) => {
-    return Promise.resolve();
+    const buildConfig = {
+      name: data.name,
+      description: data.description,
+      environment: selectedEnvironment ? { id: selectedEnvironment.id } : undefined,
+      buildType: data.buildType,
+      buildScript: data.buildScript,
+      brewPullActive: data.buildType !== buildTypeData.NPM.id && !!data.brewPullActive,
+      scmRepository: selectedScmRepository ? { id: selectedScmRepository.id } : undefined,
+      scmRevision: data.scmRevision,
+      productVersion: selectedProductVersion ? { id: selectedProductVersion.id } : undefined,
+      parameters: Object.fromEntries(Object.entries(buildParamData).map(([k, v]) => [k, v.value])),
+    } as BuildConfiguration;
+
+    const removedParameters: Operation[] = serviceContainerEditPageGet.data!.parameters
+      ? Object.keys(serviceContainerEditPageGet.data!.parameters)
+          .filter((key) => !buildConfig.parameters?.[key])
+          .map((key) => ({ op: 'remove', path: `/parameters/${key}` }))
+      : [];
+    const patchData = [...createSafePatch(serviceContainerEditPageGet.data!, buildConfig), ...removedParameters];
+
+    return serviceContainerEditPagePatch
+      .run({ serviceData: { id: buildConfigId, patchData } })
+      .then(() => {
+        navigate(`/build-configs/${buildConfigId}`);
+      })
+      .catch((error) => {
+        console.error('Failed to edit Build Config.');
+        throw error;
+      });
   };
 
   useEffect(() => {
