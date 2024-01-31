@@ -19,10 +19,13 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
-const buildHistoryListCustomColumns = [
+/**
+ * All attributes need to be available in both buildEntityAttributes and groupBuildEntityAttributes, specific attributes
+ * need to be added dynamically based on 'variant' property
+ */
+const buildHistoryListCustomColumns: Array<string> = [
   buildEntityAttributes.status.id,
   buildEntityAttributes.startTime.id,
-  buildEntityAttributes.submitTime.id,
   buildEntityAttributes.temporaryBuild.id,
   buildEntityAttributes['user.username'].id,
 ];
@@ -42,12 +45,16 @@ interface IBuildHistoryListProps {
 export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId }: IBuildHistoryListProps) => {
   const entityAttributes = useMemo(() => (variant === 'Build' ? buildEntityAttributes : groupBuildEntityAttributes), [variant]);
 
+  if (variant === 'Build') {
+    buildHistoryListCustomColumns.push(buildEntityAttributes.submitTime.id);
+  }
+
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
         entityAttributes: entityAttributes,
         defaultSorting: {
-          attribute: variant === 'Build' ? buildEntityAttributes.submitTime.id : entityAttributes.startTime.id,
+          attribute: variant === 'Build' ? buildEntityAttributes.submitTime.id : groupBuildEntityAttributes.startTime.id,
           direction: 'desc',
         },
         customColumns: buildHistoryListCustomColumns,
