@@ -28,7 +28,7 @@ import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository
 import { PncError } from 'common/PncError';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
-import { PageTitles } from 'common/constants';
+import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
@@ -60,6 +60,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
 import * as productApi from 'services/productApi';
+import * as productVersionApi from 'services/productVersionApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { maxLengthValidator255, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
@@ -142,13 +143,16 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const serviceContainerProjectBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigs);
   const serviceContainerProjectBuildConfigsRunner = serviceContainerProjectBuildConfigs.run;
 
+  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
+  const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
+
   const componentIdBuildConfigs = 'bc1';
 
   const [showProductVersionSection, setShowProductVersionSection] = useState<boolean>(false);
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
   const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
 
-  const { register, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, setFieldValues } = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
@@ -258,9 +262,34 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: buildConfigId } });
+      serviceContainerEditPageGetRunner({ serviceData: { id: buildConfigId } }).then((response) => {
+        const buildConfig = response.data;
+        const buildConfigFlat = {
+          ...buildConfig,
+          environment: buildConfig.environment?.description,
+          scmUrl: buildConfig.scmRepository?.internalUrl,
+          productVersion: buildConfig.productVersion?.version,
+          ...buildConfig.parameters,
+        };
+
+        setSelectedEnvironment(buildConfig.environment);
+        setSelectedScmRepository(buildConfig.scmRepository);
+        if (buildConfig.parameters) {
+          setBuildParamData(Object.fromEntries(Object.entries(buildConfig.parameters).map(([k, v]) => [k, { value: v }])));
+        }
+        setFieldValues(buildConfigFlat);
+
+        if (buildConfig.productVersion) {
+          serviceContainerProductVersionRunner({ serviceData: { id: buildConfig.productVersion.id } }).then((response) => {
+            const productVersion: ProductVersion = response.data;
+
+            setSelectedProductVersion(productVersion);
+            setSelectedProduct(productVersion.product);
+          });
+        }
+      });
     }
-  }, [isEditPage, buildConfigId, serviceContainerEditPageGetRunner]);
+  }, [isEditPage, buildConfigId, serviceContainerEditPageGetRunner, serviceContainerProductVersionRunner, setFieldValues]);
 
   useEffect(() => {
     serviceContainerParametersRunner().then((response) => {
@@ -269,6 +298,49 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   }, [serviceContainerParametersRunner]);
 
   useQueryParamsEffect(serviceContainerProjectBuildConfigsRunner, { componentId: componentIdBuildConfigs });
+
+  const productSearchSelect = (
+    <SearchSelect
+      selectedItem={selectedProduct?.name}
+      onSelect={(_, product: Product) => {
+        setSelectedProduct(product);
+        productVersionRegisterObject.onChange('');
+        setSelectedProductVersion(undefined);
+      }}
+      onClear={() => {
+        setSelectedProduct(undefined);
+        productVersionRegisterObject.onChange('');
+        setSelectedProductVersion(undefined);
+      }}
+      fetchCallback={productApi.getProducts}
+      titleAttribute="name"
+      placeholderText="Select Product"
+    />
+  );
+
+  const productVersionSearchSelect = (
+    <FormInput<string>
+      {...productVersionRegisterObject}
+      render={({ value, validated, onChange }) => (
+        <SearchSelect
+          selectedItem={value}
+          validated={validated}
+          onSelect={(_, productVersion: ProductVersion) => {
+            onChange(productVersion.version);
+            setSelectedProductVersion(productVersion);
+          }}
+          onClear={() => {
+            onChange('');
+            setSelectedProductVersion(undefined);
+          }}
+          fetchCallback={fetchProductVersions}
+          titleAttribute="version"
+          placeholderText="Select Version"
+          isDisabled={!selectedProduct}
+        />
+      )}
+    />
+  );
 
   const formComponent = (
     <>
@@ -465,30 +537,61 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             isRequired
             label={scmRepositoryEntityAttributes.scmUrl.title}
             fieldId={scmRepositoryEntityAttributes.scmUrl.id}
-            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
+            labelIcon={
+              <TooltipWrapper
+                tooltip={
+                  isEditPage ? scmRepositoryEntityAttributes.internalUrl.tooltip : scmRepositoryEntityAttributes.scmUrl.tooltip
+                }
+              />
+            }
             helperText={
               <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.scmUrl.id) !== 'error'} isError>
                 {getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}
               </FormHelperText>
             }
           >
-            <FormInput
-              {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, fieldConfigs.scmUrl)}
-              render={(registerData) => (
-                <TextInputFindMatch
-                  isRequired
-                  type="text"
-                  id={scmRepositoryEntityAttributes.scmUrl.id}
-                  name={scmRepositoryEntityAttributes.scmUrl.id}
-                  autoComplete="off"
-                  validator={(value) => !!value && validateScmUrl(value)}
-                  fetchCallback={(value) => serviceContainerScmRepositories.run({ serviceData: { matchUrl: value } })}
-                  onMatch={(scmRepositories: SCMRepositoryPage) => setSelectedScmRepository(scmRepositories.content?.[0])}
-                  onNoMatch={() => setSelectedScmRepository(undefined)}
-                  {...registerData}
-                />
-              )}
-            />
+            {!isEditPage && (
+              <FormInput
+                {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, fieldConfigs.scmUrl)}
+                render={(registerData) => (
+                  <TextInputFindMatch
+                    isRequired
+                    type="text"
+                    id={scmRepositoryEntityAttributes.scmUrl.id}
+                    name={scmRepositoryEntityAttributes.scmUrl.id}
+                    autoComplete="off"
+                    validator={(value) => !!value && validateScmUrl(value)}
+                    fetchCallback={(value) => serviceContainerScmRepositories.run({ serviceData: { matchUrl: value } })}
+                    onMatch={(scmRepositories: SCMRepositoryPage) => setSelectedScmRepository(scmRepositories.content?.[0])}
+                    onNoMatch={() => setSelectedScmRepository(undefined)}
+                    {...registerData}
+                  />
+                )}
+              />
+            )}
+
+            {isEditPage && (
+              <FormInput<string>
+                {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, fieldConfigs.scmUrl)}
+                render={({ value, validated, onChange }) => (
+                  <SearchSelect
+                    selectedItem={value}
+                    validated={validated}
+                    onSelect={(_, scmRepository: SCMRepository) => {
+                      onChange(scmRepository.internalUrl!);
+                      setSelectedScmRepository(scmRepository);
+                    }}
+                    onClear={() => {
+                      onChange('');
+                      setSelectedScmRepository(undefined);
+                    }}
+                    fetchCallback={scmRepositoryApi.getScmRepositories}
+                    titleAttribute="internalUrl"
+                    placeholderText="Select SCM Repository"
+                  />
+                )}
+              />
+            )}
           </FormGroup>
 
           <FormGroup
@@ -511,31 +614,33 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             />
           </FormGroup>
 
-          <FormGroup
-            label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
-            fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
-          >
-            <FormInput<boolean>
-              {...register<boolean>(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
-              render={({ value, onChange, onBlur }) => (
-                <TooltipWrapper tooltip={selectedScmRepository && 'Option already set in synced repository.'}>
-                  <Switch
-                    id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-                    name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-                    label="Enabled"
-                    labelOff="Disabled"
-                    isChecked={selectedScmRepository?.preBuildSyncEnabled || value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    isDisabled={!!selectedScmRepository}
-                  />
-                </TooltipWrapper>
-              )}
-            />
-          </FormGroup>
+          {!isEditPage && (
+            <FormGroup
+              label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
+              fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
+            >
+              <FormInput<boolean>
+                {...register<boolean>(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
+                render={({ value, onChange, onBlur }) => (
+                  <TooltipWrapper tooltip={selectedScmRepository && 'Option already set in synced repository.'}>
+                    <Switch
+                      id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                      name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                      label="Enabled"
+                      labelOff="Disabled"
+                      isChecked={selectedScmRepository?.preBuildSyncEnabled || value}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      isDisabled={!!selectedScmRepository}
+                    />
+                  </TooltipWrapper>
+                )}
+              />
+            </FormGroup>
+          )}
 
-          {getFieldState(scmRepositoryEntityAttributes.scmUrl.id) === 'success' && (
+          {!isEditPage && getFieldState(scmRepositoryEntityAttributes.scmUrl.id) === 'success' && (
             <ServiceContainerLoading
               title="SCM Repository"
               emptyContent={<ScmRepositoryUrlAlert variant="not-synced" {...selectedScmRepository} />}
@@ -560,22 +665,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               }}
             >
               <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
-                <SearchSelect
-                  selectedItem={selectedProduct?.name}
-                  onSelect={(_, product: Product) => {
-                    setSelectedProduct(product);
-                    productVersionRegisterObject.onChange('');
-                    setSelectedProductVersion(undefined);
-                  }}
-                  onClear={() => {
-                    setSelectedProduct(undefined);
-                    productVersionRegisterObject.onChange('');
-                    setSelectedProductVersion(undefined);
-                  }}
-                  fetchCallback={productApi.getProducts}
-                  titleAttribute="name"
-                  placeholderText="Select Product"
-                />
+                {serviceContainerEditPageGet.data?.productVersion ? (
+                  <ServiceContainerLoading
+                    {...serviceContainerProductVersion}
+                    variant="inline"
+                    title={`Product ${productEntityAttributes.name.title}`}
+                  >
+                    {productSearchSelect}
+                  </ServiceContainerLoading>
+                ) : (
+                  productSearchSelect
+                )}
               </FormGroup>
 
               <FormGroup
@@ -588,27 +688,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                   </FormHelperText>
                 }
               >
-                <FormInput<string>
-                  {...productVersionRegisterObject}
-                  render={({ value, validated, onChange }) => (
-                    <SearchSelect
-                      selectedItem={value}
-                      validated={validated}
-                      onSelect={(_, productVersion: ProductVersion) => {
-                        onChange(productVersion.version);
-                        setSelectedProductVersion(productVersion);
-                      }}
-                      onClear={() => {
-                        onChange('');
-                        setSelectedProductVersion(undefined);
-                      }}
-                      fetchCallback={fetchProductVersions}
-                      titleAttribute="version"
-                      placeholderText="Select Version"
-                      isDisabled={!selectedProduct}
-                    />
-                  )}
-                />
+                {serviceContainerEditPageGet.data?.productVersion ? (
+                  <ServiceContainerLoading
+                    {...serviceContainerProductVersion}
+                    variant="inline"
+                    title={buildConfigEntityAttributes.productVersion.title}
+                  >
+                    {productVersionSearchSelect}
+                  </ServiceContainerLoading>
+                ) : (
+                  productVersionSearchSelect
+                )}
               </FormGroup>
             </Form>
           </ContentBox>
@@ -735,7 +825,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                           isRequired
                           id={key}
                           name={key}
-                          autoResize
+                          height={150}
                           resizeOrientation="vertical"
                           onChange={(value) => {
                             setBuildParamData({ ...buildParamData, [key]: { ...buildParamData[key], value } });
@@ -753,62 +843,64 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </ExpandableSection>
       </ContentBox>
 
-      <ContentBox marginBottom background={false} shadow={false}>
-        <ExpandableSection
-          title="Dependencies"
-          isExpanded={showDependenciesSection}
-          onToggle={(isExpanded) => setShowDependenciesSection(isExpanded)}
-        >
-          <Grid hasGutter>
-            <GridItem lg={12} xl2={6}>
-              <Toolbar borderBottom>
-                <ToolbarItem>
-                  <TextContent>
-                    <Text component="h2">Add Build Config dependencies</Text>
-                  </TextContent>
-                </ToolbarItem>
-              </Toolbar>
-              <ConfigsAddList<BuildConfiguration>
-                variant="Build"
-                serviceContainerConfigs={serviceContainerProjectBuildConfigs}
-                componentId={componentIdBuildConfigs}
-                onConfigAdd={(buildConfig: BuildConfiguration) => {
-                  insertBuildConfigChange(buildConfig, 'add');
-                }}
-                addedConfigs={addedBuildConfigs}
-              />
-            </GridItem>
+      {!isEditPage && (
+        <ContentBox marginBottom background={false} shadow={false}>
+          <ExpandableSection
+            title="Dependencies"
+            isExpanded={showDependenciesSection}
+            onToggle={(isExpanded) => setShowDependenciesSection(isExpanded)}
+          >
+            <Grid hasGutter>
+              <GridItem lg={12} xl2={6}>
+                <Toolbar borderBottom>
+                  <ToolbarItem>
+                    <TextContent>
+                      <Text component="h2">Add Build Config dependencies</Text>
+                    </TextContent>
+                  </ToolbarItem>
+                </Toolbar>
+                <ConfigsAddList<BuildConfiguration>
+                  variant="Build"
+                  serviceContainerConfigs={serviceContainerProjectBuildConfigs}
+                  componentId={componentIdBuildConfigs}
+                  onConfigAdd={(buildConfig: BuildConfiguration) => {
+                    insertBuildConfigChange(buildConfig, 'add');
+                  }}
+                  addedConfigs={addedBuildConfigs}
+                />
+              </GridItem>
 
-            <GridItem lg={12} xl2={6}>
-              <Toolbar>
-                <ToolbarItem>
-                  <TextContent>
-                    <Text component="h2">Dependencies to be added</Text>
-                  </TextContent>
-                </ToolbarItem>
-                <ToolbarItem>
-                  <Button
-                    variant="tertiary"
-                    onClick={() => {
-                      toggleCancelAllModal();
-                    }}
-                    isDisabled={!buildConfigChanges.length}
-                  >
-                    Cancel all
-                  </Button>
-                </ToolbarItem>
-              </Toolbar>
-              <ConfigsChangesList<BuildConfiguration>
-                variant="Build"
-                configChanges={buildConfigChanges}
-                onCancel={(buildConfig: BuildConfiguration) => {
-                  cancelBuildConfigChange(buildConfig);
-                }}
-              />
-            </GridItem>
-          </Grid>
-        </ExpandableSection>
-      </ContentBox>
+              <GridItem lg={12} xl2={6}>
+                <Toolbar>
+                  <ToolbarItem>
+                    <TextContent>
+                      <Text component="h2">Dependencies to be added</Text>
+                    </TextContent>
+                  </ToolbarItem>
+                  <ToolbarItem>
+                    <Button
+                      variant="tertiary"
+                      onClick={() => {
+                        toggleCancelAllModal();
+                      }}
+                      isDisabled={!buildConfigChanges.length}
+                    >
+                      Cancel all
+                    </Button>
+                  </ToolbarItem>
+                </Toolbar>
+                <ConfigsChangesList<BuildConfiguration>
+                  variant="Build"
+                  configChanges={buildConfigChanges}
+                  onCancel={(buildConfig: BuildConfiguration) => {
+                    cancelBuildConfigChange(buildConfig);
+                  }}
+                />
+              </GridItem>
+            </Grid>
+          </ExpandableSection>
+        </ContentBox>
+      )}
 
       <ActionGroup>
         <Button
@@ -816,7 +908,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion) || serviceContainerScmRepositories.loading}
           onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
         >
-          {isEditPage ? PageTitles.buildConfigEdit : PageTitles.buildConfigCreate}
+          {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.buildConfig}
         </Button>
       </ActionGroup>
 
