@@ -81,6 +81,18 @@ export const getPncUrl = (): string => {
 };
 
 /**
+ * Return PNC Notifications URL endpoint
+ */
+export const getPncNotificationsUrl = (): string => {
+  const pncNotificationsUrl = getWebConfig().pncNotificationsUrl;
+
+  if (!pncNotificationsUrl) {
+    throw new Error(`PNC Notifications URL does not contain any data: #${pncNotificationsUrl}#`);
+  }
+  return pncNotificationsUrl;
+};
+
+/**
  * Return Kafka URL endpoint
  */
 export const getKafkaUrl = (): string => {
