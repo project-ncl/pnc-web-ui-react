@@ -3,8 +3,10 @@ import { Operation } from 'fast-json-patch';
 
 import {
   Build,
+  BuildConfigCreationResponse,
   BuildConfigPage,
   BuildConfigRevisionPage,
+  BuildConfigWithSCMRequest,
   BuildConfiguration,
   BuildConfigurationRevision,
   BuildPage,
@@ -163,6 +165,19 @@ export const build = ({ buildStartParams }: { buildStartParams: IBuildStartParam
  */
 export const createBuildConfig = ({ data }: { data: Omit<BuildConfiguration, 'id'> }, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().post<BuildConfiguration>('/build-configs', data, requestConfig);
+};
+
+/**
+ *  Creates a new Build Config with a new SCM repository.
+ *
+ * @param data - object containing new Build Config data
+ * @param requestConfig - Axios based request config
+ */
+export const createBuildConfigWithScm = (
+  { data }: { data: BuildConfigWithSCMRequest },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<BuildConfigCreationResponse>('/build-configs/create-with-scm', data, requestConfig);
 };
 
 /**
