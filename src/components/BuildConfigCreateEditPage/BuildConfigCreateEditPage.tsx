@@ -21,9 +21,11 @@ import {
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
+import { PncError } from 'common/PncError';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
 import { PageTitles } from 'common/constants';
@@ -118,9 +120,12 @@ const fieldConfigs = {
 
 export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCreateEditPageProps) => {
   const { buildConfigId } = useParamsRequired();
+  const { projectId } = useParams();
+  const navigate = useNavigate();
 
   // create page
-  const serviceContainerCreatePage = useServiceContainer(buildConfigApi.createBuildConfig);
+  const serviceContainerCreateWithoutScm = useServiceContainer(buildConfigApi.createBuildConfig);
+  const serviceContainerCreateWithScm = useServiceContainer(buildConfigApi.createBuildConfigWithScm);
 
   // edit page - get method
   const serviceContainerEditPageGet = useServiceContainer(buildConfigApi.getBuildConfig);
@@ -195,7 +200,56 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return Promise.resolve();
+    const buildConfig = {
+      project: { id: projectId! },
+      name: data.name,
+      description: data.description,
+      environment: selectedEnvironment,
+      buildType: data.buildType,
+      buildScript: data.buildScript,
+      brewPullActive: data.brewPullActive,
+      scmRevision: data.scmRevision,
+      productVersion: selectedProductVersion,
+      parameters: Object.fromEntries(Object.entries(buildParamData).map(([k, v]) => [k, v.value])),
+      dependencies: Object.fromEntries(addedBuildConfigs.map((buildConfig) => [buildConfig.id, buildConfig])),
+    } as BuildConfiguration;
+
+    if (selectedScmRepository) {
+      return serviceContainerCreateWithoutScm
+        .run({
+          serviceData: {
+            data: { ...buildConfig, scmRepository: selectedScmRepository },
+          },
+        })
+        .then((response) => {
+          const newBuildConfigId = response?.data?.id;
+          if (!newBuildConfigId) {
+            throw new PncError({
+              code: 'NEW_ENTITY_ID_ERROR',
+              message: `Invalid buildConfigId coming from Orch POST response: ${newBuildConfigId}`,
+            });
+          }
+          navigate(`/build-configs/${newBuildConfigId}`);
+        })
+        .catch((error) => {
+          console.error('Failed to create Build Config.');
+          throw error;
+        });
+    }
+
+    return serviceContainerCreateWithScm
+      .run({
+        serviceData: {
+          data: { buildConfig, scmUrl: data.scmUrl, preBuildSyncEnabled: data.preBuildSyncEnabled },
+        },
+      })
+      .then((response) => {
+        console.log('WebSocket taskId: ', response.data.taskId);
+      })
+      .catch((error) => {
+        console.error('Failed to create Build Config.');
+        throw error;
+      });
   };
 
   const submitEdit = (data: IFieldValues) => {
@@ -799,8 +853,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
+      ) : selectedScmRepository ? (
+        <ServiceContainerCreatingUpdating {...serviceContainerCreateWithoutScm}>{formComponent}</ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        <ServiceContainerCreatingUpdating {...serviceContainerCreateWithScm}>{formComponent}</ServiceContainerCreatingUpdating>
       )}
     </PageLayout>
   );
