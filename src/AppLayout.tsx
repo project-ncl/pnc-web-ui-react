@@ -23,6 +23,8 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
 
+import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
+import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TopBarInfo } from 'components/TopBar/TopBarInfo';
 
@@ -237,15 +239,19 @@ export const AppLayout = () => {
             <Link to="/scm-repositories">SCM Repositories</Link>
           </NavItem>
 
-          <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
-            <NavItem
-              groupId="insights"
-              itemId="insights_product-milestone-comparison"
-              isActive={pathname.includes('/product-milestone-comparison')}
-            >
-              <Link to="/insights/product-milestone-comparison">Product Milestone Comparison</Link>
-            </NavItem>
-          </NavExpandable>
+          <ExperimentalContent>
+            <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
+              <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
+                <NavItem
+                  groupId="insights"
+                  itemId="insights_product-milestone-comparison"
+                  isActive={pathname.includes('/product-milestone-comparison')}
+                >
+                  <Link to="/insights/product-milestone-comparison">Product Milestone Comparison</Link>
+                </NavItem>
+              </NavExpandable>
+            </ExperimentalContentMarker>
+          </ExperimentalContent>
         </NavList>
       </Nav>
     );
