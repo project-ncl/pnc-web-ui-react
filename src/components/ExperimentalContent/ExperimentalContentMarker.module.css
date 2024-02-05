@@ -1,0 +1,22 @@
+:root {
+  --mock-color: #c9190b;
+  --experimental-color: #c58c00;
+}
+
+.mock-data.box-content {
+  border: 2px solid var(--mock-color);
+}
+
+.experimental-data.box-content {
+  border: 2px solid var(--experimental-color);
+}
+
+.mock-data.text-content,
+.mock-data.text-content * {
+  color: var(--mock-color) !important;
+}
+
+.experimental-data.text-content,
+.experimental-data.text-content * {
+  color: var(--experimental-color) !important;
+}
