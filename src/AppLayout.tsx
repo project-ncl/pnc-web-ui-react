@@ -64,6 +64,7 @@ export const AppLayout = () => {
     const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
 
     const headerConfigDropdownItems = [
+      <DropdownItem component={<Link to="/preferences">Preferences</Link>} key="preferences" />,
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
       <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
       <ProtectedComponent role={AUTH_ROLE.Admin} hide key="administration">

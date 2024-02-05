@@ -40,6 +40,7 @@ import { GroupConfigCreateEditPage } from 'components/GroupConfigCreateEditPage/
 import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 import { KeycloakStatusPage } from 'components/KeycloakStatusPage/KeycloakStatusPage';
+import { PreferencesPage } from 'components/PreferencesPage/PreferencesPage';
 import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
@@ -380,6 +381,7 @@ export const AppRoutes = (
       />
     </Route>
     <Route path="about" element={<AboutPage />} />
+    <Route path="preferences" element={<PreferencesPage />} />
     <Route
       path="*"
       element={
