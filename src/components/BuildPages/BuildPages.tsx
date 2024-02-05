@@ -13,6 +13,8 @@ import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
 import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
+import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
+import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
@@ -75,7 +77,13 @@ export const BuildPages = () => {
       </PageTabsItem>
       <PageTabsItem url="brew-push">Brew Push</PageTabsItem>
       <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
-      <PageTabsItem url="artifact-dependency-graph">Artifact Dependency Graph</PageTabsItem>
+      <ExperimentalContent>
+        <PageTabsItem url="artifact-dependency-graph">
+          <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
+            Artifact Dependency Graph
+          </ExperimentalContentMarker>
+        </PageTabsItem>
+      </ExperimentalContent>
     </PageTabs>
   );
 

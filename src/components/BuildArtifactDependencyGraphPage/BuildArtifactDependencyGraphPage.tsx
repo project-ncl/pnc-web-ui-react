@@ -12,6 +12,8 @@ import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { BuildName } from 'components/BuildName/BuildName';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
+import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { FullscreenButton } from 'components/FullscreenButton/FullscreenButton';
 import { BuildArtifactDependencyGraph } from 'components/NetworkGraphs/BuildArtifactDependencyGraph';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -107,122 +109,124 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
   );
 
   return (
-    <>
-      <Toolbar>
-        <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Build Artifact Dependency Graph</Text>
-          </TextContent>
-          <TextContent>
-            <Text component={TextVariants.p}>
-              Edge arrows point from Builds that have Artifact (build-time) dependencies to the Builds that produced those
-              dependencies. A build-time dependency is an Artifact used by a Build and produced by another Build. An edge number
-              represents the number of Artifact dependencies. Clicking on an edge displays a list of the Artifact dependencies.
-              The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to highlight
-              them and their neighbors. Double-clicking on a node opens the Build detail page. To drag a node, hold down the{' '}
-              <Label>Shift</Label> key and the mouse button and click on the node.
-            </Text>
-          </TextContent>
-        </ToolbarItem>
-      </Toolbar>
-
-      <div ref={graphDivRef} className="position-relative">
-        <Toolbar borderTop>
+    <ExperimentalContent>
+      <ExperimentalContentMarker dataSource="mock" contentType="box" showTooltip>
+        <Toolbar>
           <ToolbarItem>
-            <SearchInput
-              placeholder="Find Build"
-              value={searchValueBuild}
-              onChange={(_, value) => setSearchValueBuild(value)}
-              onClear={() => setSearchValueBuild('')}
-            />
-          </ToolbarItem>
-          <ToolbarItem>
-            <SearchInput
-              placeholder="Find Build Config"
-              value={searchValueBuildConfig}
-              onChange={(_, value) => setSearchValueBuildConfig(value)}
-              onClear={() => setSearchValueBuildConfig('')}
-            />
-          </ToolbarItem>
-          <ToolbarItem>
-            <Switch
-              label="Limit nesting"
-              labelOff="Limit nesting"
-              isChecked={hasLimitedNesting}
-              onChange={(checked) => setHasLimitedNesting(checked)}
-            />
-          </ToolbarItem>
-          <ToolbarItem>
-            <NumberInput
-              min={0}
-              isDisabled={!hasLimitedNesting}
-              value={nestingLevel}
-              onChange={(event: React.FormEvent<HTMLInputElement>) => {
-                const value = (event.target as HTMLInputElement).value;
-                setNestingLevel(+value);
-              }}
-              onMinus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel - 1)}
-              onPlus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel + 1)}
-            />
+            <TextContent>
+              <Text component={TextVariants.h2}>Build Artifact Dependency Graph</Text>
+            </TextContent>
+            <TextContent>
+              <Text component={TextVariants.p}>
+                Edge arrows point from Builds that have Artifact (build-time) dependencies to the Builds that produced those
+                dependencies. A build-time dependency is an Artifact used by a Build and produced by another Build. An edge number
+                represents the number of Artifact dependencies. Clicking on an edge displays a list of the Artifact dependencies.
+                The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to
+                highlight them and their neighbors. Double-clicking on a node opens the Build detail page. To drag a node, hold
+                down the <Label>Shift</Label> key and the mouse button and click on the node.
+              </Text>
+            </TextContent>
           </ToolbarItem>
         </Toolbar>
 
-        <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}>
-          <ServiceContainerLoading {...serviceContainerDependencyGraph} hasSkeleton title="Build Artifact Dependency Graph">
-            <BuildArtifactDependencyGraph
-              data={serviceContainerDependencyGraph.data}
-              mainNode={serviceContainerBuild.data!.id}
-              hasLimitedNesting={hasLimitedNesting}
-              nestingLevel={nestingLevel}
-              searchValueMainLabel={searchValueBuild}
-              searchValueSubLabel={searchValueBuildConfig}
-              onEdgeSelected={loadArtifactDependencies}
-              componentId={componentId}
-            />
-          </ServiceContainerLoading>
-        </ContentBox>
-        <FullscreenButton containerRef={graphDivRef} />
-      </div>
-
-      {showArtifactDependenciesList && (
-        <>
-          <div ref={artifactDependenciesListTopRef} />
-          <Toolbar>
+        <div ref={graphDivRef} className="position-relative">
+          <Toolbar borderTop>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>
-                  Artifact dependencies used by{' '}
-                  <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
-                    <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
-                  </ServiceContainerLoading>{' '}
-                  and produced by{' '}
-                  <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
-                    <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
-                  </ServiceContainerLoading>
-                </Text>
-              </TextContent>
+              <SearchInput
+                placeholder="Find Build"
+                value={searchValueBuild}
+                onChange={(_, value) => setSearchValueBuild(value)}
+                onClear={() => setSearchValueBuild('')}
+              />
             </ToolbarItem>
-            <ToolbarItem alignRight>
-              <TooltipWrapper tooltip="Close this table.">
-                <Button
-                  variant="plain"
-                  onClick={() =>
-                    updateQueryParamsInURL(
-                      { dependentBuild: '', dependencyBuild: '', pageIndex: 1 },
-                      componentId,
-                      location,
-                      navigate
-                    )
-                  }
-                >
-                  <TimesIcon />
-                </Button>
-              </TooltipWrapper>
+            <ToolbarItem>
+              <SearchInput
+                placeholder="Find Build Config"
+                value={searchValueBuildConfig}
+                onChange={(_, value) => setSearchValueBuildConfig(value)}
+                onClear={() => setSearchValueBuildConfig('')}
+              />
+            </ToolbarItem>
+            <ToolbarItem>
+              <Switch
+                label="Limit nesting"
+                labelOff="Limit nesting"
+                isChecked={hasLimitedNesting}
+                onChange={(checked) => setHasLimitedNesting(checked)}
+              />
+            </ToolbarItem>
+            <ToolbarItem>
+              <NumberInput
+                min={0}
+                isDisabled={!hasLimitedNesting}
+                value={nestingLevel}
+                onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                  const value = (event.target as HTMLInputElement).value;
+                  setNestingLevel(+value);
+                }}
+                onMinus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel - 1)}
+                onPlus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel + 1)}
+              />
             </ToolbarItem>
           </Toolbar>
-          <ArtifactsList serviceContainerArtifacts={serviceContainerArtifactDependencies} componentId={componentId} />
-        </>
-      )}
-    </>
+
+          <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}>
+            <ServiceContainerLoading {...serviceContainerDependencyGraph} hasSkeleton title="Build Artifact Dependency Graph">
+              <BuildArtifactDependencyGraph
+                data={serviceContainerDependencyGraph.data}
+                mainNode={serviceContainerBuild.data!.id}
+                hasLimitedNesting={hasLimitedNesting}
+                nestingLevel={nestingLevel}
+                searchValueMainLabel={searchValueBuild}
+                searchValueSubLabel={searchValueBuildConfig}
+                onEdgeSelected={loadArtifactDependencies}
+                componentId={componentId}
+              />
+            </ServiceContainerLoading>
+          </ContentBox>
+          <FullscreenButton containerRef={graphDivRef} />
+        </div>
+
+        {showArtifactDependenciesList && (
+          <>
+            <div ref={artifactDependenciesListTopRef} />
+            <Toolbar>
+              <ToolbarItem>
+                <TextContent>
+                  <Text component={TextVariants.h2}>
+                    Artifact dependencies used by{' '}
+                    <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
+                      <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
+                    </ServiceContainerLoading>{' '}
+                    and produced by{' '}
+                    <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
+                      <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
+                    </ServiceContainerLoading>
+                  </Text>
+                </TextContent>
+              </ToolbarItem>
+              <ToolbarItem alignRight>
+                <TooltipWrapper tooltip="Close this table.">
+                  <Button
+                    variant="plain"
+                    onClick={() =>
+                      updateQueryParamsInURL(
+                        { dependentBuild: '', dependencyBuild: '', pageIndex: 1 },
+                        componentId,
+                        location,
+                        navigate
+                      )
+                    }
+                  >
+                    <TimesIcon />
+                  </Button>
+                </TooltipWrapper>
+              </ToolbarItem>
+            </Toolbar>
+            <ArtifactsList serviceContainerArtifacts={serviceContainerArtifactDependencies} componentId={componentId} />
+          </>
+        )}
+      </ExperimentalContentMarker>
+    </ExperimentalContent>
   );
 };

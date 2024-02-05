@@ -5,6 +5,8 @@ import { PageTitles } from 'common/constants';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
+import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneComparisonTable } from 'components/ProductMilestoneComparisonTable/ProductMilestoneComparisonTable';
 
@@ -29,7 +31,11 @@ export const ProductMilestoneComparisonPage = ({ componentId = 't1' }: IProductM
         </>
       }
     >
-      <ProductMilestoneComparisonTable {...{ serviceContainerProductMilestoneComparisonTable, componentId }} />
+      <ExperimentalContent>
+        <ExperimentalContentMarker dataSource="mock" contentType="box" showTooltip>
+          <ProductMilestoneComparisonTable {...{ serviceContainerProductMilestoneComparisonTable, componentId }} />
+        </ExperimentalContentMarker>
+      </ExperimentalContent>
     </PageLayout>
   );
 };

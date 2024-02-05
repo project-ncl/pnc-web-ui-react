@@ -32,6 +32,7 @@ import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
+import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigBuildConfigsEditPage } from 'components/GroupConfigBuildConfigsEditPage/GroupConfigBuildConfigsEditPage';
@@ -173,7 +174,14 @@ export const AppRoutes = (
                 <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
                 <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
-                <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
+                <Route
+                  path="interconnection-graph"
+                  element={
+                    <ExperimentalContent isRouteVariant>
+                      <ProductMilestoneInterconnectionGraphPage />
+                    </ExperimentalContent>
+                  }
+                />
                 <Route index element={<Navigate to="details" replace />} />
               </Route>
             </Route>
@@ -300,7 +308,14 @@ export const AppRoutes = (
         <Route path="dependencies" element={<BuildDependenciesPage />} />
         <Route path="brew-push" element={<BuildBrewPushPage />} />
         <Route path="build-metrics" element={<BuildMetricsPage />} />
-        <Route path="artifact-dependency-graph" element={<BuildArtifactDependencyGraphPage />} />
+        <Route
+          path="artifact-dependency-graph"
+          element={
+            <ExperimentalContent isRouteVariant>
+              <BuildArtifactDependencyGraphPage />
+            </ExperimentalContent>
+          }
+        />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>
@@ -355,7 +370,14 @@ export const AppRoutes = (
       />
     </Route>
     <Route path="insights">
-      <Route path="product-milestone-comparison" element={<ProductMilestoneComparisonPage />} />
+      <Route
+        path="product-milestone-comparison"
+        element={
+          <ExperimentalContent isRouteVariant>
+            <ProductMilestoneComparisonPage />
+          </ExperimentalContent>
+        }
+      />
     </Route>
     <Route path="about" element={<AboutPage />} />
     <Route
