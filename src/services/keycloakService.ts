@@ -18,7 +18,12 @@ class KeycloakService {
   // We can't get KeycloakInstance type because of dynamic loading of Keycloak library
   private keycloakAuth: any = null;
 
-  private KEYCLOAK_TOKEN_MIN_EXP = webConfigService.getWebConfig().ssoTokenLifespan;
+  /**
+   * Variable from config (webConfigService.getWebConfig().ssoTokenLifespan) is used differently in
+   * Angular UI, we're here setting minimal validity for token.
+   * 5 = if token has less than 5 seconds of validity left then refresh.
+   */
+  private KEYCLOAK_TOKEN_MIN_EXP = 5;
 
   private isKeycloakInitialized;
 
@@ -130,20 +135,12 @@ class KeycloakService {
    *
    * @returns String with token if user is logged in, undefined otherwise.
    */
-  public getToken(): string {
+  async getToken(): Promise<string> {
     this.checkKeycloakAvailability();
 
-    this.updateToken()
-      .then((isTokenRefreshed: boolean) => {
-        if (isTokenRefreshed) {
-          console.log('Token refreshed.');
-        } else {
-          //console.log('Token not refreshed, valid for: \n' + this.getTokenValidity()); //dev purpose, too much spam
-        }
-      })
-      .catch(() => {
-        throw new Error('Failed to refresh token');
-      });
+    await this.updateToken().catch(() => {
+      throw new Error('Failed to refresh token');
+    });
 
     return this.keycloakAuth.token;
   }
