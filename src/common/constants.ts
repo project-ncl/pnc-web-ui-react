@@ -44,6 +44,7 @@ export const ButtonTitles = {
 };
 
 export const EntityTitles = {
+  buildConfig: 'Build Config',
   groupConfig: 'Group Config',
   project: 'Project',
   product: 'Product',
