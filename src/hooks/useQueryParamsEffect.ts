@@ -74,6 +74,10 @@ export const useQueryParamsEffect = <T extends TServiceData, U extends TServiceP
   const location = useLocation();
 
   useEffect(() => {
+    /**
+     * TODO - this hook can be refactored to use {@link useComponentQueryParams}, but some additional external changes
+     * like useCallback usage or other solution needs to be implemented
+     */
     const componentQueryParamsObject = getComponentQueryParamsObject(location.search, componentId);
 
     // Invoke service only when:
