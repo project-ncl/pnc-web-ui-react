@@ -1,8 +1,19 @@
 import { Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
+
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
+import {
+  hasBuildStarted,
+  hasBuildStatusChanged,
+  hasGroupBuildStarted,
+  hasGroupBuildStatusChanged,
+  usePncWebSocketEffect,
+} from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -18,6 +29,8 @@ import * as buildApi from 'services/buildApi';
 import * as groupBuildApi from 'services/groupBuildApi';
 import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
+
+import { refreshPage } from 'utils/refreshHelper';
 
 export const DashboardPage = () => {
   const webConfig = webConfigService.getWebConfig();
@@ -87,11 +100,31 @@ interface IMyBuildsListProps {
 const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
   const serviceContainerUserBuilds = useServiceContainer(buildApi.getUserBuilds);
   const serviceContainerUserBuildsRunner = serviceContainerUserBuilds.run;
+  const serviceContainerUserBuildsSetter = serviceContainerUserBuilds.setData;
 
-  useQueryParamsEffect(
-    ({ requestConfig } = {}) =>
-      serviceContainerUserBuildsRunner({ serviceData: { userId: userService.getUserId() }, requestConfig }),
-    { componentId }
+  const userId = userService.getUserId();
+
+  const { componentQueryParamsObject: userBuildsQueryParamsObject } = useComponentQueryParams(componentId);
+
+  useQueryParamsEffect(({ requestConfig } = {}) => serviceContainerUserBuildsRunner({ serviceData: { userId }, requestConfig }), {
+    componentId,
+  });
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildStarted(wsData, { userId })) {
+          serviceContainerUserBuildsRunner({
+            serviceData: { userId },
+            requestConfig: { params: userBuildsQueryParamsObject },
+          });
+        } else if (hasBuildStatusChanged(wsData, { userId })) {
+          const wsBuild: Build = wsData.build;
+          serviceContainerUserBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
+        }
+      },
+      [serviceContainerUserBuildsRunner, serviceContainerUserBuildsSetter, userBuildsQueryParamsObject, userId]
+    )
   );
 
   return (
@@ -113,11 +146,32 @@ interface IMyGroupBuildsListProps {
 const MyGroupBuildsList = ({ componentId = 'g1' }: IMyGroupBuildsListProps) => {
   const serviceContainerUserGroupBuilds = useServiceContainer(groupBuildApi.getUserGroupBuilds);
   const serviceContainerUserGroupBuildsRunner = serviceContainerUserGroupBuilds.run;
+  const serviceContainerUserGroupBuildsSetter = serviceContainerUserGroupBuilds.setData;
+
+  const userId = userService.getUserId();
+
+  const { componentQueryParamsObject: userGroupBuildsQueryParamsObject } = useComponentQueryParams(componentId);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) =>
-      serviceContainerUserGroupBuildsRunner({ serviceData: { userId: userService.getUserId() }, requestConfig }),
+    ({ requestConfig } = {}) => serviceContainerUserGroupBuildsRunner({ serviceData: { userId }, requestConfig }),
     { componentId }
+  );
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasGroupBuildStarted(wsData, { userId })) {
+          serviceContainerUserGroupBuildsRunner({
+            serviceData: { userId },
+            requestConfig: { params: userGroupBuildsQueryParamsObject },
+          });
+        } else if (hasGroupBuildStatusChanged(wsData, { userId })) {
+          const wsGroupBuild: GroupBuild = wsData.groupBuild;
+          serviceContainerUserGroupBuildsSetter((previousGroupBuildPage) => refreshPage(previousGroupBuildPage!, wsGroupBuild));
+        }
+      },
+      [serviceContainerUserGroupBuildsRunner, serviceContainerUserGroupBuildsSetter, userGroupBuildsQueryParamsObject, userId]
+    )
   );
 
   return (
