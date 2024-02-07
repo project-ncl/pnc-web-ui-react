@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
@@ -6,6 +6,7 @@ import { ProductMilestone } from 'pnc-api-types-ts';
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasBuildStarted, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -85,6 +86,17 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     serviceContainerArtifactsRunner,
     productMilestoneId,
   ]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildStarted(wsData, { productMilestoneId })) {
+          serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+        }
+      },
+      [serviceContainerBuildsRunner, productMilestoneId]
+    )
+  );
 
   useTitle(
     generatePageTitle({

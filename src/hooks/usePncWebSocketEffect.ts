@@ -109,6 +109,20 @@ export const hasBuildStarted = (
   wsData.oldStatus === 'NEW';
 
 /**
+ * Check whether Build finished WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @param parameters - See {@link IBuildParameters}
+ * @returns true when Build was finished, otherwise false
+ */
+export const hasBuildFinished = (
+  wsData: any,
+  { buildConfigId, userId, productMilestoneId, buildId, groupBuildId }: IBuildParameters = {}
+): boolean =>
+  hasBuildStatusChanged(wsData, { buildConfigId, userId, productMilestoneId, buildId, groupBuildId }) &&
+  wsData.progress === 'FINISHED';
+
+/**
  * Additional filtering parameters.
  */
 interface IGroupBuildParameters {

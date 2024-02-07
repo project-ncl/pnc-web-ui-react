@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Artifact } from 'pnc-api-types-ts';
@@ -6,6 +6,7 @@ import { Artifact } from 'pnc-api-types-ts';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasBuildFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -41,6 +42,17 @@ export const ArtifactPages = () => {
 
     serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [serviceContainerArtifactRunner, serviceContainerBuildsRunner, artifactId]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildFinished(wsData)) {
+          serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+        }
+      },
+      [serviceContainerBuildsRunner, artifactId]
+    )
+  );
 
   useTitle(
     generatePageTitle({
