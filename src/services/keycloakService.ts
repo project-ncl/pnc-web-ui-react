@@ -7,10 +7,8 @@ import * as webConfigService from 'services/webConfigService';
  *
  */
 export enum AUTH_ROLE {
-  Admin = 'admin',
-  User = 'user',
-  System = 'system-user',
-  Power = 'power-user',
+  Admin = 'pnc-users-admin',
+  User = 'Employee',
 }
 
 /**
