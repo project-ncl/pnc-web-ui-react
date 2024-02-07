@@ -1,8 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import {
+  hasBuildStarted,
+  hasBuildStatusChanged,
+  hasGroupBuildStatusChanged,
+  usePncWebSocketEffect,
+} from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -21,6 +30,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as groupBuildApi from 'services/groupBuildApi';
 
+import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 import { createDateTime } from 'utils/utils';
 
@@ -33,15 +43,46 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
   const [activeTabKey, setActiveTabKey] = useState<number>(0);
 
+  const { componentQueryParamsObject: groupBuildBuildsComponentQueryParamsObject } = useComponentQueryParams(componentId);
+
   const serviceContainerGroupBuild = useServiceContainer(groupBuildApi.getGroupBuild);
   const serviceContainerGroupBuildRunner = serviceContainerGroupBuild.run;
+  const serviceContainerGroupBuildSetter = serviceContainerGroupBuild.setData;
 
   const serviceContainerGroupBuildBuilds = useServiceContainer(groupBuildApi.getBuilds);
   const serviceContainerGroupBuildBuildsRunner = serviceContainerGroupBuildBuilds.run;
+  const serviceContainerGroupBuildBuildsSetter = serviceContainerGroupBuildBuilds.setData;
 
   const longGroupBuildName = serviceContainerGroupBuild.data
     ? calculateLongBuildName(serviceContainerGroupBuild.data)
     : undefined;
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasGroupBuildStatusChanged(wsData, { groupBuildId })) {
+          const wsGroupBuild: GroupBuild = wsData.groupBuild;
+          serviceContainerGroupBuildSetter(wsGroupBuild);
+        } else if (hasBuildStarted(wsData, { groupBuildId })) {
+          // very exceptional use case, mostly it means backend issues
+          serviceContainerGroupBuildBuildsRunner({
+            serviceData: { id: groupBuildId },
+            requestConfig: { params: groupBuildBuildsComponentQueryParamsObject },
+          });
+        } else if (hasBuildStatusChanged(wsData, { groupBuildId })) {
+          const wsBuild: Build = wsData.build;
+          serviceContainerGroupBuildBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
+        }
+      },
+      [
+        serviceContainerGroupBuildSetter,
+        groupBuildId,
+        serviceContainerGroupBuildBuildsRunner,
+        serviceContainerGroupBuildBuildsSetter,
+        groupBuildBuildsComponentQueryParamsObject,
+      ]
+    )
+  );
 
   useTitle(
     generatePageTitle({

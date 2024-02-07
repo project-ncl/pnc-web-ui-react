@@ -1,5 +1,11 @@
+import { useCallback } from 'react';
+
+import { Build } from 'pnc-api-types-ts';
+
 import { PageTitles } from 'common/constants';
 
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
+import { hasBuildStarted, hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -9,6 +15,8 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 
 import * as buildApi from 'services/buildApi';
 
+import { refreshPage } from 'utils/refreshHelper';
+
 interface IBuildsPageProps {
   componentId?: string;
 }
@@ -16,7 +24,28 @@ interface IBuildsPageProps {
 export const BuildsPage = ({ componentId = 'b1' }: IBuildsPageProps) => {
   const serviceContainerBuilds = useServiceContainer(buildApi.getBuilds);
 
-  useQueryParamsEffect(serviceContainerBuilds.run, { componentId });
+  const { componentQueryParamsObject: buildsQueryParamsObject } = useComponentQueryParams(componentId);
+
+  const serviceContainerBuildsRunner = serviceContainerBuilds.run;
+  const serviceContainerBuildsSetter = serviceContainerBuilds.setData;
+
+  useQueryParamsEffect(serviceContainerBuildsRunner, { componentId });
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildStarted(wsData)) {
+          serviceContainerBuildsRunner({ requestConfig: { params: buildsQueryParamsObject } });
+        } else if (hasBuildStatusChanged(wsData)) {
+          const wsBuild: Build = wsData.build;
+          serviceContainerBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
+        }
+      },
+      [serviceContainerBuildsRunner, serviceContainerBuildsSetter, buildsQueryParamsObject]
+    ),
+    // NCL-8377
+    { debug: 'BuildsPage' }
+  );
 
   useTitle(PageTitles.builds);
 

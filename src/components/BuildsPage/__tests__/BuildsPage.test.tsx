@@ -9,6 +9,7 @@ global.ResizeObserver = ResizeObserver;
 jest.mock('services/buildApi');
 jest.mock('services/keycloakService');
 jest.mock('services/uiLogger');
+jest.mock('services/webConfigService');
 
 describe('display BuildsPage component', () => {
   let buildsMock: any;

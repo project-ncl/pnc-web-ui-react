@@ -1,5 +1,5 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export type TServiceData = Object | undefined;
@@ -52,10 +52,11 @@ export interface IServiceContainerState<T extends TServiceData> {
 }
 
 /**
- * Unlike IServiceContainerState, also service 'run' function is provided.
+ * Unlike IServiceContainerState, also for example service 'run' function is provided.
  * When service need to be executed, prefer to use this interface over IServiceContainerState.
  */
 export interface IServiceContainer<T extends TServiceData, U extends TServiceParams> extends IServiceContainerState<T> {
+  setData: Dispatch<SetStateAction<IServiceContainerState<T>['data']>>;
   run: ServiceContainerRunnerFunction<T, U>;
 }
 
@@ -183,6 +184,7 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
     error: error,
     loadingStateDelayMs,
     run: useCallback(serviceContainerRunner, [service, loadingStateDelayMs]),
+    setData,
   };
 };
 

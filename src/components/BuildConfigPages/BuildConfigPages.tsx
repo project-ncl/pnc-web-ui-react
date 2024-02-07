@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
-import { BuildConfiguration } from 'pnc-api-types-ts';
+import { Build, BuildConfiguration } from 'pnc-api-types-ts';
 
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasBuildStarted, hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -21,6 +23,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as buildConfigApi from 'services/buildConfigApi';
 
+import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 type ContextType = { serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration> };
@@ -35,8 +38,11 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
   const serviceContainerBuildConfig = useServiceContainer(buildConfigApi.getBuildConfig);
   const serviceContainerBuildConfigRunner = serviceContainerBuildConfig.run;
 
+  const { componentQueryParamsObject: buildHistoryQueryParamsObject } = useComponentQueryParams(componentIdBuildHistory);
+
   const serviceContainerBuilds = useServiceContainer(buildConfigApi.getBuilds);
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
+  const serviceContainerBuildsSetter = serviceContainerBuilds.setData;
 
   const serviceContainerDependencies = useServiceContainer(buildConfigApi.getDependencies);
   const serviceContainerDependenciesRunner = serviceContainerDependencies.run;
@@ -55,6 +61,23 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
       serviceContainerBuildsRunner({ serviceData: { id: buildConfigId }, requestConfig });
     },
     { componentId: componentIdBuildHistory }
+  );
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildStarted(wsData, { buildConfigId })) {
+          serviceContainerBuildsRunner({
+            serviceData: { id: buildConfigId },
+            requestConfig: { params: buildHistoryQueryParamsObject },
+          });
+        } else if (hasBuildStatusChanged(wsData, { buildConfigId })) {
+          const wsBuild: Build = wsData.build;
+          serviceContainerBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
+        }
+      },
+      [serviceContainerBuildsRunner, serviceContainerBuildsSetter, buildHistoryQueryParamsObject, buildConfigId]
+    )
   );
 
   useEffect(() => {

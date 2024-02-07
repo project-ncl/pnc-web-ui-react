@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Build } from 'pnc-api-types-ts';
@@ -6,6 +6,7 @@ import { Build } from 'pnc-api-types-ts';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -32,6 +33,7 @@ export const BuildPages = () => {
 
   const serviceContainerBuild = useServiceContainer(buildApi.getBuild);
   const serviceContainerBuildRunner = serviceContainerBuild.run;
+  const serviceContainerBuildSetter = serviceContainerBuild.setData;
 
   const serviceContainerArtifacts = useServiceContainer(buildApi.getBuiltArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
@@ -49,6 +51,18 @@ export const BuildPages = () => {
     serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
     serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [serviceContainerBuildRunner, serviceContainerArtifactsRunner, serviceContainerDependenciesRunner, buildId]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildStatusChanged(wsData, { buildId })) {
+          const wsBuild: Build = wsData.build;
+          serviceContainerBuildSetter(wsBuild);
+        }
+      },
+      [serviceContainerBuildSetter, buildId]
+    )
+  );
 
   useTitle(
     generatePageTitle({

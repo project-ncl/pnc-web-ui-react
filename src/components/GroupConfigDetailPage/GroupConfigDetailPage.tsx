@@ -1,10 +1,14 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+
+import { GroupBuild } from 'pnc-api-types-ts';
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasGroupBuildStarted, hasGroupBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
@@ -26,6 +30,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import * as groupConfigApi from 'services/groupConfigApi';
 import * as productVersionApi from 'services/productVersionApi';
 
+import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 const buildConfigsListColumns = [
@@ -47,6 +52,8 @@ export const GroupConfigDetailPage = ({
 }: IGroupConfigDetailPageProps) => {
   const { groupConfigId } = useParamsRequired();
 
+  const { componentQueryParamsObject: groupBuildsQueryParamsObject } = useComponentQueryParams(componentIdGroupBuilds);
+
   const serviceContainerGroupConfig = useServiceContainer(groupConfigApi.getGroupConfig);
   const serviceContainerGroupConfigRunner = serviceContainerGroupConfig.run;
 
@@ -55,6 +62,7 @@ export const GroupConfigDetailPage = ({
 
   const serviceContainerGroupBuilds = useServiceContainer(groupConfigApi.getGroupBuilds);
   const serviceContainerGroupBuildsRunner = serviceContainerGroupBuilds.run;
+  const serviceContainerGroupBuildsSetter = serviceContainerGroupBuilds.setData;
 
   const serviceContainerBuildConfigs = useServiceContainer(groupConfigApi.getBuildConfigsWithLatestBuild);
   const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
@@ -81,6 +89,23 @@ export const GroupConfigDetailPage = ({
       serviceContainerBuildConfigsRunner({ serviceData: { groupConfigId }, requestConfig });
     },
     { componentId: componentIdBuildConfigs }
+  );
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasGroupBuildStarted(wsData, { groupConfigId })) {
+          serviceContainerGroupBuildsRunner({
+            serviceData: { id: groupConfigId },
+            requestConfig: { params: groupBuildsQueryParamsObject },
+          });
+        } else if (hasGroupBuildStatusChanged(wsData, { groupConfigId })) {
+          const wsGroupBuild: GroupBuild = wsData.groupBuild;
+          serviceContainerGroupBuildsSetter((previousGroupBuildPage) => refreshPage(previousGroupBuildPage!, wsGroupBuild));
+        }
+      },
+      [serviceContainerGroupBuildsRunner, serviceContainerGroupBuildsSetter, groupBuildsQueryParamsObject, groupConfigId]
+    )
   );
 
   useTitle(
