@@ -101,12 +101,8 @@ export const hasBuildStatusChanged = (
  * @param parameters - See {@link IBuildParameters}
  * @returns true when new Build was started, otherwise false
  */
-export const hasBuildStarted = (
-  wsData: any,
-  { buildConfigId, userId, productMilestoneId, buildId, groupBuildId }: IBuildParameters = {}
-): boolean =>
-  hasBuildStatusChanged(wsData, { buildConfigId, userId, productMilestoneId, buildId, groupBuildId }) &&
-  wsData.oldStatus === 'NEW';
+export const hasBuildStarted = (wsData: any, parameters: IBuildParameters = {}): boolean =>
+  hasBuildStatusChanged(wsData, parameters) && wsData.oldStatus === 'NEW';
 
 /**
  * Check whether Build finished WebSocket event was sent.
@@ -115,12 +111,8 @@ export const hasBuildStarted = (
  * @param parameters - See {@link IBuildParameters}
  * @returns true when Build was finished, otherwise false
  */
-export const hasBuildFinished = (
-  wsData: any,
-  { buildConfigId, userId, productMilestoneId, buildId, groupBuildId }: IBuildParameters = {}
-): boolean =>
-  hasBuildStatusChanged(wsData, { buildConfigId, userId, productMilestoneId, buildId, groupBuildId }) &&
-  wsData.progress === 'FINISHED';
+export const hasBuildFinished = (wsData: any, parameters: IBuildParameters = {}): boolean =>
+  hasBuildStatusChanged(wsData, parameters) && wsData.progress === 'FINISHED';
 
 /**
  * Additional filtering parameters.
@@ -169,8 +161,8 @@ export const hasGroupBuildStatusChanged = (
  * @param parameters - See {@link IGroupBuildParameters}
  * @returns true when new Group Build was started, otherwise false
  */
-export const hasGroupBuildStarted = (wsData: any, { groupConfigId, userId, groupBuildId }: IGroupBuildParameters = {}): boolean =>
-  hasGroupBuildStatusChanged(wsData, { groupConfigId, userId, groupBuildId }) && wsData.oldProgress === 'PENDING';
+export const hasGroupBuildStarted = (wsData: any, parameters: IGroupBuildParameters = {}): boolean =>
+  hasGroupBuildStatusChanged(wsData, parameters) && wsData.oldProgress === 'PENDING';
 
 /**
  * Additional filtering parameters.
