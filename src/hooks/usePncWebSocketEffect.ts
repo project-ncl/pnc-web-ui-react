@@ -171,3 +171,30 @@ export const hasGroupBuildStatusChanged = (
  */
 export const hasGroupBuildStarted = (wsData: any, { groupConfigId, userId, groupBuildId }: IGroupBuildParameters = {}): boolean =>
   hasGroupBuildStatusChanged(wsData, { groupConfigId, userId, groupBuildId }) && wsData.oldProgress === 'PENDING';
+
+/**
+ * Additional filtering parameters.
+ */
+interface IBrewPushParameters {
+  buildId?: string;
+}
+
+/**
+ * Check whether Brew Push finished WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @param parameters - See {@link IBrewPushParameters}
+ * @returns true when Brew Push finished, otherwise false
+ */
+export const hasBrewPushFinished = (wsData: any, { buildId }: IBrewPushParameters = {}): boolean => {
+  if (wsData.job !== 'BREW_PUSH' || wsData.notificationType !== 'BREW_PUSH_RESULT') {
+    return false;
+  }
+
+  if (!wsData.buildPushResult) {
+    uiLogger.error('hasBrewPushFinished: invalid WebSocket message ("buildPushResult" parameter is missing)', undefined, wsData);
+    return false; // ignore changes when 'buildPushResult' is not available
+  }
+
+  return !buildId || buildId === wsData.buildPushResult?.buildId;
+};

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { buildPushResultEntityAttributes } from 'common/buildPushResultEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasBrewPushFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
@@ -31,6 +32,22 @@ export const BuildBrewPushPage = () => {
       }
     });
   }, [serviceContainerBrewPushRunner, buildId]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBrewPushFinished(wsData, { buildId })) {
+          /**
+           * Using Setter is not sufficient, all Runner related states need to be refreshed.
+           * Implementing another approach is useless as Brew Push backend logic will be refactored soon in NCL-7346.
+           */
+          serviceContainerBrewPushRunner({ serviceData: { id: buildId } });
+          setIsBrewPushEmpty(false);
+        }
+      },
+      [serviceContainerBrewPushRunner, buildId]
+    )
+  );
 
   return (
     <>
