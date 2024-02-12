@@ -19,7 +19,7 @@ BreadcrumbItem,*/
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useMatches } from 'react-router-dom';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
 
@@ -187,7 +187,7 @@ export const AppLayout = () => {
   const AppHeader = <PageHeader logo={<AppLogoImage />} headerTools={<AppHeaderTools />} showNavToggle />;
 
   const AppNavigation = () => {
-    const { pathname } = useLocation();
+    const pathname = useMatches()[1].pathname; //1 index = 2nd match which contains the first part of the path
 
     return (
       <Nav>

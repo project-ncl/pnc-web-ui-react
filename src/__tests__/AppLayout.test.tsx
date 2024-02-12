@@ -1,4 +1,5 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
+import * as routeData from 'react-router';
 import { MemoryRouter } from 'react-router-dom';
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -21,6 +22,14 @@ window.pnc = {
   },
 };
 
+const mockMatches = [
+  { id: '0', pathname: '/', data: 'data', handle: '1', params: {} },
+  { id: '0-1', pathname: '/products', data: 'data', handle: '2', params: {} },
+];
+
+beforeEach(() => {
+  jest.spyOn(routeData, 'useMatches').mockReturnValue(mockMatches);
+});
 test('renders AppLayout', async () => {
   act(() => {
     render(
