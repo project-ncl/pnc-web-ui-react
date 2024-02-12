@@ -43,3 +43,24 @@ export const getPncVersion = (requestConfig: AxiosRequestConfig = {}) => {
 export const setPncVersion = ({ version }: { version: string }, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().post<undefined>('/generic-setting/pnc-version', version, requestConfig);
 };
+
+/**
+ * Gets PNC status (banner, maintenance mode).
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getPncStatus = (requestConfig: AxiosRequestConfig = {}) => {
+  // TODO: remove any
+  return pncClient.getHttpClient().get<any>('/pnc-status', requestConfig);
+};
+
+/**
+ * Sets PNC status (banner, maintenance mode).
+ *
+ * @param serviceData - object containing PNC status data
+ * @param requestConfig - Axios based request config
+ */
+export const setPncStatus = ({ data }: { data: any }, requestConfig: AxiosRequestConfig = {}) => {
+  // TODO: remove any
+  return pncClient.getHttpClient().post<undefined>('/pnc-status', data, requestConfig);
+};
