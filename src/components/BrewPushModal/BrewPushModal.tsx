@@ -57,6 +57,7 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
       onSubmit={handleSubmit(confirmModal)}
       serviceContainer={serviceContainerPushToBrew}
       modalVariant="large"
+      refreshOnClose={false}
       onSuccessActions={
         variant === 'Build'
           ? [
