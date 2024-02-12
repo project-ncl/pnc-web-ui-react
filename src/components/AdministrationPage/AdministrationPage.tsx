@@ -10,7 +10,6 @@ import {
   Switch,
   Text,
   TextArea,
-  TextInput,
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { CSSProperties, FormEvent, useCallback, useEffect, useState } from 'react';
@@ -49,11 +48,6 @@ export const AdministrationPage = () => {
     paddingRight: '8px',
     paddingBottom: '5px',
   };
-
-  const [pncVersion, setPncVersion] = useState<string>('');
-  const serviceContainerPncVersionGet = useServiceContainer(genericSettingsApi.getPncVersion);
-  const serviceContainerPncVersionGetRunner = serviceContainerPncVersionGet.run;
-  const serviceContainerPncVersionSet = useServiceContainer(genericSettingsApi.setPncVersion);
 
   const [announcementMessage, setAnnouncementMessage] = useState<string>('');
   const [etaTime, setEtaTime] = useState<string>();
@@ -97,11 +91,7 @@ export const AdministrationPage = () => {
       .catch((error) => {
         console.error(error);
       });
-
-    serviceContainerPncVersionGetRunner().then((response: any) => {
-      setPncVersion(response.data);
-    });
-  }, [serviceContainerPncVersionGetRunner]);
+  }, []);
 
   const [secondsUntilReload, setSecondsUntilReload] = useState<number>(0);
 
@@ -129,42 +119,6 @@ export const AdministrationPage = () => {
   return (
     <PageLayout title="Administration" description="Administration tools for admin users">
       <Flex direction={directionColumn}>
-        <FlexItem>
-          <ContentBox isResponsive>
-            <ServiceContainerCreatingUpdating {...serviceContainerPncVersionSet} title="PNC version">
-              <div className="p-global">
-                <Form>
-                  <FormGroup label="PNC System Version" fieldId="form-pnc-system-version">
-                    <TextInput
-                      type="text"
-                      id="form-pnc-system-version"
-                      name="form-pnc-system-version"
-                      value={pncVersion}
-                      onChange={(value) => setPncVersion(value)}
-                    />
-                  </FormGroup>
-
-                  <ActionGroup>
-                    <Button
-                      variant="primary"
-                      id="form-pnc-system-version-update"
-                      name="form-pnc-system-version-update"
-                      onClick={() => {
-                        serviceContainerPncVersionSet.run({
-                          serviceData: {
-                            version: pncVersion,
-                          },
-                        });
-                      }}
-                    >
-                      {ButtonTitles.update} Version
-                    </Button>
-                  </ActionGroup>
-                </Form>
-              </div>
-            </ServiceContainerCreatingUpdating>
-          </ContentBox>
-        </FlexItem>
         <FlexItem>
           <ContentBox isResponsive>
             <ServiceContainerLoading {...serviceContainerBuildCount} title="Builds count">
