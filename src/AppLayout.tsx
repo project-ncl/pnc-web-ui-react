@@ -20,15 +20,18 @@ import { useEffect, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router-dom';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TopBarInfo } from 'components/TopBar/TopBarInfo';
+import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
 import * as genericSettingsApi from 'services/genericSettingsApi';
 import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
+
+import { createDateTime } from 'utils/utils';
 
 import pncLogoText from './pnc-logo-text.svg';
 
@@ -37,20 +40,14 @@ export const AppLayout = () => {
 
   const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
 
-  const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+  const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
+  const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;
 
   const { ref: topBarsRef, height: topBarsHeight } = useResizeObserver();
 
   useEffect(() => {
-    genericSettingsApi
-      .getAnnouncementBanner()
-      .then((response) => {
-        setAnnouncementMessage(response.data.banner || '');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    serviceContainerPncStatusRunner();
+  }, [serviceContainerPncStatusRunner]);
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
@@ -260,7 +257,16 @@ export const AppLayout = () => {
 
   return (
     <>
-      <div ref={topBarsRef}>{announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}</div>
+      <div ref={topBarsRef}>
+        {serviceContainerPncStatus.data && (
+          <TopBarAnnouncement
+            id="site-top-bar"
+            banner={serviceContainerPncStatus.data.banner}
+            isMaintenanceMode={serviceContainerPncStatus.data.isMaintenanceMode}
+            eta={serviceContainerPncStatus.data.eta && createDateTime({ date: serviceContainerPncStatus.data.eta }).date}
+          />
+        )}
+      </div>
       <div style={{ height: topBarsHeight ? `calc(100% - ${topBarsHeight}px)` : '100%' }}>
         <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
           <Outlet />
