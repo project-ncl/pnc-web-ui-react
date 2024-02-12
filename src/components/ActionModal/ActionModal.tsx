@@ -23,6 +23,7 @@ interface IActionModalProps {
   onSubmit: () => void;
   serviceContainer?: IServiceContainerState<Object>;
   modalVariant: ModalProps['variant'];
+  refreshOnClose?: boolean;
   onSuccessActions?: ReactElement[];
 }
 
@@ -39,6 +40,7 @@ interface IActionModalProps {
  * @param onSubmit - confirm action button callback
  * @param serviceContainer - service container of the confirm action
  * @param modalVariant - modal size variant
+ * @param refreshOnClose - whether to refresh the page on modal close
  * @param onSuccessActions - additional action buttons to be displayed after successful confirm action
  */
 export const ActionModal = ({
@@ -52,6 +54,7 @@ export const ActionModal = ({
   onSubmit,
   serviceContainer,
   modalVariant,
+  refreshOnClose = true,
   onSuccessActions,
   isSubmitDisabled = serviceContainer && serviceContainer.data !== DataValues.notYetData && !serviceContainer.error,
 }: PropsWithChildren<IActionModalProps>) => {
@@ -66,7 +69,7 @@ export const ActionModal = ({
   }
 
   const onClose = () => {
-    if (wasAnyActionSuccessful) {
+    if (wasAnyActionSuccessful && refreshOnClose) {
       refresh();
     } else {
       onToggle();
@@ -102,7 +105,7 @@ export const ActionModal = ({
         </Button>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
         <Button variant="link" onClick={onClose}>
-          {cancelTitle || (wasAnyActionSuccessful ? 'Close and refresh' : 'Cancel')}
+          {cancelTitle || (wasAnyActionSuccessful ? `Close${refreshOnClose ? ' and refresh' : ''}` : 'Cancel')}
         </Button>,
       ]}
       aria-label={modalTitle}
