@@ -277,3 +277,30 @@ export const hasMilestoneCloseFinished = (
     (!productMilestoneId || productMilestoneId === wsData.productMilestoneCloseResult.milestone?.id)
   );
 };
+
+interface IDeliverablesAnalysisParameters {
+  operationId?: string;
+}
+
+/**
+ * Check whether Deliverables Analysis changed WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @returns true when Deliverables Analysis changed, otherwise false
+ */
+export const hasDeliverablesAnalysisChanged = (wsData: any, { operationId }: IDeliverablesAnalysisParameters = {}): boolean => {
+  return (
+    wsData.job === 'OPERATION' &&
+    wsData.notificationType === 'DELIVERABLES_ANALYSIS' &&
+    (!operationId || operationId === wsData.operationId)
+  );
+};
+
+/**
+ * Check whether Deliverables Analysis finished WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @returns true when Deliverables Analysis finished, otherwise false
+ */
+export const hasDeliverablesAnalysisFinished = (wsData: any, parameters: IDeliverablesAnalysisParameters = {}): boolean =>
+  hasDeliverablesAnalysisChanged(wsData, parameters) && wsData.progress === 'FINISHED';
