@@ -1,6 +1,7 @@
 import { Button, Flex, FlexItem } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
+import ReactDomServer from 'react-dom/server';
 
 import styles from './TopBar.module.css';
 
@@ -11,6 +12,7 @@ export enum TOPBAR_TYPE {
 }
 
 interface ITopBarProps {
+  id?: string;
   type: TOPBAR_TYPE;
   icon: ReactElement;
   hideCloseButton?: boolean;
@@ -26,28 +28,36 @@ interface ITopBarProps {
  * (So page can be refreshed wihout reopening top bar.)
  * But: if children (inner text) is changed, top bar wil reopen.
  *
+ * @param id -unique ID, if defined, close status is stored to session storage
  * @param type - class to style top bar with
  * @param icon - icon displayed on the left side next to the top bar text
  * @param hideCloseButton - whether to hide close button
  */
-export const TopBar = ({ children, type, icon, hideCloseButton = false }: React.PropsWithChildren<ITopBarProps>) => {
+export const TopBar = ({ children, id, type, icon, hideCloseButton = false }: React.PropsWithChildren<ITopBarProps>) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  useEffect(() => {
-    const topBarState = window.sessionStorage.getItem(type);
-    setIsOpen(topBarState !== 'closed');
-  }, [type]);
+  const statusLocalStorageId = useMemo(() => `${id}-status`, [id]);
+  const textLocalStorageId = useMemo(() => `${id}-text`, [id]);
 
   useEffect(() => {
-    const topBarTextOld = window.sessionStorage.getItem(`${type}-text`) || '';
-    const topbarTextNew = JSON.stringify(children);
-
-    if (topbarTextNew !== topBarTextOld) {
-      window.sessionStorage.setItem(type, 'open');
-      window.sessionStorage.setItem(`${type}-text`, topbarTextNew);
-      setIsOpen(true);
+    if (id) {
+      const topBarState = window.sessionStorage.getItem(statusLocalStorageId);
+      setIsOpen(topBarState !== 'closed');
     }
-  }, [children, type]);
+  }, [type, id, statusLocalStorageId]);
+
+  useEffect(() => {
+    if (id) {
+      const topBarTextOld = window.sessionStorage.getItem(textLocalStorageId) || '';
+      const topBarTextNew = ReactDomServer.renderToStaticMarkup(<>{children}</>);
+
+      if (topBarTextNew !== topBarTextOld) {
+        window.sessionStorage.setItem(textLocalStorageId, topBarTextNew);
+        window.sessionStorage.setItem(statusLocalStorageId, 'open');
+        setIsOpen(true);
+      }
+    }
+  }, [children, type, id, statusLocalStorageId, textLocalStorageId]);
 
   return isOpen && children ? (
     <div className={`${styles['top-bar']} ${styles[type]}`}>
@@ -63,7 +73,7 @@ export const TopBar = ({ children, type, icon, hideCloseButton = false }: React.
             <Button
               onClick={() => {
                 setIsOpen(false);
-                window.sessionStorage.setItem(type, 'closed');
+                window.sessionStorage.setItem(statusLocalStorageId, 'closed');
               }}
               variant="plain"
             >
