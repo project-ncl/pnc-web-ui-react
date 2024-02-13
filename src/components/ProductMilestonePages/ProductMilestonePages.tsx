@@ -6,7 +6,7 @@ import { ProductMilestone } from 'pnc-api-types-ts';
 import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { hasBuildStarted, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
+import { hasBuildStarted, hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -92,9 +92,14 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       (wsData: any) => {
         if (hasBuildStarted(wsData, { productMilestoneId })) {
           serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+        } else if (hasMilestoneCloseFinished(wsData, { productMilestoneId })) {
+          serviceContainerCloseResultsRunner({
+            serviceData: { id: productMilestoneId },
+            requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+          });
         }
       },
-      [serviceContainerBuildsRunner, productMilestoneId]
+      [serviceContainerBuildsRunner, serviceContainerCloseResultsRunner, productMilestoneId]
     )
   );
 
