@@ -1,4 +1,8 @@
+import { useCallback } from 'react';
+
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -13,6 +17,8 @@ interface IProductMilestoneCloseResultsPageProps {
 export const ProductMilestoneCloseResultsPage = ({ componentId = 'c1' }: IProductMilestoneCloseResultsPageProps) => {
   const { productMilestoneId } = useParamsRequired();
 
+  const { componentQueryParamsObject: closeResultsQueryParamsObject } = useComponentQueryParams(componentId);
+
   const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
 
@@ -22,6 +28,20 @@ export const ProductMilestoneCloseResultsPage = ({ componentId = 'c1' }: IProduc
       componentId,
       mandatoryQueryParams: { pagination: true, sorting: true },
     }
+  );
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasMilestoneCloseFinished(wsData, { productMilestoneId })) {
+          serviceContainerCloseResultsRunner({
+            serviceData: { id: productMilestoneId },
+            requestConfig: { params: closeResultsQueryParamsObject },
+          });
+        }
+      },
+      [serviceContainerCloseResultsRunner, closeResultsQueryParamsObject, productMilestoneId]
+    )
   );
 
   return <ProductMilestoneCloseResultsList {...{ serviceContainerCloseResults, componentId }} />;

@@ -1,5 +1,5 @@
 import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
@@ -7,6 +7,7 @@ import { PageTitles } from 'common/constants';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -29,6 +30,7 @@ export const ProductMilestoneCloseResultDetailPage = () => {
 
   const serviceContainerProdutMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerProdutMilestoneCloseResultRunner = serviceContainerProdutMilestoneCloseResult.run;
+  const serviceContainerProductMilestoneCloseResultSetter = serviceContainerProdutMilestoneCloseResult.setData;
 
   const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProdutMilestoneCloseResult.data?.content?.[0];
 
@@ -42,6 +44,21 @@ export const ProductMilestoneCloseResultDetailPage = () => {
       },
     });
   }, [serviceContainerProdutMilestoneCloseResultRunner, productMilestoneId, closeResultId]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasMilestoneCloseFinished(wsData, { closeResultId })) {
+          const closeResult: ProductMilestoneCloseResult = wsData.productMilestoneCloseResult;
+          serviceContainerProductMilestoneCloseResultSetter((oldCloseResult) => ({
+            ...oldCloseResult,
+            content: [closeResult],
+          }));
+        }
+      },
+      [serviceContainerProductMilestoneCloseResultSetter, closeResultId]
+    )
+  );
 
   useTitle(
     generatePageTitle({
