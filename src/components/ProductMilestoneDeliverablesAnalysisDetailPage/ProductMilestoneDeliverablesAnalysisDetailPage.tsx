@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
@@ -6,6 +6,7 @@ import { PageTitles } from 'common/constants';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasDeliverablesAnalysisChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -36,6 +37,19 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
       serviceData: { id: deliverablesAnalysisId },
     });
   }, [serviceContainerProdutMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasDeliverablesAnalysisChanged(wsData, { operationId: deliverablesAnalysisId })) {
+          serviceContainerProdutMilestoneDeliverablesAnalysisRunner({
+            serviceData: { id: deliverablesAnalysisId },
+          });
+        }
+      },
+      [serviceContainerProdutMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]
+    )
+  );
 
   useTitle(
     generatePageTitle({
