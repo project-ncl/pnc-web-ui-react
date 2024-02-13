@@ -11,3 +11,11 @@ export const getPncVersion = () => {
     resolve({ data: 'test' });
   });
 };
+
+export const getPncStatus = () => {
+  return new Promise((resolve) => {
+    import('./pnc-status-mock.json').then((mockPncStatusRequest) => {
+      resolve({ data: mockPncStatusRequest });
+    });
+  });
+};
