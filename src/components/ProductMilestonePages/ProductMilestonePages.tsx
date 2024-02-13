@@ -103,7 +103,9 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       serviceContainer: serviceContainerProductMilestone,
       firstLevelEntity: 'Product',
       nestedEntity: 'Milestone',
-      entityName: `${serviceContainerProductMilestone.data?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: `${serviceContainerProductMilestone.data?.version} ${PageTitles.delimiterSymbol} ${
+        serviceContainerProductVersion.data?.product?.name ?? ''
+      }`,
     })
   );
 
@@ -155,32 +157,38 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   return (
     <ServiceContainerLoading {...serviceContainerProductMilestone} title="Product Milestone details">
-      <PageLayout title={`Product Milestone ${serviceContainerProductMilestone.data?.version}`} tabs={pageTabs} actions={actions}>
-        <Outlet context={{ serviceContainerProductMilestone }} />
-      </PageLayout>
-      {isMarkModalOpen && (
-        <ProductMilestoneMarkModal
-          isModalOpen={isMarkModalOpen}
-          toggleModal={toggleMarkModal}
-          productMilestone={serviceContainerProductMilestone.data!}
-          productVersion={serviceContainerProductVersion.data!}
-          variant="detail"
-        />
-      )}
-      {isCloseModalOpen && (
-        <ProductMilestoneCloseModal
-          isModalOpen={isCloseModalOpen}
-          toggleModal={toggleCloseModal}
-          productMilestone={serviceContainerProductMilestone.data!}
-        />
-      )}
-      {isAnalyzeDeliverablesModalOpen && (
-        <ProductMilestoneAnalyzeDeliverablesModal
-          isModalOpen={isAnalyzeDeliverablesModalOpen}
-          toggleModal={toggleAnalyzeDeliverablesModal}
-          productMilestone={serviceContainerProductMilestone.data!}
-        />
-      )}
+      <ServiceContainerLoading {...serviceContainerProductVersion} title="Product Version">
+        <PageLayout
+          title={`${serviceContainerProductVersion.data?.product?.name ?? ''} ${serviceContainerProductMilestone.data?.version}`}
+          tabs={pageTabs}
+          actions={actions}
+        >
+          <Outlet context={{ serviceContainerProductMilestone }} />
+        </PageLayout>
+        {isMarkModalOpen && (
+          <ProductMilestoneMarkModal
+            isModalOpen={isMarkModalOpen}
+            toggleModal={toggleMarkModal}
+            productMilestone={serviceContainerProductMilestone.data!}
+            productVersion={serviceContainerProductVersion.data!}
+            variant="detail"
+          />
+        )}
+        {isCloseModalOpen && (
+          <ProductMilestoneCloseModal
+            isModalOpen={isCloseModalOpen}
+            toggleModal={toggleCloseModal}
+            productMilestone={serviceContainerProductMilestone.data!}
+          />
+        )}
+        {isAnalyzeDeliverablesModalOpen && (
+          <ProductMilestoneAnalyzeDeliverablesModal
+            isModalOpen={isAnalyzeDeliverablesModalOpen}
+            toggleModal={toggleAnalyzeDeliverablesModal}
+            productMilestone={serviceContainerProductMilestone.data!}
+          />
+        )}
+      </ServiceContainerLoading>
     </ServiceContainerLoading>
   );
 };
