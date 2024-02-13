@@ -375,3 +375,22 @@ export const hasDeliverablesAnalysisStarted = (wsData: any, parameters: IDeliver
  */
 export const hasDeliverablesAnalysisFinished = (wsData: any, parameters: IDeliverablesAnalysisParameters = {}): boolean =>
   hasDeliverablesAnalysisChanged(wsData, parameters) && wsData.progress === 'FINISHED';
+
+/**
+ * Check whether new PNC status changed WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @returns true when new PNC status has changed, otherwise false
+ */
+export const hasPncStatusChanged = (wsData: any): boolean => {
+  if (wsData.job !== 'GENERIC_SETTING' || wsData.notificationType !== 'PNC_STATUS_CHANGED') {
+    return false;
+  }
+
+  if (!wsData.message) {
+    uiLogger.error('hasPncStatusChanged: invalid WebSocket message ("message" parameter is missing)', undefined, wsData);
+    return false; // ignore changes when PNC status is not available
+  }
+
+  return true;
+};

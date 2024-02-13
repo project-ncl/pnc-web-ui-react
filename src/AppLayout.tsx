@@ -16,9 +16,10 @@ import {
   PageSidebar,
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router-dom';
 
+import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -42,12 +43,25 @@ export const AppLayout = () => {
 
   const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
   const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;
+  const serviceContainerPncStatusSetter = serviceContainerPncStatus.setData;
 
   const { ref: topBarsRef, height: topBarsHeight } = useResizeObserver();
 
   useEffect(() => {
     serviceContainerPncStatusRunner();
   }, [serviceContainerPncStatusRunner]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasPncStatusChanged(wsData)) {
+          const wsMessage = JSON.parse(wsData.message);
+          serviceContainerPncStatusSetter(wsMessage);
+        }
+      },
+      [serviceContainerPncStatusSetter]
+    )
+  );
 
   const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
 
