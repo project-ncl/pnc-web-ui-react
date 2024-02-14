@@ -1,6 +1,7 @@
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 
 const CLOSE_STATUSES: ILabelMapper<ProductMilestoneCloseResult['status']> = {
   IN_PROGRESS: {
@@ -29,6 +30,11 @@ interface IProductMilestoneCloseStatusLabelMapperProps {
   status: ProductMilestoneCloseResult['status'];
 }
 
-export const ProductMilestoneCloseStatusLabelMapper = ({ status }: IProductMilestoneCloseStatusLabelMapperProps) => (
-  <LabelMapper mapperItem={CLOSE_STATUSES[status]} />
-);
+export const ProductMilestoneCloseStatusLabelMapper = ({ status }: IProductMilestoneCloseStatusLabelMapperProps) =>
+  status ? (
+    <LabelMapper mapperItem={CLOSE_STATUSES[status]} />
+  ) : (
+    <>
+      <LoadingSpinner isInline /> closing
+    </>
+  );
