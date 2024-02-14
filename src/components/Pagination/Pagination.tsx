@@ -25,9 +25,10 @@ interface IPagination {
   componentId: string;
   count?: number;
   pageSizeDefault?: keyof typeof pageSizeOptions;
+  isCompact?: boolean;
 }
 
-export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page10' }: IPagination) => {
+export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page10', isCompact }: IPagination) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -79,7 +80,7 @@ export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page10' 
             setPageIndex(pageIndexDefault);
           }}
           variant={PaginationVariant.bottom}
-          isCompact={!!paginationWidth && paginationWidth < PAGINATION_WIDTH_THRESHOLD_PX}
+          isCompact={isCompact !== undefined ? isCompact : !!paginationWidth && paginationWidth < PAGINATION_WIDTH_THRESHOLD_PX}
           perPageOptions={perPageOptions}
         />
       </div>
