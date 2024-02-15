@@ -211,3 +211,20 @@ export const patchBuildConfig = (
 export const cloneBuildConfig = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().post<BuildConfiguration>(`/build-configs/${id}/clone`, requestConfig);
 };
+
+/**
+ * Restores the Build Config to the state of the revision.
+ *
+ * @param serviceData - object containing:
+ *  - buildConfigId - ID of the Build Config
+ *  - buildConfigRev - Revision number of the Build Config
+ * @param requestConfig - Axios based request config
+ */
+export const restoreBuildConfig = (
+  { buildConfigId, buildConfigRev }: { buildConfigId: string; buildConfigRev: number },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient
+    .getHttpClient()
+    .post<BuildConfiguration>(`/build-configs/${buildConfigId}/revisions/${buildConfigRev}/restore`, requestConfig);
+};

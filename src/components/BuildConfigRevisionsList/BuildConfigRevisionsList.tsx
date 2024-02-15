@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
 import { useLocation, useNavigate } from 'react-router-dom';
 
