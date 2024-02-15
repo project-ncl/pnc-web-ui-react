@@ -3,7 +3,10 @@ import { Operation } from 'fast-json-patch';
 
 import { BuildConfigPage, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
+import { RepositoryCreationResponseCustomized } from 'common/types';
+
 import { extendRequestConfig } from 'utils/requestConfigHelper';
+import { convertTaskId } from 'utils/utils';
 
 import { pncClient } from './pncClient';
 
@@ -57,7 +60,11 @@ export const getScmRepository = ({ id }: IScmRepositoryApiData, requestConfig: A
  * @param requestConfig - Axios based request config
  */
 export const createScmRepository = ({ data }: { data: Omit<SCMRepository, 'id'> }, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<SCMRepository>('/scm-repositories/create-and-sync', data, requestConfig);
+  // See NCL-8433
+  requestConfig.transformResponse = [(response: string) => JSON.parse(convertTaskId(response))];
+  return pncClient
+    .getHttpClient()
+    .post<RepositoryCreationResponseCustomized>('/scm-repositories/create-and-sync', data, requestConfig);
 };
 
 /**
