@@ -150,7 +150,9 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
           </ProtectedComponent>,
           <BuildConfigCloneModalButton toggleModal={toggleCloneModal} variant="detail" />,
           <ProtectedComponent>
-            <ActionButton link="edit">Edit Build Config</ActionButton>
+            <ActionButton variant="tertiary" link="edit">
+              Edit
+            </ActionButton>
           </ProtectedComponent>,
         ]}
         sidebar={{
