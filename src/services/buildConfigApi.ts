@@ -200,3 +200,14 @@ export const patchBuildConfig = (
 ) => {
   return pncClient.getHttpClient().patch<BuildConfiguration>(`/build-configs/${id}`, patchData, requestConfig);
 };
+
+/**
+ * Clones an existing Build Config to a new one.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Config ID
+ * @param requestConfig - Axios based request config
+ */
+export const cloneBuildConfig = ({ id }: IBuildConfigApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<BuildConfiguration>(`/build-configs/${id}/clone`, requestConfig);
+};
