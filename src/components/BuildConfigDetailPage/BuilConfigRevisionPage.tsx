@@ -17,5 +17,5 @@ export const BuildConfigRevisionPage = () => {
     serviceContainerBuildConfigRevisionRunner({ serviceData: { buildConfigId, buildConfigRev: Number(revisionId) } });
   }, [serviceContainerBuildConfigRevisionRunner, buildConfigId, revisionId]);
 
-  return <BuildConfigDetail {...{ serviceContainerBuildConfig: serviceContainerBuildConfigRevision }} />;
+  return <BuildConfigDetail {...{ serviceContainerBuildConfig: serviceContainerBuildConfigRevision }} isRevisionVariant />;
 };
