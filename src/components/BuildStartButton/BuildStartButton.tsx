@@ -23,23 +23,6 @@ import * as groupConfigApi from 'services/groupConfigApi';
 
 import styles from './BuildStartButton.module.css';
 
-interface IBuildStartButtonProp {
-  /**
-   * Object: The configuration representing Build Config
-   */
-  buildConfig?: BuildConfiguration;
-
-  /**
-   * Object: The configuration representing Group Config
-   */
-  groupConfig?: GroupConfiguration;
-
-  /**
-   * String: Value representing bootstrap button size: lg, md(default if empty), sm
-   */
-  size?: string;
-}
-
 interface IParamOption {
   title: string;
   value: string;
@@ -142,7 +125,20 @@ const rebuildModePopoverText = (
   </>
 );
 
-export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBuildStartButtonProp) => {
+interface IBuildStartButtonProp {
+  buildConfig?: BuildConfiguration;
+  groupConfig?: GroupConfiguration;
+  isCompact?: boolean;
+}
+
+/**
+ * Button starting the (Group) Build process.
+ *
+ * @param buildConfig - Build Config data
+ * @param groupConfig - Group Config data
+ * @param isCompact - Compact variant is smaller in size
+ */
+export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }: IBuildStartButtonProp) => {
   const [isTempBuild, setIsTempBuild] = useState<boolean>(false);
   const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(undefined);
   const [rebuildMode, setRebuildMode] = useState<IParamOption>(rebuildModes[REBUILD_MODE_DEFAULT_INDEX]);
@@ -186,23 +182,23 @@ export const BuildStartButton = ({ buildConfig, groupConfig, size = 'md' }: IBui
   };
 
   return (
-    <span>
+    <span className={styles['button-wrapper']}>
       <ProgressButton
         onClick={triggerBuild}
         serviceContainer={serviceContainer}
         icon={<BuildIcon />}
-        isSmall={size === 'sm'}
-        isLarge={size === 'lg'}
+        isSmall
         className={styles['button-build']}
       >
         Build
       </ProgressButton>
 
       <Dropdown
+        className={isCompact ? styles['toggle-button-compact'] : styles['toggle-button']}
         alignments={dropdownAlignmentsDirection}
         toggle={
           <DropdownToggle onToggle={() => setIsDropdownOpen(!isDropdownOpen)} id="dropdown-toggle">
-            {size !== 'sm' ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
+            {!isCompact ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
           </DropdownToggle>
         }
         isOpen={isDropdownOpen}

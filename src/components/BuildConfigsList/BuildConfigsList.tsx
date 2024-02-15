@@ -206,7 +206,7 @@ export const BuildConfigsList = ({
                   {columns.includes(buildConfigEntityAttributes.actions.id) && (
                     <Td>
                       <ProtectedComponent>
-                        <BuildStartButton buildConfig={buildConfig} size="sm" />
+                        <BuildStartButton buildConfig={buildConfig} isCompact />
                       </ProtectedComponent>
                     </Td>
                   )}

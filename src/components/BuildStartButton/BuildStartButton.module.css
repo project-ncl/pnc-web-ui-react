@@ -16,3 +16,18 @@
 .description-text {
   text-align: center;
 }
+
+.button-wrapper {
+  z-index: 500;
+}
+
+.toggle-button-compact {
+  padding-left: 0px;
+  font-size: var(--pf-global--FontSize--sm);
+}
+
+.toggle-button {
+  padding: 6px 8px;
+  padding-left: 0px;
+  font-size: var(--pf-global--FontSize--sm);
+}
