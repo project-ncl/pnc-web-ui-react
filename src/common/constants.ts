@@ -41,6 +41,7 @@ export const PageTitles = {
 export const ButtonTitles = {
   update: 'Update',
   create: 'Create',
+  view: 'View',
 };
 
 export const EntityTitles = {

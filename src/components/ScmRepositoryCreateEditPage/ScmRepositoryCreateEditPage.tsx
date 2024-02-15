@@ -1,6 +1,7 @@
 import { ActionGroup, Button, Form, FormGroup, FormHelperText, Switch, TextInput } from '@patternfly/react-core';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { CheckIcon } from '@patternfly/react-icons';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { SCMRepository } from 'pnc-api-types-ts';
 
@@ -9,6 +10,7 @@ import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttribu
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasScmRepositoryFailed, hasScmRepositorySucceeded, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -50,8 +52,13 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   const { scmRepositoryId } = useParamsRequired();
   const navigate = useNavigate();
 
+  const [scmCreatingLoading, setScmCreatingLoading] = useState<boolean>(false);
+  const [scmCreatingFinished, setScmCreatingFinished] = useState<SCMRepository>();
+  const [scmCreatingError, setScmCreatingError] = useState<string>();
+
   // create page
   const serviceContainerCreatePage = useServiceContainer(scmRepositoryApi.createScmRepository);
+  const serviceContainerCreatePageTaskId = serviceContainerCreatePage.data?.taskId;
 
   // edit page - get method
   const serviceContainerEditPageGet = useServiceContainer(scmRepositoryApi.getScmRepository);
@@ -73,14 +80,33 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
     })
   );
 
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasScmRepositoryFailed(wsData, { taskId: serviceContainerCreatePageTaskId })) {
+          setScmCreatingError(wsData.notificationType);
+          setScmCreatingFinished(undefined);
+          setScmCreatingLoading(false);
+        } else if (hasScmRepositorySucceeded(wsData, { taskId: serviceContainerCreatePageTaskId })) {
+          setScmCreatingFinished(wsData.scmRepository);
+          setScmCreatingError(undefined);
+          setScmCreatingLoading(false);
+        }
+      },
+      [serviceContainerCreatePageTaskId]
+    ),
+    {
+      preventListening: !serviceContainerCreatePageTaskId,
+    }
+  );
+
   const submitCreate = (data: IFieldValues) => {
     return serviceContainerCreatePage
       .run({
         serviceData: { data: data as SCMRepository },
       })
-      .then((response) => {
-        // @Todo: Verify the create result from the WS Message after WS was implemented, see NCL-7935.
-        // navigate(`/scm-repositories/${scmRepositoryId}`);
+      .then(() => {
+        setScmCreatingLoading(true);
       })
       .catch((error) => {
         console.error('Failed to create SCM Repository.');
@@ -201,6 +227,14 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.scmRepository}
           </Button>
+          {scmCreatingFinished?.id && (
+            <Button
+              variant="secondary"
+              component={(props) => <Link {...props} to={`/scm-repositories/${scmCreatingFinished.id}`} />}
+            >
+              <CheckIcon /> {ButtonTitles.view} {EntityTitles.scmRepository}
+            </Button>
+          )}
         </ActionGroup>
       </Form>
     </ContentBox>
@@ -229,7 +263,13 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerCreatePage}
+          loading={scmCreatingLoading}
+          error={serviceContainerCreatePage.error ? serviceContainerCreatePage.error : scmCreatingError || ''}
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
       )}
     </PageLayout>
   );

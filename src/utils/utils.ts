@@ -236,3 +236,13 @@ export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumn
 export const getProductVersionSuffix = (productMilestoneRelease: ProductMilestone | ProductRelease): string => {
   return productMilestoneRelease.version!.replace(/\d+\.\d+\./, '');
 };
+
+/**
+ * As taskId is very large number, convert it to string, for example:
+ *  - from: '{"taskId":545872333419249664,"repository":null}'
+ *  - to:   '{"taskId":"545872333419249664","repository":null}'
+ *
+ * @param response - Response data containing taskId number
+ * @returns Response data containing taskId string
+ */
+export const convertTaskId = (response: string): string => response.replace(/"taskId":(\d+)/g, '"taskId":"$1"');

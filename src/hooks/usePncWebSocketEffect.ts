@@ -48,6 +48,52 @@ export const usePncWebSocketEffect = (
 /**
  * Additional filtering parameters.
  */
+interface IScmRepositoryParameters {
+  taskId?: string;
+}
+
+/**
+ * Check whether Scm Repository failed WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @param parameters - See {@link IScmRepositoryParameters}
+ * @returns true when Scm Repository failed, otherwise false
+ */
+export const hasScmRepositoryFailed = (wsData: any, { taskId }: IScmRepositoryParameters): boolean => {
+  if (wsData.job !== 'SCM_REPOSITORY_CREATION' || !wsData.notificationType.includes('ERROR')) {
+    return false;
+  }
+
+  return !taskId || taskId === wsData.taskId;
+};
+
+/**
+ * Check whether Scm Repository success WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @param parameters - See {@link IScmRepositoryParameters}
+ * @returns true when Scm Repository succeeded, otherwise false
+ */
+export const hasScmRepositorySucceeded = (wsData: any, { taskId }: IScmRepositoryParameters): boolean => {
+  if (
+    wsData.job !== 'SCM_REPOSITORY_CREATION' ||
+    wsData.notificationType !== 'SCMR_CREATION_SUCCESS' ||
+    wsData.progress !== 'FINISHED'
+  ) {
+    return false;
+  }
+
+  if (!wsData.scmRepository) {
+    uiLogger.error('scmRepository: invalid WebSocket message ("scmRepository" parameter is missing)', undefined, wsData);
+    return false; // ignore changes when 'scmRepository' is not available
+  }
+
+  return !taskId || taskId === wsData.taskId;
+};
+
+/**
+ * Additional filtering parameters.
+ */
 interface IBuildParameters {
   buildConfigId?: string;
   userId?: string;
