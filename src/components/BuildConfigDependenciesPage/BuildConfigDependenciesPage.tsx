@@ -11,7 +11,11 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 
-export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }) => {
+interface IBuildConfigDependenciesPageProps {
+  componentId?: string;
+}
+
+export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }: IBuildConfigDependenciesPageProps) => {
   const { buildConfigId } = useParamsRequired();
 
   const serviceContainerDependencies = useServiceContainer(buildConfigApi.getDependencies);
