@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Build, BuildConfiguration } from 'pnc-api-types-ts';
@@ -13,6 +13,8 @@ import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceCon
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
+import { BuildConfigCloneModal } from 'components/BuildConfigCloneModal/BuildConfigCloneModal';
+import { BuildConfigCloneModalButton } from 'components/BuildConfigCloneModal/BuildConfigCloneModalButton';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -56,6 +58,9 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
 
   const serviceContainerRevisions = useServiceContainer(buildConfigApi.getRevisions);
   const serviceContainerRevisionsRunner = serviceContainerRevisions.run;
+
+  const [isCloneModalOpen, setIsCloneModalOpen] = useState<boolean>(false);
+  const toggleCloneModal = () => setIsCloneModalOpen((isCloneModalOpen) => !isCloneModalOpen);
 
   useQueryParamsEffect(
     ({ requestConfig } = {}) => {
@@ -143,6 +148,7 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
           <ProtectedComponent>
             <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} isCompact />
           </ProtectedComponent>,
+          <BuildConfigCloneModalButton toggleModal={toggleCloneModal} variant="detail" />,
           <ProtectedComponent>
             <ActionButton link="edit">Edit Build Config</ActionButton>
           </ProtectedComponent>,
@@ -160,6 +166,13 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
       >
         <Outlet context={{ serviceContainerBuildConfig }} />
       </PageLayout>
+      {isCloneModalOpen && (
+        <BuildConfigCloneModal
+          isModalOpen={isCloneModalOpen}
+          toggleModal={toggleCloneModal}
+          buildConfig={serviceContainerBuildConfig.data!}
+        />
+      )}
     </ServiceContainerLoading>
   );
 };
