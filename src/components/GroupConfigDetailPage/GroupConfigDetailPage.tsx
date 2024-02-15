@@ -121,7 +121,7 @@ export const GroupConfigDetailPage = ({
         title={serviceContainerGroupConfig.data?.name}
         actions={[
           <ProtectedComponent>
-            <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />
+            <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} isCompact />
           </ProtectedComponent>,
           <ProtectedComponent>
             <ActionButton link="edit">Edit Group Config</ActionButton>
