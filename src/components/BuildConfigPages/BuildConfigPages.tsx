@@ -14,6 +14,7 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
+import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
@@ -138,11 +139,14 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
       <PageLayout
         title={serviceContainerBuildConfig.data?.name}
         tabs={pageTabs}
-        actions={
+        actions={[
+          <ProtectedComponent>
+            <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} isCompact />
+          </ProtectedComponent>,
           <ProtectedComponent>
             <ActionButton link="edit">Edit Build Config</ActionButton>
-          </ProtectedComponent>
-        }
+          </ProtectedComponent>,
+        ]}
         sidebar={{
           title: 'Build History',
           content: (
