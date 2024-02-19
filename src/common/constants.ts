@@ -60,10 +60,18 @@ export const RepositoryUrls = {
   pncRepository: 'https://github.com/project-ncl/pnc',
   pncWebUiRepository: 'https://github.com/project-ncl/pnc-web-ui-react',
   kafkaRepository: 'https://github.com/project-ncl/kafka-store',
+  causewayRepository: 'https://github.com/project-ncl/causeway',
   uiLoggerRepository: 'https://github.com/project-ncl/uilogger',
   repourRepository: 'https://github.com/project-ncl/repour',
   bifrostRepository: 'https://github.com/project-ncl/bifrost',
   dependencyAnalyzerRepository: 'https://github.com/project-ncl/dependency-analysis',
+  buildDriverRepository: 'https://github.com/project-ncl/build-driver',
+  cleanerRepository: 'https://github.com/project-ncl/cleaner',
+  deliverablesAnalyzerRepository: 'https://github.com/project-ncl/deliverables-analyzer',
+  environmentDriverRepository: 'https://github.com/project-ncl/environment-driver',
+  logEventDurationRepository: 'https://github.com/project-ncl/log-event-duration',
+  repositoryDriverRepository: 'https://github.com/project-ncl/repository-driver',
+  rexRepository: 'https://github.com/project-ncl/rex',
 };
 
 // For getting total item count
