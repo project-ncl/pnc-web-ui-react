@@ -165,3 +165,13 @@ export const getDependencyAnalyzerUrl = (): string => {
 
   return dependencyAnalyzerUrl;
 };
+
+export const getBuildDriverUrl = (): string => {
+  const buildDriverUrl = getWebConfig().externalBuildDriverUrl;
+
+  if (!buildDriverUrl) {
+    throw new Error(`Build Driver URL does not contain any data: #${buildDriverUrl}#`);
+  }
+
+  return buildDriverUrl;
+};
