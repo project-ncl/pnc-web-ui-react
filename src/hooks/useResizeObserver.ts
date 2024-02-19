@@ -28,7 +28,7 @@ export const useResizeObserver = () => {
     return () => {
       resizeObserver.current?.disconnect();
     };
-  });
+  }, []);
 
   return { ref, width, height };
 };

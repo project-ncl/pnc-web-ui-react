@@ -276,7 +276,7 @@ export const AppLayout = () => {
   return (
     <>
       <div ref={topBarsRef}>{announcementMessage && <TopBarInfo>Announcement - {announcementMessage}</TopBarInfo>}</div>
-      <div style={{ height: `calc(100% - ${topBarsHeight}px)` }}>
+      <div style={{ height: topBarsHeight ? `calc(100% - ${topBarsHeight}px)` : '100%' }}>
         <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
           <Outlet />
         </Page>
