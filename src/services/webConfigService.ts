@@ -187,3 +187,13 @@ export const getBuildDriverUrl = (): string => {
 
   return buildDriverUrl;
 };
+
+export const getCleanerUrl = (): string => {
+  const cleanerUrl = getWebConfig().externalCleanerUrl;
+
+  if (!cleanerUrl) {
+    throw new Error(`Cleaner URL does not contain any data: #${cleanerUrl}#`);
+  }
+
+  return cleanerUrl;
+};
