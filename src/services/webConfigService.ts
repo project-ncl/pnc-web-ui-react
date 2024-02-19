@@ -197,3 +197,13 @@ export const getCleanerUrl = (): string => {
 
   return cleanerUrl;
 };
+
+export const getDeliverablesAnalyzerUrl = (): string => {
+  const deliverablesAnalyzerUrl = getWebConfig().externalDeliverablesAnalyzerUrl;
+
+  if (!deliverablesAnalyzerUrl) {
+    throw new Error(`Deliverables Analyzer URL does not contain any data: #${deliverablesAnalyzerUrl}#`);
+  }
+
+  return deliverablesAnalyzerUrl;
+};
