@@ -237,3 +237,13 @@ export const getRepositoryDriverUrl = (): string => {
 
   return repositoryDriverUrl;
 };
+
+export const getRexUrl = (): string => {
+  const rexUrl = getWebConfig().externalRexUrl;
+
+  if (!rexUrl) {
+    throw new Error(`Rex URL does not contain any data: #${rexUrl}#`);
+  }
+
+  return rexUrl;
+};
