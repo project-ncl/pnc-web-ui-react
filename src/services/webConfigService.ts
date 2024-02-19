@@ -207,3 +207,13 @@ export const getDeliverablesAnalyzerUrl = (): string => {
 
   return deliverablesAnalyzerUrl;
 };
+
+export const getEnvironmentDriverUrl = (): string => {
+  const environmentDriverUrl = getWebConfig().externalEnvironmentDriverUrl;
+
+  if (!environmentDriverUrl) {
+    throw new Error(`Environment Driver URL does not contain any data: #${environmentDriverUrl}#`);
+  }
+
+  return environmentDriverUrl;
+};
