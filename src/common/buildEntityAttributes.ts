@@ -35,6 +35,9 @@ export const buildEntityAttributes = {
     id: 'id',
     title: 'ID',
     tooltip: 'Unique identification of Build.',
+    filter: {
+      operator: '==',
+    },
   },
   buildConfigName: {
     id: 'buildConfigName',

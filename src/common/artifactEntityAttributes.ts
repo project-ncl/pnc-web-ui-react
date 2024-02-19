@@ -37,6 +37,9 @@ export const artifactEntityAttributes = {
   id: {
     id: 'id',
     title: 'ID',
+    filter: {
+      operator: '==',
+    },
   },
   identifier: {
     id: 'identifier',

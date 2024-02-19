@@ -50,6 +50,7 @@ interface IArtifactsListProps {
 }
 
 const defaultColumns = [
+  artifactEntityAttributes.id.id,
   artifactEntityAttributes.identifier.id,
   artifactEntityAttributes['targetRepository.repositoryType'].id,
   artifactEntityAttributes.buildCategory.id,
@@ -129,7 +130,12 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
         <ToolbarItem>
           <Filtering
             filterOptions={useMemo(
-              () => getFilterOptions({ entityAttributes: artifactEntityAttributes, customColumns: columns }),
+              () =>
+                getFilterOptions({
+                  entityAttributes: artifactEntityAttributes,
+                  defaultFiltering: { attribute: artifactEntityAttributes.identifier.id },
+                  customColumns: columns,
+                }),
               [columns]
             )}
             componentId={componentId}
