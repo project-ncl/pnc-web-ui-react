@@ -115,7 +115,11 @@ export const ActionModal = ({
     >
       {serviceContainer ? (
         <div className="m-r-0">
-          <ServiceContainerCreatingUpdating {...serviceContainer} title={actionTitle}>
+          <ServiceContainerCreatingUpdating
+            {...serviceContainer}
+            error={wereSubmitDataChanged ? '' : serviceContainer.error}
+            title={actionTitle}
+          >
             {modalContent}
           </ServiceContainerCreatingUpdating>
         </div>
