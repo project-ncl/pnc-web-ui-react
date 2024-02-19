@@ -227,3 +227,13 @@ export const getLogEventDurationUrl = (): string => {
 
   return logEventDurationUrl;
 };
+
+export const getRepositoryDriverUrl = (): string => {
+  const repositoryDriverUrl = getWebConfig().externalRepositoryDriverUrl;
+
+  if (!repositoryDriverUrl) {
+    throw new Error(`Repository Driver URL does not contain any data: #${repositoryDriverUrl}#`);
+  }
+
+  return repositoryDriverUrl;
+};
