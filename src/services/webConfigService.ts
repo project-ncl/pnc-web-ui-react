@@ -217,3 +217,13 @@ export const getEnvironmentDriverUrl = (): string => {
 
   return environmentDriverUrl;
 };
+
+export const getLogEventDurationUrl = (): string => {
+  const logEventDurationUrl = getWebConfig().externalLogEventDurationUrl;
+
+  if (!logEventDurationUrl) {
+    throw new Error(`Log Event Duration URL does not contain any data: #${logEventDurationUrl}#`);
+  }
+
+  return logEventDurationUrl;
+};
