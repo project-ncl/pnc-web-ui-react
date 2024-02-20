@@ -19,6 +19,8 @@ import { useTitle } from 'hooks/useTitle';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
+import { BuildStatus } from 'components/BuildStatus/BuildStatus';
+import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { BuildsList } from 'components/BuildsList/BuildsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
@@ -103,11 +105,11 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
   return (
     <ServiceContainerLoading {...serviceContainerGroupBuild} title="Group Build details">
-      <PageLayout title={`Group Build ${longGroupBuildName}`}>
+      <PageLayout title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}>
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
             <AttributesItem title={groupBuildEntityAttributes.status.title}>
-              {serviceContainerGroupBuild.data?.status}
+              <BuildStatusIcon build={serviceContainerGroupBuild.data!} long />
             </AttributesItem>
             <AttributesItem title={groupBuildEntityAttributes.groupConfig.title}>
               {serviceContainerGroupBuild.data?.groupConfig?.id && (
