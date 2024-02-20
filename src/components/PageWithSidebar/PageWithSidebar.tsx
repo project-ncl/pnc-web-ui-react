@@ -3,6 +3,7 @@ import {
   DrawerActions,
   DrawerCloseButton,
   DrawerContent,
+  DrawerContentBody,
   DrawerPanelBody,
   DrawerPanelContent,
   DrawerPanelContentProps,
@@ -17,6 +18,8 @@ import { useWindowSizeObserver } from 'hooks/useWindowSizeObserver';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+
+import styles from './PageWithSidebar.module.css';
 
 // threshold when inline version of sidebar is toggled
 const WINDOW_WIDTH_THRESHOLD_PX = 1000;
@@ -89,7 +92,11 @@ export const PageWithSidebar = ({
 
   return (
     <Drawer isExpanded={isExpanded} isInline={windowWidth > WINDOW_WIDTH_THRESHOLD_PX}>
-      <DrawerContent panelContent={panelContent}>{children}</DrawerContent>
+      <DrawerContent panelContent={panelContent}>
+        <DrawerContentBody>
+          <div className={styles['drawer-content-body-inner']}>{children}</div>
+        </DrawerContentBody>
+      </DrawerContent>
     </Drawer>
   );
 };

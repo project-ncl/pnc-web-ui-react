@@ -1,0 +1,6 @@
+/* needed to fix the layout of the page inside Drawer PF component */
+.drawer-content-body-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
