@@ -88,8 +88,10 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           setScmCreatingFinished(undefined);
           setScmCreatingLoading(false);
         } else if (hasScmRepositorySucceeded(wsData, { taskId: serviceContainerCreatePageTaskId })) {
-          setScmCreatingFinished(wsData.scmRepository);
+          const scmRepository: SCMRepository = wsData.scmRepository;
+
           setScmCreatingError(undefined);
+          setScmCreatingFinished(scmRepository);
           setScmCreatingLoading(false);
         }
       },
@@ -101,15 +103,14 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   );
 
   const submitCreate = (data: IFieldValues) => {
+    setScmCreatingLoading(true);
     return serviceContainerCreatePage
       .run({
         serviceData: { data: data as SCMRepository },
       })
-      .then(() => {
-        setScmCreatingLoading(true);
-      })
       .catch((error) => {
         console.error('Failed to create SCM Repository.');
+        setScmCreatingLoading(false);
         throw error;
       });
   };
