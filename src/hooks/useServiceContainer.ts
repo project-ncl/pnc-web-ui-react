@@ -188,7 +188,7 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
   };
 };
 
-const getErrorMessage = (error: Error | AxiosError): string => {
+export const getErrorMessage = (error: Error | AxiosError): string => {
   if (isAxiosError(error)) {
     if (error.code === AxiosError.ERR_NETWORK) {
       return 'Action was not successful due to the network error. Please, try again.';

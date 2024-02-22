@@ -20,9 +20,10 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
@@ -36,8 +37,9 @@ import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttribu
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { usePatchOperation } from 'hooks/usePatchOperation';
+import { hasBuildConfigFailed, hasBuildConfigSucceeded, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { getErrorMessage, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
@@ -47,6 +49,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CreatableSelect } from 'components/CreatableSelect/CreatableSelect';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { ScmRepositoryUrlAlert } from 'components/ScmRepositoryUrlAlert/ScmRepositoryUrlAlert';
@@ -126,9 +129,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const { projectId } = useParams();
   const navigate = useNavigate();
 
+  const [buildConfigCreatingLoading, setBuildConfigCreatingLoading] = useState<boolean>(false);
+  const [buildConfigCreatingFinished, setBuildConfigCreatingFinished] = useState<BuildConfiguration>();
+  const [buildConfigCreatingError, setBuildConfigCreatingError] = useState<string>();
+
   // create page
   const serviceContainerCreateWithoutScm = useServiceContainer(buildConfigApi.createBuildConfig);
   const serviceContainerCreateWithScm = useServiceContainer(buildConfigApi.createBuildConfigWithScm);
+  const serviceContainerCreateWithScmTaskId = serviceContainerCreateWithScm.data?.taskId;
 
   // edit page - get method
   const serviceContainerEditPageGet = useServiceContainer(buildConfigApi.getBuildConfig);
@@ -170,6 +178,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [isCancelAllModalOpen, setIsCancelAllModalOpen] = useState<boolean>(false);
   const toggleCancelAllModal = () => setIsCancelAllModalOpen((isCancelAllModalOpen) => !isCancelAllModalOpen);
 
+  // scroll placeholder
+  const formComponentRef = useRef<HTMLDivElement>(null);
+  const scrollIntoFormErrors = useCallback(() => {
+    if (buildConfigCreatingError) {
+      formComponentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [buildConfigCreatingError]);
+
   const {
     operations: buildConfigChanges,
     addedData: addedBuildConfigs,
@@ -179,6 +195,26 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   } = usePatchOperation<BuildConfiguration>();
 
   const productVersionRegisterObject = register<string>(buildConfigEntityAttributes.productVersion.id);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildConfigFailed(wsData, { taskId: serviceContainerCreateWithScmTaskId })) {
+          setBuildConfigCreatingError(wsData.notificationType);
+          setBuildConfigCreatingFinished(undefined);
+          setBuildConfigCreatingLoading(false);
+        } else if (hasBuildConfigSucceeded(wsData, { taskId: serviceContainerCreateWithScmTaskId })) {
+          const buildConfig: BuildConfiguration = wsData.buildConfig;
+
+          setBuildConfigCreatingError(undefined);
+          setBuildConfigCreatingFinished(buildConfig);
+          setBuildConfigCreatingLoading(false);
+        }
+      },
+      [serviceContainerCreateWithScmTaskId]
+    ),
+    { preventListening: !serviceContainerCreateWithScmTaskId }
+  );
 
   const fetchEnvironments = useCallback(
     (requestConfig = {}) => {
@@ -206,6 +242,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   );
 
   const submitCreate = (data: IFieldValues) => {
+    setBuildConfigCreatingLoading(true);
+
+    // reset previous results
+    setBuildConfigCreatingError(undefined);
+    setBuildConfigCreatingFinished(undefined);
+
     const buildConfig = {
       project: { id: projectId! },
       name: data.name,
@@ -228,32 +270,34 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           },
         })
         .then((response) => {
-          const newBuildConfigId = response?.data?.id;
-          if (!newBuildConfigId) {
+          const newBuildConfig = response?.data;
+          if (!newBuildConfig?.id) {
             throw new PncError({
               code: 'NEW_ENTITY_ID_ERROR',
-              message: `Invalid buildConfigId coming from Orch POST response: ${newBuildConfigId}`,
+              message: `Invalid buildConfigId coming from Orch POST response: ${newBuildConfig?.id}`,
             });
           }
-          navigate(`/build-configs/${newBuildConfigId}`);
+          setBuildConfigCreatingFinished(newBuildConfig);
         })
         .catch((error) => {
-          console.error('Failed to create Build Config.');
+          setBuildConfigCreatingError(getErrorMessage(error));
           throw error;
+        })
+        .finally(() => {
+          setBuildConfigCreatingLoading(false);
         });
     }
 
+    // then() is not required, it's handled using WebSocket
     return serviceContainerCreateWithScm
       .run({
         serviceData: {
           data: { buildConfig, scmUrl: data.scmUrl, preBuildSyncEnabled: data.preBuildSyncEnabled },
         },
       })
-      .then((response) => {
-        console.log('WebSocket taskId: ', response.data.taskId);
-      })
       .catch((error) => {
-        console.error('Failed to create Build Config.');
+        setBuildConfigCreatingLoading(false);
+        setBuildConfigCreatingError(getErrorMessage(error));
         throw error;
       });
   };
@@ -328,6 +372,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   }, [serviceContainerParametersRunner]);
 
   useQueryParamsEffect(serviceContainerProjectBuildConfigsRunner, { componentId: componentIdBuildConfigs });
+
+  // async scroll after buildConfigCreatingError is successfully set
+  useEffect(() => {
+    scrollIntoFormErrors();
+  }, [scrollIntoFormErrors]);
 
   const productSearchSelect = (
     <SearchSelect
@@ -874,7 +923,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       </ContentBox>
 
       {!isEditPage && (
-        <ContentBox marginBottom background={false} shadow={false}>
+        <ContentBox background={false} shadow={false}>
           <ExpandableSection
             title="Dependencies"
             isExpanded={showDependenciesSection}
@@ -932,15 +981,49 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </ContentBox>
       )}
 
-      <ActionGroup>
-        <Button
-          variant="primary"
-          isDisabled={isSubmitDisabled || (selectedProduct && !selectedProductVersion) || serviceContainerScmRepositories.loading}
-          onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
-        >
-          {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.buildConfig}
-        </Button>
-      </ActionGroup>
+      <Form>
+        <ActionGroup>
+          <Button
+            variant="primary"
+            isDisabled={
+              isSubmitDisabled || (selectedProduct && !selectedProductVersion) || serviceContainerScmRepositories.loading
+            }
+            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
+          >
+            {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.buildConfig}
+          </Button>
+
+          {buildConfigCreatingLoading && (
+            <p className="p-6 p-l-10">
+              This operation may take several minutes <LoadingSpinner isInline />
+            </p>
+          )}
+
+          {buildConfigCreatingError && (
+            <p className="p-6 p-l-10">
+              <ExclamationTriangleIcon color="#F0AB00" /> Operation was not successful,{' '}
+              <Button
+                variant="link"
+                isInline
+                onClick={() => {
+                  scrollIntoFormErrors();
+                }}
+              >
+                see details above
+              </Button>
+            </p>
+          )}
+
+          {buildConfigCreatingFinished && (
+            <Button
+              variant="secondary"
+              component={(props) => <Link {...props} to={`/build-configs/${buildConfigCreatingFinished.id}`} />}
+            >
+              <CheckIcon /> {ButtonTitles.view} {EntityTitles.buildConfig}
+            </Button>
+          )}
+        </ActionGroup>
+      </Form>
 
       {isCancelAllModalOpen && (
         <ActionConfirmModal
@@ -967,6 +1050,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         isEditPage ? <>You can update current Build Config attributes below.</> : <>You can create a new Build Config.</>
       }
     >
+      <div ref={formComponentRef} className="scroll-margin">
+        {/* scroll placeholder */}
+      </div>
       {isEditPage ? (
         <ServiceContainerCreatingUpdating
           {...serviceContainerEditPagePatch}
@@ -975,10 +1061,23 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
-      ) : selectedScmRepository ? (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreateWithoutScm}>{formComponent}</ServiceContainerCreatingUpdating>
+      ) : selectedScmRepository ? ( // in the future only single container should be used, see NCL-8443
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerCreateWithoutScm}
+          error={serviceContainerCreateWithoutScm.error ? serviceContainerCreateWithoutScm.error : buildConfigCreatingError || ''}
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreateWithScm}>{formComponent}</ServiceContainerCreatingUpdating>
+        <>
+          <ServiceContainerCreatingUpdating
+            {...serviceContainerCreateWithScm}
+            loading={buildConfigCreatingLoading}
+            error={serviceContainerCreateWithScm.error ? serviceContainerCreateWithScm.error : buildConfigCreatingError || ''}
+          >
+            {formComponent}
+          </ServiceContainerCreatingUpdating>
+        </>
       )}
     </PageLayout>
   );

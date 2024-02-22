@@ -23,6 +23,10 @@ code {
    Generics
    ==================== */
 
+.scroll-margin {
+  scroll-margin: 20px;
+}
+
 .position-relative {
   position: relative !important;
 }
@@ -129,6 +133,10 @@ code {
 
 .p-0 {
   padding: 0 !important;
+}
+
+.p-6 {
+  padding: 6px;
 }
 
 .p-15 {

@@ -48,6 +48,52 @@ export const usePncWebSocketEffect = (
 /**
  * Additional filtering parameters.
  */
+interface IBuildConfigParameters {
+  taskId?: string;
+}
+
+/**
+ * Check whether Build Config failed WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @param parameters - See {@link IBuildConfigParameters}
+ * @returns true when Build Config failed, otherwise false
+ */
+export const hasBuildConfigFailed = (wsData: any, { taskId }: IBuildConfigParameters): boolean => {
+  if (wsData.job !== 'BUILD_CONFIG_CREATION' || !wsData.notificationType.includes('ERROR')) {
+    return false;
+  }
+
+  return !taskId || taskId === wsData.taskId;
+};
+
+/**
+ * Check whether Build Config success WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @param parameters - See {@link IBuildConfigParameters}
+ * @returns true when Build Config succeeded, otherwise false
+ */
+export const hasBuildConfigSucceeded = (wsData: any, { taskId }: IBuildConfigParameters): boolean => {
+  if (
+    wsData.job !== 'BUILD_CONFIG_CREATION' ||
+    wsData.notificationType !== 'BC_CREATION_SUCCESS' ||
+    wsData.progress !== 'FINISHED'
+  ) {
+    return false;
+  }
+
+  if (!wsData.buildConfig) {
+    uiLogger.error('hasBuildConfigSucceeded: invalid WebSocket message ("buildConfig" parameter is missing)', undefined, wsData);
+    return false; // ignore changes when 'buildConfig' is not available
+  }
+
+  return !taskId || taskId === wsData.taskId;
+};
+
+/**
+ * Additional filtering parameters.
+ */
 interface IScmRepositoryParameters {
   taskId?: string;
 }
