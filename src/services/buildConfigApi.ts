@@ -3,7 +3,6 @@ import { Operation } from 'fast-json-patch';
 
 import {
   Build,
-  BuildConfigCreationResponse,
   BuildConfigPage,
   BuildConfigRevisionPage,
   BuildConfigWithSCMRequest,
@@ -14,7 +13,10 @@ import {
   Parameter,
 } from 'pnc-api-types-ts';
 
+import { BuildConfigCreationResponseCustomized } from 'common/types';
+
 import { extendRequestConfig } from 'utils/requestConfigHelper';
+import { convertTaskId } from 'utils/utils';
 
 import { pncClient } from './pncClient';
 
@@ -177,7 +179,11 @@ export const createBuildConfigWithScm = (
   { data }: { data: BuildConfigWithSCMRequest },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  return pncClient.getHttpClient().post<BuildConfigCreationResponse>('/build-configs/create-with-scm', data, requestConfig);
+  // See NCL-8433
+  requestConfig.transformResponse = [(response: string) => JSON.parse(convertTaskId(response))];
+  return pncClient
+    .getHttpClient()
+    .post<BuildConfigCreationResponseCustomized>('/build-configs/create-with-scm', data, requestConfig);
 };
 
 /**
