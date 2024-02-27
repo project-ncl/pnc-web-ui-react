@@ -247,3 +247,13 @@ export const getRexUrl = (): string => {
 
   return rexUrl;
 };
+
+export const getEttUrl = (): string => {
+  const ettUrl = getWebConfig().externalEttUrl;
+
+  if (!ettUrl) {
+    throw new Error(`ETT URL does not contain any data: #${ettUrl}#`);
+  }
+
+  return ettUrl;
+};
