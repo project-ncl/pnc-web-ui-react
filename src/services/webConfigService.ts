@@ -115,6 +115,18 @@ export const getKafkaUrl = (): string => {
   return kafkaUrl;
 };
 
+/**
+ * Return Causeway URL endpoint
+ */
+export const getCausewayUrl = (): string => {
+  const causewayUrl = getWebConfig().externalCausewayUrl;
+
+  if (!causewayUrl) {
+    throw new Error(`Causeway URL does not contain any data: #${causewayUrl}#`);
+  }
+  return causewayUrl;
+};
+
 export const getPncApiMocksUrl = (): string => {
   // TODO: extract URL from config once available
   const pncApiMocksUrl = process.env.REACT_APP_PNC_API_MOCKS_URL;
