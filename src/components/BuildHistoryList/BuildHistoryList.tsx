@@ -19,15 +19,16 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
-/**
- * All attributes need to be available in both buildEntityAttributes and groupBuildEntityAttributes, specific attributes
- * need to be added dynamically based on 'variant' property
- */
-const buildHistoryListCustomColumns: Array<string> = [
+const buildHistoryCustomColumnsGroupBuild: Array<string> = [
   buildEntityAttributes.status.id,
   buildEntityAttributes.startTime.id,
   buildEntityAttributes.temporaryBuild.id,
   buildEntityAttributes['user.username'].id,
+];
+
+const buildHistoryCustomColumnsBuild: Array<string> = [
+  ...buildHistoryCustomColumnsGroupBuild,
+  buildEntityAttributes.submitTime.id,
 ];
 
 interface IBuildHistoryListProps {
@@ -45,10 +46,6 @@ interface IBuildHistoryListProps {
 export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId }: IBuildHistoryListProps) => {
   const entityAttributes = useMemo(() => (variant === 'Build' ? buildEntityAttributes : groupBuildEntityAttributes), [variant]);
 
-  if (variant === 'Build') {
-    buildHistoryListCustomColumns.push(buildEntityAttributes.submitTime.id);
-  }
-
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -57,7 +54,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
           attribute: variant === 'Build' ? buildEntityAttributes.submitTime.id : groupBuildEntityAttributes.startTime.id,
           direction: 'desc',
         },
-        customColumns: buildHistoryListCustomColumns,
+        customColumns: variant === 'Build' ? buildHistoryCustomColumnsBuild : buildHistoryCustomColumnsGroupBuild,
       }),
     [entityAttributes, variant]
   );
@@ -74,9 +71,9 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
                 getFilterOptions({
                   entityAttributes: entityAttributes,
                   defaultFiltering: { attribute: entityAttributes.status.id },
-                  customColumns: buildHistoryListCustomColumns,
+                  customColumns: variant === 'Build' ? buildHistoryCustomColumnsBuild : buildHistoryCustomColumnsGroupBuild,
                 }),
-              [entityAttributes]
+              [entityAttributes, variant]
             )}
             componentId={componentId}
           />
