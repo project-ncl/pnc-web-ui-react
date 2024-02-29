@@ -904,6 +904,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                           onToggle={setIsBuildCategorySelectOpen}
                           onSelect={(_, buildCategory, isPlaceholder) => {
                             if (!isPlaceholder) {
+                              setBuildParamData({
+                                ...buildParamData,
+                                [key]: { ...buildParamData[key], value: buildCategory as string },
+                              });
                               onChange(buildCategory as string);
                               setIsBuildCategorySelectOpen(false);
                             }
