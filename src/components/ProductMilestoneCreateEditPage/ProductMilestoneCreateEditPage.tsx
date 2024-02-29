@@ -112,7 +112,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
       serviceContainer: serviceContainerEditPageGet,
       firstLevelEntity: 'Product',
       nestedEntity: 'Milestone',
-      entityName: `${serviceContainerEditPageGet.data?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: [serviceContainerProductVersion.data?.version, serviceContainerProductVersion.data?.product?.name],
     })
   );
 
