@@ -107,7 +107,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
       serviceContainer: serviceContainerEditPageGet,
       firstLevelEntity: 'Product',
       nestedEntity: 'Release',
-      entityName: `${serviceContainerEditPageGet.data?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: [serviceContainerEditPageGet.data?.version, serviceContainerProductVersion.data?.product?.name],
     })
   );
 
