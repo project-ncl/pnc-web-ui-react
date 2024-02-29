@@ -60,12 +60,17 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
     () =>
       getSortOptions({
         entityAttributes,
-        defaultSorting: {
-          attribute: entityAttributes.name.id,
-          direction: 'asc',
-        },
+        defaultSorting: isBuildVariant
+          ? {
+              attribute: buildConfigEntityAttributes.modificationTime.id,
+              direction: 'desc',
+            }
+          : {
+              attribute: entityAttributes.name.id,
+              direction: 'asc',
+            },
       }),
-    [entityAttributes]
+    [isBuildVariant, entityAttributes]
   );
 
   const { getSortParams } = useSorting(sortOptions, componentId);
