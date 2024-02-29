@@ -1,6 +1,8 @@
 import { Form, FormGroup, Switch } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
 
+import { useTitle } from 'hooks/useTitle';
+
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { experimentalContentEnabledLocalStorageId } from 'components/ExperimentalContent/ExperimentalContent';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -13,6 +15,8 @@ export const PreferencesPage = () => {
     const isEnabled = window.localStorage.getItem(experimentalContentEnabledLocalStorageId) === 'true';
     setIsExperimentalContentEnabled(isEnabled);
   }, []);
+
+  useTitle('Preferences');
 
   return (
     <PageLayout title="Preferences" description="User preferences can be set here, including content and visual settings.">
