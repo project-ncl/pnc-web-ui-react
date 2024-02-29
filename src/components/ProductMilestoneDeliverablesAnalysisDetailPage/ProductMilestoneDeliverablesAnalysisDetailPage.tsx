@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { EntityTitles, PageTitles } from 'common/constants';
+import { EntityTitles } from 'common/constants';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -28,23 +28,23 @@ import { generatePageTitle } from 'utils/titleHelper';
 export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
   const { deliverablesAnalysisId, productVersionId } = useParamsRequired();
 
-  const serviceContainerProdutMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
-  const serviceContainerProdutMilestoneDeliverablesAnalysisRunner = serviceContainerProdutMilestoneDeliverablesAnalysis.run;
+  const serviceContainerProductMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
+  const serviceContainerProductMilestoneDeliverablesAnalysisRunner = serviceContainerProductMilestoneDeliverablesAnalysis.run;
 
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
-  const deliverabledAnalysis: DeliverableAnalyzerOperation | undefined =
-    serviceContainerProdutMilestoneDeliverablesAnalysis.data || undefined;
+  const deliverablesAnalysis: DeliverableAnalyzerOperation | undefined =
+    serviceContainerProductMilestoneDeliverablesAnalysis.data || undefined;
 
   useEffect(() => {
-    serviceContainerProdutMilestoneDeliverablesAnalysisRunner({
+    serviceContainerProductMilestoneDeliverablesAnalysisRunner({
       serviceData: { id: deliverablesAnalysisId },
     });
 
     serviceContainerProductVersionRunner({ serviceData: { id: productVersionId } });
   }, [
-    serviceContainerProdutMilestoneDeliverablesAnalysisRunner,
+    serviceContainerProductMilestoneDeliverablesAnalysisRunner,
     serviceContainerProductVersionRunner,
     deliverablesAnalysisId,
     productVersionId,
@@ -54,28 +54,32 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
     useCallback(
       (wsData: any) => {
         if (hasDeliverablesAnalysisChanged(wsData, { operationId: deliverablesAnalysisId })) {
-          serviceContainerProdutMilestoneDeliverablesAnalysisRunner({
+          serviceContainerProductMilestoneDeliverablesAnalysisRunner({
             serviceData: { id: deliverablesAnalysisId },
           });
         }
       },
-      [serviceContainerProdutMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]
+      [serviceContainerProductMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]
     )
   );
 
   useTitle(
     generatePageTitle({
-      serviceContainer: serviceContainerProdutMilestoneDeliverablesAnalysis,
+      serviceContainer: serviceContainerProductMilestoneDeliverablesAnalysis,
       firstLevelEntity: 'Product',
       nestedEntity: 'Deliverables Analysis',
-      entityName: `Deliverables Analysis ${deliverabledAnalysis?.id} ${PageTitles.delimiterSymbol} ${deliverabledAnalysis?.productMilestone?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: [
+        `Deliverables Analysis ${deliverablesAnalysis?.id}`,
+        deliverablesAnalysis?.productMilestone?.version,
+        serviceContainerProductVersion.data?.product?.name,
+      ],
     })
   );
 
   return (
     <ServiceContainerLoading {...serviceContainerProductVersion} title={EntityTitles.productVersion}>
       <ServiceContainerLoading
-        {...serviceContainerProdutMilestoneDeliverablesAnalysis}
+        {...serviceContainerProductMilestoneDeliverablesAnalysis}
         title="Product Milestone Deliverables Analysis details"
       >
         <PageLayout
@@ -88,7 +92,7 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
             },
             {
               entity: breadcrumbData.productMilestone.id,
-              title: serviceContainerProdutMilestoneDeliverablesAnalysis.data?.productMilestone?.version,
+              title: serviceContainerProductMilestoneDeliverablesAnalysis.data?.productMilestone?.version,
               url: '-/deliverables-analysis/',
             },
             {
@@ -99,7 +103,7 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
             },
             {
               entity: breadcrumbData.deliverablesAnalysisDetail.id,
-              title: serviceContainerProdutMilestoneDeliverablesAnalysis.data?.id,
+              title: serviceContainerProductMilestoneDeliverablesAnalysis.data?.id,
               custom: true,
             },
           ]}
@@ -107,31 +111,31 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
           <ContentBox padding marginBottom isResponsive>
             <Attributes>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.id.title}>
-                {deliverabledAnalysis?.id}
+                {deliverablesAnalysis?.id}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}>
-                {deliverabledAnalysis?.user?.username}
+                {deliverablesAnalysis?.user?.username}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.progressStatus.title}>
-                {deliverabledAnalysis?.progressStatus && (
-                  <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={deliverabledAnalysis.progressStatus} />
+                {deliverablesAnalysis?.progressStatus && (
+                  <DeliverablesAnalysisProgressStatusLabelMapper progressStatus={deliverablesAnalysis.progressStatus} />
                 )}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.result.title}>
-                {deliverabledAnalysis?.result && <DeliverablesAnalysisResultLabelMapper result={deliverabledAnalysis.result} />}
+                {deliverablesAnalysis?.result && <DeliverablesAnalysisResultLabelMapper result={deliverablesAnalysis.result} />}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}>
-                {deliverabledAnalysis?.submitTime && <DateTime date={deliverabledAnalysis.submitTime} />}
+                {deliverablesAnalysis?.submitTime && <DateTime date={deliverablesAnalysis.submitTime} />}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.startTime.title}>
-                {deliverabledAnalysis?.startTime && <DateTime date={deliverabledAnalysis.startTime} />}
+                {deliverablesAnalysis?.startTime && <DateTime date={deliverablesAnalysis.startTime} />}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.endTime.title}>
-                {deliverabledAnalysis?.endTime && <DateTime date={deliverabledAnalysis.endTime} />}
+                {deliverablesAnalysis?.endTime && <DateTime date={deliverablesAnalysis.endTime} />}
               </AttributesItem>
               <AttributesItem title={productMilestoneDeliverablesAnalysisEntityAttributes.parameters.title}>
-                {deliverabledAnalysis?.parameters &&
-                  Object.values(deliverabledAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
+                {deliverablesAnalysis?.parameters &&
+                  Object.values(deliverablesAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
               </AttributesItem>
             </Attributes>
           </ContentBox>
