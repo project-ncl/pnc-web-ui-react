@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { RepositoryUrls } from 'common/constants';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
+import { useTitle } from 'hooks/useTitle';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
@@ -93,6 +94,8 @@ export const AboutPage = () => {
     serviceContainerRexVersionRunner,
     serviceContainerEttVersionRunner,
   ]);
+
+  useTitle('About');
 
   return (
     <PageLayout title="About PNC Build System" description="System for managing, executing and tracking builds">
