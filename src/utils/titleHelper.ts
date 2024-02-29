@@ -2,6 +2,8 @@ import { PageTitles } from 'common/constants';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
+import { isArray } from 'utils/entityRecognition';
+
 type EntityType =
   | 'Project'
   | 'Build Config'
@@ -23,7 +25,7 @@ interface IGeneratePageTitle {
   serviceContainer: IServiceContainerState<Object>;
   firstLevelEntity: EntityType;
   nestedEntity?: EntityType;
-  entityName?: string;
+  entityName?: string | (string | undefined)[];
 }
 
 /**
@@ -47,16 +49,20 @@ export const generatePageTitle = ({
   entityName = serviceContainer.data && 'name' in serviceContainer.data ? (serviceContainer.data.name as string) : undefined,
 }: IGeneratePageTitle) => {
   const entity = nestedEntity ? nestedEntity : firstLevelEntity;
-  const entityPrefix = pageType === 'Detail' ? '' : pageType;
+  const fullEntityName = isArray(entityName)
+    ? entityName.filter((entityName) => entityName).join(` ${PageTitles.delimiterSymbol} `)
+    : entityName ?? '';
+  const entityTitle =
+    pageType === 'Detail'
+      ? fullEntityName
+      : `${pageType} ${entity} ${fullEntityName ? PageTitles.delimiterSymbol : ''} ${fullEntityName}`;
 
-  if (pageType === 'Create') return `Create ${entity}`;
+  if (serviceContainer.loading) return `Loading ${pageType !== 'Detail' ? pageType : ''} ${entity} page`;
 
-  if (serviceContainer.loading) return `Loading ${entityPrefix.toLowerCase()} ${entity}`;
-
-  if (serviceContainer.error) return `Error loading ${entityPrefix.toLowerCase()} ${entity}`;
+  if (serviceContainer.error) return `Error loading ${pageType !== 'Detail' ? pageType : ''} ${entity} page`;
 
   const firstLevelEntityPluralized = firstLevelEntity.endsWith('y')
     ? `${firstLevelEntity.slice(0, -1)}ies`
     : `${firstLevelEntity}s`;
-  return `${entityPrefix} ${entityName ? entityName : '<unknown>'} ${PageTitles.delimiterSymbol} ${firstLevelEntityPluralized}`;
+  return `${entityTitle} ${entityTitle ? PageTitles.delimiterSymbol : ''} ${firstLevelEntityPluralized}`;
 };
