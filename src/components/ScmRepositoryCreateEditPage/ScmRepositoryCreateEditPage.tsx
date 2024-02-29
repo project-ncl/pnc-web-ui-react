@@ -12,7 +12,7 @@ import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttribu
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasScmRepositoryFailed, hasScmRepositorySucceeded, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { getErrorMessage, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -105,13 +105,18 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
   const submitCreate = (data: IFieldValues) => {
     setScmCreatingLoading(true);
+
+    // reset previous results
+    setScmCreatingError(undefined);
+    setScmCreatingFinished(undefined);
+
     return serviceContainerCreatePage
       .run({
         serviceData: { data: data as SCMRepository },
       })
       .catch((error) => {
-        console.error('Failed to create SCM Repository.');
         setScmCreatingLoading(false);
+        setScmCreatingError(getErrorMessage(error));
         throw error;
       });
   };
@@ -125,7 +130,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         navigate(`/scm-repositories/${scmRepositoryId}`);
       })
       .catch((error) => {
-        console.error('Failed to edit SCM Repository.');
         throw error;
       });
   };
@@ -277,11 +281,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating
-          {...serviceContainerCreatePage}
-          loading={scmCreatingLoading}
-          error={serviceContainerCreatePage.error ? serviceContainerCreatePage.error : scmCreatingError || ''}
-        >
+        <ServiceContainerCreatingUpdating data={scmCreatingFinished} loading={scmCreatingLoading} error={scmCreatingError || ''}>
           {formComponent}
         </ServiceContainerCreatingUpdating>
       )}
