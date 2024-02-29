@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react';
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { EntityTitles, PageTitles } from 'common/constants';
+import { EntityTitles } from 'common/constants';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -30,17 +30,17 @@ import { generatePageTitle } from 'utils/titleHelper';
 export const ProductMilestoneCloseResultDetailPage = () => {
   const { productMilestoneId, closeResultId, productVersionId } = useParamsRequired();
 
-  const serviceContainerProdutMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
-  const serviceContainerProdutMilestoneCloseResultRunner = serviceContainerProdutMilestoneCloseResult.run;
-  const serviceContainerProductMilestoneCloseResultSetter = serviceContainerProdutMilestoneCloseResult.setData;
+  const serviceContainerProductMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
+  const serviceContainerProductMilestoneCloseResultRunner = serviceContainerProductMilestoneCloseResult.run;
+  const serviceContainerProductMilestoneCloseResultSetter = serviceContainerProductMilestoneCloseResult.setData;
 
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
-  const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProdutMilestoneCloseResult.data?.content?.[0];
+  const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProductMilestoneCloseResult.data?.content?.[0];
 
   useEffect(() => {
-    serviceContainerProdutMilestoneCloseResultRunner({
+    serviceContainerProductMilestoneCloseResultRunner({
       serviceData: { id: productMilestoneId },
       requestConfig: {
         params: {
@@ -50,7 +50,7 @@ export const ProductMilestoneCloseResultDetailPage = () => {
     });
     serviceContainerProductVersionRunner({ serviceData: { id: productVersionId } });
   }, [
-    serviceContainerProdutMilestoneCloseResultRunner,
+    serviceContainerProductMilestoneCloseResultRunner,
     serviceContainerProductVersionRunner,
     productVersionId,
     productMilestoneId,
@@ -74,16 +74,16 @@ export const ProductMilestoneCloseResultDetailPage = () => {
 
   useTitle(
     generatePageTitle({
-      serviceContainer: serviceContainerProdutMilestoneCloseResult,
+      serviceContainer: serviceContainerProductMilestoneCloseResult,
       firstLevelEntity: 'Product',
       nestedEntity: 'Close Result',
-      entityName: `Close Result ${PageTitles.delimiterSymbol} ${closeResult?.milestone?.version} ${PageTitles.delimiterSymbol} <unknown>`,
+      entityName: ['Close Result', closeResult?.milestone?.version, serviceContainerProductVersion.data?.product?.name],
     })
   );
 
   return (
     <ServiceContainerLoading {...serviceContainerProductVersion} title={EntityTitles.productVersion}>
-      <ServiceContainerLoading {...serviceContainerProdutMilestoneCloseResult} title="Product Milestone Close Result details">
+      <ServiceContainerLoading {...serviceContainerProductMilestoneCloseResult} title="Product Milestone Close Result details">
         <PageLayout
           title="Close Result"
           breadcrumbs={[
@@ -97,7 +97,7 @@ export const ProductMilestoneCloseResultDetailPage = () => {
             },
             {
               entity: breadcrumbData.productMilestone.id,
-              title: serviceContainerProdutMilestoneCloseResult.data?.content?.at(0)?.milestone?.version,
+              title: serviceContainerProductMilestoneCloseResult.data?.content?.at(0)?.milestone?.version,
               url: '-/close-results/',
             },
             {
@@ -108,7 +108,7 @@ export const ProductMilestoneCloseResultDetailPage = () => {
             },
             {
               entity: breadcrumbData.closeResult.id,
-              title: serviceContainerProdutMilestoneCloseResult.data?.content?.at(0)?.id,
+              title: serviceContainerProductMilestoneCloseResult.data?.content?.at(0)?.id,
               custom: true,
             },
           ]}
