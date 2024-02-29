@@ -1096,23 +1096,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
-      ) : selectedScmRepository ? ( // in the future only single container should be used, see NCL-8443
+      ) : (
         <ServiceContainerCreatingUpdating
-          {...serviceContainerCreateWithoutScm}
-          error={serviceContainerCreateWithoutScm.error ? serviceContainerCreateWithoutScm.error : buildConfigCreatingError || ''}
+          data={buildConfigCreatingFinished}
+          loading={buildConfigCreatingLoading}
+          error={buildConfigCreatingError || ''}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
-      ) : (
-        <>
-          <ServiceContainerCreatingUpdating
-            {...serviceContainerCreateWithScm}
-            loading={buildConfigCreatingLoading}
-            error={serviceContainerCreateWithScm.error ? serviceContainerCreateWithScm.error : buildConfigCreatingError || ''}
-          >
-            {formComponent}
-          </ServiceContainerCreatingUpdating>
-        </>
       )}
     </PageLayout>
   );
