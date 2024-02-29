@@ -72,9 +72,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       serviceContainer: serviceContainerEditPageGet,
       firstLevelEntity: 'Product',
       nestedEntity: 'Version',
-      entityName:
-        serviceContainerEditPageGet.data?.product &&
-        `${serviceContainerEditPageGet.data.version} ${PageTitles.delimiterSymbol} ${serviceContainerEditPageGet.data.product.name}`,
+      entityName: [serviceContainerEditPageGet.data?.version, serviceContainerProduct.data?.name],
     })
   );
 
