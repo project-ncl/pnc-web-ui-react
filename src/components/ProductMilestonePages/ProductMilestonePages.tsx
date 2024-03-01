@@ -4,7 +4,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildStarted, hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
@@ -109,9 +109,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       serviceContainer: serviceContainerProductMilestone,
       firstLevelEntity: 'Product',
       nestedEntity: 'Milestone',
-      entityName: `${serviceContainerProductMilestone.data?.version} ${PageTitles.delimiterSymbol} ${
-        serviceContainerProductVersion.data?.product?.name ?? ''
-      }`,
+      entityName: [serviceContainerProductMilestone.data?.version, serviceContainerProductVersion.data?.product?.name],
     })
   );
 
