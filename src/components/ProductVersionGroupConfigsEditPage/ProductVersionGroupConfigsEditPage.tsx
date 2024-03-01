@@ -93,7 +93,10 @@ export const ProductVersionGroupConfigsEditPage = ({
       serviceContainer: serviceContainerProductVersion,
       firstLevelEntity: 'Product',
       nestedEntity: 'Version',
-      entityName: `Group Configs of ${serviceContainerProductVersion.data?.version} ${PageTitles.delimiterSymbol} ${serviceContainerProductVersion.data?.product?.name}`,
+      entityName: [
+        `Group Configs of ${serviceContainerProductVersion.data?.version ?? 'Version'}`,
+        serviceContainerProductVersion.data?.product?.name,
+      ],
     })
   );
 
