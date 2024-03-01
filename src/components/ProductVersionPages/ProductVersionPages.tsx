@@ -4,7 +4,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import { ProductVersion } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { PageTitles, SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
@@ -63,9 +63,7 @@ export const ProductVersionPages = () => {
       serviceContainer: serviceContainerProductVersion,
       firstLevelEntity: 'Product',
       nestedEntity: 'Version',
-      entityName:
-        serviceContainerProductVersion.data?.product &&
-        `${serviceContainerProductVersion.data.version} ${PageTitles.delimiterSymbol} ${serviceContainerProductVersion.data.product.name}`,
+      entityName: [serviceContainerProductVersion.data?.version, serviceContainerProductVersion.data?.product?.name],
     })
   );
 
