@@ -64,8 +64,10 @@ export const BuildConfigsList = ({
       getSortOptions({
         entityAttributes: buildConfigEntityAttributes,
         defaultSorting: {
-          attribute: buildConfigEntityAttributes.modificationTime.id,
-          direction: 'desc',
+          attribute: columns.includes(buildConfigEntityAttributes.modificationTime.id)
+            ? buildConfigEntityAttributes.modificationTime.id
+            : buildConfigEntityAttributes.name.id,
+          direction: columns.includes(buildConfigEntityAttributes.modificationTime.id) ? 'desc' : 'asc',
         },
         customColumns: columns,
       }),
