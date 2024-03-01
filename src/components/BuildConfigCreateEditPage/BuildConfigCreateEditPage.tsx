@@ -1,4 +1,3 @@
-import { CodeEditor } from '@patternfly/react-code-editor';
 import {
   ActionGroup,
   Button,
@@ -44,6 +43,7 @@ import { getErrorMessage, useServiceContainer } from 'hooks/useServiceContainer'
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
+import { CodeEditor } from 'components/CodeEditor/CodeEditor';
 import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -587,9 +587,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           >
             <FormInput<string>
               {...register<string>(buildConfigEntityAttributes.buildScript.id, fieldConfigs.buildScript)}
-              render={({ value, onChange }) => (
-                <CodeEditor code={value} onChange={onChange} isLineNumbersVisible height="250px" />
-              )}
+              render={({ value, onChange }) => <CodeEditor code={value} onChange={onChange} />}
             />
           </FormGroup>
 
