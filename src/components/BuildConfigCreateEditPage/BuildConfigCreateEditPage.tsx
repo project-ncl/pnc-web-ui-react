@@ -585,9 +585,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               </FormHelperText>
             }
           >
-            <FormInput<string>
+            <CodeEditor
+              id={buildConfigEntityAttributes.buildScript.id}
+              name={buildConfigEntityAttributes.buildScript.id}
               {...register<string>(buildConfigEntityAttributes.buildScript.id, fieldConfigs.buildScript)}
-              render={({ value, onChange }) => <CodeEditor code={value} onChange={onChange} />}
             />
           </FormGroup>
 
