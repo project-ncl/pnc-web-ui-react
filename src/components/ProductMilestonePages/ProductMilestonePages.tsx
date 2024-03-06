@@ -53,6 +53,9 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
 
+  const serviceContainerDeliverablesAnalyses = useServiceContainer(productMilestoneApi.getDeliverablesAnalysis);
+  const serviceContainerDeliverablesAnalysesRunner = serviceContainerDeliverablesAnalyses.run;
+
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
@@ -78,12 +81,17 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
     serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
     serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerDeliverablesAnalysesRunner({
+      serviceData: { id: productMilestoneId },
+      requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+    });
     serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [
     serviceContainerProductMilestoneRunner,
     serviceContainerProductVersionRunner,
     serviceContainerBuildsRunner,
     serviceContainerCloseResultsRunner,
+    serviceContainerDeliverablesAnalysesRunner,
     serviceContainerArtifactsRunner,
     productMilestoneId,
   ]);
@@ -128,7 +136,12 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           {serviceContainerCloseResults.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="deliverables-analysis">Deliverables Analysis</PageTabsItem>
+      <PageTabsItem url="deliverables-analysis">
+        Deliverables Analyses{' '}
+        <PageTabsLabel serviceContainer={serviceContainerDeliverablesAnalyses} title="Deliverables Analyses Count">
+          {serviceContainerDeliverablesAnalyses.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
       <PageTabsItem url="delivered-artifacts">
         Delivered Artifacts{' '}
         <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Delivered Artifacts Count">
