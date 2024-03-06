@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import { isString } from 'utils/entityRecognition';
+
 import styles from './BoxDescription.module.css';
 
 const DescriptionIcon = () => (
@@ -28,7 +30,7 @@ interface IBoxDescriptionProps {
  */
 export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
   <div className={styles['box-description']}>
-    {typeof description === 'string' ? (
+    {isString(description) ? (
       <TooltipWrapper tooltip={description}>
         <DescriptionIcon />
       </TooltipWrapper>

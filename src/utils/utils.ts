@@ -2,6 +2,8 @@ import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
 import { uiLogger } from 'services/uiLogger';
 
+import { isString } from 'utils/entityRecognition';
+
 interface ICreateDateTime {
   date: Date | string;
   includeDateInCustom?: boolean;
@@ -42,7 +44,7 @@ export const createDateTime = ({
     };
   }
 
-  const timestamp = typeof date === 'string' ? new Date(date) : date;
+  const timestamp = isString(date) ? new Date(date) : date;
 
   const year = timestamp.getFullYear();
   const month = timestamp.getMonth() + 1;
@@ -93,8 +95,8 @@ export const parseDate = (date: string): Date | undefined => {
  * @returns True if dates are equal, false otherwise
  */
 export const areDatesEqual = (date1: Date | string, date2: Date | string, includeTime: boolean = false): boolean => {
-  const timestamp1 = typeof date1 === 'string' ? new Date(date1) : new Date(date1.getTime());
-  const timestamp2 = typeof date2 === 'string' ? new Date(date2) : new Date(date2.getTime());
+  const timestamp1 = isString(date1) ? new Date(date1) : new Date(date1.getTime());
+  const timestamp2 = isString(date2) ? new Date(date2) : new Date(date2.getTime());
 
   if (!includeTime) {
     timestamp1.setHours(0, 0, 0, 0);
@@ -121,8 +123,8 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
     return null;
   }
 
-  const startTimestamp = typeof startTime === 'string' ? new Date(startTime) : startTime;
-  const endTimestamp = typeof endTime === 'string' ? new Date(endTime) : endTime;
+  const startTimestamp = isString(startTime) ? new Date(startTime) : startTime;
+  const endTimestamp = isString(endTime) ? new Date(endTime) : endTime;
 
   const diffMs = Math.abs(startTimestamp.getTime() - endTimestamp.getTime());
 
@@ -141,7 +143,7 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
  * @returns String representing duration
  */
 export const calculateDurationDiff = (diffMs: number | string): string | null => {
-  const diffMsValue = typeof diffMs === 'string' ? Number(diffMs) : diffMs;
+  const diffMsValue = isString(diffMs) ? Number(diffMs) : diffMs;
 
   const diffSec = diffMsValue / 1000;
 
