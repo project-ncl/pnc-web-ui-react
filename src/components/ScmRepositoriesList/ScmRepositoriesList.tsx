@@ -20,6 +20,8 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import { isBoolean } from 'utils/entityRecognition';
+
 interface IScmRepositoriesListProps {
   serviceContainerScmRepositories: IServiceContainerState<SCMRepositoryPage>;
   componentId: string;
@@ -87,7 +89,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                   <Td>{<ScmRepositoryUrl isInline internalScmRepository={scmRepository} />}</Td>
                   <Td>{scmRepository.externalUrl && <ScmRepositoryUrl isInline externalScmRepository={scmRepository} />}</Td>
                   <Td>
-                    {scmRepository?.preBuildSyncEnabled !== undefined &&
+                    {isBoolean(scmRepository?.preBuildSyncEnabled) &&
                       (scmRepository.preBuildSyncEnabled ? 'enabled' : 'disabled')}
                   </Td>
                 </Tr>

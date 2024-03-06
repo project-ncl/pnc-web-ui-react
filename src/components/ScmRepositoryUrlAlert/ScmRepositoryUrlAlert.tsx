@@ -5,9 +5,10 @@ import {
   DescriptionListGroup,
   DescriptionListTerm,
 } from '@patternfly/react-core';
-import { isBoolean } from 'lodash';
 
 import { SCMRepository } from 'pnc-api-types-ts';
+
+import { isBoolean } from 'utils/entityRecognition';
 
 interface IScmRepositoryUrlAlertProps {
   variant: 'synced' | 'not-synced';

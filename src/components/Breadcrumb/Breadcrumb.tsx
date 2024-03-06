@@ -1,5 +1,4 @@
 import { BreadcrumbItem as BreadcrumbItemPF, Breadcrumb as BreadcrumbPF } from '@patternfly/react-core';
-import { isUndefined } from 'lodash';
 import { Link, useMatches } from 'react-router-dom';
 
 import { TBreadcrumb, breadcrumbData } from 'common/breadcrumbData';
@@ -73,8 +72,7 @@ export const Breadcrumb = ({ pageBreadcrumbs }: IBreadcrumbProps) => {
   const pageBreadcrumbsObject = convertedBreadcrumbData.breadcrumbObject;
 
   const matches = useMatches();
-  const matchCrumbs = matches.filter((match) => !isUndefined(match.handle) && isString(match.handle));
-
+  const matchCrumbs = matches.filter((match) => match.handle !== undefined && isString(match.handle));
   const breadcrumbArray = matchCrumbs
     .map((match) => {
       const matchHandle = match.handle as TBreadcrumb;
