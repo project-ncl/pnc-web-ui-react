@@ -23,6 +23,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { generateScmRepositoryName } from 'utils/entityNameGenerators';
+import { isBoolean } from 'utils/entityRecognition';
 import { generatePageTitle } from 'utils/titleHelper';
 
 interface IScmRepositoryDetailPageProps {
@@ -91,8 +92,8 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
               title={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
               tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip}
             >
-              {serviceContainerScmRepository.data?.preBuildSyncEnabled !== undefined &&
-                (serviceContainerScmRepository.data.preBuildSyncEnabled ? 'enabled' : 'disabled')}
+              {isBoolean(serviceContainerScmRepository.data?.preBuildSyncEnabled) &&
+                (serviceContainerScmRepository.data?.preBuildSyncEnabled ? 'enabled' : 'disabled')}
             </AttributesItem>
           </Attributes>
         </ContentBox>

@@ -1,5 +1,5 @@
 import { Operation, compare } from 'fast-json-patch';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 
 import { IFieldValues, IFields } from 'hooks/useForm';
 
