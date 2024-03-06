@@ -32,10 +32,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "REACT_APP_VERSION=$npm_package_version FAST_REFRESH=false react-scripts start",
-    "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "test": "TZ=Europe/Bratislava react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
-    "eject": "react-scripts eject",
+    "start": "VITE_VERSION=$npm_package_version FAST_REFRESH=false vite",
+    "build": "VITE_VERSION=$npm_package_version tsc && vite build",
+    "preview": "vite preview",
+    "test": "TZ=Europe/Bratislava vite test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "prepare": "husky install",
     "prettier-write": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "prettier-check": "prettier --check '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
@@ -62,10 +62,13 @@
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/lodash": "^4.14.184",
     "@types/react-test-renderer": "^18.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "axios-mock-adapter": "^1.21.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "prettier": "2.8.4"
+    "prettier": "2.8.4",
+    "vite": "^5.1.5",
+    "vite-tsconfig-paths": "^4.3.1"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"

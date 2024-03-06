@@ -123,8 +123,8 @@ export const AboutPage = () => {
             }
           >
             <VersionText
-              version={process.env.REACT_APP_VERSION}
-              revision={process.env.REACT_APP_GIT_SHORT_SHA}
+              version={import.meta.env.VITE_VERSION}
+              revision={import.meta.env.VITE_GIT_SHORT_SHA}
               repositoryUrl={RepositoryUrls.pncWebUiRepository}
             />
           </AttributesItem>
