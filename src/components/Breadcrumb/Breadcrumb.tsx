@@ -6,6 +6,8 @@ import { TBreadcrumb, breadcrumbData } from 'common/breadcrumbData';
 
 import { uiLogger } from 'services/uiLogger';
 
+import { isString } from 'utils/entityRecognition';
+
 export interface IBreadcrumbData {
   entity: string;
   title?: string;
@@ -71,7 +73,7 @@ export const Breadcrumb = ({ pageBreadcrumbs }: IBreadcrumbProps) => {
   const pageBreadcrumbsObject = convertedBreadcrumbData.breadcrumbObject;
 
   const matches = useMatches();
-  const matchCrumbs = matches.filter((match) => !isUndefined(match.handle) && typeof match.handle === 'string');
+  const matchCrumbs = matches.filter((match) => !isUndefined(match.handle) && isString(match.handle));
 
   const breadcrumbArray = matchCrumbs
     .map((match) => {

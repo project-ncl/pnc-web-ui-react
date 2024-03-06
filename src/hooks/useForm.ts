@@ -6,6 +6,7 @@ import { PncError, isPncError } from 'common/PncError';
 
 import { uiLogger } from 'services/uiLogger';
 
+import { isString } from 'utils/entityRecognition';
 import { transformFormToValues } from 'utils/patchHelper';
 
 export type TValue = string | number | boolean;
@@ -182,13 +183,13 @@ export const useForm = () => {
   const constructNewFieldOnBlur = <T extends TValue>(fieldName: string, fields: IFields): IField<T> => {
     const newField = { ...(fields[fieldName] as IField<T>) };
 
-    newField.value = typeof newField.value === 'string' ? (newField.value?.trim() as T) : newField.value;
+    newField.value = isString(newField.value) ? (newField.value?.trim() as T) : newField.value;
 
     return newField;
   };
 
   const constructNewFieldValue = <T extends TValue>(newValue: T): T => {
-    if (typeof newValue === 'string') {
+    if (isString(newValue)) {
       return (newValue ? newValue : '') as T;
     }
 
@@ -197,7 +198,7 @@ export const useForm = () => {
 
   const constructNewFieldErrorMessages = (fieldName: string, fields: IFields): string[] => {
     const value = fields[fieldName].value;
-    const trimmedValue = typeof value === 'string' ? value.trim() : value;
+    const trimmedValue = isString(value) ? value.trim() : value;
     const newErrorMessages = [];
 
     if (fields[fieldName].isRequired) {
@@ -292,7 +293,7 @@ export const useForm = () => {
     const areRequiredFilled = () => {
       for (const fieldName in fields) {
         const oldValue = fields[fieldName].value;
-        const value = typeof oldValue === 'string' ? oldValue?.trim() : oldValue;
+        const value = isString(oldValue) ? oldValue?.trim() : oldValue;
         if (fields[fieldName].isRequired && !value) {
           return false;
         }
