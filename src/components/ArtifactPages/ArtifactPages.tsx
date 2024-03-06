@@ -34,6 +34,9 @@ export const ArtifactPages = () => {
   const serviceContainerBuilds = useServiceContainer(artifactApi.getDependantBuilds);
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
 
+  const serviceContainerProductMilestonesReleases = useServiceContainer(artifactApi.getProductMilestonesReleases);
+  const serviceContainerProductMilestonesReleasesRunner = serviceContainerProductMilestonesReleases.run;
+
   const [isEditQualityModalOpen, setIsEditQualityModalOpen] = useState<boolean>(false);
 
   const toggleEditQualityModal = () => setIsEditQualityModalOpen((isEditQualityModalOpen) => !isEditQualityModalOpen);
@@ -42,7 +45,11 @@ export const ArtifactPages = () => {
     serviceContainerArtifactRunner({ serviceData: { id: artifactId } });
 
     serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-  }, [serviceContainerArtifactRunner, serviceContainerBuildsRunner, artifactId]);
+    serviceContainerProductMilestonesReleasesRunner({
+      serviceData: { id: artifactId },
+      requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+    });
+  }, [serviceContainerArtifactRunner, serviceContainerBuildsRunner, serviceContainerProductMilestonesReleasesRunner, artifactId]);
 
   usePncWebSocketEffect(
     useCallback(
@@ -72,7 +79,12 @@ export const ArtifactPages = () => {
           {serviceContainerBuilds.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="milestones">Milestones and Releases</PageTabsItem>
+      <PageTabsItem url="milestones">
+        Milestones and Releases{' '}
+        <PageTabsLabel serviceContainer={serviceContainerProductMilestonesReleases} title="Milestones and Releases Count">
+          {serviceContainerProductMilestonesReleases.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
     </PageTabs>
   );
 
