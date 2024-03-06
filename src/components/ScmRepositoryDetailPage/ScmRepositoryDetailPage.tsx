@@ -15,6 +15,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -68,7 +69,11 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
             title: generateScmRepositoryName({ scmRepository: serviceContainerScmRepository.data! }),
           },
         ]}
-        actions={<ActionButton link="edit">Edit SCM Repository</ActionButton>}
+        actions={
+          <ProtectedComponent>
+            <ActionButton link="edit">Edit SCM Repository</ActionButton>
+          </ProtectedComponent>
+        }
       >
         <ContentBox padding marginBottom isResponsive>
           <Attributes>

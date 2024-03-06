@@ -6,6 +6,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ProductVersionMilestonesList } from 'components/ProductVersionMilestonesList/ProductVersionMilestonesList';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as productVersionApi from 'services/productVersionApi';
@@ -34,7 +35,9 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
           </TextContent>
         </ToolbarItem>
         <ToolbarItem>
-          <ActionButton link="create">Create Milestone</ActionButton>
+          <ProtectedComponent>
+            <ActionButton link="create">Create Milestone</ActionButton>
+          </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>
 

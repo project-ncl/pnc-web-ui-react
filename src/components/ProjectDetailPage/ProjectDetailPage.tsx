@@ -16,6 +16,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -62,7 +63,11 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
         title={serviceContainerProject.data?.name}
         description={serviceContainerProject.data?.description}
         breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
-        actions={<ActionButton link="edit">Edit Project</ActionButton>}
+        actions={
+          <ProtectedComponent>
+            <ActionButton link="edit">Edit Project</ActionButton>
+          </ProtectedComponent>
+        }
       >
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
@@ -96,7 +101,9 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
             </TextContent>
           </ToolbarItem>
           <ToolbarItem>
-            <ActionButton link="build-configs/create">Create Build Config</ActionButton>
+            <ProtectedComponent>
+              <ActionButton link="build-configs/create">Create Build Config</ActionButton>
+            </ProtectedComponent>
           </ToolbarItem>
         </Toolbar>
 
