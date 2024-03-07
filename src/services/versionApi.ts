@@ -47,7 +47,9 @@ export const getKafkaVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getCausewayVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return causewayClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = causewayClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -65,7 +67,9 @@ export const getUiLoggerVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getRepourVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return repourClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = repourClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -74,7 +78,9 @@ export const getRepourVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getBifrostVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return bifrostClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = bifrostClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -83,7 +89,9 @@ export const getBifrostVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getDependencyAnalyzerVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return dependencyAnalyzerClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = dependencyAnalyzerClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -92,7 +100,9 @@ export const getDependencyAnalyzerVersion = (requestConfig: AxiosRequestConfig =
  * @param requestConfig - Axios based request config
  */
 export const getBuildDriverVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return buildDriverClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = buildDriverClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -101,7 +111,9 @@ export const getBuildDriverVersion = (requestConfig: AxiosRequestConfig = {}) =>
  * @param requestConfig - Axios based request config
  */
 export const getCleanerVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return cleanerClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = cleanerClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -110,7 +122,9 @@ export const getCleanerVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getDeliverablesAnalyzerVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return deliverablesAnalyzerClient.getHttpClient().get<ComponentVersion>('/api/version', requestConfig);
+  const result = deliverablesAnalyzerClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/api/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -119,7 +133,9 @@ export const getDeliverablesAnalyzerVersion = (requestConfig: AxiosRequestConfig
  * @param requestConfig - Axios based request config
  */
 export const getEnvironmentDriverVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return environmentDriverClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = environmentDriverClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -128,7 +144,9 @@ export const getEnvironmentDriverVersion = (requestConfig: AxiosRequestConfig = 
  * @param requestConfig - Axios based request config
  */
 export const getLogEventDurationVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return logEventDurationClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = logEventDurationClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -137,7 +155,9 @@ export const getLogEventDurationVersion = (requestConfig: AxiosRequestConfig = {
  * @param requestConfig - Axios based request config
  */
 export const getRepositoryDriverVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return repositoryDriverClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  const result = repositoryDriverClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -146,7 +166,9 @@ export const getRepositoryDriverVersion = (requestConfig: AxiosRequestConfig = {
  * @param requestConfig - Axios based request config
  */
 export const getRexVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return rexClient.getHttpClient().get<ComponentVersion>('/rest/version', requestConfig);
+  const result = rexClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/rest/version', requestConfig) : Promise.reject(result.error);
 };
 
 /**
@@ -155,5 +177,7 @@ export const getRexVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getEttVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return ettClient.getHttpClient().get<ComponentVersion>('/rest/version', requestConfig);
+  const result = ettClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/rest/version', requestConfig) : Promise.reject(result.error);
 };
