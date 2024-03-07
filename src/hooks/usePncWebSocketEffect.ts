@@ -359,6 +359,15 @@ export const hasDeliverablesAnalysisChanged = (
 };
 
 /**
+ * Check whether new Deliverables Analysis started WebSocket event was sent.
+ *
+ * @param wsData - WebSocket data
+ * @returns true when Deliverables Analysis started, otherwise false
+ */
+export const hasDeliverablesAnalysisStarted = (wsData: any, parameters: IDeliverablesAnalysisParameters = {}): boolean =>
+  hasDeliverablesAnalysisChanged(wsData, parameters) && wsData.oldProgress === 'PENDING';
+
+/**
  * Check whether Deliverables Analysis finished WebSocket event was sent.
  *
  * @param wsData - WebSocket data
