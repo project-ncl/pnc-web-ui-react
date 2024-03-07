@@ -148,7 +148,7 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
         tabs={pageTabs}
         actions={[
           <ProtectedComponent>
-            <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} isCompact />
+            <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} />
           </ProtectedComponent>,
           <BuildConfigCloneModalButton toggleModal={toggleCloneModal} variant="detail" />,
           <ProtectedComponent>
