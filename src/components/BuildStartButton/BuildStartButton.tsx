@@ -10,6 +10,7 @@ import {
   Radio,
 } from '@patternfly/react-core';
 import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 import { useState } from 'react';
 
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
@@ -182,7 +183,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
   };
 
   return (
-    <span className={styles['button-wrapper']}>
+    <div className={css(styles['button-wrapper'], isCompact && styles['is-compact'])}>
       <ProgressButton
         onClick={triggerBuild}
         serviceContainer={serviceContainer}
@@ -194,11 +195,11 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
       </ProgressButton>
 
       <Dropdown
-        className={isCompact ? styles['toggle-button-compact'] : styles['toggle-button']}
+        className={styles['toggle-button']}
         alignments={dropdownAlignmentsDirection}
         toggle={
-          <DropdownToggle onToggle={() => setIsDropdownOpen(!isDropdownOpen)} id="dropdown-toggle">
-            {!isCompact ? (isTempBuild ? 'Temporary' : 'Persistent') : ''}
+          <DropdownToggle onToggle={() => setIsDropdownOpen((isDropdownOpen) => !isDropdownOpen)} id="dropdown-toggle">
+            {!isCompact && (isTempBuild ? 'Temporary' : 'Persistent')}
           </DropdownToggle>
         }
         isOpen={isDropdownOpen}
@@ -406,6 +407,6 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
           </small>
         </div>
       </Dropdown>
-    </span>
+    </div>
   );
 };

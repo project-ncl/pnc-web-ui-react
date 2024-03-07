@@ -123,7 +123,7 @@ export const GroupConfigDetailPage = ({
         breadcrumbs={[{ entity: breadcrumbData.groupConfig.id, title: serviceContainerGroupConfig.data?.name }]}
         actions={[
           <ProtectedComponent>
-            <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} isCompact />
+            <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />
           </ProtectedComponent>,
           <ProtectedComponent>
             <ActionButton link="edit">Edit Group Config</ActionButton>
