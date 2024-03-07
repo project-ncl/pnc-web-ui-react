@@ -7,7 +7,12 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { hasBuildStarted, hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
+import {
+  hasBuildStarted,
+  hasDeliverablesAnalysisStarted,
+  hasMilestoneCloseFinished,
+  usePncWebSocketEffect,
+} from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -106,9 +111,19 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
             serviceData: { id: productMilestoneId },
             requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
           });
+        } else if (hasDeliverablesAnalysisStarted(wsData, { productMilestoneId })) {
+          serviceContainerDeliverablesAnalysesRunner({
+            serviceData: { id: productMilestoneId },
+            requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+          });
         }
       },
-      [serviceContainerBuildsRunner, serviceContainerCloseResultsRunner, productMilestoneId]
+      [
+        serviceContainerBuildsRunner,
+        serviceContainerCloseResultsRunner,
+        serviceContainerDeliverablesAnalysesRunner,
+        productMilestoneId,
+      ]
     )
   );
 
