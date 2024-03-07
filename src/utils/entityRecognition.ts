@@ -4,6 +4,8 @@ export const isBoolean = (value: unknown): value is boolean => typeof value === 
 
 export const isString = (value: unknown): value is string => typeof value === 'string';
 
+export const isArray = (value: unknown): value is unknown[] => Array.isArray(value);
+
 export const isBuild = (possibleBuild: any) => 'buildConfigRevision' in possibleBuild;
 
 export const isGroupBuild = (possibleGroupBuild: any) => 'groupConfig' in possibleGroupBuild;
