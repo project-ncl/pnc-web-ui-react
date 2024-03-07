@@ -326,6 +326,7 @@ export const hasMilestoneCloseFinished = (
 
 interface IDeliverablesAnalysisParameters {
   operationId?: string;
+  productMilestoneId?: string;
 }
 
 /**
@@ -334,11 +335,26 @@ interface IDeliverablesAnalysisParameters {
  * @param wsData - WebSocket data
  * @returns true when Deliverables Analysis changed, otherwise false
  */
-export const hasDeliverablesAnalysisChanged = (wsData: any, { operationId }: IDeliverablesAnalysisParameters = {}): boolean => {
+export const hasDeliverablesAnalysisChanged = (
+  wsData: any,
+  { operationId, productMilestoneId }: IDeliverablesAnalysisParameters = {}
+): boolean => {
+  if (wsData.job !== 'OPERATION' || wsData.notificationType !== 'DELIVERABLES_ANALYSIS') {
+    return false;
+  }
+
+  if (!wsData.operation) {
+    uiLogger.error(
+      'hasDeliverablesAnalysisChanged: invalid WebSocket message ("operation" parameter is missing)',
+      undefined,
+      wsData
+    );
+    return false; // ignore changes when 'operation' is not available
+  }
+
   return (
-    wsData.job === 'OPERATION' &&
-    wsData.notificationType === 'DELIVERABLES_ANALYSIS' &&
-    (!operationId || operationId === wsData.operationId)
+    (!operationId || operationId === wsData.operationId) &&
+    (!productMilestoneId || productMilestoneId === wsData.operation.productMilestone?.id)
   );
 };
 
