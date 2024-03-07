@@ -80,7 +80,7 @@ export const getWebConfig = (): IWebConfig => {
 };
 
 /**
- * Return PNC URL endpoint
+ * Return PNC endpoint URL
  */
 export const getPncUrl = (): string => {
   const pncUrl = getWebConfig().externalPncUrl;
@@ -92,7 +92,7 @@ export const getPncUrl = (): string => {
 };
 
 /**
- * Return PNC Notifications URL endpoint
+ * Return PNC Notifications endpoint URL
  */
 export const getPncNotificationsUrl = (): string => {
   const pncNotificationsUrl = getWebConfig().pncNotificationsUrl;
@@ -104,29 +104,21 @@ export const getPncNotificationsUrl = (): string => {
 };
 
 /**
- * Return Kafka URL endpoint
+ * Return UI logger endpoint
  */
-export const getKafkaUrl = (): string => {
-  const kafkaUrl = getWebConfig().externalKafkaStoreUrl;
+export const getUILoggerUrl = (): string => {
+  const uiLoggerUrl = getWebConfig().externalUiLoggerUrl;
 
-  if (!kafkaUrl) {
-    throw new Error(`Kafka URL does not contain any data: #${kafkaUrl}#`);
+  if (!uiLoggerUrl) {
+    throw new Error(`UI Logger URL does not contain any data: #${uiLoggerUrl}#`);
   }
-  return kafkaUrl;
+
+  return uiLoggerUrl;
 };
 
 /**
- * Return Causeway URL endpoint
+ * Return PNC API mocks endpoint URL
  */
-export const getCausewayUrl = (): string => {
-  const causewayUrl = getWebConfig().externalCausewayUrl;
-
-  if (!causewayUrl) {
-    throw new Error(`Causeway URL does not contain any data: #${causewayUrl}#`);
-  }
-  return causewayUrl;
-};
-
 export const getPncApiMocksUrl = (): string => {
   // TODO: extract URL from config once available
   const pncApiMocksUrl = process.env.REACT_APP_PNC_API_MOCKS_URL;
@@ -138,121 +130,168 @@ export const getPncApiMocksUrl = (): string => {
   return pncApiMocksUrl;
 };
 
-export const getUILoggerUrl = (): string => {
-  const uiLoggerUrl = getWebConfig().externalUiLoggerUrl;
+/**
+ * Return Kafka endpoint URL
+ */
+export const getKafkaUrl = (): string => {
+  const kafkaUrl = getWebConfig().externalKafkaStoreUrl;
 
-  if (!uiLoggerUrl) {
-    throw new Error(`UI Logger URL does not contain any data: #${uiLoggerUrl}#`);
+  if (!kafkaUrl) {
+    throw new Error(`Kafka URL does not contain any data: #${kafkaUrl}#`);
   }
-
-  return uiLoggerUrl;
+  return kafkaUrl;
 };
 
-export const getRepourUrl = (): string => {
+/**
+ * Return Causeway endpoint URL
+ */
+export const getCausewayUrl = (): string | null => {
+  const causewayUrl = getWebConfig().externalCausewayUrl;
+
+  if (!causewayUrl) {
+    return null;
+  }
+  return causewayUrl;
+};
+
+/**
+ * Return Repour endpoint URL
+ */
+export const getRepourUrl = (): string | null => {
   const repourUrl = getWebConfig().externalRepourUrl;
 
   if (!repourUrl) {
-    throw new Error(`Repour URL does not contain any data: #${repourUrl}#`);
+    return null;
   }
 
   return repourUrl;
 };
 
-export const getBifrostUrl = (): string => {
+/**
+ * Return Bifrost endpoint URL
+ */
+export const getBifrostUrl = (): string | null => {
   const bifrostUrl = getWebConfig().externalBifrostUrl;
 
   if (!bifrostUrl) {
-    throw new Error(`Bifrost URL does not contain any data: #${bifrostUrl}#`);
+    return null;
   }
 
   return bifrostUrl;
 };
 
-export const getDependencyAnalyzerUrl = (): string => {
+/**
+ * Return Dependency Analyzer endpoint URL
+ */
+export const getDependencyAnalyzerUrl = (): string | null => {
   const dependencyAnalyzerUrl = getWebConfig().externalDaUrl;
 
   if (!dependencyAnalyzerUrl) {
-    throw new Error(`Dependency Analyzer URL does not contain any data: #${dependencyAnalyzerUrl}#`);
+    return null;
   }
 
   return dependencyAnalyzerUrl;
 };
 
-export const getBuildDriverUrl = (): string => {
+/**
+ * Return Build Driver endpoint URL
+ */
+export const getBuildDriverUrl = (): string | null => {
   const buildDriverUrl = getWebConfig().externalBuildDriverUrl;
 
   if (!buildDriverUrl) {
-    throw new Error(`Build Driver URL does not contain any data: #${buildDriverUrl}#`);
+    return null;
   }
 
   return buildDriverUrl;
 };
 
-export const getCleanerUrl = (): string => {
+/**
+ * Return Cleaner endpoint URL
+ */
+export const getCleanerUrl = (): string | null => {
   const cleanerUrl = getWebConfig().externalCleanerUrl;
 
   if (!cleanerUrl) {
-    throw new Error(`Cleaner URL does not contain any data: #${cleanerUrl}#`);
+    return null;
   }
 
   return cleanerUrl;
 };
 
-export const getDeliverablesAnalyzerUrl = (): string => {
+/**
+ * Return Deliverables Analyzer endpoint URL
+ */
+export const getDeliverablesAnalyzerUrl = (): string | null => {
   const deliverablesAnalyzerUrl = getWebConfig().externalDeliverablesAnalyzerUrl;
 
   if (!deliverablesAnalyzerUrl) {
-    throw new Error(`Deliverables Analyzer URL does not contain any data: #${deliverablesAnalyzerUrl}#`);
+    return null;
   }
 
   return deliverablesAnalyzerUrl;
 };
 
-export const getEnvironmentDriverUrl = (): string => {
+/**
+ * Return Environment Drive endpoint URL
+ */
+export const getEnvironmentDriverUrl = (): string | null => {
   const environmentDriverUrl = getWebConfig().externalEnvironmentDriverUrl;
 
   if (!environmentDriverUrl) {
-    throw new Error(`Environment Driver URL does not contain any data: #${environmentDriverUrl}#`);
+    return null;
   }
 
   return environmentDriverUrl;
 };
 
-export const getLogEventDurationUrl = (): string => {
+/**
+ * Return Log Event Duration endpoint URL
+ */
+export const getLogEventDurationUrl = (): string | null => {
   const logEventDurationUrl = getWebConfig().externalLogEventDurationUrl;
 
   if (!logEventDurationUrl) {
-    throw new Error(`Log Event Duration URL does not contain any data: #${logEventDurationUrl}#`);
+    return null;
   }
 
   return logEventDurationUrl;
 };
 
-export const getRepositoryDriverUrl = (): string => {
+/**
+ * Return Repository Driver endpoint URL
+ */
+export const getRepositoryDriverUrl = (): string | null => {
   const repositoryDriverUrl = getWebConfig().externalRepositoryDriverUrl;
 
   if (!repositoryDriverUrl) {
-    throw new Error(`Repository Driver URL does not contain any data: #${repositoryDriverUrl}#`);
+    return null;
   }
 
   return repositoryDriverUrl;
 };
 
-export const getRexUrl = (): string => {
+/**
+ * Return Rex endpoint URL
+ */
+export const getRexUrl = (): string | null => {
   const rexUrl = getWebConfig().externalRexUrl;
 
   if (!rexUrl) {
-    throw new Error(`Rex URL does not contain any data: #${rexUrl}#`);
+    return null;
   }
 
   return rexUrl;
 };
 
-export const getEttUrl = (): string => {
+/**
+ * Return ETT endpoint URL
+ */
+export const getEttUrl = (): string | null => {
   const ettUrl = getWebConfig().externalEttUrl;
 
   if (!ettUrl) {
-    throw new Error(`ETT URL does not contain any data: #${ettUrl}#`);
+    return null;
   }
 
   return ettUrl;
