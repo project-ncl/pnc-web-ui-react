@@ -13,7 +13,7 @@ import * as buildApi from 'services/buildApi';
 export const BuildAlignmentLogPage = () => {
   const { buildId } = useParamsRequired();
 
-  const serviceContainerAlignmentLog = useServiceContainer(buildApi.getBuildLog);
+  const serviceContainerAlignmentLog = useServiceContainer(buildApi.getAlignmentLog);
   const serviceContainerAlignmentLogRunner = serviceContainerAlignmentLog.run;
 
   const logData = useMemo(() => serviceContainerAlignmentLog.data?.split(/[\r\n]/) || [], [serviceContainerAlignmentLog.data]);
