@@ -7,6 +7,7 @@ import { useResizeObserver } from 'hooks/useResizeObserver';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 
 import { getComponentQueryParamsObject, updateQueryParamsInURL } from 'utils/queryParamsHelper';
+import { debounce } from 'utils/utils';
 
 // threshold when compact mode of the pagination is toggled
 const PAGINATION_WIDTH_THRESHOLD_PX = 400;
@@ -20,6 +21,8 @@ const pageSizeOptions = {
 };
 
 const perPageOptions = Object.values(pageSizeOptions);
+
+const updateQueryParamsInURLDebounced = debounce(updateQueryParamsInURL);
 
 interface IPagination {
   componentId: string;
@@ -70,7 +73,7 @@ export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page10',
           perPage={pageSize}
           page={pageIndex}
           onSetPage={(_event, pageIndex) => {
-            updateQueryParamsInURL({ pageIndex }, componentId, location, navigate);
+            updateQueryParamsInURLDebounced({ pageIndex }, componentId, location, navigate);
             setPageIndex(pageIndex);
           }}
           onPerPageSelect={(_event, pageSize) => {
