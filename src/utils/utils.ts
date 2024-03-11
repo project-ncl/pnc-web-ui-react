@@ -1,3 +1,5 @@
+import { debounce as lodashDebounce } from 'lodash-es';
+
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
 import { uiLogger } from 'services/uiLogger';
@@ -248,3 +250,13 @@ export const getProductVersionSuffix = (productMilestoneRelease: ProductMileston
  * @returns Response data containing taskId string
  */
 export const convertTaskId = (response: string): string => response.replace(/"taskId":(\d+)/g, '"taskId":"$1"');
+
+/**
+ * Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since
+ * the last time the debounced function was invoked.
+ *
+ * @param callback - The function to debounce
+ * @param wait - The number of milliseconds to delay
+ * @returns The new debounced function
+ */
+export const debounce = (callback: (...args: any) => any, wait: number = 250) => lodashDebounce(callback, wait);
