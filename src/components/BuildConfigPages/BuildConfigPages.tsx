@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Build, BuildConfiguration } from 'pnc-api-types-ts';
@@ -29,6 +29,7 @@ import * as buildConfigApi from 'services/buildConfigApi';
 
 import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
+import { debounce } from 'utils/utils';
 
 type ContextType = { serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration> };
 
@@ -63,6 +64,11 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
   const [isCloneModalOpen, setIsCloneModalOpen] = useState<boolean>(false);
   const toggleCloneModal = () => setIsCloneModalOpen((isCloneModalOpen) => !isCloneModalOpen);
 
+  const serviceContainerBuildsRunnerDebounced = useMemo(
+    () => debounce(serviceContainerBuildsRunner),
+    [serviceContainerBuildsRunner]
+  );
+
   useQueryParamsEffect(
     ({ requestConfig } = {}) => {
       serviceContainerBuildsRunner({ serviceData: { id: buildConfigId }, requestConfig });
@@ -74,7 +80,7 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
     useCallback(
       (wsData: any) => {
         if (hasBuildStarted(wsData, { buildConfigId })) {
-          serviceContainerBuildsRunner({
+          serviceContainerBuildsRunnerDebounced({
             serviceData: { id: buildConfigId },
             requestConfig: { params: buildHistoryQueryParamsObject },
           });
@@ -83,7 +89,7 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
           serviceContainerBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
         }
       },
-      [serviceContainerBuildsRunner, serviceContainerBuildsSetter, buildHistoryQueryParamsObject, buildConfigId]
+      [serviceContainerBuildsRunnerDebounced, serviceContainerBuildsSetter, buildHistoryQueryParamsObject, buildConfigId]
     )
   );
 

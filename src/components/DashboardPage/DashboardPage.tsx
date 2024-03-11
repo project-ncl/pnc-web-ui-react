@@ -1,5 +1,5 @@
 import { Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
@@ -31,6 +31,7 @@ import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
 
 import { refreshPage } from 'utils/refreshHelper';
+import { debounce } from 'utils/utils';
 
 export const DashboardPage = () => {
   const webConfig = webConfigService.getWebConfig();
@@ -106,6 +107,11 @@ const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
 
   const { componentQueryParamsObject: userBuildsQueryParamsObject } = useComponentQueryParams(componentId);
 
+  const serviceContainerUserBuildsRunnerDebounced = useMemo(
+    () => debounce(serviceContainerUserBuildsRunner),
+    [serviceContainerUserBuildsRunner]
+  );
+
   useQueryParamsEffect(({ requestConfig } = {}) => serviceContainerUserBuildsRunner({ serviceData: { userId }, requestConfig }), {
     componentId,
   });
@@ -114,7 +120,7 @@ const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
     useCallback(
       (wsData: any) => {
         if (hasBuildStarted(wsData, { userId })) {
-          serviceContainerUserBuildsRunner({
+          serviceContainerUserBuildsRunnerDebounced({
             serviceData: { userId },
             requestConfig: { params: userBuildsQueryParamsObject },
           });
@@ -123,7 +129,7 @@ const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
           serviceContainerUserBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
         }
       },
-      [serviceContainerUserBuildsRunner, serviceContainerUserBuildsSetter, userBuildsQueryParamsObject, userId]
+      [serviceContainerUserBuildsRunnerDebounced, serviceContainerUserBuildsSetter, userBuildsQueryParamsObject, userId]
     )
   );
 
