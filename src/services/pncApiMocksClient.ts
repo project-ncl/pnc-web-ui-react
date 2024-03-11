@@ -19,7 +19,7 @@ class PncApiMocksClient {
    */
   private createHttpClient = (): AxiosInstance =>
     axios.create({
-      baseURL: process.env.REACT_APP_PNC_API_MOCKS_URL || webConfigService.getPncApiMocksUrl(),
+      baseURL: import.meta.env.VITE_PNC_API_MOCKS_URL || webConfigService.getPncApiMocksUrl(),
     });
 
   // PUBLIC

@@ -8,7 +8,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import * as webConfigService from 'services/webConfigService';
 
 // ENVIRONMENTS
-const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
+const ProcessEnv = () => <>{JSON.stringify(import.meta.env, null, 2)}</>;
 
 //  WEB CONFIG
 const WebConfig = () => {
@@ -22,9 +22,9 @@ export const VariablesPage = () => {
     <PageLayout title="Variables" description="Variables page intended for administrators and debugging purposes.">
       <Flex direction={{ default: 'column' }}>
         <FlexItem>
-          <ContentBox padding title="process.env">
+          <ContentBox padding title="import.meta.env">
             <CodeBlock>
-              <CodeBlockCode id="process-env">
+              <CodeBlockCode id="import.meta.env">
                 <ProcessEnv />
               </CodeBlockCode>
             </CodeBlock>

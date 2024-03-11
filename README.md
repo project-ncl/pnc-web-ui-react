@@ -2,7 +2,7 @@
 
 ## Bootstrapping
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Too see more details about bootstrapping, open [documentation/bootstrapping.md](./documentation/bootstrapping.md)
+This project was bootstrapped with [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md). Too see more details about bootstrapping, open [documentation/bootstrapping.md](./documentation/bootstrapping.md)
 
 ## Changelog
 
