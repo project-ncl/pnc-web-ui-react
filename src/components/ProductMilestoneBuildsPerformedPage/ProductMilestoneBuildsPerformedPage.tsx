@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
 
@@ -13,6 +13,7 @@ import { BuildsList } from 'components/BuildsList/BuildsList';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { refreshPage } from 'utils/refreshHelper';
+import { debounce } from 'utils/utils';
 
 interface IProductMilestoneBuildsPerformedPageProps {
   componentId?: string;
@@ -27,6 +28,11 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
   const serviceContainerBuildsSetter = serviceContainerBuilds.setData;
 
+  const serviceContainerBuildsRunnerDebounced = useMemo(
+    () => debounce(serviceContainerBuildsRunner),
+    [serviceContainerBuildsRunner]
+  );
+
   useQueryParamsEffect(
     ({ requestConfig } = {}) => serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
     { componentId }
@@ -36,7 +42,7 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
     useCallback(
       (wsData: any) => {
         if (hasBuildStarted(wsData, { productMilestoneId })) {
-          serviceContainerBuildsRunner({
+          serviceContainerBuildsRunnerDebounced({
             serviceData: { id: productMilestoneId },
             requestConfig: { params: buildsPerformedQueryParamsObject },
           });
@@ -45,7 +51,7 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
           serviceContainerBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
         }
       },
-      [serviceContainerBuildsRunner, serviceContainerBuildsSetter, buildsPerformedQueryParamsObject, productMilestoneId]
+      [serviceContainerBuildsRunnerDebounced, serviceContainerBuildsSetter, buildsPerformedQueryParamsObject, productMilestoneId]
     )
   );
 

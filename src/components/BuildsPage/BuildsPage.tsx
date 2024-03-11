@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
 
@@ -16,6 +16,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import * as buildApi from 'services/buildApi';
 
 import { refreshPage } from 'utils/refreshHelper';
+import { debounce } from 'utils/utils';
 
 interface IBuildsPageProps {
   componentId?: string;
@@ -29,19 +30,24 @@ export const BuildsPage = ({ componentId = 'b1' }: IBuildsPageProps) => {
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
   const serviceContainerBuildsSetter = serviceContainerBuilds.setData;
 
+  const serviceContainerBuildsRunnerDebounced = useMemo(
+    () => debounce(serviceContainerBuildsRunner),
+    [serviceContainerBuildsRunner]
+  );
+
   useQueryParamsEffect(serviceContainerBuildsRunner, { componentId });
 
   usePncWebSocketEffect(
     useCallback(
       (wsData: any) => {
         if (hasBuildStarted(wsData)) {
-          serviceContainerBuildsRunner({ requestConfig: { params: buildsQueryParamsObject } });
+          serviceContainerBuildsRunnerDebounced({ requestConfig: { params: buildsQueryParamsObject } });
         } else if (hasBuildStatusChanged(wsData)) {
           const wsBuild: Build = wsData.build;
           serviceContainerBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
         }
       },
-      [serviceContainerBuildsRunner, serviceContainerBuildsSetter, buildsQueryParamsObject]
+      [serviceContainerBuildsRunnerDebounced, serviceContainerBuildsSetter, buildsQueryParamsObject]
     ),
     // NCL-8377
     { debug: 'BuildsPage' }

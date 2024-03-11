@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
@@ -36,6 +36,7 @@ import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
+import { debounce } from 'utils/utils';
 
 interface IProductMilestonePagesProps {}
 
@@ -75,6 +76,11 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const toggleAnalyzeDeliverablesModal = () =>
     setIsAnalyzeDeliverablesModalOpen((isAnalyzeDeliverablesModalOpen) => !isAnalyzeDeliverablesModalOpen);
 
+  const serviceContainerBuildsRunnerDebounced = useMemo(
+    () => debounce(serviceContainerBuildsRunner),
+    [serviceContainerBuildsRunner]
+  );
+
   useEffect(() => {
     serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
       const productMilestone = response.data;
@@ -105,7 +111,10 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     useCallback(
       (wsData: any) => {
         if (hasBuildStarted(wsData, { productMilestoneId })) {
-          serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+          serviceContainerBuildsRunnerDebounced({
+            serviceData: { id: productMilestoneId },
+            requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+          });
         } else if (hasMilestoneCloseFinished(wsData, { productMilestoneId })) {
           serviceContainerCloseResultsRunner({
             serviceData: { id: productMilestoneId },
@@ -119,7 +128,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         }
       },
       [
-        serviceContainerBuildsRunner,
+        serviceContainerBuildsRunnerDebounced,
         serviceContainerCloseResultsRunner,
         serviceContainerDeliverablesAnalysesRunner,
         productMilestoneId,
