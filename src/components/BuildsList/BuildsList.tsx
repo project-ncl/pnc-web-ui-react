@@ -1,12 +1,18 @@
-import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
+import {
+  DescriptionList,
+  DescriptionListDescription,
+  DescriptionListGroup,
+  DescriptionListTerm,
+  Switch,
+} from '@patternfly/react-core';
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { BuildPage } from 'pnc-api-types-ts';
+import { Build, BuildPage } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
-import { PageTitles } from 'common/constants';
+import { PageTitles, StorageKeys } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
@@ -39,6 +45,74 @@ const defaultColumns: TColumns = [
   buildEntityAttributes['user.username'].id,
 ];
 
+interface ITimesListProps {
+  build: Build;
+  isCompactMode: boolean;
+}
+
+const TimesList = ({ build, isCompactMode }: ITimesListProps) => {
+  const submitTimeItem = (
+    <DescriptionListGroup>
+      <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
+      <DescriptionListDescription>{build.submitTime && <DateTime date={build.submitTime} />}</DescriptionListDescription>
+    </DescriptionListGroup>
+  );
+
+  const startTimeItem = (
+    <DescriptionListGroup>
+      <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
+      <DescriptionListDescription>
+        {build.startTime && (
+          <DateTime date={build.startTime} displayDate={!build.submitTime || !areDatesEqual(build.submitTime, build.startTime)} />
+        )}
+      </DescriptionListDescription>
+    </DescriptionListGroup>
+  );
+
+  const endTimeItem = (
+    <DescriptionListGroup>
+      <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
+      <DescriptionListDescription>
+        {build.endTime && (
+          <DateTime
+            date={build.endTime}
+            displayDate={
+              (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
+              (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime))
+            }
+          />
+        )}
+        {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
+      </DescriptionListDescription>
+    </DescriptionListGroup>
+  );
+
+  let content;
+  if (isCompactMode) {
+    if (build.endTime) {
+      content = endTimeItem;
+    } else if (build.startTime) {
+      content = startTimeItem;
+    } else if (build.submitTime) {
+      content = submitTimeItem;
+    }
+  } else {
+    content = (
+      <>
+        {submitTimeItem}
+        {startTimeItem}
+        {endTimeItem}
+      </>
+    );
+  }
+
+  return (
+    <DescriptionList className="gap-0" isHorizontal isCompact isFluid={isCompactMode}>
+      {content}
+    </DescriptionList>
+  );
+};
+
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainerState<BuildPage>;
   columns?: TColumns;
@@ -69,6 +143,10 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
   const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
+  const [isCompactMode, setIsCompactMode] = useState<boolean>(() => {
+    const isCompactMode = window.localStorage.getItem(StorageKeys.isBuildsListCompactMode);
+    return isCompactMode === null || isCompactMode === 'true';
+  });
 
   return (
     <>
@@ -86,6 +164,22 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
             )}
             componentId={componentId}
           />
+        </ToolbarItem>
+      </Toolbar>
+
+      <Toolbar disablePaddingTop>
+        <ToolbarItem>
+          <TooltipWrapper tooltip="Show Builds in compact format, where certain details are hidden.">
+            <Switch
+              id={StorageKeys.isBuildsListCompactMode}
+              label="Compact Mode"
+              isChecked={isCompactMode}
+              onChange={(checked) => {
+                setIsCompactMode(checked);
+                window.localStorage.setItem(StorageKeys.isBuildsListCompactMode, `${checked}`);
+              }}
+            />
+          </TooltipWrapper>
         </ToolbarItem>
       </Toolbar>
 
@@ -150,40 +244,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                     columns.includes(buildEntityAttributes.startTime.id) &&
                     columns.includes(buildEntityAttributes.endTime.id) && (
                       <Td>
-                        <DescriptionList className="gap-0" isHorizontal isCompact>
-                          <DescriptionListGroup>
-                            <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
-                            <DescriptionListDescription>
-                              {build.submitTime && <DateTime date={build.submitTime} />}
-                            </DescriptionListDescription>
-                          </DescriptionListGroup>
-                          <DescriptionListGroup>
-                            <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
-                            <DescriptionListDescription>
-                              {build.startTime && (
-                                <DateTime
-                                  date={build.startTime}
-                                  displayDate={!build.submitTime || !areDatesEqual(build.submitTime, build.startTime)}
-                                />
-                              )}
-                            </DescriptionListDescription>
-                          </DescriptionListGroup>
-                          <DescriptionListGroup>
-                            <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
-                            <DescriptionListDescription>
-                              {build.endTime && (
-                                <DateTime
-                                  date={build.endTime}
-                                  displayDate={
-                                    (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
-                                    (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime))
-                                  }
-                                />
-                              )}
-                              {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
-                            </DescriptionListDescription>
-                          </DescriptionListGroup>
-                        </DescriptionList>
+                        <TimesList build={build} isCompactMode={isCompactMode} />
                       </Td>
                     )}
                   {columns.includes(buildEntityAttributes['user.username'].id) && (

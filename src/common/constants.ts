@@ -87,3 +87,8 @@ export const FILTERING_PLACEHOLDER_DEFAULT: string = 'string | !string | s?ring 
 // universal messages
 export const MESSAGE_PNC_ADMIN_CONTACT = 'PNC administrators on "PNC Users" channel';
 export const MESSAGE_WAIT_AND_REFRESH = 'Wait 5 minutes and try to refresh your browser';
+
+// Storage keys (like localStorage), see NCL-8496
+export const StorageKeys = {
+  isBuildsListCompactMode: 'is-builds-list-compact-mode',
+} as const;
