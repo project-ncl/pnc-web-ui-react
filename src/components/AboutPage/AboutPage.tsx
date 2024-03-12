@@ -120,20 +120,6 @@ export const AboutPage = () => {
 
           <AttributesItem
             title={
-              <a href={RepositoryUrls.pncWebUiRepository} target="_blank" rel="noopener noreferrer">
-                PNC Web UI
-              </a>
-            }
-          >
-            <VersionText
-              version={process.env.REACT_APP_VERSION}
-              revision={process.env.REACT_APP_GIT_SHORT_SHA}
-              repositoryUrl={RepositoryUrls.pncWebUiRepository}
-            />
-          </AttributesItem>
-
-          <AttributesItem
-            title={
               <a href={RepositoryUrls.kafkaRepository} target="_blank" rel="noopener noreferrer">
                 Kafka Store
               </a>
