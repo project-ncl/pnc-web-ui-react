@@ -17,6 +17,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
+import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PushedBuildsList } from 'components/PushedBuildsList/PushedBuildsList';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -28,7 +29,7 @@ import * as productVersionApi from 'services/productVersionApi';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneCloseResultDetailPage = () => {
-  const { productMilestoneId, closeResultId, productVersionId } = useParamsRequired();
+  const { closeResultId, productMilestoneId, productVersionId, productId } = useParamsRequired();
 
   const serviceContainerProductMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerProductMilestoneCloseResultRunner = serviceContainerProductMilestoneCloseResult.run;
@@ -135,9 +136,15 @@ export const ProductMilestoneCloseResultDetailPage = () => {
               </TextContent>
             </ToolbarItem>
           </Toolbar>
-          <PushedBuildsList pushedBuilds={closeResult?.buildPushResults} />
+          <ContentBox marginBottom shadow={false} background={false}>
+            <PushedBuildsList pushedBuilds={closeResult?.buildPushResults} />
+          </ContentBox>
 
-          {/* TODO: Log*/}
+          {/* TODO: Live Log */}
+          <OldUiContentLinkBox
+            contentTitle="Close Result Log"
+            route={`products/${productId}/versions/${productVersionId}/milestones/${productMilestoneId}/close-results/${closeResultId}`}
+          />
         </PageLayout>
       </ServiceContainerLoading>
     </ServiceContainerLoading>

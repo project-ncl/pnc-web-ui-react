@@ -8,8 +8,10 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { BuildPushStatusLabelMapper } from 'components/BuildPushStatusLabelMapper/BuildPushStatusLabelMapper';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
 
@@ -17,6 +19,8 @@ import * as buildApi from 'services/buildApi';
 
 export const BuildBrewPushPage = () => {
   const { buildId } = useParamsRequired();
+
+  const { serviceContainerBuild } = useServiceContainerBuild();
 
   const [isBrewPushEmpty, setIsBrewPushEmpty] = useState<boolean>(false);
 
@@ -52,27 +56,34 @@ export const BuildBrewPushPage = () => {
   return (
     <>
       {!isBrewPushEmpty ? (
-        <ServiceContainerLoading {...serviceContainerBrewPush} title="Brew Push details">
-          <ContentBox padding marginBottom isResponsive>
-            <Attributes>
-              <AttributesItem title={buildPushResultEntityAttributes.status.title}>
-                {serviceContainerBrewPush.data?.status && (
-                  <BuildPushStatusLabelMapper status={serviceContainerBrewPush.data.status} />
-                )}
-              </AttributesItem>
-              <AttributesItem title={buildPushResultEntityAttributes.brewBuildId.title}>
-                {serviceContainerBrewPush.data?.brewBuildId}
-              </AttributesItem>
-              <AttributesItem title={buildPushResultEntityAttributes.brewBuildUrl.title}>
-                {serviceContainerBrewPush.data?.brewBuildUrl && (
-                  <a target="_blank" rel="noreferrer" href={serviceContainerBrewPush.data.brewBuildUrl}>
-                    {serviceContainerBrewPush.data.brewBuildUrl}
-                  </a>
-                )}
-              </AttributesItem>
-            </Attributes>
-          </ContentBox>
-        </ServiceContainerLoading>
+        <>
+          <ServiceContainerLoading {...serviceContainerBrewPush} title="Brew Push details">
+            <ContentBox padding marginBottom isResponsive>
+              <Attributes>
+                <AttributesItem title={buildPushResultEntityAttributes.status.title}>
+                  {serviceContainerBrewPush.data?.status && (
+                    <BuildPushStatusLabelMapper status={serviceContainerBrewPush.data.status} />
+                  )}
+                </AttributesItem>
+                <AttributesItem title={buildPushResultEntityAttributes.brewBuildId.title}>
+                  {serviceContainerBrewPush.data?.brewBuildId}
+                </AttributesItem>
+                <AttributesItem title={buildPushResultEntityAttributes.brewBuildUrl.title}>
+                  {serviceContainerBrewPush.data?.brewBuildUrl && (
+                    <a target="_blank" rel="noreferrer" href={serviceContainerBrewPush.data.brewBuildUrl}>
+                      {serviceContainerBrewPush.data.brewBuildUrl}
+                    </a>
+                  )}
+                </AttributesItem>
+              </Attributes>
+            </ContentBox>
+          </ServiceContainerLoading>
+
+          <OldUiContentLinkBox
+            contentTitle="Brew Push Log"
+            route={`projects/${serviceContainerBuild.data?.project?.id}/build-configs/${serviceContainerBuild.data?.buildConfigRevision?.id}/builds/${buildId}/brew-push`}
+          />
+        </>
       ) : (
         <ContentBox padding marginBottom>
           <EmptyStateCard title="Brew Push of the Build" />
