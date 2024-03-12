@@ -147,6 +147,61 @@ Object {
           </div>
         </div>
         <div
+          class="shadow-global bg-w p-b-global p-l-global p-r-global"
+        >
+          <div
+            class=""
+          >
+            <div
+              class="pf-l-flex pf-m-space-items-none"
+              style="gap: 1.5rem;"
+            >
+              <div
+                class=""
+              >
+                <div
+                  style="display: contents;"
+                >
+                   
+                  <label
+                    class="pf-c-switch"
+                    data-ouia-component-id="OUIA-Generated-Switch-2"
+                    data-ouia-component-type="PF4/Switch"
+                    data-ouia-safe="true"
+                    for="is-builds-list-compact-mode"
+                  >
+                    <input
+                      aria-label=""
+                      aria-labelledby="is-builds-list-compact-mode-on"
+                      checked=""
+                      class="pf-c-switch__input"
+                      id="is-builds-list-compact-mode"
+                      type="checkbox"
+                    />
+                    <span
+                      class="pf-c-switch__toggle"
+                    />
+                    <span
+                      aria-hidden="true"
+                      class="pf-c-switch__label pf-m-on"
+                      id="is-builds-list-compact-mode-on"
+                    >
+                      Compact Mode
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="pf-c-switch__label pf-m-off"
+                      id="is-builds-list-compact-mode-off"
+                    >
+                      Compact Mode
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
           class="shadow-global bg-w border-t-gray"
         >
           <div
@@ -423,61 +478,8 @@ Object {
                     class=""
                   >
                     <dl
-                      class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
+                      class="pf-c-description-list pf-m-horizontal pf-m-compact pf-m-fluid gap-0"
                     >
-                      <div
-                        class="pf-c-description-list__group"
-                      >
-                        <dt
-                          class="pf-c-description-list__term"
-                        >
-                          <span
-                            class="pf-c-description-list__text"
-                          >
-                            Submitted
-                          </span>
-                        </dt>
-                        <dd
-                          class="pf-c-description-list__description"
-                        >
-                          <div
-                            class="pf-c-description-list__text"
-                          >
-                            <span
-                              class="date-span displayed-time"
-                            >
-                              2020-10-19
-                            </span>
-                            <span>
-                              02:13
-                            </span>
-                          </div>
-                        </dd>
-                      </div>
-                      <div
-                        class="pf-c-description-list__group"
-                      >
-                        <dt
-                          class="pf-c-description-list__term"
-                        >
-                          <span
-                            class="pf-c-description-list__text"
-                          >
-                            Started
-                          </span>
-                        </dt>
-                        <dd
-                          class="pf-c-description-list__description"
-                        >
-                          <div
-                            class="pf-c-description-list__text"
-                          >
-                            <span>
-                              02:13
-                            </span>
-                          </div>
-                        </dd>
-                      </div>
                       <div
                         class="pf-c-description-list__group"
                       >
@@ -585,61 +587,8 @@ Object {
                     class=""
                   >
                     <dl
-                      class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
+                      class="pf-c-description-list pf-m-horizontal pf-m-compact pf-m-fluid gap-0"
                     >
-                      <div
-                        class="pf-c-description-list__group"
-                      >
-                        <dt
-                          class="pf-c-description-list__term"
-                        >
-                          <span
-                            class="pf-c-description-list__text"
-                          >
-                            Submitted
-                          </span>
-                        </dt>
-                        <dd
-                          class="pf-c-description-list__description"
-                        >
-                          <div
-                            class="pf-c-description-list__text"
-                          >
-                            <span
-                              class="date-span displayed-time"
-                            >
-                              2020-10-27
-                            </span>
-                            <span>
-                              13:06
-                            </span>
-                          </div>
-                        </dd>
-                      </div>
-                      <div
-                        class="pf-c-description-list__group"
-                      >
-                        <dt
-                          class="pf-c-description-list__term"
-                        >
-                          <span
-                            class="pf-c-description-list__text"
-                          >
-                            Started
-                          </span>
-                        </dt>
-                        <dd
-                          class="pf-c-description-list__description"
-                        >
-                          <div
-                            class="pf-c-description-list__text"
-                          >
-                            <span>
-                              13:06
-                            </span>
-                          </div>
-                        </dd>
-                      </div>
                       <div
                         class="pf-c-description-list__group"
                       >
@@ -747,61 +696,8 @@ Object {
                     class=""
                   >
                     <dl
-                      class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
+                      class="pf-c-description-list pf-m-horizontal pf-m-compact pf-m-fluid gap-0"
                     >
-                      <div
-                        class="pf-c-description-list__group"
-                      >
-                        <dt
-                          class="pf-c-description-list__term"
-                        >
-                          <span
-                            class="pf-c-description-list__text"
-                          >
-                            Submitted
-                          </span>
-                        </dt>
-                        <dd
-                          class="pf-c-description-list__description"
-                        >
-                          <div
-                            class="pf-c-description-list__text"
-                          >
-                            <span
-                              class="date-span displayed-time"
-                            >
-                              2021-05-07
-                            </span>
-                            <span>
-                              01:41
-                            </span>
-                          </div>
-                        </dd>
-                      </div>
-                      <div
-                        class="pf-c-description-list__group"
-                      >
-                        <dt
-                          class="pf-c-description-list__term"
-                        >
-                          <span
-                            class="pf-c-description-list__text"
-                          >
-                            Started
-                          </span>
-                        </dt>
-                        <dd
-                          class="pf-c-description-list__description"
-                        >
-                          <div
-                            class="pf-c-description-list__text"
-                          >
-                            <span>
-                              01:41
-                            </span>
-                          </div>
-                        </dd>
-                      </div>
                       <div
                         class="pf-c-description-list__group"
                       >
@@ -1201,6 +1097,61 @@ Object {
         </div>
       </div>
       <div
+        class="shadow-global bg-w p-b-global p-l-global p-r-global"
+      >
+        <div
+          class=""
+        >
+          <div
+            class="pf-l-flex pf-m-space-items-none"
+            style="gap: 1.5rem;"
+          >
+            <div
+              class=""
+            >
+              <div
+                style="display: contents;"
+              >
+                 
+                <label
+                  class="pf-c-switch"
+                  data-ouia-component-id="OUIA-Generated-Switch-2"
+                  data-ouia-component-type="PF4/Switch"
+                  data-ouia-safe="true"
+                  for="is-builds-list-compact-mode"
+                >
+                  <input
+                    aria-label=""
+                    aria-labelledby="is-builds-list-compact-mode-on"
+                    checked=""
+                    class="pf-c-switch__input"
+                    id="is-builds-list-compact-mode"
+                    type="checkbox"
+                  />
+                  <span
+                    class="pf-c-switch__toggle"
+                  />
+                  <span
+                    aria-hidden="true"
+                    class="pf-c-switch__label pf-m-on"
+                    id="is-builds-list-compact-mode-on"
+                  >
+                    Compact Mode
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="pf-c-switch__label pf-m-off"
+                    id="is-builds-list-compact-mode-off"
+                  >
+                    Compact Mode
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
         class="shadow-global bg-w border-t-gray"
       >
         <div
@@ -1477,61 +1428,8 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact pf-m-fluid gap-0"
                   >
-                    <div
-                      class="pf-c-description-list__group"
-                    >
-                      <dt
-                        class="pf-c-description-list__term"
-                      >
-                        <span
-                          class="pf-c-description-list__text"
-                        >
-                          Submitted
-                        </span>
-                      </dt>
-                      <dd
-                        class="pf-c-description-list__description"
-                      >
-                        <div
-                          class="pf-c-description-list__text"
-                        >
-                          <span
-                            class="date-span displayed-time"
-                          >
-                            2020-10-19
-                          </span>
-                          <span>
-                            02:13
-                          </span>
-                        </div>
-                      </dd>
-                    </div>
-                    <div
-                      class="pf-c-description-list__group"
-                    >
-                      <dt
-                        class="pf-c-description-list__term"
-                      >
-                        <span
-                          class="pf-c-description-list__text"
-                        >
-                          Started
-                        </span>
-                      </dt>
-                      <dd
-                        class="pf-c-description-list__description"
-                      >
-                        <div
-                          class="pf-c-description-list__text"
-                        >
-                          <span>
-                            02:13
-                          </span>
-                        </div>
-                      </dd>
-                    </div>
                     <div
                       class="pf-c-description-list__group"
                     >
@@ -1639,61 +1537,8 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact pf-m-fluid gap-0"
                   >
-                    <div
-                      class="pf-c-description-list__group"
-                    >
-                      <dt
-                        class="pf-c-description-list__term"
-                      >
-                        <span
-                          class="pf-c-description-list__text"
-                        >
-                          Submitted
-                        </span>
-                      </dt>
-                      <dd
-                        class="pf-c-description-list__description"
-                      >
-                        <div
-                          class="pf-c-description-list__text"
-                        >
-                          <span
-                            class="date-span displayed-time"
-                          >
-                            2020-10-27
-                          </span>
-                          <span>
-                            13:06
-                          </span>
-                        </div>
-                      </dd>
-                    </div>
-                    <div
-                      class="pf-c-description-list__group"
-                    >
-                      <dt
-                        class="pf-c-description-list__term"
-                      >
-                        <span
-                          class="pf-c-description-list__text"
-                        >
-                          Started
-                        </span>
-                      </dt>
-                      <dd
-                        class="pf-c-description-list__description"
-                      >
-                        <div
-                          class="pf-c-description-list__text"
-                        >
-                          <span>
-                            13:06
-                          </span>
-                        </div>
-                      </dd>
-                    </div>
                     <div
                       class="pf-c-description-list__group"
                     >
@@ -1801,61 +1646,8 @@ Object {
                   class=""
                 >
                   <dl
-                    class="pf-c-description-list pf-m-horizontal pf-m-compact gap-0"
+                    class="pf-c-description-list pf-m-horizontal pf-m-compact pf-m-fluid gap-0"
                   >
-                    <div
-                      class="pf-c-description-list__group"
-                    >
-                      <dt
-                        class="pf-c-description-list__term"
-                      >
-                        <span
-                          class="pf-c-description-list__text"
-                        >
-                          Submitted
-                        </span>
-                      </dt>
-                      <dd
-                        class="pf-c-description-list__description"
-                      >
-                        <div
-                          class="pf-c-description-list__text"
-                        >
-                          <span
-                            class="date-span displayed-time"
-                          >
-                            2021-05-07
-                          </span>
-                          <span>
-                            01:41
-                          </span>
-                        </div>
-                      </dd>
-                    </div>
-                    <div
-                      class="pf-c-description-list__group"
-                    >
-                      <dt
-                        class="pf-c-description-list__term"
-                      >
-                        <span
-                          class="pf-c-description-list__text"
-                        >
-                          Started
-                        </span>
-                      </dt>
-                      <dd
-                        class="pf-c-description-list__description"
-                      >
-                        <div
-                          class="pf-c-description-list__text"
-                        >
-                          <span>
-                            01:41
-                          </span>
-                        </div>
-                      </dd>
-                    </div>
                     <div
                       class="pf-c-description-list__group"
                     >
