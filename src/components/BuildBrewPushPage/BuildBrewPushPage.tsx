@@ -74,7 +74,7 @@ export const BuildBrewPushPage = () => {
           </ContentBox>
         </ServiceContainerLoading>
       ) : (
-        <ContentBox padding marginBottom isResponsive>
+        <ContentBox padding marginBottom>
           <EmptyStateCard title="Brew Push of the Build" />
         </ContentBox>
       )}

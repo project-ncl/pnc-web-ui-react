@@ -319,7 +319,7 @@ export const BuildDetailPage = () => {
             </TextContent>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive>
+        <ContentBox borderTop padding>
           <DependencyTree build={serviceContainerBuild.data!} />
         </ContentBox>
       </GridItem>
