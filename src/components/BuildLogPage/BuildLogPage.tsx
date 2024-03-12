@@ -46,7 +46,7 @@ export const BuildLogPage = () => {
   }, [serviceContainerBuildLogRunner, serviceContainerBuildSshCredentialsRunner, buildId, belongsToCurrentUser]);
 
   const logActions = [
-    belongsToCurrentUser
+    ...(belongsToCurrentUser
       ? [
           <ServiceContainerLoading {...serviceContainerBuildSshCredentials} variant="icon" title="SSH credentials">
             <Popover
@@ -79,7 +79,7 @@ export const BuildLogPage = () => {
             </Popover>
           </ServiceContainerLoading>,
         ]
-      : [],
+      : []),
     <BuildLogLink buildId={buildId!} />,
   ];
 
