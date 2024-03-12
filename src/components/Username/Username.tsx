@@ -2,6 +2,8 @@ import { Label } from '@patternfly/react-core';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+const SERVICE_ACCOUNT_KEYWORD = 'service-account-';
+
 interface IUsernameProps {
   text: string;
   length?: number;
@@ -15,16 +17,22 @@ interface IUsernameProps {
  * @param length - The target length for usernames that are too long, by default 20
  */
 export const Username = ({ text, length = 20 }: IUsernameProps) => {
-  const removeKeyword = 'service-account-';
-  const resultText = text.replace(removeKeyword, '').substring(0, length);
+  const resultText = truncateUsername(text, length);
 
-  return text !== resultText ? (
+  return resultText.length !== text.length ? (
     <TooltipWrapper tooltip={text}>
       <span>
-        {text.startsWith(removeKeyword) && <Label isCompact>SA</Label>} {resultText}
+        {text.startsWith(SERVICE_ACCOUNT_KEYWORD) && <Label isCompact>SA</Label>} {resultText}
       </span>
     </TooltipWrapper>
   ) : (
     <>{text}</>
   );
+};
+
+const truncateUsername = (username: string, length: number): string => {
+  const usernameNoKeywords = username.replace(SERVICE_ACCOUNT_KEYWORD, '');
+  const usernameTruncated = usernameNoKeywords.substring(0, length).replace(/-+$/, '');
+
+  return `${usernameTruncated}${usernameTruncated.length !== usernameNoKeywords.length ? '..' : ''}`;
 };
