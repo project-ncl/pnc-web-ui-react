@@ -15,6 +15,7 @@ import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { LogViewer } from 'components/LogViewer/LogViewer';
+import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
@@ -25,6 +26,7 @@ export const BuildLogPage = () => {
   const { buildId } = useParamsRequired();
 
   const { serviceContainerBuild } = useServiceContainerBuild();
+  const isBuilding = useMemo(() => serviceContainerBuild.data?.status === 'BUILDING', [serviceContainerBuild.data?.status]);
 
   const serviceContainerBuildLog = useServiceContainer(buildApi.getBuildLog);
   const serviceContainerBuildLogRunner = serviceContainerBuildLog.run;
@@ -39,11 +41,13 @@ export const BuildLogPage = () => {
   const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/) || [], [serviceContainerBuildLog.data]);
 
   useEffect(() => {
-    serviceContainerBuildLogRunner({ serviceData: { id: buildId } });
-    if (belongsToCurrentUser) {
-      serviceContainerBuildSshCredentialsRunner({ serviceData: { id: buildId } });
+    if (!isBuilding) {
+      serviceContainerBuildLogRunner({ serviceData: { id: buildId } });
+      if (belongsToCurrentUser) {
+        serviceContainerBuildSshCredentialsRunner({ serviceData: { id: buildId } });
+      }
     }
-  }, [serviceContainerBuildLogRunner, serviceContainerBuildSshCredentialsRunner, buildId, belongsToCurrentUser]);
+  }, [serviceContainerBuildLogRunner, serviceContainerBuildSshCredentialsRunner, buildId, belongsToCurrentUser, isBuilding]);
 
   const logActions = [
     belongsToCurrentUser
@@ -84,12 +88,16 @@ export const BuildLogPage = () => {
   ];
 
   return (
-    <ContentBox>
-      <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
-        <ContentBox padding>
-          <LogViewer isStatic data={logData} customActions={logActions} />
-        </ContentBox>
-      </ServiceContainerLoading>
-    </ContentBox>
+    <>
+      {!isBuilding && (
+        <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
+          <ContentBox padding>
+            <LogViewer isStatic data={logData} customActions={logActions} />
+          </ContentBox>
+        </ServiceContainerLoading>
+      )}
+
+      {isBuilding && <OldUiContentLinkBox contentTitle="Build in Progress Log" route={`builds/${buildId}`} />}
+    </>
   );
 };

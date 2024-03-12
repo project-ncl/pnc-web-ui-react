@@ -17,6 +17,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
 import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
+import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
@@ -26,7 +27,7 @@ import * as productVersionApi from 'services/productVersionApi';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
-  const { deliverablesAnalysisId, productVersionId } = useParamsRequired();
+  const { deliverablesAnalysisId, productMilestoneId, productVersionId, productId } = useParamsRequired();
 
   const serviceContainerProductMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
   const serviceContainerProductMilestoneDeliverablesAnalysisRunner = serviceContainerProductMilestoneDeliverablesAnalysis.run;
@@ -140,7 +141,11 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
             </Attributes>
           </ContentBox>
 
-          {/* TODO: Log*/}
+          {/* TODO: Live Log */}
+          <OldUiContentLinkBox
+            contentTitle="Deliverables Analysis Log"
+            route={`products/${productId}/versions/${productVersionId}/milestones/${productMilestoneId}/deliverables-analysis/${deliverablesAnalysisId}`}
+          />
         </PageLayout>
       </ServiceContainerLoading>
     </ServiceContainerLoading>
