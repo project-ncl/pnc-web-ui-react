@@ -2,7 +2,9 @@ import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/
 import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
+
+import { useResizeObserver } from 'hooks/useResizeObserver';
 
 import styles from './PageTabs.module.css';
 
@@ -16,10 +18,8 @@ interface IPageTabsProps {
 }
 
 export const PageTabs = ({ children }: IPageTabsProps) => {
-  const [isScrollButtonDisplayed, setIsScrollButtonDisplayed] = useState<boolean>(false);
   const [isScrollLeftDisabled, setIsScrollLeftDisabled] = useState<boolean>(true);
   const [isScrollRightDisabled, setIsScrollRightDisabled] = useState<boolean>(false);
-  const tabContent = useRef<HTMLUListElement>(null);
 
   const scrollLeft = () => {
     if (tabContent.current) {
@@ -35,16 +35,8 @@ export const PageTabs = ({ children }: IPageTabsProps) => {
     }
   };
 
-  useEffect(() => {
-    const onResize = () => tabContent.current && setIsScrollButtonDisplayed(tabContent.current.scrollWidth > window.innerWidth);
-
-    window.addEventListener('resize', onResize);
-    onResize();
-
-    return () => {
-      window.removeEventListener('resize', onResize);
-    };
-  }, []);
+  const { ref: tabContentRef, width: tabContentWidth } = useResizeObserver();
+  const tabContent = useRef<HTMLUListElement | null>(null);
 
   return (
     <PageSection
@@ -54,11 +46,18 @@ export const PageTabs = ({ children }: IPageTabsProps) => {
       variant={PageSectionVariants.light}
     >
       <div
-        className={css(stylesPF.tabs, stylesPF.modifiers.pageInsets, isScrollButtonDisplayed && stylesPF.modifiers.scrollable)}
+        className={css(
+          stylesPF.tabs,
+          stylesPF.modifiers.pageInsets,
+          tabContentWidth &&
+            tabContent.current?.scrollWidth &&
+            tabContentWidth < tabContent.current.scrollWidth &&
+            stylesPF.modifiers.scrollable
+        )}
       >
         <button
           disabled={isScrollLeftDisabled}
-          className={css(stylesPF.tabsScrollButton)}
+          className={stylesPF.tabsScrollButton}
           type="button"
           aria-label="Scroll left"
           onClick={scrollLeft}
@@ -66,7 +65,10 @@ export const PageTabs = ({ children }: IPageTabsProps) => {
           <AngleLeftIcon />
         </button>
         <ul
-          ref={tabContent}
+          ref={(node) => {
+            tabContent.current = node;
+            tabContentRef(node);
+          }}
           onScroll={() => {
             if (tabContent.current) {
               setIsScrollLeftDisabled(tabContent.current.scrollLeft - SCROLL_DISABLED_AREA <= 0);
@@ -82,7 +84,7 @@ export const PageTabs = ({ children }: IPageTabsProps) => {
         </ul>
         <button
           disabled={isScrollRightDisabled}
-          className={css(stylesPF.tabsScrollButton)}
+          className={stylesPF.tabsScrollButton}
           type="button"
           aria-label="Scroll right"
           onClick={scrollRight}
