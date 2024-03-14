@@ -9,6 +9,7 @@ import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import styles from './ActionModal.module.css';
 
@@ -18,6 +19,7 @@ interface IActionModalProps {
   cancelTitle?: string;
   isOpen: boolean;
   isSubmitDisabled?: boolean;
+  submitDisabledTooltip?: string;
   wereSubmitDataChanged?: boolean;
   onToggle: () => void;
   onSubmit: () => void;
@@ -35,6 +37,7 @@ interface IActionModalProps {
  * @param cancelTitle - title of the cancel modal button
  * @param isOpen - is the modal open?
  * @param isSubmitDisabled - is the confirm action button disabled?
+ * @param submitDisabledTooltip - tooltip to display on disabled confirm action button
  * @param wereSubmitDataChanged - were the modal (form) data to be submitted changed (if there are any)?
  * @param onToggle - function toggling the modal visibility
  * @param onSubmit - confirm action button callback
@@ -57,6 +60,7 @@ export const ActionModal = ({
   refreshOnClose = true,
   onSuccessActions,
   isSubmitDisabled,
+  submitDisabledTooltip,
 }: PropsWithChildren<IActionModalProps>) => {
   const refresh = useRefresh();
 
@@ -97,20 +101,22 @@ export const ActionModal = ({
       onClose={onClose}
       actions={[
         // TODO: NCL-8010
-        <Button
-          variant="primary"
-          onClick={onSubmit}
-          isDisabled={
-            isSubmitDisabled ||
-            (serviceContainer &&
-              ((serviceContainer.data !== DataValues.notYetData && !serviceContainer.error) || serviceContainer.loading))
-          }
-        >
-          {serviceContainer?.loading && (
-            <ServiceContainerLoading allowEmptyData variant="icon" {...serviceContainer} title={actionTitle} />
-          )}{' '}
-          {wasLastActionSuccessful && !wereSubmitDataChanged && <CheckIcon />} {actionTitle}
-        </Button>,
+        <TooltipWrapper tooltip={isSubmitDisabled && !wasLastActionSuccessful && submitDisabledTooltip}>
+          <Button
+            variant="primary"
+            onClick={onSubmit}
+            isAriaDisabled={
+              isSubmitDisabled ||
+              (serviceContainer &&
+                ((serviceContainer.data !== DataValues.notYetData && !serviceContainer.error) || serviceContainer.loading))
+            }
+          >
+            {serviceContainer?.loading && (
+              <ServiceContainerLoading allowEmptyData variant="icon" {...serviceContainer} title={actionTitle} />
+            )}{' '}
+            {wasLastActionSuccessful && !wereSubmitDataChanged && <CheckIcon />} {actionTitle}
+          </Button>
+        </TooltipWrapper>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
         <Button variant="link" onClick={onClose}>
           {cancelTitle || (wasAnyActionSuccessful ? `Close${refreshOnClose ? ' and refresh' : ''}` : 'Cancel')}
