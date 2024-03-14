@@ -87,3 +87,14 @@ export const getDependencyGraph = ({ id }: IGroupBuildApiData, requestConfig: Ax
 export const pushToBrew = ({ id, data }: { id: string; data: { tagPrefix: string } }, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().post<any>(`/group-builds/${id}/brew-push`, data, requestConfig);
 };
+
+/**
+ * Cancels running Group Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Group Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const cancelGroupBuild = ({ id }: IGroupBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<undefined>(`/group-builds/${id}/cancel`, undefined, requestConfig);
+};
