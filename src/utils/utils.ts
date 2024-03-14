@@ -1,6 +1,6 @@
 import { debounce as lodashDebounce } from 'lodash-es';
 
-import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
+import { Build, ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
 import { uiLogger } from 'services/uiLogger';
 
@@ -239,6 +239,12 @@ export const checkColumnsCombinations = ({ columns, combinations }: ICheckColumn
  */
 export const getProductVersionSuffix = (productMilestoneRelease: ProductMilestone | ProductRelease): string => {
   return productMilestoneRelease.version!.replace(/\d+\.\d+\./, '');
+};
+
+const CANCELABLE_BUILD_STATUSES = ['NEW', 'ENQUEUED', 'WAITING_FOR_DEPENDENCIES', 'BUILDING'];
+
+export const isBuildCancelable = (status: NonNullable<Build['status']>) => {
+  return CANCELABLE_BUILD_STATUSES.includes(status);
 };
 
 /**
