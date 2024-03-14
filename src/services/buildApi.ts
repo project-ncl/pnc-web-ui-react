@@ -200,3 +200,14 @@ export const getArtifactDependencies = (requestConfig: AxiosRequestConfig = {}) 
 export const pushToBrew = ({ id, data }: { id: string; data: { tagPrefix: string } }, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().post<BuildPushResult>(`/builds/${id}/brew-push`, data, requestConfig);
 };
+
+/**
+ * Cancels running Build.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build ID
+ * @param requestConfig - Axios based request config
+ */
+export const cancelBuild = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().post<undefined>(`/builds/${id}/cancel`, undefined, requestConfig);
+};
