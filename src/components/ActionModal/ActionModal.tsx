@@ -56,7 +56,7 @@ export const ActionModal = ({
   modalVariant,
   refreshOnClose = true,
   onSuccessActions,
-  isSubmitDisabled = serviceContainer && serviceContainer.data !== DataValues.notYetData && !serviceContainer.error,
+  isSubmitDisabled,
 }: PropsWithChildren<IActionModalProps>) => {
   const refresh = useRefresh();
 
@@ -97,7 +97,15 @@ export const ActionModal = ({
       onClose={onClose}
       actions={[
         // TODO: NCL-8010
-        <Button variant="primary" onClick={onSubmit} isDisabled={isSubmitDisabled || serviceContainer?.loading}>
+        <Button
+          variant="primary"
+          onClick={onSubmit}
+          isDisabled={
+            isSubmitDisabled ||
+            (serviceContainer &&
+              ((serviceContainer.data !== DataValues.notYetData && !serviceContainer.error) || serviceContainer.loading))
+          }
+        >
           {serviceContainer?.loading && (
             <ServiceContainerLoading allowEmptyData variant="icon" {...serviceContainer} title={actionTitle} />
           )}{' '}
