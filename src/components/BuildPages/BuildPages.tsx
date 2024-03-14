@@ -15,6 +15,8 @@ import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
 import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
+import { CancelBuildModal } from 'components/CancelBuildModal/CancelBuildModal';
+import { CancelBuildModalButton } from 'components/CancelBuildModal/CancelBuildModalButton';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { PageLayout } from 'components/PageLayout/PageLayout';
@@ -43,8 +45,10 @@ export const BuildPages = () => {
   const serviceContainerDependenciesRunner = serviceContainerDependencies.run;
 
   const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
+  const [isCancelBuildModalOpen, setIsCancelBuildModalOpen] = useState<boolean>(false);
 
   const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
+  const toggleCancelBuildModal = () => setIsCancelBuildModalOpen((isCancelBuildModalOpen) => !isCancelBuildModalOpen);
 
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
@@ -102,7 +106,10 @@ export const BuildPages = () => {
     </PageTabs>
   );
 
-  const actions = [<BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data!} />];
+  const actions = [
+    <CancelBuildModalButton toggleModal={toggleCancelBuildModal} build={serviceContainerBuild.data!} variant="Build" />,
+    <BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data!} />,
+  ];
 
   return (
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
@@ -114,10 +121,20 @@ export const BuildPages = () => {
       >
         <Outlet context={{ serviceContainerBuild }} />
       </PageLayout>
+
       {isBrewPushModalOpen && (
         <BrewPushModal
           isModalOpen={isBrewPushModalOpen}
           toggleModal={toggleBewPushModal}
+          build={serviceContainerBuild.data!}
+          variant="Build"
+        />
+      )}
+
+      {isCancelBuildModalOpen && (
+        <CancelBuildModal
+          isModalOpen={isCancelBuildModalOpen}
+          toggleModal={toggleCancelBuildModal}
           build={serviceContainerBuild.data!}
           variant="Build"
         />
