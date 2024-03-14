@@ -23,6 +23,8 @@ import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { BuildsList } from 'components/BuildsList/BuildsList';
+import { CancelBuildModal } from 'components/CancelBuildModal/CancelBuildModal';
+import { CancelBuildModalButton } from 'components/CancelBuildModal/CancelBuildModalButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { GroupConfigLink } from 'components/GroupConfigLink/GroupConfigLink';
@@ -55,6 +57,11 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   const serviceContainerGroupBuildBuilds = useServiceContainer(groupBuildApi.getBuilds);
   const serviceContainerGroupBuildBuildsRunner = serviceContainerGroupBuildBuilds.run;
   const serviceContainerGroupBuildBuildsSetter = serviceContainerGroupBuildBuilds.setData;
+
+  const [isCancelGroupBuildModalOpen, setIsCancelGroupBuildModalOpen] = useState<boolean>(false);
+
+  const toggleCancelGroupBuildModal = () =>
+    setIsCancelGroupBuildModalOpen((isCancelGroupBuildModalOpen) => !isCancelGroupBuildModalOpen);
 
   const longGroupBuildName = serviceContainerGroupBuild.data
     ? calculateLongBuildName(serviceContainerGroupBuild.data)
@@ -109,6 +116,13 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
       <PageLayout
         title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}
         breadcrumbs={[{ entity: breadcrumbData.groupBuild.id, title: serviceContainerGroupBuild.data?.id }]}
+        actions={[
+          <CancelBuildModalButton
+            toggleModal={toggleCancelGroupBuildModal}
+            build={serviceContainerGroupBuild.data!}
+            variant="Group Build"
+          />,
+        ]}
       >
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
@@ -158,6 +172,15 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
           </ContentBox>
         )}
       </PageLayout>
+
+      {isCancelGroupBuildModalOpen && (
+        <CancelBuildModal
+          isModalOpen={isCancelGroupBuildModalOpen}
+          toggleModal={toggleCancelGroupBuildModal}
+          build={serviceContainerGroupBuild.data!}
+          variant="Group Build"
+        />
+      )}
     </ServiceContainerLoading>
   );
 };
