@@ -69,6 +69,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
       onSubmit={handleSubmit(confirmModal)}
       serviceContainer={serviceContainerProductMilestoneAnalyzeDeliverables}
       modalVariant="large"
+      refreshOnClose={false}
       onSuccessActions={[
         <Button
           variant="secondary"
