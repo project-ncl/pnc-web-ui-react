@@ -2,10 +2,11 @@ import { Button, Form, FormGroup, FormHelperText, Select, SelectOption, TextArea
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Artifact } from 'pnc-api-types-ts';
+import { Artifact, Build } from 'pnc-api-types-ts';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
+import { ButtonTitles } from 'common/constants';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -14,6 +15,7 @@ import { ActionModal } from 'components/ActionModal/ActionModal';
 import { FormInput } from 'components/FormInput/FormInput';
 
 import * as artifactApi from 'services/artifactApi';
+import * as buildApi from 'services/buildApi';
 
 const fieldConfigs = {
   artifactQuality: {
@@ -24,15 +26,21 @@ const fieldConfigs = {
   },
 } satisfies IFieldConfigs;
 
-export interface IArtifactEditQualityModalProps {
+export type IArtifactEditQualityModalProps = {
   isModalOpen: boolean;
   toggleModal: () => void;
-  artifact: Artifact;
   variant: 'detail' | 'list';
-}
+} & ({ artifact: Artifact } | { build: Build });
 
-export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, variant }: IArtifactEditQualityModalProps) => {
-  const serviceContainerArtifactEditQuality = useServiceContainer(artifactApi.editArtifactQuality, 0);
+export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ...rest }: IArtifactEditQualityModalProps) => {
+  const artifact = 'artifact' in rest ? rest.artifact : undefined;
+  const build = 'build' in rest ? rest.build : undefined;
+
+  const serviceContainerArtifactEditQualityArtifact = useServiceContainer(artifactApi.editArtifactQuality, 0);
+  const serviceContainerArtifactEditQualityBuild = useServiceContainer(buildApi.editArtifactsQuality, 0);
+  const serviceContainerArtifactEditQuality = build
+    ? serviceContainerArtifactEditQualityBuild
+    : serviceContainerArtifactEditQualityArtifact;
 
   const [isQualitySelectOpen, setIsQualitySelectOpen] = useState<boolean>(false);
 
@@ -42,7 +50,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
     return serviceContainerArtifactEditQuality
       .run({
         serviceData: {
-          id: artifact.id,
+          id: build?.id ?? artifact!.id,
         },
         requestConfig: {
           params: {
@@ -58,15 +66,20 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
   };
 
   useEffect(() => {
-    setFieldValues({
-      artifactQuality: artifact.artifactQuality,
-    });
-  }, [setFieldValues, artifact.artifactQuality]);
+    artifact?.artifactQuality &&
+      setFieldValues({
+        artifactQuality: artifact.artifactQuality,
+      });
+  }, [setFieldValues, artifact?.artifactQuality]);
 
   return (
     <ActionModal
-      modalTitle={`Edit Artifact Quality: ${artifact.identifier}`}
-      actionTitle="Edit Artifact Quality"
+      modalTitle={
+        build
+          ? `${ButtonTitles.update} All Artifact Qualities: #${build.id}`
+          : `${ButtonTitles.update} Artifact Quality: ${artifact!.identifier}`
+      }
+      actionTitle="Edit"
       isOpen={isModalOpen}
       isSubmitDisabled={isSubmitDisabled}
       wereSubmitDataChanged={hasFormChanged}
@@ -75,7 +88,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
       serviceContainer={serviceContainerArtifactEditQuality}
       modalVariant="large"
       onSuccessActions={
-        variant === 'list'
+        variant === 'list' && artifact
           ? [
               <Button variant="secondary" component={(props: any) => <Link {...props} to={`/artifacts/${artifact.id}`} />}>
                 Go to the detail page
@@ -111,7 +124,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
                 name={artifactQualityRevisionEntityAttributes.artifactQuality.id}
                 variant="single"
                 isOpen={isQualitySelectOpen}
-                selections={value}
+                selections={value || undefined}
                 validated={validated}
                 onToggle={setIsQualitySelectOpen}
                 onSelect={(_, artifactQuality, isPlaceholder) => {
@@ -121,6 +134,8 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, artifact, v
                   }
                 }}
                 onBlur={onBlur}
+                hasPlaceholderStyle
+                placeholderText="Select Artifact Quality"
               >
                 {artifactEntityAttributes.artifactQuality.values.map((quality) => (
                   <SelectOption key={quality} value={quality} />
