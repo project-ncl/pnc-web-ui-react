@@ -60,6 +60,7 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
 
   const serviceContainerDependencyGraph = useServiceContainer(groupBuildApi.getDependencyGraph);
   const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
+  const serviceContainerDependencyGraphSetter = serviceContainerDependencyGraph.setData;
 
   const [isCancelGroupBuildModalOpen, setIsCancelGroupBuildModalOpen] = useState<boolean>(false);
 
@@ -85,6 +86,18 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
         } else if (hasBuildStatusChanged(wsData, { groupBuildId })) {
           const wsBuild: Build = wsData.build;
           serviceContainerGroupBuildBuildsSetter((previousBuildPage) => refreshPage(previousBuildPage!, wsBuild));
+
+          if (
+            serviceContainerDependencyGraph.data?.vertices &&
+            Object.keys(serviceContainerDependencyGraph.data.vertices).includes(wsBuild.id)
+          ) {
+            const updatedVertex = { ...serviceContainerDependencyGraph.data.vertices[wsBuild.id], data: wsBuild };
+
+            serviceContainerDependencyGraphSetter({
+              ...serviceContainerDependencyGraph.data,
+              vertices: { ...serviceContainerDependencyGraph.data.vertices, [wsBuild.id]: updatedVertex },
+            });
+          }
         }
       },
       [
@@ -92,6 +105,8 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
         groupBuildId,
         serviceContainerGroupBuildBuildsRunner,
         serviceContainerGroupBuildBuildsSetter,
+        serviceContainerDependencyGraphSetter,
+        serviceContainerDependencyGraph.data,
         groupBuildBuildsComponentQueryParamsObject,
       ]
     )
