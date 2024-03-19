@@ -23,9 +23,9 @@ import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
+import { ArtifactBuild } from 'components/ArtifactBuild/ArtifactBuild';
 import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
 import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModalButton';
-import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
@@ -352,10 +352,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                             <DescriptionListTerm>{artifactEntityAttributes.build.title}</DescriptionListTerm>
                             <DescriptionListDescription>
                               {artifact.build ? (
-                                <>
-                                  <BuildName build={artifact.build} long includeBuildLink includeConfigLink /> (
-                                  <Link to={`/builds/${artifact.build.id}`}>#{artifact.build.id}</Link>)
-                                </>
+                                <ArtifactBuild build={artifact.build} />
                               ) : (
                                 <>
                                   <TooltipWrapper tooltip="This Artifact was not produced by any PNC Build." />{' '}
