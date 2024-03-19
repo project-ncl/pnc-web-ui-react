@@ -17,6 +17,7 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipLabel } from 'components/TooltipLabel/TooltipLabel';
 
 interface IGroupConfigsListProps {
   serviceContainerGroupConfigs: IServiceContainerState<GroupConfigPage>;
@@ -61,14 +62,17 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
                */}
               <Tr>
                 <Th sort={getSortParams(sortOptions.sortAttributes['name'].id)}>{groupConfigEntityAttributes.name.title}</Th>
-                <Th width={20}>{groupConfigEntityAttributes.buildConfigsCount.title}</Th>
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerGroupConfigs.data?.content?.map((groupConfig, rowIndex) => (
                 <Tr key={rowIndex}>
-                  <Td>{<GroupConfigLink id={groupConfig.id}>{groupConfig.name}</GroupConfigLink>}</Td>
-                  <Td>{Object.keys(groupConfig.buildConfigs || []).length}</Td>
+                  <Td>
+                    <GroupConfigLink id={groupConfig.id}>{groupConfig.name}</GroupConfigLink>
+                    <TooltipLabel tooltip="Build Configs count">
+                      {Object.keys(groupConfig.buildConfigs || []).length}
+                    </TooltipLabel>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
