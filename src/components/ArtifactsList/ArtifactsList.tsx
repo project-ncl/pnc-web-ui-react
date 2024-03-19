@@ -24,8 +24,6 @@ import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ArtifactBuild } from 'components/ArtifactBuild/ArtifactBuild';
-import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
-import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModalButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
@@ -95,11 +93,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
       return isExpanding ? [...otherExpandedArtifactIdentifiers, artifact.identifier] : otherExpandedArtifactIdentifiers;
     });
   const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts.includes(artifact.identifier);
-
-  const [currentModalArtifactId, setCurrentModalArtifactId] = useState<string>();
-
-  const togleCurrentModalArtifactId = (artifactId: string) => () =>
-    setCurrentModalArtifactId((currentModalArtifactId) => (currentModalArtifactId ? undefined : artifactId));
 
   useEffect(() => {
     const shouldParse = window.localStorage.getItem('is-artifact-identifier-parsed') === 'true';
@@ -236,7 +229,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                     {artifactEntityAttributes['productMilestone.version'].title}
                   </Th>
                 )}
-                <Th></Th>
               </Tr>
             </Thead>
             {/* TODO: Change type from any, NCL-7766 */}
@@ -318,17 +310,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                       )}
                     </Td>
                   )}
-                  <Td isActionCell>
-                    <ArtifactEditQualityModalButton toggleModal={togleCurrentModalArtifactId(artifact.id)} variant="list" />
-                    {currentModalArtifactId === artifact.id && (
-                      <ArtifactEditQualityModal
-                        isModalOpen={currentModalArtifactId === artifact.id}
-                        toggleModal={togleCurrentModalArtifactId(artifact.id)}
-                        artifact={artifact}
-                        variant="list"
-                      />
-                    )}
-                  </Td>
                 </Tr>
                 <Tr isExpanded={isArtifactExpanded(artifact)}>
                   <Td />
