@@ -1,11 +1,14 @@
 import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
-import { PropsWithChildren, useEffect } from 'react';
+import { PropsWithChildren, useCallback, useEffect } from 'react';
+
+import { Build } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { BuildStatus, buildStatusData } from 'common/buildStatusData';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
+import { hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
@@ -86,6 +89,7 @@ export const BuildDetailPage = () => {
 
   const serviceContainerDependencyGraph = useServiceContainer(buildApi.getDependencyGraph);
   const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
+  const serviceContainerDependencyGraphSetter = serviceContainerDependencyGraph.setData;
 
   useEffect(() => {
     if (serviceContainerBuild.data?.buildConfigRevision?.id && serviceContainerBuild.data?.buildConfigRevision.rev) {
@@ -101,6 +105,26 @@ export const BuildDetailPage = () => {
   useEffect(() => {
     serviceContainerDependencyGraphRunner({ serviceData: { id: buildId } });
   }, [serviceContainerDependencyGraphRunner, buildId]);
+
+  usePncWebSocketEffect(
+    useCallback(
+      (wsData: any) => {
+        if (hasBuildStatusChanged(wsData) && serviceContainerDependencyGraph.data?.vertices) {
+          const wsBuild: Build = wsData.build;
+
+          if (Object.keys(serviceContainerDependencyGraph.data.vertices).includes(wsBuild.id)) {
+            const updatedVertex = { ...serviceContainerDependencyGraph.data.vertices[wsBuild.id], data: wsBuild };
+
+            serviceContainerDependencyGraphSetter({
+              ...serviceContainerDependencyGraph.data,
+              vertices: { ...serviceContainerDependencyGraph.data.vertices, [wsBuild.id]: updatedVertex },
+            });
+          }
+        }
+      },
+      [serviceContainerDependencyGraphSetter, serviceContainerDependencyGraph.data]
+    )
+  );
 
   return (
     <Grid hasGutter>
