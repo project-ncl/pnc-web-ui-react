@@ -20,8 +20,6 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import { isBoolean } from 'utils/entityRecognition';
-
 interface IScmRepositoriesListProps {
   serviceContainerScmRepositories: IServiceContainerState<SCMRepositoryPage>;
   componentId: string;
@@ -68,17 +66,9 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                   {scmRepositoryEntityAttributes.name.title}
                   <TooltipWrapper tooltip={scmRepositoryEntityAttributes.name.tooltip} />
                 </Th>
-                <Th width={30} sort={getSortParams(sortOptions.sortAttributes['internalUrl'].id)}>
-                  {scmRepositoryEntityAttributes.internalUrl.title}
-                  <TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />
-                </Th>
                 <Th width={30} sort={getSortParams(sortOptions.sortAttributes['externalUrl'].id)}>
                   {scmRepositoryEntityAttributes.externalUrl.title}
                   <TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />
-                </Th>
-                <Th width={10}>
-                  {scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
-                  <TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />
                 </Th>
               </Tr>
             </Thead>
@@ -86,12 +76,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
               {serviceContainerScmRepositories.data?.content?.map((scmRepository, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>{<ScmRepositoryLink scmRepository={scmRepository} />}</Td>
-                  <Td>{<ScmRepositoryUrl isInline internalScmRepository={scmRepository} />}</Td>
                   <Td>{scmRepository.externalUrl && <ScmRepositoryUrl isInline externalScmRepository={scmRepository} />}</Td>
-                  <Td>
-                    {isBoolean(scmRepository?.preBuildSyncEnabled) &&
-                      (scmRepository.preBuildSyncEnabled ? 'enabled' : 'disabled')}
-                  </Td>
                 </Tr>
               ))}
             </Tbody>
