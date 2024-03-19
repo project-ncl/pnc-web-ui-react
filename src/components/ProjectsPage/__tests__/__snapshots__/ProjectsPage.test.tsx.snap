@@ -253,18 +253,6 @@ Object {
                       </div>
                     </button>
                   </th>
-                  <th
-                    class="pf-m-width-15"
-                    scope="col"
-                  >
-                    Build Configs count
-                  </th>
-                  <th
-                    class=""
-                    scope="col"
-                  >
-                    Actions
-                  </th>
                 </tr>
               </thead>
               <tbody
@@ -285,33 +273,29 @@ Object {
                     >
                       Test Project Name 100
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   >
                     Test Project Name 100 Desc
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/100/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
                   </td>
                 </tr>
                 <tr
@@ -328,33 +312,29 @@ Object {
                     >
                       zz_2021110-101
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   >
                     zz_2021110-101 desc
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/101/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
                   </td>
                 </tr>
                 <tr
@@ -371,32 +351,28 @@ Object {
                     >
                       zz_2021110-102
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   />
-                  <td
-                    class=""
-                  >
-                    0
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/102/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
-                  </td>
                 </tr>
                 <tr
                   class=""
@@ -412,32 +388,28 @@ Object {
                     >
                       zz_2021110-103
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   />
-                  <td
-                    class=""
-                  >
-                    0
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/103/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
-                  </td>
                 </tr>
                 <tr
                   class=""
@@ -453,32 +425,28 @@ Object {
                     >
                       zz_2021110-104
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   />
-                  <td
-                    class=""
-                  >
-                    0
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/104/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
-                  </td>
                 </tr>
                 <tr
                   class=""
@@ -494,33 +462,29 @@ Object {
                     >
                       zz_2021110-105
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   >
                     zz_2021110-105 description
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/105/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
                   </td>
                 </tr>
                 <tr
@@ -537,33 +501,29 @@ Object {
                     >
                       Test Project Name 106
                     </a>
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            17
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                   <td
                     class=""
                   >
                     Test Project Name 106 description
-                  </td>
-                  <td
-                    class=""
-                  >
-                    17
-                  </td>
-                  <td
-                    class=""
-                  >
-                    <div
-                      title="Keycloak service is not available."
-                    >
-                      <div
-                        class="disabled-content"
-                      >
-                        <a
-                          href="/106/edit"
-                        >
-                          edit
-                        </a>
-                      </div>
-                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -1038,18 +998,6 @@ Object {
                     </div>
                   </button>
                 </th>
-                <th
-                  class="pf-m-width-15"
-                  scope="col"
-                >
-                  Build Configs count
-                </th>
-                <th
-                  class=""
-                  scope="col"
-                >
-                  Actions
-                </th>
               </tr>
             </thead>
             <tbody
@@ -1070,33 +1018,29 @@ Object {
                   >
                     Test Project Name 100
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 >
                   Test Project Name 100 Desc
-                </td>
-                <td
-                  class=""
-                >
-                  0
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/100/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
                 </td>
               </tr>
               <tr
@@ -1113,33 +1057,29 @@ Object {
                   >
                     zz_2021110-101
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 >
                   zz_2021110-101 desc
-                </td>
-                <td
-                  class=""
-                >
-                  0
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/101/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
                 </td>
               </tr>
               <tr
@@ -1156,32 +1096,28 @@ Object {
                   >
                     zz_2021110-102
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 />
-                <td
-                  class=""
-                >
-                  0
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/102/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
-                </td>
               </tr>
               <tr
                 class=""
@@ -1197,32 +1133,28 @@ Object {
                   >
                     zz_2021110-103
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 />
-                <td
-                  class=""
-                >
-                  0
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/103/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
-                </td>
               </tr>
               <tr
                 class=""
@@ -1238,32 +1170,28 @@ Object {
                   >
                     zz_2021110-104
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 />
-                <td
-                  class=""
-                >
-                  0
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/104/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
-                </td>
               </tr>
               <tr
                 class=""
@@ -1279,33 +1207,29 @@ Object {
                   >
                     zz_2021110-105
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 >
                   zz_2021110-105 description
-                </td>
-                <td
-                  class=""
-                >
-                  0
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/105/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
                 </td>
               </tr>
               <tr
@@ -1322,33 +1246,29 @@ Object {
                   >
                     Test Project Name 106
                   </a>
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          17
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
                 <td
                   class=""
                 >
                   Test Project Name 106 description
-                </td>
-                <td
-                  class=""
-                >
-                  17
-                </td>
-                <td
-                  class=""
-                >
-                  <div
-                    title="Keycloak service is not available."
-                  >
-                    <div
-                      class="disabled-content"
-                    >
-                      <a
-                        href="/106/edit"
-                      >
-                        edit
-                      </a>
-                    </div>
-                  </div>
                 </td>
               </tr>
             </tbody>
