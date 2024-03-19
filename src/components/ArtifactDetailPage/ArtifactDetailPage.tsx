@@ -1,5 +1,4 @@
 import { Grid, GridItem, Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 
@@ -7,11 +6,11 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
+import { ArtifactBuild } from 'components/ArtifactBuild/ArtifactBuild';
 import { useServiceContainerArtifact } from 'components/ArtifactPages/ArtifactPages';
 import { ArtifactQualityRevisionsList } from 'components/ArtifactQualityRevisionsList/ArtifactQualityRevisionsList';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
-import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -96,12 +95,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
               <CopyToClipboard isInline>{serviceContainerArtifact.data?.sha256}</CopyToClipboard>
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes.build.title}>
-              {serviceContainerArtifact.data?.build && (
-                <>
-                  <BuildName build={serviceContainerArtifact.data.build} long includeBuildLink includeConfigLink /> (
-                  <Link to={`/builds/${serviceContainerArtifact.data.build.id}`}>#{serviceContainerArtifact.data.build.id}</Link>)
-                </>
-              )}
+              {serviceContainerArtifact.data?.build && <ArtifactBuild build={serviceContainerArtifact.data.build} />}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes.buildCategory.title}>
               <Label color="grey">{serviceContainerArtifact.data?.buildCategory}</Label>
