@@ -195,12 +195,6 @@ Object {
                       </div>
                     </button>
                   </th>
-                  <th
-                    class="pf-m-width-20"
-                    scope="col"
-                  >
-                    Build Configs count
-                  </th>
                 </tr>
               </thead>
               <tbody
@@ -221,11 +215,24 @@ Object {
                     >
                       Example Build Group 1
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -242,11 +249,24 @@ Object {
                     >
                       Example Build Group 2
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -263,11 +283,24 @@ Object {
                     >
                       Example Build Group 3
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -284,11 +317,24 @@ Object {
                     >
                       Example Build Group 4
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -305,11 +351,24 @@ Object {
                     >
                       Example Build Group 5
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -326,11 +385,24 @@ Object {
                     >
                       Example Build Group 6
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -347,11 +419,24 @@ Object {
                     >
                       Example Build Group 7
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -368,11 +453,24 @@ Object {
                     >
                       Example Build Group 8
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 <tr
@@ -389,11 +487,24 @@ Object {
                     >
                       Example Build Group 9
                     </a>
-                  </td>
-                  <td
-                    class=""
-                  >
-                    0
+                    <div
+                      class="inline-block m-l-5 m-r-5"
+                    >
+                      <div
+                        style="display: contents;"
+                      >
+                         
+                        <span
+                          class="pf-c-label pf-m-compact"
+                        >
+                          <span
+                            class="pf-c-label__content"
+                          >
+                            0
+                          </span>
+                        </span>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -807,12 +918,6 @@ Object {
                     </div>
                   </button>
                 </th>
-                <th
-                  class="pf-m-width-20"
-                  scope="col"
-                >
-                  Build Configs count
-                </th>
               </tr>
             </thead>
             <tbody
@@ -833,11 +938,24 @@ Object {
                   >
                     Example Build Group 1
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -854,11 +972,24 @@ Object {
                   >
                     Example Build Group 2
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -875,11 +1006,24 @@ Object {
                   >
                     Example Build Group 3
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -896,11 +1040,24 @@ Object {
                   >
                     Example Build Group 4
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -917,11 +1074,24 @@ Object {
                   >
                     Example Build Group 5
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -938,11 +1108,24 @@ Object {
                   >
                     Example Build Group 6
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -959,11 +1142,24 @@ Object {
                   >
                     Example Build Group 7
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -980,11 +1176,24 @@ Object {
                   >
                     Example Build Group 8
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr
@@ -1001,11 +1210,24 @@ Object {
                   >
                     Example Build Group 9
                   </a>
-                </td>
-                <td
-                  class=""
-                >
-                  0
+                  <div
+                    class="inline-block m-l-5 m-r-5"
+                  >
+                    <div
+                      style="display: contents;"
+                    >
+                       
+                      <span
+                        class="pf-c-label pf-m-compact"
+                      >
+                        <span
+                          class="pf-c-label__content"
+                        >
+                          0
+                        </span>
+                      </span>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>

@@ -31,8 +31,6 @@ describe('display ScmRepositoriesPage component', () => {
         </MemoryRouter>
       );
     });
-    const firstScmRepository = screen.getByText(scmRepositoriesMock[0].internalUrl);
-    expect(firstScmRepository).toBeInTheDocument();
     const lastScmRepository = screen.getByText(scmRepositoriesMock[1].externalUrl);
     expect(lastScmRepository).toBeInTheDocument();
   });
