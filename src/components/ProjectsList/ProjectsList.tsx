@@ -1,6 +1,5 @@
 import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 
 import { ProjectPage } from 'pnc-api-types-ts';
 
@@ -15,10 +14,10 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipLabel } from 'components/TooltipLabel/TooltipLabel';
 
 interface IProjectsList {
   serviceContainerProjects: IServiceContainerState<ProjectPage>;
@@ -68,21 +67,16 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
                 <Th sort={getSortParams(sortOptions.sortAttributes['description'].id)}>
                   {projectEntityAttributes.description.title}
                 </Th>
-                <Th width={15}>{projectEntityAttributes.buildConfigsCount.title}</Th>
-                <Th>Actions</Th>
               </Tr>
             </Thead>
             <Tbody>
               {serviceContainerProjects.data?.content?.map((project, rowIndex) => (
                 <Tr key={rowIndex}>
-                  <Td>{<ProjectLink id={project.id}>{project.name}</ProjectLink>}</Td>
-                  <Td>{project.description}</Td>
-                  <Td>{Object.keys(project.buildConfigs || []).length}</Td>
                   <Td>
-                    <ProtectedComponent>
-                      <Link to={`${project.id}/edit`}>edit</Link>
-                    </ProtectedComponent>
+                    <ProjectLink id={project.id}>{project.name}</ProjectLink>
+                    <TooltipLabel tooltip="Build Configs count">{Object.keys(project.buildConfigs || []).length}</TooltipLabel>
                   </Td>
+                  <Td>{project.description}</Td>
                 </Tr>
               ))}
             </Tbody>
