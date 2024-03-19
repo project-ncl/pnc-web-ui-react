@@ -37,6 +37,7 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
       onSubmit={confirmModal}
       serviceContainer={serviceContainerProductMilestoneClose}
       modalVariant="medium"
+      refreshOnClose={false}
       onSuccessActions={[
         <Button
           variant="secondary"
