@@ -59,6 +59,10 @@ code {
   display: flex !important;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .align-items-center {
   align-items: center !important;
 }
@@ -81,6 +85,14 @@ code {
 
 .m-t-5 {
   margin-top: 5px !important;
+}
+
+.m-l-5 {
+  margin-left: 5px !important;
+}
+
+.m-r-5 {
+  margin-right: 5px !important;
 }
 
 .m-t-10 {
