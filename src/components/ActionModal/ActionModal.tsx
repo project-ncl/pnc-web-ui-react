@@ -101,15 +101,13 @@ export const ActionModal = ({
       onClose={onClose}
       actions={[
         // TODO: NCL-8010
-        <TooltipWrapper tooltip={isSubmitDisabled && !wasLastActionSuccessful && submitDisabledTooltip}>
+        <TooltipWrapper
+          tooltip={isSubmitDisabled && !wasLastActionSuccessful && !serviceContainer?.loading && submitDisabledTooltip}
+        >
           <Button
             variant="primary"
             onClick={onSubmit}
-            isAriaDisabled={
-              isSubmitDisabled ||
-              (serviceContainer &&
-                ((serviceContainer.data !== DataValues.notYetData && !serviceContainer.error) || serviceContainer.loading))
-            }
+            isAriaDisabled={isSubmitDisabled || (wasLastActionSuccessful && !wereSubmitDataChanged) || serviceContainer?.loading}
           >
             {serviceContainer?.loading && (
               <ServiceContainerLoading allowEmptyData variant="icon" {...serviceContainer} title={actionTitle} />
