@@ -12,6 +12,14 @@ export const CodeEditor = ({ value, onBlur, ...textAreaProps }: ICodeEditorProps
   const lineNumbers = useMemo(() => value.split('\n').map((_, index) => index + 1), [value]);
   const [currentLineNumber, setCurrentLineNumber] = useState<number>();
 
+  const textAreaHeight = useMemo(() => {
+    const lineCount = lineNumbers.length;
+    const lineHeight = 21; // see .code-editor-shared class
+    const padding = 25;
+
+    return lineCount * lineHeight + padding;
+  }, [lineNumbers.length]);
+
   return (
     <div className={styles['code-editor-wrapper']}>
       <div className={css(styles['code-editor-line-numbers'], styles['code-editor-shared'])}>
@@ -22,9 +30,9 @@ export const CodeEditor = ({ value, onBlur, ...textAreaProps }: ICodeEditorProps
         ))}
       </div>
       <TextArea
+        style={{ height: `${textAreaHeight}px` }}
         value={value}
         className={css(styles['code-editor-text-area'], styles['code-editor-shared'])}
-        autoResize
         onSelectCapture={(event) => {
           const target = event.target as HTMLTextAreaElement;
           setCurrentLineNumber(target.value?.slice(0, target.selectionStart).split('\n').length);
