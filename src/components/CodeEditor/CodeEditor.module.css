@@ -11,17 +11,21 @@
 .code-editor-text-area {
   padding-left: 4rem;
   resize: none;
+  white-space: nowrap;
+  overflow: auto hidden;
 }
 
 .code-editor-line-numbers {
   position: absolute;
-  top: 1px;
+  top: 2px;
+  left: 2px;
   overflow-y: hidden;
-  width: 3.5rem;
-  padding: 5px;
+  width: calc(4rem - 2px);
+  padding: 4px 0.75rem 0 4px;
   color: grey;
   text-align: right;
   user-select: none;
+  background-color: white;
 }
 
 .code-editor-current-line {
