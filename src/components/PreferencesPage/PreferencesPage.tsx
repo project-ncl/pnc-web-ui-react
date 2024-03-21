@@ -20,6 +20,9 @@ interface ILoggerLabel {
   error: boolean;
 }
 
+const LOGGER_LABEL_MAX = 15;
+const loggerLabelRegex = new RegExp(`^[a-zA-Z0-9-]{0,${LOGGER_LABEL_MAX}}$`);
+
 export const PreferencesPage = () => {
   const [isExperimentalContentEnabled, setIsExperimentalContentEnabled] = useState<boolean>(false);
 
@@ -34,7 +37,7 @@ export const PreferencesPage = () => {
 
   const [loggerLabel, updateLoggerLabel] = useReducer(
     (state: ILoggerLabel, value: string) => {
-      if (/^[a-zA-Z0-9-]{0,15}$/.test(value)) {
+      if (loggerLabelRegex.test(value)) {
         setShowAdvanced(true);
         if (value) {
           window.localStorage.setItem(StorageKeys.loggerLabel, `${value}`);
@@ -100,8 +103,8 @@ export const PreferencesPage = () => {
                 labelIcon={<TooltipWrapper tooltip="For debugging purposes only, leave it empty by default." />}
                 helperText={[
                   <FormHelperText isHidden={!loggerLabel.value && !loggerLabel.error}>
-                    Up to 15 alphanumeric characters and dash symbol are allowed. It's recommended to use Jira number, such as{' '}
-                    <Label isCompact>NCL-1234</Label>
+                    Up to {LOGGER_LABEL_MAX} alphanumeric characters and dash symbol are allowed. It's recommended to use Jira
+                    number, such as <Label isCompact>NCL-1234</Label>
                   </FormHelperText>,
                   <FormHelperText isError isHidden={!loggerLabel.error}>
                     The attempt to enter invalid value was rejected.
