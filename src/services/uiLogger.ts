@@ -1,4 +1,6 @@
 // import Bowser from 'bowser';
+import { StorageKeys } from 'common/constants';
+
 import * as uiLoggerApi from 'services/uiLoggerApi';
 import { userService } from 'services/userService';
 
@@ -29,6 +31,7 @@ interface IUIError {
 export interface IUILog {
   client: IUILogClient;
   user: IUILogUser;
+  label: string;
   url: string;
   data?: Object;
   message?: string | null;
@@ -59,6 +62,7 @@ const createData = (message?: string, error?: Error, additionalData?: Object): I
       language: navigator.language,
       userId: userService.getUserId(),
     },
+    label: window.localStorage.getItem(StorageKeys.loggerLabel) ?? '',
     url: window.location.href,
     data: additionalData,
     message: message,
