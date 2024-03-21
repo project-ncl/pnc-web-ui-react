@@ -16,8 +16,10 @@ import {
   PageSidebar,
 } from '@patternfly/react-core';
 import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router-dom';
+
+import { StorageKeys } from 'common/constants';
 
 import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useResizeObserver } from 'hooks/useResizeObserver';
@@ -72,6 +74,16 @@ export const AppLayout = () => {
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
     const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
 
+    const loggerLabel = window.localStorage.getItem(StorageKeys.loggerLabel);
+
+    const headerConfig = useMemo(
+      () => ({
+        color: loggerLabel ? 'red' : undefined,
+        tooltip: loggerLabel ? `Logger Label is active: ${loggerLabel}, it can be deactivated on Preferences page` : undefined,
+      }),
+      [loggerLabel]
+    );
+
     const headerConfigDropdownItems = [
       <DropdownItem component={<Link to="/preferences">Preferences</Link>} key="preferences" />,
       <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
@@ -118,12 +130,13 @@ export const AppLayout = () => {
                 toggle={
                   <DropdownToggle
                     toggleIndicator={null}
-                    icon={<CogIcon />}
+                    icon={<CogIcon color={headerConfig.color} />}
+                    title={headerConfig.tooltip}
                     onToggle={() => {
                       setIsHeaderConfigOpen(!isHeaderConfigOpen);
                     }}
                   >
-                    <CaretDownIcon />
+                    <CaretDownIcon color={headerConfig.color} />
                   </DropdownToggle>
                 }
                 isOpen={isHeaderConfigOpen}
