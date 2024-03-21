@@ -13,6 +13,7 @@ import { isBuild, isGroupBuild } from 'utils/entityRecognition';
 import { getNumberGenerator } from 'utils/utils';
 
 import styles from './DependencyTree.module.css';
+import './TreeView.css';
 
 const FAILED_BUILD_STATUSES = [
   'FAILED',
