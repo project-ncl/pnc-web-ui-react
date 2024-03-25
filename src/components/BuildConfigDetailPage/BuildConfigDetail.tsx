@@ -59,6 +59,11 @@ export const BuildConfigDetail = ({
           </Toolbar>
           <ContentBox padding borderTop isResponsive>
             <Attributes>
+              {isRevisionVariant && (
+                <AttributesItem title={buildConfigEntityAttributes.name.title}>
+                  {serviceContainerBuildConfig.data?.name}
+                </AttributesItem>
+              )}
               <AttributesItem title={buildConfigEntityAttributes['project.name'].title}>
                 {serviceContainerBuildConfig.data?.project && (
                   <ProjectLink id={serviceContainerBuildConfig.data.project.id}>
