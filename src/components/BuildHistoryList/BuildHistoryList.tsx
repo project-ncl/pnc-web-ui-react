@@ -26,10 +26,7 @@ const buildHistoryCustomColumnsGroupBuild: Array<string> = [
   buildEntityAttributes['user.username'].id,
 ];
 
-const buildHistoryCustomColumnsBuild: Array<string> = [
-  ...buildHistoryCustomColumnsGroupBuild,
-  buildEntityAttributes.submitTime.id,
-];
+const buildHistoryCustomColumnsBuild: Array<string> = [...buildHistoryCustomColumnsGroupBuild, buildEntityAttributes.endTime.id];
 
 interface IBuildHistoryListProps {
   serviceContainerBuilds: IServiceContainerState<BuildPage | GroupBuildPage>;
@@ -51,7 +48,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
       getSortOptions({
         entityAttributes: entityAttributes,
         defaultSorting: {
-          attribute: variant === 'Build' ? buildEntityAttributes.submitTime.id : groupBuildEntityAttributes.startTime.id,
+          attribute: variant === 'Build' ? buildEntityAttributes.endTime.id : groupBuildEntityAttributes.startTime.id,
           direction: 'desc',
         },
         customColumns: variant === 'Build' ? buildHistoryCustomColumnsBuild : buildHistoryCustomColumnsGroupBuild,

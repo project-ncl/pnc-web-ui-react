@@ -19,6 +19,7 @@ export const productMilestoneEntityAttributes = {
     filter: {
       operator: '=like=',
     },
+    sort: {},
   },
   status: {
     id: 'status',
@@ -27,14 +28,17 @@ export const productMilestoneEntityAttributes = {
   startingDate: {
     id: 'startingDate',
     title: 'Start Date',
+    sort: {},
   },
   plannedEndDate: {
     id: 'plannedEndDate',
     title: 'Planned End Date',
+    sort: {},
   },
   endDate: {
     id: 'endDate',
     title: 'End Date',
+    sort: {},
   },
   lastCloseResult: {
     id: 'lastCloseResult',
