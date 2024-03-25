@@ -237,7 +237,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerConfigs.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerConfigs.data?.totalHits} pageSizeDefault="page10" />
     </>
   );
 };

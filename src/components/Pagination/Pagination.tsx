@@ -31,7 +31,7 @@ interface IPagination {
   isCompact?: boolean;
 }
 
-export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page10', isCompact }: IPagination) => {
+export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page50', isCompact }: IPagination) => {
   const location = useLocation();
   const navigate = useNavigate();
 

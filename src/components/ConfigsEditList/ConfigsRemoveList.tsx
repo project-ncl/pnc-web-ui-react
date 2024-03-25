@@ -202,7 +202,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerConfigs.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerConfigs.data?.totalHits} pageSizeDefault="page10" />
     </>
   );
 };

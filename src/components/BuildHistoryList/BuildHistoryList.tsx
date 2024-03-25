@@ -96,7 +96,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerBuilds.data?.totalHits} pageSizeDefault="page15" />
+      <Pagination componentId={componentId} count={serviceContainerBuilds.data?.totalHits} pageSizeDefault="page20" />
     </>
   );
 };
