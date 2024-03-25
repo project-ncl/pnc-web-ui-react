@@ -10,7 +10,7 @@ import * as productVersionApi from 'services/productVersionApi';
 export const BuildConfigDetailPage = () => {
   const { serviceContainerBuildConfig } = useServiceContainerBuildConfig();
 
-  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
+  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion, 0);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { BuildConfiguration, BuildConfigurationRevision, ProductVersion } from '
 
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 
-import { IServiceContainerState } from 'hooks/useServiceContainer';
+import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
@@ -113,13 +113,15 @@ export const BuildConfigDetail = ({
               </AttributesItem>
               {serviceContainerProductVersion && (
                 <AttributesItem title={buildConfigEntityAttributes.productVersion.title}>
-                  <ServiceContainerLoading
-                    {...serviceContainerProductVersion}
-                    variant="inline"
-                    title={buildConfigEntityAttributes.productVersion.title}
-                  >
-                    <ProductVersionLink productVersion={serviceContainerProductVersion.data!} />
-                  </ServiceContainerLoading>
+                  {(serviceContainerProductVersion.loading || serviceContainerProductVersion.data !== DataValues.notYetData) && (
+                    <ServiceContainerLoading
+                      {...serviceContainerProductVersion}
+                      variant="inline"
+                      title={buildConfigEntityAttributes.productVersion.title}
+                    >
+                      <ProductVersionLink productVersion={serviceContainerProductVersion.data!} />
+                    </ServiceContainerLoading>
+                  )}
                 </AttributesItem>
               )}
             </Attributes>
