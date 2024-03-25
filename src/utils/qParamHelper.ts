@@ -1,7 +1,11 @@
+import { groupBy } from 'lodash-es';
+
+import { uiLogger } from 'services/uiLogger';
+
 /**
  * Q (RSQL) param helper
  *
- * Only ';' is supported at this moment
+ * Both ';' and ',' are supported.
  *
  * @example
  * user.username=like="%u1%";
@@ -13,20 +17,21 @@
  * status!=CANCELLED;
  *
  */
-import { uiLogger } from 'services/uiLogger';
+
+export type TQParamValue = string | boolean | number;
 
 /**
  * Operator =like= is converted to =notlike= automatically when qValue starts with ! character,
  * there is no need to declare it manually.
  */
-export type TQParamValue = string | boolean | number;
-
 export type IQParamOperators = '=like=' | '==' | '!=' | '=isnull=';
 
 /**
  * List of all supported RSQL operators.
  */
 const qParamSupportedOperators = ['=like=', '=notlike=', '==', '!=', '=isnull='];
+
+const regexQParamSupportedOperators = new RegExp('(' + qParamSupportedOperators.join('|') + ')');
 
 /**
  * @example
@@ -45,8 +50,8 @@ export interface IQParamObject {
  */
 const parseQParamShallow = (qParamString: string): string[] => {
   let qParamArray: string[];
-  if (qParamString.indexOf(';') > -1) {
-    qParamArray = qParamString.split(';');
+  if (qParamString.indexOf(';') > -1 || qParamString.indexOf(',') > -1) {
+    qParamArray = qParamString.split(/[,;]/);
   } else if (qParamString) {
     qParamArray = [qParamString];
   } else {
@@ -68,6 +73,30 @@ const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamO
 };
 
 /**
+ * @param qParamString - Array of strings (RSQL expressions): ['name=like="%a%"', 'name=notlike="%b%"', 'description=like="%c%"', 'name=like="%d%"']
+ * @returns Joined RSQL string. Items within one group (same id (key)) are joined with OR operator, groups are joined with AND operator.
+ * Example output: 'name=like="%a%",name=notlike="%b%",name=like="%d%";description=like="%c%"'
+ */
+const joinQParamItems = (qParamItems: string[]): string => {
+  const qParamItemsObjects = qParamItems.map((qParamItem) => {
+    const qParamItemSplitted = qParamItem.split(regexQParamSupportedOperators);
+    const [qKey, qOperator, qValue] = [...qParamItemSplitted.splice(0, 2), qParamItemSplitted.join('')];
+
+    return {
+      id: qKey,
+      operator: qOperator as IQParamOperators,
+      value: qValue,
+    };
+  });
+
+  const qParamItemsObjectsGroupedById = Object.values(groupBy(qParamItemsObjects, 'id'));
+
+  return qParamItemsObjectsGroupedById
+    .map((group) => group.map((item) => `${item.id}${item.operator}${item.value}`).join(','))
+    .join(';');
+};
+
+/**
  * @returns
  * 1) new Q string containing new param
  * 2) null when Q param is already contained in Q string
@@ -83,7 +112,7 @@ export const addQParamItem = (id: string, value: TQParamValue, operator: IQParam
     return null;
   }
 
-  return qParamItems.join(';');
+  return joinQParamItems(qParamItems);
 };
 
 /**
@@ -107,7 +136,7 @@ export const removeQParamItem = (id: string, value: TQParamValue, operator: IQPa
     uiLogger.error(`${removeItem} removing failed, it does not exist`);
   }
 
-  return qParamItems.join(';');
+  return joinQParamItems(qParamItems);
 };
 
 /**
@@ -125,30 +154,23 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
 
   // loop Q Params Items
   for (let i = 0; i < qParamItems.length; i++) {
-    let isOperatorFound = false;
+    let qParamItemSplitted = qParamItems[i].split(regexQParamSupportedOperators);
 
-    // loop supported operators
-    for (let j = 0; j < qParamSupportedOperators.length; j++) {
-      const qOperator = qParamSupportedOperators[j];
+    if (qParamItemSplitted.length >= 3) {
+      let [qKey, qOperator, qValue] = [...qParamItemSplitted.splice(0, 2), qParamItemSplitted.join('')];
 
-      if (qParamItems[i].indexOf(qOperator) > -1) {
-        isOperatorFound = true;
-        let [qKey, qValue] = qParamItems[i].split(qOperator);
-
-        // add ! character
-        // #support =notlike=
-        if (qOperator === '=notlike=') {
-          qValue = '!' + qValue;
-        }
-
-        if (qParamObject[qKey]) {
-          qParamObject[qKey].push(qValue);
-        } else {
-          qParamObject[qKey] = [qValue];
-        }
+      // add ! character
+      // #support =notlike=
+      if (qOperator === '=notlike=') {
+        qValue = '!' + qValue;
       }
-    }
-    if (!isOperatorFound) {
+
+      if (qParamObject[qKey]) {
+        qParamObject[qKey].push(qValue);
+      } else {
+        qParamObject[qKey] = [qValue];
+      }
+    } else {
       uiLogger.error(
         `${qParamItems[i]} does not contain any valid operator, supported operators are: ${qParamSupportedOperators}`
       );
