@@ -4,10 +4,11 @@ import { useMemo, useState } from 'react';
 import { ProductMilestone, ProductMilestonePage } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterOptions } from 'common/entityAttributes';
+import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
+import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -49,6 +50,20 @@ export const ProductVersionMilestonesList = ({
   const [currentModalProductMilestoneId, setCurrentModalProductMilestoneId] = useState<string>();
   const [currentModalType, setCurrentModalType] = useState<TModalType>();
 
+  const sortOptions: ISortOptions = useMemo(
+    () =>
+      getSortOptions({
+        entityAttributes: productMilestoneEntityAttributes,
+        defaultSorting: {
+          attribute: productMilestoneEntityAttributes.plannedEndDate.id,
+          direction: 'desc',
+        },
+      }),
+    []
+  );
+
+  const { getSortParams } = useSorting(sortOptions, componentId);
+
   const toggleCurrentModalProductMilestoneId = (productMilestoneId: string, modalType: TModalType) => () => {
     setCurrentModalProductMilestoneId((currentModalProductMilestoneId) =>
       currentModalProductMilestoneId ? undefined : productMilestoneId
@@ -72,11 +87,19 @@ export const ProductVersionMilestonesList = ({
           <TableComposable isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={15}>{productMilestoneEntityAttributes.version.title}</Th>
+                <Th width={15} sort={getSortParams(sortOptions.sortAttributes.version.id)}>
+                  {productMilestoneEntityAttributes.version.title}
+                </Th>
                 <Th width={10}>{productMilestoneEntityAttributes.status.title}</Th>
-                <Th width={15}>{productMilestoneEntityAttributes.startingDate.title}</Th>
-                <Th width={15}>{productMilestoneEntityAttributes.plannedEndDate.title}</Th>
-                <Th width={15}>{productMilestoneEntityAttributes.endDate.title}</Th>
+                <Th width={15} sort={getSortParams(sortOptions.sortAttributes.startingDate.id)}>
+                  {productMilestoneEntityAttributes.startingDate.title}
+                </Th>
+                <Th width={15} sort={getSortParams(sortOptions.sortAttributes.plannedEndDate.id)}>
+                  {productMilestoneEntityAttributes.plannedEndDate.title}
+                </Th>
+                <Th width={15} sort={getSortParams(sortOptions.sortAttributes.endDate.id)}>
+                  {productMilestoneEntityAttributes.endDate.title}
+                </Th>
                 <Th />
               </Tr>
             </Thead>

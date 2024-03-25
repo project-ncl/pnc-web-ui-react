@@ -138,7 +138,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
       getSortOptions({
         entityAttributes: buildEntityAttributes,
         defaultSorting: {
-          attribute: buildEntityAttributes.submitTime.id,
+          attribute: buildEntityAttributes.endTime.id,
           direction: 'desc',
         },
         customColumns: columns,

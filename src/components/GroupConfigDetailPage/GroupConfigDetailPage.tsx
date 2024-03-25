@@ -36,9 +36,9 @@ import { generatePageTitle } from 'utils/titleHelper';
 
 const buildConfigsListColumns = [
   buildConfigEntityAttributes.name.id,
-  buildConfigEntityAttributes.buildType.id,
   buildConfigEntityAttributes['project.name'].id,
-  buildConfigEntityAttributes.buildStatus.id,
+  buildConfigEntityAttributes.creationTime.id,
+  buildConfigEntityAttributes.modificationTime.id,
   buildConfigEntityAttributes.actions.id,
 ];
 

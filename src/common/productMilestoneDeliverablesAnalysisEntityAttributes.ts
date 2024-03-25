@@ -36,6 +36,7 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
   endTime: {
     id: 'endTime',
     title: 'End Time',
+    sort: {},
   },
   progressStatus: {
     id: 'progressStatus',

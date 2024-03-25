@@ -41,7 +41,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
       getSortOptions({
         entityAttributes: productMilestoneDeliverablesAnalysisEntityAttributes,
         defaultSorting: {
-          attribute: productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.id,
+          attribute: productMilestoneDeliverablesAnalysisEntityAttributes.endTime.id,
           direction: 'desc',
         },
       }),
@@ -75,6 +75,9 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
                   {productMilestoneDeliverablesAnalysisEntityAttributes.submitTime.title}
                 </Th>
+                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['endTime'].id)}>
+                  {productMilestoneDeliverablesAnalysisEntityAttributes.endTime.title}
+                </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
                   {productMilestoneDeliverablesAnalysisEntityAttributes['user.username'].title}
                 </Th>
@@ -94,6 +97,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                   </Td>
                   <Td>{operation.result && <DeliverablesAnalysisResultLabelMapper result={operation.result} />}</Td>
                   <Td>{operation.submitTime && <DateTime date={operation.submitTime} />}</Td>
+                  <Td>{operation.endTime && <DateTime date={operation.endTime} />}</Td>
                   <Td>{operation.user?.username && <Username text={operation.user.username} />}</Td>
                 </Tr>
               ))}
