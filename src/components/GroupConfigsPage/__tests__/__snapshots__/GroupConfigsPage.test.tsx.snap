@@ -540,7 +540,7 @@ Object {
                       <b>
                         1
                          - 
-                        10
+                        50
                       </b>
                        
                       of
@@ -650,7 +650,7 @@ Object {
                     <input
                       aria-label="Current page"
                       class="pf-c-form-control"
-                      max="15"
+                      max="3"
                       min="1"
                       type="number"
                       value="1"
@@ -660,7 +660,7 @@ Object {
                     >
                       of
                        
-                      15
+                      3
                     </span>
                   </div>
                   <div
@@ -1263,7 +1263,7 @@ Object {
                     <b>
                       1
                        - 
-                      10
+                      50
                     </b>
                      
                     of
@@ -1373,7 +1373,7 @@ Object {
                   <input
                     aria-label="Current page"
                     class="pf-c-form-control"
-                    max="15"
+                    max="3"
                     min="1"
                     type="number"
                     value="1"
@@ -1383,7 +1383,7 @@ Object {
                   >
                     of
                      
-                    15
+                    3
                   </span>
                 </div>
                 <div
