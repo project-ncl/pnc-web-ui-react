@@ -1,4 +1,5 @@
 import { Button, Chip, ChipGroup, InputGroup, Select, SelectOption, SelectVariant, TextInput } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -273,15 +274,19 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
               key={filterAttributeKey}
               categoryName={filterOptions.filterAttributes[filterAttributeKey].title}
             >
-              {appliedFilters[filterAttributeKey].map((filterValueItem) => (
-                <Chip
-                  key={filterValueItem}
-                  onClick={() => {
-                    removeFilter(filterAttributeKey, filterValueItem);
-                  }}
-                >
-                  {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
-                </Chip>
+              {appliedFilters[filterAttributeKey].map((filterValueItem, i) => (
+                <span key={filterValueItem}>
+                  <Chip
+                    onClick={() => {
+                      removeFilter(filterAttributeKey, filterValueItem);
+                    }}
+                  >
+                    {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
+                  </Chip>
+                  {i + 1 !== appliedFilters[filterAttributeKey].length && (
+                    <span className={css('p-l-5', styles['chip-group-separator'])}>or</span>
+                  )}
+                </span>
               ))}
             </ChipGroup>
           ))}

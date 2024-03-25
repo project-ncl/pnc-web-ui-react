@@ -10,3 +10,8 @@
   margin-right: 10px;
   margin-bottom: 10px;
 }
+
+.chip-group-separator {
+  font-size: 12px;
+  line-height: 24px;
+}
