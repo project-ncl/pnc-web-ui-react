@@ -63,7 +63,10 @@ const TimesList = ({ build, isCompactMode }: ITimesListProps) => {
       <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
       <DescriptionListDescription>
         {build.startTime && (
-          <DateTime date={build.startTime} displayDate={!build.submitTime || !areDatesEqual(build.submitTime, build.startTime)} />
+          <DateTime
+            date={build.startTime}
+            displayDate={isCompactMode || !build.submitTime || !areDatesEqual(build.submitTime, build.startTime)}
+          />
         )}
       </DescriptionListDescription>
     </DescriptionListGroup>
@@ -77,12 +80,15 @@ const TimesList = ({ build, isCompactMode }: ITimesListProps) => {
           <DateTime
             date={build.endTime}
             displayDate={
+              isCompactMode ||
               (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
               (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime))
             }
           />
         )}
-        {build.startTime && build.endTime && ` (took ${calculateDuration(build.startTime, build.endTime)})`}
+        {build.startTime &&
+          build.endTime &&
+          ` (${isCompactMode ? '' : 'took '}${calculateDuration(build.startTime, build.endTime)})`}
       </DescriptionListDescription>
     </DescriptionListGroup>
   );
@@ -199,14 +205,14 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                   </Th>
                 )}
                 {columns.includes(buildEntityAttributes.name.id) && (
-                  <Th width={35}>
+                  <Th width={30}>
                     {buildEntityAttributes.name.title} <TooltipWrapper tooltip={buildEntityAttributes.name.tooltip} />
                   </Th>
                 )}
                 {columns.includes(buildEntityAttributes.submitTime.id) &&
                   columns.includes(buildEntityAttributes.startTime.id) &&
                   columns.includes(buildEntityAttributes.endTime.id) && (
-                    <Th width={20} className="overflow-visible">
+                    <Th width={25} className="overflow-visible">
                       <SortGroup
                         title="Times"
                         sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
