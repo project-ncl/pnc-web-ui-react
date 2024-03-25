@@ -286,7 +286,7 @@ Object {
                     </div>
                   </th>
                   <th
-                    class="pf-m-width-35"
+                    class="pf-m-width-30"
                     scope="col"
                   >
                     Name
@@ -311,7 +311,7 @@ Object {
                     </div>
                   </th>
                   <th
-                    class="overflow-visible pf-m-width-20"
+                    class="overflow-visible pf-m-width-25"
                     scope="col"
                   >
                     <div
@@ -355,7 +355,7 @@ Object {
                           <span
                             class="sort-icon-title"
                           >
-                            Submitted
+                            Ended
                           </span>
                         </span>
                       </button>
@@ -498,10 +498,15 @@ Object {
                           <div
                             class="pf-c-description-list__text"
                           >
+                            <span
+                              class="date-span displayed-time"
+                            >
+                              2020-10-19
+                            </span>
                             <span>
                               02:15
                             </span>
-                             (took 2m)
+                             (2m)
                           </div>
                         </dd>
                       </div>
@@ -607,10 +612,15 @@ Object {
                           <div
                             class="pf-c-description-list__text"
                           >
+                            <span
+                              class="date-span displayed-time"
+                            >
+                              2020-10-27
+                            </span>
                             <span>
                               13:06
                             </span>
-                             (took 26s)
+                             (26s)
                           </div>
                         </dd>
                       </div>
@@ -716,10 +726,15 @@ Object {
                           <div
                             class="pf-c-description-list__text"
                           >
+                            <span
+                              class="date-span displayed-time"
+                            >
+                              2021-05-07
+                            </span>
                             <span>
                               01:43
                             </span>
-                             (took 1m)
+                             (1m)
                           </div>
                         </dd>
                       </div>
@@ -1236,7 +1251,7 @@ Object {
                   </div>
                 </th>
                 <th
-                  class="pf-m-width-35"
+                  class="pf-m-width-30"
                   scope="col"
                 >
                   Name
@@ -1261,7 +1276,7 @@ Object {
                   </div>
                 </th>
                 <th
-                  class="overflow-visible pf-m-width-20"
+                  class="overflow-visible pf-m-width-25"
                   scope="col"
                 >
                   <div
@@ -1305,7 +1320,7 @@ Object {
                         <span
                           class="sort-icon-title"
                         >
-                          Submitted
+                          Ended
                         </span>
                       </span>
                     </button>
@@ -1448,10 +1463,15 @@ Object {
                         <div
                           class="pf-c-description-list__text"
                         >
+                          <span
+                            class="date-span displayed-time"
+                          >
+                            2020-10-19
+                          </span>
                           <span>
                             02:15
                           </span>
-                           (took 2m)
+                           (2m)
                         </div>
                       </dd>
                     </div>
@@ -1557,10 +1577,15 @@ Object {
                         <div
                           class="pf-c-description-list__text"
                         >
+                          <span
+                            class="date-span displayed-time"
+                          >
+                            2020-10-27
+                          </span>
                           <span>
                             13:06
                           </span>
-                           (took 26s)
+                           (26s)
                         </div>
                       </dd>
                     </div>
@@ -1666,10 +1691,15 @@ Object {
                         <div
                           class="pf-c-description-list__text"
                         >
+                          <span
+                            class="date-span displayed-time"
+                          >
+                            2021-05-07
+                          </span>
                           <span>
                             01:43
                           </span>
-                           (took 1m)
+                           (1m)
                         </div>
                       </dd>
                     </div>
