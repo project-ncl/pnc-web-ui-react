@@ -23,7 +23,7 @@ export const BuildConfigRevisionPages = ({ componentId = 'r1' }: IBuildConfigDet
   const serviceContainerBuildConfigRevisionsRunner = serviceContainerBuildConfigRevisions.run;
 
   if (!revisionId && serviceContainerBuildConfigRevisions.data?.content?.length) {
-    navigate(serviceContainerBuildConfigRevisions.data.content.at(0)?.rev + search);
+    navigate(serviceContainerBuildConfigRevisions.data.content.at(0)?.rev + search, { replace: true });
   }
 
   useQueryParamsEffect(
