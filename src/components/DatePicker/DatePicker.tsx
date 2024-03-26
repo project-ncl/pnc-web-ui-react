@@ -9,6 +9,7 @@ interface IDatePickerProps {
   onChange: (date: string) => void;
   onBlur: () => void;
   invalidFormatText?: string;
+  includeTime?: boolean;
 }
 
 /**
@@ -20,17 +21,27 @@ interface IDatePickerProps {
  * @param onChange - On-change event function
  * @param onBlur - On-blur event function
  * @param invalidFormatText - Text displayed when the date has invalid format
+ * @param includeTime - Extends date picker to date-time picker
  */
-export const DatePicker = ({ id, name, value, onChange, onBlur, invalidFormatText = '' }: IDatePickerProps) => (
+export const DatePicker = ({
+  id,
+  name,
+  value,
+  onChange,
+  onBlur,
+  invalidFormatText = '',
+  includeTime = false,
+}: IDatePickerProps) => (
   <DatePickerPF
     id={id}
     name={name}
+    placeholder={`YYYY-MM-DD${includeTime ? ' HH:MM' : ''}`}
     value={value}
     onChange={(_, date) => {
       onChange(date);
     }}
     onBlur={onBlur}
-    dateFormat={(date: Date) => createDateTime({ date }).date}
+    dateFormat={(date: Date) => (includeTime ? createDateTime({ date }).custom : createDateTime({ date }).date)}
     invalidFormatText={invalidFormatText}
   />
 );
