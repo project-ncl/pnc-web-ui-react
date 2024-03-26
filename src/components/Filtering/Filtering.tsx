@@ -202,7 +202,6 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
             setIsFilterAttributeOpen(isOpen);
           }}
           onSelect={(event, selection, isPlaceholder) => {
-            setFilterValue('');
             if (!isPlaceholder) {
               setFilterAttribute(selection as TFilterAttribute);
               setIsFilterAttributeOpen(false);
