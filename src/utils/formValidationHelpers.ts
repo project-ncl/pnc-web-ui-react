@@ -102,6 +102,22 @@ export const validateDate = (date: string): boolean => {
   return !date || (dateRegex.test(date) && !isNaN(dateObject.getTime()));
 };
 
+const dateTimeRegex = /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}$/;
+
+/**
+ * Date-time format validation function.
+ * Accepted date-time format: YYYY-MM-DD HH:MM
+ *
+ * Accepts empty date.
+ *
+ * @param dateTime - Date-time string
+ * @returns true if valid, false otherwise
+ */
+export const validateDateTime = (dateTime: string): boolean => {
+  const dateTimeObject = new Date(dateTime);
+  return !dateTime || (dateTimeRegex.test(dateTime) && !isNaN(dateTimeObject.getTime()));
+};
+
 const productVersionNameRegex = /^\d+\.\d+$/;
 
 /**
