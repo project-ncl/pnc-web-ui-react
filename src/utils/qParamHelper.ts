@@ -49,11 +49,13 @@ export interface IQParamObject {
  * @returns Array of individual RSQL items: [filename=like="%te%t%", status!=CANCELLED]
  */
 const parseQParamShallow = (qParamString: string): string[] => {
+  const qParamStringSimplified = qParamString.replaceAll(/[()]/g, '');
+
   let qParamArray: string[];
-  if (qParamString.indexOf(';') > -1 || qParamString.indexOf(',') > -1) {
-    qParamArray = qParamString.split(/[,;]/);
-  } else if (qParamString) {
-    qParamArray = [qParamString];
+  if (qParamStringSimplified.indexOf(';') > -1 || qParamStringSimplified.indexOf(',') > -1) {
+    qParamArray = qParamStringSimplified.split(/[,;]/);
+  } else if (qParamStringSimplified) {
+    qParamArray = [qParamStringSimplified];
   } else {
     qParamArray = [];
   }
@@ -92,7 +94,12 @@ const joinQParamItems = (qParamItems: string[]): string => {
   const qParamItemsObjectsGroupedById = Object.values(groupBy(qParamItemsObjects, 'id'));
 
   return qParamItemsObjectsGroupedById
-    .map((group) => group.map((item) => `${item.id}${item.operator}${item.value}`).join(','))
+    .map((group) => {
+      const groupStringified = group.map((item) => `${item.id}${item.operator}${item.value}`).join(',');
+
+      // () because: AND precedence > OR precedence
+      return `(${groupStringified})`;
+    })
     .join(';');
 };
 
