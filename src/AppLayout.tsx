@@ -290,7 +290,7 @@ export const AppLayout = () => {
             id="site-top-bar"
             banner={serviceContainerPncStatus.data.banner}
             isMaintenanceMode={serviceContainerPncStatus.data.isMaintenanceMode}
-            eta={serviceContainerPncStatus.data.eta && createDateTime({ date: serviceContainerPncStatus.data.eta }).date}
+            eta={serviceContainerPncStatus.data.eta && createDateTime({ date: serviceContainerPncStatus.data.eta }).custom}
           />
         )}
       </div>

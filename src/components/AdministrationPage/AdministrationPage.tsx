@@ -35,8 +35,8 @@ import * as buildApi from 'services/buildApi';
 import * as genericSettingsApi from 'services/genericSettingsApi';
 import { uiLogger } from 'services/uiLogger';
 
-import { validateDate } from 'utils/formValidationHelpers';
-import { createDateTime, parseDate } from 'utils/utils';
+import { validateDateTime } from 'utils/formValidationHelpers';
+import { createDateTime } from 'utils/utils';
 
 const REFRESH_INTERVAL_SECONDS = 90;
 
@@ -46,7 +46,7 @@ const directionColumn: FlexProps['direction'] = { default: 'column' };
 const fieldConfigs = {
   isMaintenanceMode: { value: false },
   eta: {
-    validators: [{ validator: validateDate, errorMessage: 'Invalid date format.' }],
+    validators: [{ validator: validateDateTime, errorMessage: 'Invalid date-time format.' }],
   },
 } satisfies IFieldConfigs;
 
@@ -86,7 +86,7 @@ export const AdministrationPage = () => {
           data: {
             banner: data.banner,
             isMaintenanceMode: !!data.isMaintenanceMode,
-            eta: data.eta ? parseDate(data.eta) : null,
+            eta: data.eta ? new Date(data.eta) : null,
           },
         },
       })
@@ -99,7 +99,7 @@ export const AdministrationPage = () => {
   useEffect(() => {
     serviceContainerPncStatusGetRunner().then((response) => {
       const pncStatus = response.data;
-      const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).date;
+      const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).custom;
       setFieldValues({ ...pncStatus, eta });
     });
   }, [serviceContainerPncStatusGetRunner, setFieldValues]);
@@ -200,6 +200,7 @@ export const AdministrationPage = () => {
                   <DatePicker
                     id={pncStatusEntityAttributes.eta.id}
                     name={pncStatusEntityAttributes.eta.id}
+                    includeTime
                     {...register<string>(pncStatusEntityAttributes.eta.id, fieldConfigs.eta)}
                   />
                 </FormGroup>
