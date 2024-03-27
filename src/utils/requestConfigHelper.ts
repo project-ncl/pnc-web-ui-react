@@ -97,7 +97,7 @@ const extendParams = (originalParams: any, newParams: any): IExtendedParams => {
        */
       let q: string = extendedParams.q ? (extendedParams.q as string) : '';
       newParams.qItems.forEach((qItem: any) => {
-        const newQ = addQParamItem(qItem.id, qItem.value, qItem.operator, q);
+        const newQ = addQParamItem(qItem.id, qItem.value, qItem.operator, q, false);
         if (newQ) {
           q = newQ;
         } else {
