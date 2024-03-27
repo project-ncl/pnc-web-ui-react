@@ -45,15 +45,16 @@ export interface IQParamObject {
 }
 
 /**
- * @param qParamString RSQL string: filename=like="%te%t%";status!=CANCELLED
+ * @param qParamString - RSQL string: filename=like="%te%t%";status!=CANCELLED
+ * @param parseAndOperator - If false, AND operator is not parsed
  * @returns Array of individual RSQL items: [filename=like="%te%t%", status!=CANCELLED]
  */
-const parseQParamShallow = (qParamString: string): string[] => {
+const parseQParamShallow = (qParamString: string, parseAndOperator: boolean = true): string[] => {
   const qParamStringSimplified = qParamString.replaceAll(/[()]/g, '');
 
   let qParamArray: string[];
-  if (qParamStringSimplified.indexOf(';') > -1 || qParamStringSimplified.indexOf(',') > -1) {
-    qParamArray = qParamStringSimplified.split(/[,;]/);
+  if (qParamStringSimplified.indexOf(';') > -1 || (parseAndOperator && qParamStringSimplified.indexOf(',') > -1)) {
+    qParamArray = qParamStringSimplified.split(parseAndOperator ? /[,;]/ : /[;]/);
   } else if (qParamStringSimplified) {
     qParamArray = [qParamStringSimplified];
   } else {
@@ -76,10 +77,15 @@ const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamO
 
 /**
  * @param qParamString - Array of strings (RSQL expressions): ['name=like="%a%"', 'name=notlike="%b%"', 'description=like="%c%"', 'name=like="%d%"']
+ * @param parseAndOperator - If false, all items are joined by OR operator
  * @returns Joined RSQL string. Items within one group (same id (key)) are joined with OR operator, groups are joined with AND operator.
  * Example output: 'name=like="%a%",name=notlike="%b%",name=like="%d%";description=like="%c%"'
  */
-const joinQParamItems = (qParamItems: string[]): string => {
+const joinQParamItems = (qParamItems: string[], useAndOperator: boolean = true): string => {
+  if (!useAndOperator) {
+    return qParamItems.join(';');
+  }
+
   const qParamItemsObjects = qParamItems.map((qParamItem) => {
     const qParamItemSplitted = qParamItem.split(regexQParamSupportedOperators);
     const [qKey, qOperator, qValue] = [...qParamItemSplitted.splice(0, 2), qParamItemSplitted.join('')];
@@ -108,8 +114,14 @@ const joinQParamItems = (qParamItems: string[]): string => {
  * 1) new Q string containing new param
  * 2) null when Q param is already contained in Q string
  */
-export const addQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators, qParam: string): string | null => {
-  const qParamItems = parseQParamShallow(qParam);
+export const addQParamItem = (
+  id: string,
+  value: TQParamValue,
+  operator: IQParamOperators,
+  qParam: string,
+  parseAndOperator: boolean = true
+): string | null => {
+  const qParamItems = parseQParamShallow(qParam, parseAndOperator);
   const newItem = constructQParamItem(id, value, operator);
 
   // prevent duplicities
@@ -119,7 +131,7 @@ export const addQParamItem = (id: string, value: TQParamValue, operator: IQParam
     return null;
   }
 
-  return joinQParamItems(qParamItems);
+  return joinQParamItems(qParamItems, parseAndOperator);
 };
 
 /**
@@ -128,8 +140,14 @@ export const addQParamItem = (id: string, value: TQParamValue, operator: IQParam
  * 1) New Q string without specified param
  * 2) Empty string when last param was removed
  */
-export const removeQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators, qParam: string): string => {
-  const qParamItems = parseQParamShallow(qParam);
+export const removeQParamItem = (
+  id: string,
+  value: TQParamValue,
+  operator: IQParamOperators,
+  qParam: string,
+  parseAndOperator: boolean = true
+): string => {
+  const qParamItems = parseQParamShallow(qParam, parseAndOperator);
 
   // #support =notlike=
   // value already contains "% characters
@@ -143,7 +161,7 @@ export const removeQParamItem = (id: string, value: TQParamValue, operator: IQPa
     uiLogger.error(`${removeItem} removing failed, it does not exist`);
   }
 
-  return joinQParamItems(qParamItems);
+  return joinQParamItems(qParamItems, parseAndOperator);
 };
 
 /**
