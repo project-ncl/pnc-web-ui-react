@@ -29,9 +29,12 @@ export type IQParamOperators = '=like=' | '==' | '!=' | '=isnull=';
 /**
  * List of all supported RSQL operators.
  */
-const qParamSupportedOperators = ['=like=', '=notlike=', '==', '!=', '=isnull='];
+const qParamSupportedOperators = {
+  comparison: ['=like=', '=notlike=', '==', '!=', '=isnull='],
+  logical: [',', ';'],
+};
 
-const regexQParamSupportedOperators = new RegExp('(' + qParamSupportedOperators.join('|') + ')');
+const qParamSupportedComparisonOperatorsRegex = new RegExp('(' + qParamSupportedOperators.comparison.join('|') + ')');
 
 /**
  * @example
@@ -45,20 +48,48 @@ export interface IQParamObject {
 }
 
 /**
- * @param qParamString RSQL string: filename=like="%te%t%";status!=CANCELLED
- * @returns Array of individual RSQL items: [filename=like="%te%t%", status!=CANCELLED]
+ * Shallow Q Parameter parser.
+ *
+ * @param qParamString RSQL string: (status==SUCCESS,status==FAILED);(user.username=like="%usern;ame%")'
+ *
+ * @returns Array of individual RSQL items, parenthesis are omitted:
+ *   [
+ *     'status==SUCCESS',
+ *     'status==FAILED',
+ *     'user.username=like="%usern;ame%"'
+ *   ]
  */
 const parseQParamShallow = (qParamString: string): string[] => {
   const qParamStringSimplified = qParamString.replaceAll(/[()]/g, '');
 
-  let qParamArray: string[];
-  if (qParamStringSimplified.indexOf(';') > -1 || qParamStringSimplified.indexOf(',') > -1) {
-    qParamArray = qParamStringSimplified.split(/[,;]/);
-  } else if (qParamStringSimplified) {
-    qParamArray = [qParamStringSimplified];
-  } else {
-    qParamArray = [];
+  const qParamArray: string[] = [];
+
+  if (qParamStringSimplified.length) {
+    let isValue = false;
+    let currentQ = '';
+    for (let i = 0; i < qParamStringSimplified.length; i++) {
+      const c = qParamStringSimplified[i];
+
+      // value detection
+      if (c === '"') {
+        isValue = !isValue;
+      }
+
+      /**
+       * Ignore logical operators, see {@link qParamSupportedOperators.logical}, when they are part of the value.
+       *
+       * Typically Environment entities contain characters like `;` in Q param value.
+       */
+      if (!isValue && qParamSupportedOperators.logical.includes(c)) {
+        qParamArray.push(currentQ);
+        currentQ = '';
+      } else {
+        currentQ += c;
+      }
+    }
+    qParamArray.push(currentQ); // add last Q parameter
   }
+
   return qParamArray;
 };
 
@@ -81,7 +112,7 @@ const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamO
  */
 const joinQParamItems = (qParamItems: string[]): string => {
   const qParamItemsObjects = qParamItems.map((qParamItem) => {
-    const qParamItemSplitted = qParamItem.split(regexQParamSupportedOperators);
+    const qParamItemSplitted = qParamItem.split(qParamSupportedComparisonOperatorsRegex);
     const [qKey, qOperator, qValue] = [...qParamItemSplitted.splice(0, 2), qParamItemSplitted.join('')];
 
     return {
@@ -161,7 +192,7 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
 
   // loop Q Params Items
   for (let i = 0; i < qParamItems.length; i++) {
-    let qParamItemSplitted = qParamItems[i].split(regexQParamSupportedOperators);
+    let qParamItemSplitted = qParamItems[i].split(qParamSupportedComparisonOperatorsRegex);
 
     if (qParamItemSplitted.length >= 3) {
       let [qKey, qOperator, qValue] = [...qParamItemSplitted.splice(0, 2), qParamItemSplitted.join('')];
@@ -179,7 +210,7 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
       }
     } else {
       uiLogger.error(
-        `${qParamItems[i]} does not contain any valid operator, supported operators are: ${qParamSupportedOperators}`
+        `${qParamItems[i]} does not contain any valid operator, supported operators are: ${qParamSupportedOperators.comparison}`
       );
     }
   }
