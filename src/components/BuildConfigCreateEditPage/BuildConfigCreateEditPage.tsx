@@ -98,7 +98,7 @@ const fieldConfigs = {
     isRequired: true,
     validators: [
       {
-        validator: validateBuildScript,
+        validator: (fieldValues) => validateBuildScript(fieldValues, { mandatoryCheck: true, forbiddenCheck: true }),
         errorMessage: '',
         relatedFields: ['buildScript'],
       },
@@ -108,8 +108,13 @@ const fieldConfigs = {
     isRequired: true,
     validators: [
       {
-        validator: validateBuildScript,
+        validator: (fieldValues) => validateBuildScript(fieldValues, { mandatoryCheck: true }),
         errorMessage: "The 'deploy' goal is required for maven builds in order to prevent artifact promotion issues.",
+        relatedFields: ['buildType'],
+      },
+      {
+        validator: (fieldValues) => validateBuildScript(fieldValues, { forbiddenCheck: true }),
+        errorMessage: "The '-X' and '--debug' options are not allowed for Maven builds for performance reasons.",
         relatedFields: ['buildType'],
       },
     ],
