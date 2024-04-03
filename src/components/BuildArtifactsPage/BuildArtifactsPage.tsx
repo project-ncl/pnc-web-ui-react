@@ -43,7 +43,12 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
           </TextContent>
         </ToolbarItem>
         <ToolbarItem>
-          <ArtifactEditQualityModalButton toggleModal={toggleEditQualitiesModal} variant="detail" />
+          <ArtifactEditQualityModalButton
+            toggleModal={toggleEditQualitiesModal}
+            variant="detail"
+            isBuildVariant
+            buildArtifactsCount={serviceContainerArtifacts.data?.content?.length}
+          />
         </ToolbarItem>
       </Toolbar>
 
