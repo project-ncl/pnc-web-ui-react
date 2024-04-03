@@ -146,13 +146,34 @@ export const validateProductReleaseName = (version: string): boolean => {
   return !version || productReleaseNameRegex.test(version);
 };
 
-const buildScriptChecker = (buildScript: string) => {
+interface IBuildScriptCheckerOptions {
+  mandatoryCheck?: boolean; // when true, mandatory arguments check will be performed
+  forbiddenCheck?: boolean; // when true, forbidden arguments check will be performed
+}
+
+const buildScriptChecker = (
+  buildScript: string,
+  { mandatoryCheck, forbiddenCheck }: IBuildScriptCheckerOptions = { mandatoryCheck: false, forbiddenCheck: false }
+) => {
   const MAVEN = 'mvn';
-  const MANDATORY_ARGS = ['deploy'];
+  const MANDATORY_ARGS = [' deploy '];
+
+  // Prevent cases like ' -X abc', but cases like ' -Xabc' are allowed
+  const FORBIDDEN_ARGS = [` -X `, ` "-X" `, ` '-X' `, ` --debug `, ` "--debug" `, ` '--debug' `];
 
   const lines = buildScript.toLowerCase().split('\n');
 
-  return lines.every((line) => !line.includes(MAVEN) || MANDATORY_ARGS.every((arg) => line.includes(arg)));
+  return lines.every((line) => {
+    if (!line.includes(MAVEN)) {
+      return true; // validation automatically passes when maven command is not available
+    }
+
+    const lineWithEndSpace = `${line} `;
+    return (
+      (!mandatoryCheck || MANDATORY_ARGS.every((arg) => lineWithEndSpace.includes(arg.toLowerCase()))) &&
+      (!forbiddenCheck || FORBIDDEN_ARGS.every((arg) => !lineWithEndSpace.includes(arg.toLowerCase())))
+    );
+  });
 };
 
 /**
@@ -160,11 +181,14 @@ const buildScriptChecker = (buildScript: string) => {
  *
  * Accepts empty Build script.
  *
- * @param version - Build script string
+ * @param fieldValues - Field values
+ * @param options - validation options, see {@link IBuildScriptCheckerOptions}
  * @returns true if valid, false otherwise
  */
-export const validateBuildScript = (fieldValues: IFieldValues): boolean => {
+export const validateBuildScript = (fieldValues: IFieldValues, options?: IBuildScriptCheckerOptions): boolean => {
   return (
-    !fieldValues.buildScript || fieldValues.buildType !== buildTypeData.MVN.id || buildScriptChecker(fieldValues.buildScript)
+    !fieldValues.buildScript ||
+    fieldValues.buildType !== buildTypeData.MVN.id ||
+    buildScriptChecker(fieldValues.buildScript, options)
   );
 };
