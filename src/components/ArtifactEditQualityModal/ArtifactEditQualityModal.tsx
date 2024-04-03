@@ -17,12 +17,15 @@ import { FormInput } from 'components/FormInput/FormInput';
 import * as artifactApi from 'services/artifactApi';
 import * as buildApi from 'services/buildApi';
 
+import { maxLength } from 'utils/formValidationHelpers';
+
 const fieldConfigs = {
   artifactQuality: {
     isRequired: true,
   },
   qualityLevelReason: {
     isRequired: true,
+    validators: [{ validator: maxLength(200), errorMessage: 'Maximal input length is 200 characters.' }],
   },
 } satisfies IFieldConfigs;
 
