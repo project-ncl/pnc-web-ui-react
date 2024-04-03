@@ -58,7 +58,7 @@ export const ProtectedContent = ({
 
   if (keycloakService.isAuthenticated()) {
     // Happy state, all requirements are met, protected content can be displayed
-    if (keycloakService.hasRealmRole(role)) {
+    if (keycloakService.hasRealmRole(role) || role === AUTH_ROLE.User) {
       return <>{children}</>;
     }
 
