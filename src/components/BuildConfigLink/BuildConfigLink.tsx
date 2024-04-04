@@ -15,7 +15,7 @@ interface IBuildConfigLinkProps {
 export const BuildConfigLink = ({ id, rev, children }: IBuildConfigLinkProps) => {
   return (
     <>
-      <Link to={`/build-configs/${id}`}>{children}</Link>
+      <Link to={`/build-configs/${id}?bh1-force=${id}`}>{children}</Link>
       {rev && (
         <>
           <Link
