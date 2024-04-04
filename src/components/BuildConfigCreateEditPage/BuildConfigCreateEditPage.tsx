@@ -172,7 +172,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
   const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
 
-  const { register, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, setFieldValues } = useForm();
+  const { register, unregister, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, setFieldValues } =
+    useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
@@ -866,7 +867,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               {Object.entries(buildParamData).map(([key, buildParam], index) => (
                 <FormInput<string>
                   {...register(key, { isRequired: true })}
-                  render={({ onChange, onRemove, ...rest }) => (
+                  render={({ onChange, ...rest }) => (
                     <FormGroup
                       isRequired
                       key={index}
@@ -876,7 +877,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                             <RemoveItemButton
                               onRemove={() => {
                                 setBuildParamData(Object.fromEntries(Object.entries(buildParamData).filter(([k]) => k !== key)));
-                                onRemove();
+                                unregister(key);
                               }}
                             />
                           </TooltipWrapper>
