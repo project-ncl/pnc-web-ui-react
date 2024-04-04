@@ -41,13 +41,10 @@ type OnChangeFunction<T extends TValue> = (value: T) => void;
 
 type OnBlurFunction = () => void;
 
-type OnRemoveFunction = () => void;
-
 export interface IRegisterData<T extends TValue> {
   value: T;
   onChange: OnChangeFunction<T>;
   onBlur: OnBlurFunction;
-  onRemove: OnRemoveFunction;
   validated: TState;
 }
 
@@ -110,7 +107,6 @@ export const useForm = () => {
       value: fields[fieldName]?.value as T,
       onChange: handleChange<T>(fieldName),
       onBlur: handleBlur<T>(fieldName),
-      onRemove: handleRemove(fieldName),
       validated: fields[fieldName]?.state,
     };
   };
@@ -156,16 +152,14 @@ export const useForm = () => {
     };
   };
 
-  const handleRemove = (fieldName: string) => {
-    return () => {
-      setFields((fields) => {
-        const newFields = Object.fromEntries(Object.entries(fields).filter(([key]) => key !== fieldName));
+  const unregister = (fieldName: string) => {
+    setFields((fields) => {
+      const newFields = Object.fromEntries(Object.entries(fields).filter(([key]) => key !== fieldName));
 
-        refreshSubmitDisabled(newFields);
+      refreshSubmitDisabled(newFields);
 
-        return newFields;
-      });
-    };
+      return newFields;
+    });
   };
 
   const constructNewFieldOnChange = <T extends TValue>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
@@ -307,6 +301,7 @@ export const useForm = () => {
 
   return {
     register,
+    unregister,
     setFieldValues,
     getFieldValue,
     getFieldState,
