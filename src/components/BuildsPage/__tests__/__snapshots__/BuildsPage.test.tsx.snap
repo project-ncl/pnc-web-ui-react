@@ -449,7 +449,7 @@ Object {
                       </a>
                        of 
                       <a
-                        href="/build-configs/469"
+                        href="/build-configs/469?bh1-force=469"
                       >
                         123
                       </a>
@@ -563,7 +563,7 @@ Object {
                       </a>
                        of 
                       <a
-                        href="/build-configs/469"
+                        href="/build-configs/469?bh1-force=469"
                       >
                         123
                       </a>
@@ -677,7 +677,7 @@ Object {
                       </a>
                        of 
                       <a
-                        href="/build-configs/645"
+                        href="/build-configs/645?bh1-force=645"
                       >
                         DnsSSHTest
                       </a>
@@ -1414,7 +1414,7 @@ Object {
                     </a>
                      of 
                     <a
-                      href="/build-configs/469"
+                      href="/build-configs/469?bh1-force=469"
                     >
                       123
                     </a>
@@ -1528,7 +1528,7 @@ Object {
                     </a>
                      of 
                     <a
-                      href="/build-configs/469"
+                      href="/build-configs/469?bh1-force=469"
                     >
                       123
                     </a>
@@ -1642,7 +1642,7 @@ Object {
                     </a>
                      of 
                     <a
-                      href="/build-configs/645"
+                      href="/build-configs/645?bh1-force=645"
                     >
                       DnsSSHTest
                     </a>
