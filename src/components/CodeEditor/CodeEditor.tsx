@@ -8,6 +8,9 @@ interface ICodeEditorProps extends TextAreaProps {
   value: string;
 }
 
+// DEAD / UNUSED
+// TODO: fix firefox/safari bug (NCL-8634)
+
 export const CodeEditor = ({ value, onBlur, ...textAreaProps }: ICodeEditorProps) => {
   const lineNumbers = useMemo(() => value.split('\n').map((_, index) => index + 1), [value]);
   const [currentLineNumber, setCurrentLineNumber] = useState<number>();
