@@ -88,7 +88,9 @@ export const DashboardPage = () => {
 
 const userBuildsListColumns = [
   buildEntityAttributes.status.id,
+  buildEntityAttributes.id.id,
   buildEntityAttributes.name.id,
+  buildEntityAttributes.buildConfigName.id,
   buildEntityAttributes.submitTime.id,
   buildEntityAttributes.startTime.id,
   buildEntityAttributes.endTime.id,
