@@ -22,6 +22,7 @@ import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLin
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { WarningLabel } from 'components/WarningLabel/WarningLabel';
 
 const tooltipLinkStyle: CSSProperties = {
   color: '#55AAFF',
@@ -97,6 +98,11 @@ export const BuildConfigDetail = ({
               </AttributesItem>
               <AttributesItem title={buildConfigEntityAttributes.environment.title}>
                 {serviceContainerBuildConfig.data?.environment?.description}
+                {serviceContainerBuildConfig.data?.environment?.deprecated && (
+                  <WarningLabel className="m-l-5" hasIcon>
+                    Deprecated
+                  </WarningLabel>
+                )}
               </AttributesItem>
               <AttributesItem title={buildConfigEntityAttributes.scmRepository.title}>
                 {serviceContainerBuildConfig.data?.scmRepository && (
