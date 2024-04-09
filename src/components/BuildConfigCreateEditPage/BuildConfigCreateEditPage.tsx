@@ -43,7 +43,6 @@ import { getErrorMessage, useServiceContainer } from 'hooks/useServiceContainer'
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
-import { CodeEditor } from 'components/CodeEditor/CodeEditor';
 import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -591,9 +590,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               </FormHelperText>
             }
           >
-            <CodeEditor
+            <TextArea
               id={buildConfigEntityAttributes.buildScript.id}
               name={buildConfigEntityAttributes.buildScript.id}
+              autoResize
+              resizeOrientation="vertical"
               {...register<string>(buildConfigEntityAttributes.buildScript.id, fieldConfigs.buildScript)}
             />
           </FormGroup>
