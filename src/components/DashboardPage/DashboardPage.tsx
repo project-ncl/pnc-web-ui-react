@@ -140,7 +140,9 @@ const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
 
 const userGroupBuildsListColumns = [
   groupBuildEntityAttributes.status.id,
+  groupBuildEntityAttributes.temporaryBuild.id,
   groupBuildEntityAttributes.name.id,
+  groupBuildEntityAttributes['groupConfig.name'].id,
   groupBuildEntityAttributes.startTime.id,
   groupBuildEntityAttributes.endTime.id,
 ];

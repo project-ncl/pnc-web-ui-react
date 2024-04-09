@@ -40,7 +40,9 @@ interface IGroupBuildsListProps {
 
 const defaultColumns: TColumns = [
   groupBuildEntityAttributes.status.id,
+  groupBuildEntityAttributes.temporaryBuild.id,
   groupBuildEntityAttributes.name.id,
+  groupBuildEntityAttributes['groupConfig.name'].id,
   groupBuildEntityAttributes.startTime.id,
   groupBuildEntityAttributes.endTime.id,
   groupBuildEntityAttributes['user.username'].id,
@@ -83,8 +85,9 @@ export const GroupBuildsList = ({
                 getFilterOptions({
                   entityAttributes: groupBuildEntityAttributes,
                   defaultFiltering: { attribute: groupBuildEntityAttributes.status.id },
+                  customColumns: columns,
                 }),
-              []
+              [columns]
             )}
             componentId={componentId}
           />
