@@ -107,8 +107,13 @@ export const BuildPages = () => {
   );
 
   const actions = [
-    <CancelBuildModalButton toggleModal={toggleCancelBuildModal} build={serviceContainerBuild.data!} variant="Build" />,
-    <BrewPushModalButton toggleModal={toggleBewPushModal} build={serviceContainerBuild.data!} />,
+    <CancelBuildModalButton
+      key="cancel-build-button"
+      toggleModal={toggleCancelBuildModal}
+      build={serviceContainerBuild.data!}
+      variant="Build"
+    />,
+    <BrewPushModalButton key="brew-push-button" toggleModal={toggleBewPushModal} build={serviceContainerBuild.data!} />,
   ];
 
   return (

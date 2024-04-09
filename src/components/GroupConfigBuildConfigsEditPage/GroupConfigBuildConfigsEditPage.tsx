@@ -107,7 +107,7 @@ export const GroupConfigBuildConfigsEditPage = ({
         { entity: breadcrumbData.groupConfig.id, title: serviceContainerGroupConfig.data?.name, url: '-/build-configs/edit' },
         { entity: breadcrumbData.edit.id, title: PageTitles.buildConfigAddRemove, custom: true },
       ]}
-      actions={[
+      actions={
         <>
           <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
             <ExclamationTriangleIcon color="#F0AB00" /> Submit the changes to apply them
@@ -122,8 +122,8 @@ export const GroupConfigBuildConfigsEditPage = ({
           >
             Submit changes
           </Button>
-        </>,
-      ]}
+        </>
+      }
     >
       <Grid hasGutter>
         <GridItem lg={12} xl2={6}>

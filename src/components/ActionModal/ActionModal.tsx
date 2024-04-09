@@ -102,6 +102,7 @@ export const ActionModal = ({
       actions={[
         // TODO: NCL-8010
         <TooltipWrapper
+          key="modal-submit-button"
           tooltip={isSubmitDisabled && !wasLastActionSuccessful && !serviceContainer?.loading && submitDisabledTooltip}
         >
           <Button
@@ -116,7 +117,7 @@ export const ActionModal = ({
           </Button>
         </TooltipWrapper>,
         ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
-        <Button variant="link" onClick={onClose}>
+        <Button key="modal-cancel-button" variant="link" onClick={onClose}>
           {cancelTitle || (wasAnyActionSuccessful ? `Close${refreshOnClose ? ' and refresh' : ''}` : 'Cancel')}
         </Button>,
       ]}

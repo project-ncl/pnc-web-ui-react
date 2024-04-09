@@ -72,6 +72,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
       refreshOnClose={false}
       onSuccessActions={[
         <Button
+          key="del-analysis-link"
           variant="secondary"
           // TODO: Make link absolute once Product data are available
           component={(props: any) => (

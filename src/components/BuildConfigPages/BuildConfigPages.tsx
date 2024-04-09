@@ -153,11 +153,11 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
         breadcrumbs={[{ entity: breadcrumbData.buildConfig.id, title: serviceContainerBuildConfig.data?.name }]}
         tabs={pageTabs}
         actions={[
-          <ProtectedComponent>
+          <ProtectedComponent key="build-start-button">
             <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} />
           </ProtectedComponent>,
-          <BuildConfigCloneModalButton toggleModal={toggleCloneModal} variant="detail" />,
-          <ProtectedComponent>
+          <BuildConfigCloneModalButton key="config-clone-button" toggleModal={toggleCloneModal} variant="detail" />,
+          <ProtectedComponent key="edit-config-button">
             <ActionButton variant="tertiary" link="edit">
               Edit
             </ActionButton>

@@ -52,7 +52,12 @@ export const BuildLogPage = () => {
   const logActions = [
     ...(belongsToCurrentUser
       ? [
-          <ServiceContainerLoading {...serviceContainerBuildSshCredentials} variant="icon" title="SSH credentials">
+          <ServiceContainerLoading
+            key="ssh-credentials"
+            {...serviceContainerBuildSshCredentials}
+            variant="icon"
+            title="SSH credentials"
+          >
             <Popover
               removeFindDomNode
               position="right-end"

@@ -106,7 +106,7 @@ export const BuildConfigDependenciesEditPage = ({
         { entity: breadcrumbData.buildConfig.id, title: serviceContainerBuildConfig.data?.name, url: '-/dependencies/edit' },
         { entity: breadcrumbData.edit.id, title: PageTitles.buildConfigAddRemoveDependencies, custom: true },
       ]}
-      actions={[
+      actions={
         <>
           <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
             <ExclamationTriangleIcon color="#F0AB00" /> Submit the changes to apply them
@@ -121,8 +121,8 @@ export const BuildConfigDependenciesEditPage = ({
           >
             Submit changes
           </Button>
-        </>,
-      ]}
+        </>
+      }
       description={
         <>
           <div>

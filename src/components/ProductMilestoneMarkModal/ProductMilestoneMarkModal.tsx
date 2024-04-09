@@ -51,6 +51,7 @@ export const ProductMilestoneMarkModal = ({
         variant === 'list'
           ? [
               <Button
+                key="milestone-link"
                 variant="secondary"
                 component={(props) => (
                   <Link
