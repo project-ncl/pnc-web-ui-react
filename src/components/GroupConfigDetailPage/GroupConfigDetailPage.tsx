@@ -11,7 +11,7 @@ import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasGroupBuildStarted, hasGroupBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { DataValues, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -58,7 +58,7 @@ export const GroupConfigDetailPage = ({
   const serviceContainerGroupConfig = useServiceContainer(groupConfigApi.getGroupConfig);
   const serviceContainerGroupConfigRunner = serviceContainerGroupConfig.run;
 
-  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
+  const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion, 0);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
   const serviceContainerGroupBuilds = useServiceContainer(groupConfigApi.getGroupBuilds);
@@ -146,13 +146,15 @@ export const GroupConfigDetailPage = ({
               {serviceContainerGroupConfig.data?.name}
             </AttributesItem>
             <AttributesItem title={groupConfigEntityAttributes.productVersion.title}>
-              <ServiceContainerLoading
-                {...serviceContainerProductVersion}
-                variant="inline"
-                title={groupConfigEntityAttributes.productVersion.title}
-              >
-                <ProductVersionLink productVersion={serviceContainerProductVersion.data!} />
-              </ServiceContainerLoading>
+              {(serviceContainerProductVersion.loading || serviceContainerProductVersion.data !== DataValues.notYetData) && (
+                <ServiceContainerLoading
+                  {...serviceContainerProductVersion}
+                  variant="inline"
+                  title={groupConfigEntityAttributes.productVersion.title}
+                >
+                  <ProductVersionLink productVersion={serviceContainerProductVersion.data!} />
+                </ServiceContainerLoading>
+              )}
             </AttributesItem>
           </Attributes>
         </ContentBox>
