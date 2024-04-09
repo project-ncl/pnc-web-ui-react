@@ -40,6 +40,7 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
       refreshOnClose={false}
       onSuccessActions={[
         <Button
+          key="close-result-link"
           variant="secondary"
           // TODO: Make link absolute once Product data are available
           component={(props) => <Link {...props} to={`close-results/${serviceContainerProductMilestoneClose.data?.id}`} />}

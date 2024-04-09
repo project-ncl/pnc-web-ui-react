@@ -26,7 +26,7 @@ export const BuildAlignmentLogPage = () => {
     <ContentBox>
       <ServiceContainerLoading {...serviceContainerAlignmentLog} allowEmptyData title="Alignment Log">
         <ContentBox padding>
-          <LogViewer isStatic data={logData} customActions={[<AlignmentLogLink buildId={buildId!} />]} />
+          <LogViewer isStatic data={logData} customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} />]} />
         </ContentBox>
       </ServiceContainerLoading>
     </ContentBox>

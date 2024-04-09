@@ -184,14 +184,19 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const actions = [
     <ProductMilestoneMarkModalButton
+      key="mark-milestone-button"
       toggleModal={toggleMarkModal}
       productMilestone={serviceContainerProductMilestone.data!}
       serviceContainerProductVersion={serviceContainerProductVersion}
       variant="detail"
     />,
-    <ProductMilestoneCloseModalButton toggleModal={toggleCloseModal} variant="detail" />,
-    <ProductMilestoneAnalyzeDeliverablesModalButton toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
-    <ProtectedComponent>
+    <ProductMilestoneCloseModalButton key="close-milestone-button" toggleModal={toggleCloseModal} variant="detail" />,
+    <ProductMilestoneAnalyzeDeliverablesModalButton
+      key="del-analysis-button"
+      toggleModal={toggleAnalyzeDeliverablesModal}
+      variant="detail"
+    />,
+    <ProtectedComponent key="edit-milestone-button">
       <ActionButton link="edit">Edit Milestone</ActionButton>
     </ProtectedComponent>,
   ];

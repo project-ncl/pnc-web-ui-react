@@ -36,6 +36,7 @@ export const BuildConfigCloneModal = ({ isModalOpen, toggleModal, buildConfig }:
       refreshOnClose={false}
       onSuccessActions={[
         <Button
+          key="cloned-config-link"
           variant="secondary"
           onClick={() => toggleModal()}
           component={(props) => (

@@ -135,13 +135,13 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
       <PageLayout
         title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}
         breadcrumbs={[{ entity: breadcrumbData.groupBuild.id, title: serviceContainerGroupBuild.data?.id }]}
-        actions={[
+        actions={
           <CancelBuildModalButton
             toggleModal={toggleCancelGroupBuildModal}
             build={serviceContainerGroupBuild.data!}
             variant="Group Build"
-          />,
-        ]}
+          />
+        }
       >
         <ContentBox padding marginBottom isResponsive>
           <Attributes>
