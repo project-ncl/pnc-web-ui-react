@@ -15,15 +15,20 @@ export interface IParsedUrl {
  * @returns Object containing scmRepository URL, parsed URL and display name representing URL
  *  */
 export const parseInternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl => {
-  const protocol = url.includes('git@') ? 'git@' : url.split('://')[0];
-  const base = url.includes('git@') ? url.split('@').at(1)?.split(':').at(0) : url.split('://')[1].split('/')[0];
-  const project = url.includes('git@')
+  const gitlabBase = 'gitlab.cee.redhat.com';
+  const isGitProtocol = url.includes('git@');
+  const protocol = isGitProtocol ? 'git@' : url.split('://').at(0) || '';
+  const base = isGitProtocol ? url.split('@').at(1)?.split(':').at(0) || '' : url.split('://').at(1)?.split('/').at(0) || '';
+  const project = isGitProtocol
     ? url.split(':').at(1)
-    : url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/'))[1];
-  const webUrl = url.includes('git@')
-    ? 'https://' + base + '/' + project
-    : 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
-  const name = url.includes('git@') ? 'GitLab' : 'Gerrit';
+    : url.includes(gitlabBase)
+    ? url.split(gitlabBase + '/').at(1)
+    : url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/')).at(1);
+  const webUrl =
+    isGitProtocol || url.includes(protocol + '://' + gitlabBase)
+      ? 'https://' + base + '/' + project
+      : 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
+  const name = url.includes(gitlabBase) ? 'GitLab' : 'Gerrit';
   return { scmRepositoryUrl: url, webUrl, name };
 };
 
@@ -41,13 +46,13 @@ export const parseExternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IPars
     return parseInternalScmRepositoryUrl({ url });
   }
   if (['http', 'https', '@'].some((element) => url.includes(element))) {
-    const urlRes = url.includes('@') ? 'https://' + url.split('@')[1].replace(':', '/') : url;
-    const base = urlRes.split('://')[1].split('/')[0];
+    const urlRes = url.includes('@') ? 'https://' + url.split('@').at(1)?.replace(':', '/') : url;
+    const base = urlRes.split('://').at(1)?.split('/').at(0) || '';
     return { scmRepositoryUrl: url, webUrl: urlRes, name: base };
   }
   if (url.includes('.git')) {
     const urlRes = url;
-    const base = urlRes.split('/')[0];
+    const base = urlRes.split('/').at(0) || '';
     return { scmRepositoryUrl: url, webUrl: urlRes, name: base };
   }
   return null;
