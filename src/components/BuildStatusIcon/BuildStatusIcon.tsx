@@ -1,11 +1,14 @@
 import { Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon, OutlinedClockIcon } from '@patternfly/react-icons';
+import { PropsWithChildren, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { buildStatusData } from 'common/buildStatusData';
 
 import { IconWrapper } from 'components/IconWrapper/IconWrapper';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { isBuild } from 'utils/entityRecognition';
 
@@ -45,28 +48,29 @@ interface IBuildStatusIcon {
  */
 export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
   const selectedIconData = build.status ? buildStatusData[build.status] : buildStatusData.UNKNOWN;
-  const selectedIconImage = selectedIconData.icon;
   const isCorrupted =
     isBuild(build) &&
     ((build as Build).attributes?.POST_BUILD_REPO_VALIDATION === 'REPO_SYSTEM_ERROR' ||
       (build as Build).attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL');
 
+  const buildImage = (
+    <img
+      src={selectedIconData.icon}
+      width="28px"
+      height="28px"
+      className={selectedIconData.className && styles[selectedIconData.className]}
+      alt={selectedIconData.tooltip}
+    />
+  );
+
   return (
     <span className={styles['build-status-icon']}>
-      <Tooltip removeFindDomNode content={<span>{selectedIconData.tooltip}</span>}>
-        <img
-          src={selectedIconImage}
-          width="28px"
-          height="28px"
-          className={selectedIconData.className && styles[selectedIconData.className]}
-          alt={selectedIconData.tooltip}
-        />
-      </Tooltip>
+      {isBuild(build) ? <BuildLogLink build={build}>{buildImage}</BuildLogLink> : buildImage}
       {isCorrupted && (
         <Tooltip
           removeFindDomNode
           position="right"
-          content={<span>The build may have completed successfully but has since been corrupted by a system error.</span>}
+          content="The build may have completed successfully but has since been corrupted by a system error."
         >
           <IconWrapper>
             <ExclamationTriangleIcon />
@@ -88,3 +92,22 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
     </span>
   );
 };
+
+interface IBuildLogLinkProps {
+  build: Build;
+}
+
+const BuildLogLink = ({ build, children }: PropsWithChildren<IBuildLogLinkProps>) => {
+  const buildLogLink = useMemo(() => getAdequateBuildLogLink(build), [build]);
+
+  return (
+    <TooltipWrapper tooltip={<span>{buildStatusData[build.status!].tooltip}. Click to open the log</span>}>
+      <Link to={buildLogLink} className={styles['build-log-link']}>
+        {children}
+      </Link>
+    </TooltipWrapper>
+  );
+};
+
+const getAdequateBuildLogLink = (build: Build): string =>
+  !build.scmUrl && buildStatusData[build.status!].failed ? `/builds/${build.id}/alignment-log` : `/builds/${build.id}/build-log`;
