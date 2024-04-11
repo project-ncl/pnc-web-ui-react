@@ -419,12 +419,17 @@ Object {
                       <div
                         style="display: contents;"
                       >
-                        <img
-                          alt="Build Failed"
-                          height="28px"
-                          src="red.svg"
-                          width="28px"
-                        />
+                        <a
+                          class="build-log-link"
+                          href="/builds/1001/alignment-log"
+                        >
+                          <img
+                            alt="Build Failed"
+                            height="28px"
+                            src="red.svg"
+                            width="28px"
+                          />
+                        </a>
                       </div>
                       FAILED
                     </span>
@@ -533,12 +538,17 @@ Object {
                       <div
                         style="display: contents;"
                       >
-                        <img
-                          alt="Build Failed"
-                          height="28px"
-                          src="red.svg"
-                          width="28px"
-                        />
+                        <a
+                          class="build-log-link"
+                          href="/builds/1002/alignment-log"
+                        >
+                          <img
+                            alt="Build Failed"
+                            height="28px"
+                            src="red.svg"
+                            width="28px"
+                          />
+                        </a>
                       </div>
                       FAILED
                     </span>
@@ -647,12 +657,17 @@ Object {
                       <div
                         style="display: contents;"
                       >
-                        <img
-                          alt="Build Failed"
-                          height="28px"
-                          src="red.svg"
-                          width="28px"
-                        />
+                        <a
+                          class="build-log-link"
+                          href="/builds/AJ4WUBX75VQAA/alignment-log"
+                        >
+                          <img
+                            alt="Build Failed"
+                            height="28px"
+                            src="red.svg"
+                            width="28px"
+                          />
+                        </a>
                       </div>
                       FAILED
                     </span>
@@ -1384,12 +1399,17 @@ Object {
                     <div
                       style="display: contents;"
                     >
-                      <img
-                        alt="Build Failed"
-                        height="28px"
-                        src="red.svg"
-                        width="28px"
-                      />
+                      <a
+                        class="build-log-link"
+                        href="/builds/1001/alignment-log"
+                      >
+                        <img
+                          alt="Build Failed"
+                          height="28px"
+                          src="red.svg"
+                          width="28px"
+                        />
+                      </a>
                     </div>
                     FAILED
                   </span>
@@ -1498,12 +1518,17 @@ Object {
                     <div
                       style="display: contents;"
                     >
-                      <img
-                        alt="Build Failed"
-                        height="28px"
-                        src="red.svg"
-                        width="28px"
-                      />
+                      <a
+                        class="build-log-link"
+                        href="/builds/1002/alignment-log"
+                      >
+                        <img
+                          alt="Build Failed"
+                          height="28px"
+                          src="red.svg"
+                          width="28px"
+                        />
+                      </a>
                     </div>
                     FAILED
                   </span>
@@ -1612,12 +1637,17 @@ Object {
                     <div
                       style="display: contents;"
                     >
-                      <img
-                        alt="Build Failed"
-                        height="28px"
-                        src="red.svg"
-                        width="28px"
-                      />
+                      <a
+                        class="build-log-link"
+                        href="/builds/AJ4WUBX75VQAA/alignment-log"
+                      >
+                        <img
+                          alt="Build Failed"
+                          height="28px"
+                          src="red.svg"
+                          width="28px"
+                        />
+                      </a>
                     </div>
                     FAILED
                   </span>

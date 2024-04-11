@@ -64,6 +64,10 @@
   vertical-align: middle;
 }
 
+.build-log-link {
+  line-height: 1;
+}
+
 .icon-color-info {
   fill: var(--pf-global--info-color--100);
 }
