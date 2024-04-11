@@ -77,12 +77,12 @@ export const BuildBrewPushPage = () => {
                 </AttributesItem>
               </Attributes>
             </ContentBox>
-          </ServiceContainerLoading>
 
-          <OldUiContentLinkBox
-            contentTitle="Brew Push Log"
-            route={`projects/${serviceContainerBuild.data?.project?.id}/build-configs/${serviceContainerBuild.data?.buildConfigRevision?.id}/builds/${buildId}/brew-push`}
-          />
+            <OldUiContentLinkBox
+              contentTitle="Brew Push Log"
+              route={`projects/${serviceContainerBuild.data?.project?.id}/build-configs/${serviceContainerBuild.data?.buildConfigRevision?.id}/builds/${buildId}/brew-push`}
+            />
+          </ServiceContainerLoading>
         </>
       ) : (
         <ContentBox padding marginBottom>
