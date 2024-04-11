@@ -62,7 +62,7 @@ const rebuildModes: Array<IParamOption> = [
 
 const persistentPopoverText = 'Standard build, which can be used for product release';
 const temporaryPopoverText =
-  'Test build, which cannot be used for product release and which will be garbage collected during automatic cleaning';
+  'Temporary build, option used for test builds which will be garbage collected during automatic cleaning and cannot be used for product release';
 const keepPodOnFailureAPopoverText =
   "The builder container won't be destroyed if the build fails and you can use SSH to debug it";
 const buildDependenciesPopoverText = 'Build also dependencies of this build configuration if they are not built yet';

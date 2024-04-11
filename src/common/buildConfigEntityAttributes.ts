@@ -93,6 +93,7 @@ export const buildConfigEntityAttributes = {
   brewPullActive: {
     id: 'brewPullActive',
     title: 'Brew Pull Active',
+    tooltip: 'The option enables to search for built dependencies in Brew as well as in PNC.',
   },
   productVersion: {
     id: 'productVersion',

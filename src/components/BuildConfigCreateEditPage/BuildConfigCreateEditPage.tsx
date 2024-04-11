@@ -602,6 +602,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           <FormGroup
             label={buildConfigEntityAttributes.brewPullActive.title}
             fieldId={buildConfigEntityAttributes.brewPullActive.id}
+            labelIcon={<TooltipWrapper tooltip={buildConfigEntityAttributes.brewPullActive.tooltip} />}
           >
             <FormInput<boolean>
               {...register<boolean>(buildConfigEntityAttributes.brewPullActive.id, fieldConfigs.brewPullActive)}
