@@ -1,4 +1,4 @@
-import { Button, Flex, FlexItem } from '@patternfly/react-core';
+import { Button } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import ReactDomServer from 'react-dom/server';
@@ -61,27 +61,22 @@ export const TopBar = ({ children, id, type, icon, hideCloseButton = false }: Re
 
   return isOpen && children ? (
     <div className={`${styles['top-bar']} ${styles[type]}`}>
-      <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
-        <FlexItem>
-          <Flex spaceItems={{ default: 'spaceItemsSm' }}>
-            <FlexItem>{icon}</FlexItem>
-            <FlexItem>{children}</FlexItem>
-          </Flex>
-        </FlexItem>
-        {!hideCloseButton && (
-          <FlexItem>
-            <Button
-              onClick={() => {
-                setIsOpen(false);
-                window.sessionStorage.setItem(statusLocalStorageId, 'closed');
-              }}
-              variant="plain"
-            >
-              <TimesIcon className={styles['close-icon']} />
-            </Button>
-          </FlexItem>
-        )}
-      </Flex>
+      <div>
+        <span className="m-r-5">{icon}</span>
+        {children}
+      </div>
+
+      {!hideCloseButton && (
+        <Button
+          onClick={() => {
+            setIsOpen(false);
+            window.sessionStorage.setItem(statusLocalStorageId, 'closed');
+          }}
+          variant="plain"
+        >
+          <TimesIcon className={styles['close-icon']} />
+        </Button>
+      )}
     </div>
   ) : null;
 };
