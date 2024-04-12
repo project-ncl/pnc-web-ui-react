@@ -281,7 +281,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         isEditPage ? (
           <>You can edit current Group Config attributes below.</>
         ) : (
-          <>You can create an Group Config with its Product Version here.</>
+          <>You can create a Group Config with its Product Version here.</>
         )
       }
     >
