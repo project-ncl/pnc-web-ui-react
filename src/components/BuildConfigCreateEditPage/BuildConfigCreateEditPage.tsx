@@ -1042,12 +1042,15 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           )}
 
           {buildConfigCreatingFinished && (
-            <Button
-              variant="secondary"
-              component={(props) => <Link {...props} to={`/build-configs/${buildConfigCreatingFinished.id}`} />}
-            >
-              <CheckIcon /> {ButtonTitles.view} {EntityTitles.buildConfig}
-            </Button>
+            <>
+              <p className="p-6 p-l-10 p-r-0">Build Config were successfully created</p>
+              <Button
+                variant="secondary"
+                component={(props) => <Link {...props} to={`/build-configs/${buildConfigCreatingFinished.id}`} />}
+              >
+                <CheckIcon /> {ButtonTitles.view} {EntityTitles.buildConfig}
+              </Button>
+            </>
           )}
         </ActionGroup>
       </Form>
