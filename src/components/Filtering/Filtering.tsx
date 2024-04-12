@@ -100,6 +100,9 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
         filterValue = filterValue.substring(2, filterValue.length - 2);
       }
 
+      // 'ab\"c\"d' -> 'ab"c"d'
+      filterValue = filterValue.replaceAll('\\"', '"');
+
       // abc -> !abc when negated
       return (isNegated ? '!' : '') + filterValue;
     }

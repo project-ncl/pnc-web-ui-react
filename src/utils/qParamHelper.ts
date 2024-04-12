@@ -2,6 +2,8 @@ import { groupBy } from 'lodash-es';
 
 import { uiLogger } from 'services/uiLogger';
 
+import { isString } from 'utils/entityRecognition';
+
 /**
  * Q (RSQL) param helper
  *
@@ -96,10 +98,13 @@ const parseQParamShallow = (qParamString: string): string[] => {
 const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators): string => {
   switch (operator) {
     case '=like=':
+      // 'ab"c"d' -> 'ab\"c\"d'
+      const escapedValue = isString(value) ? value.replaceAll('"', '\\"') : value;
+
       // #support =notlike=
       // value does NOT contain "% characters yet, they need to be added
       // use '=notlike=' when '=like="%!' exists, otherwise use '=like='
-      return (id + operator + '"%' + value + '%"').replace('=like="%!', '=notlike="%');
+      return (id + operator + '"%' + escapedValue + '%"').replace('=like="%!', '=notlike="%');
     default:
       return `${id}${operator}${value}`;
   }
