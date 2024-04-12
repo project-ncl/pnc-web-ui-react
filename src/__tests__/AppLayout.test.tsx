@@ -14,6 +14,7 @@ jest.mock('services/webConfigService');
 window.pnc = {
   config: {
     userGuideUrl: 'https://localhost:3000/',
+    userSupportUrl: 'https://localhost:3000/',
     keycloak: {
       url: 'https://localhost:3000/',
       realm: 'test',

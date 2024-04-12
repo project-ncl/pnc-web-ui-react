@@ -44,6 +44,7 @@ export interface IWebConfig {
   pncNotificationsUrl: string;
   bifrostWsUrl: string;
   userGuideUrl: string;
+  userSupportUrl: string;
   ssoTokenLifespan: number;
   keycloak: IWebConfigKeycloak;
   grafana: IWebConfigGrafana;
