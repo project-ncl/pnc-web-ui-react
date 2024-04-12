@@ -18,10 +18,10 @@ import {
   TextContent,
   TextInput,
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
@@ -59,6 +59,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { TextInputFindMatch } from 'components/TextInputFindMatch/TextInputFindMatch';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipSimple } from 'components/TooltipSimple/TooltipSimple';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
@@ -129,6 +130,50 @@ const fieldConfigs = {
     isRequired: true,
   },
 } satisfies IFieldConfigs;
+
+const generateAlignmentParametersDescription = (buildType: BuildConfiguration['buildType']): ReactNode => {
+  if (!buildType) {
+    return (
+      <i>
+        Select the <b>Build Type</b> first so that more detailed information can be provided.
+      </i>
+    );
+  }
+
+  const cliProject =
+    buildType === buildTypeData.MVN.id
+      ? { name: 'PME', url: 'https://release-engineering.github.io/pom-manipulation-ext/#feature-guide' }
+      : buildType === buildTypeData.GRADLE.id
+      ? { name: 'GME', url: 'https://project-ncl.github.io/gradle-manipulator/#feature-guide' }
+      : buildType === buildTypeData.NPM.id
+      ? {
+          name: 'Project Manipulator',
+          url: 'https://github.com/project-ncl/project-manipulator?tab=readme-ov-file#java-properties',
+        }
+      : buildType === buildTypeData.SBT.id
+      ? { name: 'SMEG' }
+      : null;
+
+  return (
+    <>
+      Following information are relevant for currently selected Build Type: <b>{buildType}</b>
+      <br />
+      <br />
+      Additional parameters, which will be passed to the{' '}
+      {cliProject?.url ? (
+        <a href={cliProject.url} target="_blank" rel="noopener noreferrer" title={`See ${cliProject?.name} documentation`}>
+          {cliProject?.name} CLI <ExternalLinkAltIcon />
+        </a>
+      ) : (
+        <TooltipSimple title={`Currently no ${cliProject?.name} documentation is available`}>
+          {cliProject?.name} CLI
+        </TooltipSimple>
+      )}{' '}
+      executable during alignment before the build. The format should be as you would enter them on a command line, and each must
+      start with a dash.
+    </>
+  );
+};
 
 export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCreateEditPageProps) => {
   const { buildConfigId } = useParamsRequired();
@@ -858,7 +903,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       <SelectOption
                         key={index}
                         value={option.title}
-                        description={option.description}
+                        description={
+                          option.title === 'ALIGNMENT_PARAMETERS' ? (
+                            <i>Once selected, more detailed information will be displayed.</i>
+                          ) : (
+                            option.description
+                          )
+                        }
                         isDisabled={!!buildParamData[option.title]}
                       />
                     ))}
@@ -893,10 +944,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                         </FormHelperText>
                       }
                     >
-                      <FormHelperText isHidden={!buildParam.description}>
-                        <HelperText>
-                          <HelperTextItem>{buildParam.description}</HelperTextItem>
-                        </HelperText>
+                      <FormHelperText
+                        isHidden={!buildParam.description && key !== 'ALIGNMENT_PARAMETERS'}
+                        isError={key === 'ALIGNMENT_PARAMETERS' && !getFieldValue(buildConfigEntityAttributes.buildType.id)}
+                      >
+                        {key === 'ALIGNMENT_PARAMETERS'
+                          ? generateAlignmentParametersDescription(getFieldValue(buildConfigEntityAttributes.buildType.id))
+                          : buildParam.description}
                       </FormHelperText>
 
                       {key === 'BUILD_CATEGORY' ? (
