@@ -27,6 +27,7 @@
   "kafkaUrl": "https://localhost/",
   "pncNotificationsUrl": "wss://localhost/",
   "userGuideUrl": "https://localhost/",
+  "userSupportUrl": "https://localhost/",
   "ssoTokenLifespan": 86400000,
   "keycloak": { "url": "https://localhost/", "realm": "realm", "clientId": "clientId" },
   "grafana": {

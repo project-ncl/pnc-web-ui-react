@@ -15,7 +15,14 @@ import {
   PageHeaderToolsItem,
   PageSidebar,
 } from '@patternfly/react-core';
-import { BellIcon, CaretDownIcon, CogIcon, OutlinedQuestionCircleIcon, UserIcon } from '@patternfly/react-icons';
+import {
+  BellIcon,
+  CaretDownIcon,
+  CogIcon,
+  ExternalLinkAltIcon,
+  OutlinedQuestionCircleIcon,
+  UserIcon,
+} from '@patternfly/react-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router-dom';
 
@@ -69,6 +76,7 @@ export const AppLayout = () => {
 
   const AppHeaderTools = () => {
     const pncUserGuideUrl = webConfig.userGuideUrl;
+    const pncUserSupportUrl = webConfig.userSupportUrl;
 
     const [isHeaderConfigOpen, setIsHeaderConfigOpen] = useState(false);
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
@@ -93,12 +101,29 @@ export const AppLayout = () => {
       </ProtectedComponent>,
     ];
 
-    const headerQuestionDropdownItems = [
-      <DropdownItem component={<Link to="/about">About</Link>} key="about" />,
-      <DropdownItem key="users guide" href={pncUserGuideUrl} target="_blank" rel="noopener noreferrer">
-        User's guide
-      </DropdownItem>,
-    ];
+    const headerQuestionDropdownItems = [<DropdownItem component={<Link to="/about">About</Link>} key="about" />];
+
+    if (pncUserGuideUrl) {
+      headerQuestionDropdownItems.push(
+        <DropdownItem key="users-guide" href={pncUserGuideUrl} target="_blank" rel="noopener noreferrer">
+          User's guide <ExternalLinkAltIcon />
+        </DropdownItem>
+      );
+    }
+
+    if (pncUserSupportUrl) {
+      headerQuestionDropdownItems.push(
+        <DropdownItem
+          key="users-channel"
+          href={pncUserSupportUrl}
+          title="Live user's support channel for PNC services provided by developers"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          User's support <ExternalLinkAltIcon />
+        </DropdownItem>
+      );
+    }
 
     const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
 
