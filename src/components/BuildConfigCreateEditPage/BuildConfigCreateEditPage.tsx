@@ -151,7 +151,7 @@ const generateAlignmentParametersDescription = (buildType: BuildConfiguration['b
           url: 'https://github.com/project-ncl/project-manipulator?tab=readme-ov-file#java-properties',
         }
       : buildType === buildTypeData.SBT.id
-      ? { name: 'SMEG' }
+      ? { name: 'SMEG', url: 'https://github.com/project-ncl/smeg?tab=readme-ov-file#properties' }
       : null;
 
   return (
