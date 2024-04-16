@@ -1,4 +1,13 @@
-import { Artifact, BuildConfiguration, GroupConfiguration, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
+import {
+  Artifact,
+  Build,
+  BuildConfiguration,
+  GroupBuild,
+  GroupConfiguration,
+  Product,
+  ProductMilestone,
+  ProductVersion,
+} from 'pnc-api-types-ts';
 
 export const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
 
@@ -6,9 +15,9 @@ export const isString = (value: unknown): value is string => typeof value === 's
 
 export const isArray = (value: unknown): value is unknown[] => Array.isArray(value);
 
-export const isBuild = (possibleBuild: any) => 'buildConfigRevision' in possibleBuild;
+export const isBuild = (build: Build | GroupBuild): build is Build => 'buildConfigRevision' in build;
 
-export const isGroupBuild = (possibleGroupBuild: any) => 'groupConfig' in possibleGroupBuild;
+export const isGroupBuild = (build: Build | GroupBuild): build is GroupBuild => 'groupConfig' in build;
 
 export const isBuildConfig = (config: BuildConfiguration | GroupConfiguration): config is BuildConfiguration =>
   'project' in config;
