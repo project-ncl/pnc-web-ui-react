@@ -28,8 +28,8 @@ export const ScmRepositoriesPage = ({ componentId = 's1' }: IScmRepositoriesPage
       title={PageTitles.scmRepositories}
       description={
         <>
-          This page contains SCM Repositories like <Label>apache/maven.git</Label> or <Label>git/twitter4j.git</Label>, they are
-          either created by new build config wizard or manually created here.
+          This page contains SCM Repositories, for example <Label>apache/maven.git</Label> or <Label>git/twitter4j.git</Label>,
+          they are created either alongside new Build Config or manually here.
         </>
       }
       actions={

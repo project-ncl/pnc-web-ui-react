@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, Switch, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, Switch, TextInput } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -266,8 +266,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           <>You can edit current SCM Repository attributes below.</>
         ) : (
           <>
-            You can create an SCM Repository like <label>apache/maven.git</label> or <label>git/twitter4j.git</label>. It can be
-            created with either an Internal URL or External URL.
+            You can manually create SCM Repository, for example <Label>apache/maven.git</Label> or{' '}
+            <Label>git/twitter4j.git</Label> here. SCM Repository can be created with either an Internal URL or External URL.
           </>
         )
       }
