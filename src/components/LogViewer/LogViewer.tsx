@@ -123,7 +123,6 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
           <ToolbarItem>
             <Switch
               label="Force Following"
-              labelOff="Force Following"
               isChecked={isFollowing}
               onChange={(checked) => {
                 setIsFollowing(checked);
@@ -135,7 +134,6 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
         <ToolbarItem>
           <Switch
             label="Wrap Lines"
-            labelOff="Wrap Lines"
             isChecked={areLinesWrapped}
             onChange={(checked) => {
               setIsPaused(true);

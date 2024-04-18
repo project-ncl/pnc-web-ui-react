@@ -220,8 +220,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               <Switch
                 id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
                 name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-                label="Pre-build Sync Enabled"
-                labelOff="Pre-build Sync Disabled"
+                label="Enabled"
+                labelOff="Disabled"
                 isChecked={value}
                 onChange={onChange}
                 onBlur={onBlur}

@@ -286,7 +286,6 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
                       id={productMilestoneEntityAttributes.isCurrent.id}
                       name={productMilestoneEntityAttributes.isCurrent.id}
                       label={switchLabel}
-                      labelOff={switchLabel}
                       isChecked={value}
                       onChange={onChange}
                       onBlur={onBlur}

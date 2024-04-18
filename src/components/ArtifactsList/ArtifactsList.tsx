@@ -151,7 +151,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
           <Switch
             id="toggle-artifact-name-parsed"
             label="Parse Artifact identifier"
-            labelOff="Parse Artifact identifier"
             isChecked={isArtifactIdentifierParsed}
             onChange={(checked) => {
               setIsArtifactIdentifierParsed(checked);
@@ -163,7 +162,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
           <Switch
             id="toggle-expand-build-associated"
             label="Expand Build associated Artifacts"
-            labelOff="Expand Build associated Artifacts"
             isChecked={areBuildArtifactsExpanded}
             onChange={() => {
               setAreBuildArtifactsExpanded(!areBuildArtifactsExpanded);
