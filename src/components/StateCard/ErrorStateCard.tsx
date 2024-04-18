@@ -49,7 +49,7 @@ export const ErrorStateCard = ({ title, error, variant = 'block' }: IErrorStateC
   return (
     <div className={styles['error-state-card-block']}>
       <StateCard title={errorTitle} icon={CubesIcon}>
-        <pre>{error}</pre>
+        {error}
       </StateCard>
     </div>
   );
