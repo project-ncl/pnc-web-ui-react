@@ -79,10 +79,10 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
     <ActionModal
       modalTitle={
         build
-          ? `${ButtonTitles.update} All Artifact Qualities: #${build.id}`
-          : `${ButtonTitles.update} Artifact Quality: ${artifact!.identifier}`
+          ? `${ButtonTitles.edit} All Artifact Qualities: #${build.id}`
+          : `${ButtonTitles.edit} Artifact Quality: ${artifact!.identifier}`
       }
-      actionTitle="Edit"
+      actionTitle={ButtonTitles.update}
       isOpen={isModalOpen}
       isSubmitDisabled={isSubmitDisabled}
       wereSubmitDataChanged={hasFormChanged}
