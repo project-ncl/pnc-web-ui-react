@@ -408,6 +408,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         setSelectedScmRepository(buildConfig.scmRepository);
         if (buildConfig.parameters) {
           setBuildParamData(Object.fromEntries(Object.entries(buildConfig.parameters).map(([k, v]) => [k, { value: v }])));
+          Object.values(buildConfig.parameters).some((parameter) => !parameter) && setShowBuildParametersSection(true);
         }
         setFieldValues(buildConfigFlat);
 
