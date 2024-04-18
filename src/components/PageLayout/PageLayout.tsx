@@ -67,7 +67,6 @@ export const PageLayout = ({
             {sidebar && (
               <Switch
                 label={sidebar.title}
-                labelOff={sidebar.title}
                 isChecked={isSidebarExpanded}
                 onChange={() => setIsSidebarExpanded((isExpanded) => !isExpanded)}
               />

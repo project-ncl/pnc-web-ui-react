@@ -134,8 +134,8 @@ https://url-path/to/file3.zip`}
               <Switch
                 id={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
                 name={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-                label="Scratch Option Enabled"
-                labelOff="Scratch Option Disabled"
+                label="Enabled"
+                labelOff="Disabled"
                 isChecked={value}
                 onChange={onChange}
                 onBlur={onBlur}
