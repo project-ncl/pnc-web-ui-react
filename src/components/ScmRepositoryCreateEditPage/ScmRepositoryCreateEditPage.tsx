@@ -68,7 +68,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(scmRepositoryApi.patchScmRepository);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -230,7 +230,11 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           />
         </FormGroup>
         <ActionGroup>
-          <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>
+          <Button
+            variant="primary"
+            isDisabled={isSubmitDisabled || !hasFormChanged}
+            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
+          >
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.scmRepository}
           </Button>
           {scmCreatingFinished?.id && (
