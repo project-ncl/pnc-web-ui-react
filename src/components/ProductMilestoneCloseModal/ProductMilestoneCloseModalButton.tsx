@@ -13,7 +13,7 @@ export const ProductMilestoneCloseModalButton = ({ toggleModal, variant }: IProd
     <Button
       variant={variant === 'list' ? 'plain' : 'tertiary'}
       onClick={toggleModal}
-      className={css(variant === 'list' && 'black-color', 'text-align-left')}
+      className={css(variant === 'list' && 'black-color', 'dropdown-item-font-size', 'text-align-left')}
       isBlock
       isSmall
     >
