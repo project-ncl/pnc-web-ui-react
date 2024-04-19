@@ -129,6 +129,9 @@ const fieldConfigs = {
   scmRevision: {
     isRequired: true,
   },
+  preBuildSyncEnabled: {
+    value: true,
+  },
 } satisfies IFieldConfigs;
 
 const generateAlignmentParametersDescription = (buildType: BuildConfiguration['buildType']): ReactNode => {
@@ -769,7 +772,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
             >
               <FormInput<boolean>
-                {...register<boolean>(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
+                {...register<boolean>(scmRepositoryEntityAttributes.preBuildSyncEnabled.id, fieldConfigs.preBuildSyncEnabled)}
                 render={({ value, onChange, onBlur }) => (
                   <TooltipWrapper tooltip={selectedScmRepository && 'Option already set in synced repository.'}>
                     <Switch
