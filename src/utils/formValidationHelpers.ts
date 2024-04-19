@@ -156,23 +156,31 @@ const buildScriptChecker = (
   { mandatoryCheck, forbiddenCheck }: IBuildScriptCheckerOptions = { mandatoryCheck: false, forbiddenCheck: false }
 ) => {
   const MAVEN = 'mvn';
-  const MANDATORY_ARGS = [' deploy '];
+  const MANDATORY_ARGS = ['deploy'];
 
   // Prevent cases like ' -X abc', but cases like ' -Xabc' are allowed
   const FORBIDDEN_ARGS = [` -X `, ` "-X" `, ` '-X' `, ` --debug `, ` "--debug" `, ` '--debug' `];
 
-  const lines = buildScript.toLowerCase().split('\n');
+  const buildScriptNormalized = buildScript.toLowerCase();
 
+  // entire script based validation
+  if (
+    mandatoryCheck &&
+    buildScriptNormalized.includes(MAVEN) &&
+    MANDATORY_ARGS.some((arg) => !buildScriptNormalized.includes(arg.toLowerCase()))
+  ) {
+    return false;
+  }
+
+  // line script based validation
+  const lines = buildScriptNormalized.split('\n');
   return lines.every((line) => {
     if (!line.includes(MAVEN)) {
       return true; // validation automatically passes when maven command is not available
     }
 
     const lineWithEndSpace = `${line} `;
-    return (
-      (!mandatoryCheck || MANDATORY_ARGS.every((arg) => lineWithEndSpace.includes(arg.toLowerCase()))) &&
-      (!forbiddenCheck || FORBIDDEN_ARGS.every((arg) => !lineWithEndSpace.includes(arg.toLowerCase())))
-    );
+    return !forbiddenCheck || FORBIDDEN_ARGS.every((arg) => !lineWithEndSpace.includes(arg.toLowerCase()));
   });
 };
 
