@@ -19,6 +19,8 @@ import { useTitle } from 'hooks/useTitle';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
+import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
@@ -63,9 +65,11 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   const serviceContainerDependencyGraphSetter = serviceContainerDependencyGraph.setData;
 
   const [isCancelGroupBuildModalOpen, setIsCancelGroupBuildModalOpen] = useState<boolean>(false);
+  const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
 
   const toggleCancelGroupBuildModal = () =>
     setIsCancelGroupBuildModalOpen((isCancelGroupBuildModalOpen) => !isCancelGroupBuildModalOpen);
+  const toggleBrewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
 
   const longGroupBuildName = serviceContainerGroupBuild.data
     ? calculateLongBuildName(serviceContainerGroupBuild.data)
@@ -136,11 +140,14 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
         title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}
         breadcrumbs={[{ entity: breadcrumbData.groupBuild.id, title: serviceContainerGroupBuild.data?.id }]}
         actions={
-          <CancelBuildModalButton
-            toggleModal={toggleCancelGroupBuildModal}
-            build={serviceContainerGroupBuild.data!}
-            variant="Group Build"
-          />
+          <>
+            <CancelBuildModalButton
+              toggleModal={toggleCancelGroupBuildModal}
+              build={serviceContainerGroupBuild.data!}
+              variant="Group Build"
+            />
+            <BrewPushModalButton toggleModal={toggleBrewPushModal} build={serviceContainerGroupBuild.data!} />
+          </>
         }
       >
         <ContentBox padding marginBottom isResponsive>
@@ -199,6 +206,15 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
         <CancelBuildModal
           isModalOpen={isCancelGroupBuildModalOpen}
           toggleModal={toggleCancelGroupBuildModal}
+          build={serviceContainerGroupBuild.data!}
+          variant="Group Build"
+        />
+      )}
+
+      {isBrewPushModalOpen && (
+        <BrewPushModal
+          isModalOpen={isBrewPushModalOpen}
+          toggleModal={toggleBrewPushModal}
           build={serviceContainerGroupBuild.data!}
           variant="Group Build"
         />
