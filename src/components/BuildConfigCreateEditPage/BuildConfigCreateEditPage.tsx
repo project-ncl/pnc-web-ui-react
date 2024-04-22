@@ -79,7 +79,7 @@ interface IBuildParamOption {
 }
 
 interface IBuildParamData {
-  [title: string]: { value: string; description?: string };
+  [title: string]: { value: string };
 }
 
 interface IBuildConfigCreateEditPageProps {
@@ -875,7 +875,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                           ...buildParamData,
                           [selection as string]: {
                             value: '',
-                            description: buildParamOptions.find((option) => option.title === selection)?.description,
                           },
                         });
                         setIsBuildParamSelectOpen(false);
@@ -946,12 +945,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       }
                     >
                       <FormHelperText
-                        isHidden={!buildParam.description && key !== 'ALIGNMENT_PARAMETERS'}
+                        isHidden={false}
                         isError={key === 'ALIGNMENT_PARAMETERS' && !getFieldValue(buildConfigEntityAttributes.buildType.id)}
                       >
                         {key === 'ALIGNMENT_PARAMETERS'
                           ? generateAlignmentParametersDescription(getFieldValue(buildConfigEntityAttributes.buildType.id))
-                          : buildParam.description}
+                          : buildParamOptions.find((option) => option.title === key)?.description}
                       </FormHelperText>
 
                       {key === 'BUILD_CATEGORY' ? (
