@@ -65,7 +65,11 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
 
   return (
     <span className={styles['build-status-icon']}>
-      {isBuild(build) ? <BuildLogLink build={build}>{buildImage}</BuildLogLink> : buildImage}
+      {isBuild(build) ? (
+        <BuildLogLink build={build}>{buildImage}</BuildLogLink>
+      ) : (
+        <TooltipWrapper tooltip={build.status && buildStatusData[build.status].tooltip}>{buildImage}</TooltipWrapper>
+      )}
       {isCorrupted && (
         <Tooltip
           removeFindDomNode
@@ -101,7 +105,7 @@ const BuildLogLink = ({ build, children }: PropsWithChildren<IBuildLogLinkProps>
   const buildLogLink = useMemo(() => getAdequateBuildLogLink(build), [build]);
 
   return (
-    <TooltipWrapper tooltip={<span>{buildStatusData[build.status!].tooltip}. Click to open the log</span>}>
+    <TooltipWrapper tooltip={build.status && `${buildStatusData[build.status].tooltip}. Click to open the log`}>
       <Link to={buildLogLink} className={styles['build-log-link']}>
         {children}
       </Link>
