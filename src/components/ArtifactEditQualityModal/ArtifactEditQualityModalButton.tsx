@@ -1,19 +1,18 @@
-import { Button } from '@patternfly/react-core';
+import { Button, ButtonProps } from '@patternfly/react-core';
 
 import { ButtonTitles } from 'common/constants';
 
-import { IArtifactEditQualityModalProps } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModal';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 type IArtifactEditQualityModalButtonProps = {
   toggleModal: () => void;
-  variant: IArtifactEditQualityModalProps['variant'];
+  variant?: ButtonProps['variant'];
 } & ({ isBuildVariant?: false } | { isBuildVariant: true; buildArtifactsCount: number | undefined });
 
 export const ArtifactEditQualityModalButton = ({
   toggleModal,
-  variant,
+  variant = 'secondary',
   isBuildVariant,
   ...props
 }: IArtifactEditQualityModalButtonProps) => {
@@ -24,8 +23,8 @@ export const ArtifactEditQualityModalButton = ({
   return (
     <ProtectedComponent>
       <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button variant={variant === 'list' ? 'secondary' : 'tertiary'} onClick={toggleModal} isSmall isAriaDisabled={isDisabled}>
-          {ButtonTitles.edit} Quality
+        <Button variant={variant} onClick={toggleModal} isSmall isAriaDisabled={isDisabled}>
+          {ButtonTitles.update} quality
         </Button>
       </TooltipWrapper>
     </ProtectedComponent>

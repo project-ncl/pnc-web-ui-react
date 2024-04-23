@@ -8,7 +8,7 @@ interface IBuildConfigRestoreModalButtonProps {
 
 export const BuildConfigRestoreModalButton = ({ toggleModal }: IBuildConfigRestoreModalButtonProps) => (
   <ProtectedComponent>
-    <Button variant="tertiary" onClick={toggleModal} isSmall>
+    <Button variant="primary" onClick={toggleModal} isSmall>
       Restore
     </Button>
   </ProtectedComponent>

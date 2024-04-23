@@ -126,7 +126,9 @@ export const GroupConfigDetailPage = ({
             <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />
           </ProtectedComponent>,
           <ProtectedComponent key="edit-group-config-button">
-            <ActionButton link="edit">Edit Group Config</ActionButton>
+            <ActionButton variant="tertiary" link="edit">
+              Edit Group Config
+            </ActionButton>
           </ProtectedComponent>,
         ]}
         sidebar={{

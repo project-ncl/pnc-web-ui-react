@@ -45,7 +45,6 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
         <ToolbarItem>
           <ArtifactEditQualityModalButton
             toggleModal={toggleEditQualitiesModal}
-            variant="detail"
             isBuildVariant
             buildArtifactsCount={serviceContainerArtifacts.data?.content?.length}
           />
