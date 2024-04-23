@@ -93,7 +93,7 @@ export const ArtifactPages = () => {
       <PageLayout
         title={serviceContainerArtifact.data?.identifier}
         breadcrumbs={[{ entity: breadcrumbData.artifact.id, title: serviceContainerArtifact.data?.identifier }]}
-        actions={<ArtifactEditQualityModalButton toggleModal={toggleEditQualityModal} variant="detail" />}
+        actions={<ArtifactEditQualityModalButton toggleModal={toggleEditQualityModal} />}
         tabs={pageTabs}
       >
         <Outlet context={{ serviceContainerArtifact }} />
