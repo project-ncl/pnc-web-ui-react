@@ -19,7 +19,7 @@ export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IA
   useQueryParamsEffect(
     ({ requestConfig } = {}) =>
       serviceContainerArtifactProductMilestonesReleasesRunner({ serviceData: { id: artifactId }, requestConfig }),
-    { componentId }
+    { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 
   return <ArtifactProductMilestonesReleasesList {...{ serviceContainerArtifactProductMilestonesReleases, componentId }} />;
