@@ -28,6 +28,7 @@ interface IExtendedBuild extends Build {
   'buildConfigRevision.buildScript': string;
   'buildConfigRevision.brewPullActive': boolean;
   parameters: any;
+  brewPush: any; // fetched externally
 }
 
 export const buildEntityAttributes = {
@@ -139,6 +140,10 @@ export const buildEntityAttributes = {
   'buildConfigRevision.brewPullActive': {
     id: 'buildConfigRevision.brewPullActive',
     title: 'Brew Pull Active',
+  },
+  brewPush: {
+    id: 'brewPush',
+    title: 'Latest Brew Push',
   },
   parameters: {
     id: 'parameters',
