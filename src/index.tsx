@@ -39,7 +39,10 @@ const App = () => {
   if (
     // https://example.com
     !pncUrl.startsWith(window.location.origin) &&
-    process.env.REACT_APP_WEB_UI_URL !== window.location.origin &&
+    !(
+      process.env.REACT_APP_WEB_UI_URL !== window.location.origin ||
+      process.env.REACT_APP_WEB_SECONDARY_UI_URL !== window.location.origin
+    ) &&
     // example.com
     window.location.hostname !== 'localhost'
   ) {
