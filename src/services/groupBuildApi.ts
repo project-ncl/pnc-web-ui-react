@@ -1,6 +1,9 @@
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
 
 import { BuildPage, BuildsGraph, GroupBuild, GroupBuildPage } from 'pnc-api-types-ts';
+
+import { BuildWithBrewPushPage } from 'services/buildApi';
+import * as buildApi from 'services/buildApi';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 
@@ -64,6 +67,36 @@ export const getGroupBuild = ({ id }: IGroupBuildApiData, requestConfig: AxiosRe
  */
 export const getBuilds = ({ id }: IGroupBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildPage>(`/group-builds/${id}/builds`, requestConfig);
+};
+
+/**
+ * Gets Builds contained in the Group Build along with latest Brew Push result.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildsWithBrewPush = async (
+  { id }: IGroupBuildApiData,
+  requestConfig: AxiosRequestConfig = {}
+): Promise<AxiosResponse<BuildWithBrewPushPage>> => {
+  const buildsResponse = await getBuilds({ id }, requestConfig);
+  if (!buildsResponse.data.content?.length) return buildsResponse;
+
+  const buildsWithBrewPush = await axios.all(
+    buildsResponse.data.content.map(async (build) => {
+      try {
+        const { data } = await buildApi.getBrewPush({ id: build.id });
+        return data ? { ...build, brewPush: data } : build;
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status === 404) {
+          return build;
+        }
+
+        throw error;
+      }
+    })
+  );
+
+  return { ...buildsResponse, data: { ...buildsResponse.data, content: buildsWithBrewPush } };
 };
 
 /**

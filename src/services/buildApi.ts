@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
 
 import {
   ArtifactPage,
@@ -35,6 +35,38 @@ export interface IBuildApiData {
  */
 export const getBuilds = (requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildPage>('/builds', requestConfig);
+};
+
+export type BuildWithBrewPush = Build & { brewPush?: BuildPushResult };
+export type BuildWithBrewPushPage = Omit<BuildPage, 'content'> & { content?: BuildWithBrewPush[] };
+
+/**
+ * Gets all Builds along with latest Brew Push result.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildsWithBrewPush = async (
+  requestConfig: AxiosRequestConfig = {}
+): Promise<AxiosResponse<BuildWithBrewPushPage>> => {
+  const buildsResponse = await getBuilds(requestConfig);
+  if (!buildsResponse.data.content?.length) return buildsResponse;
+
+  const buildsWithBrewPush = await axios.all(
+    buildsResponse.data.content.map(async (build) => {
+      try {
+        const { data } = await getBrewPush({ id: build.id });
+        return data ? { ...build, brewPush: data } : build;
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status === 404) {
+          return build;
+        }
+
+        throw error;
+      }
+    })
+  );
+
+  return { ...buildsResponse, data: { ...buildsResponse.data, content: buildsWithBrewPush } };
 };
 
 /**
