@@ -10,7 +10,7 @@ describe('display ScmRepositoryUrl component', () => {
       <ScmRepositoryUrl
         internalScmRepository={{
           id: '103',
-          internalUrl: 'git+ssh://code.test.env.com/testRepo/testUrlClipboardCopyGerrit.git',
+          internalUrl: 'git+ssh://test.env.com/testRepo/testUrlClipboardCopyGerrit.git',
           externalUrl: 'https://github.com/testRepo/empty.git',
           preBuildSyncEnabled: true,
         }}
@@ -23,7 +23,7 @@ describe('display ScmRepositoryUrl component', () => {
       <ScmRepositoryUrl
         internalScmRepository={{
           id: '103',
-          internalUrl: 'git+ssh://code.test.env.com/testRepo/testUrlClipboardCopyGerrit.git',
+          internalUrl: 'git+ssh://test.env.com/testRepo/testUrlClipboardCopyGerrit.git',
           externalUrl: 'https://github.com/testRepo/empty.git',
           preBuildSyncEnabled: true,
         }}

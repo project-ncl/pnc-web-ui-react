@@ -8,7 +8,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { uiLogger } from 'services/uiLogger';
 
-import { IParsedUrl, parseExternalScmRepositoryUrl, parseInternalScmRepositoryUrl } from 'utils/urlParseHelper';
+import { IParsedUrl, parseScmRepositoryUrl } from 'utils/urlParseHelper';
 
 interface IUrlButtonProps {
   parsedUrl: IParsedUrl;
@@ -52,11 +52,9 @@ interface IScmRepositoryUrlProps {
 export const ScmRepositoryUrl = ({ internalScmRepository, externalScmRepository, isInline }: IScmRepositoryUrlProps) => {
   let parsedUrl;
   if (internalScmRepository) {
-    parsedUrl = parseInternalScmRepositoryUrl({ url: internalScmRepository.internalUrl });
+    parsedUrl = parseScmRepositoryUrl({ url: internalScmRepository.internalUrl });
   } else if (externalScmRepository) {
-    parsedUrl = externalScmRepository.externalUrl
-      ? parseExternalScmRepositoryUrl({ url: externalScmRepository.externalUrl })
-      : null;
+    parsedUrl = externalScmRepository.externalUrl ? parseScmRepositoryUrl({ url: externalScmRepository.externalUrl }) : null;
   } else {
     uiLogger.error('internalScmRepository or externalScmRepository has to be defined');
   }
