@@ -2,6 +2,15 @@ interface IScmRepositoryUrl {
   url: string;
 }
 
+const preDefinedScmsPrefix: { [key: string]: string } = {
+  gitlab: 'GitLab',
+  github: 'GitHub',
+  [process.env.GERRIT_URL_BASE || 'code']: 'Gerrit',
+};
+
+// Regular expression to match 'git://','git+ssh://', 'http://', 'https://', 'git@', and 'ssh://git@'
+const protocolRegex = /^(git:\/\/|git\+ssh:\/\/|http:\/\/|https:\/\/|git@|ssh:\/\/git@)/;
+
 export interface IParsedUrl {
   webUrl: string;
   scmRepositoryUrl: string;
@@ -9,51 +18,33 @@ export interface IParsedUrl {
 }
 
 /**
- * Parses internal SCM Repository URL to Gerrit gitweb link of the SCM Repository.
+ * Parses SCM Repository URL to gitweb link of the SCM Repository.
  *
- * @param url - The internalUrl to be parsed
+ * @param url - The Url to be parsed
  * @returns Object containing scmRepository URL, parsed URL and display name representing URL
  *  */
-export const parseInternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl => {
-  const gitlabBase = 'gitlab.cee.redhat.com';
-  const isGitProtocol = url.includes('git@');
-  const protocol = isGitProtocol ? 'git@' : url.split('://').at(0) || '';
-  const base = isGitProtocol ? url.split('@').at(1)?.split(':').at(0) || '' : url.split('://').at(1)?.split('/').at(0) || '';
-  const project = isGitProtocol
-    ? url.split(':').at(1)
-    : url.includes(gitlabBase)
-    ? url.split(gitlabBase + '/').at(1)
-    : url.split(base + (['https', 'http'].includes(protocol) ? '/gerrit/' : '/')).at(1);
-  const webUrl =
-    isGitProtocol || url.includes(protocol + '://' + gitlabBase)
-      ? 'https://' + base + '/' + project
-      : 'https://' + base + '/gerrit/gitweb?p=' + project + ';a=summary';
-  const name = url.includes(gitlabBase) ? 'GitLab' : 'Gerrit';
-  return { scmRepositoryUrl: url, webUrl, name };
-};
+export const parseScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl => {
+  const protocolMatch = url.match(protocolRegex) || [];
+  const protocol = protocolMatch.at(1) || '';
 
-/**
- * ParsesSCM Repository URL to gitweb link of the SCM Repository.
- *
- * @param url - The externalUrl to be parsed
- * @returns  Object containing scmRepository URL, parsed URL and display name representing URL
- */
-export const parseExternalScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl | null => {
-  if (!url) {
-    return null;
+  let webUrl = protocol === 'git@' ? url.replace(':', '/') : url;
+  const base = webUrl.split(protocol).at(1)?.split('/').at(0) || '';
+
+  // Find the first prefix in preDefinedScmsPrefix that matches the start of base
+  const namePrefixKey = Object.keys(preDefinedScmsPrefix).find((key) => base.startsWith(key));
+  const name = namePrefixKey ? preDefinedScmsPrefix[namePrefixKey] : base;
+
+  // Special handling for URLs from Gerrit, will be removed after Gerrit support ends.
+  const matchedGerritUrl = Object.keys(preDefinedScmsPrefix).find(
+    (key) => key.includes(base) && preDefinedScmsPrefix[key] === 'Gerrit'
+  );
+  if (matchedGerritUrl) {
+    const path = url.split(matchedGerritUrl).at(1) || '';
+    const replaceRegex = path.startsWith('/gerrit/') ? /^\/gerrit\// : /^\//;
+    webUrl = `https://${matchedGerritUrl}/gerrit/gitweb?p=${path.replace(replaceRegex, '')};a=summary`;
+  } else {
+    webUrl = webUrl.replace(protocol, 'https://');
   }
-  if (url.includes('/gerrit/')) {
-    return parseInternalScmRepositoryUrl({ url });
-  }
-  if (['http', 'https', '@'].some((element) => url.includes(element))) {
-    const urlRes = url.includes('@') ? 'https://' + url.split('@').at(1)?.replace(':', '/') : url;
-    const base = urlRes.split('://').at(1)?.split('/').at(0) || '';
-    return { scmRepositoryUrl: url, webUrl: urlRes, name: base };
-  }
-  if (url.includes('.git')) {
-    const urlRes = url;
-    const base = urlRes.split('/').at(0) || '';
-    return { scmRepositoryUrl: url, webUrl: urlRes, name: base };
-  }
-  return null;
+
+  return { scmRepositoryUrl: url, webUrl, name };
 };
