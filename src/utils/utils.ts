@@ -247,6 +247,12 @@ export const isBuildCancelable = (status: NonNullable<Build['status']>) => {
   return CANCELABLE_BUILD_STATUSES.includes(status);
 };
 
+const NOT_LOGGED_BUILD_STATUSES = ['NO_REBUILD_REQUIRED', 'REJECTED_FAILED_DEPENDENCIES'];
+
+export const isBuildWithLog = (status: NonNullable<Build['status']>) => {
+  return !NOT_LOGGED_BUILD_STATUSES.includes(status);
+};
+
 /**
  * As taskId is very large number, convert it to string, for example:
  *  - from: '{"taskId":545872333419249664,"repository":null}'
