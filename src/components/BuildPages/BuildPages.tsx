@@ -28,6 +28,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as buildApi from 'services/buildApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
+import { isBuildWithLog } from 'utils/utils';
 
 type ContextType = { serviceContainerBuild: IServiceContainerState<Build> };
 
@@ -77,11 +78,18 @@ export const BuildPages = () => {
     })
   );
 
+  const isLogged = !serviceContainerBuild.data?.status || isBuildWithLog(serviceContainerBuild.data.status);
+  const isLoggedTooltip = !isLogged ? `Builds with status ${serviceContainerBuild.data!.status} are not logged.` : '';
+
   const pageTabs = (
     <PageTabs>
       <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="build-log">Build Log</PageTabsItem>
-      <PageTabsItem url="alignment-log">Alignment Log</PageTabsItem>
+      <PageTabsItem url="build-log" isDisabled={!isLogged} tooltip={isLoggedTooltip}>
+        Build Log
+      </PageTabsItem>
+      <PageTabsItem url="alignment-log" isDisabled={!isLogged} tooltip={isLoggedTooltip}>
+        Alignment Log
+      </PageTabsItem>
       <PageTabsItem url="artifacts">
         Artifacts{' '}
         <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Artifacts Count">
