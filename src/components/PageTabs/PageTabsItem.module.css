@@ -1,0 +1,4 @@
+/* workaround: https://moshfeu.github.io/show-tooltip-on-pointer-events-none-element */
+.page-tabs-item_link[aria-disabled='true']:active {
+  pointer-events: none;
+}
