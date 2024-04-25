@@ -24,7 +24,7 @@ export const ArtifactEditQualityModalButton = ({
     <ProtectedComponent>
       <TooltipWrapper tooltip={disabledButtonReason}>
         <Button variant={variant} onClick={toggleModal} isSmall isAriaDisabled={isDisabled}>
-          {ButtonTitles.update} quality
+          {ButtonTitles.edit} quality
         </Button>
       </TooltipWrapper>
     </ProtectedComponent>
