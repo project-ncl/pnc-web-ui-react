@@ -6,10 +6,11 @@ const preDefinedScmsPrefix: { [key: string]: string } = {
   gitlab: 'GitLab',
   github: 'GitHub',
   [process.env.REACT_APP_GERRIT_URL_BASE || 'code']: 'Gerrit',
+  [process.env.REACT_APP_GERRIT_STAGE_URL_BASE || 'code']: 'Gerrit',
 };
 
-// Regular expression to match 'git://','git+ssh://', 'http://', 'https://', 'git@', and 'ssh://git@'
-const protocolRegex = /^(git:\/\/|git\+ssh:\/\/|http:\/\/|https:\/\/|git@|ssh:\/\/git@)/;
+// Regular expression to match 'git://','git+ssh://', 'http://', 'https://', 'git@', and 'ssh://*@'
+const protocolRegex = /^(git:\/\/|git\+ssh:\/\/|http:\/\/|https:\/\/|git@|ssh:\/\/[a-zA-Z0-9.\-_]+@)/;
 
 export interface IParsedUrl {
   webUrl: string;
@@ -36,12 +37,12 @@ export const parseScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl =>
 
   // Special handling for URLs from Gerrit, will be removed after Gerrit support ends.
   const matchedGerritUrl = Object.keys(preDefinedScmsPrefix).find(
-    (key) => key.includes(base) && preDefinedScmsPrefix[key] === 'Gerrit'
+    (key) => base.includes(key) && preDefinedScmsPrefix[key] === 'Gerrit'
   );
   if (matchedGerritUrl) {
-    const path = url.split(matchedGerritUrl).at(1) || '';
+    const path = url.split(base).at(1) || '';
     const replaceRegex = path.startsWith('/gerrit/') ? /^\/gerrit\// : /^\//;
-    webUrl = `https://${matchedGerritUrl}/gerrit/gitweb?p=${path.replace(replaceRegex, '')};a=summary`;
+    webUrl = `https://${base}/gerrit/gitweb?p=${path.replace(replaceRegex, '')};a=summary`;
   } else {
     webUrl = webUrl.replace(protocol, 'https://');
   }
