@@ -44,10 +44,11 @@ export const TextInputFindMatch = <T extends TServiceData>({
       onChange={(value) => {
         onChange(value);
 
+        const trimmedValue = value.trim();
         clearTimeout(timeout?.current);
         timeout.current = setTimeout(() => {
-          if (!validator || validator(value)) {
-            fetchCallback(value)
+          if (!validator || validator(trimmedValue)) {
+            fetchCallback(trimmedValue)
               .then((response) => {
                 const data = response.data;
 
