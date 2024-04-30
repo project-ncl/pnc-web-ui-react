@@ -380,7 +380,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
             <p>
               Press <i>Build</i> button to start
             </p>
-            {buildDependencies && (
+            {buildDependencies && buildConfig && (
               <div>
                 {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
                 explicitly defined dependencies
@@ -397,7 +397,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
                 </span>
               </div>
             )}
-            {!buildDependencies && (
+            {(!buildDependencies || groupConfig) && (
               <span>
                 <p>
                   {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build
