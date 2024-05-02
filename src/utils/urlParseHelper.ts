@@ -3,14 +3,20 @@ interface IScmRepositoryUrl {
 }
 
 const preDefinedScmsPrefix: { [key: string]: string } = {
-  gitlab: 'GitLab',
-  github: 'GitHub',
   [process.env.REACT_APP_GERRIT_URL_BASE || 'code']: 'Gerrit',
   [process.env.REACT_APP_GERRIT_STAGE_URL_BASE || 'code']: 'Gerrit',
+  gitlab: 'GitLab',
+  github: 'GitHub',
 };
 
-// Regular expression to match 'git://','git+ssh://', 'http://', 'https://', 'git@', and 'ssh://*@'
-const protocolRegex = /^(git:\/\/|git\+ssh:\/\/|http:\/\/|https:\/\/|git@|ssh:\/\/[a-zA-Z0-9.\-_]+@)/;
+// Regular expression to match 'git://','git+ssh://[username]@','git+ssh://', 'http://', 'https://', 'git@', 'ssh://[username]@','ssh://'
+const protocolRegex =
+  /^(git:\/\/|git\+ssh:\/\/[a-zA-Z0-9.\-_]+@|git\+ssh:\/\/|http:\/\/|https:\/\/|git@|ssh:\/\/[a-zA-Z0-9.\-_]+@)|ssh:\/\//;
+
+// Regular expression to identify SCP URLs
+const scpRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+):(.+)$/;
+
+const portNumberRegex = /:\d+\//;
 
 export interface IParsedUrl {
   webUrl: string;
@@ -19,16 +25,20 @@ export interface IParsedUrl {
 }
 
 /**
- * Parses SCM Repository URL to gitweb link of the SCM Repository.
+ * Parses SCM Repository URI or SCP to webview link of the SCM Repository.
+ *
+ * For SCP, the parser will ignore any port number and regard the text between ':' and '/' as
+ * the username or organization of the SCM; for other URIs, it will be regarded as port numbers
+ * and be removed when parsing it to web-view links.
  *
  * @param url - The Url to be parsed
  * @returns Object containing scmRepository URL, parsed URL and display name representing URL
  *  */
 export const parseScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl => {
   const protocolMatch = url.match(protocolRegex) || [];
-  const protocol = protocolMatch.at(1) || '';
+  const protocol = protocolMatch.at(0) || '';
 
-  let webUrl = protocol === 'git@' ? url.replace(':', '/') : url;
+  let webUrl = url.match(scpRegex) ? url.replace(':', '/') : url.replace(portNumberRegex, '/');
   const base = webUrl.split(protocol).at(1)?.split('/').at(0) || '';
 
   // Find the first prefix in preDefinedScmsPrefix that matches the start of base
