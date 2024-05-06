@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -39,6 +39,11 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
             <ActionButton link="create">Create Milestone</ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
+        <Text>
+          Product Milestone represents the working release suffix of the parent Product Version like <Label>0.CR1</Label>, for
+          example Product Version of <Label>1.0.0.CR1</Label>. Each Product Version can contain multiple Product Milestones. Only
+          one Product Milestone can be set as active.
+        </Text>
       </Toolbar>
 
       <ProductVersionMilestonesList {...{ serviceContainerProductMilestones, componentId }} />

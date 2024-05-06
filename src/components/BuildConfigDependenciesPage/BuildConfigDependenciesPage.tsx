@@ -39,6 +39,10 @@ export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }: IBuildConf
             <ActionButton link="edit">Edit list</ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
+        <Text>
+          This list contains Build Configs that are dependencies of this Build Config. Depending on the build preferences, Build
+          Configs from this list may be rebuilt when building this Build Config.
+        </Text>
       </Toolbar>
 
       <BuildConfigsList componentId={componentId} serviceContainerBuildConfigs={serviceContainerDependencies} />

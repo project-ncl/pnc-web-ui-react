@@ -1,8 +1,11 @@
+import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
+
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as buildApi from 'services/buildApi';
 
@@ -21,5 +24,18 @@ export const BuildDependenciesPage = ({ componentId = 'd1' }: IBuildDependencies
     { componentId }
   );
 
-  return <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem>
+          <TextContent>
+            <Text>
+              This list contains Artifacts which are dependencies of this Build. Artifact is represented by PNC Identifier.
+            </Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />
+    </>
+  );
 };
