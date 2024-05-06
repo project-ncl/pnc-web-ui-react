@@ -49,6 +49,10 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
             buildArtifactsCount={serviceContainerArtifacts.data?.content?.length}
           />
         </ToolbarItem>
+        <Text>
+          This list contains artifacts produced by this Build. Each Artifact is represented by PNC Identifier. You can also change
+          quality of all artifacts produced by the Build here.
+        </Text>
       </Toolbar>
 
       <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />

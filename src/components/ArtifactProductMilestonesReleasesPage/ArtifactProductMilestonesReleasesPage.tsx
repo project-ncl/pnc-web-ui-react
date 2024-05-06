@@ -1,8 +1,11 @@
+import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
+
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactProductMilestonesReleasesList } from 'components/ArtifactProductMilestonesReleasesList/ArtifactProductMilestonesReleasesList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
 
 import * as artifactApi from 'services/artifactApi';
 
@@ -22,5 +25,16 @@ export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IA
     { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 
-  return <ArtifactProductMilestonesReleasesList {...{ serviceContainerArtifactProductMilestonesReleases, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem>
+          <TextContent>
+            <Text>This list shows in which Product Version and Milestone this Artifact is used.</Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <ArtifactProductMilestonesReleasesList {...{ serviceContainerArtifactProductMilestonesReleases, componentId }} />{' '}
+    </>
+  );
 };

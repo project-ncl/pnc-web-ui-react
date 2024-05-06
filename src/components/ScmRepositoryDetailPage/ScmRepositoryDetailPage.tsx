@@ -108,6 +108,7 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
             <TextContent>
               <Text component={TextVariants.h2}>Usages</Text>
             </TextContent>
+            <Text>This list shows in which Build Configs this SCM Repository is used.</Text>
           </ToolbarItem>
         </Toolbar>
 

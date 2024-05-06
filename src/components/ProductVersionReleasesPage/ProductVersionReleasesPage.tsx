@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -40,6 +40,10 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
             <ActionButton link="create">Create Release</ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
+        <Text>
+          Product Release represents the final release suffix of the parent Product Version like <Label>0.GA</Label>, for example
+          Product Version of <Label>1.0.0.GA</Label>. Product Milestone needs to be created from existing Product Milestone.
+        </Text>
       </Toolbar>
       <ContentBox borderTop>
         <ProductVersionReleasesList {...{ serviceContainerProductReleases, componentId }} />
