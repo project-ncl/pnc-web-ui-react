@@ -1,4 +1,13 @@
 .icon-wrapper {
   display: inline-block;
-  min-width: 15;
+}
+
+.icon-wrapper--small,
+.icon-wrapper--small * {
+  width: 1rem;
+}
+
+.icon-wrapper--medium,
+.icon-wrapper--medium * {
+  width: 1.75rem;
 }

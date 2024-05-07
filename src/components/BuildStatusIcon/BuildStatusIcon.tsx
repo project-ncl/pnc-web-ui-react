@@ -54,13 +54,15 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
       (build as Build).attributes?.PNC_SYSTEM_ERROR === 'DISABLED_FIREWALL');
 
   const buildImage = (
-    <img
-      src={selectedIconData.icon}
-      width="28px"
-      height="28px"
-      className={selectedIconData.className && styles[selectedIconData.className]}
-      alt={selectedIconData.tooltip}
-    />
+    <IconWrapper variant="medium">
+      <img
+        src={selectedIconData.icon}
+        width="28px"
+        height="28px"
+        className={selectedIconData.className && styles[selectedIconData.className]}
+        alt={selectedIconData.tooltip}
+      />
+    </IconWrapper>
   );
 
   return (
@@ -76,7 +78,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
           position="right"
           content="The build may have completed successfully but has since been corrupted by a system error."
         >
-          <IconWrapper>
+          <IconWrapper variant="small">
             <ExclamationTriangleIcon />
           </IconWrapper>
         </Tooltip>
@@ -87,7 +89,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
           position="right"
           content={<span>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</span>}
         >
-          <IconWrapper>
+          <IconWrapper variant="small">
             <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
           </IconWrapper>
         </Tooltip>
