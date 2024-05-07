@@ -424,12 +424,16 @@ Object {
                           class="build-log-link"
                           href="/builds/1001/alignment-log"
                         >
-                          <img
-                            alt="Build Failed"
-                            height="28px"
-                            src="red.svg"
-                            width="28px"
-                          />
+                          <span
+                            class="icon-wrapper icon-wrapper--medium"
+                          >
+                            <img
+                              alt="Build Failed"
+                              height="28px"
+                              src="red.svg"
+                              width="28px"
+                            />
+                          </span>
                         </a>
                       </div>
                       FAILED
@@ -544,12 +548,16 @@ Object {
                           class="build-log-link"
                           href="/builds/1002/alignment-log"
                         >
-                          <img
-                            alt="Build Failed"
-                            height="28px"
-                            src="red.svg"
-                            width="28px"
-                          />
+                          <span
+                            class="icon-wrapper icon-wrapper--medium"
+                          >
+                            <img
+                              alt="Build Failed"
+                              height="28px"
+                              src="red.svg"
+                              width="28px"
+                            />
+                          </span>
                         </a>
                       </div>
                       FAILED
@@ -664,12 +672,16 @@ Object {
                           class="build-log-link"
                           href="/builds/AJ4WUBX75VQAA/build-log"
                         >
-                          <img
-                            alt="Build Failed"
-                            height="28px"
-                            src="red.svg"
-                            width="28px"
-                          />
+                          <span
+                            class="icon-wrapper icon-wrapper--medium"
+                          >
+                            <img
+                              alt="Build Failed"
+                              height="28px"
+                              src="red.svg"
+                              width="28px"
+                            />
+                          </span>
                         </a>
                       </div>
                       FAILED
@@ -1407,12 +1419,16 @@ Object {
                         class="build-log-link"
                         href="/builds/1001/alignment-log"
                       >
-                        <img
-                          alt="Build Failed"
-                          height="28px"
-                          src="red.svg"
-                          width="28px"
-                        />
+                        <span
+                          class="icon-wrapper icon-wrapper--medium"
+                        >
+                          <img
+                            alt="Build Failed"
+                            height="28px"
+                            src="red.svg"
+                            width="28px"
+                          />
+                        </span>
                       </a>
                     </div>
                     FAILED
@@ -1527,12 +1543,16 @@ Object {
                         class="build-log-link"
                         href="/builds/1002/alignment-log"
                       >
-                        <img
-                          alt="Build Failed"
-                          height="28px"
-                          src="red.svg"
-                          width="28px"
-                        />
+                        <span
+                          class="icon-wrapper icon-wrapper--medium"
+                        >
+                          <img
+                            alt="Build Failed"
+                            height="28px"
+                            src="red.svg"
+                            width="28px"
+                          />
+                        </span>
                       </a>
                     </div>
                     FAILED
@@ -1647,12 +1667,16 @@ Object {
                         class="build-log-link"
                         href="/builds/AJ4WUBX75VQAA/build-log"
                       >
-                        <img
-                          alt="Build Failed"
-                          height="28px"
-                          src="red.svg"
-                          width="28px"
-                        />
+                        <span
+                          class="icon-wrapper icon-wrapper--medium"
+                        >
+                          <img
+                            alt="Build Failed"
+                            height="28px"
+                            src="red.svg"
+                            width="28px"
+                          />
+                        </span>
                       </a>
                     </div>
                     FAILED
