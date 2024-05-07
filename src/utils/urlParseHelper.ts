@@ -9,11 +9,21 @@ const preDefinedScmsPrefix: { [key: string]: string } = {
   github: 'GitHub',
 };
 
-// Regular expression to match 'git://','git+ssh://[username]@','git+ssh://', 'http://', 'https://', 'git@', 'ssh://[username]@','ssh://'
+/* 
+ Regular expression to match:
+  - 'git://',
+  - 'git+ssh://[username]@',
+  - 'git+ssh://', 
+  - 'http://', 
+  - 'https://', 
+  - 'git@', 
+  - 'ssh://[username]@',
+  - 'ssh://'
+*/
 const protocolRegex =
   /^(git:\/\/|git\+ssh:\/\/[a-zA-Z0-9.\-_]+@|git\+ssh:\/\/|http:\/\/|https:\/\/|git@|ssh:\/\/[a-zA-Z0-9.\-_]+@)|ssh:\/\//;
 
-// Regular expression to identify SCP URLs
+// Regular expression to identify SCP-like URI, e.g., 'git@github.com:example-user/project-name.git'
 const scpRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+):(.+)$/;
 
 const portNumberRegex = /:\d+\//;
@@ -25,11 +35,11 @@ export interface IParsedUrl {
 }
 
 /**
- * Parses SCM Repository URI or SCP to webview link of the SCM Repository.
+ * Parses SCM Repository URI or SCP-like URI to webview link of the SCM Repository.
  *
- * For SCP, the parser will ignore any port number and regard the text between ':' and '/' as
- * the username or organization of the SCM; for other URIs, it will be regarded as port numbers
- * and be removed when parsing it to web-view links.
+ * In SCP-like URIs, the text after ':' is never regarded as the port but as part of the path,
+ * which is the username or organization of the SCM; for other URIs, it will be considered as
+ * the port and be removed when parsing it to web-view links.
  *
  * @param url - The Url to be parsed
  * @returns Object containing scmRepository URL, parsed URL and display name representing URL
@@ -50,7 +60,7 @@ export const parseScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl =>
     (key) => base.includes(key) && preDefinedScmsPrefix[key] === 'Gerrit'
   );
   if (matchedGerritUrl) {
-    const path = url.split(base).at(1) || '';
+    const path = webUrl.split(base).at(1) || '';
     const replaceRegex = path.startsWith('/gerrit/') ? /^\/gerrit\// : /^\//;
     webUrl = `https://${base}/gerrit/gitweb?p=${path.replace(replaceRegex, '')};a=summary`;
   } else {
