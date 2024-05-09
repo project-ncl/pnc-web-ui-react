@@ -59,6 +59,10 @@ code {
   display: flex !important;
 }
 
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -77,6 +81,10 @@ code {
 
 .gap-10 {
   gap: 10px !important;
+}
+
+.m-0 {
+  margin: 0 !important;
 }
 
 .m-r-0 {
@@ -149,6 +157,10 @@ code {
 
 .p-l-10 {
   padding-left: 10px !important;
+}
+
+.p-r-5 {
+  padding-right: 5px !important;
 }
 
 .p-r-10 {

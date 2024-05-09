@@ -22,6 +22,8 @@ import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLin
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { UpgradeEnvironmentModal } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModal';
+import { UpgradeEnvironmentModalButton } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModalButton';
 import { WarningLabel } from 'components/WarningLabel/WarningLabel';
 
 const tooltipLinkStyle: CSSProperties = {
@@ -41,6 +43,10 @@ export const BuildConfigDetail = ({
 }: IBuildConfigDetailProps) => {
   const [isRestoreModalOpen, setIsRestoreModalOpen] = useState<boolean>(false);
   const toggleRestoreModal = () => setIsRestoreModalOpen((isRestoreModalOpen) => !isRestoreModalOpen);
+
+  const [isUpgradeEnvironmentModalOpen, setIsUpgradeEnvironmentModalOpen] = useState<boolean>(false);
+  const toggleUpgradeEnvironmentModal = () =>
+    setIsUpgradeEnvironmentModalOpen((isUpgradeEnvironmentModalOpen) => !isUpgradeEnvironmentModalOpen);
 
   return (
     <ServiceContainerLoading {...serviceContainerBuildConfig} title="Build Config">
@@ -97,12 +103,20 @@ export const BuildConfigDetail = ({
                 )}
               </AttributesItem>
               <AttributesItem title={buildConfigEntityAttributes.environment.title}>
-                {serviceContainerBuildConfig.data?.environment?.description}
-                {serviceContainerBuildConfig.data?.environment?.deprecated && (
-                  <WarningLabel className="m-l-5" hasIcon>
-                    Deprecated
-                  </WarningLabel>
-                )}
+                <div className="display-flex flex-wrap align-items-center gap-10">
+                  {serviceContainerBuildConfig.data?.environment?.description}
+                  {serviceContainerBuildConfig.data?.environment?.deprecated && (
+                    <>
+                      <WarningLabel hasIcon>Deprecated</WarningLabel>
+                      {!isRevisionVariant && (
+                        <UpgradeEnvironmentModalButton
+                          toggleModal={toggleUpgradeEnvironmentModal}
+                          buildConfig={serviceContainerBuildConfig.data as BuildConfiguration}
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
               </AttributesItem>
               <AttributesItem title={buildConfigEntityAttributes.scmRepository.title}>
                 {serviceContainerBuildConfig.data?.scmRepository && (
@@ -142,6 +156,14 @@ export const BuildConfigDetail = ({
                 isModalOpen={isRestoreModalOpen}
                 toggleModal={toggleRestoreModal}
                 buildConfigRevision={serviceContainerBuildConfig.data as BuildConfigurationRevision}
+              />
+            )}
+
+            {isUpgradeEnvironmentModalOpen && (
+              <UpgradeEnvironmentModal
+                isModalOpen={isUpgradeEnvironmentModalOpen}
+                toggleModal={toggleUpgradeEnvironmentModal}
+                buildConfig={serviceContainerBuildConfig.data as BuildConfiguration}
               />
             )}
           </ContentBox>

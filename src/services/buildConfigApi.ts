@@ -202,6 +202,27 @@ export const patchBuildConfig = (
 };
 
 /**
+ * Upgrades an Environment to its replacement.
+ *
+ * @param serviceData - object containing:
+ *  - buildConfigId - Build Config ID
+ *  - replacementEnvironmentId - replacement Environment ID
+ * @param requestConfig - Axios based request config
+ */
+export const upgradeEnvironment = (
+  { buildConfigId, replacementEnvironmentId }: { buildConfigId: string; replacementEnvironmentId: string },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient
+    .getHttpClient()
+    .patch<BuildConfiguration>(
+      `/build-configs/${buildConfigId}`,
+      [{ op: 'replace', path: '/environment/id', value: replacementEnvironmentId }],
+      requestConfig
+    );
+};
+
+/**
  * Clones an existing Build Config to a new one.
  *
  * @param serviceData - object containing:
