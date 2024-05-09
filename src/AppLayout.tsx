@@ -73,7 +73,7 @@ export const AppLayout = () => {
   );
 
   const AppLogoImage = () => (
-    <Link to="/">
+    <Link to="/" className="p-t-10 p-b-10">
       <img src={pncLogoText} alt="Newcastle Build System" />
     </Link>
   );
