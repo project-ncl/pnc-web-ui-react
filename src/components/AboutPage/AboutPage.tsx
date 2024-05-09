@@ -99,12 +99,12 @@ export const AboutPage = () => {
 
   return (
     <PageLayout title="About PNC Build System" description="System for managing, executing and tracking builds">
-      <ContentBox padding marginBottom isResponsive title="Services Versions (Revisions)">
+      <ContentBox padding marginBottom isResponsive title="Version (revision)">
         <Attributes>
           <AttributesItem
             title={
               <a href={RepositoryUrls.pncRepository} target="_blank" rel="noopener noreferrer">
-                PNC System
+                PNC Build System
               </a>
             }
           >
@@ -117,7 +117,11 @@ export const AboutPage = () => {
               />
             </ServiceContainerLoading>
           </AttributesItem>
+        </Attributes>
+      </ContentBox>
 
+      <ContentBox padding marginBottom isResponsive title="Other PNC related services versions (revisions)">
+        <Attributes>
           <AttributesItem
             title={
               <a href={RepositoryUrls.kafkaRepository} target="_blank" rel="noopener noreferrer">
