@@ -72,7 +72,11 @@ export const AppLayout = () => {
     )
   );
 
-  const AppLogoImage = () => <img src={pncLogoText} alt="Newcastle Build System" />;
+  const AppLogoImage = () => (
+    <Link to="/">
+      <img src={pncLogoText} alt="Newcastle Build System" />
+    </Link>
+  );
 
   const AppHeaderTools = () => {
     const pncUserGuideUrl = webConfig.userGuideUrl;
