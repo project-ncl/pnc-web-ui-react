@@ -63,6 +63,6 @@ export const getEnvironments = (
  *  - id - Environment ID
  * @param requestConfig - Axios based request config
  */
-export const getBuild = ({ id }: IEnvironmentApiData, requestConfig: AxiosRequestConfig = {}) => {
+export const getEnvironment = ({ id }: IEnvironmentApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<Environment>(`/environments/${id}`, requestConfig);
 };
