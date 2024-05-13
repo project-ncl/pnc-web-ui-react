@@ -16,6 +16,7 @@ import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
+import { WarningIcon } from 'components/Icons/WarningIcon';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
@@ -146,7 +147,8 @@ export const BuildConfigsList = ({
                 <Tr key={rowIndex}>
                   {columns.includes(buildConfigEntityAttributes.name.id) && (
                     <Td>
-                      <BuildConfigLink id={buildConfig.id}>{buildConfig.name}</BuildConfigLink>
+                      <BuildConfigLink id={buildConfig.id}>{buildConfig.name}</BuildConfigLink>{' '}
+                      {buildConfig.environment?.deprecated && <WarningIcon tooltip="Build Config has a deprecated Environment" />}
                     </Td>
                   )}
                   {columns.includes(buildConfigEntityAttributes.description.id) && <Td>{buildConfig.description}</Td>}
