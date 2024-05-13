@@ -8,6 +8,10 @@ export const backendErrorMessageMapper = (errorStatus: number, backendErrorMessa
       return 'SCM repository with the external URL already exists.';
     }
 
+    if (/Artifact.*cannot be changed to another quality level/.test(backendErrorMessage)) {
+      return backendErrorMessage.replace(/Artifact \d+/, 'Artifact');
+    }
+
     return `Action was not successful due to the conflict with the current state of the target resource. Please, refresh the page and try again. [HTTP 409 Conflict]`;
   }
 
