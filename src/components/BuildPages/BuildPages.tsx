@@ -7,7 +7,7 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
+import { hasBuildFinished, hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -61,12 +61,14 @@ export const BuildPages = () => {
   usePncWebSocketEffect(
     useCallback(
       (wsData: any) => {
-        if (hasBuildStatusChanged(wsData, { buildId })) {
+        if (hasBuildFinished(wsData, { buildId })) {
+          serviceContainerBuildRunner({ serviceData: { id: buildId } });
+        } else if (hasBuildStatusChanged(wsData, { buildId })) {
           const wsBuild: Build = wsData.build;
           serviceContainerBuildSetter(wsBuild);
         }
       },
-      [serviceContainerBuildSetter, buildId]
+      [serviceContainerBuildRunner, serviceContainerBuildSetter, buildId]
     )
   );
 
