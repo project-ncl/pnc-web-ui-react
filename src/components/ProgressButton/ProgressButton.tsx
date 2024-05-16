@@ -7,7 +7,7 @@ import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface IProgressButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   serviceContainer: IServiceContainerState<Object>;
   variant?: ButtonProps['variant'];
   icon?: ReactNode;
