@@ -58,18 +58,22 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
   useTitle(generatePageTitle({ serviceContainer: serviceContainerProject, firstLevelEntity: 'Project' }));
 
   return (
-    <ServiceContainerLoading {...serviceContainerProject} title="Project details">
-      <PageLayout
-        title={serviceContainerProject.data?.name}
-        description={serviceContainerProject.data?.description}
-        breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
-        actions={
-          <ProtectedComponent>
-            <ActionButton link="edit">Edit Project</ActionButton>
-          </ProtectedComponent>
-        }
-      >
-        <ContentBox padding marginBottom isResponsive>
+    <PageLayout
+      title={
+        <ServiceContainerLoading {...serviceContainerProject} title="Project details" variant="icon">
+          {serviceContainerProject.data?.name}
+        </ServiceContainerLoading>
+      }
+      description={serviceContainerProject.data?.description}
+      breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
+      actions={
+        <ProtectedComponent>
+          <ActionButton link="edit">Edit Project</ActionButton>
+        </ProtectedComponent>
+      }
+    >
+      <ContentBox padding marginBottom isResponsive>
+        <ServiceContainerLoading {...serviceContainerProject} title="Project details">
           <Attributes>
             <AttributesItem title={projectEntityAttributes.projectUrl.title}>
               {serviceContainerProject.data?.projectUrl && (
@@ -92,23 +96,23 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
               {serviceContainerProject.data?.technicalLeader}
             </AttributesItem>
           </Attributes>
-        </ContentBox>
+        </ServiceContainerLoading>
+      </ContentBox>
 
-        <Toolbar borderBottom>
-          <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Build Configs</Text>
-            </TextContent>
-          </ToolbarItem>
-          <ToolbarItem>
-            <ProtectedComponent>
-              <ActionButton link="build-configs/create">Create Build Config</ActionButton>
-            </ProtectedComponent>
-          </ToolbarItem>
-        </Toolbar>
+      <Toolbar borderBottom>
+        <ToolbarItem>
+          <TextContent>
+            <Text component={TextVariants.h2}>Build Configs</Text>
+          </TextContent>
+        </ToolbarItem>
+        <ToolbarItem>
+          <ProtectedComponent>
+            <ActionButton link="build-configs/create">Create Build Config</ActionButton>
+          </ProtectedComponent>
+        </ToolbarItem>
+      </Toolbar>
 
-        <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId, columns: buildConfigsListColumns }} />
-      </PageLayout>
-    </ServiceContainerLoading>
+      <BuildConfigsList {...{ serviceContainerBuildConfigs, componentId, columns: buildConfigsListColumns }} />
+    </PageLayout>
   );
 };
