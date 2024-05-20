@@ -219,8 +219,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
   const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
 
-  const { register, unregister, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, setFieldValues } =
-    useForm();
+  const {
+    register,
+    unregister,
+    getFieldValue,
+    getFieldState,
+    getFieldErrors,
+    handleSubmit,
+    isSubmitDisabled,
+    setFieldValues,
+    hasFormChanged,
+  } = useForm();
   const [selectedEnvironment, setSelectedEnvironment] = useState<Environment>();
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
@@ -235,6 +244,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [isBuildCategorySelectOpen, setIsBuildCategorySelectOpen] = useState<boolean>(false);
   const [isCancelAllModalOpen, setIsCancelAllModalOpen] = useState<boolean>(false);
   const toggleCancelAllModal = () => setIsCancelAllModalOpen((isCancelAllModalOpen) => !isCancelAllModalOpen);
+
+  const submitDisabledReason =
+    isEditPage && !hasFormChanged
+      ? 'Some field needs to be edited first.'
+      : isSubmitDisabled || (selectedProduct && !selectedProductVersion)
+      ? 'All required fields must be filled in.'
+      : '';
 
   // scroll placeholder
   const formComponentRef = useRef<HTMLDivElement>(null);
@@ -1069,9 +1085,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         <ActionGroup>
           <Button
             variant="primary"
-            isDisabled={
-              isSubmitDisabled || (selectedProduct && !selectedProductVersion) || serviceContainerScmRepositories.loading
-            }
+            title={submitDisabledReason}
+            isAriaDisabled={!!submitDisabledReason || serviceContainerScmRepositories.loading}
             onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
           >
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.buildConfig}
