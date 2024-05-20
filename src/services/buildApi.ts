@@ -34,7 +34,14 @@ export interface IBuildApiData {
  * @param requestConfig - Axios based request config
  */
 export const getBuilds = (requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<BuildPage>('/builds', requestConfig);
+  return pncClient.getHttpClient().get<BuildPage>('/builds', {
+    ...requestConfig,
+    params: {
+      ...requestConfig.params,
+      sort:
+        requestConfig.params.sort !== 'none' ? `${requestConfig.params.sort},sort=desc=submitTime` : requestConfig.params.sort,
+    },
+  });
 };
 
 /**
