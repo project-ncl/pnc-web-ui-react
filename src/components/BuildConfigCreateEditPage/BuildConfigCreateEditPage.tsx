@@ -326,21 +326,21 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       project: { id: projectId! },
       name: data.name,
       description: data.description,
-      environment: selectedEnvironment,
+      environment: { id: selectedEnvironment!.id },
       buildType: data.buildType,
       buildScript: data.buildScript,
       brewPullActive: data.brewPullActive,
       scmRevision: data.scmRevision,
-      productVersion: selectedProductVersion,
+      productVersion: selectedProductVersion ? { id: selectedProductVersion.id } : undefined,
       parameters: Object.fromEntries(Object.entries(buildParamData).map(([k, v]) => [k, v.value])),
-      dependencies: Object.fromEntries(addedBuildConfigs.map((buildConfig) => [buildConfig.id, buildConfig])),
+      dependencies: Object.fromEntries(addedBuildConfigs.map((buildConfig) => [buildConfig.id, { id: buildConfig.id }])),
     } as BuildConfiguration;
 
     if (selectedScmRepository) {
       return serviceContainerCreateWithoutScm
         .run({
           serviceData: {
-            data: { ...buildConfig, scmRepository: selectedScmRepository },
+            data: { ...buildConfig, scmRepository: { id: selectedScmRepository.id } as SCMRepository },
           },
         })
         .then((response) => {
