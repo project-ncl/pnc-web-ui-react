@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, Switch, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, Popover, Switch, TextInput } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -68,7 +68,16 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(scmRepositoryApi.patchScmRepository);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
+  const {
+    register,
+    setFieldValues,
+    getFieldValue,
+    getFieldState,
+    getFieldErrors,
+    handleSubmit,
+    isSubmitDisabled,
+    hasFormChanged,
+  } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -211,23 +220,33 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             </FormHelperText>
           }
         >
-          <FormInput<boolean>
-            {...register<boolean>(
-              scmRepositoryEntityAttributes.preBuildSyncEnabled.id,
-              !isEditPage ? createFieldConfigs.preBuildSyncEnabled : undefined
-            )}
-            render={({ value, onChange, onBlur }) => (
-              <Switch
-                id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-                name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-                label="Enabled"
-                labelOff="Disabled"
-                isChecked={value}
-                onChange={onChange}
-                onBlur={onBlur}
-              />
-            )}
-          />
+          <Popover
+            position="right"
+            bodyContent={<div>Recommended to be enabled when external repository is linked.</div>}
+            isVisible={
+              !getFieldValue(scmRepositoryEntityAttributes.preBuildSyncEnabled.id) &&
+              (!isEditPage || !!getFieldValue(scmRepositoryEntityAttributes.externalUrl.id))
+            }
+            shouldClose={(_, hideFunction) => hideFunction?.()}
+          >
+            <FormInput<boolean>
+              {...register<boolean>(
+                scmRepositoryEntityAttributes.preBuildSyncEnabled.id,
+                !isEditPage ? createFieldConfigs.preBuildSyncEnabled : undefined
+              )}
+              render={({ value, onChange, onBlur }) => (
+                <Switch
+                  id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                  name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
+                  label="Enabled"
+                  labelOff="Disabled"
+                  isChecked={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              )}
+            />
+          </Popover>
         </FormGroup>
         <ActionGroup>
           <Button
