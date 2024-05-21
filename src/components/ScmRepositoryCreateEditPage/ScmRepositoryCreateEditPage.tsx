@@ -29,9 +29,9 @@ import { validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
-interface IScmRepositoryCreateEditPageProps {
-  isEditPage?: boolean;
-}
+const validatePreBuildSync = (fieldValues: IFieldValues): boolean => {
+  return fieldValues.externalUrl || !fieldValues.preBuildSyncEnabled;
+};
 
 const createFieldConfigs = {
   scmUrl: {
@@ -45,9 +45,29 @@ const createFieldConfigs = {
 
 const editFieldConfigs = {
   externalUrl: {
-    validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
+    validators: [
+      { validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' },
+      {
+        validator: validatePreBuildSync,
+        errorMessage: 'External SCM URL cannot be empty when Pre-build Sync is enabled.',
+        relatedFields: ['preBuildSyncEnabled'],
+      },
+    ],
+  },
+  preBuildSyncEnabled: {
+    validators: [
+      {
+        validator: validatePreBuildSync,
+        errorMessage: 'Pre-build Sync cannot be enabled when there is no External SCM URL.',
+        relatedFields: ['externalUrl'],
+      },
+    ],
   },
 } satisfies IFieldConfigs;
+
+interface IScmRepositoryCreateEditPageProps {
+  isEditPage?: boolean;
+}
 
 export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmRepositoryCreateEditPageProps) => {
   const { scmRepositoryId } = useParamsRequired();
@@ -232,7 +252,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             <FormInput<boolean>
               {...register<boolean>(
                 scmRepositoryEntityAttributes.preBuildSyncEnabled.id,
-                !isEditPage ? createFieldConfigs.preBuildSyncEnabled : undefined
+                isEditPage ? editFieldConfigs.preBuildSyncEnabled : createFieldConfigs.preBuildSyncEnabled
               )}
               render={({ value, onChange, onBlur }) => (
                 <Switch
