@@ -938,10 +938,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
               {Object.entries(buildParamData).map(([key, buildParam], index) => (
                 <FormInput<string>
-                  {...register(key, { isRequired: true })}
+                  {...register(key)}
                   render={({ onChange, ...rest }) => (
                     <FormGroup
-                      isRequired
                       key={index}
                       label={
                         <>
@@ -957,11 +956,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                         </>
                       }
                       fieldId={key}
-                      helperText={
-                        <FormHelperText isHidden={getFieldState(key) !== 'error'} isError>
-                          {getFieldErrors(key)}
-                        </FormHelperText>
-                      }
                     >
                       <FormHelperText
                         isHidden={false}
@@ -1001,7 +995,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                         </Select>
                       ) : (
                         <TextArea
-                          isRequired
                           id={key}
                           name={key}
                           height={150}
