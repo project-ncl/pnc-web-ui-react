@@ -22,6 +22,7 @@ import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DateTime } from 'components/DateTime/DateTime';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
+import { GroupBuildLink } from 'components/GroupBuildLink/GroupBuildLink';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -272,6 +273,21 @@ export const BuildDetailPage = () => {
                     {serviceContainerBuild.data.buildConfigRevision.scmRevision}
                   </>
                 )
+              )}
+            </AttributesItem>
+          </Attributes>
+        </ContentBox>
+      </GridItem>
+
+      {/* Group Build */}
+      <GridItem span={12}>
+        <ContentBox padding isResponsive>
+          <Attributes>
+            <AttributesItem title="Group Build">
+              {serviceContainerBuild.data?.groupBuild?.id && (
+                <GroupBuildLink id={serviceContainerBuild.data?.groupBuild?.id}>
+                  {serviceContainerBuild.data?.groupBuild?.id}
+                </GroupBuildLink>
               )}
             </AttributesItem>
           </Attributes>
