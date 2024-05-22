@@ -104,7 +104,9 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
 
   const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
-  const isProductMilestoneCurrent = serviceContainerProductVersion.data?.currentProductMilestone?.id === productMilestoneId;
+  const isProductMilestoneCurrent =
+    serviceContainerProductVersion.data?.currentProductMilestone &&
+    serviceContainerProductVersion.data.currentProductMilestone.id === productMilestoneId;
 
   useTitle(
     generatePageTitle({
