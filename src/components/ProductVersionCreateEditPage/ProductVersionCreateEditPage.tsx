@@ -22,23 +22,24 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 
-import { validateProductVersionName } from 'utils/formValidationHelpers';
+import { maxLengthValidator, validateProductVersionName } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 const fieldConfigs = {
   version: {
     isRequired: true,
-
     validators: [
       {
         validator: validateProductVersionName,
         errorMessage: 'The version should consist of two numeric parts separated by a dot (e.g. 1.0).',
       },
+      maxLengthValidator(255),
     ],
   },
   'attributes.brewTagPrefix': {
     isRequired: true,
+    validators: [maxLengthValidator(255)],
   },
 } satisfies IFieldConfigs;
 

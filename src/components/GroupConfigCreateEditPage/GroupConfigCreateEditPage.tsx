@@ -27,6 +27,7 @@ import * as groupConfigApi from 'services/groupConfigApi';
 import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 
+import { maxLengthValidator } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
@@ -37,6 +38,7 @@ interface IGroupConfigCreateEditPageProps {
 const fieldConfigs = {
   name: {
     isRequired: true,
+    validators: [maxLengthValidator(255)],
   },
 } satisfies IFieldConfigs;
 
