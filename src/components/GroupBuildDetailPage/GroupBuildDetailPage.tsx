@@ -137,7 +137,7 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   return (
     <ServiceContainerLoading {...serviceContainerGroupBuild} title="Group Build details">
       <PageLayout
-        title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername />}
+        title={<BuildStatus build={serviceContainerGroupBuild.data!} long hideDatetime hideUsername includeConfigLink />}
         breadcrumbs={[{ entity: breadcrumbData.groupBuild.id, title: serviceContainerGroupBuild.data?.id }]}
         actions={
           <>
