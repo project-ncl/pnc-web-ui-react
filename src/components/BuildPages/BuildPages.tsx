@@ -129,7 +129,7 @@ export const BuildPages = () => {
   return (
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
       <PageLayout
-        title={<BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername />}
+        title={<BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername includeConfigLink />}
         breadcrumbs={[{ entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id }]}
         tabs={pageTabs}
         actions={actions}
