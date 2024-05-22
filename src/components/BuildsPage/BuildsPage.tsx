@@ -48,9 +48,7 @@ export const BuildsPage = ({ componentId = 'b1' }: IBuildsPageProps) => {
         }
       },
       [serviceContainerBuildsRunnerDebounced, serviceContainerBuildsSetter, buildsQueryParamsObject]
-    ),
-    // NCL-8377
-    { debug: 'BuildsPage' }
+    )
   );
 
   useTitle(PageTitles.builds);

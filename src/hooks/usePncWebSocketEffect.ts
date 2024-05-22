@@ -11,7 +11,7 @@ interface IUsePncWebSocketEffectOptions {
   // condition based listening, when true, events will be ignored (for example when Build is finished)
   preventListening?: boolean;
 
-  // debug identification string, NCL-8377
+  // debug identification string
   debug?: string;
 }
 
