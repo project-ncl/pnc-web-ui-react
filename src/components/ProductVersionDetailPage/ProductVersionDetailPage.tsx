@@ -109,6 +109,15 @@ export const ProductVersionDetailPage = () => {
             <AttributesItem title={productVersionEntityAttributes['attributes.brewTagPrefix'].title}>
               {serviceContainerProductVersion.data?.attributes?.BREW_TAG_PREFIX}
             </AttributesItem>
+            <AttributesItem title={productVersionEntityAttributes.currentProductMilestone.title}>
+              {serviceContainerProductVersion.data?.currentProductMilestone?.id && (
+                <ProductMilestoneReleaseLabel
+                  link={`../milestones/${serviceContainerProductVersion.data?.currentProductMilestone?.id}`}
+                  productMilestoneRelease={serviceContainerProductVersion.data?.currentProductMilestone}
+                  isCurrent={true}
+                />
+              )}
+            </AttributesItem>
             <AttributesItem title={productVersionEntityAttributes.latestProductMilestone.title}>
               {latestProductMilestone && (
                 <ProductMilestoneReleaseLabel
