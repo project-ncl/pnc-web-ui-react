@@ -157,6 +157,7 @@ export const useForm = () => {
       const newFields = Object.fromEntries(Object.entries(fields).filter(([key]) => key !== fieldName));
 
       refreshSubmitDisabled(newFields);
+      setHasFormChanged(true);
 
       return newFields;
     });
