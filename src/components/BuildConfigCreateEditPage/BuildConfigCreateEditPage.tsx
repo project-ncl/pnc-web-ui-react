@@ -426,12 +426,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         setSelectedEnvironment(buildConfig.environment);
         setSelectedScmRepository(buildConfig.scmRepository);
         if (buildConfig.parameters) {
+          Object.keys(buildConfig.parameters).length && setShowBuildParametersSection(true);
           setBuildParamData(Object.fromEntries(Object.entries(buildConfig.parameters).map(([k, v]) => [k, { value: v }])));
-          Object.values(buildConfig.parameters).some((parameter) => !parameter) && setShowBuildParametersSection(true);
         }
         setFieldValues(buildConfigFlat);
 
         if (buildConfig.productVersion) {
+          setShowProductVersionSection(true);
           serviceContainerProductVersionRunner({ serviceData: { id: buildConfig.productVersion.id } }).then((response) => {
             const productVersion: ProductVersion = response.data;
 
