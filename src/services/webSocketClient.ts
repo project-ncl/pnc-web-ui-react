@@ -36,7 +36,7 @@ const webSocketClient = (url: string) => {
       onMessageListener: TWebSocketListener,
       { debug = '' }: IAddMessageListenerOptions = {}
     ): TRemoveMessageListener => {
-      const random = Math.random(); // debug purposes, NCL-8377
+      const random = Math.random(); // debug purposes
       messageListeners.push(onMessageListener);
 
       if (messageListeners.length >= LISTENERS_WARNING_COUNT) {
