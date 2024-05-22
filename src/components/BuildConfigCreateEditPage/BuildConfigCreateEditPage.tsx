@@ -69,7 +69,7 @@ import * as productVersionApi from 'services/productVersionApi';
 import * as projectApi from 'services/projectApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
-import { maxLengthValidator255, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
+import { maxLengthValidator, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
@@ -89,7 +89,7 @@ interface IBuildConfigCreateEditPageProps {
 const fieldConfigs = {
   name: {
     isRequired: true,
-    validators: [maxLengthValidator255],
+    validators: [maxLengthValidator(255)],
   },
   environment: {
     isRequired: true,

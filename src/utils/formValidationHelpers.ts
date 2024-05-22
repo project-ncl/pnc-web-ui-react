@@ -84,7 +84,19 @@ export const maxLength = (max: number) => {
   };
 };
 
-export const maxLengthValidator255 = { validator: maxLength(255), errorMessage: 'Maximal input length is 255 characters.' };
+/**
+ * Creator of a max length validator object.
+ *
+ * @param max - Maximal length for validation
+ * @param errorMessage - Error message to display on validation failure
+ * @returns object containing the validator function and error message
+ */
+export const maxLengthValidator = (max: number) => {
+  return {
+    validator: maxLength(max),
+    errorMessage: `Maximal input length is ${max} characters.`,
+  };
+};
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -199,4 +211,32 @@ export const validateBuildScript = (fieldValues: IFieldValues, options?: IBuildS
     fieldValues.buildType !== buildTypeData.MVN.id ||
     buildScriptChecker(fieldValues.buildScript, options)
   );
+};
+
+/**
+ * Creator of a regex validation function.
+ *
+ * Returned function accepts empty string.
+ *
+ * @param regex - Regular expression the string will be validated against
+ * @returns function validating the string against the regex
+ */
+const validateRegex = (regex: RegExp) => {
+  return (string: string): boolean => {
+    return !string || regex.test(string);
+  };
+};
+
+/**
+ * Creator of a regex validator object.
+ *
+ * @param regex - Regular expression for validation
+ * @param errorMessage - Error message to display on validation failure
+ * @returns object containing the validator function and error message
+ */
+export const regexValidator = (regex: RegExp) => {
+  return {
+    validator: validateRegex(regex),
+    errorMessage: `Input must conform to the pattern: "${regex}".`,
+  };
 };

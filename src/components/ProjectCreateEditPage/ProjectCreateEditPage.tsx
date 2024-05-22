@@ -20,26 +20,26 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 
 import * as projectApi from 'services/projectApi';
 
-import { maxLengthValidator255, urlValidator } from 'utils/formValidationHelpers';
+import { maxLengthValidator, urlValidator } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 const fieldConfigs = {
   name: {
     isRequired: true,
-    validators: [maxLengthValidator255],
+    validators: [maxLengthValidator(255)],
   },
   projectUrl: {
-    validators: [urlValidator, maxLengthValidator255],
+    validators: [urlValidator, maxLengthValidator(255)],
   },
   issueTrackerUrl: {
-    validators: [urlValidator, maxLengthValidator255],
+    validators: [urlValidator, maxLengthValidator(255)],
   },
   engineeringTeam: {
-    validators: [maxLengthValidator255],
+    validators: [maxLengthValidator(255)],
   },
   technicalLeader: {
-    validators: [maxLengthValidator255],
+    validators: [maxLengthValidator(255)],
   },
 } satisfies IFieldConfigs;
 

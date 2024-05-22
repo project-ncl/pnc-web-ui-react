@@ -35,7 +35,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
 
-import { validateDate } from 'utils/formValidationHelpers';
+import { maxLengthValidator, validateDate } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 import { createDateTime, getProductVersionSuffix, parseDate } from 'utils/utils';
@@ -54,6 +54,7 @@ const fieldConfigs = {
   version: {
     // TODO: NCL-8162 implementing async validation
     isRequired: true,
+    validators: [maxLengthValidator(50)],
   },
   startingDate: {
     isRequired: true,

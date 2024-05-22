@@ -38,7 +38,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as productReleaseApi from 'services/productReleaseApi';
 import * as productVersionApi from 'services/productVersionApi';
 
-import { validateDate, validateProductReleaseName } from 'utils/formValidationHelpers';
+import { maxLengthValidator, validateDate, validateProductReleaseName } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 import { createDateTime, getProductVersionSuffix, parseDate } from 'utils/utils';
@@ -52,6 +52,7 @@ const fieldConfigs = {
         errorMessage:
           'The version consists of two parts separated by a dot, first part is numeric, second alphanumeric (e.g 1.GA).',
       },
+      maxLengthValidator(255),
     ],
   },
   releaseDate: {
@@ -63,6 +64,12 @@ const fieldConfigs = {
   },
   productMilestone: {
     isRequired: true,
+  },
+  productPagesCode: {
+    validators: [maxLengthValidator(255)],
+  },
+  commonPlatformEnumeration: {
+    validators: [maxLengthValidator(255)],
   },
 } satisfies IFieldConfigs;
 
@@ -314,26 +321,42 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           label={productReleaseEntityAttributes.commonPlatformEnumeration.title}
           fieldId={productReleaseEntityAttributes.commonPlatformEnumeration.id}
           labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.commonPlatformEnumeration.tooltip} />}
+          helperText={
+            <FormHelperText
+              isHidden={getFieldState(productReleaseEntityAttributes.commonPlatformEnumeration.id) !== 'error'}
+              isError
+            >
+              {getFieldErrors(productReleaseEntityAttributes.commonPlatformEnumeration.id)}
+            </FormHelperText>
+          }
         >
           <TextInput
             type="text"
             id={productReleaseEntityAttributes.commonPlatformEnumeration.id}
             name={productReleaseEntityAttributes.commonPlatformEnumeration.id}
             autoComplete="off"
-            {...register<string>(productReleaseEntityAttributes.commonPlatformEnumeration.id)}
+            {...register<string>(
+              productReleaseEntityAttributes.commonPlatformEnumeration.id,
+              fieldConfigs.commonPlatformEnumeration
+            )}
           />
         </FormGroup>
         <FormGroup
           label={productReleaseEntityAttributes.productPagesCode.title}
           fieldId={productReleaseEntityAttributes.productPagesCode.id}
           labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.productPagesCode.tooltip} />}
+          helperText={
+            <FormHelperText isHidden={getFieldState(productReleaseEntityAttributes.productPagesCode.id) !== 'error'} isError>
+              {getFieldErrors(productReleaseEntityAttributes.productPagesCode.id)}
+            </FormHelperText>
+          }
         >
           <TextInput
             type="text"
             id={productReleaseEntityAttributes.productPagesCode.id}
             name={productReleaseEntityAttributes.productPagesCode.id}
             autoComplete="off"
-            {...register<string>(productReleaseEntityAttributes.productPagesCode.id)}
+            {...register<string>(productReleaseEntityAttributes.productPagesCode.id, fieldConfigs.productPagesCode)}
           />
         </FormGroup>
         <ActionGroup>

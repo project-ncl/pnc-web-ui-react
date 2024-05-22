@@ -20,15 +20,18 @@ import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/S
 
 import * as productApi from 'services/productApi';
 
+import { maxLengthValidator, regexValidator } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 const fieldConfigs = {
   name: {
     isRequired: true,
+    validators: [maxLengthValidator(255)],
   },
   abbreviation: {
     isRequired: true,
+    validators: [maxLengthValidator(20), regexValidator(/^[a-zA-Z0-9-]+$/)],
   },
 } satisfies IFieldConfigs;
 
