@@ -72,7 +72,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
         </ProtectedComponent>
       }
     >
-      <ContentBox padding marginBottom isResponsive>
+      <ContentBox padding marginBottom>
         <ServiceContainerLoading {...serviceContainerProject} title="Project details">
           <Attributes>
             <AttributesItem title={projectEntityAttributes.projectUrl.title}>
