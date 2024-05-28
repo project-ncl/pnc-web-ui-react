@@ -82,12 +82,20 @@ export const useCheckbox = <T extends EntityWithId>({ items }: IUseCheckboxProps
       }
     };
 
+    const onTabLeave = () => {
+      if (document.hidden) {
+        setShifting(false);
+      }
+    };
+
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
+    document.addEventListener('visibilitychange', onTabLeave);
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
       document.removeEventListener('keyup', onKeyUp);
+      document.removeEventListener('visibilitychange', onTabLeave);
     };
   }, []);
 
