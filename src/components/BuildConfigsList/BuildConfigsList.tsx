@@ -44,6 +44,7 @@ const defaultColumns: TColumns = [
   buildConfigEntityAttributes.creationTime.id,
   buildConfigEntityAttributes.modificationTime.id,
   buildConfigEntityAttributes.buildStatus.id,
+  buildConfigEntityAttributes['environment.deprecated'].id,
 ];
 
 /**

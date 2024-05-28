@@ -7,6 +7,7 @@ const buildTypeValues: BuildConfiguration['buildType'][] = ['MVN', 'NPM', 'GRADL
 interface IExtendedBuildConfig extends BuildConfiguration {
   buildStatus: Build['status'];
   actions: any;
+  'environment.deprecated': boolean;
   'project.name': string;
 }
 
@@ -77,6 +78,14 @@ export const buildConfigEntityAttributes = {
   environment: {
     id: 'environment',
     title: 'Environment',
+  },
+  'environment.deprecated': {
+    id: 'environment.deprecated',
+    title: 'Deprecated Environment',
+    values: ['TRUE', 'FALSE'],
+    filter: {
+      operator: '==',
+    },
   },
   scmRepository: {
     id: 'scmRepository',

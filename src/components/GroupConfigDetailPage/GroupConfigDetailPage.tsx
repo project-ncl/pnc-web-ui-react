@@ -40,6 +40,7 @@ const buildConfigsListColumns = [
   buildConfigEntityAttributes.creationTime.id,
   buildConfigEntityAttributes.modificationTime.id,
   buildConfigEntityAttributes.actions.id,
+  buildConfigEntityAttributes['environment.deprecated'].id,
 ];
 
 interface IGroupConfigDetailPageProps {
