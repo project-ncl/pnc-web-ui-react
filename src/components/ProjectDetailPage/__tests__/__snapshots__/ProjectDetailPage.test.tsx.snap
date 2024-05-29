@@ -63,7 +63,7 @@ Object {
           class="shadow-global bg-w p-global margin-bottom"
         >
           <div
-            class="responsive-content"
+            class=""
           />
         </div>
         <div
@@ -479,7 +479,7 @@ Object {
         class="shadow-global bg-w p-global margin-bottom"
       >
         <div
-          class="responsive-content"
+          class=""
         />
       </div>
       <div
