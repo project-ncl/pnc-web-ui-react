@@ -33,6 +33,7 @@ import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
 import * as buildApi from 'services/buildApi';
 import * as genericSettingsApi from 'services/genericSettingsApi';
+import * as githubApi from 'services/githubApi';
 import { uiLogger } from 'services/uiLogger';
 
 import { validateDateTime } from 'utils/formValidationHelpers';
@@ -55,6 +56,9 @@ export const AdministrationPage = () => {
 
   const serviceContainerBuildCount = useServiceContainer(buildApi.getBuildCount);
   const serviceContainerBuildCountRunner = serviceContainerBuildCount.run;
+
+  const serviceContainerCurrentPncWebUiCommit = useServiceContainer(githubApi.getCurrentPncWebUiCommit);
+  const serviceContainerCurrentPncWebUiCommitRunner = serviceContainerCurrentPncWebUiCommit.run;
 
   const refreshBuildCounts = useCallback(() => {
     serviceContainerBuildCountRunner();
@@ -102,7 +106,9 @@ export const AdministrationPage = () => {
       const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).custom;
       setFieldValues({ ...pncStatus, eta });
     });
-  }, [serviceContainerPncStatusGetRunner, setFieldValues]);
+
+    serviceContainerCurrentPncWebUiCommitRunner();
+  }, [serviceContainerPncStatusGetRunner, setFieldValues, serviceContainerCurrentPncWebUiCommitRunner]);
 
   useTitle('Administration');
 
@@ -222,6 +228,29 @@ export const AdministrationPage = () => {
               </Form>
             </ContentBox>
           </ServiceContainerCreatingUpdating>
+        </FlexItem>
+
+        <FlexItem>
+          <ContentBox padding>
+            <Attributes>
+              <AttributesItem title="Deployed commit SHA">{process.env.REACT_APP_GIT_SHORT_SHA}</AttributesItem>
+
+              <AttributesItem title="Latest commit SHA">
+                <ServiceContainerLoading {...serviceContainerCurrentPncWebUiCommit} variant="icon" title="Latest commit SHA">
+                  {serviceContainerCurrentPncWebUiCommit.data?.sha}{' '}
+                  {serviceContainerCurrentPncWebUiCommit.data?.sha.startsWith(process.env.REACT_APP_GIT_SHORT_SHA!) && (
+                    <>(currently deployed)</>
+                  )}
+                </ServiceContainerLoading>
+              </AttributesItem>
+
+              <AttributesItem title="Latest commit message">
+                <ServiceContainerLoading {...serviceContainerCurrentPncWebUiCommit} variant="icon" title="Latest commit message">
+                  {serviceContainerCurrentPncWebUiCommit.data?.commit.message}
+                </ServiceContainerLoading>
+              </AttributesItem>
+            </Attributes>
+          </ContentBox>
         </FlexItem>
 
         <FlexItem>
