@@ -60,6 +60,7 @@ export const buildEntityAttributes = {
     values: ['TRUE', 'FALSE'],
     filter: {
       operator: '==',
+      isToggleable: true,
     },
   },
   'user.username': {
