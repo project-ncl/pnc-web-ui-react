@@ -81,10 +81,11 @@ export const buildConfigEntityAttributes = {
   },
   'environment.deprecated': {
     id: 'environment.deprecated',
-    title: 'Deprecated Environment',
+    title: 'Deprecated ENV',
     values: ['TRUE', 'FALSE'],
     filter: {
       operator: '==',
+      isToggleable: true,
     },
   },
   scmRepository: {

@@ -144,8 +144,17 @@ const joinQParamItems = (qParamItems: string[]): string => {
  * 1) new Q string containing new param
  * 2) null when Q param is already contained in Q string
  */
-export const addQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators, qParam: string): string | null => {
-  const qParamItems = parseQParamShallow(qParam);
+export const addQParamItem = (
+  id: string,
+  value: TQParamValue,
+  operator: IQParamOperators,
+  qParam: string,
+  replaceOriginalValue: boolean = false
+): string | null => {
+  const qParamItemsOriginal = parseQParamShallow(qParam);
+  const qParamItems = replaceOriginalValue
+    ? qParamItemsOriginal.filter((item) => !item.startsWith(`${id}==`))
+    : qParamItemsOriginal;
   const newItem = constructQParamItem(id, value, operator);
 
   // prevent duplicities

@@ -78,6 +78,11 @@ export interface IEntityAttribute<T = string> {
     isCustomParam?: boolean;
 
     /**
+     * Toggleable filters replace the original value of the same filter.
+     */
+    isToggleable?: boolean;
+
+    /**
      * Placeholder when text input is displayed.
      */
     placeholder?: string;

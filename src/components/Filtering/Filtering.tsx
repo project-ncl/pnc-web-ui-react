@@ -122,7 +122,13 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
     // Q param
     else {
       const currentQParam = getComponentQueryParamValue(location.search, 'q', componentId) || '';
-      const q = addQParamItem(filterAttribute.id, filterValue, filterAttribute.filter.operator, currentQParam);
+      const q = addQParamItem(
+        filterAttribute.id,
+        filterValue,
+        filterAttribute.filter.operator,
+        currentQParam,
+        filterAttribute.filter.isToggleable
+      );
 
       /**
        * Update Query Params only if some new meaningful q param is returned.

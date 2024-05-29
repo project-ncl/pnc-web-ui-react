@@ -75,6 +75,7 @@ export const groupBuildEntityAttributes = {
     values: ['TRUE', 'FALSE'],
     filter: {
       operator: '==',
+      isToggleable: true,
     },
   },
   groupConfig: {
