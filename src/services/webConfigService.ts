@@ -297,3 +297,16 @@ export const getEttUrl = (): string | null => {
 
   return ettUrl;
 };
+
+/**
+ * Return internal scm authority
+ */
+export const getInternalScmAuthority = (): string => {
+  const internalScmAuthority = getWebConfig().internalScmAuthority;
+
+  if (!internalScmAuthority) {
+    throw new Error(`PNC internalScmAuthority does not contain any data: #${internalScmAuthority}#`);
+  }
+
+  return internalScmAuthority;
+};

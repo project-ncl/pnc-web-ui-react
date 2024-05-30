@@ -3,6 +3,8 @@ import { buildTypeData } from 'common/buildTypeData';
 
 import { IFieldValues } from 'hooks/useForm';
 
+import * as webConfigService from 'services/webConfigService';
+
 const whitespacesRegex = /\s*/;
 
 // url regex taken from:
@@ -41,7 +43,28 @@ export const urlValidator = { validator: validateUrl, errorMessage: 'Invalid URL
  * @returns true if valid, false otherwise
  */
 export const validateScmUrl = (url: string): boolean => {
-  return !url || scmUrlRegex.test(url);
+  if (!url) {
+    // if url not specified, return true
+    return true;
+  }
+
+  const isInternalUrl = url.includes(webConfigService.getInternalScmAuthority());
+  const isGitlab = url.includes('gitlab');
+
+  // e.g: git@test.me:hello/wo.rld/bo-ss/taa.git
+  const scpRegex = /^[\w.+-]+@[\w.+-]+\.[\w.+-]+(:[/\w.+-]*)?$/;
+
+  if (!scmUrlRegex.test(url)) {
+    return false;
+  }
+
+  // NCL-8685: if url is a valid url, and internal repo, and using gitlab,
+  // but not using scp format, then fail
+  if (isInternalUrl && isGitlab && !scpRegex.test(url)) {
+    return false;
+  }
+
+  return true;
 };
 
 /**
