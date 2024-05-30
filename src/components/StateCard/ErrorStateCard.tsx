@@ -25,19 +25,21 @@ export const ErrorStateCard = ({ title, error, variant = 'block' }: IErrorStateC
 
   if (variant === 'inline') {
     return (
-      <span>
-        <Icon status="danger">
-          <ExclamationCircleIcon />
-        </Icon>
-        {` ${errorTitle}`}
-      </span>
+      <TooltipWrapper tooltip={error}>
+        <span>
+          <Icon status="danger">
+            <ExclamationCircleIcon />
+          </Icon>
+          {` ${errorTitle}`}
+        </span>
+      </TooltipWrapper>
     );
   }
 
   if (variant === 'icon') {
     return (
       <span>
-        <TooltipWrapper tooltip={errorTitle}>
+        <TooltipWrapper tooltip={`${errorTitle}. ${error}`}>
           <Icon status="danger">
             <ExclamationCircleIcon />
           </Icon>
