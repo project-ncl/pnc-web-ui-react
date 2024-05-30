@@ -196,7 +196,7 @@ export const getErrorMessage = (error: Error | AxiosError): string => {
       return 'Action was not successful due to the network error. Please, try again.';
     }
 
-    const genericErrorMessage = error.response?.data?.errorMessage ?? error.toString();
+    const genericErrorMessage = error.response?.data?.errorMessage ?? error.response?.data?.message ?? error.toString();
     const errorStatusCode = error.response?.status ?? 0;
     const backendErrorMessage = backendErrorMessageMapper(errorStatusCode, genericErrorMessage);
 

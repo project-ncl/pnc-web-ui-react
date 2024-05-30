@@ -3,6 +3,12 @@ export const backendErrorMessageMapper = (errorStatus: number, backendErrorMessa
     return `Action was not successful, please login first and try again. [${backendErrorMessage}]`;
   }
 
+  if (errorStatus === 403) {
+    if (/rate limit exceeded/.test(backendErrorMessage)) {
+      return 'API rate limit exceeded. Please, try again later.';
+    }
+  }
+
   if (errorStatus === 409) {
     if (/SCM Repository.*already exists/.test(backendErrorMessage)) {
       return 'SCM repository with the external URL already exists.';
