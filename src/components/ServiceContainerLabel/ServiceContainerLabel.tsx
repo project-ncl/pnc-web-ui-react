@@ -22,7 +22,7 @@ export const ServiceContainerLabel = <T extends TServiceData>({
   const contents = error ? <ExclamationCircleIcon /> : loading ? <LoadingSpinner isInline /> : children;
 
   return (
-    <TooltipWrapper tooltip={`${error && 'Error when loading'} ${title}`}>
+    <TooltipWrapper tooltip={`${error && 'Error when loading'} ${title}${error && `. ${error}`}`}>
       <Label color={error ? 'red' : 'grey'}>{contents}</Label>
     </TooltipWrapper>
   );
