@@ -3,6 +3,8 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 
+import { uiLogger } from 'services/uiLogger';
+
 interface IOldUiContentLinkBoxProps {
   contentTitle: string;
   route: string;
@@ -10,6 +12,12 @@ interface IOldUiContentLinkBoxProps {
 
 export const OldUiContentLinkBox = ({ contentTitle, route }: IOldUiContentLinkBoxProps) => {
   const baseUrl = process.env.REACT_APP_PNC_OLD_UI_WEB || '';
+
+  if (!baseUrl) {
+    const errorMessage = 'process.env.REACT_APP_PNC_OLD_UI_WEB must be defined: ' + process.env.REACT_APP_PNC_OLD_UI_WEB;
+    uiLogger.error(errorMessage);
+    throw new Error(errorMessage);
+  }
 
   return (
     <ContentBox>
