@@ -96,17 +96,16 @@ export const useNetworkGraph = ({
         minCameraRatio: 0.01,
         maxCameraRatio: 10,
         renderEdgeLabels: true,
-        enableEdgeHoverEvents: true,
-        enableEdgeClickEvents: true,
+        enableEdgeEvents: true,
         allowInvalidContainer: true,
-        labelRenderer: drawLabel,
+        defaultDrawNodeLabel: drawLabel,
         edgeLabelColor: {
           color: 'black',
         },
       });
 
       renderer.current.setSetting(
-        'hoverRenderer',
+        'defaultDrawNodeHover',
         (context: CanvasRenderingContext2D, data: PlainObject, settings: PlainObject) =>
           drawHover(context, { ...renderer.current?.getNodeDisplayData(data.key), ...data }, settings)
       );
