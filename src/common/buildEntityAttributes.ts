@@ -35,9 +35,7 @@ export const buildEntityAttributes = {
     id: 'id',
     title: 'ID',
     tooltip: 'Unique identification of Build.',
-    filter: {
-      operator: '==',
-    },
+    // ID based filtering is not supported, see NCL-8551 and NCL-8553
   },
   buildConfigName: {
     id: 'buildConfigName',
