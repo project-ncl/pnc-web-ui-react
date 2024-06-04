@@ -139,7 +139,9 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
  * Returned string format is:
  *   - 5h 1m
  *   - 16s
- * -> seconds are included just when hours and minutes are zero
+ * -> seconds are included just when days and hours are zero,
+ * and milliSeconds are included just when days, hours and
+ * minutes are zero
  *
  * @param diffMs - time duration in milliseconds
  * @returns String representing duration
@@ -153,17 +155,17 @@ export const calculateDurationDiff = (diffMs: number | string): string | null =>
   const hours = Math.floor((diffSec % 86400) / 3600);
   const minutes = Math.floor((diffSec % 3600) / 60);
   const seconds = Math.floor(diffSec % 60);
-  const milliSeconds = Math.floor(diffMsValue % 1000000);
+  const milliSeconds = Math.floor(diffMsValue % 1000);
 
-  const daysString = days !== 0 ? days + 'd' : '';
-  const hoursString = hours !== 0 ? hours + 'h' : '';
-  const minutesString = days === 0 && minutes !== 0 ? minutes + 'm' : '';
-  const secondsString = days === 0 && hours === 0 && minutes === 0 && seconds !== 0 ? seconds + 's' : '';
-  const milliSecondsString = days === 0 && hours === 0 && minutes === 0 && seconds === 0 ? milliSeconds + 'ms' : '';
+  const parts = [];
 
-  return `${daysString}${daysString && hoursString ? ' ' : ''}${hoursString}${
-    hoursString && minutesString ? ' ' : ''
-  }${minutesString}${secondsString}${milliSecondsString}`;
+  if (days) parts.push(`${days}d`);
+  if (hours) parts.push(`${hours}h`);
+  if (minutes) parts.push(`${minutes}m`);
+  if (!days && !hours && seconds) parts.push(`${seconds}s`);
+  if (!days && !hours && !minutes && milliSeconds) parts.push(`${milliSeconds}ms`);
+
+  return parts.join(' ');
 };
 
 // Mathematical base to work in. Currently: Binary units (i.e. KiB etc). To use kB / MB etc switch to decimal (10).
@@ -285,24 +287,34 @@ export const getNumberGenerator = function* () {
 };
 
 /**
- * Formats a time in ms to readable string parsed by hours, minutes and seconds
+ * Formats a time in ms to readable string for BuildMetrics, parsed by hours, minutes and seconds
  *
  * @param msTime - The input time in ms
  * @returns The formated time string
  */
-export const formatTime = (msTime: number): string => {
-  const seconds = Math.floor(msTime / 1000);
+export const formatBuildMetricsTime = (msTime: number): string => {
+  const seconds = msTime / 1000;
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
 
   const secondsRemaining = seconds % 60;
   const minutesRemaining = minutes % 60;
 
-  if (hours > 0) {
-    return `${hours}h ${minutesRemaining}m ${secondsRemaining}s`;
-  } else if (minutes > 0) {
-    return `${minutes}m ${secondsRemaining}s`;
+  let formattedSeconds: string;
+
+  if (minutes > 0 || hours > 0) {
+    formattedSeconds = `${Math.floor(secondsRemaining)}s`;
   } else {
-    return `${seconds}s`;
+    formattedSeconds = `${secondsRemaining.toFixed(2)}s`;
+  }
+
+  if (hours > 0) {
+    return `${hours}h ${minutesRemaining}m ${formattedSeconds}s (${msTime}ms)`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${formattedSeconds}s (${msTime}ms)`;
+  } else if (seconds >= 1) {
+    return `${formattedSeconds}s (${msTime}ms)`;
+  } else {
+    return `${msTime}ms`;
   }
 };
