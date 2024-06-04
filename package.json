@@ -14,7 +14,7 @@
     "@types/react": "17.0.76",
     "@types/react-dom": "^17.0.11",
     "axios": "^1.2.6",
-    "chart.js": "^4.2.0",
+    "chart.js": "^4.4.2",
     "fast-json-patch": "^3.1.1",
     "graphology": "^0.25.4",
     "graphology-layout": "^0.6.1",

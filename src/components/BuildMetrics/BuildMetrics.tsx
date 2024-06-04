@@ -1,7 +1,7 @@
 import { Popover, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosResponse } from 'axios';
-import Chart, { ChartConfiguration } from 'chart.js/auto';
+import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
@@ -13,7 +13,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as buildApi from 'services/buildApi';
 
-import { calculateDurationDiff } from 'utils/utils';
+import { calculateDurationDiff, formatTime } from 'utils/utils';
 
 import styles from './BuildMetrics.module.css';
 
@@ -44,6 +44,17 @@ interface IMetricsTooltip {
   description: string;
 }
 
+interface Metrics {
+  color: string;
+  label: string;
+  description: string;
+  skip?: boolean;
+}
+
+interface MetricsData {
+  [key: string]: Metrics;
+}
+
 const BUILDS_DISPLAY_LIMIT = 20;
 const BUILDS_DISPLAY_LIMIT_EXAMPLE = 5;
 let metricsTooltipList: Array<IMetricsTooltip>;
@@ -66,115 +77,89 @@ const generateTimeTitle = (metricValueData: number | string) => {
 };
 
 /**
+ * Color and label data for each metric
+ * Colors are based on v4-archive.patternfly.org/v4/guidelines/colors
+ */
+const METRICS_DATA: MetricsData = {
+  WAITING_FOR_DEPENDENCIES: {
+    color: '#B2A3FF',
+    label: 'Waiting',
+    description: 'Waiting for dependencies',
+  },
+  ENQUEUED: {
+    color: '#C8EB79',
+    label: 'Enqueued',
+    description: 'Waiting to be started, the metric ends with the BPM process being started from PNC Orchestrator',
+  },
+  SCM_CLONE: {
+    color: '#73C5C5',
+    label: 'SCM Clone',
+    description: 'Cloning / Syncing from Gerrit',
+  },
+  ALIGNMENT_ADJUST: {
+    color: '#EF9234',
+    label: 'Alignment',
+    description: 'Alignment only',
+  },
+  BUILD_ENV_SETTING_UP: {
+    color: '#7CDBF3',
+    label: 'Starting Environment',
+    description: 'Requesting to start new Build Environment in OpenShift',
+  },
+  REPO_SETTING_UP: {
+    color: '#00B9E4',
+    label: 'Artifact Repos Setup',
+    description: 'Creating per build artifact repositories in Indy',
+  },
+  BUILD_SETTING_UP: {
+    color: '#008BAD',
+    label: 'Building',
+    description: 'Uploading the build script, running the build, downloading the results (logs)',
+  },
+  COLLECTING_RESULTS_FROM_BUILD_DRIVER: {
+    color: 'black',
+    label: 'Collecting Results From Build Driver',
+    description: '',
+    skip: true,
+  },
+  SEALING_REPOSITORY_MANAGER_RESULTS: {
+    color: '#CBC1FF',
+    label: 'Sealing',
+    description: 'Sealing artifact repository in Indy',
+  },
+  COLLECTING_RESULTS_FROM_REPOSITORY_MANAGER: {
+    color: '#8476D1',
+    label: 'Promotion',
+    description: 'Downloading the list of built artifact and dependencies from Indy, promoting them to shared repository in Indy',
+  },
+  FINALIZING_BUILD: {
+    color: '#5BA352',
+    label: 'Finalizing',
+    description: 'Completing all other build execution tasks, destroying build environments, invoking the BPM',
+  },
+  OTHER: {
+    color: 'silver',
+    label: 'Other',
+    description: 'Other tasks from the time when the build was submitted to the time when the build ends',
+  },
+};
+
+/**
  * Return color and label for each metric.
  *
- * Colors are based on patternfly.org/v3/styles/color-palette/
- *
- * @param {string} metricName - Metric name coming from the REST API
+ * @param {string} metricsName - Metrics name coming from the REST API
  */
-const adaptMetric = (metricName: string) => {
-  switch (metricName) {
-    // purple
-    case 'WAITING_FOR_DEPENDENCIES':
-      return {
-        color: '#a18fff',
-        label: 'Waiting',
-        description: 'Waiting for dependencies',
-      };
-
-    // light-green
-    case 'ENQUEUED':
-      return {
-        color: '#c8eb79',
-        label: 'Enqueued',
-        description: 'Waiting to be started, the metric ends with the BPM process being started from PNC Orchestrator',
-      };
-
-    // cyan
-    case 'SCM_CLONE':
-      return {
-        color: '#7dbdc3',
-        label: 'SCM Clone',
-        description: 'Cloning / Syncing from Gerrit',
-      };
-
-    // orange
-    case 'ALIGNMENT_ADJUST':
-      return {
-        color: '#f7bd7f',
-        label: 'Alignment',
-        description: 'Alignment only',
-      };
-
-    // blue
-    case 'BUILD_ENV_SETTING_UP':
-      return {
-        color: '#7cdbf3',
-        label: 'Starting Environment',
-        description: 'Requesting to start new Build Environment in OpenShift',
-      };
-    case 'REPO_SETTING_UP':
-      return {
-        color: '#00b9e4',
-        label: 'Artifact Repos Setup',
-        description: 'Creating per build artifact repositories in Indy',
-      };
-    case 'BUILD_SETTING_UP':
-      return {
-        color: '#008bad',
-        label: 'Building',
-        description: 'Uploading the build script, running the build, downloading the results (logs)',
-      };
-
-    // black
-    case 'COLLECTING_RESULTS_FROM_BUILD_DRIVER':
-      return {
-        color: 'black',
-        label: 'Collecting Results From Build Driver',
-        description: '',
-        skip: true,
-      };
-
-    // light purple
-    case 'SEALING_REPOSITORY_MANAGER_RESULTS':
-      return {
-        color: '#c7bfff',
-        label: 'Sealing',
-        description: 'Sealing artifact repository in Indy',
-      };
-
-    // purple
-    case 'COLLECTING_RESULTS_FROM_REPOSITORY_MANAGER':
-      return {
-        color: '#703fec',
-        label: 'Promotion',
-        description:
-          'Downloading the list of built artifact and dependencies from Indy, promoting them to shared repository in Indy',
-      };
-
-    // green
-    case 'FINALIZING_BUILD':
-      return {
-        color: '#3f9c35',
-        label: 'Finalizing',
-        description: 'Completing all other build execution tasks, destroying build environments, invoking the BPM',
-      };
-
-    // gray
-    case 'OTHER':
-      return {
-        color: 'silver',
-        label: 'Other',
-        description: 'Other tasks from the time when the build was submitted to the time when the build ends',
-      };
-
-    default:
-      console.warn('adaptMetric: Unknown metric name: "' + metricName + '"', metricName);
-      return {
-        color: 'gray',
-        label: metricName,
-        description: 'Unknown metric',
-      };
+const adaptMetrics = (metricsName: string) => {
+  const metric = METRICS_DATA[metricsName];
+  if (metric) {
+    return metric;
+  } else {
+    console.warn('adaptMetric: Unknown metric name: "' + metricsName + '"', metricsName);
+    return {
+      color: 'gray',
+      label: metricsName,
+      description: 'Unknown metric',
+    };
   }
 };
 
@@ -235,7 +220,7 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
 
       // skip specific metrics
       const filteredData = buildMetrics.buildMetricsData
-        ? buildMetrics.buildMetricsData.filter((item) => !adaptMetric(item.name).skip)
+        ? buildMetrics.buildMetricsData.filter((item) => !adaptMetrics(item.name).skip)
         : [];
 
       const buildMetricsData = {
@@ -252,8 +237,8 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
         }
       }
 
-      // compute Other metric
-      const metricOthersData = [];
+      // compute Other metrics
+      const metricOthersData: Array<number> = [];
 
       for (let k = 0; k < buildMetrics.builds.length; k++) {
         const submitTime = new Date(buildMetrics.builds[k].submitTime!);
@@ -273,7 +258,7 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
       }
       // generate tooltip content
       metricsTooltipList = buildMetricsData.datasets.map((item) => {
-        adaptedMetric = adaptMetric(item.name);
+        adaptedMetric = adaptMetrics(item.name);
         return {
           label: adaptedMetric.label,
           description: adaptedMetric.description,
@@ -282,7 +267,7 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
 
       if (chartType === 'line') {
         for (let i = 0; i < buildMetricsData.datasets.length; i++) {
-          adaptedMetric = adaptMetric(buildMetricsData.datasets[i].name);
+          adaptedMetric = adaptMetrics(buildMetricsData.datasets[i].name);
 
           Object.assign(buildMetricsData.datasets[i], {
             label: adaptedMetric.label,
@@ -328,7 +313,7 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
         };
       } else if (chartType === 'horizontalBar') {
         for (let j = 0; j < buildMetricsData.datasets.length; j++) {
-          adaptedMetric = adaptMetric(buildMetricsData.datasets[j].name);
+          adaptedMetric = adaptMetrics(buildMetricsData.datasets[j].name);
           Object.assign(buildMetricsData.datasets[j], {
             label: adaptedMetric.label,
             backgroundColor: adaptedMetric.color,
@@ -340,6 +325,21 @@ const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetr
           plugins: {
             tooltip: {
               position: 'nearest',
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                title: (tooltipItems: TooltipItem<'bar'>[]) => {
+                  return tooltipItems[0].label || '';
+                },
+                label: (tooltipItem: TooltipItem<'bar'>) => {
+                  const dataset = buildMetricsData.datasets[tooltipItem.datasetIndex];
+                  const label = dataset.name || '';
+                  const value = dataset.data[tooltipItem.dataIndex] as number;
+                  if (value === 0) return '';
+                  const formattedValue = formatTime(value);
+                  return value ? `${label}: ${formattedValue} (${value}ms)` : '';
+                },
+              },
             },
           },
           animation: {
@@ -530,24 +530,23 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
               <small>Select specific metric in the chart legend to filter it out:</small>
             </div>
             {metricsTooltipList && (
-              // Popover seems to cause warning: findDOMNode is deprecated in StrictMode
-              <Popover
-                removeFindDomNode
-                aria-label="Basic popover"
-                bodyContent={MetricsPopoverContent(metricsTooltipList)}
-                showClose={false}
-                enableFlip={false}
-                position="left-start"
-              >
-                <div className={`${styles['pnc-build-metrics-help']} ${styles['pnc-build-metrics-help--right']}`}>
-                  <small>
-                    Metrics Descriptions &nbsp;
+              <div className={`${styles['pnc-build-metrics-help']} ${styles['pnc-build-metrics-help--right']}`}>
+                <small>
+                  Metrics Descriptions &nbsp;
+                  <Popover
+                    removeFindDomNode
+                    aria-label="Basic popover"
+                    bodyContent={MetricsPopoverContent(metricsTooltipList)}
+                    showClose={false}
+                    enableFlip={false}
+                    position="left-start"
+                  >
                     <span className={styles['pnc-build-metric-info-icon']}>
                       <InfoCircleIcon />
                     </span>
-                  </small>
-                </div>
-              </Popover>
+                  </Popover>
+                </small>
+              </div>
             )}
 
             <div className={styles['canvas-wrapper']}>
@@ -560,39 +559,41 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
               )}
             </div>
           </div>
-          <form className={styles['pnc-build-metric-navigation']}>
-            <div className="pull-left"></div>
-            <div className="pull-right" ng-if="$ctrl.builds.length > 1">
-              Display every&nbsp;
-              <Select
-                width={100}
-                variant={SelectVariant.single}
-                onToggle={onToggle}
-                onSelect={onSelect}
-                selections={selected}
-                isOpen={isOpen}
-                aria-labelledby={`${componentId}-select`}
-              >
-                {navigationSelectOptions}
-              </Select>
-              &nbsp;build
-              <Popover
-                removeFindDomNode
-                aria-label="Basic popover"
-                bodyContent={`Always a maximum of ${BUILDS_DISPLAY_LIMIT} builds will be displayed if they are available, eg. if every ${BUILDS_DISPLAY_LIMIT_EXAMPLE}th build is displayed, ${BUILDS_DISPLAY_LIMIT} builds will cover last ${
-                  BUILDS_DISPLAY_LIMIT * BUILDS_DISPLAY_LIMIT_EXAMPLE
-                } builds.`}
-                showClose={false}
-              >
-                <small>
-                  &nbsp;
-                  <span className={styles['pnc-build-metric-info-icon']}>
-                    <InfoCircleIcon />
-                  </span>
-                </small>
-              </Popover>
-            </div>
-          </form>
+          {buildMetrics?.builds?.length! > 1 && (
+            <form className={styles['pnc-build-metric-navigation']}>
+              <div className="pull-left"></div>
+              <div className="pull-right" ng-if="$ctrl.builds.length > 1">
+                Display every&nbsp;
+                <Select
+                  width={100}
+                  variant={SelectVariant.single}
+                  onToggle={onToggle}
+                  onSelect={onSelect}
+                  selections={selected}
+                  isOpen={isOpen}
+                  aria-labelledby={`${componentId}-select`}
+                >
+                  {navigationSelectOptions}
+                </Select>
+                &nbsp;build
+                <Popover
+                  removeFindDomNode
+                  aria-label="Basic popover"
+                  bodyContent={`Always a maximum of ${BUILDS_DISPLAY_LIMIT} builds will be displayed if they are available, eg. if every ${BUILDS_DISPLAY_LIMIT_EXAMPLE}th build is displayed, ${BUILDS_DISPLAY_LIMIT} builds will cover last ${
+                    BUILDS_DISPLAY_LIMIT * BUILDS_DISPLAY_LIMIT_EXAMPLE
+                  } builds.`}
+                  showClose={false}
+                >
+                  <small>
+                    &nbsp;
+                    <span className={styles['pnc-build-metric-info-icon']}>
+                      <InfoCircleIcon />
+                    </span>
+                  </small>
+                </Popover>
+              </div>
+            </form>
+          )}
         </div>
       </ServiceContainerLoading>
     </>
