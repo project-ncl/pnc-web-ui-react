@@ -60,7 +60,24 @@
         "id": "127",
         "username": "SomeUser"
       },
-      "alignmentStrategies": []
+      "alignmentStrategies": [],
+      "latestBuild": {
+        "id": "TCDAVLKJKUHKLKJ",
+        "submitTime": "2021-04-26T19:55:26.147Z",
+        "startTime": "2021-04-26T19:55:26.261Z",
+        "endTime": "2021-04-26T19:57:12.563Z",
+        "progress": "FINISHED",
+        "status": "SYSTEM_ERROR",
+        "buildContentId": null,
+        "temporaryBuild": false,
+        "alignmentPreference": null,
+        "scmUrl": "https://code.test.com/testUser/asdgsadg.git",
+        "scmRevision": "1561asd531531asd1352sa1d5a1s35sa",
+        "scmTag": "repour-35d153as15d31a5s31d35135as1d35sd-4d2354a",
+        "buildOutputChecksum": null,
+        "lastUpdateTime": null
+      },
+      "latestBuildUsername": "ThisUser"
     },
     {
       "id": "002",
@@ -118,7 +135,24 @@
         "id": "127",
         "username": "SomeUser"
       },
-      "alignmentStrategies": []
+      "alignmentStrategies": [],
+      "latestBuild": {
+        "id": "SHKGHYGSAJYHBJHYGJKNS",
+        "submitTime": "2021-04-26T19:55:26.147Z",
+        "startTime": "2021-04-26T19:55:26.261Z",
+        "endTime": "2021-04-26T19:57:12.563Z",
+        "progress": "FINISHED",
+        "status": "SYSTEM_ERROR",
+        "buildContentId": null,
+        "temporaryBuild": false,
+        "alignmentPreference": null,
+        "scmUrl": "https://code.test.com/testUser/asdgsadg.git",
+        "scmRevision": "1561asd531531asd1352sa1d5a1s35sa",
+        "scmTag": "repour-35d153as15d31a5s31d35135as1d35sd-4d2354a",
+        "buildOutputChecksum": null,
+        "lastUpdateTime": null
+      },
+      "latestBuildUsername": "SomeUser"
     }
   ]
 }
