@@ -2,7 +2,7 @@ import { Popover, Select, SelectOption, SelectVariant } from '@patternfly/react-
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosResponse } from 'axios';
 import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
-import React, { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
 
@@ -13,7 +13,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as buildApi from 'services/buildApi';
 
-import { calculateDurationDiff, formatTime } from 'utils/utils';
+import { calculateDurationDiff, formatBuildMetricsTime } from 'utils/utils';
 
 import styles from './BuildMetrics.module.css';
 
@@ -28,15 +28,10 @@ interface IBuildMetrics {
   buildMetricsData: Array<IBuildMetricsData>;
 }
 
-interface IBuildMetricsCanvasProps {
-  buildMetrics: IBuildMetrics;
-  chartType: string;
-  componentId: string;
-}
-
 interface IBuildMetricsData {
   name: string;
   data: Array<number>;
+  label: string;
 }
 
 interface IMetricsTooltip {
@@ -57,9 +52,8 @@ interface MetricsData {
 
 const BUILDS_DISPLAY_LIMIT = 20;
 const BUILDS_DISPLAY_LIMIT_EXAMPLE = 5;
-let metricsTooltipList: Array<IMetricsTooltip>;
-let lineChart: Chart;
-let barChart: Chart;
+const MIN_HEIGHT = 300;
+const MIN_HEIGHT_SINGLE_BUILD = 400;
 
 /**
  * Generate time title according to the metricValue.
@@ -73,6 +67,12 @@ const generateTimeTitle = (metricValueData: number | string) => {
     return 'Not Available';
   }
 
+  console.log(
+    'metricValueData',
+    metricValueData,
+    'calculateDurationDiff(metricValueData)',
+    calculateDurationDiff(metricValueData)
+  );
   return calculateDurationDiff(metricValueData);
 };
 
@@ -173,8 +173,6 @@ const navigationOptions = [
 
 const getNavigationIdByName = (name: string) => navigationOptions.find((option) => option.name === name)?.id!;
 
-const generateBuildTitle = (buildName: string) => '#' + buildName;
-
 /**
  * Load Build Metrics for specified builds.
  *
@@ -206,259 +204,6 @@ const MetricsPopoverContent = (metricsTooltipList: Array<IMetricsTooltip>) => {
   );
 };
 
-const BuildMetricsCanvas = ({ buildMetrics, chartType, componentId }: IBuildMetricsCanvasProps) => {
-  const isCanvasInit = useRef<boolean>(true);
-  const chartRef: React.RefObject<HTMLCanvasElement> = React.createRef();
-
-  useEffect(() => {
-    const lineChartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] }, options: {} };
-    const barChartConfig: ChartConfiguration = { type: 'bar', data: { datasets: [] }, options: {} };
-    const updateChartConfig = () => {
-      // Chart is pointing to single instance of chartConfig declared on the Controller level and providing later updates based on it's changes.
-      let adaptedMetric;
-      const buildIds = buildMetrics.builds.map((build) => build.id.toString());
-
-      // skip specific metrics
-      const filteredData = buildMetrics.buildMetricsData
-        ? buildMetrics.buildMetricsData.filter((item) => !adaptMetrics(item.name).skip)
-        : [];
-
-      const buildMetricsData = {
-        labels: buildMetrics.builds.map((build) => calculateBuildName(build)),
-        datasets: filteredData,
-      };
-
-      // sum individual metrics for given build
-      const buildMetricsSum = new Array(buildIds.length).fill(0);
-
-      for (let m = 0; m < buildMetricsData.datasets.length; m++) {
-        for (let n = 0; n < buildMetricsData.datasets[m].data.length; n++) {
-          buildMetricsSum[n] += buildMetricsData.datasets[m].data[n];
-        }
-      }
-
-      // compute Other metrics
-      const metricOthersData: Array<number> = [];
-
-      for (let k = 0; k < buildMetrics.builds.length; k++) {
-        const submitTime = new Date(buildMetrics.builds[k].submitTime!);
-        const endTime = new Date(buildMetrics.builds[k].endTime!);
-        const metricOther = endTime.getTime() - submitTime.getTime() - buildMetricsSum[k];
-        metricOthersData.push(metricOther > 0 ? metricOther : 0);
-      }
-
-      const otherData = buildMetricsData.datasets.find((data) => data.name === 'OTHER');
-      if (otherData) {
-        otherData.data = metricOthersData;
-      } else {
-        buildMetricsData.datasets.push({
-          name: 'OTHER',
-          data: metricOthersData,
-        });
-      }
-      // generate tooltip content
-      metricsTooltipList = buildMetricsData.datasets.map((item) => {
-        adaptedMetric = adaptMetrics(item.name);
-        return {
-          label: adaptedMetric.label,
-          description: adaptedMetric.description,
-        };
-      });
-
-      if (chartType === 'line') {
-        for (let i = 0; i < buildMetricsData.datasets.length; i++) {
-          adaptedMetric = adaptMetrics(buildMetricsData.datasets[i].name);
-
-          Object.assign(buildMetricsData.datasets[i], {
-            label: adaptedMetric.label,
-            fill: false,
-
-            // lines
-            borderColor: adaptedMetric.color,
-            borderWidth: 4,
-
-            // points
-            pointBackgroundColor: adaptedMetric.color,
-            pointBorderColor: 'white',
-            pointBorderWidth: 1.5,
-            pointRadius: 4,
-          });
-        }
-        lineChartConfig.options = {
-          maintainAspectRatio: false,
-          elements: {
-            line: {
-              tension: 0.5,
-            },
-          },
-          animation: {
-            duration: 0, // disable animation
-          },
-          scales: {
-            y: {
-              type: 'logarithmic',
-              title: {
-                display: true,
-                text: 'Logarithmic scale',
-              },
-              ticks: {
-                maxTicksLimit: 8,
-                callback: generateTimeTitle,
-              },
-            },
-            x: {
-              reverse: true,
-            },
-          },
-        };
-      } else if (chartType === 'horizontalBar') {
-        for (let j = 0; j < buildMetricsData.datasets.length; j++) {
-          adaptedMetric = adaptMetrics(buildMetricsData.datasets[j].name);
-          Object.assign(buildMetricsData.datasets[j], {
-            label: adaptedMetric.label,
-            backgroundColor: adaptedMetric.color,
-          });
-        }
-
-        barChartConfig.options = {
-          indexAxis: 'y' as const,
-          plugins: {
-            tooltip: {
-              position: 'nearest',
-              mode: 'index',
-              intersect: false,
-              callbacks: {
-                title: (tooltipItems: TooltipItem<'bar'>[]) => {
-                  return tooltipItems[0].label || '';
-                },
-                label: (tooltipItem: TooltipItem<'bar'>) => {
-                  const dataset = buildMetricsData.datasets[tooltipItem.datasetIndex];
-                  const label = dataset.name || '';
-                  const value = dataset.data[tooltipItem.dataIndex] as number;
-                  if (value === 0) return '';
-                  const formattedValue = formatTime(value);
-                  return value ? `${label}: ${formattedValue} (${value}ms)` : '';
-                },
-              },
-            },
-          },
-          animation: {
-            duration: 0, // disable animation
-          },
-          scales: {
-            x: {
-              min: 0,
-              position: 'bottom',
-              ticks: {
-                maxTicksLimit: 30,
-                callback: generateTimeTitle,
-              },
-              stacked: true,
-              title: {
-                display: true,
-                text: 'Linear scale',
-              },
-            },
-            y: {
-              reverse: false,
-              stacked: true,
-            },
-          },
-        };
-      } else {
-        console.warn('Unsupported chart type: ' + chartType);
-      }
-
-      const isSingleBuild = buildMetricsData.datasets[0].data.length === 1;
-
-      const commonChartConfig = {
-        layout: {
-          padding: {
-            top: 20,
-            bottom: 20,
-          },
-        },
-        maintainAspectRatio: false,
-        tooltips: {
-          callbacks: {
-            title: (tooltipItems: Array<any>) => generateBuildTitle(tooltipItems[0].label),
-            label: (tooltipItem: any, data: any) => {
-              let label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-              if (label) {
-                label += ': ' + generateTimeTitle(tooltipItem.value);
-              }
-              if (tooltipItem.value !== 'NaN' && tooltipItem.value > 1000) {
-                label += '  (' + tooltipItem.value + ' ms)';
-              }
-              return label;
-            },
-          },
-        },
-      };
-      const commonChartPlugins = [
-        {
-          id: '',
-          beforeInit: (chart: any) => {
-            chart.legend.afterFit = () => {
-              chart.height = chart.height + 25;
-            };
-          },
-        },
-      ];
-      lineChartConfig.data = buildMetricsData;
-      barChartConfig.data = buildMetricsData;
-
-      // increase space between legend and chart
-      let heightTmp = 0;
-      const MIN_HEIGHT = 290;
-      const MIN_HEIGHT_SINGLE_BUILD = 400;
-
-      if (chartType === 'horizontalBar') {
-        Object.assign(barChartConfig.options!, commonChartConfig);
-        barChartConfig.plugins = commonChartPlugins;
-        heightTmp = buildMetricsData.datasets[0].data.length * 30;
-        chartRef.current!.parentElement!.style.height =
-          (heightTmp < MIN_HEIGHT ? (isSingleBuild ? MIN_HEIGHT_SINGLE_BUILD : MIN_HEIGHT) : heightTmp) + 'px';
-        if (isSingleBuild) {
-          barChartConfig.options!.layout!.padding = 50;
-        }
-      } else {
-        Object.assign(lineChartConfig.options!, commonChartConfig);
-        lineChartConfig.plugins = commonChartPlugins;
-        chartRef.current!.parentElement!.style.height = '300px';
-      }
-    };
-    updateChartConfig();
-    if (chartType === 'line' && lineChart) {
-      lineChart.config.data = lineChartConfig.data;
-      lineChart.config.options = lineChartConfig.options;
-      lineChart.update();
-    } else if (chartType === 'horizontalBar' && barChart) {
-      barChart.config.data = barChartConfig.data;
-      barChart.config.options = barChartConfig.options;
-      barChart.update();
-    }
-    if (isCanvasInit.current) {
-      if (chartType === 'line') {
-        const lineCtx = chartRef.current?.getContext('2d');
-        if (!lineCtx) {
-          throw new Error('Chart.JS: Failed to get 2D context');
-        }
-        lineChart = new Chart(lineCtx, lineChartConfig);
-      } else if (chartType === 'horizontalBar') {
-        const barCtx = chartRef.current?.getContext('2d');
-        if (!barCtx) {
-          throw new Error('Chart.JS: Failed to get 2D context');
-        }
-        barChart = new Chart(barCtx, barChartConfig);
-      }
-      isCanvasInit.current = false;
-    }
-  }, [chartRef, chartType, buildMetrics.buildMetricsData, buildMetrics.builds]);
-  return <canvas id={componentId} ref={chartRef} />;
-};
-
 /**
  * The component representing Build Metric charts.
  *
@@ -476,6 +221,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
+  const [metricsTooltipList, setMetricsTooltipList] = useState<Array<IMetricsTooltip>>([]);
 
   const serviceContainerBuildMetrics = useServiceContainer(buildApi.getBuildMetrics);
   const serviceContainerBuildMetricsRunner = serviceContainerBuildMetrics.run;
@@ -484,23 +230,18 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     <SelectOption key={option.id} value={option.name} />
   ));
 
-  useEffect(() => {
-    /**
-     * Filter array using Nth and max parameters.
-     *
-     * @param {array} array - Full array to be filtered.
-     * @param {number} nth - Returned array will contain only every Nth item.
-     * @param {number} max [20] - Returned array max size.
-     */
-    const filterBuilds = (array: Array<Build>, nth: number, max: number = BUILDS_DISPLAY_LIMIT) => {
-      const result: Build[] = [];
-      for (let i = 0; i < array.length; i = i + nth) {
-        result.push(array[i]);
-      }
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<Chart | null>(null);
 
-      return result.slice(0, max);
-    };
-    /* Load data according to the current filter */
+  const filterBuilds = useCallback((array: Array<Build>, nth: number, max: number = BUILDS_DISPLAY_LIMIT) => {
+    const result: Build[] = [];
+    for (let i = 0; i < array.length; i = i + nth) {
+      result.push(array[i]);
+    }
+    return result.slice(0, max);
+  }, []);
+
+  useEffect(() => {
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
     const buildIds = transferBuildsToBuildId(currentFilteredBuilds);
     if (buildIds) {
@@ -511,7 +252,229 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
         });
       });
     }
-  }, [builds, selected, serviceContainerBuildMetricsRunner]);
+  }, [builds, selected, serviceContainerBuildMetricsRunner, filterBuilds]);
+
+  useEffect(() => {
+    if (!buildMetrics || !chartRef.current) return;
+
+    const ctx = chartRef.current.getContext('2d');
+    if (!ctx) {
+      console.error('Failed to get canvas context');
+      return;
+    }
+
+    const lineChartConfig: ChartConfiguration = { type: 'line', data: { datasets: [] }, options: {} };
+    const barChartConfig: ChartConfiguration = { type: 'bar', data: { datasets: [] }, options: {} };
+
+    // Chart is pointing to single instance of chartConfig declared on the Controller level and providing later updates based on its changes.
+    let adaptedMetric;
+    const buildIds = buildMetrics.builds.map((build) => build.id.toString());
+
+    // skip specific metrics
+    const filteredData = buildMetrics.buildMetricsData
+      ? buildMetrics.buildMetricsData.filter((item) => !adaptMetrics(item.name).skip)
+      : [];
+
+    const buildMetricsData = {
+      labels: buildMetrics.builds.map((build) => calculateBuildName(build)),
+      datasets: filteredData,
+    };
+
+    const buildMetricsSum = new Array(buildIds.length).fill(0);
+
+    for (let m = 0; m < buildMetricsData.datasets.length; m++) {
+      for (let n = 0; n < buildMetricsData.datasets[m].data.length; n++) {
+        buildMetricsSum[n] += buildMetricsData.datasets[m].data[n];
+      }
+    }
+
+    // compute Other metrics
+    const metricOthersData: Array<number> = [];
+
+    for (let k = 0; k < buildMetrics.builds.length; k++) {
+      const submitTime = new Date(buildMetrics.builds[k].submitTime!);
+      const endTime = new Date(buildMetrics.builds[k].endTime!);
+      const metricOther = endTime.getTime() - submitTime.getTime() - buildMetricsSum[k];
+      metricOthersData.push(metricOther > 0 ? metricOther : 0);
+    }
+
+    const otherData = buildMetricsData.datasets.find((data) => data.name === 'OTHER');
+    if (otherData) {
+      otherData.data = metricOthersData;
+    } else {
+      buildMetricsData.datasets.push({
+        name: 'OTHER',
+        data: metricOthersData,
+        label: 'Other',
+      });
+    }
+    // generate tooltip content
+    const updatedMetricsTooltipList = buildMetricsData.datasets.map((item) => {
+      adaptedMetric = adaptMetrics(item.name);
+      return {
+        label: adaptedMetric.label,
+        description: adaptedMetric.description,
+      };
+    });
+
+    if (JSON.stringify(updatedMetricsTooltipList) !== JSON.stringify(metricsTooltipList)) {
+      setMetricsTooltipList(updatedMetricsTooltipList);
+    }
+
+    if (chartType === 'line') {
+      for (let i = 0; i < buildMetricsData.datasets.length; i++) {
+        adaptedMetric = adaptMetrics(buildMetricsData.datasets[i].name);
+
+        Object.assign(buildMetricsData.datasets[i], {
+          label: adaptedMetric.label,
+          fill: false,
+
+          // lines
+          borderColor: adaptedMetric.color,
+          borderWidth: 4,
+
+          // points
+          pointBackgroundColor: adaptedMetric.color,
+          pointBorderColor: 'white',
+          pointBorderWidth: 1.5,
+          pointRadius: 4,
+        });
+      }
+      lineChartConfig.options = {
+        maintainAspectRatio: false,
+        elements: {
+          line: {
+            tension: 0.5,
+          },
+        },
+        animation: {
+          duration: 0, // disable animation
+        },
+        scales: {
+          y: {
+            type: 'logarithmic',
+            title: {
+              display: true,
+              text: 'Logarithmic scale',
+            },
+            ticks: {
+              maxTicksLimit: 8,
+              callback: generateTimeTitle,
+            },
+          },
+          x: {
+            reverse: true,
+          },
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: (tooltipItems: TooltipItem<'line'>[]) => {
+                return tooltipItems[0].label || '';
+              },
+              label: (tooltipItem: TooltipItem<'line'>) => {
+                const dataset = buildMetricsData.datasets[tooltipItem.datasetIndex];
+                const label = dataset.label || '';
+                const value = dataset.data[tooltipItem.dataIndex] as number;
+                if (value === 0) return '';
+                const formattedValue = formatBuildMetricsTime(value);
+                return value ? `${label}: ${formattedValue}` : '';
+              },
+            },
+          },
+        },
+      };
+      lineChartConfig.data = buildMetricsData;
+    } else if (chartType === 'horizontalBar') {
+      for (let j = 0; j < buildMetricsData.datasets.length; j++) {
+        adaptedMetric = adaptMetrics(buildMetricsData.datasets[j].name);
+
+        Object.assign(buildMetricsData.datasets[j], {
+          label: adaptedMetric.label,
+          backgroundColor: adaptedMetric.color,
+        });
+      }
+
+      barChartConfig.options = {
+        maintainAspectRatio: false,
+        indexAxis: 'y' as const,
+        plugins: {
+          tooltip: {
+            position: 'nearest',
+            mode: 'index',
+            // intersect: false,
+            callbacks: {
+              title: (tooltipItems: TooltipItem<'bar'>[]) => {
+                return tooltipItems[0].label || '';
+              },
+              label: (tooltipItem: TooltipItem<'bar'>) => {
+                const dataset = buildMetricsData.datasets[tooltipItem.datasetIndex];
+                const label = dataset.label || '';
+                const value = dataset.data[tooltipItem.dataIndex] as number;
+                if (value === 0) return '';
+                const formattedTimeValue = formatBuildMetricsTime(value);
+                return value ? `${label}: ${formattedTimeValue}` : '';
+              },
+            },
+          },
+        },
+        animation: {
+          duration: 0, // disable animation
+        },
+        scales: {
+          x: {
+            min: 0,
+            position: 'bottom',
+            ticks: {
+              maxTicksLimit: 30,
+              callback: generateTimeTitle,
+            },
+            stacked: true,
+            title: {
+              display: true,
+              text: 'Linear scale',
+            },
+          },
+          y: {
+            reverse: false,
+            stacked: true,
+          },
+        },
+        layout: {
+          padding: {
+            top: 20,
+            bottom: 20,
+          },
+        },
+      };
+      barChartConfig.data = buildMetricsData;
+    } else {
+      console.warn('Unsupported chart type: ' + chartType);
+      return;
+    }
+
+    // set dynamic chart height
+    const isSingleBuild = buildMetricsData.datasets[0].data.length === 1;
+    let heightTmp = 0;
+
+    if (chartType === 'horizontalBar') {
+      heightTmp = buildMetricsData.datasets[0].data.length * 30;
+      chartRef.current.parentElement!.style.height =
+        (heightTmp < MIN_HEIGHT ? (isSingleBuild ? MIN_HEIGHT_SINGLE_BUILD : MIN_HEIGHT) : heightTmp) + 'px';
+      if (isSingleBuild) {
+        barChartConfig.options!.layout!.padding = 50;
+      }
+    } else {
+      chartRef.current.parentElement!.style.height = `${MIN_HEIGHT}px`;
+    }
+
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
+    const config = chartType === 'line' ? lineChartConfig : barChartConfig;
+    chartInstanceRef.current = new Chart(ctx, config);
+  }, [buildMetrics, chartType, metricsTooltipList]);
 
   const onToggle = () => {
     setIsOpen(!isOpen);
@@ -550,19 +513,13 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
             )}
 
             <div className={styles['canvas-wrapper']}>
-              {buildMetrics && buildMetrics.builds && buildMetrics.buildMetricsData && (
-                <BuildMetricsCanvas
-                  buildMetrics={buildMetrics!}
-                  chartType={chartType}
-                  componentId={componentId}
-                ></BuildMetricsCanvas>
-              )}
+              {buildMetrics && buildMetrics.builds && buildMetrics.buildMetricsData && <canvas id={componentId} ref={chartRef} />}
             </div>
           </div>
           {buildMetrics?.builds?.length! > 1 && (
             <form className={styles['pnc-build-metric-navigation']}>
               <div className="pull-left"></div>
-              <div className="pull-right" ng-if="$ctrl.builds.length > 1">
+              <div className="pull-right">
                 Display every&nbsp;
                 <Select
                   width={100}
