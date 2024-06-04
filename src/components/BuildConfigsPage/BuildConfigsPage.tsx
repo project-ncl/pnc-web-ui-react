@@ -14,7 +14,7 @@ interface IBuildConfigsPageProps {
 }
 
 export const BuildConfigsPage = ({ componentId = 'b1' }: IBuildConfigsPageProps) => {
-  const serviceContainerBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigsWithLatestBuild);
+  const serviceContainerBuildConfigs = useServiceContainer(buildConfigApi.getBuildConfigs);
 
   useQueryParamsEffect(serviceContainerBuildConfigs.run, { componentId });
 
