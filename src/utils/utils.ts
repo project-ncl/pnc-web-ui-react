@@ -283,3 +283,26 @@ export const getNumberGenerator = function* () {
     i++;
   }
 };
+
+/**
+ * Formats a time in ms to readable string parsed by hours, minutes and seconds
+ *
+ * @param msTime - The input time in ms
+ * @returns The formated time string
+ */
+export const formatTime = (msTime: number): string => {
+  const seconds = Math.floor(msTime / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  const secondsRemaining = seconds % 60;
+  const minutesRemaining = minutes % 60;
+
+  if (hours > 0) {
+    return `${hours}h ${minutesRemaining}m ${secondsRemaining}s`;
+  } else if (minutes > 0) {
+    return `${minutes}m ${secondsRemaining}s`;
+  } else {
+    return `${seconds}s`;
+  }
+};
