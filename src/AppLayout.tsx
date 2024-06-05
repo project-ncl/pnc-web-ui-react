@@ -29,11 +29,10 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router-dom';
 
-import { StorageKeys } from 'common/constants';
-
 import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
@@ -89,7 +88,10 @@ export const AppLayout = () => {
     const [isHeaderQuestionOpen, setIsHeaderQuestionOpen] = useState(false);
     const [isHeaderUserOpen, setIsHeaderUserOpen] = useState(false);
 
-    const loggerLabel = window.localStorage.getItem(StorageKeys.loggerLabel);
+    const { storageValue: loggerLabel } = useStorage<string>({
+      storageKey: StorageKeys.loggerLabel,
+      initialValue: '',
+    });
 
     const headerConfig = useMemo(
       () => ({

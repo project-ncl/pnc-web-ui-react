@@ -1,8 +1,8 @@
 import { CubesIcon } from '@patternfly/react-icons';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 
-import { StorageKeys } from 'common/constants';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { StateCard } from 'components/StateCard/StateCard';
 
@@ -17,12 +17,10 @@ interface IExperimentalContentProps {
  * @param isRouteVariant - Is page route content variant enabled
  */
 export const ExperimentalContent = ({ children, isRouteVariant = false }: PropsWithChildren<IExperimentalContentProps>) => {
-  const [isExperimentalContentEnabled, setIsExperimentalContentEnabled] = useState<boolean>(false);
-
-  useEffect(() => {
-    const isEnabled = window.localStorage.getItem(StorageKeys.isExperimentalContentEnabled) === 'true';
-    setIsExperimentalContentEnabled(isEnabled);
-  }, []);
+  const { storageValue: isExperimentalContentEnabled } = useStorage<boolean>({
+    storageKey: StorageKeys.isExperimentalContentEnabled,
+    initialValue: false,
+  });
 
   if (isRouteVariant && !isExperimentalContentEnabled) {
     return (
