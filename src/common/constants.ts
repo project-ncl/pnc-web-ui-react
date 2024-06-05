@@ -92,5 +92,9 @@ export const MESSAGE_WAIT_AND_REFRESH = 'Wait 5 minutes and try to refresh your 
 // Storage keys (like localStorage), see NCL-8496
 export const StorageKeys = {
   isBuildsListCompactMode: 'is-builds-list-compact-mode',
+  isArtifactIdentifierParsed: 'is-artifact-identifier-parsed',
+  isLogViewerFollowingNewContent: 'log-viewer-following',
+  isLogViewerContentWrapped: 'log-viewer-wrapping',
+  isExperimentalContentEnabled: 'is-experimental-content-enabled',
   loggerLabel: 'logger-label',
 } as const;

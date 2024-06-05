@@ -36,28 +36,28 @@ interface ITopBarProps {
 export const TopBar = ({ children, id, type, icon, hideCloseButton = false }: React.PropsWithChildren<ITopBarProps>) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  const statusLocalStorageId = useMemo(() => `${id}-status`, [id]);
-  const textLocalStorageId = useMemo(() => `${id}-text`, [id]);
+  const statusLocalStorageKey = useMemo(() => `${id}-status`, [id]);
+  const textLocalStorageKey = useMemo(() => `${id}-text`, [id]);
 
   useEffect(() => {
     if (id) {
-      const topBarState = window.sessionStorage.getItem(statusLocalStorageId);
+      const topBarState = window.sessionStorage.getItem(statusLocalStorageKey);
       setIsOpen(topBarState !== 'closed');
     }
-  }, [type, id, statusLocalStorageId]);
+  }, [type, id, statusLocalStorageKey]);
 
   useEffect(() => {
     if (id) {
-      const topBarTextOld = window.sessionStorage.getItem(textLocalStorageId) || '';
+      const topBarTextOld = window.sessionStorage.getItem(textLocalStorageKey) || '';
       const topBarTextNew = ReactDomServer.renderToStaticMarkup(<>{children}</>);
 
       if (topBarTextNew !== topBarTextOld) {
-        window.sessionStorage.setItem(textLocalStorageId, topBarTextNew);
-        window.sessionStorage.setItem(statusLocalStorageId, 'open');
+        window.sessionStorage.setItem(textLocalStorageKey, topBarTextNew);
+        window.sessionStorage.setItem(statusLocalStorageKey, 'open');
         setIsOpen(true);
       }
     }
-  }, [children, type, id, statusLocalStorageId, textLocalStorageId]);
+  }, [children, type, id, statusLocalStorageKey, textLocalStorageKey]);
 
   return isOpen && children ? (
     <div className={`${styles['top-bar']} ${styles[type]}`}>
@@ -70,7 +70,7 @@ export const TopBar = ({ children, id, type, icon, hideCloseButton = false }: Re
         <Button
           onClick={() => {
             setIsOpen(false);
-            window.sessionStorage.setItem(statusLocalStorageId, 'closed');
+            window.sessionStorage.setItem(statusLocalStorageKey, 'closed');
           }}
           variant="plain"
         >

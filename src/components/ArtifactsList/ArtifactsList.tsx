@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import { Artifact, ArtifactPage } from 'pnc-api-types-ts';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
-import { PageTitles } from 'common/constants';
+import { PageTitles, StorageKeys } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
@@ -95,7 +95,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
   const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts.includes(artifact.identifier);
 
   useEffect(() => {
-    const shouldParse = window.localStorage.getItem('is-artifact-identifier-parsed') === 'true';
+    const shouldParse = window.localStorage.getItem(StorageKeys.isArtifactIdentifierParsed) === 'true';
     setIsArtifactIdentifierParsed(shouldParse);
   }, []);
 
@@ -154,7 +154,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
             isChecked={isArtifactIdentifierParsed}
             onChange={(_, checked) => {
               setIsArtifactIdentifierParsed(checked);
-              window.localStorage.setItem('is-artifact-identifier-parsed', `${checked}`);
+              window.localStorage.setItem(StorageKeys.isArtifactIdentifierParsed, `${checked}`);
             }}
           />
         </ToolbarItem>

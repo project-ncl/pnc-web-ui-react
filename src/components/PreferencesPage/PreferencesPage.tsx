@@ -7,7 +7,6 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
-import { experimentalContentEnabledLocalStorageId } from 'components/ExperimentalContent/ExperimentalContent';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -28,7 +27,7 @@ export const PreferencesPage = () => {
   const [isExperimentalContentEnabled, setIsExperimentalContentEnabled] = useState<boolean>(false);
 
   useEffect(() => {
-    const isEnabled = window.localStorage.getItem(experimentalContentEnabledLocalStorageId) === 'true';
+    const isEnabled = window.localStorage.getItem(StorageKeys.isExperimentalContentEnabled) === 'true';
     setIsExperimentalContentEnabled(isEnabled);
   }, []);
 
@@ -81,7 +80,7 @@ export const PreferencesPage = () => {
               isChecked={isExperimentalContentEnabled}
               onChange={(_, checked) => {
                 setIsExperimentalContentEnabled(checked);
-                window.localStorage.setItem(experimentalContentEnabledLocalStorageId, `${checked}`);
+                window.localStorage.setItem(StorageKeys.isExperimentalContentEnabled, `${checked}`);
                 window.location.reload();
               }}
             />
