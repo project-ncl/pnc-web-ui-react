@@ -17,11 +17,12 @@ import { Link } from 'react-router-dom';
 import { Artifact, ArtifactPage } from 'pnc-api-types-ts';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
-import { PageTitles, StorageKeys } from 'common/constants';
+import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { ArtifactBuild } from 'components/ArtifactBuild/ArtifactBuild';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -82,7 +83,10 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
 
   const { getSortParams } = useSorting(sortOptions, componentId);
 
-  const [isArtifactIdentifierParsed, setIsArtifactIdentifierParsed] = useState<boolean>(false);
+  const { storageValue: isArtifactIdentifierParsed, storeToStorage: storeIsArtifactIdentifierParsed } = useStorage<boolean>({
+    storageKey: StorageKeys.isArtifactIdentifierParsed,
+    initialValue: false,
+  });
 
   const [expandedArtifacts, setExpandedArtifacts] = useState<string[]>([]);
   const [areBuildArtifactsExpanded, setAreBuildArtifactsExpanded] = useState<boolean>(false);
@@ -93,11 +97,6 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
       return isExpanding ? [...otherExpandedArtifactIdentifiers, artifact.identifier] : otherExpandedArtifactIdentifiers;
     });
   const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts.includes(artifact.identifier);
-
-  useEffect(() => {
-    const shouldParse = window.localStorage.getItem(StorageKeys.isArtifactIdentifierParsed) === 'true';
-    setIsArtifactIdentifierParsed(shouldParse);
-  }, []);
 
   useEffect(() => {
     if (areBuildArtifactsExpanded) {
@@ -153,8 +152,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
             label="Parse Artifact identifier"
             isChecked={isArtifactIdentifierParsed}
             onChange={(_, checked) => {
-              setIsArtifactIdentifierParsed(checked);
-              window.localStorage.setItem(StorageKeys.isArtifactIdentifierParsed, `${checked}`);
+              storeIsArtifactIdentifierParsed(checked);
             }}
           />
         </ToolbarItem>

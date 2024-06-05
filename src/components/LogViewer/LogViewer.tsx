@@ -3,7 +3,7 @@ import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { StorageKeys } from 'common/constants';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 interface ILogViewerProps {
   isStatic?: boolean;
@@ -40,12 +40,20 @@ interface IOnScrollProps {
 export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
+  // is log viewer currently following new data input?
+  const { storageValue: isFollowing, storeToStorage: storeIsFollowing } = useStorage<boolean>({
+    storageKey: StorageKeys.isLogViewerFollowingNewContent,
+    initialValue: false,
+  });
+
+  // are lines wrapped?
+  const { storageValue: areLinesWrapped, storeToStorage: storeAreLinesWrapped } = useStorage<boolean>({
+    storageKey: StorageKeys.isLogViewerContentWrapped,
+    initialValue: false,
+  });
+
   // data that are actually rendered
   const [renderedData, setRenderedData] = useState(data);
-  // is log viewer currently following new data input?
-  const [isFollowing, setIsFollowing] = useState<boolean>();
-  // are lines wrapped?
-  const [areLinesWrapped, setAreLinesWrapped] = useState<boolean>();
   // is log viewer paused? (data are still stored, but not rendered)
   const [isPaused, setIsPaused] = useState(true);
   // count of rendered lines
@@ -53,13 +61,6 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   const [lineCount, setLineCount] = useState(0);
   // if paused, how many lines were not rendered?
   const [linesBehind, setLinesBehind] = useState(0);
-
-  useEffect(() => {
-    const shouldFollow = window.localStorage.getItem(StorageKeys.isLogViewerFollowingNewContent) === 'true';
-    const shouldWrap = window.localStorage.getItem(StorageKeys.isLogViewerContentWrapped) === 'true';
-    setIsFollowing(shouldFollow);
-    setAreLinesWrapped(shouldWrap);
-  }, []);
 
   useEffect(() => {
     if ((!isPaused || isStatic) && data.length > 0) {
@@ -127,8 +128,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
               label="Force Following"
               isChecked={isFollowing}
               onChange={(_, checked) => {
-                setIsFollowing(checked);
-                window.localStorage.setItem(StorageKeys.isLogViewerFollowingNewContent, `${checked}`);
+                storeIsFollowing(checked);
               }}
             />
           </ToolbarItem>
@@ -139,8 +139,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
             isChecked={areLinesWrapped}
             onChange={(_, checked) => {
               setIsPaused(true);
-              setAreLinesWrapped(checked);
-              window.localStorage.setItem(StorageKeys.isLogViewerContentWrapped, `${checked}`);
+              storeAreLinesWrapped(checked);
             }}
           />
         </ToolbarItem>

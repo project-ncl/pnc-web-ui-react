@@ -1,5 +1,4 @@
-// import Bowser from 'bowser';
-import { StorageKeys } from 'common/constants';
+import { StorageKeys } from 'hooks/useStorage';
 
 import * as uiLoggerApi from 'services/uiLoggerApi';
 import { userService } from 'services/userService';

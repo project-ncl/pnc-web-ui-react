@@ -12,11 +12,12 @@ import { Link } from 'react-router-dom';
 import { Build, BuildPage } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
-import { PageTitles, StorageKeys } from 'common/constants';
+import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
@@ -150,9 +151,10 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
   const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
 
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
-  const [isCompactMode, setIsCompactMode] = useState<boolean>(() => {
-    const isCompactMode = window.localStorage.getItem(StorageKeys.isBuildsListCompactMode);
-    return isCompactMode === null || isCompactMode === 'true';
+
+  const { storageValue: isCompactMode, storeToStorage: storeIsCompactMode } = useStorage<boolean>({
+    storageKey: StorageKeys.isBuildsListCompactMode,
+    initialValue: true,
   });
 
   return (
@@ -182,8 +184,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
               label="Compact Mode"
               isChecked={isCompactMode}
               onChange={(_, checked) => {
-                setIsCompactMode(checked);
-                window.localStorage.setItem(StorageKeys.isBuildsListCompactMode, `${checked}`);
+                storeIsCompactMode(checked);
               }}
             />
           </TooltipWrapper>

@@ -1,8 +1,7 @@
 import { Form, FormGroup, Label, Switch, TextInput, TextInputProps } from '@patternfly/react-core';
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 
-import { StorageKeys } from 'common/constants';
-
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -14,7 +13,6 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 type TValidated = TextInputProps['validated'];
 
 interface ILoggerLabel {
-  value: string;
   changed: boolean;
   validated: TValidated;
   error: boolean;
@@ -24,28 +22,30 @@ const LOGGER_LABEL_MAX = 15;
 const loggerLabelRegex = new RegExp(`^[a-zA-Z0-9-]{0,${LOGGER_LABEL_MAX}}$`);
 
 export const PreferencesPage = () => {
-  const [isExperimentalContentEnabled, setIsExperimentalContentEnabled] = useState<boolean>(false);
+  const { storageValue: isExperimentalContentEnabled, storeToStorage: storeIsExperimentalContentEnabled } = useStorage<boolean>({
+    storageKey: StorageKeys.isExperimentalContentEnabled,
+    initialValue: false,
+  });
 
-  useEffect(() => {
-    const isEnabled = window.localStorage.getItem(StorageKeys.isExperimentalContentEnabled) === 'true';
-    setIsExperimentalContentEnabled(isEnabled);
-  }, []);
+  const { storageValue: loggerLabel, storeToStorage: storeLoggerLabel } = useStorage<string>({
+    storageKey: StorageKeys.loggerLabel,
+    initialValue: '',
+  });
 
   useTitle('Preferences');
 
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
 
-  const [loggerLabel, updateLoggerLabel] = useReducer(
+  const [loggerLabelField, updateLoggerLabelField] = useReducer(
     (state: ILoggerLabel, value: string) => {
       if (loggerLabelRegex.test(value)) {
         setShowAdvanced(true);
         if (value) {
-          window.localStorage.setItem(StorageKeys.loggerLabel, `${value}`);
+          storeLoggerLabel(value);
         } else {
-          window.localStorage.removeItem(StorageKeys.loggerLabel);
+          storeLoggerLabel('');
         }
         return {
-          value,
           changed: true,
           validated: (value ? 'success' : 'default') as TValidated,
           error: false,
@@ -55,7 +55,6 @@ export const PreferencesPage = () => {
       return { ...state, error: true };
     },
     {
-      value: window.localStorage.getItem(StorageKeys.loggerLabel) ?? '',
       changed: false,
       validated: 'default',
       error: false,
@@ -79,8 +78,7 @@ export const PreferencesPage = () => {
               labelOff="Disabled"
               isChecked={isExperimentalContentEnabled}
               onChange={(_, checked) => {
-                setIsExperimentalContentEnabled(checked);
-                window.localStorage.setItem(StorageKeys.isExperimentalContentEnabled, `${checked}`);
+                storeIsExperimentalContentEnabled(checked);
                 window.location.reload();
               }}
             />
@@ -91,7 +89,7 @@ export const PreferencesPage = () => {
       <ContentBox marginBottom background={false} shadow={false}>
         <ExpandableSection
           title="Advanced"
-          isExpanded={showAdvanced || !!loggerLabel.value}
+          isExpanded={showAdvanced || !!loggerLabel}
           onToggle={(isExpanded) => setShowAdvanced(isExpanded)}
         >
           <ContentBox padding>
@@ -107,20 +105,20 @@ export const PreferencesPage = () => {
                   id="logger-label"
                   name="logger-label"
                   autoComplete="off"
-                  value={loggerLabel.value}
-                  validated={loggerLabel.validated}
-                  onChange={(_, value) => updateLoggerLabel(value)}
+                  value={loggerLabel}
+                  validated={loggerLabelField.validated}
+                  onChange={(_, value) => updateLoggerLabelField(value)}
                   onBlur={() => {
-                    if (loggerLabel.changed) {
+                    if (loggerLabelField.changed) {
                       window.location.reload();
                     }
                   }}
                 />
-                <FormInputHelperText variant="default" isHidden={!loggerLabel.value && !loggerLabel.error}>
+                <FormInputHelperText variant="default" isHidden={!loggerLabel && !loggerLabelField.error}>
                   Up to {LOGGER_LABEL_MAX} alphanumeric characters and dash symbol are allowed. It's recommended to use Jira
                   number, such as <Label isCompact>NCL-1234</Label>
                 </FormInputHelperText>
-                <FormInputHelperText variant="error" isHidden={!loggerLabel.error}>
+                <FormInputHelperText variant="error" isHidden={!loggerLabelField.error}>
                   The attempt to enter invalid value was rejected.
                 </FormInputHelperText>
               </FormGroup>
