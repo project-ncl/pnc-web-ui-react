@@ -3,6 +3,8 @@ import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+import { StorageKeys } from 'common/constants';
+
 interface ILogViewerProps {
   isStatic?: boolean;
   data: string | string[];
@@ -53,8 +55,8 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   const [linesBehind, setLinesBehind] = useState(0);
 
   useEffect(() => {
-    const shouldFollow = window.localStorage.getItem('log-viewer-following') === 'true';
-    const shouldWrap = window.localStorage.getItem('log-viewer-wrapping') === 'true';
+    const shouldFollow = window.localStorage.getItem(StorageKeys.isLogViewerFollowingNewContent) === 'true';
+    const shouldWrap = window.localStorage.getItem(StorageKeys.isLogViewerContentWrapped) === 'true';
     setIsFollowing(shouldFollow);
     setAreLinesWrapped(shouldWrap);
   }, []);
@@ -126,7 +128,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
               isChecked={isFollowing}
               onChange={(_, checked) => {
                 setIsFollowing(checked);
-                window.localStorage.setItem('log-viewer-following', `${checked}`);
+                window.localStorage.setItem(StorageKeys.isLogViewerFollowingNewContent, `${checked}`);
               }}
             />
           </ToolbarItem>
@@ -138,7 +140,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
             onChange={(_, checked) => {
               setIsPaused(true);
               setAreLinesWrapped(checked);
-              window.localStorage.setItem('log-viewer-wrapping', `${checked}`);
+              window.localStorage.setItem(StorageKeys.isLogViewerContentWrapped, `${checked}`);
             }}
           />
         </ToolbarItem>
