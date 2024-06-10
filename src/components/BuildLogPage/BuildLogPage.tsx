@@ -63,11 +63,13 @@ export const BuildLogPage = () => {
   return (
     <>
       {!isBuilding && (
-        <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
-          <ContentBox padding>
-            <LogViewer isStatic data={logData} customActions={logActions} />
-          </ContentBox>
-        </ServiceContainerLoading>
+        <ContentBox>
+          <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
+            <ContentBox padding>
+              <LogViewer isStatic data={logData} customActions={logActions} />
+            </ContentBox>
+          </ServiceContainerLoading>
+        </ContentBox>
       )}
 
       {isBuilding && <OldUiContentLinkBox contentTitle="Build in Progress Log" route={`builds/${buildId}`} />}
