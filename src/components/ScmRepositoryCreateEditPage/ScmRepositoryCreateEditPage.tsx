@@ -1,9 +1,9 @@
-import { ActionGroup, Button, Form, FormGroup, Label, Popover, Switch, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, Label, Popover, Switch } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { SCMRepository } from 'pnc-api-types-ts';
+import { SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
@@ -20,7 +20,10 @@ import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
+import { ScmRepositoryUrlAlert } from 'components/ScmRepositoryUrlAlert/ScmRepositoryUrlAlert';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
+import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { TextInputFindMatch } from 'components/TextInputFindMatch/TextInputFindMatch';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
@@ -35,7 +38,7 @@ const validatePreBuildSync = (fieldValues: IFieldValues): boolean => {
 };
 
 const createFieldConfigs = {
-  scmUrl: {
+  externalUrl: {
     isRequired: true,
     validators: [{ validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' }],
   },
@@ -78,6 +81,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   const [scmCreatingFinished, setScmCreatingFinished] = useState<SCMRepository>();
   const [scmCreatingError, setScmCreatingError] = useState<string>();
 
+  const [selectedScmRepository, setSelectedScmRepository] = useState<SCMRepository>();
+
   // create page
   const serviceContainerCreatePage = useServiceContainer(scmRepositoryApi.createScmRepository);
   const serviceContainerCreatePageTaskId = serviceContainerCreatePage.data?.taskId;
@@ -89,7 +94,21 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(scmRepositoryApi.patchScmRepository);
 
-  const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
+  const serviceContainerScmRepositories = useServiceContainer(scmRepositoryApi.getScmRepositoriesFiltered, 0);
+
+  const {
+    register,
+    setFieldValues,
+    getFieldValue,
+    getFieldState,
+    getFieldErrors,
+    handleSubmit,
+    isSubmitDisabled,
+    hasFormChanged,
+  } = useForm();
+
+  const hasExternalUrlChanged =
+    getFieldValue(scmRepositoryEntityAttributes.externalUrl.id) !== serviceContainerEditPageGet.data?.externalUrl;
 
   useTitle(
     generatePageTitle({
@@ -170,52 +189,53 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           e.preventDefault();
         }}
       >
-        {!isEditPage && (
+        {isEditPage && (
           <FormGroup
-            isRequired
-            label={scmRepositoryEntityAttributes.scmUrl.title}
-            fieldId={scmRepositoryEntityAttributes.scmUrl.id}
-            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
+            label={scmRepositoryEntityAttributes.internalUrl.title}
+            fieldId={scmRepositoryEntityAttributes.internalUrl.id}
+            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
           >
-            <TextInput
-              isRequired
-              type="text"
-              id={scmRepositoryEntityAttributes.scmUrl.id}
-              name={scmRepositoryEntityAttributes.scmUrl.id}
-              autoComplete="off"
-              {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, createFieldConfigs.scmUrl)}
-            />
-            <FormInputHelperText variant="error">{getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}</FormInputHelperText>
+            {serviceContainerEditPageGet.data && <ScmRepositoryUrl internalScmRepository={serviceContainerEditPageGet.data} />}
           </FormGroup>
         )}
-        {isEditPage && (
-          <>
-            <FormGroup
-              label={scmRepositoryEntityAttributes.internalUrl.title}
-              fieldId={scmRepositoryEntityAttributes.internalUrl.id}
-              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
-            >
-              {serviceContainerEditPageGet.data && <ScmRepositoryUrl internalScmRepository={serviceContainerEditPageGet.data} />}
-            </FormGroup>
-            <FormGroup
-              label={scmRepositoryEntityAttributes.externalUrl.title}
-              fieldId={scmRepositoryEntityAttributes.externalUrl.id}
-              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />}
-            >
-              <TextInput
-                isRequired
+
+        <FormGroup
+          isRequired={!isEditPage}
+          label={scmRepositoryEntityAttributes.externalUrl.title}
+          fieldId={scmRepositoryEntityAttributes.externalUrl.id}
+          labelIcon={
+            <TooltipWrapper
+              tooltip={
+                isEditPage ? scmRepositoryEntityAttributes.externalUrl.tooltip : scmRepositoryEntityAttributes.scmUrl.tooltip
+              }
+            />
+          }
+        >
+          <FormInput
+            {...register<string>(
+              scmRepositoryEntityAttributes.externalUrl.id,
+              isEditPage ? editFieldConfigs.externalUrl : createFieldConfigs.externalUrl
+            )}
+            render={(registerData) => (
+              <TextInputFindMatch
+                isRequired={!isEditPage}
                 type="text"
                 id={scmRepositoryEntityAttributes.externalUrl.id}
                 name={scmRepositoryEntityAttributes.externalUrl.id}
                 autoComplete="off"
-                {...register<string>(scmRepositoryEntityAttributes.externalUrl.id, editFieldConfigs.externalUrl)}
+                validator={(value) => !!value && validateScmUrl(value)}
+                fetchCallback={(value) => serviceContainerScmRepositories.run({ serviceData: { matchUrl: value } })}
+                onMatch={(scmRepositories: SCMRepositoryPage) => setSelectedScmRepository(scmRepositories.content?.[0])}
+                onNoMatch={() => setSelectedScmRepository(undefined)}
+                {...registerData}
               />
-              <FormInputHelperText variant="error">
-                {getFieldErrors(scmRepositoryEntityAttributes.externalUrl.id)}
-              </FormInputHelperText>
-            </FormGroup>
-          </>
-        )}
+            )}
+          />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(scmRepositoryEntityAttributes.externalUrl.id)}
+          </FormInputHelperText>
+        </FormGroup>
+
         <FormGroup
           label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
           fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
@@ -252,10 +272,29 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             {getFieldErrors(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
           </FormInputHelperText>
         </FormGroup>
+
+        {getFieldState(scmRepositoryEntityAttributes.externalUrl.id) === 'success' && (
+          <ServiceContainerLoading
+            title="SCM Repository"
+            emptyContent={<ScmRepositoryUrlAlert variant="not-synced" {...selectedScmRepository} />}
+            {...serviceContainerScmRepositories}
+          >
+            <ScmRepositoryUrlAlert
+              variant="synced"
+              alertLevel={hasExternalUrlChanged ? 'danger' : 'info'}
+              {...selectedScmRepository}
+            />
+          </ServiceContainerLoading>
+        )}
+
         <ActionGroup>
           <Button
             variant="primary"
-            isDisabled={isSubmitDisabled || !hasFormChanged}
+            isDisabled={
+              isSubmitDisabled ||
+              !hasFormChanged ||
+              (hasExternalUrlChanged && (serviceContainerScmRepositories.loading || !!selectedScmRepository))
+            }
             onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
           >
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.scmRepository}
