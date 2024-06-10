@@ -1,5 +1,6 @@
 import {
   Alert,
+  AlertProps,
   DescriptionList,
   DescriptionListDescription,
   DescriptionListGroup,
@@ -12,6 +13,7 @@ import { isBoolean } from 'utils/entityRecognition';
 
 interface IScmRepositoryUrlAlertProps {
   variant: 'synced' | 'not-synced';
+  alertLevel?: AlertProps['variant'];
   internalUrl?: SCMRepository['internalUrl'];
   externalUrl?: SCMRepository['externalUrl'];
   preBuildSyncEnabled?: SCMRepository['preBuildSyncEnabled'];
@@ -19,16 +21,17 @@ interface IScmRepositoryUrlAlertProps {
 
 export const ScmRepositoryUrlAlert = ({
   variant,
+  alertLevel = 'info',
   internalUrl,
   externalUrl,
   preBuildSyncEnabled,
 }: IScmRepositoryUrlAlertProps) => {
   if (variant === 'not-synced') {
-    return <Alert variant="info" isInline title="This repository is not synced yet." />;
+    return <Alert variant={alertLevel} isInline title="This repository is not synced yet." />;
   }
 
   return (
-    <Alert variant="info" isInline title="This external repository is already synced.">
+    <Alert variant={alertLevel} isInline title="This external repository is already synced.">
       <DescriptionList isCompact>
         <DescriptionListGroup>
           <DescriptionListTerm>Internal URL</DescriptionListTerm>
