@@ -1,6 +1,6 @@
 import { MinusCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import { CubesIcon } from '@patternfly/react-icons';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 
@@ -38,7 +38,7 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
     <>
       {configChanges.length ? (
         <ContentBox borderTop>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th />
@@ -77,7 +77,7 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ContentBox>
       ) : (
         <ContentBox borderTop>

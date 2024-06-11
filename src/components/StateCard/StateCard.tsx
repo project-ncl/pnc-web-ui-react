@@ -1,4 +1,4 @@
-import { EmptyState, EmptyStateBody, EmptyStateIcon, Title } from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateHeader, EmptyStateIcon } from '@patternfly/react-core';
 
 interface IStateCard {
   children?: React.ReactNode;
@@ -17,10 +17,7 @@ interface IStateCard {
  */
 export const StateCard = ({ children, title, icon }: React.PropsWithChildren<IStateCard>) => (
   <EmptyState>
-    <EmptyStateIcon variant="container" component={icon} />
-    <Title size="lg" headingLevel="h4">
-      {title}
-    </Title>
+    <EmptyStateHeader titleText={title} icon={<EmptyStateIcon icon={icon} />} headingLevel="h4" />
     <EmptyStateBody>{children}</EmptyStateBody>
   </EmptyState>
 );

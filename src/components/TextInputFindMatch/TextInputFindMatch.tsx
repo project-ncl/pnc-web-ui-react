@@ -41,7 +41,7 @@ export const TextInputFindMatch = <T extends TServiceData>({
 
   return (
     <TextInput
-      onChange={(value) => {
+      onChange={(_event, value) => {
         onChange(value);
 
         const trimmedValue = value.trim();

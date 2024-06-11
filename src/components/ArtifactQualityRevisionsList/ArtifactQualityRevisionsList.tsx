@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 
 import { ArtifactRevisionPage } from 'pnc-api-types-ts';
 
@@ -32,7 +32,7 @@ export const ArtifactQualityRevisionsList = ({
     <>
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerQualityRevisions} title={PageTitles.artifactQualityRevisions}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={20}>{artifactQualityRevisionEntityAttributes.modificationTime.title}</Th>
@@ -55,7 +55,7 @@ export const ArtifactQualityRevisionsList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

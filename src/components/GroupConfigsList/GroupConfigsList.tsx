@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
 import { GroupConfigPage } from 'pnc-api-types-ts';
@@ -54,7 +54,7 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerGroupConfigs} title={PageTitles.groupConfigs}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
@@ -76,7 +76,7 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

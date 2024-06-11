@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
 
 import { MilestoneInfoPage } from 'pnc-api-types-ts';
@@ -33,7 +33,7 @@ export const ArtifactProductMilestonesReleasesList = ({
     <>
       <ContentBox>
         <ServiceContainerLoading {...serviceContainerArtifactProductMilestonesReleases} title={PageTitles.productMilestones}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={20}>{artifactProductMilestoneReleaseEntityAttributes.productName.title}</Th>
@@ -91,7 +91,7 @@ export const ArtifactProductMilestonesReleasesList = ({
                 )
               )}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

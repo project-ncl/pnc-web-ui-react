@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
 import { ProjectPage } from 'pnc-api-types-ts';
@@ -54,7 +54,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProjects} title={PageTitles.projects}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
@@ -80,7 +80,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

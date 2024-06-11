@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProducts} title={PageTitles.products}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
@@ -84,7 +84,7 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

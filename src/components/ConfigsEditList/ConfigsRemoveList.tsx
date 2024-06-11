@@ -1,5 +1,5 @@
 import { Button } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
 import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
@@ -138,7 +138,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
           {...serviceContainerConfigs}
           title={isBuildVariant ? PageTitles.buildConfigs : PageTitles.groupConfigs}
         >
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th
@@ -170,7 +170,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
                         rowIndex,
                         onSelect: (_, isSelecting) => toggleItemCheckWithBulk(config, isSelecting),
                         isSelected: isItemChecked(config),
-                        disable: !!disabledReason,
+                        isDisabled: !!disabledReason,
                       }}
                     />
                     <Td>
@@ -188,7 +188,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
                             toggleItemCheck(config, false);
                           }}
                           isAriaDisabled={!!disabledReason}
-                          isSmall
+                          size="sm"
                         >
                           Remove
                         </Button>
@@ -198,7 +198,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
                 );
               })}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

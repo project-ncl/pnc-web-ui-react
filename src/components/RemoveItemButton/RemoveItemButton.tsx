@@ -6,5 +6,5 @@ interface IRemoveItemButtonProps {
 }
 
 export const RemoveItemButton = ({ onRemove }: IRemoveItemButtonProps) => (
-  <Button variant="plain" icon={<TimesCircleIcon />} onClick={onRemove} isSmall isInline />
+  <Button variant="plain" icon={<TimesCircleIcon />} onClick={onRemove} size="sm" isInline />
 );

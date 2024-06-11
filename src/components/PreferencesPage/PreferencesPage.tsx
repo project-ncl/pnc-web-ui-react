@@ -78,7 +78,7 @@ export const PreferencesPage = () => {
               label="Enabled"
               labelOff="Disabled"
               isChecked={isExperimentalContentEnabled}
-              onChange={(checked) => {
+              onChange={(_, checked) => {
                 setIsExperimentalContentEnabled(checked);
                 window.localStorage.setItem(experimentalContentEnabledLocalStorageId, `${checked}`);
                 window.location.reload();
@@ -118,7 +118,7 @@ export const PreferencesPage = () => {
                   autoComplete="off"
                   value={loggerLabel.value}
                   validated={loggerLabel.validated}
-                  onChange={(value) => updateLoggerLabel(value)}
+                  onChange={(_, value) => updateLoggerLabel(value)}
                   onBlur={() => {
                     if (loggerLabel.changed) {
                       window.location.reload();

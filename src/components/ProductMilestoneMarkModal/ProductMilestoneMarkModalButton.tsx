@@ -51,7 +51,7 @@ export const ProductMilestoneMarkModalButton = ({
               'text-align-left'
             )}
             isBlock
-            isSmall
+            size="sm"
           >
             <ServiceContainerLoading {...serviceContainerProductVersion} variant="icon" title="Product Version" /> Mark as current
           </Button>

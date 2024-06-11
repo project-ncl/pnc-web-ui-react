@@ -18,7 +18,6 @@ export const CopyToClipboard = ({ suffixComponent, isInline, children }: React.P
   <Split hasGutter>
     <SplitItem isFilled>
       <ClipboardCopy
-        removeFindDomNode
         isReadOnly
         hoverTip="Copy"
         clickTip="Copied"

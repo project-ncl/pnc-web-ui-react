@@ -5,7 +5,7 @@ import {
   OptionsMenuSeparator,
   OptionsMenuToggle,
   OptionsMenuToggleProps,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 
@@ -99,7 +99,6 @@ export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISo
       }
       isPlain
       isGrouped
-      removeFindDomNode
     />
   );
 };

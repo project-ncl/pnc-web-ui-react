@@ -6,4 +6,4 @@ interface ILoadingSpinnerProps {
 
 export const LoadingSpinner = ({ isInline = false }: ILoadingSpinnerProps) =>
   // isInline - beta feature currently in this Patternfly component
-  isInline ? <Spinner isInline isSVG aria-label="Loading..." /> : <Spinner diameter="75px" isSVG aria-label="Loading..." />;
+  isInline ? <Spinner isInline aria-label="Loading..." /> : <Spinner diameter="75px" aria-label="Loading..." />;

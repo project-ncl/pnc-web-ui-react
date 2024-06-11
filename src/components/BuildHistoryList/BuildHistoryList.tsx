@@ -1,5 +1,5 @@
 import { ToolbarItem } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
 import { BuildPage, GroupBuildPage } from 'pnc-api-types-ts';
@@ -79,7 +79,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.buildHistory}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Tbody>
               {serviceContainerBuilds.data?.content?.map((build, rowIndex) => (
                 <Tr key={rowIndex}>
@@ -89,7 +89,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

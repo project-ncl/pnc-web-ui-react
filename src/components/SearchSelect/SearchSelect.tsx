@@ -1,4 +1,5 @@
-import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant, Spinner } from '@patternfly/react-core';
+import { Spinner } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant } from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
@@ -230,7 +231,7 @@ export const SearchSelect = ({
           return undefined;
         }}
         isOpen={isSelectOpen}
-        onToggle={(isOpen) => {
+        onToggle={(_, isOpen) => {
           setIsSelectOpen(isOpen);
         }}
         width={width}

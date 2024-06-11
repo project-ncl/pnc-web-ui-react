@@ -1,20 +1,23 @@
 import {
   Button,
   ButtonVariant,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
   Nav,
   NavExpandable,
   NavItem,
   NavList,
   Page,
+  PageSidebar,
+  PageSidebarBody,
+} from '@patternfly/react-core';
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
   PageHeader,
   PageHeaderTools,
   PageHeaderToolsGroup,
   PageHeaderToolsItem,
-  PageSidebar,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import {
   BellIcon,
   CaretDownIcon,
@@ -309,7 +312,13 @@ export const AppLayout = () => {
     );
   };
 
-  const AppSidebar = <PageSidebar nav={<AppNavigation />} />;
+  const AppSidebar = (
+    <PageSidebar>
+      <PageSidebarBody>
+        <AppNavigation />
+      </PageSidebarBody>
+    </PageSidebar>
+  );
 
   return (
     <>

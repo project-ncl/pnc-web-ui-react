@@ -18,7 +18,7 @@ export const ProductMilestoneAnalyzeDeliverablesModalButton = ({
       onClick={toggleModal}
       className={css(variant === 'list' && 'black-color', 'dropdown-item-font-size', 'text-align-left')}
       isBlock
-      isSmall
+      size="sm"
     >
       Analyze Deliverables
     </Button>

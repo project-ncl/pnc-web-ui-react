@@ -1,5 +1,5 @@
 import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
 import { BuildConfigWithLatestPage } from 'pnc-api-types-ts';
@@ -104,7 +104,7 @@ export const BuildConfigsList = ({
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 {columns.includes(buildConfigEntityAttributes.name.id) && (
@@ -218,7 +218,7 @@ export const BuildConfigsList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

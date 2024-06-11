@@ -1,5 +1,5 @@
 import { Flex, FlexItem, FlexProps } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -47,7 +47,7 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProductVersions} title={PageTitles.productVersions}>
-          <TableComposable variant="compact">
+          <Table variant="compact">
             <Thead>
               <Tr>
                 <Th width={10}>{productVersionEntityAttributes.version.title}</Th>
@@ -90,7 +90,7 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

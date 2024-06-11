@@ -9,7 +9,7 @@ import {
   FlexProps,
 } from '@patternfly/react-core';
 import { CubesIcon, TimesCircleIcon } from '@patternfly/react-icons';
-import { ExpandableRowContent, InnerScrollContainer, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { ExpandableRowContent, InnerScrollContainer, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -163,7 +163,7 @@ export const ProductMilestoneComparisonTable = ({
                   variant="plain"
                   icon={<TimesCircleIcon />}
                   className="p-0"
-                  isSmall
+                  size="sm"
                   isInline
                 />
               </FlexItem>
@@ -295,9 +295,9 @@ export const ProductMilestoneComparisonTable = ({
           notYetContent={
             <>
               <InnerScrollContainer>
-                <TableComposable isStriped variant="compact">
+                <Table isStriped variant="compact">
                   {!!productMilestoneColumns.length && tableHead}
-                </TableComposable>
+                </Table>
               </InnerScrollContainer>
               <ContentBox>
                 <StateCard icon={CubesIcon} title="Add columns and fetch data" />
@@ -306,7 +306,7 @@ export const ProductMilestoneComparisonTable = ({
           }
         >
           <InnerScrollContainer>
-            <TableComposable isExpandable isStriped variant="compact">
+            <Table isExpandable isStriped variant="compact">
               {/* table head */}
               {(!!productMilestoneColumns.length ||
                 serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData) &&
@@ -386,7 +386,7 @@ export const ProductMilestoneComparisonTable = ({
                     </Tr>
                   </Tbody>
                 ))}
-            </TableComposable>
+            </Table>
           </InnerScrollContainer>
         </ServiceContainerLoading>
       </ContentBox>

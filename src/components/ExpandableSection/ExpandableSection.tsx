@@ -17,7 +17,7 @@ export interface IExpandableSectionProps {
  * @param children - Section contents
  */
 export const ExpandableSection = ({ children, title, isExpanded, onToggle }: PropsWithChildren<IExpandableSectionProps>) => (
-  <ExpandableSectionPF toggleText={title} isExpanded={isExpanded} onToggle={onToggle}>
+  <ExpandableSectionPF toggleText={title} isExpanded={isExpanded} onToggle={(_, value) => onToggle(value)}>
     {children}
   </ExpandableSectionPF>
 );

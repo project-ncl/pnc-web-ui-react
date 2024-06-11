@@ -1,14 +1,5 @@
-import {
-  Checkbox,
-  Divider,
-  Dropdown,
-  DropdownProps,
-  DropdownToggle,
-  List,
-  ListItem,
-  Popover,
-  Radio,
-} from '@patternfly/react-core';
+import { Checkbox, Divider, List, ListItem, Popover, Radio } from '@patternfly/react-core';
+import { Dropdown, DropdownProps, DropdownToggle } from '@patternfly/react-core/deprecated';
 import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useState } from 'react';
@@ -217,7 +208,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
               id="isTempBuild-false-radio"
             />
             <span className="pnc-info-icon">
-              <Popover removeFindDomNode bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
+              <Popover bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <InfoCircleIcon />
                 </small>
@@ -236,7 +227,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
               id="isTempBuild-true-radio"
             />
             <span className="pnc-warning-icon">
-              <Popover removeFindDomNode bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
+              <Popover bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <WarningTriangleIcon />
                 </small>
@@ -249,13 +240,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
               <div>
                 Alignment Preference
                 <span className="pnc-info-icon">
-                  <Popover
-                    removeFindDomNode
-                    bodyContent={alignmentPreferencePopoverText}
-                    showClose={false}
-                    enableFlip={false}
-                    position="auto"
-                  >
+                  <Popover bodyContent={alignmentPreferencePopoverText} showClose={false} enableFlip={false} position="auto">
                     <small>
                       <InfoCircleIcon />
                     </small>
@@ -286,13 +271,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
           <div>
             Rebuild Mode
             <span className="pnc-info-icon">
-              <Popover
-                removeFindDomNode
-                bodyContent={rebuildModePopoverText}
-                showClose={false}
-                enableFlip={false}
-                position="auto"
-              >
+              <Popover bodyContent={rebuildModePopoverText} showClose={false} enableFlip={false} position="auto">
                 <small>
                   <InfoCircleIcon />
                 </small>
@@ -338,13 +317,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
                   name="keepPodOnFailure-check"
                 />
                 <span className="pnc-info-icon">
-                  <Popover
-                    removeFindDomNode
-                    bodyContent={keepPodOnFailureAPopoverText}
-                    showClose={false}
-                    enableFlip={false}
-                    position="auto"
-                  >
+                  <Popover bodyContent={keepPodOnFailureAPopoverText} showClose={false} enableFlip={false} position="auto">
                     <small>
                       <InfoCircleIcon />
                     </small>
@@ -360,13 +333,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
                   name="buildDependencies-check"
                 />
                 <span className="pnc-info-icon">
-                  <Popover
-                    removeFindDomNode
-                    bodyContent={buildDependenciesPopoverText}
-                    showClose={false}
-                    enableFlip={false}
-                    position="auto"
-                  >
+                  <Popover bodyContent={buildDependenciesPopoverText} showClose={false} enableFlip={false} position="auto">
                     <small>
                       <InfoCircleIcon />
                     </small>
@@ -385,13 +352,7 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
                 {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
                 explicitly defined dependencies
                 <span className="pnc-info-icon">
-                  <Popover
-                    removeFindDomNode
-                    bodyContent={descriptionTextPopoverText}
-                    showClose={false}
-                    enableFlip={false}
-                    position="auto"
-                  >
+                  <Popover bodyContent={descriptionTextPopoverText} showClose={false} enableFlip={false} position="auto">
                     <InfoCircleIcon />
                   </Popover>
                 </span>

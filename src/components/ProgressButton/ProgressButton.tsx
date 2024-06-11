@@ -76,8 +76,7 @@ export const ProgressButton = ({
         icon={isErrorState ? <ExclamationCircleIcon /> : (!showLoadingSpinner || !serviceContainer.loading) && icon}
         isLoading={showLoadingSpinner && serviceContainer.loading}
         isAriaDisabled={isDisabled || serviceContainer.loading}
-        isSmall={isSmall}
-        isLarge={isLarge}
+        size={isSmall ? 'sm' : isLarge ? 'lg' : 'default'}
         className={className}
       >
         {children}

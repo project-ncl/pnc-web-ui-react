@@ -1,4 +1,4 @@
-import { ActionsColumn, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { ActionsColumn, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
 import { ProductMilestone, ProductMilestonePage } from 'pnc-api-types-ts';
@@ -84,7 +84,7 @@ export const ProductVersionMilestonesList = ({
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProductMilestones} title={PageTitles.productMilestones}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={15} sort={getSortParams(sortOptions.sortAttributes.version.id)}>
@@ -186,7 +186,7 @@ export const ProductVersionMilestonesList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

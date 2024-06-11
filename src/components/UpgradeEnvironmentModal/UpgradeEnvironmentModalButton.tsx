@@ -19,7 +19,7 @@ export const UpgradeEnvironmentModalButton = ({ toggleModal, buildConfig }: IUpg
   return (
     <ProtectedComponent>
       <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button variant="tertiary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} isSmall>
+        <Button variant="tertiary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} size="sm">
           Upgrade <LevelUpAltIcon />
         </Button>
       </TooltipWrapper>

@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
 import { SCMRepositoryPage } from 'pnc-api-types-ts';
@@ -55,7 +55,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerScmRepositories} title={PageTitles.scmRepositories}>
-          <TableComposable variant="compact" isStriped>
+          <Table variant="compact" isStriped>
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
@@ -80,7 +80,7 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

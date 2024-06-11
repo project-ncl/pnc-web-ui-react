@@ -1,4 +1,5 @@
-import { Popover, Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import { Popover } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosResponse } from 'axios';
 import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
@@ -497,7 +498,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                 <small>
                   Metrics Descriptions &nbsp;
                   <Popover
-                    removeFindDomNode
                     aria-label="Basic popover"
                     bodyContent={MetricsPopoverContent(metricsTooltipList)}
                     showClose={false}
@@ -534,7 +534,6 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                 </Select>
                 &nbsp;build
                 <Popover
-                  removeFindDomNode
                   aria-label="Basic popover"
                   bodyContent={`Always a maximum of ${BUILDS_DISPLAY_LIMIT} builds will be displayed if they are available, eg. if every ${BUILDS_DISPLAY_LIMIT_EXAMPLE}th build is displayed, ${BUILDS_DISPLAY_LIMIT} builds will cover last ${
                     BUILDS_DISPLAY_LIMIT * BUILDS_DISPLAY_LIMIT_EXAMPLE

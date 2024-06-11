@@ -34,7 +34,6 @@ export const SshCredentialsButton = ({
 
   return (
     <Popover
-      removeFindDomNode
       position="bottom"
       bodyContent={
         <DescriptionList isHorizontal isCompact>
