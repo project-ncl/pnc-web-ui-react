@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router-dom';
 
 import { BuildPushResult, BuildPushResultRef } from 'pnc-api-types-ts';
@@ -25,7 +25,7 @@ export const PushedBuildsList = ({ pushedBuilds }: IPushedBuildsListProps) => (
   <>
     {!!pushedBuilds?.length ? (
       <ContentBox>
-        <TableComposable isStriped variant="compact">
+        <Table isStriped variant="compact">
           <Thead>
             <Tr>
               <Th width={15}>{buildPushResultEntityAttributes.status.title}</Th>
@@ -54,7 +54,7 @@ export const PushedBuildsList = ({ pushedBuilds }: IPushedBuildsListProps) => (
               </Tr>
             ))}
           </Tbody>
-        </TableComposable>
+        </Table>
       </ContentBox>
     ) : (
       <ContentBox padding>

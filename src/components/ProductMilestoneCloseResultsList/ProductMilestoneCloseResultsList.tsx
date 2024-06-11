@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -61,7 +61,7 @@ export const ProductMilestoneCloseResultsList = ({
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerCloseResults} title="Close Results">
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={20}>{productMilestoneCloseResultEntityAttributes.id.title}</Th>
@@ -93,7 +93,7 @@ export const ProductMilestoneCloseResultsList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

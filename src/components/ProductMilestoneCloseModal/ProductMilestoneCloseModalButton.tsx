@@ -15,7 +15,7 @@ export const ProductMilestoneCloseModalButton = ({ toggleModal, variant }: IProd
       onClick={toggleModal}
       className={css(variant === 'list' && 'black-color', 'dropdown-item-font-size', 'text-align-left')}
       isBlock
-      isSmall
+      size="sm"
     >
       Close Milestone
     </Button>

@@ -5,7 +5,7 @@ import {
   DescriptionListTerm,
   Switch,
 } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -181,7 +181,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
               id={StorageKeys.isBuildsListCompactMode}
               label="Compact Mode"
               isChecked={isCompactMode}
-              onChange={(checked) => {
+              onChange={(_, checked) => {
                 setIsCompactMode(checked);
                 window.localStorage.setItem(StorageKeys.isBuildsListCompactMode, `${checked}`);
               }}
@@ -192,7 +192,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.builds}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 {columns.includes(buildEntityAttributes.status.id) && (
@@ -260,7 +260,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

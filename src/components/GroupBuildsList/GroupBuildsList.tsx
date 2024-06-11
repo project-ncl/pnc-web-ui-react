@@ -5,7 +5,7 @@ import {
   DescriptionListTerm,
   ToolbarItem,
 } from '@patternfly/react-core';
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
 import { GroupBuildPage } from 'pnc-api-types-ts';
@@ -96,7 +96,7 @@ export const GroupBuildsList = ({
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerGroupBuilds} title={PageTitles.groupBuilds}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 {columns.includes(groupBuildEntityAttributes.status.id) && (
@@ -174,7 +174,7 @@ export const GroupBuildsList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

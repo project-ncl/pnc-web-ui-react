@@ -15,7 +15,7 @@ interface ITooltipWrapperProps {
  */
 export const TooltipWrapper = ({ tooltip, isVisible, children }: React.PropsWithChildren<ITooltipWrapperProps>) =>
   tooltip ? (
-    <Tooltip removeFindDomNode content={tooltip} isVisible={isVisible}>
+    <Tooltip content={tooltip} isVisible={isVisible}>
       <> {children ? <>{children}</> : <InfoCircleIcon />}</>
     </Tooltip>
   ) : (

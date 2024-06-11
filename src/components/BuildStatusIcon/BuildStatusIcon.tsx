@@ -74,7 +74,6 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
       )}
       {isCorrupted && (
         <Tooltip
-          removeFindDomNode
           position="right"
           content="The build may have completed successfully but has since been corrupted by a system error."
         >
@@ -84,11 +83,7 @@ export const BuildStatusIcon = ({ build, long }: IBuildStatusIcon) => {
         </Tooltip>
       )}
       {build.temporaryBuild && (
-        <Tooltip
-          removeFindDomNode
-          position="right"
-          content={<span>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</span>}
-        >
+        <Tooltip position="right" content={<span>{alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].tooltip}</span>}>
           <IconWrapper variant="small">
             <OutlinedClockIcon className={styles[alignmentData[build.alignmentPreference || 'NOT_SPECIFIED'].className]} />
           </IconWrapper>

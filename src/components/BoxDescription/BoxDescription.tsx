@@ -35,7 +35,7 @@ export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
         <DescriptionIcon />
       </TooltipWrapper>
     ) : (
-      <Popover removeFindDomNode bodyContent={description} showClose={false} enableFlip={false} position="left-start">
+      <Popover bodyContent={description} showClose={false} enableFlip={false} position="left-start">
         <DescriptionIcon />
       </Popover>
     )}

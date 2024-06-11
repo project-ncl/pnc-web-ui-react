@@ -10,7 +10,7 @@ import {
   Switch,
 } from '@patternfly/react-core';
 import { BuildIcon } from '@patternfly/react-icons';
-import { ExpandableRowContent, TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { ExpandableRowContent, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -152,7 +152,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
             id="toggle-artifact-name-parsed"
             label="Parse Artifact identifier"
             isChecked={isArtifactIdentifierParsed}
-            onChange={(checked) => {
+            onChange={(_, checked) => {
               setIsArtifactIdentifierParsed(checked);
               window.localStorage.setItem('is-artifact-identifier-parsed', `${checked}`);
             }}
@@ -173,7 +173,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerArtifacts} title={PageTitles.artifacts}>
-          <TableComposable isExpandable isStriped variant="compact">
+          <Table isExpandable isStriped variant="compact">
             <Thead>
               {/**
                * If column order is changed, the property tableColumnIndex (see sortAttributes) has to be updated.
@@ -347,7 +347,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                 </Tr>
               </Tbody>
             ))}
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -66,7 +66,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerDeliverablesAnalysis} title="Deliverables Analysis">
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={20}>{productMilestoneDeliverablesAnalysisEntityAttributes.id.title}</Th>
@@ -102,7 +102,7 @@ export const ProductMilestoneDeliverablesAnalysisList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

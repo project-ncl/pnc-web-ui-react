@@ -21,7 +21,7 @@ export const OldUiContentLinkBox = ({ contentTitle, route }: IOldUiContentLinkBo
 
   return (
     <ContentBox>
-      <EmptyState variant="small">
+      <EmptyState variant="sm">
         <div> To display {contentTitle}, visit:</div>
         <EmptyStateBody>
           <div>

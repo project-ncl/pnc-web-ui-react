@@ -109,10 +109,10 @@ export const DependencyTree = <T extends Build | GroupBuild>({
       <div className={css(isBuild(rootBuild) && 'm-t-20')}>
         <div className={styles['sub-title-bar']}>
           <strong>Dependencies</strong>
-          <Button variant="tertiary" onClick={() => setBuildDependenciesExpandedByLevel(1)} isSmall>
+          <Button variant="tertiary" onClick={() => setBuildDependenciesExpandedByLevel(1)} size="sm">
             Expand 1 Level
           </Button>
-          <Button variant="tertiary" onClick={() => setBuildDependenciesExpandedByLevel(2)} isSmall>
+          <Button variant="tertiary" onClick={() => setBuildDependenciesExpandedByLevel(2)} size="sm">
             Expand 2 Levels
           </Button>
           <Button
@@ -122,11 +122,11 @@ export const DependencyTree = <T extends Build | GroupBuild>({
                 areAllBuildDependenciesExpanded !== undefined ? !areAllBuildDependenciesExpanded : true
               )
             }
-            isSmall
+            size="sm"
           >
             {areAllBuildDependenciesExpanded ? 'Collapse All' : 'Expand All'}
           </Button>
-          <Button variant="tertiary" onClick={() => setBuildDependenciesWithErrorExpanded()} isSmall>
+          <Button variant="tertiary" onClick={() => setBuildDependenciesWithErrorExpanded()} size="sm">
             Expand All Failed
           </Button>
         </div>

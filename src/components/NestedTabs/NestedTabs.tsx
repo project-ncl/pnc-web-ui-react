@@ -1,9 +1,9 @@
-import { Tabs } from '@patternfly/react-core';
-import { PropsWithChildren } from 'react';
+import { Tabs, TabsProps } from '@patternfly/react-core';
 
 interface INestedTabsProps {
   activeTabKey: number;
   onTabSelect: (tabKey: INestedTabsProps['activeTabKey']) => void;
+  children: TabsProps['children'];
 }
 
 /**
@@ -16,7 +16,7 @@ interface INestedTabsProps {
  * @param onTabSelect - On tab item selection callback
  * @param children - Tab item components
  */
-export const NestedTabs = ({ activeTabKey, onTabSelect, children }: PropsWithChildren<INestedTabsProps>) => (
+export const NestedTabs = ({ activeTabKey, onTabSelect, children }: INestedTabsProps) => (
   <Tabs activeKey={activeTabKey} onSelect={(_, tabIndex) => onTabSelect(Number(tabIndex))} isBox>
     {children}
   </Tabs>

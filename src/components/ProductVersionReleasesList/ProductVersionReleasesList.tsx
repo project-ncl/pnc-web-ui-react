@@ -1,4 +1,4 @@
-import { TableComposable, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -67,7 +67,7 @@ export const ProductVersionReleasesList = ({
 
       <ContentBox borderTop>
         <ServiceContainerLoading {...serviceContainerProductReleases} title={PageTitles.productReleases}>
-          <TableComposable isStriped variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={25} sort={getSortParams(sortOptions.sortAttributes.version.id)}>
@@ -111,7 +111,7 @@ export const ProductVersionReleasesList = ({
                 </Tr>
               ))}
             </Tbody>
-          </TableComposable>
+          </Table>
         </ServiceContainerLoading>
       </ContentBox>
 

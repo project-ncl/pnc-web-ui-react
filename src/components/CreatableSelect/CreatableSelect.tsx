@@ -1,4 +1,4 @@
-import { Select, SelectProps } from '@patternfly/react-core';
+import { Select, SelectProps } from '@patternfly/react-core/deprecated';
 
 import { IRegisterData } from 'hooks/useForm';
 

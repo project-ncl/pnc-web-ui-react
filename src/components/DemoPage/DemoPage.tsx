@@ -346,7 +346,7 @@ export const DemoPage = () => {
                       isOpen={isSelectOpen}
                       selections={value}
                       validated={validated}
-                      onToggle={(isOpen) => {
+                      onToggle={(_, isOpen) => {
                         setIsSelectOpen(isOpen);
                       }}
                       onSelect={(_, selection) => {

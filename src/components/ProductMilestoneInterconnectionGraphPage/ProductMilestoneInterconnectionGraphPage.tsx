@@ -149,7 +149,11 @@ export const ProductMilestoneInterconnectionGraphPage = ({
               />
             </ToolbarItem>
             <ToolbarItem>
-              <Switch label="Limit nesting" isChecked={hasLimitedNesting} onChange={(checked) => setHasLimitedNesting(checked)} />
+              <Switch
+                label="Limit nesting"
+                isChecked={hasLimitedNesting}
+                onChange={(_, checked) => setHasLimitedNesting(checked)}
+              />
             </ToolbarItem>
             <ToolbarItem>
               <NumberInput

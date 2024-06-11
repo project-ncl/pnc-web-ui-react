@@ -1,4 +1,5 @@
-import { Button, Chip, ChipGroup, InputGroup, Select, SelectOption, SelectVariant, TextInput } from '@patternfly/react-core';
+import { Button, Chip, ChipGroup, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -205,70 +206,74 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
       {/* FILTER INPUTS */}
       <InputGroup>
         {/* filter attribute */}
-        <Select
-          width="200px"
-          variant={SelectVariant.single}
-          onToggle={(isOpen) => {
-            setIsFilterAttributeOpen(isOpen);
-          }}
-          onSelect={(event, selection, isPlaceholder) => {
-            if (!isPlaceholder) {
-              setFilterAttribute(selection as TFilterAttribute);
-              setIsFilterAttributeOpen(false);
-            }
-          }}
-          selections={filterAttribute}
-          isOpen={isFilterAttributeOpen}
-        >
-          {Object.keys(filterOptions.filterAttributes).map((filterAttributeKey: string) => {
-            const filterAttribute = filterOptions.filterAttributes[filterAttributeKey];
-            // use 'title' attribute as default
-            filterAttribute.toString = () => {
-              return filterAttribute.title;
-            };
-
-            return <SelectOption key={filterAttribute.id} value={filterAttribute} />;
-          })}
-        </Select>
-
-        {/* filter value */}
-        {filterAttribute.values?.length ? (
+        <InputGroupItem>
           <Select
-            className={styles['form-input']}
+            width="200px"
             variant={SelectVariant.single}
-            hasPlaceholderStyle
-            placeholderText="Filter by option"
-            onToggle={(isOpen) => {
-              setIsFilterValueOpen(isOpen);
+            onToggle={(_, isOpen) => {
+              setIsFilterAttributeOpen(isOpen);
             }}
-            onSelect={(event, selection, isPlaceholder) => {
-              addFilter(filterAttribute, selection as string);
-              setIsFilterValueOpen(false);
-            }}
-            isOpen={isFilterValueOpen}
-          >
-            {filterAttribute.values.map((filterValue: string) => {
-              return <SelectOption key={filterValue} value={filterValue} />;
-            })}
-          </Select>
-        ) : (
-          <TextInput
-            className={styles['form-input']}
-            type="text"
-            id="filter-text"
-            value={filterValue}
-            placeholder={filterAttribute.filter.placeholder || FILTERING_PLACEHOLDER_DEFAULT}
-            onChange={(value) => {
-              setFilterValue(value);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && filterValue && filterValue.trim().length > 0) {
-                addFilter(filterAttribute, filterValue);
-                setFilterValue('');
+            onSelect={(_, selection, isPlaceholder) => {
+              if (!isPlaceholder) {
+                setFilterAttribute(selection as TFilterAttribute);
+                setIsFilterAttributeOpen(false);
               }
             }}
-          />
-        )}
+            selections={filterAttribute}
+            isOpen={isFilterAttributeOpen}
+          >
+            {Object.keys(filterOptions.filterAttributes).map((filterAttributeKey: string) => {
+              const filterAttribute = filterOptions.filterAttributes[filterAttributeKey];
+              // use 'title' attribute as default
+              filterAttribute.toString = () => {
+                return filterAttribute.title;
+              };
+
+              return <SelectOption key={filterAttribute.id} value={filterAttribute} />;
+            })}
+          </Select>
+        </InputGroupItem>
+
+        <InputGroupItem>
+          {/* filter value */}
+          {filterAttribute.values?.length ? (
+            <Select
+              className={styles['form-input']}
+              variant={SelectVariant.single}
+              hasPlaceholderStyle
+              placeholderText="Filter by option"
+              onToggle={(_, isOpen) => {
+                setIsFilterValueOpen(isOpen);
+              }}
+              onSelect={(_, selection, isPlaceholder) => {
+                addFilter(filterAttribute, selection as string);
+                setIsFilterValueOpen(false);
+              }}
+              isOpen={isFilterValueOpen}
+            >
+              {filterAttribute.values.map((filterValue: string) => {
+                return <SelectOption key={filterValue} value={filterValue} />;
+              })}
+            </Select>
+          ) : (
+            <TextInput
+              className={styles['form-input']}
+              type="text"
+              id="filter-text"
+              value={filterValue}
+              placeholder={filterAttribute.filter.placeholder || FILTERING_PLACEHOLDER_DEFAULT}
+              onChange={(_, value) => {
+                setFilterValue(value);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && filterValue && filterValue.trim().length > 0) {
+                  addFilter(filterAttribute, filterValue);
+                  setFilterValue('');
+                }
+              }}
+            />
+          )}
+        </InputGroupItem>
       </InputGroup>
 
       {/* APPLIED FILTERS */}

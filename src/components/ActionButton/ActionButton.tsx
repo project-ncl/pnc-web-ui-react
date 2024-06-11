@@ -49,7 +49,7 @@ export const ActionButton = ({
 }: React.PropsWithChildren<IActionButtonProps>) => (
   <Button
     variant={variant}
-    isSmall
+    size="sm"
     icon={iconType ? iconDictionary[iconType] : null}
     component={link ? (props: any) => <Link {...props} to={link} /> : undefined}
     onClick={action}

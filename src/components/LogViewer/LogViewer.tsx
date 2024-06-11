@@ -124,7 +124,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
             <Switch
               label="Force Following"
               isChecked={isFollowing}
-              onChange={(checked) => {
+              onChange={(_, checked) => {
                 setIsFollowing(checked);
                 window.localStorage.setItem('log-viewer-following', `${checked}`);
               }}
@@ -135,7 +135,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
           <Switch
             label="Wrap Lines"
             isChecked={areLinesWrapped}
-            onChange={(checked) => {
+            onChange={(_, checked) => {
               setIsPaused(true);
               setAreLinesWrapped(checked);
               window.localStorage.setItem('log-viewer-wrapping', `${checked}`);
