@@ -130,9 +130,9 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
                 selections={value || undefined}
                 validated={validated}
                 onToggle={(_, value) => setIsQualitySelectOpen(value)}
-                onSelect={(_, artifactQuality, isPlaceholder) => {
+                onSelect={(event, artifactQuality, isPlaceholder) => {
                   if (!isPlaceholder) {
-                    onChange(artifactQuality as string);
+                    onChange(event, artifactQuality as string);
                     setIsQualitySelectOpen(false);
                   }
                 }}

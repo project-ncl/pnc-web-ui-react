@@ -1,5 +1,5 @@
 import { TextInput, TextInputProps } from '@patternfly/react-core';
-import { useEffect, useRef } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 
 import { ServiceContainerRunnerFunction, TServiceData, areServiceDataPaginated } from 'hooks/useServiceContainer';
 
@@ -9,7 +9,7 @@ interface ITextInputFindMatchProps<T extends TServiceData> extends TextInputProp
   onMatch: (data: T) => void;
   onNoMatch: () => void;
   delayMilliseconds?: number;
-  onChange: (value: string) => void;
+  onChange: (event: FormEvent | undefined, value: string) => void;
 }
 
 /**
@@ -41,8 +41,8 @@ export const TextInputFindMatch = <T extends TServiceData>({
 
   return (
     <TextInput
-      onChange={(_event, value) => {
-        onChange(value);
+      onChange={(event, value) => {
+        onChange(event, value);
 
         const trimmedValue = value.trim();
         clearTimeout(timeout?.current);

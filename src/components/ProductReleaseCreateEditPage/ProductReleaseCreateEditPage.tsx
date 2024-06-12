@@ -262,12 +262,12 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
               render={({ value, onChange }) => (
                 <SearchSelect
                   selectedItem={value}
-                  onSelect={(_, productMilestone: ProductMilestone) => {
-                    onChange(productMilestone.version!);
+                  onSelect={(event, _, productMilestone: ProductMilestone) => {
+                    onChange(event, productMilestone.version!);
                     setSelectedProductMilestone(productMilestone);
                   }}
-                  onClear={() => {
-                    onChange('');
+                  onClear={(event) => {
+                    onChange(event, '');
                     setSelectedProductMilestone(undefined);
                   }}
                   fetchCallback={fetchProductMilestones}
@@ -299,10 +299,10 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
                 isOpen={isSupportLevelSelectOpen}
                 selections={value || undefined}
                 validated={validated}
-                onToggle={setIsSupportLevelSelectOpen}
-                onSelect={(_, supportLevel, isPlaceholder) => {
+                onToggle={(_, value) => setIsSupportLevelSelectOpen(value)}
+                onSelect={(event, supportLevel, isPlaceholder) => {
                   if (!isPlaceholder) {
-                    onChange(supportLevel as string);
+                    onChange(event, supportLevel as string);
                     setIsSupportLevelSelectOpen(false);
                   }
                 }}

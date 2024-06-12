@@ -1,6 +1,6 @@
 import { TextInputProps } from '@patternfly/react-core';
 import { AxiosError, isAxiosError } from 'axios';
-import { useCallback, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
 
 import { PncError, isPncError } from 'common/PncError';
 
@@ -37,7 +37,7 @@ export interface IFieldConfigs {
   [fieldName: string]: TFieldConfig<TValue>;
 }
 
-type OnChangeFunction<T extends TValue> = (value: T) => void;
+type OnChangeFunction<T extends TValue> = (event: FormEvent | undefined, value: T) => void;
 
 type OnBlurFunction = () => void;
 
@@ -112,7 +112,7 @@ export const useForm = () => {
   };
 
   const handleChange = <T extends TValue>(fieldName: string): OnChangeFunction<T> => {
-    return (value: T) => {
+    return (_event: FormEvent | undefined, value: T) => {
       setFields((fields) => {
         const newFields = { ...fields };
         newFields[fieldName] = constructNewFieldOnChange<T>(fieldName, newFields, value);

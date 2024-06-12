@@ -180,7 +180,7 @@ export const ProductMilestoneComparisonTable = ({
         <ToolbarItem>
           <SearchSelect
             selectedItem={selectedProduct?.name}
-            onSelect={(_, entity?: Product) => {
+            onSelect={(_event, _, entity?: Product) => {
               setSelectedProduct(entity);
               setSelectedProductVersion(undefined);
               setSelectedProductMilestone(undefined);
@@ -199,7 +199,7 @@ export const ProductMilestoneComparisonTable = ({
         <ToolbarItem>
           <SearchSelect
             selectedItem={selectedProductVersion?.version}
-            onSelect={(_, entity?: ProductVersion) => {
+            onSelect={(_event, _, entity?: ProductVersion) => {
               setSelectedProductVersion(entity);
               setSelectedProductMilestone(undefined);
             }}
@@ -217,7 +217,7 @@ export const ProductMilestoneComparisonTable = ({
         <ToolbarItem>
           <SearchSelect
             selectedItem={selectedProductMilestone?.version}
-            onSelect={(_, entity?: ProductMilestone) => setSelectedProductMilestone(entity)}
+            onSelect={(_event, _, entity?: ProductMilestone) => setSelectedProductMilestone(entity)}
             onClear={() => setSelectedProductMilestone(undefined)}
             fetchCallback={fetchProductMilestones}
             titleAttribute="version"

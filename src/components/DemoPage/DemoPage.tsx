@@ -36,6 +36,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
@@ -255,7 +256,7 @@ export const DemoPage = () => {
           <ContentBox title="SearchSelect" padding>
             <SearchSelect
               selectedItem={searchSelectValue}
-              onSelect={(selection: string | SelectOptionObject) => {
+              onSelect={(_event, selection: string | SelectOptionObject) => {
                 console.log(`SEARCH SELECT> selected ${selection}`);
                 setSearchSelectValue(selection as string);
               }}
@@ -349,12 +350,12 @@ export const DemoPage = () => {
                       onToggle={(_, isOpen) => {
                         setIsSelectOpen(isOpen);
                       }}
-                      onSelect={(_, selection) => {
-                        onChange(selection as string);
+                      onSelect={(event, selection) => {
+                        onChange(event, selection as string);
                         setIsSelectOpen(false);
                       }}
-                      onClear={() => {
-                        onChange('');
+                      onClear={(event) => {
+                        onChange(event, '');
                         setIsSelectOpen(false);
                       }}
                     >

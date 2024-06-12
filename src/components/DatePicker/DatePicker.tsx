@@ -1,4 +1,5 @@
 import { DatePicker as DatePickerPF } from '@patternfly/react-core';
+import { FormEvent } from 'react';
 
 import { createDateTime } from 'utils/utils';
 
@@ -6,7 +7,7 @@ interface IDatePickerProps {
   id?: string;
   name?: string;
   value: string;
-  onChange: (date: string) => void;
+  onChange: (event: FormEvent | undefined, date: string) => void;
   onBlur: () => void;
   invalidFormatText?: string;
   includeTime?: boolean;
@@ -37,9 +38,7 @@ export const DatePicker = ({
     name={name}
     placeholder={`YYYY-MM-DD${includeTime ? ' HH:MM' : ''}`}
     value={value}
-    onChange={(_, date) => {
-      onChange(date);
-    }}
+    onChange={onChange}
     onBlur={onBlur}
     dateFormat={(date: Date) => (includeTime ? createDateTime({ date }).custom : createDateTime({ date }).date)}
     invalidFormatText={invalidFormatText}
