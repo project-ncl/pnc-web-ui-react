@@ -13,9 +13,9 @@ Object {
         >
           <span
             aria-disabled="false"
-            class="pf-c-button pf-m-primary pf-m-small milestone-label"
+            class="pf-v5-c-button pf-m-primary pf-m-small milestone-label"
             data-ouia-component-id="OUIA-Generated-Button-primary-4"
-            data-ouia-component-type="PF4/Button"
+            data-ouia-component-type="PF5/Button"
             data-ouia-safe="true"
           >
             ERP1.2.3
@@ -30,9 +30,9 @@ Object {
         >
           <span
             aria-disabled="false"
-            class="pf-c-button pf-m-primary pf-m-small milestone-label is-current"
+            class="pf-v5-c-button pf-m-primary pf-m-small milestone-label is-current"
             data-ouia-component-id="OUIA-Generated-Button-primary-5"
-            data-ouia-component-type="PF4/Button"
+            data-ouia-component-type="PF5/Button"
             data-ouia-safe="true"
           >
             ERP1.2.4-C
@@ -47,9 +47,9 @@ Object {
         >
           <span
             aria-disabled="false"
-            class="pf-c-button pf-m-primary pf-m-small release-label"
+            class="pf-v5-c-button pf-m-primary pf-m-small release-label"
             data-ouia-component-id="OUIA-Generated-Button-primary-6"
-            data-ouia-component-type="PF4/Button"
+            data-ouia-component-type="PF5/Button"
             data-ouia-safe="true"
           >
             CAM1.2.5
@@ -67,9 +67,9 @@ Object {
       >
         <span
           aria-disabled="false"
-          class="pf-c-button pf-m-primary pf-m-small milestone-label"
+          class="pf-v5-c-button pf-m-primary pf-m-small milestone-label"
           data-ouia-component-id="OUIA-Generated-Button-primary-4"
-          data-ouia-component-type="PF4/Button"
+          data-ouia-component-type="PF5/Button"
           data-ouia-safe="true"
         >
           ERP1.2.3
@@ -84,9 +84,9 @@ Object {
       >
         <span
           aria-disabled="false"
-          class="pf-c-button pf-m-primary pf-m-small milestone-label is-current"
+          class="pf-v5-c-button pf-m-primary pf-m-small milestone-label is-current"
           data-ouia-component-id="OUIA-Generated-Button-primary-5"
-          data-ouia-component-type="PF4/Button"
+          data-ouia-component-type="PF5/Button"
           data-ouia-safe="true"
         >
           ERP1.2.4-C
@@ -101,9 +101,9 @@ Object {
       >
         <span
           aria-disabled="false"
-          class="pf-c-button pf-m-primary pf-m-small release-label"
+          class="pf-v5-c-button pf-m-primary pf-m-small release-label"
           data-ouia-component-id="OUIA-Generated-Button-primary-6"
-          data-ouia-component-type="PF4/Button"
+          data-ouia-component-type="PF5/Button"
           data-ouia-safe="true"
         >
           CAM1.2.5
