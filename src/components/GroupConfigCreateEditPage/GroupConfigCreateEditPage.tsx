@@ -151,14 +151,14 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   const productSearchSelect = (
     <SearchSelect
       selectedItem={selectedProduct?.name}
-      onSelect={(_, product: Product) => {
+      onSelect={(event, _, product: Product) => {
         setSelectedProduct(product);
-        productVersionRegisterObject.onChange('');
+        productVersionRegisterObject.onChange(event, '');
         setSelectedProductVersion(undefined);
       }}
-      onClear={() => {
+      onClear={(event) => {
         setSelectedProduct(undefined);
-        productVersionRegisterObject.onChange('');
+        productVersionRegisterObject.onChange(event, '');
         setSelectedProductVersion(undefined);
       }}
       fetchCallback={productApi.getProducts}
@@ -174,12 +174,12 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         <SearchSelect
           selectedItem={value}
           validated={validated}
-          onSelect={(_, productVersion: ProductVersion) => {
-            onChange(productVersion.version);
+          onSelect={(event, _, productVersion: ProductVersion) => {
+            onChange(event, productVersion.version);
             setSelectedProductVersion(productVersion);
           }}
-          onClear={() => {
-            onChange('');
+          onClear={(event) => {
+            onChange(event, '');
             setSelectedProductVersion(undefined);
           }}
           fetchCallback={fetchProductVersions}

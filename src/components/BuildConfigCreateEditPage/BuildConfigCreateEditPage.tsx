@@ -468,14 +468,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const productSearchSelect = (
     <SearchSelect
       selectedItem={selectedProduct?.name}
-      onSelect={(_, product: Product) => {
+      onSelect={(event, _, product: Product) => {
         setSelectedProduct(product);
-        productVersionRegisterObject.onChange('');
+        productVersionRegisterObject.onChange(event, '');
         setSelectedProductVersion(undefined);
       }}
-      onClear={() => {
+      onClear={(event) => {
         setSelectedProduct(undefined);
-        productVersionRegisterObject.onChange('');
+        productVersionRegisterObject.onChange(event, '');
         setSelectedProductVersion(undefined);
       }}
       fetchCallback={productApi.getProducts}
@@ -491,12 +491,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         <SearchSelect
           selectedItem={value}
           validated={validated}
-          onSelect={(_, productVersion: ProductVersion) => {
-            onChange(productVersion.version);
+          onSelect={(event, _, productVersion: ProductVersion) => {
+            onChange(event, productVersion.version);
             setSelectedProductVersion(productVersion);
           }}
-          onClear={() => {
-            onChange('');
+          onClear={(event) => {
+            onChange(event, '');
             setSelectedProductVersion(undefined);
           }}
           fetchCallback={fetchProductVersions}
@@ -572,12 +572,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 <SearchSelect
                   selectedItem={value}
                   validated={validated}
-                  onSelect={(_, environment: Environment) => {
-                    onChange(environment.description!);
+                  onSelect={(event, _, environment: Environment) => {
+                    onChange(event, environment.description!);
                     setSelectedEnvironment(environment);
                   }}
-                  onClear={() => {
-                    onChange('');
+                  onClear={(event) => {
+                    onChange(event, '');
                     setSelectedEnvironment(undefined);
                   }}
                   fetchCallback={fetchEnvironments}
@@ -597,7 +597,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               id="show-deprecated"
               label="Show also deprecated"
               isChecked={showDeprecatedEnvironments}
-              onChange={(checked) => {
+              onChange={(_, checked) => {
                 setShowDeprecatedEnvironments(checked);
               }}
               className="m-t-5"
@@ -625,10 +625,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                   isOpen={isBuildTypeSelectOpen}
                   selections={value || undefined}
                   validated={validated}
-                  onToggle={setIsBuildTypeSelectOpen}
-                  onSelect={(_, buildType, isPlaceholder) => {
+                  onToggle={(_, value) => setIsBuildTypeSelectOpen(value)}
+                  onSelect={(event, buildType, isPlaceholder) => {
                     if (!isPlaceholder) {
-                      onChange(buildType as string);
+                      onChange(event, buildType as string);
                       setIsBuildTypeSelectOpen(false);
                     }
                   }}
@@ -745,12 +745,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                   <SearchSelect
                     selectedItem={value}
                     validated={validated}
-                    onSelect={(_, scmRepository: SCMRepository) => {
-                      onChange(scmRepository.internalUrl!);
+                    onSelect={(event, _, scmRepository: SCMRepository) => {
+                      onChange(event, scmRepository.internalUrl!);
                       setSelectedScmRepository(scmRepository);
                     }}
-                    onClear={() => {
-                      onChange('');
+                    onClear={(event) => {
+                      onChange(event, '');
                       setSelectedScmRepository(undefined);
                     }}
                     fetchCallback={scmRepositoryApi.getScmRepositories}
@@ -887,53 +887,55 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             >
               <ServiceContainerLoading {...serviceContainerParameters} title="Build parameters" variant="inline">
                 <InputGroup>
-                  <CreatableSelect
-                    onSelect={(_, selection) => {
-                      if (selection) {
-                        setSelectedBuildParamOption(selection as string);
+                  <InputGroupItem>
+                    <CreatableSelect
+                      onSelect={(_, selection) => {
+                        if (selection) {
+                          setSelectedBuildParamOption(selection as string);
+                          setBuildParamData({
+                            ...buildParamData,
+                            [selection as string]: {
+                              value: '',
+                            },
+                          });
+                          setIsBuildParamSelectOpen(false);
+                        }
+                      }}
+                      onCreateOption={(newOption) => {
+                        setSelectedBuildParamOption(undefined);
+                        setBuildParamOptions([...buildParamOptions, { title: newOption }]);
                         setBuildParamData({
                           ...buildParamData,
-                          [selection as string]: {
+                          [newOption]: {
                             value: '',
                           },
                         });
                         setIsBuildParamSelectOpen(false);
-                      }
-                    }}
-                    onCreateOption={(newOption) => {
-                      setSelectedBuildParamOption(undefined);
-                      setBuildParamOptions([...buildParamOptions, { title: newOption }]);
-                      setBuildParamData({
-                        ...buildParamData,
-                        [newOption]: {
-                          value: '',
-                        },
-                      });
-                      setIsBuildParamSelectOpen(false);
-                    }}
-                    onToggle={setIsBuildParamSelectOpen}
-                    selectedItem={selectedBuildParamOption}
-                    isOpen={isBuildParamSelectOpen}
-                    placeholderText="Select Parameter or type a new one"
-                    creatableOptionText="Create custom Parameter"
-                    width="40%"
-                    dropdownDirection="up"
-                  >
-                    {buildParamOptions.map((option, index) => (
-                      <SelectOption
-                        key={index}
-                        value={option.title}
-                        description={
-                          option.title === 'ALIGNMENT_PARAMETERS' ? (
-                            <i>Once selected, more detailed information will be displayed.</i>
-                          ) : (
-                            option.description
-                          )
-                        }
-                        isDisabled={!!buildParamData[option.title]}
-                      />
-                    ))}
-                  </CreatableSelect>
+                      }}
+                      onToggle={(_, value) => setIsBuildParamSelectOpen(value)}
+                      selectedItem={selectedBuildParamOption}
+                      isOpen={isBuildParamSelectOpen}
+                      placeholderText="Select Parameter or type a new one"
+                      creatableOptionText="Create custom Parameter"
+                      width="40%"
+                      dropdownDirection="up"
+                    >
+                      {buildParamOptions.map((option, index) => (
+                        <SelectOption
+                          key={index}
+                          value={option.title}
+                          description={
+                            option.title === 'ALIGNMENT_PARAMETERS' ? (
+                              <i>Once selected, more detailed information will be displayed.</i>
+                            ) : (
+                              option.description
+                            )
+                          }
+                          isDisabled={!!buildParamData[option.title]}
+                        />
+                      ))}
+                    </CreatableSelect>
+                  </InputGroupItem>
                 </InputGroup>
               </ServiceContainerLoading>
 
@@ -976,14 +978,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                           isOpen={isBuildCategorySelectOpen}
                           selections={rest.value || undefined}
                           validated={rest.validated}
-                          onToggle={setIsBuildCategorySelectOpen}
-                          onSelect={(_, buildCategory, isPlaceholder) => {
+                          onToggle={(_, value) => setIsBuildCategorySelectOpen(value)}
+                          onSelect={(event, buildCategory, isPlaceholder) => {
                             if (!isPlaceholder) {
                               setBuildParamData({
                                 ...buildParamData,
                                 [key]: { ...buildParamData[key], value: buildCategory as string },
                               });
-                              onChange(buildCategory as string);
+                              onChange(event, buildCategory as string);
                               setIsBuildCategorySelectOpen(false);
                             }
                           }}
@@ -1000,9 +1002,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                           name={key}
                           height={150}
                           resizeOrientation="vertical"
-                          onChange={(value) => {
+                          onChange={(event, value) => {
                             setBuildParamData({ ...buildParamData, [key]: { ...buildParamData[key], value } });
-                            onChange(value);
+                            onChange(event, value);
                           }}
                           {...rest}
                         />

@@ -2,7 +2,7 @@ import { Spinner } from '@patternfly/react-core';
 import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant } from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
@@ -13,8 +13,8 @@ import '../../index.css';
 import styles from './SearchSelect.module.css';
 
 type FetchCallbackFunction = (requstConfig?: AxiosRequestConfig) => Promise<AxiosResponse<any, any> | any>;
-type OnSelectFunction = (selection: string | SelectOptionObject, selectedEntity?: any) => void;
-type OnClearFunction = () => void;
+type OnSelectFunction = (event: FormEvent | undefined, selection: string | SelectOptionObject, selectedEntity?: any) => void;
+type OnClearFunction = (event: FormEvent | undefined) => void;
 
 interface ISearchSelectProps {
   selectedItem?: string;
@@ -143,7 +143,7 @@ export const SearchSelect = ({
   // filtering of select
   const filterSelect = (value: string) => {
     if (selectedItem) {
-      onClear?.();
+      onClear?.(undefined);
     }
 
     setSearchValue(value);
@@ -157,7 +157,7 @@ export const SearchSelect = ({
     selection: string | SelectOptionObject,
     isPlaceholder: boolean | undefined
   ) => {
-    if (isPlaceholder) clear();
+    if (isPlaceholder) clear(event);
     else {
       if (event) {
         // do this only when select option is clicked
@@ -165,18 +165,18 @@ export const SearchSelect = ({
 
         // set options to an empty array for a while so loading state is visible
         setFetchedData([]);
-        onSelect?.(selection.toString(), (selection as any).entity);
+        onSelect?.(event, selection.toString(), (selection as any).entity);
       }
       setIsSelectOpen(false);
     }
   };
 
   // inner onClear callback
-  const clear = () => {
+  const clear = (event: FormEvent) => {
     setIsSelectOpen(false);
     if (selectedItem) {
       // on selection clear
-      onClear?.();
+      onClear?.(event);
     } else {
       // on unselected filter text clear
       setSearchValue('');
