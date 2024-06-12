@@ -1,18 +1,5 @@
-import {
-  ActionGroup,
-  Button,
-  Flex,
-  FlexItem,
-  Form,
-  FormGroup,
-  FormHelperText,
-  Select,
-  SelectOption,
-  SelectOptionObject,
-  SelectVariant,
-  TextArea,
-  TextInput,
-} from '@patternfly/react-core';
+import { ActionGroup, Button, Flex, FlexItem, Form, FormGroup, TextArea, TextInput } from '@patternfly/react-core';
+import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core/deprecated';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { AxiosRequestConfig } from 'axios';
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
@@ -235,7 +222,7 @@ export const DemoPage = () => {
     addLines(initLogData.splice(0, logLinesToRemove));
   }, [logLinesToRemove, addLines]);
 
-  const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const submitForm = (data: IFieldValues) => {
     return new Promise(() => {
@@ -304,16 +291,7 @@ export const DemoPage = () => {
                 e.preventDefault();
               }}
             >
-              <FormGroup
-                isRequired
-                label="Input Field"
-                fieldId="inputFieldA"
-                helperText={
-                  <FormHelperText isHidden={getFieldState('inputFieldA') !== 'error'} isError>
-                    {getFieldErrors('inputFieldA')}
-                  </FormHelperText>
-                }
-              >
+              <FormGroup isRequired label="Input Field" fieldId="inputFieldA">
                 <TextInput
                   isRequired
                   type="text"
@@ -322,20 +300,12 @@ export const DemoPage = () => {
                   autoComplete="off"
                   {...register<string>('inputFieldA', fieldConfigs.inputFieldA)}
                 />
+                <FormInputHelperText variant="error">{getFieldErrors('inputFieldA')}</FormInputHelperText>
               </FormGroup>
               <FormGroup label="Text Area" fieldId="textAreaA">
                 <TextArea id="textAreaA" name="textAreaA" autoResize {...register<string>('textAreaA')} />
               </FormGroup>
-              <FormGroup
-                isRequired
-                label="Filtered Select"
-                fieldId="selectA"
-                helperText={
-                  <FormHelperText isHidden={getFieldState('selectA') !== 'error'} isError>
-                    {getFieldErrors('selectA')}
-                  </FormHelperText>
-                }
-              >
+              <FormGroup isRequired label="Filtered Select" fieldId="selectA">
                 <FormInput<string>
                   {...register<string>('selectA', fieldConfigs.selectA)}
                   render={({ value, onChange, validated }) => (
@@ -365,6 +335,7 @@ export const DemoPage = () => {
                     </Select>
                   )}
                 />
+                <FormInputHelperText variant="error">{getFieldErrors('selectA')}</FormInputHelperText>
               </FormGroup>
               <ActionGroup>
                 <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(submitForm)}>

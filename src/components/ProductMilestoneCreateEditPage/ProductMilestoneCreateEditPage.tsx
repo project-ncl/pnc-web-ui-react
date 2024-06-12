@@ -3,8 +3,8 @@ import {
   Button,
   Form,
   FormGroup,
-  FormHelperText,
   InputGroup,
+  InputGroupItem,
   InputGroupText,
   Switch,
   TextInput,
@@ -27,6 +27,7 @@ import { useTitle } from 'hooks/useTitle';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DatePicker } from 'components/DatePicker/DatePicker';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -103,7 +104,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
 
   const serviceContainerProductVersionPatch = useServiceContainer(productVersionApi.patchProductVersion);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const isProductMilestoneCurrent =
     serviceContainerProductVersion.data?.currentProductMilestone &&
@@ -222,11 +223,6 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
           isRequired
           label={productMilestoneEntityAttributes.version.title}
           fieldId={productMilestoneEntityAttributes.version.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productMilestoneEntityAttributes.version.id) !== 'error'} isError>
-              {getFieldErrors(productMilestoneEntityAttributes.version.id)}
-            </FormHelperText>
-          }
         >
           <InputGroup>
             <InputGroupText>
@@ -234,47 +230,46 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
                 {serviceContainerProductVersion.data?.version}.
               </ServiceContainerLoading>
             </InputGroupText>
-            <TextInput
-              isRequired
-              type="text"
-              id={productMilestoneEntityAttributes.version.id}
-              name={productMilestoneEntityAttributes.version.id}
-              autoComplete="off"
-              {...register<string>(productMilestoneEntityAttributes.version.id, fieldConfigs.version)}
-            />
+            <InputGroupItem isFill>
+              <TextInput
+                isRequired
+                type="text"
+                id={productMilestoneEntityAttributes.version.id}
+                name={productMilestoneEntityAttributes.version.id}
+                autoComplete="off"
+                {...register<string>(productMilestoneEntityAttributes.version.id, fieldConfigs.version)}
+              />
+            </InputGroupItem>
           </InputGroup>
+          <FormInputHelperText variant="error">{getFieldErrors(productMilestoneEntityAttributes.version.id)}</FormInputHelperText>
         </FormGroup>
         <FormGroup
           isRequired
           label={productMilestoneEntityAttributes.startingDate.title}
           fieldId={productMilestoneEntityAttributes.startingDate.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productMilestoneEntityAttributes.startingDate.id) !== 'error'} isError>
-              {getFieldErrors(productMilestoneEntityAttributes.startingDate.id)}
-            </FormHelperText>
-          }
         >
           <DatePicker
             id={productMilestoneEntityAttributes.startingDate.id}
             name={productMilestoneEntityAttributes.startingDate.id}
             {...register<string>(productMilestoneEntityAttributes.startingDate.id, fieldConfigs.startingDate)}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productMilestoneEntityAttributes.startingDate.id)}
+          </FormInputHelperText>
         </FormGroup>
         <FormGroup
           isRequired
           label={productMilestoneEntityAttributes.plannedEndDate.title}
           fieldId={productMilestoneEntityAttributes.plannedEndDate.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productMilestoneEntityAttributes.plannedEndDate.id) !== 'error'} isError>
-              {getFieldErrors(productMilestoneEntityAttributes.plannedEndDate.id)}
-            </FormHelperText>
-          }
         >
           <DatePicker
             id={productMilestoneEntityAttributes.plannedEndDate.id}
             name={productMilestoneEntityAttributes.plannedEndDate.id}
             {...register<string>(productMilestoneEntityAttributes.plannedEndDate.id, fieldConfigs.plannedEndDate)}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productMilestoneEntityAttributes.plannedEndDate.id)}
+          </FormInputHelperText>
         </FormGroup>
         <FormGroup fieldId={productMilestoneEntityAttributes.isCurrent.id}>
           <ServiceContainerLoading {...serviceContainerProductVersion} variant="inline" title="Product Version">
@@ -299,6 +294,9 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
               }}
             />
           </ServiceContainerLoading>
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productMilestoneEntityAttributes.isCurrent.id)}
+          </FormInputHelperText>
         </FormGroup>
         <ActionGroup>
           <Button

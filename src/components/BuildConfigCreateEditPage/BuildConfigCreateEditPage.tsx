@@ -4,20 +4,18 @@ import {
   Checkbox,
   Form,
   FormGroup,
-  FormHelperText,
   Grid,
   GridItem,
-  HelperText,
-  HelperTextItem,
+  Icon,
   InputGroup,
-  Select,
-  SelectOption,
+  InputGroupItem,
   Switch,
   Text,
   TextArea,
   TextContent,
   TextInput,
 } from '@patternfly/react-core';
+import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
@@ -49,6 +47,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CreatableSelect } from 'components/CreatableSelect/CreatableSelect';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
@@ -516,16 +515,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             e.preventDefault();
           }}
         >
-          <FormGroup
-            isRequired
-            label={buildConfigEntityAttributes.name.title}
-            fieldId={buildConfigEntityAttributes.name.id}
-            helperText={
-              <FormHelperText isHidden={getFieldState(buildConfigEntityAttributes.name.id) !== 'error'} isError>
-                {getFieldErrors(buildConfigEntityAttributes.name.id)}
-              </FormHelperText>
-            }
-          >
+          <FormGroup isRequired label={buildConfigEntityAttributes.name.title} fieldId={buildConfigEntityAttributes.name.id}>
             <TextInput
               isRequired
               type="text"
@@ -534,6 +524,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               autoComplete="off"
               {...register<string>(buildConfigEntityAttributes.name.id, fieldConfigs.name)}
             />
+            <FormInputHelperText variant="error">{getFieldErrors(buildConfigEntityAttributes.name.id)}</FormInputHelperText>
           </FormGroup>
 
           <FormGroup label={buildConfigEntityAttributes.description.title} fieldId={buildConfigEntityAttributes.description.id}>
@@ -550,21 +541,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             isRequired
             label={buildConfigEntityAttributes.environment.title}
             fieldId={buildConfigEntityAttributes.environment.id}
-            helperText={
-              <>
-                <FormHelperText isHidden={getFieldState(buildConfigEntityAttributes.environment.id) !== 'error'} isError>
-                  {getFieldErrors(buildConfigEntityAttributes.environment.id)}
-                </FormHelperText>
-
-                {selectedEnvironment?.deprecated && (
-                  <HelperText>
-                    <HelperTextItem hasIcon variant="warning">
-                      Selected Environment is deprecated
-                    </HelperTextItem>
-                  </HelperText>
-                )}
-              </>
-            }
           >
             <FormInput<string>
               {...register<string>(buildConfigEntityAttributes.environment.id, fieldConfigs.environment)}
@@ -602,17 +578,20 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               }}
               className="m-t-5"
             />
+
+            <FormInputHelperText variant="error">
+              {getFieldErrors(buildConfigEntityAttributes.environment.id)}
+            </FormInputHelperText>
+
+            <FormInputHelperText variant="warning">
+              {selectedEnvironment?.deprecated && 'Selected Environment is deprecated'}
+            </FormInputHelperText>
           </FormGroup>
 
           <FormGroup
             isRequired
             label={buildConfigEntityAttributes.buildType.title}
             fieldId={buildConfigEntityAttributes.buildType.id}
-            helperText={
-              <FormHelperText isHidden={getFieldState(buildConfigEntityAttributes.buildType.id) !== 'error'} isError>
-                {getFieldErrors(buildConfigEntityAttributes.buildType.id)}
-              </FormHelperText>
-            }
           >
             <FormInput<string>
               {...register<string>(buildConfigEntityAttributes.buildType.id, fieldConfigs.buildType)}
@@ -644,17 +623,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 </Select>
               )}
             />
+            <FormInputHelperText variant="error">{getFieldErrors(buildConfigEntityAttributes.buildType.id)}</FormInputHelperText>
           </FormGroup>
 
           <FormGroup
             isRequired
             label={buildConfigEntityAttributes.buildScript.title}
             fieldId={buildConfigEntityAttributes.buildScript.id}
-            helperText={
-              <FormHelperText isHidden={getFieldState(buildConfigEntityAttributes.buildScript.id) !== 'error'} isError>
-                {getFieldErrors(buildConfigEntityAttributes.buildScript.id)}
-              </FormHelperText>
-            }
           >
             <TextArea
               id={buildConfigEntityAttributes.buildScript.id}
@@ -663,6 +638,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               resizeOrientation="vertical"
               {...register<string>(buildConfigEntityAttributes.buildScript.id, fieldConfigs.buildScript)}
             />
+            <FormInputHelperText variant="error">
+              {getFieldErrors(buildConfigEntityAttributes.buildScript.id)}
+            </FormInputHelperText>
           </FormGroup>
 
           <FormGroup
@@ -712,11 +690,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 }
               />
             }
-            helperText={
-              <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.scmUrl.id) !== 'error'} isError>
-                {getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}
-              </FormHelperText>
-            }
           >
             {!isEditPage && (
               <FormInput
@@ -760,17 +733,14 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 )}
               />
             )}
+
+            <FormInputHelperText variant="error">{getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}</FormInputHelperText>
           </FormGroup>
 
           <FormGroup
             isRequired
             label={buildConfigEntityAttributes.scmRevision.title}
             fieldId={buildConfigEntityAttributes.scmRevision.id}
-            helperText={
-              <FormHelperText isHidden={getFieldState(buildConfigEntityAttributes.scmRevision.id) !== 'error'} isError>
-                {getFieldErrors(buildConfigEntityAttributes.scmRevision.id)}
-              </FormHelperText>
-            }
           >
             <TextInput
               isRequired
@@ -780,6 +750,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               autoComplete="off"
               {...register<string>(buildConfigEntityAttributes.scmRevision.id, fieldConfigs.scmRevision)}
             />
+            <FormInputHelperText variant="error">
+              {getFieldErrors(buildConfigEntityAttributes.scmRevision.id)}
+            </FormInputHelperText>
           </FormGroup>
 
           {!isEditPage && (
@@ -850,11 +823,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 isRequired={!!selectedProduct}
                 label={buildConfigEntityAttributes.productVersion.title}
                 fieldId={buildConfigEntityAttributes.productVersion.id}
-                helperText={
-                  <FormHelperText isHidden={!selectedProduct || !!selectedProductVersion} isError>
-                    Field must be filled.
-                  </FormHelperText>
-                }
               >
                 {serviceContainerEditPageGet.data?.productVersion ? (
                   <ServiceContainerLoading
@@ -867,6 +835,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 ) : (
                   productVersionSearchSelect
                 )}
+                <FormInputHelperText isHidden={!selectedProduct || !!selectedProductVersion} variant="error">
+                  Field must be filled.
+                </FormInputHelperText>
               </FormGroup>
             </Form>
           </ContentBox>
@@ -887,7 +858,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             >
               <ServiceContainerLoading {...serviceContainerParameters} title="Build parameters" variant="inline">
                 <InputGroup>
-                  <InputGroupItem>
+                  <InputGroupItem isFill>
                     <CreatableSelect
                       onSelect={(_, selection) => {
                         if (selection) {
@@ -960,14 +931,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       }
                       fieldId={key}
                     >
-                      <FormHelperText
-                        isHidden={false}
-                        isError={key === 'ALIGNMENT_PARAMETERS' && !getFieldValue(buildConfigEntityAttributes.buildType.id)}
+                      <FormInputHelperText
+                        variant={
+                          key === 'ALIGNMENT_PARAMETERS' && !getFieldValue(buildConfigEntityAttributes.buildType.id)
+                            ? 'error'
+                            : 'default'
+                        }
                       >
                         {key === 'ALIGNMENT_PARAMETERS'
                           ? generateAlignmentParametersDescription(getFieldValue(buildConfigEntityAttributes.buildType.id))
                           : buildParamOptions.find((option) => option.title === key)?.description}
-                      </FormHelperText>
+                      </FormInputHelperText>
 
                       {key === 'BUILD_CATEGORY' ? (
                         <Select

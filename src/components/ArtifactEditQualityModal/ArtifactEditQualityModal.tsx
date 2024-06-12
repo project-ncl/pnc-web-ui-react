@@ -1,4 +1,5 @@
-import { Button, Form, FormGroup, FormHelperText, Select, SelectOption, TextArea } from '@patternfly/react-core';
+import { Button, Form, FormGroup, TextArea } from '@patternfly/react-core';
+import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +14,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 
 import * as artifactApi from 'services/artifactApi';
 import * as buildApi from 'services/buildApi';
@@ -47,7 +49,7 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
 
   const [isQualitySelectOpen, setIsQualitySelectOpen] = useState<boolean>(false);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
     return serviceContainerArtifactEditQuality
@@ -109,14 +111,6 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
           isRequired
           label={artifactQualityRevisionEntityAttributes.artifactQuality.title}
           fieldId={artifactQualityRevisionEntityAttributes.artifactQuality.id}
-          helperText={
-            <FormHelperText
-              isHidden={getFieldState(artifactQualityRevisionEntityAttributes.artifactQuality.id) !== 'error'}
-              isError
-            >
-              {getFieldErrors(artifactQualityRevisionEntityAttributes.artifactQuality.id)}
-            </FormHelperText>
-          }
         >
           <FormInput<string>
             {...register<string>(artifactQualityRevisionEntityAttributes.artifactQuality.id, fieldConfigs.artifactQuality)}
@@ -146,19 +140,14 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
               </Select>
             )}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(artifactQualityRevisionEntityAttributes.artifactQuality.id)}
+          </FormInputHelperText>
         </FormGroup>
         <FormGroup
           isRequired
           label={artifactQualityRevisionEntityAttributes.qualityLevelReason.title}
           fieldId={artifactQualityRevisionEntityAttributes.qualityLevelReason.id}
-          helperText={
-            <FormHelperText
-              isHidden={getFieldState(artifactQualityRevisionEntityAttributes.qualityLevelReason.id) !== 'error'}
-              isError
-            >
-              {getFieldErrors(artifactQualityRevisionEntityAttributes.qualityLevelReason.id)}
-            </FormHelperText>
-          }
         >
           <TextArea
             isRequired
@@ -169,6 +158,9 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
             autoComplete="off"
             {...register<string>(artifactQualityRevisionEntityAttributes.qualityLevelReason.id, fieldConfigs.qualityLevelReason)}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(artifactQualityRevisionEntityAttributes.qualityLevelReason.id)}
+          </FormInputHelperText>
         </FormGroup>
       </Form>
     </ActionModal>

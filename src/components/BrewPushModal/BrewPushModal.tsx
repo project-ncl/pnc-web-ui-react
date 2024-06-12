@@ -1,4 +1,4 @@
-import { Button, Form, FormGroup, FormHelperText, TextInput } from '@patternfly/react-core';
+import { Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -9,6 +9,7 @@ import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildApi from 'services/buildApi';
@@ -30,7 +31,7 @@ export interface IBrewPushModalProps {
 export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBrewPushModalProps) => {
   const serviceContainerPushToBrew = useServiceContainer(variant === 'Build' ? buildApi.pushToBrew : groupBuildApi.pushToBrew, 0);
 
-  const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
+  const { register, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
     return serviceContainerPushToBrew
@@ -83,11 +84,6 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
           label={buildPushParametersEntityAttributes.tagPrefix.title}
           fieldId={buildPushParametersEntityAttributes.tagPrefix.id}
           labelIcon={<TooltipWrapper tooltip={buildPushParametersEntityAttributes.tagPrefix.tooltip} />}
-          helperText={
-            <FormHelperText isHidden={getFieldState(buildPushParametersEntityAttributes.tagPrefix.id) !== 'error'} isError>
-              {getFieldErrors(buildPushParametersEntityAttributes.tagPrefix.id)}
-            </FormHelperText>
-          }
         >
           <TextInput
             isRequired
@@ -97,6 +93,9 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
             autoComplete="off"
             {...register<string>(buildPushParametersEntityAttributes.tagPrefix.id, fieldConfigs.tagPrefix)}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(buildPushParametersEntityAttributes.tagPrefix.id)}
+          </FormInputHelperText>
         </FormGroup>
       </Form>
     </ActionModal>
