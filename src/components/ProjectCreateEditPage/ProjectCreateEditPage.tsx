@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, Label, TextArea, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 
@@ -61,7 +62,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(projectApi.patchProject);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -121,16 +122,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
           e.preventDefault();
         }}
       >
-        <FormGroup
-          isRequired
-          label={projectEntityAttributes.name.title}
-          fieldId={projectEntityAttributes.name.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(projectEntityAttributes.name.id) !== 'error'} isError>
-              {getFieldErrors(projectEntityAttributes.name.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup isRequired label={projectEntityAttributes.name.title} fieldId={projectEntityAttributes.name.id}>
           <TextInput
             isRequired
             type="text"
@@ -139,6 +131,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             autoComplete="off"
             {...register<string>(projectEntityAttributes.name.id, fieldConfigs.name)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(projectEntityAttributes.name.id)}</FormInputHelperText>
         </FormGroup>
         <FormGroup label={projectEntityAttributes.description.title} fieldId={projectEntityAttributes.description.id}>
           <TextArea
@@ -149,15 +142,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             {...register<string>(projectEntityAttributes.description.id)}
           />
         </FormGroup>
-        <FormGroup
-          label={projectEntityAttributes.projectUrl.title}
-          fieldId={projectEntityAttributes.projectUrl.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(projectEntityAttributes.projectUrl.id) !== 'error'} isError>
-              {getFieldErrors(projectEntityAttributes.projectUrl.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup label={projectEntityAttributes.projectUrl.title} fieldId={projectEntityAttributes.projectUrl.id}>
           <TextInput
             type="url"
             id={projectEntityAttributes.projectUrl.id}
@@ -165,16 +150,9 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             autoComplete="off"
             {...register<string>(projectEntityAttributes.projectUrl.id, fieldConfigs.projectUrl)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(projectEntityAttributes.projectUrl.id)}</FormInputHelperText>
         </FormGroup>
-        <FormGroup
-          label={projectEntityAttributes.issueTrackerUrl.title}
-          fieldId={projectEntityAttributes.issueTrackerUrl.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(projectEntityAttributes.issueTrackerUrl.id) !== 'error'} isError>
-              {getFieldErrors(projectEntityAttributes.issueTrackerUrl.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup label={projectEntityAttributes.issueTrackerUrl.title} fieldId={projectEntityAttributes.issueTrackerUrl.id}>
           <TextInput
             type="url"
             id={projectEntityAttributes.issueTrackerUrl.id}
@@ -182,16 +160,9 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             autoComplete="off"
             {...register<string>(projectEntityAttributes.issueTrackerUrl.id, fieldConfigs.issueTrackerUrl)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(projectEntityAttributes.issueTrackerUrl.id)}</FormInputHelperText>
         </FormGroup>
-        <FormGroup
-          label={projectEntityAttributes.engineeringTeam.title}
-          fieldId={projectEntityAttributes.engineeringTeam.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(projectEntityAttributes.engineeringTeam.id) !== 'error'} isError>
-              {getFieldErrors(projectEntityAttributes.engineeringTeam.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup label={projectEntityAttributes.engineeringTeam.title} fieldId={projectEntityAttributes.engineeringTeam.id}>
           <TextInput
             type="text"
             id={projectEntityAttributes.engineeringTeam.id}
@@ -199,16 +170,9 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             autoComplete="off"
             {...register<string>(projectEntityAttributes.engineeringTeam.id, fieldConfigs.engineeringTeam)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(projectEntityAttributes.engineeringTeam.id)}</FormInputHelperText>
         </FormGroup>
-        <FormGroup
-          label={projectEntityAttributes.technicalLeader.title}
-          fieldId={projectEntityAttributes.technicalLeader.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(projectEntityAttributes.technicalLeader.id) !== 'error'} isError>
-              {getFieldErrors(projectEntityAttributes.technicalLeader.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup label={projectEntityAttributes.technicalLeader.title} fieldId={projectEntityAttributes.technicalLeader.id}>
           <TextInput
             type="text"
             id={projectEntityAttributes.technicalLeader.id}
@@ -216,6 +180,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
             autoComplete="off"
             {...register<string>(projectEntityAttributes.technicalLeader.id, fieldConfigs.technicalLeader)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(projectEntityAttributes.technicalLeader.id)}</FormInputHelperText>
         </FormGroup>
         <ActionGroup>
           <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>

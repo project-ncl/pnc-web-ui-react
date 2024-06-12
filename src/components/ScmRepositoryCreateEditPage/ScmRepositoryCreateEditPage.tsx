@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, Popover, Switch, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, Label, Popover, Switch, TextInput } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
@@ -88,16 +89,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(scmRepositoryApi.patchScmRepository);
 
-  const {
-    register,
-    setFieldValues,
-    getFieldValue,
-    getFieldState,
-    getFieldErrors,
-    handleSubmit,
-    isSubmitDisabled,
-    hasFormChanged,
-  } = useForm();
+  const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -184,11 +176,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             label={scmRepositoryEntityAttributes.scmUrl.title}
             fieldId={scmRepositoryEntityAttributes.scmUrl.id}
             labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.scmUrl.tooltip} />}
-            helperText={
-              <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.scmUrl.id) !== 'error'} isError>
-                {getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}
-              </FormHelperText>
-            }
           >
             <TextInput
               isRequired
@@ -198,6 +185,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               autoComplete="off"
               {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, createFieldConfigs.scmUrl)}
             />
+            <FormInputHelperText variant="error">{getFieldErrors(scmRepositoryEntityAttributes.scmUrl.id)}</FormInputHelperText>
           </FormGroup>
         )}
         {isEditPage && (
@@ -213,11 +201,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               label={scmRepositoryEntityAttributes.externalUrl.title}
               fieldId={scmRepositoryEntityAttributes.externalUrl.id}
               labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.externalUrl.tooltip} />}
-              helperText={
-                <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.externalUrl.id) !== 'error'} isError>
-                  {getFieldErrors(scmRepositoryEntityAttributes.externalUrl.id)}
-                </FormHelperText>
-              }
             >
               <TextInput
                 isRequired
@@ -227,6 +210,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                 autoComplete="off"
                 {...register<string>(scmRepositoryEntityAttributes.externalUrl.id, editFieldConfigs.externalUrl)}
               />
+              <FormInputHelperText variant="error">
+                {getFieldErrors(scmRepositoryEntityAttributes.externalUrl.id)}
+              </FormInputHelperText>
             </FormGroup>
           </>
         )}
@@ -234,11 +220,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
           fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
           labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
-          helperText={
-            <FormHelperText isHidden={getFieldState(scmRepositoryEntityAttributes.preBuildSyncEnabled.id) !== 'error'} isError>
-              {getFieldErrors(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
-            </FormHelperText>
-          }
         >
           <Popover
             position="right"
@@ -267,6 +248,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               )}
             />
           </Popover>
+          <FormInputHelperText variant="error">
+            {getFieldErrors(scmRepositoryEntityAttributes.preBuildSyncEnabled.id)}
+          </FormInputHelperText>
         </FormGroup>
         <ActionGroup>
           <Button

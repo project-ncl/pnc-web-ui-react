@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, Label, TextArea, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, Label, TextArea, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 
@@ -53,7 +54,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(productApi.patchProduct);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -113,16 +114,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
           e.preventDefault();
         }}
       >
-        <FormGroup
-          isRequired
-          label={productEntityAttributes.name.title}
-          fieldId={productEntityAttributes.name.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productEntityAttributes.name.id) !== 'error'} isError>
-              {getFieldErrors(productEntityAttributes.name.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup isRequired label={productEntityAttributes.name.title} fieldId={productEntityAttributes.name.id}>
           <TextInput
             isRequired
             type="text"
@@ -131,16 +123,12 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
             autoComplete="off"
             {...register<string>(productEntityAttributes.name.id, fieldConfigs.name)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(productEntityAttributes.name.id)}</FormInputHelperText>
         </FormGroup>
         <FormGroup
           isRequired
           label={productEntityAttributes.abbreviation.title}
           fieldId={productEntityAttributes.abbreviation.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productEntityAttributes.abbreviation.id) !== 'error'} isError>
-              {getFieldErrors(productEntityAttributes.abbreviation.id)}
-            </FormHelperText>
-          }
         >
           <TextInput
             isRequired
@@ -150,6 +138,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
             autoComplete="off"
             {...register<string>(productEntityAttributes.abbreviation.id, fieldConfigs.abbreviation)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(productEntityAttributes.abbreviation.id)}</FormInputHelperText>
         </FormGroup>
         <FormGroup label={productEntityAttributes.description.title} fieldId={productEntityAttributes.description.id}>
           <TextArea

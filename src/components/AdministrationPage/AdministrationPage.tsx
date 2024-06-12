@@ -1,16 +1,4 @@
-import {
-  ActionGroup,
-  Button,
-  Flex,
-  FlexItem,
-  FlexProps,
-  Form,
-  FormGroup,
-  FormHelperText,
-  Switch,
-  Text,
-  TextInput,
-} from '@patternfly/react-core';
+import { ActionGroup, Button, Flex, FlexItem, FlexProps, Form, FormGroup, Switch, Text, TextInput } from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
 
 import { ButtonTitles } from 'common/constants';
@@ -26,6 +14,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DatePicker } from 'components/DatePicker/DatePicker';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -81,7 +70,7 @@ export const AdministrationPage = () => {
 
   const serviceContainerPncStatusSet = useServiceContainer(genericSettingsApi.setPncStatus);
 
-  const { register, setFieldValues, getFieldValue, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const submitEdit = (data: IFieldValues) => {
     return serviceContainerPncStatusSet
@@ -158,11 +147,6 @@ export const AdministrationPage = () => {
                   isRequired
                   label={pncStatusEntityAttributes.banner.title}
                   fieldId={pncStatusEntityAttributes.banner.id}
-                  helperText={
-                    <FormHelperText isHidden={getFieldState(pncStatusEntityAttributes.banner.id) !== 'error'} isError>
-                      {getFieldErrors(pncStatusEntityAttributes.banner.id)}
-                    </FormHelperText>
-                  }
                 >
                   <TextInput
                     isRequired
@@ -172,6 +156,7 @@ export const AdministrationPage = () => {
                     autoComplete="off"
                     {...register<string>(pncStatusEntityAttributes.banner.id)}
                   />
+                  <FormInputHelperText variant="error">{getFieldErrors(pncStatusEntityAttributes.banner.id)}</FormInputHelperText>
                 </FormGroup>
 
                 <FormGroup
@@ -194,21 +179,14 @@ export const AdministrationPage = () => {
                   />
                 </FormGroup>
 
-                <FormGroup
-                  label={pncStatusEntityAttributes.eta.title}
-                  fieldId={pncStatusEntityAttributes.eta.id}
-                  helperText={
-                    <FormHelperText isHidden={getFieldState(pncStatusEntityAttributes.eta.id) !== 'error'} isError>
-                      {getFieldErrors(pncStatusEntityAttributes.eta.id)}
-                    </FormHelperText>
-                  }
-                >
+                <FormGroup label={pncStatusEntityAttributes.eta.title} fieldId={pncStatusEntityAttributes.eta.id}>
                   <DatePicker
                     id={pncStatusEntityAttributes.eta.id}
                     name={pncStatusEntityAttributes.eta.id}
                     includeTime
                     {...register<string>(pncStatusEntityAttributes.eta.id, fieldConfigs.eta)}
                   />
+                  <FormInputHelperText variant="error">{getFieldErrors(pncStatusEntityAttributes.eta.id)}</FormInputHelperText>
                 </FormGroup>
 
                 {!isSubmitDisabled && (

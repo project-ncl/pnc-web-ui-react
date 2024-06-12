@@ -1,4 +1,4 @@
-import { Form, FormGroup, FormHelperText, Label, Switch, TextInput, TextInputProps } from '@patternfly/react-core';
+import { Form, FormGroup, Label, Switch, TextInput, TextInputProps } from '@patternfly/react-core';
 import { useEffect, useReducer, useState } from 'react';
 
 import { StorageKeys } from 'common/constants';
@@ -8,6 +8,7 @@ import { useTitle } from 'hooks/useTitle';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { experimentalContentEnabledLocalStorageId } from 'components/ExperimentalContent/ExperimentalContent';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
@@ -101,15 +102,6 @@ export const PreferencesPage = () => {
                 label="Logger Label"
                 fieldId="logger-label"
                 labelIcon={<TooltipWrapper tooltip="For debugging purposes only, leave it empty by default." />}
-                helperText={[
-                  <FormHelperText isHidden={!loggerLabel.value && !loggerLabel.error}>
-                    Up to {LOGGER_LABEL_MAX} alphanumeric characters and dash symbol are allowed. It's recommended to use Jira
-                    number, such as <Label isCompact>NCL-1234</Label>
-                  </FormHelperText>,
-                  <FormHelperText isError isHidden={!loggerLabel.error}>
-                    The attempt to enter invalid value was rejected.
-                  </FormHelperText>,
-                ]}
               >
                 <TextInput
                   type="text"
@@ -125,6 +117,13 @@ export const PreferencesPage = () => {
                     }
                   }}
                 />
+                <FormInputHelperText variant="default" isHidden={!loggerLabel.value && !loggerLabel.error}>
+                  Up to {LOGGER_LABEL_MAX} alphanumeric characters and dash symbol are allowed. It's recommended to use Jira
+                  number, such as <Label isCompact>NCL-1234</Label>
+                </FormInputHelperText>
+                <FormInputHelperText variant="error" isHidden={!loggerLabel.error}>
+                  The attempt to enter invalid value was rejected.
+                </FormInputHelperText>
               </FormGroup>
             </Form>
           </ContentBox>

@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
 import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
@@ -59,7 +60,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
 
@@ -198,16 +199,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
           e.preventDefault();
         }}
       >
-        <FormGroup
-          isRequired
-          label={groupConfigEntityAttributes.name.title}
-          fieldId={groupConfigEntityAttributes.name.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(groupConfigEntityAttributes.name.id) !== 'error'} isError>
-              {getFieldErrors(groupConfigEntityAttributes.name.id)}
-            </FormHelperText>
-          }
-        >
+        <FormGroup isRequired label={groupConfigEntityAttributes.name.title} fieldId={groupConfigEntityAttributes.name.id}>
           <TextInput
             isRequired
             type="text"
@@ -216,6 +208,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
             autoComplete="off"
             {...register<string>(groupConfigEntityAttributes.name.id, fieldConfigs.name)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(groupConfigEntityAttributes.name.id)}</FormInputHelperText>
         </FormGroup>
 
         <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
@@ -236,11 +229,6 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
           isRequired={!!selectedProduct}
           label={groupConfigEntityAttributes.productVersion.title}
           fieldId={groupConfigEntityAttributes.productVersion.id}
-          helperText={
-            <FormHelperText isHidden={!selectedProduct || !!selectedProductVersion} isError>
-              Field must be filled.
-            </FormHelperText>
-          }
         >
           {serviceContainerEditPageGet.data?.productVersion ? (
             <ServiceContainerLoading
@@ -253,6 +241,9 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
           ) : (
             productVersionSearchSelect
           )}
+          <FormInputHelperText variant="error" isHidden={!selectedProduct || !!selectedProductVersion}>
+            Field must be filled.
+          </FormInputHelperText>
         </FormGroup>
 
         <ActionGroup>

@@ -1,4 +1,4 @@
-import { Button, Form, FormGroup, FormHelperText, Switch, TextArea } from '@patternfly/react-core';
+import { Button, Form, FormGroup, Switch, TextArea } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
@@ -10,6 +10,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
@@ -39,7 +40,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
 }: IProductMilestoneAnalyzeDeliverablesModalProps) => {
   const serviceContainerProductMilestoneAnalyzeDeliverables = useServiceContainer(productMilestoneApi.analyzeDeliverables, 0);
 
-  const { register, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
+  const { register, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
     return serviceContainerProductMilestoneAnalyzeDeliverables
@@ -92,14 +93,6 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
           isRequired
           label={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.title}
           fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
-          helperText={
-            <FormHelperText
-              isHidden={getFieldState(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id) !== 'error'}
-              isError
-            >
-              {getFieldErrors(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
-            </FormHelperText>
-          }
         >
           <TextArea
             isRequired
@@ -117,6 +110,10 @@ https://url-path/to/file3.zip`}
               fieldConfigs.deliverablesUrls
             )}
           />
+
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
+          </FormInputHelperText>
         </FormGroup>
         <FormGroup
           label={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}

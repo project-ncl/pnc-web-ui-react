@@ -3,13 +3,12 @@ import {
   Button,
   Form,
   FormGroup,
-  FormHelperText,
   InputGroup,
+  InputGroupItem,
   InputGroupText,
-  Select,
-  SelectOption,
   TextInput,
 } from '@patternfly/react-core';
+import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +28,7 @@ import { useTitle } from 'hooks/useTitle';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DatePicker } from 'components/DatePicker/DatePicker';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
@@ -95,7 +95,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const [selectedProductMilestone, setSelectedProductMilestone] = useState<ProductMilestone>();
 
@@ -198,11 +198,6 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           label={productReleaseEntityAttributes.version.title}
           fieldId={productReleaseEntityAttributes.version.id}
           labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.version.tooltip} />}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productReleaseEntityAttributes.version.id) !== 'error'} isError>
-              {getFieldErrors(productReleaseEntityAttributes.version.id)}
-            </FormHelperText>
-          }
         >
           <InputGroup>
             <InputGroupText>
@@ -210,32 +205,33 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
                 {serviceContainerProductVersion.data?.version}.
               </ServiceContainerLoading>
             </InputGroupText>
-            <TextInput
-              isRequired
-              type="text"
-              id={productReleaseEntityAttributes.version.id}
-              name={productReleaseEntityAttributes.version.id}
-              autoComplete="off"
-              {...register<string>(productReleaseEntityAttributes.version.id, fieldConfigs.version)}
-            />
+            <InputGroupItem isFill>
+              <TextInput
+                isRequired
+                type="text"
+                id={productReleaseEntityAttributes.version.id}
+                name={productReleaseEntityAttributes.version.id}
+                autoComplete="off"
+                {...register<string>(productReleaseEntityAttributes.version.id, fieldConfigs.version)}
+              />
+            </InputGroupItem>
           </InputGroup>
+          <FormInputHelperText variant="error">{getFieldErrors(productReleaseEntityAttributes.version.id)}</FormInputHelperText>
         </FormGroup>
         <FormGroup
           isRequired
           label={productReleaseEntityAttributes.releaseDate.title}
           fieldId={productReleaseEntityAttributes.releaseDate.id}
           labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.releaseDate.tooltip} />}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productReleaseEntityAttributes.releaseDate.id) !== 'error'} isError>
-              {getFieldErrors(productReleaseEntityAttributes.releaseDate.id)}
-            </FormHelperText>
-          }
         >
           <DatePicker
             id={productReleaseEntityAttributes.releaseDate.id}
             name={productReleaseEntityAttributes.releaseDate.id}
             {...register<string>(productReleaseEntityAttributes.releaseDate.id, fieldConfigs.releaseDate)}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productReleaseEntityAttributes.releaseDate.id)}
+          </FormInputHelperText>
         </FormGroup>
         {isEditPage && (
           <FormGroup
@@ -251,11 +247,6 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
             isRequired
             label={productReleaseEntityAttributes.productMilestone.title}
             fieldId={productReleaseEntityAttributes.productMilestone.id}
-            helperText={
-              <FormHelperText isHidden={getFieldState(productReleaseEntityAttributes.productMilestone.id) !== 'error'} isError>
-                {getFieldErrors(productReleaseEntityAttributes.productMilestone.id)}
-              </FormHelperText>
-            }
           >
             <FormInput<string>
               {...register<string>(productReleaseEntityAttributes.productMilestone.id, fieldConfigs.productMilestone)}
@@ -276,17 +267,15 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
                 />
               )}
             />
+            <FormInputHelperText variant="error">
+              {getFieldErrors(productReleaseEntityAttributes.productMilestone.id)}
+            </FormInputHelperText>
           </FormGroup>
         )}
         <FormGroup
           isRequired
           label={productReleaseEntityAttributes.supportLevel.title}
           fieldId={productReleaseEntityAttributes.supportLevel.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productReleaseEntityAttributes.supportLevel.id) !== 'error'} isError>
-              {getFieldErrors(productReleaseEntityAttributes.supportLevel.id)}
-            </FormHelperText>
-          }
         >
           <FormInput<string>
             {...register<string>(productReleaseEntityAttributes.supportLevel.id, fieldConfigs.supportLevel)}
@@ -316,19 +305,14 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
               </Select>
             )}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productReleaseEntityAttributes.supportLevel.id)}
+          </FormInputHelperText>
         </FormGroup>
         <FormGroup
           label={productReleaseEntityAttributes.commonPlatformEnumeration.title}
           fieldId={productReleaseEntityAttributes.commonPlatformEnumeration.id}
           labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.commonPlatformEnumeration.tooltip} />}
-          helperText={
-            <FormHelperText
-              isHidden={getFieldState(productReleaseEntityAttributes.commonPlatformEnumeration.id) !== 'error'}
-              isError
-            >
-              {getFieldErrors(productReleaseEntityAttributes.commonPlatformEnumeration.id)}
-            </FormHelperText>
-          }
         >
           <TextInput
             type="text"
@@ -340,16 +324,14 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
               fieldConfigs.commonPlatformEnumeration
             )}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productReleaseEntityAttributes.commonPlatformEnumeration.id)}
+          </FormInputHelperText>
         </FormGroup>
         <FormGroup
           label={productReleaseEntityAttributes.productPagesCode.title}
           fieldId={productReleaseEntityAttributes.productPagesCode.id}
           labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.productPagesCode.tooltip} />}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productReleaseEntityAttributes.productPagesCode.id) !== 'error'} isError>
-              {getFieldErrors(productReleaseEntityAttributes.productPagesCode.id)}
-            </FormHelperText>
-          }
         >
           <TextInput
             type="text"
@@ -358,6 +340,9 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
             autoComplete="off"
             {...register<string>(productReleaseEntityAttributes.productPagesCode.id, fieldConfigs.productPagesCode)}
           />
+          <FormInputHelperText variant="error">
+            {getFieldErrors(productReleaseEntityAttributes.productPagesCode.id)}
+          </FormInputHelperText>
         </FormGroup>
         <ActionGroup>
           <Button variant="primary" isDisabled={isSubmitDisabled} onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}>

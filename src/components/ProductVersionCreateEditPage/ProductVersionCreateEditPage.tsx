@@ -1,4 +1,4 @@
-import { ActionGroup, Button, Form, FormGroup, FormHelperText, TextInput } from '@patternfly/react-core';
+import { ActionGroup, Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -65,7 +66,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(productVersionApi.patchProductVersion);
 
-  const { register, setFieldValues, getFieldState, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -138,11 +139,6 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
           isRequired
           label={productVersionEntityAttributes.version.title}
           fieldId={productVersionEntityAttributes.version.id}
-          helperText={
-            <FormHelperText isHidden={getFieldState(productVersionEntityAttributes.version.id) !== 'error'} isError>
-              {getFieldErrors(productVersionEntityAttributes.version.id)}
-            </FormHelperText>
-          }
         >
           <TextInput
             isRequired
@@ -152,20 +148,13 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
             autoComplete="off"
             {...register<string>(productVersionEntityAttributes.version.id, fieldConfigs.version)}
           />
+          <FormInputHelperText variant="error">{getFieldErrors(productVersionEntityAttributes.version.id)}</FormInputHelperText>
         </FormGroup>
         {isEditPage && (
           <FormGroup
             isRequired
             label={productVersionEntityAttributes['attributes.brewTagPrefix'].title}
             fieldId={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
-            helperText={
-              <FormHelperText
-                isHidden={getFieldState(productVersionEntityAttributes['attributes.brewTagPrefix'].id) !== 'error'}
-                isError
-              >
-                {getFieldErrors(productVersionEntityAttributes['attributes.brewTagPrefix'].id)}
-              </FormHelperText>
-            }
           >
             <TextInput
               isRequired
@@ -178,6 +167,9 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
                 fieldConfigs['attributes.brewTagPrefix']
               )}
             />
+            <FormInputHelperText variant="error">
+              {getFieldErrors(productVersionEntityAttributes['attributes.brewTagPrefix'].id)}
+            </FormInputHelperText>
           </FormGroup>
         )}
         <ActionGroup>
