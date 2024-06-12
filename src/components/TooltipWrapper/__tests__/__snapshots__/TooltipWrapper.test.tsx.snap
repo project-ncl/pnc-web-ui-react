@@ -11,10 +11,10 @@ Object {
          
         <svg
           aria-hidden="true"
+          class="pf-v5-svg"
           fill="currentColor"
           height="1em"
           role="img"
-          style="vertical-align: -0.125em;"
           viewBox="0 0 512 512"
           width="1em"
         >
@@ -32,10 +32,10 @@ Object {
        
       <svg
         aria-hidden="true"
+        class="pf-v5-svg"
         fill="currentColor"
         height="1em"
         role="img"
-        style="vertical-align: -0.125em;"
         viewBox="0 0 512 512"
         width="1em"
       >
