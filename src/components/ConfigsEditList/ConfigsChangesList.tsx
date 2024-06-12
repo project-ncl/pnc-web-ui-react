@@ -1,3 +1,4 @@
+import { Icon } from '@patternfly/react-core';
 import { MinusCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import { CubesIcon } from '@patternfly/react-icons';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
@@ -52,9 +53,13 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
                 <Tr key={rowIndex}>
                   <Td>
                     {configChange.operator === 'add' ? (
-                      <PlusCircleIcon title="Marked to be added." color="green" />
+                      <Icon status="success">
+                        <PlusCircleIcon title="Marked to be added." />
+                      </Icon>
                     ) : (
-                      <MinusCircleIcon title="Marked to be removed." color="red" />
+                      <Icon status="danger">
+                        <MinusCircleIcon title="Marked to be removed." />
+                      </Icon>
                     )}
                   </Td>
                   <Td>
