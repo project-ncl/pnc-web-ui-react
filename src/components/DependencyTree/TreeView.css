@@ -1,47 +1,47 @@
 /* extends PF tree view nested items left padding for more nesting levels */
-.pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item
-  .pf-c-tree-view__list-item {
-  --pf-c-tree-view__node--PaddingLeft: calc(
-    var(--pf-c-tree-view__node--nested-indent--base) * var(--nesting-level) + var(--pf-c-tree-view__node--indent--base)
+.pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item
+  .pf-v5-c-tree-view__list-item {
+  --pf-v5-c-tree-view__node--PaddingLeft: calc(
+    var(--pf-v5-c-tree-view__node--nested-indent--base) * var(--nesting-level) + var(--pf-v5-c-tree-view__node--indent--base)
   );
 
   --nesting-level: 11;
 
-  & .pf-c-tree-view__list-item {
+  & .pf-v5-c-tree-view__list-item {
     --nesting-level: 12;
 
-    & .pf-c-tree-view__list-item {
+    & .pf-v5-c-tree-view__list-item {
       --nesting-level: 13;
 
-      & .pf-c-tree-view__list-item {
+      & .pf-v5-c-tree-view__list-item {
         --nesting-level: 14;
 
-        & .pf-c-tree-view__list-item {
+        & .pf-v5-c-tree-view__list-item {
           --nesting-level: 15;
 
-          & .pf-c-tree-view__list-item {
+          & .pf-v5-c-tree-view__list-item {
             --nesting-level: 16;
 
-            & .pf-c-tree-view__list-item {
+            & .pf-v5-c-tree-view__list-item {
               --nesting-level: 17;
 
-              & .pf-c-tree-view__list-item {
+              & .pf-v5-c-tree-view__list-item {
                 --nesting-level: 18;
 
-                & .pf-c-tree-view__list-item {
+                & .pf-v5-c-tree-view__list-item {
                   --nesting-level: 19;
 
-                  & .pf-c-tree-view__list-item {
+                  & .pf-v5-c-tree-view__list-item {
                     --nesting-level: 20;
                   }
                 }

@@ -1,6 +1,6 @@
 .sort-title {
-  color: var(--pf-c-table__sort__button--Color);
-  font-weight: var(--pf-c-table--cell--FontWeight);
+  color: var(--pf-v5-c-table__sort__button--Color);
+  font-weight: var(--pf-v5-c-table--cell--FontWeight);
 }
 
 .sort-icon-toggle {
@@ -13,15 +13,15 @@
 
 .sort-icon {
   margin-left: 1rem;
-  color: var(--pf-c-table__sort-indicator--Color);
+  color: var(--pf-v5-c-table__sort-indicator--Color);
 }
 
 .sort-group:hover .sort-icon {
-  color: var(--pf-c-table__sort__button--hover__sort-indicator--Color);
+  color: var(--pf-v5-c-table__sort__button--hover__sort-indicator--Color);
 }
 
 .sort-group-selected .sort-title,
 .sort-group-selected .sort-icon-title,
 .sort-group-selected .sort-icon {
-  color: var(--pf-c-table__sort--m-selected__sort-indicator--Color) !important;
+  color: var(--pf-v5-c-table__sort--m-selected__sort-indicator--Color) !important;
 }

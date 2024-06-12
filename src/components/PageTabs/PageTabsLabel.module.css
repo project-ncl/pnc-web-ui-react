@@ -1,13 +1,13 @@
-.page-section-tabs-label :global(.pf-c-label) {
+.page-section-tabs-label :global(.pf-v5-c-label) {
   padding: 0px 4px;
 }
 
-.page-section-tabs-label :global(.pf-c-label__content) {
+.page-section-tabs-label :global(.pf-v5-c-label__content) {
   min-width: 25px;
   height: 22px;
   justify-content: center;
 }
 
-.page-section-tabs-label :global(.pf-c-spinner) {
+.page-section-tabs-label :global(.pf-v5-c-spinner) {
   height: 11px;
 }

@@ -208,21 +208,21 @@ code {
    ==================== */
 
 :root {
-  --c-error-primary: var(--pf-global--danger-color--200);
+  --c-error-primary: var(--pf-v5-global--danger-color--200);
   --c-error-text: white;
   --c-error-close-icon: white;
-  --c-error-close-icon-hover: var(--pf-global--Color--light-300);
-  --c-warning-primary: var(--pf-global--warning-color--100);
+  --c-error-close-icon-hover: var(--pf-v5-global--Color--light-300);
+  --c-warning-primary: var(--pf-v5-global--warning-color--100);
   --c-warning-text: black;
   --c-warning-close-icon: black;
-  --c-warning-close-icon-hover: var(--pf-global--palette--black-700);
-  --c-info-primary: var(--pf-global--info-color--100);
+  --c-warning-close-icon-hover: var(--pf-v5-global--palette--black-700);
+  --c-info-primary: var(--pf-v5-global--info-color--100);
   --c-info-text: black;
   --c-info-close-icon: black;
-  --c-info-close-icon-hover: var(--pf-global--palette--black-700);
+  --c-info-close-icon-hover: var(--pf-v5-global--palette--black-700);
 
-  --global-gutter: var(--pf-global--gutter); /* outside spacing, typically between boxes */
-  --global-spacer: var(--pf-global--spacer--lg); /* inside spacing, typically inside boxes */
+  --global-gutter: var(--pf-v5-global--gutter); /* outside spacing, typically between boxes */
+  --global-spacer: var(--pf-v5-global--spacer--lg); /* inside spacing, typically inside boxes */
 }
 
 /* ====================
@@ -232,7 +232,7 @@ code {
 /* 
  * table row highlight on hover 
  */
-.pf-c-table tbody tr:hover {
+.pf-v5-c-table tbody tr:hover {
   background-color: #e9e9e9 !important;
 }
 
@@ -249,34 +249,34 @@ code {
 }
 
 .black-color {
-  color: var(--pf-c-dropdown__menu-item--Color) !important;
+  color: var(--pf-v5-c-dropdown__menu-item--Color) !important;
 }
 
 .disabled-color {
-  color: var(--pf-c-dropdown__menu-item--disabled--Color) !important;
+  color: var(--pf-v5-c-dropdown__menu-item--disabled--Color) !important;
 }
 
 .dropdown-item-font-size {
-  font-size: var(--pf-c-dropdown__menu-item--FontSize) !important;
+  font-size: var(--pf-v5-c-dropdown__menu-item--FontSize) !important;
 }
 
 .pnc-info-icon {
-  color: var(--pf-global--link--Color);
-  text-decoration: var(--pf-global--link--TextDecoration);
+  color: var(--pf-v5-global--link--Color);
+  text-decoration: var(--pf-v5-global--link--TextDecoration);
   padding-left: 5px;
   padding-right: 5px;
 }
 .pnc-info-icon:hover {
-  color: var(--pf-global--link--Color--hover);
-  text-decoration: var(--pf-global--link--TextDecoration--hover);
+  color: var(--pf-v5-global--link--Color--hover);
+  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
 }
 .pnc-warning-icon {
   color: #ec7a08;
-  text-decoration: var(--pf-global--link--TextDecoration);
+  text-decoration: var(--pf-v5-global--link--TextDecoration);
   padding-left: 5px;
   padding-right: 5px;
 }
 .pnc-warning-icon:hover {
   color: #ac5701;
-  text-decoration: var(--pf-global--link--TextDecoration--hover);
+  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
 }

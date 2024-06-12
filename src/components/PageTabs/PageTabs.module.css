@@ -3,6 +3,6 @@
   z-index: 100;
 }
 
-.page-section-tabs :global(.pf-c-tabs) {
+.page-section-tabs :global(.pf-v5-c-tabs) {
   min-height: 42px;
 }

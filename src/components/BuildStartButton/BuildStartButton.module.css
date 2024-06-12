@@ -29,7 +29,7 @@
   width: 45px;
 }
 
-.toggle-button :global(.pf-c-dropdown__toggle-icon) {
+.toggle-button :global(.pf-v5-c-dropdown__toggle-icon) {
   margin-left: 5px;
 }
 
