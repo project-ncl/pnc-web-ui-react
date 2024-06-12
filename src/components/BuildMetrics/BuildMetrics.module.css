@@ -61,10 +61,10 @@
   margin-bottom: 20px;
 }
 .pnc-build-metric-info-icon {
-  color: var(--pf-global--link--Color);
-  text-decoration: var(--pf-global--link--TextDecoration);
+  color: var(--pf-v5-global--link--Color);
+  text-decoration: var(--pf-v5-global--link--TextDecoration);
 }
 .pnc-build-metric-info-icon:hover {
-  color: var(--pf-global--link--Color--hover);
-  text-decoration: var(--pf-global--link--TextDecoration--hover);
+  color: var(--pf-v5-global--link--Color--hover);
+  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
 }

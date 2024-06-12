@@ -1,6 +1,6 @@
 .card-value {
   text-align: center;
-  font-size: var(--pf-global--FontSize--4xl);
+  font-size: var(--pf-v5-global--FontSize--4xl);
   height: 96px;
   padding: 56px 10px 0;
 }
