@@ -1,3 +1,4 @@
+import { Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 
 import { IconWrapper } from 'components/IconWrapper/IconWrapper';
@@ -10,7 +11,9 @@ interface IWarningIconProps {
 export const WarningIcon = ({ tooltip }: IWarningIconProps) => (
   <TooltipWrapper tooltip={tooltip}>
     <IconWrapper variant="small">
-      <ExclamationTriangleIcon color="#F0AB00" />
+      <Icon status="warning">
+        <ExclamationTriangleIcon />
+      </Icon>
     </IconWrapper>
   </TooltipWrapper>
 );

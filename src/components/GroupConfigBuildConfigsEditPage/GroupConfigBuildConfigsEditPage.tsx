@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
@@ -110,7 +110,10 @@ export const GroupConfigBuildConfigsEditPage = ({
       actions={
         <>
           <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
-            <ExclamationTriangleIcon color="#F0AB00" /> Submit the changes to apply them
+            <Icon status="warning">
+              <ExclamationTriangleIcon />
+            </Icon>{' '}
+            Submit the changes to apply them
           </div>
           <Button
             key="submit-btn"

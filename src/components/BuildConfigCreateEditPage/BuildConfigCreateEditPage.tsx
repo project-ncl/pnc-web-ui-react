@@ -561,9 +561,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                   placeholderText="Select Environment"
                   getCustomDescription={(environment: Environment) =>
                     environment.deprecated ? (
-                      <>
-                        <ExclamationTriangleIcon color="#F0AB00" /> DEPRECATED
-                      </>
+                      <Icon status="warning">
+                        <ExclamationTriangleIcon /> DEPRECATED
+                      </Icon>
                     ) : null
                   }
                 />
@@ -1070,7 +1070,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
           {buildConfigCreatingError && (
             <p className="p-6 p-l-10">
-              <ExclamationTriangleIcon color="#F0AB00" /> Operation was not successful,{' '}
+              <Icon status="warning">
+                <ExclamationTriangleIcon />
+              </Icon>{' '}
+              Operation was not successful,{' '}
               <Button
                 variant="link"
                 isInline
