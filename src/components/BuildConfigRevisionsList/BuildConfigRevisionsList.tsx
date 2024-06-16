@@ -13,6 +13,8 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Username } from 'components/Username/Username';
 
+import styles from './BuildConfigRevisionsList.module.css';
+
 interface IBuildConfigRevisionsListProps {
   serviceContainerBuildConfigRevisions: IServiceContainerState<BuildConfigRevisionPage>;
   selectedRevision?: string;
@@ -37,7 +39,7 @@ export const BuildConfigRevisionsList = ({
     <>
       <ContentBox borderBottom>
         <ServiceContainerLoading {...serviceContainerBuildConfigRevisions} title={PageTitles.buildConfigRevision}>
-          <Tabs activeKey={selectedRevision} isVertical isSecondary>
+          <Tabs activeKey={selectedRevision} isVertical isSecondary className={styles['responsive-tab']}>
             {serviceContainerBuildConfigRevisions.data?.content?.map((buildConfigRevision, rowIndex) => (
               <Tab
                 eventKey={String(buildConfigRevision.rev)}
