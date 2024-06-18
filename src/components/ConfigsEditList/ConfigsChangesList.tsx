@@ -42,7 +42,7 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
           <Table isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th />
+                <Th screenReaderText="Added or removed icon" />
                 <Th width={60}>{buildConfigEntityAttributes.name.title}</Th>
                 {variant === 'Build' && <Th width={40}>{buildConfigEntityAttributes['project.name'].title}</Th>}
                 <Th />

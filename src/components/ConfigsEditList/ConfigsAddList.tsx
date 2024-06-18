@@ -178,6 +178,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
                     onSelect: (_, isSelecting) => (isSelecting ? checkAllItems() : uncheckAllItems()),
                     isSelected: areAllItemsChecked,
                   }}
+                  aria-label="Select all"
                 />
                 <Th width={40} sort={getSortParams(sortOptions.sortAttributes.name.id)}>
                   {entityAttributes.name.title}
