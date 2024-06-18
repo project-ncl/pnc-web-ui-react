@@ -275,6 +275,7 @@ Object {
                   data-ouia-safe="true"
                 >
                   <th
+                    aria-label="Expand all"
                     class="pf-v5-c-table__th pf-v5-c-table__toggle"
                     scope="col"
                     tabindex="-1"
@@ -1298,6 +1299,7 @@ Object {
                 data-ouia-safe="true"
               >
                 <th
+                  aria-label="Expand all"
                   class="pf-v5-c-table__th pf-v5-c-table__toggle"
                   scope="col"
                   tabindex="-1"
