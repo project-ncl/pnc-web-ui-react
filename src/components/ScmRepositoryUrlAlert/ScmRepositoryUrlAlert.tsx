@@ -19,6 +19,15 @@ interface IScmRepositoryUrlAlertProps {
   preBuildSyncEnabled?: SCMRepository['preBuildSyncEnabled'];
 }
 
+/**
+ * SCM repository synchronization alert. Displays properties of SCM repository when it is synced.
+ *
+ * @param variant - Whether the SCM repository is synced
+ * @param alertLevel - Alert level alters styling depending on the use-case - e.g. info or danger
+ * @param internalUrl - SCM repository internalUrl property - use with 'synced' variant
+ * @param externalUrl - SCM repository externalUrl property - use with 'synced' variant
+ * @param preBuildSyncEnabled - SCM repository preBuildSyncEnabled property - use with 'synced' variant
+ */
 export const ScmRepositoryUrlAlert = ({
   variant,
   alertLevel = 'info',
