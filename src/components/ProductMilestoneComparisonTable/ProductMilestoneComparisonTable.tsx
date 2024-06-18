@@ -326,6 +326,7 @@ export const ProductMilestoneComparisonTable = ({
                             setAreAllArtifactsExpanded(undefined);
                           },
                         }}
+                        aria-label="Expand all"
                       />
                       <Td>{artifact.identifier}</Td>
                       {productMilestoneColumns.map((productMilestoneColumn, index: number) => {

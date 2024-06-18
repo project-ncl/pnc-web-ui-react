@@ -190,6 +190,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                     },
                     collapseAllAriaLabel: '',
                   }}
+                  aria-label="Expand all"
                 />
                 {columns.includes(artifactEntityAttributes.build.id) && <Th width={10} />}
                 {columns.includes(artifactEntityAttributes.identifier.id) && (
