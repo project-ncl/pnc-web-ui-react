@@ -1,6 +1,11 @@
 import {
   Button,
   ButtonVariant,
+  Masthead,
+  MastheadBrand,
+  MastheadContent,
+  MastheadMain,
+  MastheadToggle,
   Nav,
   NavExpandable,
   NavItem,
@@ -8,16 +13,14 @@ import {
   Page,
   PageSidebar,
   PageSidebarBody,
+  PageToggleButton,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  PageHeader,
-  PageHeaderTools,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
-} from '@patternfly/react-core/deprecated';
+import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core/deprecated';
+import { BarsIcon } from '@patternfly/react-icons';
 import {
   BellIcon,
   CaretDownIcon,
@@ -81,7 +84,7 @@ export const AppLayout = () => {
     </Link>
   );
 
-  const AppHeaderTools = () => {
+  const AppHeaderToolbar = () => {
     const pncUserGuideUrl = webConfig.userGuideUrl;
     const pncUserSupportUrl = webConfig.userSupportUrl;
 
@@ -154,10 +157,10 @@ export const AppLayout = () => {
     }
 
     return (
-      <>
-        <PageHeaderTools>
-          <PageHeaderToolsGroup>
-            <PageHeaderToolsItem>
+      <Toolbar isFullHeight isStatic>
+        <ToolbarContent>
+          <ToolbarGroup variant="icon-button-group" align={{ default: 'alignRight' }}>
+            <ToolbarItem>
               <Dropdown
                 toggle={
                   <DropdownToggle
@@ -175,8 +178,8 @@ export const AppLayout = () => {
                 isPlain
                 dropdownItems={headerConfigDropdownItems}
               />
-            </PageHeaderToolsItem>
-            <PageHeaderToolsItem>
+            </ToolbarItem>
+            <ToolbarItem>
               <Dropdown
                 toggle={
                   <DropdownToggle
@@ -193,13 +196,13 @@ export const AppLayout = () => {
                 isPlain={true}
                 dropdownItems={headerQuestionDropdownItems}
               />
-            </PageHeaderToolsItem>
-            <PageHeaderToolsItem>
+            </ToolbarItem>
+            <ToolbarItem>
               <Button variant={ButtonVariant.plain}>
                 <BellIcon />
               </Button>
-            </PageHeaderToolsItem>
-            <PageHeaderToolsItem>
+            </ToolbarItem>
+            <ToolbarItem>
               {keycloakService.isKeycloakAvailable ? (
                 <Dropdown
                   onSelect={processLogout}
@@ -231,14 +234,30 @@ export const AppLayout = () => {
                   dropdownItems={headerKeycloakUnavailableDropdownItems}
                 />
               )}
-            </PageHeaderToolsItem>
-          </PageHeaderToolsGroup>
-        </PageHeaderTools>
-      </>
+            </ToolbarItem>
+          </ToolbarGroup>
+        </ToolbarContent>
+      </Toolbar>
     );
   };
 
-  const appHeader = <PageHeader logo={<AppLogoImage />} headerTools={<AppHeaderTools />} showNavToggle />;
+  const appHeader = (
+    <Masthead>
+      <MastheadToggle>
+        <PageToggleButton aria-label="Global navigation">
+          <BarsIcon />
+        </PageToggleButton>
+      </MastheadToggle>
+      <MastheadMain>
+        <MastheadBrand>
+          <AppLogoImage />
+        </MastheadBrand>
+      </MastheadMain>
+      <MastheadContent>
+        <AppHeaderToolbar />
+      </MastheadContent>
+    </Masthead>
+  );
 
   const AppNavigation = () => {
     const pathname = useMatches()[1].pathname; //1 index = 2nd match which contains the first part of the path
