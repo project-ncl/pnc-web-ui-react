@@ -1,11 +1,15 @@
 import {
   Button,
   ButtonVariant,
+  Dropdown,
+  DropdownItem,
+  DropdownList,
   Masthead,
   MastheadBrand,
   MastheadContent,
   MastheadMain,
   MastheadToggle,
+  MenuToggle,
   Nav,
   NavExpandable,
   NavItem,
@@ -19,9 +23,8 @@ import {
   ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core/deprecated';
-import { BarsIcon } from '@patternfly/react-icons';
 import {
+  BarsIcon,
   BellIcon,
   CaretDownIcon,
   CogIcon,
@@ -37,6 +40,7 @@ import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
+import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -104,20 +108,32 @@ export const AppLayout = () => {
       [loggerLabel]
     );
 
-    const headerConfigDropdownItems = [
-      <DropdownItem component={<Link to="/preferences">Preferences</Link>} key="preferences" />,
-      <DropdownItem component={<Link to="/admin/demo">Demo</Link>} key="demo" />,
-      <DropdownItem component={<Link to="/admin/variables">Variables</Link>} key="variables" />,
-      <ProtectedComponent role={AUTH_ROLE.Admin} hide key="administration">
-        <DropdownItem component={<Link to="/admin/administration">Administration</Link>} />
-      </ProtectedComponent>,
-    ];
+    const headerConfigDropdownItems = (
+      <>
+        <DropdownLinkItem key="preferences" to="/preferences">
+          Preferences
+        </DropdownLinkItem>
+        <DropdownLinkItem key="demo" to="/admin/demo">
+          Demo
+        </DropdownLinkItem>
+        <DropdownLinkItem key="variables" to="/admin/variables">
+          Variables
+        </DropdownLinkItem>
+        <ProtectedComponent role={AUTH_ROLE.Admin} hide key="administration">
+          <DropdownLinkItem to="/admin/administration">Administration</DropdownLinkItem>
+        </ProtectedComponent>
+      </>
+    );
 
-    const headerQuestionDropdownItems = [<DropdownItem component={<Link to="/about">About</Link>} key="about" />];
+    const headerQuestionDropdownItems = [
+      <DropdownLinkItem to="/about" key="about">
+        About
+      </DropdownLinkItem>,
+    ];
 
     if (pncUserGuideUrl) {
       headerQuestionDropdownItems.push(
-        <DropdownItem key="users-guide" href={pncUserGuideUrl} target="_blank" rel="noopener noreferrer">
+        <DropdownItem key="users-guide" to={pncUserGuideUrl} target="_blank" rel="noopener noreferrer">
           User's guide <ExternalLinkAltIcon />
         </DropdownItem>
       );
@@ -127,7 +143,7 @@ export const AppLayout = () => {
       headerQuestionDropdownItems.push(
         <DropdownItem
           key="users-channel"
-          href={pncUserSupportUrl}
+          to={pncUserSupportUrl}
           title="Live user's support channel for PNC services provided by developers"
           target="_blank"
           rel="noopener noreferrer"
@@ -137,20 +153,26 @@ export const AppLayout = () => {
       );
     }
 
-    const headerUserDropdownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
+    const headerUserDropdownItems = (
+      <>
+        <DropdownItem key="logout" onClick={user ? processLogout : processLogin}>
+          {user ? 'Logout' : 'Login'}
+        </DropdownItem>
+      </>
+    );
 
-    const headerKeycloakUnavailableDropdownItems = [
-      <DropdownItem component={<Link to="/system/keycloak-status">Keycloak Status</Link>} key="keycloak-status" />,
-    ];
+    const headerKeycloakUnavailableDropdownItems = (
+      <>
+        <DropdownLinkItem key="keycloak-status" to="/system/keycloak-status">
+          Keycloak Status
+        </DropdownLinkItem>
+      </>
+    );
 
     function processLogin() {
-      if (user) {
-        setIsHeaderUserOpen(!isHeaderUserOpen);
-      } else {
-        keycloakService.login().catch(() => {
-          throw new Error('Keycloak login failed.');
-        });
-      }
+      keycloakService.login().catch(() => {
+        throw new Error('Keycloak login failed.');
+      });
     }
 
     function processLogout() {
@@ -161,83 +183,71 @@ export const AppLayout = () => {
     return (
       <Toolbar isFullHeight isStatic>
         <ToolbarContent>
-          <ToolbarGroup variant="icon-button-group" align={{ default: 'alignRight' }}>
+          <ToolbarGroup variant="icon-button-group" align={toolbarGroupAlign}>
             <ToolbarItem>
               <Dropdown
-                toggle={
-                  <DropdownToggle
-                    toggleIndicator={null}
-                    icon={<CogIcon color={headerConfig.color} />}
-                    title={headerConfig.tooltip}
-                    onToggle={() => {
-                      setIsHeaderConfigOpen(!isHeaderConfigOpen);
-                    }}
+                toggle={(toggleRef) => (
+                  <MenuToggle
+                    ref={toggleRef}
+                    variant="plain"
+                    aria-label={headerConfig.tooltip}
+                    isExpanded={isHeaderConfigOpen}
+                    onClick={() => setIsHeaderConfigOpen((isHeaderConfigOpen) => !isHeaderConfigOpen)}
                   >
-                    <CaretDownIcon color={headerConfig.color} />
-                  </DropdownToggle>
-                }
+                    <CogIcon color={headerConfig.color} className="m-r-5" /> <CaretDownIcon color={headerConfig.color} />
+                  </MenuToggle>
+                )}
                 isOpen={isHeaderConfigOpen}
-                isPlain
-                dropdownItems={headerConfigDropdownItems}
-              />
+                onOpenChange={(isOpen: boolean) => setIsHeaderConfigOpen(isOpen)}
+              >
+                <DropdownList>{headerConfigDropdownItems}</DropdownList>
+              </Dropdown>
             </ToolbarItem>
             <ToolbarItem>
               <Dropdown
-                toggle={
-                  <DropdownToggle
-                    toggleIndicator={null}
-                    icon={<OutlinedQuestionCircleIcon />}
-                    onToggle={() => {
-                      setIsHeaderQuestionOpen(!isHeaderQuestionOpen);
-                    }}
+                toggle={(toggleRef) => (
+                  <MenuToggle
+                    ref={toggleRef}
+                    variant="plain"
+                    isExpanded={isHeaderQuestionOpen}
+                    onClick={() => setIsHeaderQuestionOpen((isHeaderQuestionOpen) => !isHeaderQuestionOpen)}
                   >
-                    <CaretDownIcon />
-                  </DropdownToggle>
-                }
+                    <OutlinedQuestionCircleIcon className="m-r-5" /> <CaretDownIcon />
+                  </MenuToggle>
+                )}
                 isOpen={isHeaderQuestionOpen}
-                isPlain={true}
-                dropdownItems={headerQuestionDropdownItems}
-              />
+                onOpenChange={(isOpen: boolean) => setIsHeaderQuestionOpen(isOpen)}
+              >
+                <DropdownList>{headerQuestionDropdownItems}</DropdownList>
+              </Dropdown>
             </ToolbarItem>
             <ToolbarItem>
               <Button variant={ButtonVariant.plain}>
                 <BellIcon />
               </Button>
             </ToolbarItem>
-            <ToolbarItem>
-              {keycloakService.isKeycloakAvailable ? (
-                <Dropdown
-                  onSelect={processLogout}
-                  toggle={
-                    <DropdownToggle toggleIndicator={null} icon={<UserIcon />} onToggle={processLogin}>
-                      {user ? user : 'Login'}
-                      {user && <CaretDownIcon />}
-                    </DropdownToggle>
-                  }
-                  isOpen={isHeaderUserOpen}
-                  isPlain={true}
-                  dropdownItems={headerUserDropdownItems}
-                />
-              ) : (
-                <Dropdown
-                  toggle={
-                    <DropdownToggle
-                      toggleIndicator={null}
-                      icon={<UserIcon />}
-                      onToggle={() => {
-                        setIsHeaderUserOpen((isHeaderUserOpen) => !isHeaderUserOpen);
-                      }}
-                    >
-                      KEYCLOAK UNAVAILABLE <CaretDownIcon />
-                    </DropdownToggle>
-                  }
-                  isOpen={isHeaderUserOpen}
-                  isPlain={true}
-                  dropdownItems={headerKeycloakUnavailableDropdownItems}
-                />
-              )}
-            </ToolbarItem>
           </ToolbarGroup>
+          <ToolbarItem>
+            <Dropdown
+              toggle={(toggleRef) => (
+                <MenuToggle
+                  ref={toggleRef}
+                  isFullHeight
+                  icon={<UserIcon />}
+                  isExpanded={isHeaderUserOpen}
+                  onClick={() => setIsHeaderUserOpen((isHeaderUserOpen) => !isHeaderUserOpen)}
+                >
+                  {keycloakService.isKeycloakAvailable ? <>{user ? user : 'Not logged in'}</> : <>KEYCLOAK UNAVAILABLE</>}
+                </MenuToggle>
+              )}
+              isOpen={isHeaderUserOpen}
+              onOpenChange={(isOpen: boolean) => setIsHeaderUserOpen(isOpen)}
+            >
+              <DropdownList>
+                {keycloakService.isKeycloakAvailable ? headerUserDropdownItems : headerKeycloakUnavailableDropdownItems}
+              </DropdownList>
+            </Dropdown>
+          </ToolbarItem>
         </ToolbarContent>
       </Toolbar>
     );
@@ -361,3 +371,5 @@ export const AppLayout = () => {
     </>
   );
 };
+
+const toolbarGroupAlign = { default: 'alignRight' } as const;
