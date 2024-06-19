@@ -1,6 +1,4 @@
 import {
-  Button,
-  ButtonVariant,
   Dropdown,
   DropdownItem,
   DropdownList,
@@ -25,7 +23,6 @@ import {
 } from '@patternfly/react-core';
 import {
   BarsIcon,
-  BellIcon,
   CaretDownIcon,
   CogIcon,
   ExternalLinkAltIcon,
@@ -220,11 +217,6 @@ export const AppLayout = () => {
               >
                 <DropdownList>{headerQuestionDropdownItems}</DropdownList>
               </Dropdown>
-            </ToolbarItem>
-            <ToolbarItem>
-              <Button variant={ButtonVariant.plain}>
-                <BellIcon />
-              </Button>
             </ToolbarItem>
           </ToolbarGroup>
           <ToolbarItem>
