@@ -240,7 +240,7 @@ export const AppLayout = () => {
     );
   };
 
-  const AppHeader = <PageHeader logo={<AppLogoImage />} headerTools={<AppHeaderTools />} showNavToggle />;
+  const appHeader = <PageHeader logo={<AppLogoImage />} headerTools={<AppHeaderTools />} showNavToggle />;
 
   const AppNavigation = () => {
     const pathname = useMatches()[1].pathname; //1 index = 2nd match which contains the first part of the path
@@ -314,7 +314,7 @@ export const AppLayout = () => {
     );
   };
 
-  const AppSidebar = (
+  const appSidebar = (
     <PageSidebar>
       <PageSidebarBody>
         <AppNavigation />
@@ -335,7 +335,7 @@ export const AppLayout = () => {
         )}
       </div>
       <div style={{ height: topBarsHeight ? `calc(100% - ${topBarsHeight}px)` : '100%' }}>
-        <Page header={AppHeader} sidebar={AppSidebar} isManagedSidebar>
+        <Page header={appHeader} sidebar={appSidebar} isManagedSidebar>
           <Outlet />
         </Page>
       </div>
