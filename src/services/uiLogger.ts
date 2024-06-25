@@ -33,7 +33,7 @@ export interface IUILog {
   user: IUILogUser;
   label: string;
   url: string;
-  data?: Object;
+  data?: string;
   message?: string | null;
   error?: IUIError;
 }
@@ -64,7 +64,7 @@ const createData = (message?: string, error?: Error, additionalData?: Object): I
     },
     label: window.localStorage.getItem(StorageKeys.loggerLabel) ?? '',
     url: window.location.href,
-    data: additionalData,
+    data: JSON.stringify(additionalData),
     message: message,
     error: error && {
       name: error.name,
