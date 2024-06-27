@@ -1,43 +1,40 @@
 .button-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 33px;
+
   z-index: 500;
-  width: 233px;
 }
 
-.button-wrapper.is-compact {
-  width: 153px;
-}
+/* BUILD BUTTON */
 
 .button-build {
+  width: 108px;
+
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
-  width: 108px;
 }
 
 /* TOGGLE BUTTON */
 
 .toggle-button {
-  float: right;
+  width: 135px;
 }
 
-.toggle-button button {
-  height: 33px;
-  width: 125px;
-  background-color: white;
-}
-
-.is-compact .toggle-button button {
+.is-compact .toggle-button {
   width: 45px;
 }
 
-.toggle-button :global(.pf-v5-c-dropdown__toggle-icon) {
-  margin-left: 5px;
+.toggle-button :global(.pf-v5-c-menu-toggle__controls) {
+  padding: 0 !important;
 }
 
 /* DROPDOWN PANEL */
 
 .dropdown-panel {
-  min-width: 220px;
-  padding: 5px 15px;
+  width: 220px;
+  padding: 13px 15px;
+
   font-size: 1rem;
 }
 
@@ -47,4 +44,9 @@
 
 .dropdown-panel .description-text {
   text-align: center;
+}
+
+.divider {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
