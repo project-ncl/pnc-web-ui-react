@@ -1,5 +1,4 @@
 import { Button, Form, FormGroup, TextArea } from '@patternfly/react-core';
-import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,8 +12,9 @@ import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
-import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
+import { Select } from 'components/Select/Select';
+import { SelectOption } from 'components/Select/SelectOption';
 
 import * as artifactApi from 'services/artifactApi';
 import * as buildApi from 'services/buildApi';
@@ -112,34 +112,17 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
           label={artifactQualityRevisionEntityAttributes.artifactQuality.title}
           fieldId={artifactQualityRevisionEntityAttributes.artifactQuality.id}
         >
-          <FormInput<string>
+          <Select
+            id={artifactQualityRevisionEntityAttributes.artifactQuality.id}
+            isOpen={isQualitySelectOpen}
+            onToggle={setIsQualitySelectOpen}
+            placeholder="Select Artifact Quality"
             {...register<string>(artifactQualityRevisionEntityAttributes.artifactQuality.id, fieldConfigs.artifactQuality)}
-            render={({ value, validated, onChange, onBlur }) => (
-              <Select
-                menuAppendTo="parent"
-                id={artifactQualityRevisionEntityAttributes.artifactQuality.id}
-                name={artifactQualityRevisionEntityAttributes.artifactQuality.id}
-                variant="single"
-                isOpen={isQualitySelectOpen}
-                selections={value || undefined}
-                validated={validated}
-                onToggle={(_, value) => setIsQualitySelectOpen(value)}
-                onSelect={(event, artifactQuality, isPlaceholder) => {
-                  if (!isPlaceholder) {
-                    onChange(event, artifactQuality as string);
-                    setIsQualitySelectOpen(false);
-                  }
-                }}
-                onBlur={onBlur}
-                hasPlaceholderStyle
-                placeholderText="Select Artifact Quality"
-              >
-                {artifactEntityAttributes.artifactQuality.values.map((quality) => (
-                  <SelectOption key={quality} value={quality} />
-                ))}
-              </Select>
-            )}
-          />
+          >
+            {artifactEntityAttributes.artifactQuality.values.map((quality) => (
+              <SelectOption key={quality} option={quality} />
+            ))}
+          </Select>
           <FormInputHelperText variant="error">
             {getFieldErrors(artifactQualityRevisionEntityAttributes.artifactQuality.id)}
           </FormInputHelperText>
