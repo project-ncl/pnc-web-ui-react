@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
+import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import {
+  hasBrewPushFinished,
   hasBuildStarted,
   hasBuildStatusChanged,
   hasGroupBuildStatusChanged,
@@ -39,7 +41,18 @@ import * as groupBuildApi from 'services/groupBuildApi';
 
 import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
-import { createDateTime } from 'utils/utils';
+import { createDateTime, debounce } from 'utils/utils';
+
+const buildsListColumns = [
+  buildEntityAttributes.status.id,
+  buildEntityAttributes.name.id,
+  buildEntityAttributes.buildConfigName.id,
+  buildEntityAttributes.submitTime.id,
+  buildEntityAttributes.startTime.id,
+  buildEntityAttributes.endTime.id,
+  buildEntityAttributes['user.username'].id,
+  buildEntityAttributes.brewPush.id,
+];
 
 interface IGroupBuildDetailPageProps {
   componentId?: string;
@@ -56,9 +69,14 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   const serviceContainerGroupBuildRunner = serviceContainerGroupBuild.run;
   const serviceContainerGroupBuildSetter = serviceContainerGroupBuild.setData;
 
-  const serviceContainerGroupBuildBuilds = useServiceContainer(groupBuildApi.getBuilds);
+  const serviceContainerGroupBuildBuilds = useServiceContainer(groupBuildApi.getBuildsWithBrewPush);
   const serviceContainerGroupBuildBuildsRunner = serviceContainerGroupBuildBuilds.run;
   const serviceContainerGroupBuildBuildsSetter = serviceContainerGroupBuildBuilds.setData;
+
+  const serviceContainerGroupBuildBuildsRunnerDebounced = useMemo(
+    () => debounce(serviceContainerGroupBuildBuildsRunner),
+    [serviceContainerGroupBuildBuildsRunner]
+  );
 
   const serviceContainerDependencyGraph = useServiceContainer(groupBuildApi.getDependencyGraph);
   const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
@@ -83,7 +101,7 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
           serviceContainerGroupBuildSetter(wsGroupBuild);
         } else if (hasBuildStarted(wsData, { groupBuildId })) {
           // very exceptional use case, mostly it means backend issues
-          serviceContainerGroupBuildBuildsRunner({
+          serviceContainerGroupBuildBuildsRunnerDebounced({
             serviceData: { id: groupBuildId },
             requestConfig: { params: groupBuildBuildsComponentQueryParamsObject },
           });
@@ -102,15 +120,25 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
               vertices: { ...serviceContainerDependencyGraph.data.vertices, [wsBuild.id]: updatedVertex },
             });
           }
+        } else if (
+          hasBrewPushFinished(wsData, {
+            buildIds: serviceContainerGroupBuildBuilds.data?.content?.map((build) => build.id) ?? [],
+          })
+        ) {
+          serviceContainerGroupBuildBuildsRunnerDebounced({
+            serviceData: { id: groupBuildId },
+            requestConfig: { params: groupBuildBuildsComponentQueryParamsObject },
+          });
         }
       },
       [
         serviceContainerGroupBuildSetter,
         groupBuildId,
-        serviceContainerGroupBuildBuildsRunner,
+        serviceContainerGroupBuildBuildsRunnerDebounced,
         serviceContainerGroupBuildBuildsSetter,
         serviceContainerDependencyGraphSetter,
         serviceContainerDependencyGraph.data,
+        serviceContainerGroupBuildBuilds.data,
         groupBuildBuildsComponentQueryParamsObject,
       ]
     )
@@ -187,6 +215,7 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
               {...{
                 serviceContainerBuilds: serviceContainerGroupBuildBuilds,
                 componentId,
+                columns: buildsListColumns,
               }}
             />
           </ContentBox>

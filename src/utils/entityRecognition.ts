@@ -9,6 +9,8 @@ import {
   ProductVersion,
 } from 'pnc-api-types-ts';
 
+import { BuildWithBrewPush } from 'services/buildApi';
+
 export const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
 
 export const isString = (value: unknown): value is string => typeof value === 'string';
@@ -37,3 +39,5 @@ interface ArtifactWithProductMilestone extends Artifact {
 
 export const isArtifactWithProductMilestone = (artifact: Artifact): artifact is ArtifactWithProductMilestone =>
   'product' in artifact && 'productVersion' in artifact && 'productMilestone' in artifact;
+
+export const isBuildWithBrewPush = (build: Build): build is BuildWithBrewPush => 'brewPush' in build;
