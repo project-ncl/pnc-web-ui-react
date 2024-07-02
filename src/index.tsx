@@ -1,7 +1,7 @@
 import '@patternfly/react-core/dist/styles/base.css';
 
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
@@ -108,11 +108,13 @@ const App = () => {
   throw new Error('Keycloak initialization state is invalid.');
 };
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
