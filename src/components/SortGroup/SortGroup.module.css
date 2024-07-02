@@ -1,27 +1,36 @@
-.sort-title {
-  color: var(--pf-v5-c-table__sort__button--Color);
-  font-weight: var(--pf-v5-c-table--cell--FontWeight);
+.sort-toggle {
+  padding: 0;
 }
 
-.sort-icon-toggle {
-  padding: 0;
+.sort-title {
+  color: var(--pf-v5-c-table__sort__button--Color);
+  font-weight: var(--pf-v5-c-table__thead--cell--FontWeight);
+}
+
+.sort-icon {
+  margin-left: 1rem;
+
+  color: var(--pf-v5-c-table__sort-indicator--Color);
 }
 
 .sort-icon-title {
   margin-left: 0.5rem;
 }
 
-.sort-icon {
-  margin-left: 1rem;
-  color: var(--pf-v5-c-table__sort-indicator--Color);
+.sort-title,
+.sort-icon,
+.sort-icon-title {
+  font-size: var(--pf-v5-c-table__thead--cell--FontSize);
 }
 
-.sort-group:hover .sort-icon {
+.sort-toggle:hover .sort-icon {
   color: var(--pf-v5-c-table__sort__button--hover__sort-indicator--Color);
 }
 
-.sort-group-selected .sort-title,
-.sort-group-selected .sort-icon-title,
-.sort-group-selected .sort-icon {
-  color: var(--pf-v5-c-table__sort--m-selected__sort-indicator--Color) !important;
+.sort-toggle--active {
+  & .sort-title,
+  & .sort-icon,
+  & .sort-icon-title {
+    color: var(--pf-v5-c-table__sort--m-selected__sort-indicator--Color) !important;
+  }
 }

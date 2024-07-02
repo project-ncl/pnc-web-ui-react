@@ -1,5 +1,4 @@
 import { Button, Chip, ChipGroup, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +6,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 import { IEntityAttribute } from 'common/entityAttributes';
 import { WithRequiredProperty } from 'common/types';
+
+import { Select } from 'components/Select/Select';
+import { SelectOption } from 'components/Select/SelectOption';
 
 import { constructCustomFilterParam } from 'utils/customParamHelper';
 import { addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
@@ -207,54 +209,50 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
       <InputGroup>
         {/* filter attribute */}
         <InputGroupItem>
-          <Select
-            width="200px"
-            variant={SelectVariant.single}
-            onToggle={(_, isOpen) => {
-              setIsFilterAttributeOpen(isOpen);
-            }}
-            onSelect={(_, selection, isPlaceholder) => {
-              if (!isPlaceholder) {
-                setFilterAttribute(selection as TFilterAttribute);
-                setIsFilterAttributeOpen(false);
-              }
-            }}
-            selections={filterAttribute}
-            isOpen={isFilterAttributeOpen}
-          >
-            {Object.keys(filterOptions.filterAttributes).map((filterAttributeKey: string) => {
-              const filterAttribute = filterOptions.filterAttributes[filterAttributeKey];
-              // use 'title' attribute as default
-              filterAttribute.toString = () => {
-                return filterAttribute.title;
-              };
+          <div className={styles['filter-attribute-select']}>
+            <Select
+              isOpen={isFilterAttributeOpen}
+              onToggle={setIsFilterAttributeOpen}
+              value={filterAttribute}
+              onChange={(_, selection) => {
+                setFilterValue('');
+                setFilterAttribute(selection);
+              }}
+              isToggleFullWidth={false}
+            >
+              {Object.keys(filterOptions.filterAttributes).map((filterAttributeKey: string) => {
+                const filterAttribute = filterOptions.filterAttributes[filterAttributeKey];
+                // use 'title' attribute as default
+                filterAttribute.toString = () => {
+                  return filterAttribute.title;
+                };
 
-              return <SelectOption key={filterAttribute.id} value={filterAttribute} />;
-            })}
-          </Select>
+                return <SelectOption key={filterAttribute.id} option={filterAttribute} />;
+              })}
+            </Select>
+          </div>
         </InputGroupItem>
 
         <InputGroupItem>
           {/* filter value */}
           {filterAttribute.values?.length ? (
-            <Select
-              className={styles['form-input']}
-              variant={SelectVariant.single}
-              hasPlaceholderStyle
-              placeholderText="Filter by option"
-              onToggle={(_, isOpen) => {
-                setIsFilterValueOpen(isOpen);
-              }}
-              onSelect={(_, selection, isPlaceholder) => {
-                addFilter(filterAttribute, selection as string);
-                setIsFilterValueOpen(false);
-              }}
-              isOpen={isFilterValueOpen}
-            >
-              {filterAttribute.values.map((filterValue: string) => {
-                return <SelectOption key={filterValue} value={filterValue} />;
-              })}
-            </Select>
+            <div className={styles['form-input']}>
+              <Select
+                isOpen={isFilterValueOpen}
+                onToggle={setIsFilterValueOpen}
+                value={filterValue}
+                onChange={(_, selection) => {
+                  setFilterValue(selection.toString());
+                  addFilter(filterAttribute, selection as string);
+                }}
+                placeholder="Filter by option"
+                isToggleFullWidth={false}
+              >
+                {filterAttribute.values.map((filterValue: string) => {
+                  return <SelectOption key={filterValue} option={filterValue} />;
+                })}
+              </Select>
+            </div>
           ) : (
             <TextInput
               className={styles['form-input']}

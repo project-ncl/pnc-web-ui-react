@@ -1,13 +1,7 @@
-import {
-  OptionsMenu,
-  OptionsMenuItem,
-  OptionsMenuItemGroup,
-  OptionsMenuSeparator,
-  OptionsMenuToggle,
-  OptionsMenuToggleProps,
-} from '@patternfly/react-core/deprecated';
+import { Divider, MenuToggle, Select, SelectGroup, SelectList, SelectOption } from '@patternfly/react-core';
 import { ArrowsAltVIcon, LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
+import { useMemo } from 'react';
 
 import { ISortAttributes, SortFunction, TSortAttribute } from 'hooks/useSorting';
 
@@ -23,82 +17,96 @@ export interface ISortGroupProps {
     activeSortDirection?: string;
   };
   isDropdownOpen: boolean;
-  onDropdownToggle: OptionsMenuToggleProps['onToggle'];
+  onDropdownToggle: () => void;
 }
 
 export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISortGroupProps) => {
-  const sortGroupAttributes = Object.values(sort.sortAttributes).filter(
-    (sortAttribute) => sort.sortGroup === sortAttribute.sort.group
+  const sortGroupAttributes = useMemo(
+    () => Object.values(sort.sortAttributes).filter((sortAttribute) => sort.sortGroup === sortAttribute.sort.group),
+    [sort.sortAttributes, sort.sortGroup]
   );
-  const isSortGroupActive =
-    !!sort.activeSortAttribute && sort.sortGroup === sort.sortAttributes[sort.activeSortAttribute].sort.group;
+
+  const fallbackSortAttribute = useMemo(
+    () => sortGroupAttributes.at(0)?.id || sort.activeSortAttribute,
+    [sort.activeSortAttribute, sortGroupAttributes]
+  );
+
+  const isSortGroupActive = useMemo(
+    () => !!sort.activeSortAttribute && sort.sortGroup === sort.sortAttributes[sort.activeSortAttribute].sort.group,
+    [sort.sortAttributes, sort.activeSortAttribute, sort.sortGroup]
+  );
 
   return (
-    <OptionsMenu
-      className={css(styles['sort-group'], isSortGroupActive && styles['sort-group-selected'])}
+    <Select
       id="sort-options"
-      menuItems={[
-        <OptionsMenuItemGroup key={0}>
-          {sortGroupAttributes.map((sortAttribute: TSortAttribute, index: number) => (
-            <OptionsMenuItem
-              key={index}
+      toggle={(toggleRef) => (
+        <MenuToggle
+          ref={toggleRef}
+          className={css(styles['sort-toggle'], isSortGroupActive && styles['sort-toggle--active'])}
+          variant="plain"
+          isExpanded={isDropdownOpen}
+          onClick={onDropdownToggle}
+        >
+          <span className={styles['sort-title']}>{title}</span>
+
+          {isSortGroupActive ? (
+            sort.activeSortDirection === 'asc' ? (
+              <LongArrowAltUpIcon className={styles['sort-icon']} />
+            ) : (
+              <LongArrowAltDownIcon className={styles['sort-icon']} />
+            )
+          ) : (
+            <ArrowsAltVIcon className={styles['sort-icon']} />
+          )}
+
+          {isSortGroupActive && (
+            <span className={styles['sort-icon-title']}>{sort.sortAttributes[sort.activeSortAttribute!].title}</span>
+          )}
+        </MenuToggle>
+      )}
+      isOpen={isDropdownOpen}
+      onOpenChange={onDropdownToggle}
+      onSelect={onDropdownToggle}
+    >
+      <SelectGroup label="Column" key="column">
+        <SelectList>
+          {sortGroupAttributes.map((sortAttribute: TSortAttribute) => (
+            <SelectOption
+              key={sortAttribute.id}
               isSelected={sort.activeSortAttribute === sortAttribute.id}
-              onSelect={() => {
+              onClick={() => {
                 sort.sort({ sortAttribute: sortAttribute.id, sortDirection: sort.activeSortDirection });
               }}
             >
               {sortAttribute.title}
-            </OptionsMenuItem>
+            </SelectOption>
           ))}
-        </OptionsMenuItemGroup>,
-        <OptionsMenuSeparator key={1} />,
-        <OptionsMenuItemGroup key={2}>
-          <OptionsMenuItem
+        </SelectList>
+      </SelectGroup>
+
+      <Divider key="divider" />
+
+      <SelectGroup label="Order" key="order">
+        <SelectList>
+          <SelectOption
             id="ascending"
             isSelected={isSortGroupActive && sort.activeSortDirection === 'asc'}
-            onSelect={() => sort.sort({ sortAttribute: sort.activeSortAttribute, sortDirection: 'asc' })}
+            onClick={() => sort.sort({ sortAttribute: fallbackSortAttribute, sortDirection: 'asc' })}
           >
             Ascending
-          </OptionsMenuItem>
-          <OptionsMenuItem
+          </SelectOption>
+          <SelectOption
             id="descending"
             isSelected={isSortGroupActive && sort.activeSortDirection === 'desc'}
-            onSelect={() => sort.sort({ sortAttribute: sort.activeSortAttribute, sortDirection: 'desc' })}
+            onClick={() => sort.sort({ sortAttribute: fallbackSortAttribute, sortDirection: 'desc' })}
           >
             Descending
-          </OptionsMenuItem>
-          <OptionsMenuItem id="cancel" isDisabled={!isSortGroupActive} onSelect={() => sort.sort({ resetSorting: true })}>
+          </SelectOption>
+          <SelectOption id="cancel" isDisabled={!isSortGroupActive} onClick={() => sort.sort({ resetSorting: true })}>
             None
-          </OptionsMenuItem>
-        </OptionsMenuItemGroup>,
-      ]}
-      isOpen={isDropdownOpen}
-      toggle={
-        <OptionsMenuToggle
-          className={styles['sort-icon-toggle']}
-          hideCaret
-          toggleTemplate={
-            <>
-              <span className={styles['sort-title']}>{title}</span>
-              {isSortGroupActive ? (
-                sort.activeSortDirection === 'asc' ? (
-                  <LongArrowAltUpIcon className={styles['sort-icon']} />
-                ) : (
-                  <LongArrowAltDownIcon className={styles['sort-icon']} />
-                )
-              ) : (
-                <ArrowsAltVIcon className={styles['sort-icon']} />
-              )}
-              {isSortGroupActive && (
-                <span className={styles['sort-icon-title']}>{sort.sortAttributes[sort.activeSortAttribute!].title}</span>
-              )}
-            </>
-          }
-          onToggle={onDropdownToggle}
-        />
-      }
-      isPlain
-      isGrouped
-    />
+          </SelectOption>
+        </SelectList>
+      </SelectGroup>
+    </Select>
   );
 };

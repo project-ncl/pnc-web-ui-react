@@ -1,5 +1,4 @@
 import { Popover } from '@patternfly/react-core';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core/deprecated';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AxiosResponse } from 'axios';
 import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
@@ -10,6 +9,8 @@ import { Build } from 'pnc-api-types-ts';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
+import { Select } from 'components/Select/Select';
+import { SelectOption } from 'components/Select/SelectOption';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildApi from 'services/buildApi';
@@ -228,7 +229,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const serviceContainerBuildMetricsRunner = serviceContainerBuildMetrics.run;
 
   const navigationSelectOptions: Array<any> = navigationOptions.map((option) => (
-    <SelectOption key={option.id} value={option.name} />
+    <SelectOption key={option.id} option={option.name} />
   ));
 
   const chartRef = useRef<HTMLCanvasElement>(null);
@@ -522,12 +523,11 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
               <div className="pull-right">
                 Display every&nbsp;
                 <Select
-                  width={100}
-                  variant={SelectVariant.single}
-                  onToggle={onToggle}
-                  onSelect={onSelect}
-                  selections={selected}
                   isOpen={isOpen}
+                  onToggle={onToggle}
+                  value={selected}
+                  onChange={onSelect}
+                  isToggleFullWidth={false}
                   aria-labelledby={`${componentId}-select`}
                 >
                   {navigationSelectOptions}

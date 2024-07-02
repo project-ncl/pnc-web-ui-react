@@ -8,7 +8,6 @@ import {
   InputGroupText,
   TextInput,
 } from '@patternfly/react-core';
-import { Select, SelectOption } from '@patternfly/react-core/deprecated';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,6 +30,8 @@ import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
+import { Select } from 'components/Select/Select';
+import { SelectOption } from 'components/Select/SelectOption';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -277,34 +278,17 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           label={productReleaseEntityAttributes.supportLevel.title}
           fieldId={productReleaseEntityAttributes.supportLevel.id}
         >
-          <FormInput<string>
+          <Select
+            id={productReleaseEntityAttributes.supportLevel.id}
+            isOpen={isSupportLevelSelectOpen}
+            onToggle={setIsSupportLevelSelectOpen}
+            placeholder="Select support level"
             {...register<string>(productReleaseEntityAttributes.supportLevel.id, fieldConfigs.supportLevel)}
-            render={({ value, validated, onChange, onBlur }) => (
-              <Select
-                menuAppendTo="parent"
-                id={productReleaseEntityAttributes.supportLevel.id}
-                name={productReleaseEntityAttributes.supportLevel.id}
-                variant="single"
-                isOpen={isSupportLevelSelectOpen}
-                selections={value || undefined}
-                validated={validated}
-                onToggle={(_, value) => setIsSupportLevelSelectOpen(value)}
-                onSelect={(event, supportLevel, isPlaceholder) => {
-                  if (!isPlaceholder) {
-                    onChange(event, supportLevel as string);
-                    setIsSupportLevelSelectOpen(false);
-                  }
-                }}
-                onBlur={onBlur}
-                hasPlaceholderStyle
-                placeholderText="Select support level"
-              >
-                {productReleaseEntityAttributes.supportLevel.values.map((supportLevel, index) => (
-                  <SelectOption key={index} value={supportLevel} />
-                ))}
-              </Select>
-            )}
-          />
+          >
+            {productReleaseEntityAttributes.supportLevel.values.map((supportLevel) => (
+              <SelectOption key={supportLevel} option={supportLevel as string} />
+            ))}
+          </Select>
           <FormInputHelperText variant="error">
             {getFieldErrors(productReleaseEntityAttributes.supportLevel.id)}
           </FormInputHelperText>

@@ -15,7 +15,7 @@ import {
   TextContent,
   TextInput,
 } from '@patternfly/react-core';
-import { Select, SelectOption } from '@patternfly/react-core/deprecated';
+import { SelectOption as SelectOptionPF } from '@patternfly/react-core/deprecated';
 import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
@@ -53,6 +53,8 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { ScmRepositoryUrlAlert } from 'components/ScmRepositoryUrlAlert/ScmRepositoryUrlAlert';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
+import { Select } from 'components/Select/Select';
+import { SelectOption } from 'components/Select/SelectOption';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TextInputFindMatch } from 'components/TextInputFindMatch/TextInputFindMatch';
@@ -593,36 +595,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             label={buildConfigEntityAttributes.buildType.title}
             fieldId={buildConfigEntityAttributes.buildType.id}
           >
-            <FormInput<string>
+            <Select
+              id={buildConfigEntityAttributes.buildType.id}
+              isOpen={isBuildTypeSelectOpen}
+              onToggle={setIsBuildTypeSelectOpen}
+              placeholder="Select Build type"
               {...register<string>(buildConfigEntityAttributes.buildType.id, fieldConfigs.buildType)}
-              render={({ value, validated, onChange, onBlur }) => (
-                <Select
-                  menuAppendTo="parent"
-                  id={buildConfigEntityAttributes.buildType.id}
-                  name={buildConfigEntityAttributes.buildType.id}
-                  variant="single"
-                  isOpen={isBuildTypeSelectOpen}
-                  selections={value || undefined}
-                  validated={validated}
-                  onToggle={(_, value) => setIsBuildTypeSelectOpen(value)}
-                  onSelect={(event, buildType, isPlaceholder) => {
-                    if (!isPlaceholder) {
-                      onChange(event, buildType as string);
-                      setIsBuildTypeSelectOpen(false);
-                    }
-                  }}
-                  onBlur={onBlur}
-                  hasPlaceholderStyle
-                  placeholderText="Select Build type"
-                >
-                  {buildConfigEntityAttributes.buildType.values.map((buildType, index) => (
-                    <SelectOption key={index} value={buildType}>
-                      {buildTypeData[buildType].title}
-                    </SelectOption>
-                  ))}
-                </Select>
-              )}
-            />
+            >
+              {buildConfigEntityAttributes.buildType.values.map((buildType) => (
+                <SelectOption key={buildType} option={buildType} />
+              ))}
+            </Select>
             <FormInputHelperText variant="error">{getFieldErrors(buildConfigEntityAttributes.buildType.id)}</FormInputHelperText>
           </FormGroup>
 
@@ -892,7 +875,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       dropdownDirection="up"
                     >
                       {buildParamOptions.map((option, index) => (
-                        <SelectOption
+                        <SelectOptionPF
                           key={index}
                           value={option.title}
                           description={
@@ -945,30 +928,23 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
                       {key === 'BUILD_CATEGORY' ? (
                         <Select
-                          menuAppendTo="parent"
                           id={key}
-                          name={key}
-                          variant="single"
                           isOpen={isBuildCategorySelectOpen}
-                          selections={rest.value || undefined}
-                          validated={rest.validated}
-                          onToggle={(_, value) => setIsBuildCategorySelectOpen(value)}
-                          onSelect={(event, buildCategory, isPlaceholder) => {
-                            if (!isPlaceholder) {
-                              setBuildParamData({
-                                ...buildParamData,
-                                [key]: { ...buildParamData[key], value: buildCategory as string },
-                              });
-                              onChange(event, buildCategory as string);
-                              setIsBuildCategorySelectOpen(false);
-                            }
+                          onToggle={setIsBuildCategorySelectOpen}
+                          value={rest.value || undefined}
+                          onChange={(event, buildCategory) => {
+                            setBuildParamData({
+                              ...buildParamData,
+                              [key]: { ...buildParamData[key], value: buildCategory as string },
+                            });
+                            onChange(event, buildCategory as string);
                           }}
+                          validated={rest.validated}
+                          placeholder="Select Build category"
                           onBlur={rest.onBlur}
-                          hasPlaceholderStyle
-                          placeholderText="Select Build category"
                         >
-                          <SelectOption value="STANDARD">STANDARD</SelectOption>
-                          <SelectOption value="SERVICE">SERVICE</SelectOption>
+                          <SelectOption option="STANDARD" />
+                          <SelectOption option="SERVICE" />
                         </Select>
                       ) : (
                         <TextArea

@@ -11,7 +11,7 @@ import { transformFormToValues } from 'utils/patchHelper';
 
 export type TValue = string | number | boolean;
 
-type TState = TextInputProps['validated'];
+export type TState = TextInputProps['validated'];
 
 interface IValidator {
   validator: (value: any) => boolean;
