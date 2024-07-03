@@ -35,7 +35,7 @@ const fieldConfigs = {
         validator: validateProductVersionName,
         errorMessage: 'The version should consist of two numeric parts separated by a dot (e.g. 1.0).',
       },
-      maxLengthValidator(255),
+      maxLengthValidator(50),
     ],
   },
   'attributes.brewTagPrefix': {

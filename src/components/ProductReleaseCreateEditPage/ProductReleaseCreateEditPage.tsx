@@ -52,7 +52,7 @@ const fieldConfigs = {
         errorMessage:
           'The version consists of two parts separated by a dot, first part is numeric, second alphanumeric (e.g 1.GA).',
       },
-      maxLengthValidator(255),
+      maxLengthValidator(50),
     ],
   },
   releaseDate: {
