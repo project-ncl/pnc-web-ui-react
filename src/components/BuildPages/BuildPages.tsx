@@ -63,12 +63,21 @@ export const BuildPages = () => {
       (wsData: any) => {
         if (hasBuildFinished(wsData, { buildId })) {
           serviceContainerBuildRunner({ serviceData: { id: buildId } });
+
+          serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+          serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
         } else if (hasBuildStatusChanged(wsData, { buildId })) {
           const wsBuild: Build = wsData.build;
           serviceContainerBuildSetter(wsBuild);
         }
       },
-      [serviceContainerBuildRunner, serviceContainerBuildSetter, buildId]
+      [
+        serviceContainerBuildRunner,
+        serviceContainerBuildSetter,
+        serviceContainerArtifactsRunner,
+        serviceContainerDependenciesRunner,
+        buildId,
+      ]
     )
   );
 
