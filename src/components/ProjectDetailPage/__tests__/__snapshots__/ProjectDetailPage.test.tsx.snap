@@ -148,9 +148,9 @@ Object {
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-label="Options menu"
-                        aria-labelledby=" pf-select-toggle-id-9"
+                        aria-labelledby=" pf-select-toggle-id-7"
                         class="pf-v5-c-select__toggle"
-                        id="pf-select-toggle-id-9"
+                        id="pf-select-toggle-id-7"
                         type="button"
                       >
                         <div
@@ -250,7 +250,6 @@ Object {
                         0
                       </b>
                        
-                      
                     </span>
                     <span
                       class="pf-v5-c-menu-toggle__controls"
@@ -574,9 +573,9 @@ Object {
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-label="Options menu"
-                      aria-labelledby=" pf-select-toggle-id-9"
+                      aria-labelledby=" pf-select-toggle-id-7"
                       class="pf-v5-c-select__toggle"
-                      id="pf-select-toggle-id-9"
+                      id="pf-select-toggle-id-7"
                       type="button"
                     >
                       <div
@@ -676,7 +675,6 @@ Object {
                       0
                     </b>
                      
-                    
                   </span>
                   <span
                     class="pf-v5-c-menu-toggle__controls"
