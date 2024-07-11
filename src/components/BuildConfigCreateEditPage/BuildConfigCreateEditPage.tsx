@@ -363,12 +363,19 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         });
     }
 
-    // then() is not required, it's handled using WebSocket
     return serviceContainerCreateWithScm
       .run({
         serviceData: {
           data: { buildConfig, scmUrl: data.scmUrl, preBuildSyncEnabled: data.preBuildSyncEnabled },
         },
+      })
+      .then((response) => {
+        // SCM repository already cloned internally
+        if ('buildConfig' in response.data) {
+          setBuildConfigCreatingLoading(false);
+          setBuildConfigCreatingFinished(response.data.buildConfig);
+        }
+        // else it's handled by WebSockets
       })
       .catch((error) => {
         setBuildConfigCreatingLoading(false);
