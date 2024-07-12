@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
@@ -22,6 +22,7 @@ import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PushedBuildsList } from 'components/PushedBuildsList/PushedBuildsList';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';

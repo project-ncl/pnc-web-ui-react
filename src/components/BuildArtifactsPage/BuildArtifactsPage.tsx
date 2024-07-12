@@ -1,4 +1,4 @@
-import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent } from '@patternfly/react-core';
 import { useState } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -10,6 +10,7 @@ import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityMo
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildApi from 'services/buildApi';
 
@@ -37,22 +38,22 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
   return (
     <>
       <Toolbar>
-        <ToolbarItem>
+        <ToolbarItem reservedWidth>
           <TextContent>
             <Text component="h2">Artifacts</Text>
+            <Text>
+              This list contains artifacts produced by this Build. Each Artifact is represented by PNC Identifier. You can also
+              change quality of all artifacts produced by the Build here.
+            </Text>
           </TextContent>
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem alignRight>
           <ArtifactEditQualityModalButton
             toggleModal={toggleEditQualitiesModal}
             isBuildVariant
             buildArtifactsCount={serviceContainerArtifacts.data?.content?.length}
           />
         </ToolbarItem>
-        <Text>
-          This list contains artifacts produced by this Build. Each Artifact is represented by PNC Identifier. You can also change
-          quality of all artifacts produced by the Build here.
-        </Text>
       </Toolbar>
 
       <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />

@@ -1,4 +1,4 @@
-import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent } from '@patternfly/react-core';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -6,6 +6,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactProductMilestonesReleasesList } from 'components/ArtifactProductMilestonesReleasesList/ArtifactProductMilestonesReleasesList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as artifactApi from 'services/artifactApi';
 

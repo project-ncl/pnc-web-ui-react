@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -8,6 +8,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productVersionApi from 'services/productVersionApi';
 
@@ -29,12 +30,12 @@ export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductV
   return (
     <>
       <Toolbar borderBottom>
-        <ToolbarItem>
+        <ToolbarItem reservedWidth>
           <TextContent>
             <Text component={TextVariants.h2}>Build Configs</Text>
           </TextContent>
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem alignRight>
           <ProtectedComponent>
             <ActionButton link="edit">Edit list</ActionButton>
           </ProtectedComponent>

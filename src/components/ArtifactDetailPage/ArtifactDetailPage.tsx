@@ -1,4 +1,4 @@
-import { Grid, GridItem, Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Grid, GridItem, Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 
@@ -18,6 +18,7 @@ import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as artifactApi from 'services/artifactApi';
 

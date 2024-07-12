@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -8,6 +8,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 
@@ -29,20 +30,20 @@ export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }: IBuildConf
   return (
     <>
       <Toolbar borderBottom>
-        <ToolbarItem>
+        <ToolbarItem reservedWidth>
           <TextContent>
             <Text component={TextVariants.h2}>Dependencies</Text>
+            <Text>
+              This list contains Build Configs that are dependencies of this Build Config. Depending on the build preferences,
+              Build Configs from this list may be rebuilt when building this Build Config.
+            </Text>
           </TextContent>
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem alignRight>
           <ProtectedComponent>
             <ActionButton link="edit">Edit list</ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
-        <Text>
-          This list contains Build Configs that are dependencies of this Build Config. Depending on the build preferences, Build
-          Configs from this list may be rebuilt when building this Build Config.
-        </Text>
       </Toolbar>
 
       <BuildConfigsList componentId={componentId} serviceContainerBuildConfigs={serviceContainerDependencies} />
