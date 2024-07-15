@@ -32,6 +32,7 @@ export const BuildLogPage = () => {
     () => userService.getUserId() === serviceContainerBuild.data?.user?.id,
     [serviceContainerBuild.data]
   );
+  const isCurrentUserAdmin = useMemo(() => userService.isAdminUser(), []);
   const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/) || [], [serviceContainerBuildLog.data]);
 
   useEffect(() => {
@@ -42,19 +43,25 @@ export const BuildLogPage = () => {
 
   useEffect(() => {
     if (
-      buildBelongToCurrentUser &&
+      (buildBelongToCurrentUser || isCurrentUserAdmin) &&
       serviceContainerBuild.data?.status &&
       buildStatusData[serviceContainerBuild.data.status].failed
     ) {
       serviceContainerBuildSshCredentialsRunner({ serviceData: { id: buildId } });
     }
-  }, [serviceContainerBuildSshCredentialsRunner, buildId, buildBelongToCurrentUser, serviceContainerBuild.data?.status]);
+  }, [
+    serviceContainerBuildSshCredentialsRunner,
+    buildId,
+    buildBelongToCurrentUser,
+    serviceContainerBuild.data?.status,
+    isCurrentUserAdmin,
+  ]);
 
   const logActions = [
     <SshCredentialsButton
       key="ssh-credentials"
       serviceContainerSshCredentials={serviceContainerBuildSshCredentials}
-      buildBelongToCurrentUser={buildBelongToCurrentUser}
+      buildBelongToCurrentUser={buildBelongToCurrentUser || isCurrentUserAdmin}
       hasBuildFailed={!!serviceContainerBuild.data?.status && !!buildStatusData[serviceContainerBuild.data.status].failed}
     />,
     <BuildLogLink key="log-link" buildId={buildId!} />,
