@@ -11,6 +11,7 @@ import { SSHCredentials } from 'pnc-api-types-ts';
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ProgressButton } from 'components/ProgressButton/ProgressButton';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface ISshCredentialsButtonProps {
@@ -33,30 +34,33 @@ export const SshCredentialsButton = ({
     : undefined;
 
   return (
-    <Popover
-      position="bottom"
-      bodyContent={
-        <DescriptionList isHorizontal isCompact>
-          <DescriptionListGroup>
-            <DescriptionListTerm>command:</DescriptionListTerm>
-            <DescriptionListDescription>{serviceContainerSshCredentials.data?.command}</DescriptionListDescription>
-          </DescriptionListGroup>
-          <DescriptionListGroup>
-            <DescriptionListTerm>password:</DescriptionListTerm>
-            <DescriptionListDescription>{serviceContainerSshCredentials.data?.password}</DescriptionListDescription>
-          </DescriptionListGroup>
-        </DescriptionList>
-      }
-    >
-      <TooltipWrapper tooltip={disabledReason}>
-        <ProgressButton
-          variant="control"
-          serviceContainer={serviceContainerSshCredentials}
-          isDisabled={!!disabledReason || !!serviceContainerSshCredentials.error}
-        >
-          SSH Credentials
-        </ProgressButton>
-      </TooltipWrapper>
-    </Popover>
+    <ProtectedComponent>
+      <Popover
+        position="bottom"
+        bodyContent={
+          <DescriptionList isHorizontal isCompact>
+            <DescriptionListGroup>
+              <DescriptionListTerm>command:</DescriptionListTerm>
+              <DescriptionListDescription>{serviceContainerSshCredentials.data?.command}</DescriptionListDescription>
+            </DescriptionListGroup>
+            <DescriptionListGroup>
+              <DescriptionListTerm>password:</DescriptionListTerm>
+              <DescriptionListDescription>{serviceContainerSshCredentials.data?.password}</DescriptionListDescription>
+            </DescriptionListGroup>
+          </DescriptionList>
+        }
+      >
+        <TooltipWrapper tooltip={disabledReason}>
+          <ProgressButton
+            variant="control"
+            isSmall
+            serviceContainer={serviceContainerSshCredentials}
+            isDisabled={!!disabledReason || !!serviceContainerSshCredentials.error}
+          >
+            SSH Credentials
+          </ProgressButton>
+        </TooltipWrapper>
+      </Popover>
+    </ProtectedComponent>
   );
 };
