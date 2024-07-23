@@ -1,6 +1,5 @@
 import { Popover } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
-import { AxiosResponse } from 'axios';
 import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -247,10 +246,12 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
     const buildIds = transferBuildsToBuildId(currentFilteredBuilds);
     if (buildIds) {
-      serviceContainerBuildMetricsRunner({ serviceData: { buildIds } }).then((res: AxiosResponse) => {
+      serviceContainerBuildMetricsRunner({ serviceData: { buildIds } }).then((response) => {
+        if (response.status !== 'success') return;
+
         setBuildMetrics({
           builds: currentFilteredBuilds,
-          buildMetricsData: res.data,
+          buildMetricsData: response.result.data as IBuildMetricsData[],
         });
       });
     }

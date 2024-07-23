@@ -70,7 +70,9 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
         serviceData: { data: data as Product },
       })
       .then((response) => {
-        const newProductId = response?.data?.id;
+        if (response.status !== 'success') return;
+
+        const newProductId = response.result.data.id;
         if (!newProductId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -102,7 +104,9 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
   useEffect(() => {
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: productId } }).then((response) => {
-        setFieldValues(response.data);
+        if (response.status !== 'success') return;
+
+        setFieldValues(response.result.data);
       });
     }
   }, [isEditPage, productId, serviceContainerEditPageGetRunner, setFieldValues]);

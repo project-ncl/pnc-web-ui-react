@@ -91,7 +91,9 @@ export const AdministrationPage = () => {
 
   useEffect(() => {
     serviceContainerPncStatusGetRunner().then((response) => {
-      const pncStatus = response.data;
+      if (response.status !== 'success') return;
+
+      const pncStatus = response.result.data;
       const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).custom;
       setFieldValues({ ...pncStatus, eta });
     });

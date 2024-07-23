@@ -71,7 +71,9 @@ export const GroupConfigDetailPage = ({
 
   useEffect(() => {
     serviceContainerGroupConfigRunner({ serviceData: { id: groupConfigId } }).then((response) => {
-      const groupConfig = response.data;
+      if (response.status !== 'success') return;
+
+      const groupConfig = response.result.data;
 
       if (groupConfig.productVersion) {
         serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } });

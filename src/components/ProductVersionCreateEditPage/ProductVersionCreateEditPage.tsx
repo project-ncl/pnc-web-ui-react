@@ -84,7 +84,9 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
         serviceData: { data: { ...data, product: { id: productId } } as ProductVersion },
       })
       .then((response) => {
-        const newProductVersionId = response?.data?.id;
+        if (response.status !== 'success') return;
+
+        const newProductVersionId = response.result.data.id;
         if (!newProductVersionId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -120,9 +122,11 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
     serviceContainerProductRunner({ serviceData: { id: productId } });
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: productVersionId } }).then((response) => {
+        if (response.status !== 'success') return;
+
         setFieldValues({
-          version: response.data?.version,
-          'attributes.brewTagPrefix': response.data?.attributes?.BREW_TAG_PREFIX,
+          version: response.result.data?.version,
+          'attributes.brewTagPrefix': response.result.data?.attributes?.BREW_TAG_PREFIX,
         });
       });
     }

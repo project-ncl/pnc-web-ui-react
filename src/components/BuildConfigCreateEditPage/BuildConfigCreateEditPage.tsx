@@ -345,8 +345,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           },
         })
         .then((response) => {
-          const newBuildConfig = response?.data;
-          if (!newBuildConfig?.id) {
+          if (response.status !== 'success') return;
+
+          const newBuildConfig = response.result.data;
+          if (!newBuildConfig.id) {
             throw new PncError({
               code: 'NEW_ENTITY_ID_ERROR',
               message: `Invalid buildConfigId coming from Orch POST response: ${newBuildConfig?.id}`,
@@ -370,10 +372,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         },
       })
       .then((response) => {
+        if (response.status !== 'success') return;
+
         // SCM repository already cloned internally
-        if ('buildConfig' in response.data) {
+        if ('buildConfig' in response.result.data) {
           setBuildConfigCreatingLoading(false);
-          setBuildConfigCreatingFinished(response.data.buildConfig);
+          setBuildConfigCreatingFinished(response.result.data.buildConfig);
         }
         // else it's handled by WebSockets
       })
@@ -422,7 +426,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
     }
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: buildConfigId } }).then((response) => {
-        const buildConfig = response.data;
+        if (response.status !== 'success') return;
+
+        const buildConfig = response.result.data;
         const buildConfigFlat = {
           ...buildConfig,
           environment: buildConfig.environment?.description,
@@ -442,7 +448,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         if (buildConfig.productVersion) {
           setShowProductVersionSection(true);
           serviceContainerProductVersionRunner({ serviceData: { id: buildConfig.productVersion.id } }).then((response) => {
-            const productVersion: ProductVersion = response.data;
+            if (response.status !== 'success') return;
+            const productVersion: ProductVersion = response.result.data;
 
             setSelectedProductVersion(productVersion);
             setSelectedProduct(productVersion.product);
@@ -462,7 +469,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   useEffect(() => {
     serviceContainerParametersRunner().then((response) => {
-      setBuildParamOptions(response.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description })));
+      if (response.status !== 'success') return;
+
+      setBuildParamOptions(
+        response.result.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description }))
+      );
     });
   }, [serviceContainerParametersRunner]);
 
