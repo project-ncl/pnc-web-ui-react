@@ -133,7 +133,9 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
         },
       })
       .then((response) => {
-        const newProductMilestoneId = response?.data?.id;
+        if (response.status !== 'success') return;
+
+        const newProductMilestoneId = response.result.data.id;
         if (!newProductMilestoneId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -198,7 +200,9 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
   useEffect(() => {
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
-        const productMilestone: ProductMilestone = response.data;
+        if (response.status !== 'success') return;
+
+        const productMilestone: ProductMilestone = response.result.data;
         const productMilestoneVersionShort = getProductVersionSuffix(productMilestone);
         const startingDate = productMilestone.startingDate && createDateTime({ date: productMilestone.startingDate }).date;
         const plannedEndDate = productMilestone.plannedEndDate && createDateTime({ date: productMilestone.plannedEndDate }).date;

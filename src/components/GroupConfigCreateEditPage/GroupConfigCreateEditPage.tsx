@@ -85,7 +85,9 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         },
       })
       .then((response) => {
-        const newGroupConfigId = response?.data?.id;
+        if (response.status !== 'success') return;
+
+        const newGroupConfigId = response.result.data.id;
         if (!newGroupConfigId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -130,12 +132,16 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   useEffect(() => {
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: groupConfigId } }).then((response) => {
-        const groupConfig: GroupConfiguration = response.data;
+        if (response.status !== 'success') return;
+
+        const groupConfig: GroupConfiguration = response.result.data;
 
         if (groupConfig.productVersion) {
           setFieldValues({ name: groupConfig.name });
           serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } }).then((response) => {
-            const productVersion: ProductVersion = response.data;
+            if (response.status !== 'success') return;
+
+            const productVersion: ProductVersion = response.result.data;
 
             setSelectedProductVersion(productVersion);
             setSelectedProduct(productVersion.product);

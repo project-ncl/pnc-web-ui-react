@@ -184,7 +184,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
   useEffect(() => {
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: scmRepositoryId } }).then((response) => {
-        setFieldValues(response.data);
+        if (response.status !== 'success') return;
+
+        setFieldValues(response.result.data);
       });
     }
   }, [isEditPage, scmRepositoryId, serviceContainerEditPageGetRunner, setFieldValues]);

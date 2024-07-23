@@ -83,7 +83,9 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   useEffect(() => {
     serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
-      const productMilestone = response.data;
+      if (response.status !== 'success') return;
+
+      const productMilestone = response.result.data;
 
       if (productMilestone.productVersion) {
         serviceContainerProductVersionRunner({ serviceData: { id: productMilestone.productVersion.id } });

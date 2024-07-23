@@ -39,9 +39,13 @@ export interface IService<U extends TServiceParams> {
   requestConfig?: AxiosRequestConfig;
 }
 
+export type ServiceContainerRunnerFunctionResult<T extends TServiceData> =
+  | { status: 'success'; result: AxiosResponse<T> }
+  | { status: 'canceled'; result: Error | AxiosError };
+
 export type ServiceContainerRunnerFunction<T extends TServiceData, U extends TServiceParams> = (
   iService?: IService<U>
-) => Promise<AxiosResponse<T>>;
+) => Promise<ServiceContainerRunnerFunctionResult<T>>;
 
 /**
  * Use when only data and state of the service is needed and possibly, 'run' function params are unknown.
@@ -149,22 +153,22 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
           setError(ERROR_INIT);
         });
 
-        return response;
+        return { status: 'success', result: response } as const;
       })
       .catch((error: Error | AxiosError) => {
-        const errorMessage = getErrorMessage(error);
+        if (error.name === 'CanceledError') {
+          return { status: 'canceled', result: error } as const;
+        }
 
-        if (error.name !== 'CanceledError') {
-          // execute only for last request
-          if (loadingCount.current <= 1) {
-            // In a future React version (potentially in React 17) this could be removed as it will be default behavior
-            // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-            ReactDOM.unstable_batchedUpdates(() => {
-              setLoading(false);
-              setError(errorMessage);
-              setData(DataValues.noData);
-            });
-          }
+        // execute only for last request
+        if (loadingCount.current <= 1) {
+          // In a future React version (potentially in React 17) this could be removed as it will be default behavior
+          // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
+          ReactDOM.unstable_batchedUpdates(() => {
+            setLoading(false);
+            setError(getErrorMessage(error));
+            setData(DataValues.noData);
+          });
         }
 
         throw error;

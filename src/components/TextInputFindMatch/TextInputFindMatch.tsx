@@ -50,7 +50,9 @@ export const TextInputFindMatch = <T extends TServiceData>({
           if (!validator || validator(trimmedValue)) {
             fetchCallback(trimmedValue)
               .then((response) => {
-                const data = response.data;
+                if (response.status !== 'success') return;
+
+                const data = response.result.data;
 
                 if (data && (!areServiceDataPaginated(data) || data.content?.length)) {
                   onMatch(data);

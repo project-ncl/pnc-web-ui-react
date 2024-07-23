@@ -78,7 +78,9 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
         serviceData: { data: data as Project },
       })
       .then((response) => {
-        const newProjectId = response?.data?.id;
+        if (response.status !== 'success') return;
+
+        const newProjectId = response.result.data.id;
         if (!newProjectId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -110,7 +112,9 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   useEffect(() => {
     if (isEditPage) {
       serviceContainerEditPageGetRunner({ serviceData: { id: projectId } }).then((response) => {
-        setFieldValues(response.data);
+        if (response.status !== 'success') return;
+
+        setFieldValues(response.result.data);
       });
     }
   }, [isEditPage, projectId, serviceContainerEditPageGetRunner, setFieldValues]);
