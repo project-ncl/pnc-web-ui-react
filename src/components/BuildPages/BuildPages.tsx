@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 import { Build } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
+import { buildStatusData } from 'common/buildStatusData';
 import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -24,8 +25,10 @@ import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { SshCredentialsButton } from 'components/SshCredentialsButton/SshCredentialsButton';
 
 import * as buildApi from 'services/buildApi';
+import { userService } from 'services/userService';
 
 import { generatePageTitle } from 'utils/titleHelper';
 import { isBuildWithLog } from 'utils/utils';
@@ -45,11 +48,19 @@ export const BuildPages = () => {
   const serviceContainerDependencies = useServiceContainer(buildApi.getDependencies);
   const serviceContainerDependenciesRunner = serviceContainerDependencies.run;
 
+  const serviceContainerBuildSshCredentials = useServiceContainer(buildApi.getSshCredentials);
+  const serviceContainerBuildSshCredentialsRunner = serviceContainerBuildSshCredentials.run;
+
   const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
   const [isCancelBuildModalOpen, setIsCancelBuildModalOpen] = useState<boolean>(false);
 
   const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
   const toggleCancelBuildModal = () => setIsCancelBuildModalOpen((isCancelBuildModalOpen) => !isCancelBuildModalOpen);
+
+  const buildBelongToCurrentUser = useMemo(
+    () => userService.getUserId() === serviceContainerBuild.data?.user?.id,
+    [serviceContainerBuild.data]
+  );
 
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
@@ -57,6 +68,16 @@ export const BuildPages = () => {
     serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
     serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
   }, [serviceContainerBuildRunner, serviceContainerArtifactsRunner, serviceContainerDependenciesRunner, buildId]);
+
+  useEffect(() => {
+    if (
+      buildBelongToCurrentUser &&
+      serviceContainerBuild.data?.status &&
+      buildStatusData[serviceContainerBuild.data.status].failed
+    ) {
+      serviceContainerBuildSshCredentialsRunner({ serviceData: { id: buildId } });
+    }
+  }, [serviceContainerBuildSshCredentialsRunner, buildId, buildBelongToCurrentUser, serviceContainerBuild.data?.status]);
 
   usePncWebSocketEffect(
     useCallback(
@@ -126,6 +147,12 @@ export const BuildPages = () => {
   );
 
   const actions = [
+    <SshCredentialsButton
+      key="ssh-credentials"
+      serviceContainerSshCredentials={serviceContainerBuildSshCredentials}
+      buildBelongToCurrentUser={buildBelongToCurrentUser}
+      hasBuildFailed={!!serviceContainerBuild.data?.status && !!buildStatusData[serviceContainerBuild.data.status].failed}
+    />,
     <CancelBuildModalButton
       key="cancel-build-button"
       toggleModal={toggleCancelBuildModal}

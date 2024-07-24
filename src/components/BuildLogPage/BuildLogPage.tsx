@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import { buildStatusData } from 'common/buildStatusData';
-
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -11,10 +9,8 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { SshCredentialsButton } from 'components/SshCredentialsButton/SshCredentialsButton';
 
 import * as buildApi from 'services/buildApi';
-import { userService } from 'services/userService';
 
 export const BuildLogPage = () => {
   const { buildId } = useParamsRequired();
@@ -64,7 +60,7 @@ export const BuildLogPage = () => {
       buildBelongToCurrentUser={buildBelongToCurrentUser || isCurrentUserAdmin}
       hasBuildFailed={!!serviceContainerBuild.data?.status && !!buildStatusData[serviceContainerBuild.data.status].failed}
     />,
-    <BuildLogLink key="log-link" buildId={buildId!} />,
+    <BuildLogLink key="log-link" buildId={buildId!} />
   ];
 
   return (
