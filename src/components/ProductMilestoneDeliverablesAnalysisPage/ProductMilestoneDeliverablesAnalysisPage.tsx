@@ -32,8 +32,11 @@ export const ProductMilestoneDeliverablesAnalysisPage = ({ componentId = 'c1' }:
   const serviceContainerDeliverablesAnalysisSetter = serviceContainerDeliverablesAnalysis.setData;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) =>
-      serviceContainerDeliverablesAnalysisRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerDeliverablesAnalysisRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+      [serviceContainerDeliverablesAnalysisRunner, productMilestoneId]
+    ),
     { componentId }
   );
 

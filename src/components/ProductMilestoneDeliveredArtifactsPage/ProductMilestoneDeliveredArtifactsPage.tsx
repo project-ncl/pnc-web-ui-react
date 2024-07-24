@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -17,7 +19,10 @@ export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: I
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+      [serviceContainerArtifactsRunner, productMilestoneId]
+    ),
     { componentId }
   );
 

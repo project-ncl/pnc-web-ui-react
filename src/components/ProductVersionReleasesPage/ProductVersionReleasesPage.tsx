@@ -1,4 +1,5 @@
 import { Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -23,7 +24,10 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
   const serviceContainerProductReleasesRunner = serviceContainerProductReleases.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerProductReleasesRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerProductReleasesRunner({ serviceData: { id: productVersionId }, requestConfig }),
+      [serviceContainerProductReleasesRunner, productVersionId]
+    ),
     { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 

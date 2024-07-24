@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
+import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { IService, ServiceContainerRunnerFunction, TServiceData, TServiceParams } from 'hooks/useServiceContainer';
 
-import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAreEqual } from 'utils/queryParamsHelper';
+import { IQueryParamsObject } from 'utils/queryParamsHelper';
 
 /**
  * Function returning void is used when no data are returned.
@@ -47,10 +47,9 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
 
 /**
  * Hook executing provided service with several features:
- *  - passing component related Query Params as method arguments
- *  - preventing executing service when it's not necessary, for example
- *    - service was already executed and there were no component related URL changes (like pagination index change, etc)
- *    - service execution should wait until all mandatory Query Params are available in the URL
+ *  - executing the service, passing component related Query Params as method arguments
+ *    - executing the service if there were component related URL changes (like pagination index change, etc.)
+ *    - service execution waits until all mandatory Query Params are available in the URL
  *
  * @param service - Service to be executed
  * @param additionalData
@@ -67,29 +66,17 @@ export const useQueryParamsEffect = <T extends TServiceData, U extends TServiceP
     mandatoryQueryParams?: IMandatoryQueryParams;
   } = {}
 ) => {
-  // null = service was not executed yet
-  // {} = service was already executed, but no component Query Parameters were available in the URL
-  const lastQueryParams = useRef<IQueryParamsObject | null>(null);
-
-  const location = useLocation();
+  const { componentQueryParamsObject } = useComponentQueryParams(componentId);
 
   useEffect(() => {
-    /**
-     * TODO - this hook can be refactored to use {@link useComponentQueryParams}, but some additional external changes
-     * like useCallback usage or other solution needs to be implemented
-     */
-    const componentQueryParamsObject = getComponentQueryParamsObject(location.search, componentId);
-
     // Invoke service only when:
     if (
-      // 1) Query Params were changed
-      !queryParamsObjectsAreEqual(lastQueryParams.current, componentQueryParamsObject) &&
-      // 2) and all mandatory Query Parameters are available in the URL
+      // - all mandatory Query Parameters are available in the URL
+      componentQueryParamsObject &&
       areMandatoryParamsAvailable(mandatoryQueryParams, componentQueryParamsObject)
     ) {
-      lastQueryParams.current = componentQueryParamsObject;
       // Put Query Params coming from the URL to the service
       service({ requestConfig: { params: componentQueryParamsObject } });
     }
-  }, [location.search, componentId, service, mandatoryQueryParams]);
+  }, [componentQueryParamsObject, service, mandatoryQueryParams]);
 };

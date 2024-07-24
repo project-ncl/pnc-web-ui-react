@@ -1,4 +1,5 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -21,7 +22,10 @@ export const BuildConfigDependantsPage = ({ componentId = 'bcd2' }: IBuildConfig
   const serviceContainerDependantsRunner = serviceContainerDependants.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerDependantsRunner({ serviceData: { id: buildConfigId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerDependantsRunner({ serviceData: { id: buildConfigId }, requestConfig }),
+      [serviceContainerDependantsRunner, buildConfigId]
+    ),
     { componentId }
   );
 

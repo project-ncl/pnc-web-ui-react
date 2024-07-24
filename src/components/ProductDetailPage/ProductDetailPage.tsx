@@ -1,5 +1,5 @@
 import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { productEntityAttributes } from 'common/productEntityAttributes';
@@ -41,7 +41,10 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
   }, [serviceContainerProductRunner, productId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerProductVersionsRunner({ serviceData: { id: productId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerProductVersionsRunner({ serviceData: { id: productId }, requestConfig }),
+      [serviceContainerProductVersionsRunner, productId]
+    ),
     {
       componentId,
       mandatoryQueryParams: { pagination: true, sorting: false },

@@ -70,9 +70,12 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
   );
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      serviceContainerBuildsRunner({ serviceData: { id: buildConfigId }, requestConfig });
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        serviceContainerBuildsRunner({ serviceData: { id: buildConfigId }, requestConfig });
+      },
+      [serviceContainerBuildsRunner, buildConfigId]
+    ),
     { componentId: componentIdBuildHistory }
   );
 

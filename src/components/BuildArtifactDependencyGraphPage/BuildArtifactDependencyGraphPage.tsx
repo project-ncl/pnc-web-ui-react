@@ -83,11 +83,14 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
   }, [serviceContainerDependencyGraphRunner, buildId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      serviceContainerArtifactDependenciesRunner({ requestConfig });
-      serviceContainerDependentBuildRunner({ serviceData: { id: requestConfig?.params.dependentBuild } });
-      serviceContainerDependencyBuildRunner({ serviceData: { id: requestConfig?.params.dependencyBuild } });
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        serviceContainerArtifactDependenciesRunner({ requestConfig });
+        serviceContainerDependentBuildRunner({ serviceData: { id: requestConfig?.params.dependentBuild } });
+        serviceContainerDependencyBuildRunner({ serviceData: { id: requestConfig?.params.dependencyBuild } });
+      },
+      [serviceContainerArtifactDependenciesRunner, serviceContainerDependentBuildRunner, serviceContainerDependencyBuildRunner]
+    ),
     {
       componentId,
       mandatoryQueryParams: { pagination: true, sorting: true, buildDependency: true },
@@ -96,7 +99,7 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
 
   //URL -> UI
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
+    useCallback(({ requestConfig } = {}) => {
       if (requestConfig?.params.dependentBuild && requestConfig?.params.dependencyBuild) {
         setShowArtifactDependenciesList(true);
         // scroll to the list when edge in the graph is selected
@@ -104,7 +107,7 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
       } else {
         setShowArtifactDependenciesList(false);
       }
-    },
+    }, []),
     { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
   );
 

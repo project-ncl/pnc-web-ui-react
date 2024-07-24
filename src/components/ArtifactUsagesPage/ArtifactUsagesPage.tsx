@@ -25,7 +25,10 @@ export const ArtifactUsagesPage = ({ componentId = 'b1' }: IArtifactUsagesPagePr
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig }),
+      [serviceContainerBuildsRunner, artifactId]
+    ),
     { componentId }
   );
 

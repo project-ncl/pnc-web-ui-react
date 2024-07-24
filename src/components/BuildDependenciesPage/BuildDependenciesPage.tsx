@@ -1,4 +1,5 @@
 import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -20,7 +21,10 @@ export const BuildDependenciesPage = ({ componentId = 'd1' }: IBuildDependencies
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig }),
+      [serviceContainerArtifactsRunner, buildId]
+    ),
     { componentId }
   );
 
