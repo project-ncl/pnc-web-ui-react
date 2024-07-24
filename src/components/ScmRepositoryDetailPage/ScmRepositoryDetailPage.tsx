@@ -1,5 +1,5 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
@@ -45,7 +45,10 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
   }, [serviceContainerScmRepositoryRunner, scmRepositoryId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { scmRepositoryId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { scmRepositoryId }, requestConfig }),
+      [serviceContainerBuildConfigsRunner, scmRepositoryId]
+    ),
     { componentId }
   );
   useTitle(

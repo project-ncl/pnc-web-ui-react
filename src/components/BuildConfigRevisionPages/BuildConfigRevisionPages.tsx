@@ -1,4 +1,5 @@
 import { Grid, GridItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -27,7 +28,11 @@ export const BuildConfigRevisionPages = ({ componentId = 'r1' }: IBuildConfigDet
   }
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerBuildConfigRevisionsRunner({ serviceData: { id: buildConfigId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerBuildConfigRevisionsRunner({ serviceData: { id: buildConfigId }, requestConfig }),
+      [serviceContainerBuildConfigRevisionsRunner, buildConfigId]
+    ),
     { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 

@@ -1,7 +1,7 @@
 import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { GroupConfiguration } from 'pnc-api-types-ts';
@@ -80,8 +80,11 @@ export const ProductVersionGroupConfigsEditPage = ({
   }, [serviceContainerProductVersionRunner, productVersionId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) =>
-      serviceContainerProductVersionGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerProductVersionGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+      [serviceContainerProductVersionGroupConfigsRunner, productVersionId]
+    ),
     { componentId: componentIdProductVersionGroupConfigs }
   );
 

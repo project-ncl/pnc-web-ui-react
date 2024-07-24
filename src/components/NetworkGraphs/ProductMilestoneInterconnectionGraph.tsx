@@ -1,5 +1,5 @@
 import Graph from 'graphology';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { EDGE_COLOR, MAIN_NODE_COLOR, NODE_COLOR, useNetworkGraph } from 'hooks/useNetworkGraph';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -83,13 +83,16 @@ export const ProductMilestoneInterconnectionGraph = ({
   // must be below createNetworkGraph useEffect
   // URL -> UI (select graph edge)
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      if (requestConfig?.params.milestone1 && requestConfig?.params.milestone2) {
-        selectEdge(data.vertices[requestConfig.params.milestone1]?.name, data.vertices[requestConfig.params.milestone2]?.name);
-      } else {
-        selectEdge(undefined);
-      }
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        if (requestConfig?.params.milestone1 && requestConfig?.params.milestone2) {
+          selectEdge(data.vertices[requestConfig.params.milestone1]?.name, data.vertices[requestConfig.params.milestone2]?.name);
+        } else {
+          selectEdge(undefined);
+        }
+      },
+      [selectEdge, data.vertices]
+    ),
     { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
   );
 

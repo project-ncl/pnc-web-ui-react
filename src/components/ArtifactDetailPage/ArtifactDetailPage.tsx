@@ -1,4 +1,5 @@
 import { Grid, GridItem, Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 
@@ -36,7 +37,10 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
   const serviceContainerQualityRevisionsRunner = serviceContainerQualityRevisions.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerQualityRevisionsRunner({ serviceData: { id: artifactId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerQualityRevisionsRunner({ serviceData: { id: artifactId }, requestConfig }),
+      [serviceContainerQualityRevisionsRunner, artifactId]
+    ),
     { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 

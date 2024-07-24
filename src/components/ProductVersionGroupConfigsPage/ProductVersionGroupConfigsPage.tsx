@@ -1,4 +1,5 @@
 import { Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -23,7 +24,10 @@ export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductV
   const serviceContainerGroupConfigsRunner = serviceContainerGroupConfigs.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+      [serviceContainerGroupConfigsRunner, productVersionId]
+    ),
     { componentId }
   );
   return (

@@ -80,16 +80,22 @@ export const GroupConfigDetailPage = ({
   }, [serviceContainerGroupConfigRunner, serviceContainerProductVersionRunner, groupConfigId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      serviceContainerGroupBuildsRunner({ serviceData: { id: groupConfigId }, requestConfig });
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        serviceContainerGroupBuildsRunner({ serviceData: { id: groupConfigId }, requestConfig });
+      },
+      [serviceContainerGroupBuildsRunner, groupConfigId]
+    ),
     { componentId: componentIdGroupBuilds }
   );
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      serviceContainerBuildConfigsRunner({ serviceData: { groupConfigId }, requestConfig });
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        serviceContainerBuildConfigsRunner({ serviceData: { groupConfigId }, requestConfig });
+      },
+      [serviceContainerBuildConfigsRunner, groupConfigId]
+    ),
     { componentId: componentIdBuildConfigs }
   );
 

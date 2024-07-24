@@ -1,5 +1,5 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
@@ -52,7 +52,10 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
   }, [serviceContainerProjectRunner, projectId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { id: projectId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerBuildConfigsRunner({ serviceData: { id: projectId }, requestConfig }),
+      [serviceContainerBuildConfigsRunner, projectId]
+    ),
     { componentId }
   );
 

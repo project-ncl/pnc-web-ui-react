@@ -34,7 +34,10 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
   );
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+      [serviceContainerBuildsRunner, productMilestoneId]
+    ),
     { componentId }
   );
 

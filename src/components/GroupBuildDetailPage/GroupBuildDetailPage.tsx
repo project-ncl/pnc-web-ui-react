@@ -130,7 +130,10 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
   }, [serviceContainerGroupBuildRunner, serviceContainerDependencyGraphRunner, groupBuildId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerGroupBuildBuildsRunner({ serviceData: { id: groupBuildId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerGroupBuildBuildsRunner({ serviceData: { id: groupBuildId }, requestConfig }),
+      [serviceContainerGroupBuildBuildsRunner, groupBuildId]
+    ),
     { componentId }
   );
 

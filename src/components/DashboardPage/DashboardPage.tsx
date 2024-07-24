@@ -114,9 +114,15 @@ const MyBuildsList = ({ componentId = 'b1' }: IMyBuildsListProps) => {
     [serviceContainerUserBuildsRunner]
   );
 
-  useQueryParamsEffect(({ requestConfig } = {}) => serviceContainerUserBuildsRunner({ serviceData: { userId }, requestConfig }), {
-    componentId,
-  });
+  useQueryParamsEffect(
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerUserBuildsRunner({ serviceData: { userId }, requestConfig }),
+      [serviceContainerUserBuildsRunner, userId]
+    ),
+    {
+      componentId,
+    }
+  );
 
   usePncWebSocketEffect(
     useCallback(
@@ -163,7 +169,10 @@ const MyGroupBuildsList = ({ componentId = 'g1' }: IMyGroupBuildsListProps) => {
   const { componentQueryParamsObject: userGroupBuildsQueryParamsObject } = useComponentQueryParams(componentId);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerUserGroupBuildsRunner({ serviceData: { userId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerUserGroupBuildsRunner({ serviceData: { userId }, requestConfig }),
+      [serviceContainerUserGroupBuildsRunner, userId]
+    ),
     { componentId }
   );
 

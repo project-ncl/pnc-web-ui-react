@@ -1,5 +1,5 @@
 import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -30,7 +30,10 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
   const toggleEditQualitiesModal = () => setIsEditQualitiesModalOpen((isEditQualitiesModalOpen) => !isEditQualitiesModalOpen);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig }),
+      [serviceContainerArtifactsRunner, buildId]
+    ),
     { componentId }
   );
 

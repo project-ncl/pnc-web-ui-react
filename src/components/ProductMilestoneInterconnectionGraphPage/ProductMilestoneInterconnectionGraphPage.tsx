@@ -85,11 +85,18 @@ export const ProductMilestoneInterconnectionGraphPage = ({
   }, [serviceContainerInterconnectionGraphRunner, productMilestoneId]);
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      serviceContainerSharedDeliveredArtifactsRunner({ requestConfig });
-      serviceContainerProductMilestone1Runner({ serviceData: { id: requestConfig?.params.milestone1 } });
-      serviceContainerProductMilestone2Runner({ serviceData: { id: requestConfig?.params.milestone2 } });
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        serviceContainerSharedDeliveredArtifactsRunner({ requestConfig });
+        serviceContainerProductMilestone1Runner({ serviceData: { id: requestConfig?.params.milestone1 } });
+        serviceContainerProductMilestone2Runner({ serviceData: { id: requestConfig?.params.milestone2 } });
+      },
+      [
+        serviceContainerSharedDeliveredArtifactsRunner,
+        serviceContainerProductMilestone1Runner,
+        serviceContainerProductMilestone2Runner,
+      ]
+    ),
     {
       componentId,
       mandatoryQueryParams: { pagination: true, sorting: true, milestone: true },
@@ -98,7 +105,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
 
   // URL -> UI
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
+    useCallback(({ requestConfig } = {}) => {
       if (requestConfig?.params.milestone1 && requestConfig?.params.milestone2) {
         setShowSharedDeliveredArtifactsList(true);
         // scroll to the list when edge in the graph is selected
@@ -106,7 +113,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
       } else {
         setShowSharedDeliveredArtifactsList(false);
       }
-    },
+    }, []),
     { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
   );
 

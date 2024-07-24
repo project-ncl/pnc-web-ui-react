@@ -23,7 +23,10 @@ export const ProductMilestoneCloseResultsPage = ({ componentId = 'c1' }: IProduc
   const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) => serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
+      [serviceContainerCloseResultsRunner, productMilestoneId]
+    ),
     {
       componentId,
       mandatoryQueryParams: { pagination: true, sorting: true },

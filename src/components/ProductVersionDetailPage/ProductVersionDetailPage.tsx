@@ -1,5 +1,5 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
@@ -60,8 +60,11 @@ export const ProductVersionDetailPage = () => {
   );
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) =>
-      serviceContainerArtifactQualityStatisticsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerArtifactQualityStatisticsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+      [serviceContainerArtifactQualityStatisticsRunner, productVersionId]
+    ),
     {
       componentId: 'ch1',
       mandatoryQueryParams: { pagination: true, sorting: false },
@@ -69,8 +72,11 @@ export const ProductVersionDetailPage = () => {
   );
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) =>
-      serviceContainerRepositoryTypeStatisticsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerRepositoryTypeStatisticsRunner({ serviceData: { id: productVersionId }, requestConfig }),
+      [serviceContainerRepositoryTypeStatisticsRunner, productVersionId]
+    ),
     {
       componentId: 'ch2',
       mandatoryQueryParams: { pagination: true, sorting: false },

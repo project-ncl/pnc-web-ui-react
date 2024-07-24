@@ -1,4 +1,5 @@
 import { Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { useCallback } from 'react';
 
 import { ProductMilestoneRef } from 'pnc-api-types-ts';
 
@@ -28,7 +29,11 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
   const serviceContainerProductMilestonesRunner = serviceContainerProductMilestones.run;
 
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => serviceContainerProductMilestonesRunner({ serviceData: { id: productVersionId }, requestConfig }),
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerProductMilestonesRunner({ serviceData: { id: productVersionId }, requestConfig }),
+      [serviceContainerProductMilestonesRunner, productVersionId]
+    ),
     { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
   );
 

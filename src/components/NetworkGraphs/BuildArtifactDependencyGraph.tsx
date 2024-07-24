@@ -1,5 +1,5 @@
 import Graph from 'graphology';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { EDGE_COLOR, MAIN_NODE_COLOR, NODE_COLOR, useNetworkGraph } from 'hooks/useNetworkGraph';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -85,16 +85,19 @@ export const BuildArtifactDependencyGraph = ({
   // must be below createNetworkGraph useEffect
   // URL -> UI (select graph edge)
   useQueryParamsEffect(
-    ({ requestConfig } = {}) => {
-      if (requestConfig?.params.dependentBuild && requestConfig?.params.dependencyBuild) {
-        selectEdge(
-          data.vertices[requestConfig.params.dependentBuild]?.name,
-          data.vertices[requestConfig.params.dependencyBuild]?.name
-        );
-      } else {
-        selectEdge(undefined);
-      }
-    },
+    useCallback(
+      ({ requestConfig } = {}) => {
+        if (requestConfig?.params.dependentBuild && requestConfig?.params.dependencyBuild) {
+          selectEdge(
+            data.vertices[requestConfig.params.dependentBuild]?.name,
+            data.vertices[requestConfig.params.dependencyBuild]?.name
+          );
+        } else {
+          selectEdge(undefined);
+        }
+      },
+      [selectEdge, data.vertices]
+    ),
     { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
   );
 
