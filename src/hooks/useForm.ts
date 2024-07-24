@@ -163,17 +163,20 @@ export const useForm = () => {
     });
   };
 
-  const constructNewFieldOnChange = <T extends TValue>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
-    const newField = { ...(fields[fieldName] as IField<T>) };
+  const constructNewFieldOnChange = useCallback(
+    <T extends TValue>(fieldName: string, fields: IFields, newValue?: T): IField<T> => {
+      const newField = { ...(fields[fieldName] as IField<T>) };
 
-    if (newValue !== undefined) {
-      newField.value = constructNewFieldValue<T>(newValue);
-    }
-    newField.errorMessages = constructNewFieldErrorMessages(fieldName, { ...fields, [fieldName]: newField });
-    newField.state = constructNewFieldState(fieldName, { ...fields, [fieldName]: newField });
+      if (newValue !== undefined) {
+        newField.value = constructNewFieldValue<T>(newValue);
+      }
+      newField.errorMessages = constructNewFieldErrorMessages(fieldName, { ...fields, [fieldName]: newField });
+      newField.state = constructNewFieldState(fieldName, { ...fields, [fieldName]: newField });
 
-    return newField;
-  };
+      return newField;
+    },
+    []
+  );
 
   const constructNewFieldOnBlur = <T extends TValue>(fieldName: string, fields: IFields): IField<T> => {
     const newField = { ...(fields[fieldName] as IField<T>) };
@@ -227,16 +230,28 @@ export const useForm = () => {
     }
   };
 
-  const setFieldValues = useCallback((fieldValues: IFieldValues) => {
-    setFields((fields) =>
-      Object.fromEntries(
-        Object.entries(fields).map(([fieldName, field]) => [
-          fieldName,
-          { ...field, value: fieldValues[fieldName] ?? field.value },
-        ])
-      )
-    );
-  }, []);
+  const setFieldValues = useCallback(
+    (fieldValues: IFieldValues) => {
+      setFields((fields) => {
+        const fieldsWithNewValues = Object.fromEntries(
+          Object.entries(fields).map(([fieldName, field]) => [
+            fieldName,
+            { ...field, value: fieldValues[fieldName] ?? field.value },
+          ])
+        );
+
+        return Object.fromEntries(
+          Object.keys(fieldsWithNewValues).map((fieldName) => {
+            const newField = constructNewFieldOnChange(fieldName, fieldsWithNewValues);
+            const newFieldState = newField.state === 'success' ? 'default' : newField.state;
+
+            return [fieldName, { ...newField, state: newFieldState }];
+          })
+        );
+      });
+    },
+    [constructNewFieldOnChange]
+  );
 
   const getFieldValue = (fieldName: string): any => {
     return fields[fieldName]?.value;
