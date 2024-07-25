@@ -229,14 +229,11 @@ export const ProductVersionBuildConfigsEditPage = ({
 
             const patchData = createArrayPatchSimple(removedBuildConfigs, addedBuildConfigs, 'buildConfigs');
 
-            serviceContainerProductVersionPatch
-              .run({ serviceData: { id: productVersionId, patchData } })
-              .then(() => {
-                navigate('../build-configs');
-              })
-              .catch(() => {
-                console.error('Failed to edit Product Version Build Configs.');
-              });
+            return serviceContainerProductVersionPatch.run({
+              serviceData: { id: productVersionId, patchData },
+              onSuccess: () => navigate('../build-configs'),
+              onError: () => console.error('Failed to edit Product Version Build Configs.'),
+            });
           }}
           serviceContainer={serviceContainerProductVersionPatch}
         >

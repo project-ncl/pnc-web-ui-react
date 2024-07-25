@@ -34,17 +34,13 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
   const { register, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    return serviceContainerPushToBrew
-      .run({
-        serviceData: {
-          id: build.id,
-          data: { tagPrefix: data.tagPrefix },
-        },
-      })
-      .catch((error: any) => {
-        console.error('Failed to push to Brew.');
-        throw error;
-      });
+    return serviceContainerPushToBrew.run({
+      serviceData: {
+        id: build.id,
+        data: { tagPrefix: data.tagPrefix },
+      },
+      onError: () => console.error('Failed to push to Brew.'),
+    });
   };
 
   return (

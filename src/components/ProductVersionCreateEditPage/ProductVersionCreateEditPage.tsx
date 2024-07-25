@@ -79,14 +79,10 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return serviceContainerCreatePage
-      .run({
-        serviceData: { data: { ...data, product: { id: productId } } as ProductVersion },
-      })
-      .then((response) => {
-        if (response.status !== 'success') return;
-
-        const newProductVersionId = response.result.data.id;
+    return serviceContainerCreatePage.run({
+      serviceData: { data: { ...data, product: { id: productId } } as ProductVersion },
+      onSuccess: (result) => {
+        const newProductVersionId = result.response.data.id;
         if (!newProductVersionId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -94,11 +90,9 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
           });
         }
         navigate(`../${newProductVersionId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to create Product Version.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to create Product Version.'),
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
@@ -107,27 +101,24 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
       attributes: { BREW_TAG_PREFIX: data['attributes.brewTagPrefix'] },
     });
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: productVersionId, patchData } })
-      .then(() => {
-        navigate(`..`);
-      })
-      .catch((error) => {
-        console.error('Failed to edit Product Version.');
-        throw error;
-      });
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: productVersionId, patchData },
+      onSuccess: () => navigate(`..`),
+      onError: () => console.error('Failed to edit Product Version.'),
+    });
   };
 
   useEffect(() => {
     serviceContainerProductRunner({ serviceData: { id: productId } });
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productVersionId } }).then((response) => {
-        if (response.status !== 'success') return;
-
-        setFieldValues({
-          version: response.result.data?.version,
-          'attributes.brewTagPrefix': response.result.data?.attributes?.BREW_TAG_PREFIX,
-        });
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: productVersionId },
+        onSuccess: (result) => {
+          setFieldValues({
+            version: result.response.data.version,
+            'attributes.brewTagPrefix': result.response.data.attributes?.BREW_TAG_PREFIX,
+          });
+        },
       });
     }
   }, [isEditPage, productVersionId, productId, serviceContainerProductRunner, serviceContainerEditPageGetRunner, setFieldValues]);

@@ -9,7 +9,7 @@ import { IQueryParamsObject, getComponentQueryParamsObject, queryParamsObjectsAr
  * Function returning void is used when no data are returned.
  * This typically happens when no service is passed, but callback updating state based on the URL.
  */
-type ServiceContainerRunnerFunctionVoid<U extends TServiceParams> = (iService?: IService<U>) => void;
+type ServiceContainerRunnerFunctionVoid<T extends TServiceData, U extends TServiceParams> = (iService?: IService<T, U>) => void;
 
 interface IMandatoryQueryParams {
   pagination?: boolean;
@@ -58,7 +58,7 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
  *   mandatoryQueryParams - Query Parameters required to be present in the URL before service method can be executed
  */
 export const useQueryParamsEffect = <T extends TServiceData, U extends TServiceParams>(
-  service: ServiceContainerRunnerFunction<T, U> | ServiceContainerRunnerFunctionVoid<U>,
+  service: ServiceContainerRunnerFunction<T, U> | ServiceContainerRunnerFunctionVoid<T, U>,
   {
     componentId = '',
     mandatoryQueryParams = listMandatoryQueryParams,

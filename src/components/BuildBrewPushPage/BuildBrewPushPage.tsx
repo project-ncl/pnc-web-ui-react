@@ -1,3 +1,4 @@
+import { isAxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
 import { buildPushResultEntityAttributes } from 'common/buildPushResultEntityAttributes';
@@ -28,12 +29,13 @@ export const BuildBrewPushPage = () => {
   const serviceContainerBrewPushRunner = serviceContainerBrewPush.run;
 
   useEffect(() => {
-    serviceContainerBrewPushRunner({ serviceData: { id: buildId } }).catch((error: any) => {
-      if (error.response?.status === 404) {
-        setIsBrewPushEmpty(true);
-      } else {
-        throw error;
-      }
+    serviceContainerBrewPushRunner({
+      serviceData: { id: buildId },
+      onError: (result) => {
+        if (isAxiosError(result.error) && result.error?.status === 404) {
+          setIsBrewPushEmpty(true);
+        }
+      },
     });
   }, [serviceContainerBrewPushRunner, buildId]);
 

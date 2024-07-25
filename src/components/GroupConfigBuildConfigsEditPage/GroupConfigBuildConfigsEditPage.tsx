@@ -213,14 +213,11 @@ export const GroupConfigBuildConfigsEditPage = ({
 
             const patchData = createArrayPatchSimple(removedBuildConfigs, addedBuildConfigs, 'buildConfigs');
 
-            serviceContainerGroupConfigPatch
-              .run({ serviceData: { id: groupConfigId, patchData } })
-              .then(() => {
-                navigate('..');
-              })
-              .catch(() => {
-                console.error('Failed to edit Group Config Build Configs.');
-              });
+            return serviceContainerGroupConfigPatch.run({
+              serviceData: { id: groupConfigId, patchData },
+              onSuccess: () => navigate('..'),
+              onError: () => console.error('Failed to edit Group Config Build Configs.'),
+            });
           }}
           serviceContainer={serviceContainerGroupConfigPatch}
         >

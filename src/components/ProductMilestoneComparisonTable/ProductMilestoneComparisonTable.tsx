@@ -263,8 +263,7 @@ export const ProductMilestoneComparisonTable = ({
                       productMilestones: productMilestoneColumns.map((productMilestoneColumn) => productMilestoneColumn.id),
                     },
                   },
-                }).then(() => {
-                  setWereColumnsChanged(false);
+                  onSuccess: () => setWereColumnsChanged(false),
                 });
               }}
               isLoading={serviceContainerProductMilestoneComparisonTable.loading}

@@ -52,22 +52,18 @@ export const ArtifactEditQualityModal = ({ isModalOpen, toggleModal, variant, ..
   const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    return serviceContainerArtifactEditQuality
-      .run({
-        serviceData: {
-          id: build?.id ?? artifact!.id,
+    return serviceContainerArtifactEditQuality.run({
+      serviceData: {
+        id: build?.id ?? artifact!.id,
+      },
+      requestConfig: {
+        params: {
+          quality: data.artifactQuality,
+          reason: data.qualityLevelReason,
         },
-        requestConfig: {
-          params: {
-            quality: data.artifactQuality,
-            reason: data.qualityLevelReason,
-          },
-        },
-      })
-      .catch((error) => {
-        console.error('Failed to edit Artifact Quality.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to edit Artifact Quality.'),
+    });
   };
 
   useEffect(() => {

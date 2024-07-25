@@ -221,14 +221,11 @@ export const BuildConfigDependenciesEditPage = ({
 
             const patchData = createArrayPatchSimple(removedBuildConfigs, addedBuildConfigs, 'dependencies');
 
-            serviceContainerBuildConfigEdit
-              .run({ serviceData: { id: buildConfigId, patchData } })
-              .then(() => {
-                navigate('../dependencies');
-              })
-              .catch(() => {
-                console.error('Failed to edit Build Config dependencies.');
-              });
+            serviceContainerBuildConfigEdit.run({
+              serviceData: { id: buildConfigId, patchData },
+              onSuccess: () => navigate('../dependencies'),
+              onError: () => console.error('Failed to edit Build Config dependencies.'),
+            });
           }}
           serviceContainer={serviceContainerBuildConfigEdit}
         >

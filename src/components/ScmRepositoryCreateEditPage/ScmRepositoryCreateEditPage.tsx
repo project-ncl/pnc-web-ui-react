@@ -8,11 +8,12 @@ import { SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
+import { RepositoryCreationResponseCustomized } from 'common/types';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasScmRepositoryFailed, hasScmRepositorySucceeded, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
-import { getErrorMessage, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -157,36 +158,31 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
     setScmCreatingError(undefined);
     setScmCreatingFinished(undefined);
 
-    return serviceContainerCreatePage
-      .run({
-        serviceData: { data: data as SCMRepository },
-      })
-      .catch((error) => {
+    return serviceContainerCreatePage.run({
+      serviceData: { data: data as SCMRepository },
+      onError: (error) => {
         setScmCreatingLoading(false);
-        setScmCreatingError(getErrorMessage(error));
-        throw error;
-      });
+        setScmCreatingError(error.errorMessage);
+      },
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: scmRepositoryId, patchData } })
-      .then(() => {
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: scmRepositoryId, patchData },
+      onSuccess: () => {
         navigate(`/scm-repositories/${scmRepositoryId}`);
-      })
-      .catch((error) => {
-        throw error;
-      });
+      },
+    });
   };
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: scmRepositoryId } }).then((response) => {
-        if (response.status !== 'success') return;
-
-        setFieldValues(response.result.data);
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: scmRepositoryId },
+        onSuccess: (result) => setFieldValues(result.response.data),
       });
     }
   }, [isEditPage, scmRepositoryId, serviceContainerEditPageGetRunner, setFieldValues]);
@@ -296,7 +292,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
               !hasFormChanged ||
               (hasScmUrlChanged && (serviceContainerScmRepositories.loading || !!selectedScmRepository))
             }
-            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
+            onClick={handleSubmit<SCMRepository, SCMRepository | RepositoryCreationResponseCustomized>(
+              isEditPage ? submitEdit : submitCreate
+            )}
           >
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.scmRepository}
           </Button>

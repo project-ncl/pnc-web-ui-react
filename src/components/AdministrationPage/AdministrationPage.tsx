@@ -73,29 +73,25 @@ export const AdministrationPage = () => {
   const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const submitEdit = (data: IFieldValues) => {
-    return serviceContainerPncStatusSet
-      .run({
-        serviceData: {
-          data: {
-            banner: data.banner,
-            isMaintenanceMode: !!data.isMaintenanceMode,
-            eta: data.eta ? new Date(data.eta) : null,
-          },
+    return serviceContainerPncStatusSet.run({
+      serviceData: {
+        data: {
+          banner: data.banner,
+          isMaintenanceMode: !!data.isMaintenanceMode,
+          eta: data.eta ? new Date(data.eta) : null,
         },
-      })
-      .catch((error: any) => {
-        console.error('Failed to update PNC status.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to update PNC status.'),
+    });
   };
 
   useEffect(() => {
-    serviceContainerPncStatusGetRunner().then((response) => {
-      if (response.status !== 'success') return;
-
-      const pncStatus = response.result.data;
-      const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).custom;
-      setFieldValues({ ...pncStatus, eta });
+    serviceContainerPncStatusGetRunner({
+      onSuccess: (result) => {
+        const pncStatus = result.response.data;
+        const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).custom;
+        setFieldValues({ ...pncStatus, eta });
+      },
     });
 
     serviceContainerCurrentPncWebUiCommitRunner();

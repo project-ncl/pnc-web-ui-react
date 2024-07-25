@@ -16,11 +16,10 @@ export const BuildConfigRestoreModal = ({ isModalOpen, toggleModal, buildConfigR
   const serviceContainerBuildConfigRestore = useServiceContainer(buildConfigApi.restoreBuildConfig);
 
   const confirmModal = () => {
-    serviceContainerBuildConfigRestore
-      .run({ serviceData: { buildConfigId: buildConfigRevision.id, buildConfigRev: buildConfigRevision.rev! } })
-      .catch(() => {
-        console.error('Failed to restore Build Config Revision.');
-      });
+    return serviceContainerBuildConfigRestore.run({
+      serviceData: { buildConfigId: buildConfigRevision.id, buildConfigRev: buildConfigRevision.rev! },
+      onError: () => console.error('Failed to restore Build Config Revision.'),
+    });
   };
 
   return (
