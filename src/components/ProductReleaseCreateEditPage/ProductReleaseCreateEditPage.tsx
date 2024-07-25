@@ -120,22 +120,20 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return serviceContainerCreatePage
-      .run({
-        serviceData: {
-          data: {
-            version: serviceContainerProductVersion.data?.version + '.' + data.version,
-            releaseDate: parseDate(data.releaseDate),
-            supportLevel: data.supportLevel,
-            commonPlatformEnumeration: data.commonPlatformEnumeration,
-            productPagesCode: data.productPagesCode,
-            productVersion: { id: serviceContainerProductVersion.data?.id } as ProductVersionRef,
-            productMilestone: { id: selectedProductMilestone!.id } as ProductMilestoneRef,
-          } as ProductRelease,
-        },
-      })
-      .then((response: any) => {
-        const newProductReleaseId = response?.data?.id;
+    return serviceContainerCreatePage.run({
+      serviceData: {
+        data: {
+          version: serviceContainerProductVersion.data?.version + '.' + data.version,
+          releaseDate: parseDate(data.releaseDate!),
+          supportLevel: data.supportLevel,
+          commonPlatformEnumeration: data.commonPlatformEnumeration,
+          productPagesCode: data.productPagesCode,
+          productVersion: { id: serviceContainerProductVersion.data?.id } as ProductVersionRef,
+          productMilestone: { id: selectedProductMilestone!.id } as ProductMilestoneRef,
+        } as ProductRelease,
+      },
+      onSuccess: (result) => {
+        const newProductReleaseId = result.response.data.id;
         if (!newProductReleaseId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -144,41 +142,38 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
         }
 
         navigate('..');
-      })
-      .catch((error: any) => {
-        console.error('Failed to create Product Release.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to create Product Release.'),
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: serviceContainerProductVersion.data?.version + '.' + data.version,
-      releaseDate: parseDate(data.releaseDate),
+      releaseDate: parseDate(data.releaseDate!),
       supportLevel: data.supportLevel,
       commonPlatformEnumeration: data.commonPlatformEnumeration,
       productPagesCode: data.productPagesCode,
     });
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: productReleaseId, patchData } })
-      .then(() => {
-        navigate('../..');
-      })
-      .catch((error: any) => {
-        console.error('Failed to edit Product Release.');
-        throw error;
-      });
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: productReleaseId, patchData },
+      onSuccess: () => navigate('../..'),
+      onError: () => console.error('Failed to edit Product Release.'),
+    });
   };
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productReleaseId } }).then((response: any) => {
-        const productRelease: ProductRelease = response.data;
-        const productReleaseVersionShort = getProductVersionSuffix(productRelease);
-        const releaseDate = productRelease.releaseDate && createDateTime({ date: productRelease.releaseDate }).date;
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: productReleaseId },
+        onSuccess: (result) => {
+          const productRelease: ProductRelease = result.response.data;
+          const productReleaseVersionShort = getProductVersionSuffix(productRelease);
+          const releaseDate = productRelease.releaseDate && createDateTime({ date: productRelease.releaseDate }).date;
 
-        setFieldValues({ ...productRelease, version: productReleaseVersionShort, releaseDate });
+          setFieldValues({ ...productRelease, version: productReleaseVersionShort, releaseDate });
+        },
       });
     }
   }, [isEditPage, productReleaseId, serviceContainerEditPageGetRunner, setFieldValues]);

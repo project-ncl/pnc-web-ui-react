@@ -70,14 +70,15 @@ export const GroupConfigDetailPage = ({
   const serviceContainerBuildConfigsRunner = serviceContainerBuildConfigs.run;
 
   useEffect(() => {
-    serviceContainerGroupConfigRunner({ serviceData: { id: groupConfigId } }).then((response) => {
-      if (response.status !== 'success') return;
+    serviceContainerGroupConfigRunner({
+      serviceData: { id: groupConfigId },
+      onSuccess: (result) => {
+        const groupConfig = result.response.data;
 
-      const groupConfig = response.result.data;
-
-      if (groupConfig.productVersion) {
-        serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } });
-      }
+        if (groupConfig.productVersion) {
+          serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } });
+        }
+      },
     });
   }, [serviceContainerGroupConfigRunner, serviceContainerProductVersionRunner, groupConfigId]);
 

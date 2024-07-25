@@ -33,8 +33,9 @@ export const ProductMilestoneMarkModal = ({
       currentProductMilestone: { id: productMilestone.id },
     });
 
-    serviceContainerProductVersionPatch.run({ serviceData: { id: productVersion.id, patchData } }).catch(() => {
-      console.error('Failed to edit current Product Milestone.');
+    return serviceContainerProductVersionPatch.run({
+      serviceData: { id: productVersion.id, patchData },
+      onError: () => console.error('Failed to edit current Product Milestone.'),
     });
   };
 

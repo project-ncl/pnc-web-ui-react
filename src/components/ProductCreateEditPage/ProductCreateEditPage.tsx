@@ -65,14 +65,10 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return serviceContainerCreatePage
-      .run({
-        serviceData: { data: data as Product },
-      })
-      .then((response) => {
-        if (response.status !== 'success') return;
-
-        const newProductId = response.result.data.id;
+    return serviceContainerCreatePage.run({
+      serviceData: { data: data as Product },
+      onSuccess: (result) => {
+        const newProductId = result.response.data.id;
         if (!newProductId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -80,33 +76,26 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
           });
         }
         navigate(`/products/${newProductId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to create Product.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to create Product.'),
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: productId, patchData } })
-      .then(() => {
-        navigate(`/products/${productId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to edit Product.');
-        throw error;
-      });
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: productId, patchData },
+      onSuccess: () => navigate(`/products/${productId}`),
+      onError: () => console.error('Failed to edit Product.'),
+    });
   };
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productId } }).then((response) => {
-        if (response.status !== 'success') return;
-
-        setFieldValues(response.result.data);
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: productId },
+        onSuccess: (result) => setFieldValues(result.response.data),
       });
     }
   }, [isEditPage, productId, serviceContainerEditPageGetRunner, setFieldValues]);

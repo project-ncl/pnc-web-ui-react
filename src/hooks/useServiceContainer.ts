@@ -6,7 +6,7 @@ import { backendErrorMessageMapper } from 'common/backendErrorMessageMapper';
 
 export type TServiceData = Object | undefined;
 
-interface IServiceDataPaginated<T extends Object> {
+export interface IServiceDataPaginated<T extends Object> {
   content: T[];
   pageIndex?: number;
   pageSize?: number;
@@ -27,7 +27,7 @@ type ServiceFunction<T extends TServiceData, U extends TServiceParams> =
   | ServiceFunctionWithParams<T, U>
   | ServiceFunctionWithoutParams<T>;
 
-export interface IService<U extends TServiceParams> {
+export interface IService<T extends TServiceData, U extends TServiceParams> {
   /**
    * Service data, eg { id: '2' }
    */
@@ -37,14 +37,26 @@ export interface IService<U extends TServiceParams> {
    * Axios based request config, eg { signal: <abortingSignal> }
    */
   requestConfig?: AxiosRequestConfig;
+
+  /**
+   * Callback executed on successful service response
+   */
+  onSuccess?: (result: Extract<ServiceContainerRunnerFunctionResult<T>, { status: 'success' }>) => void;
+
+  /**
+   * Callback executed on error service response (not on request cancel)
+   */
+  onError?: (error: Extract<ServiceContainerRunnerFunctionResult<T>, { status: 'error' }>) => void;
 }
 
 export type ServiceContainerRunnerFunctionResult<T extends TServiceData> =
-  | { status: 'success'; result: AxiosResponse<T> }
-  | { status: 'canceled'; result: Error | AxiosError };
+  | { status: 'success'; response: AxiosResponse<T> }
+  | { status: 'canceled'; error: Error | AxiosError }
+  | { status: 'error'; errorMessage: string; error: Error | AxiosError }
+  | { status: 'empty' };
 
 export type ServiceContainerRunnerFunction<T extends TServiceData, U extends TServiceParams> = (
-  iService?: IService<U>
+  iService?: IService<T, U>
 ) => Promise<ServiceContainerRunnerFunctionResult<T>>;
 
 /**
@@ -109,7 +121,7 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
     };
   }, []);
 
-  const serviceContainerRunner = ({ serviceData = undefined, requestConfig = {} }: IService<U> = {}) => {
+  const serviceContainerRunner = ({ serviceData = undefined, requestConfig = {}, onSuccess, onError }: IService<T, U> = {}) => {
     loadingCount.current++;
 
     // set delayed (delayed to prevent flashing experience and unnecessary renders) loading state
@@ -153,12 +165,16 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
           setError(ERROR_INIT);
         });
 
-        return { status: 'success', result: response } as const;
+        const result = { status: 'success', response } as const;
+        onSuccess?.(result);
+        return result;
       })
       .catch((error: Error | AxiosError) => {
         if (error.name === 'CanceledError') {
-          return { status: 'canceled', result: error } as const;
+          return { status: 'canceled', error } as const;
         }
+
+        const errorMessage = getErrorMessage(error);
 
         // execute only for last request
         if (loadingCount.current <= 1) {
@@ -166,12 +182,14 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
           // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
           ReactDOM.unstable_batchedUpdates(() => {
             setLoading(false);
-            setError(getErrorMessage(error));
+            setError(errorMessage);
             setData(DataValues.noData);
           });
         }
 
-        throw error;
+        const result = { status: 'error', errorMessage, error } as const;
+        onError?.(result);
+        return result;
       })
       .finally(() => {
         loadingCount.current--;

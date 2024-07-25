@@ -73,14 +73,10 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return serviceContainerCreatePage
-      .run({
-        serviceData: { data: data as Project },
-      })
-      .then((response) => {
-        if (response.status !== 'success') return;
-
-        const newProjectId = response.result.data.id;
+    return serviceContainerCreatePage.run({
+      serviceData: { data: data as Project },
+      onSuccess: (result) => {
+        const newProjectId = result.response.data.id;
         if (!newProjectId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -88,33 +84,28 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
           });
         }
         navigate(`/projects/${newProjectId}`);
-      })
-      .catch((error) => {
+      },
+      onError: () => {
         console.error('Failed to create Project.');
-        throw error;
-      });
+      },
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, data);
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: projectId, patchData } })
-      .then(() => {
-        navigate(`/projects/${projectId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to edit Project.');
-        throw error;
-      });
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: projectId, patchData },
+      onSuccess: () => navigate(`/projects/${projectId}`),
+      onError: () => console.error('Failed to edit Project.'),
+    });
   };
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: projectId } }).then((response) => {
-        if (response.status !== 'success') return;
-
-        setFieldValues(response.result.data);
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: projectId },
+        onSuccess: (result) => setFieldValues(result.response.data),
       });
     }
   }, [isEditPage, projectId, serviceContainerEditPageGetRunner, setFieldValues]);

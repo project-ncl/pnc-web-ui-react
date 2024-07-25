@@ -2,7 +2,9 @@ import { TextInputProps } from '@patternfly/react-core';
 import { AxiosError, isAxiosError } from 'axios';
 import { FormEvent, useCallback, useState } from 'react';
 
-import { PncError, isPncError } from 'common/PncError';
+import { isPncError } from 'common/PncError';
+
+import { ServiceContainerRunnerFunctionResult, TServiceData } from 'hooks/useServiceContainer';
 
 import { uiLogger } from 'services/uiLogger';
 
@@ -48,7 +50,9 @@ export interface IRegisterData<T extends TValue> {
   validated: TState;
 }
 
-type OnSubmitCallback = (data: IFieldValues) => Promise<any>;
+type OnSubmitCallback<T extends IFieldValues, U extends TServiceData> = (
+  data: T
+) => Promise<ServiceContainerRunnerFunctionResult<U>>;
 
 type OnSubmitFunction = () => void;
 
@@ -265,8 +269,8 @@ export const useForm = () => {
     return fields[fieldName]?.errorMessages?.join(' ') || '';
   };
 
-  const handleSubmit = (onSubmit: OnSubmitCallback): OnSubmitFunction => {
-    return () => {
+  const handleSubmit = <T extends IFieldValues, U extends TServiceData>(onSubmit: OnSubmitCallback<T, U>): OnSubmitFunction => {
+    return async () => {
       const fieldsCopy = Object.fromEntries(Object.entries(fields).map(([k, v]) => [k, { ...v }]));
       for (const fieldName in fieldsCopy) {
         fieldsCopy[fieldName].state = 'default';
@@ -276,19 +280,22 @@ export const useForm = () => {
       setHasFormChanged(false);
       setIsSubmitDisabled(true);
 
-      onSubmit(transformFormToValues(fields)).catch((error: AxiosError | PncError) => {
+      const result = await onSubmit(transformFormToValues(fields) as T);
+      if (result.status === 'error') {
+        const error = result.error;
+
         if (isAxiosError(error)) {
           if (error.code === AxiosError.ERR_NETWORK) {
             setIsSubmitDisabled(false);
           }
-        } else if (isPncError(error)) {
+        } else if (isAxiosError(error) && isPncError(error)) {
           if (error.code === 'NEW_ENTITY_ID_ERROR') {
             uiLogger.error(error.message);
           }
         } else {
           uiLogger.error(error.message);
         }
-      });
+      }
     };
   };
 

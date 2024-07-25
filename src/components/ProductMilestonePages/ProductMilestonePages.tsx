@@ -82,14 +82,15 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   );
 
   useEffect(() => {
-    serviceContainerProductMilestoneRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
-      if (response.status !== 'success') return;
+    serviceContainerProductMilestoneRunner({
+      serviceData: { id: productMilestoneId },
+      onSuccess: (result) => {
+        const productMilestone = result.response.data;
 
-      const productMilestone = response.result.data;
-
-      if (productMilestone.productVersion) {
-        serviceContainerProductVersionRunner({ serviceData: { id: productMilestone.productVersion.id } });
-      }
+        if (productMilestone.productVersion) {
+          serviceContainerProductVersionRunner({ serviceData: { id: productMilestone.productVersion.id } });
+        }
+      },
     });
 
     serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });

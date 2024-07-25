@@ -240,13 +240,13 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     const currentFilteredBuilds: Build[] = filterBuilds(builds, getNavigationIdByName(selected));
     const buildIds = transferBuildsToBuildId(currentFilteredBuilds);
     if (buildIds) {
-      serviceContainerBuildMetricsRunner({ serviceData: { buildIds } }).then((response) => {
-        if (response.status !== 'success') return;
-
-        setBuildMetrics({
-          builds: currentFilteredBuilds,
-          buildMetricsData: response.result.data as IBuildMetricsData[],
-        });
+      serviceContainerBuildMetricsRunner({
+        serviceData: { buildIds },
+        onSuccess: (result) =>
+          setBuildMetrics({
+            builds: currentFilteredBuilds,
+            buildMetricsData: result.response.data as IBuildMetricsData[],
+          }),
       });
     }
   }, [builds, selected, serviceContainerBuildMetricsRunner, filterBuilds]);

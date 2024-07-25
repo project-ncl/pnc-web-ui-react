@@ -7,7 +7,7 @@ import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from '
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
 import { IRegisterData } from 'hooks/useForm';
-import { areServiceDataPaginated, useServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceDataPaginated, areServiceDataPaginated, useServiceContainer } from 'hooks/useServiceContainer';
 
 import '../../index.css';
 import styles from './SearchSelect.module.css';
@@ -108,21 +108,21 @@ export const SearchSelect = ({
 
       setPageIndex(pageIndex);
 
-      serviceContainerRunner({ requestConfig })
-        .then((response: any) => {
-          const data = response.data?.content;
+      serviceContainerRunner({
+        requestConfig,
+        onSuccess: (result) => {
+          const data = (result.response.data as IServiceDataPaginated<Object>)?.content;
           if (pageIndex === pageIndexDefault) {
             setFetchedData(data);
           } else {
             setFetchedData((fetchedData) => [...fetchedData, ...data]);
           }
-        })
-        .catch((error: Error) => {
-          if (error.name !== 'CanceledError') {
-            setPageIndex(pageIndexDefault);
-            setFetchedData([]);
-          }
-        });
+        },
+        onError: () => {
+          setPageIndex(pageIndexDefault);
+          setFetchedData([]);
+        },
+      });
     },
     [serviceContainerRunner, titleAttribute, descriptionAttribute, pageSizeDefault]
   );
