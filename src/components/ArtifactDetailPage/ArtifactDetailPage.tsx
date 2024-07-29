@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactBuild } from 'components/ArtifactBuild/ArtifactBuild';
@@ -41,7 +41,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       ({ requestConfig } = {}) => serviceContainerQualityRevisionsRunner({ serviceData: { id: artifactId }, requestConfig }),
       [serviceContainerQualityRevisionsRunner, artifactId]
     ),
-    { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.pagination }
   );
 
   return (

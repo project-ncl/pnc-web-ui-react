@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useFullscreen } from 'hooks/useFullscreen';
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
@@ -28,6 +28,8 @@ import { updateQueryParamsInURL } from 'utils/queryParamsHelper';
 import styles from './ProductMilestoneInterconnectionGraphPage.module.css';
 
 const sharedDeliveredArtifactsListColumns = ['identifier', 'product.name', 'productMilestone.version', 'build'];
+
+const mandatoryQueryParams = { pagination: true, sorting: true, milestone: true };
 
 interface IProductMilestoneInterconnectionGraphPageProps {
   componentId?: string;
@@ -99,7 +101,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
     ),
     {
       componentId,
-      mandatoryQueryParams: { pagination: true, sorting: true, milestone: true },
+      mandatoryQueryParams: mandatoryQueryParams,
     }
   );
 
@@ -114,7 +116,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
         setShowSharedDeliveredArtifactsList(false);
       }
     }, []),
-    { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.none }
   );
 
   return (

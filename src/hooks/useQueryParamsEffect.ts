@@ -18,7 +18,11 @@ interface IMandatoryQueryParams {
   buildDependency?: boolean;
 }
 
-const listMandatoryQueryParams: IMandatoryQueryParams = { pagination: true, sorting: true };
+export const listMandatoryQueryParams = {
+  all: { pagination: true, sorting: true },
+  pagination: { pagination: true, sorting: false },
+  none: { pagination: false, sorting: false },
+} as const;
 
 const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, componentQueryParamsObject: IQueryParamsObject) => {
   if (mandatoryParams.pagination && (!componentQueryParamsObject.pageIndex || !componentQueryParamsObject.pageSize)) {
@@ -60,7 +64,7 @@ export const useQueryParamsEffect = <T extends TServiceData, U extends TServiceP
   service: ServiceContainerRunnerFunction<T, U> | ServiceContainerRunnerFunctionVoid<U>,
   {
     componentId = '',
-    mandatoryQueryParams = listMandatoryQueryParams,
+    mandatoryQueryParams = listMandatoryQueryParams.all,
   }: {
     componentId?: string;
     mandatoryQueryParams?: IMandatoryQueryParams;

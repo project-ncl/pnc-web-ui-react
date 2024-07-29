@@ -2,7 +2,7 @@ import Graph from 'graphology';
 import { useCallback, useEffect } from 'react';
 
 import { EDGE_COLOR, MAIN_NODE_COLOR, NODE_COLOR, useNetworkGraph } from 'hooks/useNetworkGraph';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 
 import { calculateBuildConfigName, calculateBuildName, calculateLongBuildName } from 'components/BuildName/BuildName';
 import { LayoutControlButton } from 'components/NetworkGraphs/LayoutControlButton';
@@ -98,7 +98,7 @@ export const BuildArtifactDependencyGraph = ({
       },
       [selectEdge, data.vertices]
     ),
-    { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.none }
   );
 
   return (

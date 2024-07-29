@@ -2,7 +2,7 @@ import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactProductMilestonesReleasesList } from 'components/ArtifactProductMilestonesReleasesList/ArtifactProductMilestonesReleasesList';
@@ -26,7 +26,7 @@ export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IA
         serviceContainerArtifactProductMilestonesReleasesRunner({ serviceData: { id: artifactId }, requestConfig }),
       [serviceContainerArtifactProductMilestonesReleasesRunner, artifactId]
     ),
-    { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.pagination }
   );
 
   return (

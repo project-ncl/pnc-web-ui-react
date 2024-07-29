@@ -2,7 +2,7 @@ import { Label, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
@@ -28,7 +28,7 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
       ({ requestConfig } = {}) => serviceContainerProductReleasesRunner({ serviceData: { id: productVersionId }, requestConfig }),
       [serviceContainerProductReleasesRunner, productVersionId]
     ),
-    { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.pagination }
   );
 
   return (
