@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildConfigRevisionsList } from 'components/BuildConfigRevisionsList/BuildConfigRevisionsList';
@@ -33,7 +33,7 @@ export const BuildConfigRevisionPages = ({ componentId = 'r1' }: IBuildConfigDet
         serviceContainerBuildConfigRevisionsRunner({ serviceData: { id: buildConfigId }, requestConfig }),
       [serviceContainerBuildConfigRevisionsRunner, buildConfigId]
     ),
-    { componentId, mandatoryQueryParams: { pagination: true, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.pagination }
   );
 
   return (

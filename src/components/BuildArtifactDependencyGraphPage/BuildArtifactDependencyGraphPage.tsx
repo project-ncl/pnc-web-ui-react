@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useFullscreen } from 'hooks/useFullscreen';
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
@@ -28,6 +28,8 @@ import { updateQueryParamsInURL } from 'utils/queryParamsHelper';
 interface IBuildArtifactDependencyGraphPageProps {
   componentId?: string;
 }
+
+const mandatoryQueryParams = { pagination: true, sorting: true, buildDependency: true };
 
 export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildArtifactDependencyGraphPageProps) => {
   const { buildId } = useParamsRequired();
@@ -93,7 +95,7 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
     ),
     {
       componentId,
-      mandatoryQueryParams: { pagination: true, sorting: true, buildDependency: true },
+      mandatoryQueryParams: mandatoryQueryParams,
     }
   );
 
@@ -108,7 +110,7 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
         setShowArtifactDependenciesList(false);
       }
     }, []),
-    { componentId, mandatoryQueryParams: { pagination: false, sorting: false } }
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.none }
   );
 
   return (

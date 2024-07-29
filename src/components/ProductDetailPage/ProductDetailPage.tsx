@@ -5,7 +5,7 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -47,7 +47,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
     ),
     {
       componentId,
-      mandatoryQueryParams: { pagination: true, sorting: false },
+      mandatoryQueryParams: listMandatoryQueryParams.pagination,
     }
   );
 

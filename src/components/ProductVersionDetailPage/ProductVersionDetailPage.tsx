@@ -7,7 +7,7 @@ import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
@@ -67,7 +67,7 @@ export const ProductVersionDetailPage = () => {
     ),
     {
       componentId: 'ch1',
-      mandatoryQueryParams: { pagination: true, sorting: false },
+      mandatoryQueryParams: listMandatoryQueryParams.pagination,
     }
   );
 
@@ -79,7 +79,7 @@ export const ProductVersionDetailPage = () => {
     ),
     {
       componentId: 'ch2',
-      mandatoryQueryParams: { pagination: true, sorting: false },
+      mandatoryQueryParams: listMandatoryQueryParams.pagination,
     }
   );
 

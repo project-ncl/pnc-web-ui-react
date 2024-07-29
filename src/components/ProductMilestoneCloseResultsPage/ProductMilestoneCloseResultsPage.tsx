@@ -27,10 +27,7 @@ export const ProductMilestoneCloseResultsPage = ({ componentId = 'c1' }: IProduc
       ({ requestConfig } = {}) => serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
       [serviceContainerCloseResultsRunner, productMilestoneId]
     ),
-    {
-      componentId,
-      mandatoryQueryParams: { pagination: true, sorting: true },
-    }
+    { componentId }
   );
 
   usePncWebSocketEffect(
