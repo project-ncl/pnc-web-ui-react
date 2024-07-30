@@ -1,3 +1,4 @@
+import { authBroadcastService } from 'services/broadcastService';
 import { Keycloak } from 'services/keycloakHolder';
 import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
@@ -17,6 +18,8 @@ export enum AUTH_ROLE {
 class KeycloakService {
   // We can't get KeycloakInstance type because of dynamic loading of Keycloak library
   private keycloakAuth: any = null;
+
+  private authenticated: boolean | null = null;
 
   /**
    * Variable from config (webConfigService.getWebConfig().ssoTokenLifespan) is used differently in
@@ -98,8 +101,14 @@ class KeycloakService {
    */
   public isAuthenticated(): boolean {
     this.checkKeycloakAvailability();
+    const authenticated = this.keycloakAuth.authenticated!;
+    const user = this.getUser();
+    if (this.authenticated !== authenticated) {
+      authBroadcastService.send(authenticated, user ? user : null);
+      this.authenticated = authenticated;
+    }
 
-    return this.keycloakAuth.authenticated!;
+    return authenticated;
   }
 
   /**

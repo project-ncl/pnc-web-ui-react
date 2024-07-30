@@ -10,6 +10,7 @@ global.ResizeObserver = ResizeObserver;
 jest.mock('services/keycloakService');
 jest.mock('services/genericSettingsApi');
 jest.mock('services/webConfigService');
+jest.mock('services/broadcastService');
 
 window.pnc = {
   config: {
