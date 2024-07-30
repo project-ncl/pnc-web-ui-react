@@ -32,6 +32,8 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router-dom';
 
+import { STORAGE_AUTH_KEY } from 'common/constants';
+
 import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -54,7 +56,19 @@ import pncLogoText from './pnc-logo-text.svg';
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
 
-  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
+  const [user, setUser] = useState<string | null>(keycloakService.isAuthenticated() ? keycloakService.getUser() : null);
+
+  useEffect(() => {
+    const listenStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_AUTH_KEY) {
+        setUser(localStorage.getItem(STORAGE_AUTH_KEY) === 'true' ? keycloakService.getUser() : null);
+      }
+    };
+    window.addEventListener('storage', listenStorage);
+    return () => {
+      window.removeEventListener('storage', listenStorage);
+    };
+  }, []);
 
   const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
   const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;

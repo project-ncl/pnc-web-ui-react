@@ -1,3 +1,5 @@
+import { STORAGE_AUTH_KEY } from 'common/constants';
+
 import { Keycloak } from 'services/keycloakHolder';
 import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
@@ -98,6 +100,10 @@ class KeycloakService {
    */
   public isAuthenticated(): boolean {
     this.checkKeycloakAvailability();
+
+    if (this.keycloakAuth.authenticated! !== (localStorage.getItem(STORAGE_AUTH_KEY) === 'true')) {
+      window.localStorage.setItem(STORAGE_AUTH_KEY, JSON.stringify(this.keycloakAuth.authenticated!));
+    }
 
     return this.keycloakAuth.authenticated!;
   }
