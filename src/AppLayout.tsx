@@ -43,6 +43,7 @@ import { ExperimentalContentMarker } from 'components/ExperimentalContent/Experi
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
+import { IAuthBroadcastMessage, authBroadcastService } from 'services/authBroadcastService';
 import * as genericSettingsApi from 'services/genericSettingsApi';
 import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
@@ -54,7 +55,11 @@ import pncLogoText from './pnc-logo-text.svg';
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
 
-  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
+  const [user, setUser] = useState(keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null);
+
+  authBroadcastService.getChannel().onmessage = (event: MessageEvent<IAuthBroadcastMessage>) => {
+    setUser(event.data.authenticated ? keycloakService.getUser() : null);
+  };
 
   const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
   const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;
