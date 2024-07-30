@@ -1,5 +1,6 @@
 jest.mock('services/userService');
 jest.mock('services/webConfigService');
+jest.mock('services/broadcastService');
 
 const mockInit = jest.fn(() => {
   return Promise.resolve();

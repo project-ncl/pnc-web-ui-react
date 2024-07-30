@@ -43,6 +43,7 @@ import { ExperimentalContentMarker } from 'components/ExperimentalContent/Experi
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
+import { IAuthBroadcastMessage, authBroadcastService } from 'services/broadcastService';
 import * as genericSettingsApi from 'services/genericSettingsApi';
 import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
@@ -54,7 +55,7 @@ import pncLogoText from './pnc-logo-text.svg';
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
 
-  const user = keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null;
+  const [user, setUser] = useState(keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null);
 
   const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
   const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;
@@ -77,6 +78,17 @@ export const AppLayout = () => {
       [serviceContainerPncStatusSetter]
     )
   );
+
+  useEffect(() => {
+    const removeAuthListener = authBroadcastService.addMessageListener((event: MessageEvent<IAuthBroadcastMessage>) => {
+      setUser(event.data.user);
+    });
+
+    return () => {
+      removeAuthListener();
+      authBroadcastService.close();
+    };
+  }, []);
 
   const AppLogoImage = () => (
     <Link to="/" className="p-t-10 p-b-10">
