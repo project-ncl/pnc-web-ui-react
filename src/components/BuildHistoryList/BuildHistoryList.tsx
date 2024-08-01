@@ -1,4 +1,3 @@
-import { ToolbarItem } from '@patternfly/react-core';
 import { Table, Tbody, Td, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
@@ -18,6 +17,7 @@ import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 const buildHistoryCustomColumnsGroupBuild: Array<string> = [
   buildEntityAttributes.status.id,

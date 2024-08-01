@@ -35,12 +35,12 @@ export const BuildConfigDependantsPage = ({ componentId = 'bcd2' }: IBuildConfig
         <ToolbarItem>
           <TextContent>
             <Text component={TextVariants.h2}>Dependants</Text>
+            <Text>
+              This list contains Build Configs that are using this Build Config as a dependency. Depending on build preferences
+              this Build Config may be rebuilt when building dependent Build Configs.
+            </Text>
           </TextContent>
         </ToolbarItem>
-        <Text>
-          This list contains Build Configs that are using this Build Config as a dependency. Depending on build preferences this
-          Build Config may be rebuilt when building dependent Build Configs.
-        </Text>
       </Toolbar>
 
       <BuildConfigsList serviceContainerBuildConfigs={serviceContainerDependants} componentId={componentId} />
