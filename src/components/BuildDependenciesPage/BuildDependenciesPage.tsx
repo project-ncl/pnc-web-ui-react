@@ -1,4 +1,4 @@
-import { Text, TextContent, ToolbarItem } from '@patternfly/react-core';
+import { Text, TextContent } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -7,6 +7,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildApi from 'services/buildApi';
 

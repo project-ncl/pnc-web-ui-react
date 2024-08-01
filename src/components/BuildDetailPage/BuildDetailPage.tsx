@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 
@@ -27,6 +27,7 @@ import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildCon
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
 import * as buildApi from 'services/buildApi';

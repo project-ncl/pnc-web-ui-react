@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants, ToolbarItem } from '@patternfly/react-core';
+import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useMemo } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -24,6 +24,7 @@ import { GroupBuildsList } from 'components/GroupBuildsList/GroupBuildsList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildApi from 'services/buildApi';
 import * as groupBuildApi from 'services/groupBuildApi';
