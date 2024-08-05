@@ -121,19 +121,17 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return serviceContainerCreatePage
-      .run({
-        serviceData: {
-          data: {
-            version: serviceContainerProductVersion.data?.version + '.' + data.version,
-            startingDate: parseDate(data.startingDate),
-            plannedEndDate: parseDate(data.plannedEndDate),
-            productVersion: { id: serviceContainerProductVersion.data?.id },
-          } as ProductMilestone,
-        },
-      })
-      .then((response) => {
-        const newProductMilestoneId = response?.data?.id;
+    return serviceContainerCreatePage.run({
+      serviceData: {
+        data: {
+          version: serviceContainerProductVersion.data?.version + '.' + data.version,
+          startingDate: parseDate(data.startingDate),
+          plannedEndDate: parseDate(data.plannedEndDate),
+          productVersion: { id: serviceContainerProductVersion.data?.id },
+        } as ProductMilestone,
+      },
+      onSuccess: (result) => {
+        const newProductMilestoneId = result.response.data.id;
         if (!newProductMilestoneId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -146,21 +144,17 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
             currentProductMilestone: { id: newProductMilestoneId },
           });
 
-          return serviceContainerProductVersionPatch
-            .run({ serviceData: { id: serviceContainerProductVersion.data!.id, patchData: patchProductVersionData } })
-            .then(() => navigate(`../${newProductMilestoneId}`))
-            .catch((error) => {
-              console.error('Failed to edit current Product Milestone.');
-              throw error;
-            });
+          return serviceContainerProductVersionPatch.run({
+            serviceData: { id: serviceContainerProductVersion.data!.id, patchData: patchProductVersionData },
+            onSuccess: () => navigate(`../${newProductMilestoneId}`),
+            onError: () => console.error('Failed to edit current Product Milestone.'),
+          });
         } else {
           navigate(`../${newProductMilestoneId}`);
         }
-      })
-      .catch((error) => {
-        console.error('Failed to create Product Milestone.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to create Product Milestone.'),
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
@@ -170,40 +164,40 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
       plannedEndDate: parseDate(data.plannedEndDate),
     });
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: productMilestoneId, patchData } })
-      .then(() => {
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: productMilestoneId, patchData },
+      onSuccess: () => {
         if (data.isCurrent) {
           const patchProductVersionData = createSafePatch(serviceContainerProductVersion.data!, {
             currentProductMilestone: { id: productMilestoneId },
           });
 
-          return serviceContainerProductVersionPatch
-            .run({ serviceData: { id: serviceContainerProductVersion.data!.id, patchData: patchProductVersionData } })
-            .then(() => navigate('..'))
-            .catch((error) => {
-              console.error('Failed to edit current Product Milestone.');
-              throw error;
-            });
+          return serviceContainerProductVersionPatch.run({
+            serviceData: { id: serviceContainerProductVersion.data!.id, patchData: patchProductVersionData },
+            onSuccess: () => navigate('..'),
+            onError: () => console.error('Failed to edit current Product Milestone.'),
+          });
         } else {
           navigate('..');
         }
-      })
-      .catch((error) => {
-        console.error('Failed to edit Product Milestone.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to edit Product Milestone.'),
+    });
   };
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: productMilestoneId } }).then((response) => {
-        const productMilestone: ProductMilestone = response.data;
-        const productMilestoneVersionShort = getProductVersionSuffix(productMilestone);
-        const startingDate = productMilestone.startingDate && createDateTime({ date: productMilestone.startingDate }).date;
-        const plannedEndDate = productMilestone.plannedEndDate && createDateTime({ date: productMilestone.plannedEndDate }).date;
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: productMilestoneId },
+        onSuccess: (result) => {
+          const productMilestone: ProductMilestone = result.response.data;
+          const productMilestoneVersionShort = getProductVersionSuffix(productMilestone);
+          const startingDate = productMilestone.startingDate && createDateTime({ date: productMilestone.startingDate }).date;
+          const plannedEndDate =
+            productMilestone.plannedEndDate && createDateTime({ date: productMilestone.plannedEndDate }).date;
 
-        setFieldValues({ version: productMilestoneVersionShort, startingDate, plannedEndDate });
+          setFieldValues({ version: productMilestoneVersionShort, startingDate, plannedEndDate });
+        },
       });
     }
   }, [isEditPage, productMilestoneId, serviceContainerEditPageGetRunner, setFieldValues]);

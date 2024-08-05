@@ -43,20 +43,16 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
   const { register, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    return serviceContainerProductMilestoneAnalyzeDeliverables
-      .run({
-        serviceData: {
-          id: productMilestone.id,
-          data: {
-            deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
-            runAsScratchAnalysis: data.runAsScratchAnalysis,
-          },
+    return serviceContainerProductMilestoneAnalyzeDeliverables.run({
+      serviceData: {
+        id: productMilestone.id,
+        data: {
+          deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
+          runAsScratchAnalysis: data.runAsScratchAnalysis,
         },
-      })
-      .catch((error) => {
-        console.error('Failed to analyze Deliverables.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to analyze Deliverables.'),
+    });
   };
 
   return (

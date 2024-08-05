@@ -25,13 +25,10 @@ export const CancelBuildModal = ({ isModalOpen, toggleModal, build, variant }: I
   const entityName = variant;
 
   const confirmModal = () => {
-    serviceContainerCloseBuild
-      .run({
-        serviceData: { id: build.id },
-      })
-      .catch(() => {
-        console.error(`Failed to cancel ${entityName}.`);
-      });
+    return serviceContainerCloseBuild.run({
+      serviceData: { id: build.id },
+      onError: () => console.error(`Failed to cancel ${entityName}.`),
+    });
   };
 
   return (

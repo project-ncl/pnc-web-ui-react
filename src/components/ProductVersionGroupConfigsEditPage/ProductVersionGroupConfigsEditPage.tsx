@@ -227,14 +227,11 @@ export const ProductVersionGroupConfigsEditPage = ({
           onSubmit={() => {
             const patchData = createArrayPatchSimple(removedGroupConfigs, addedGroupConfigs, 'groupConfigs');
 
-            serviceContainerProductVersionPatch
-              .run({ serviceData: { id: productVersionId, patchData } })
-              .then(() => {
-                navigate('../group-configs');
-              })
-              .catch(() => {
-                console.error('Failed to edit Product Version Group Configs.');
-              });
+            return serviceContainerProductVersionPatch.run({
+              serviceData: { id: productVersionId, patchData },
+              onSuccess: () => navigate('../group-configs'),
+              onError: () => console.error('Failed to edit Product Version Group Configs.'),
+            });
           }}
           serviceContainer={serviceContainerProductVersionPatch}
         >

@@ -31,13 +31,14 @@ import { buildTypeData } from 'common/buildTypeData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
+import { BuildConfigCreationResponseCustomized } from 'common/types';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { usePatchOperation } from 'hooks/usePatchOperation';
 import { hasBuildConfigFailed, hasBuildConfigSucceeded, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
-import { getErrorMessage, useServiceContainer } from 'hooks/useServiceContainer';
+import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
@@ -338,50 +339,46 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
     } as BuildConfiguration;
 
     if (selectedScmRepository) {
-      return serviceContainerCreateWithoutScm
-        .run({
-          serviceData: {
-            data: { ...buildConfig, scmRepository: { id: selectedScmRepository.id } as SCMRepository },
-          },
-        })
-        .then((response) => {
-          const newBuildConfig = response?.data;
-          if (!newBuildConfig?.id) {
+      return serviceContainerCreateWithoutScm.run({
+        serviceData: {
+          data: { ...buildConfig, scmRepository: { id: selectedScmRepository.id } as SCMRepository },
+        },
+        onSuccess: (result) => {
+          const newBuildConfig = result.response.data;
+          if (!newBuildConfig.id) {
             throw new PncError({
               code: 'NEW_ENTITY_ID_ERROR',
               message: `Invalid buildConfigId coming from Orch POST response: ${newBuildConfig?.id}`,
             });
           }
+
           setBuildConfigCreatingFinished(newBuildConfig);
-        })
-        .catch((error) => {
-          setBuildConfigCreatingError(getErrorMessage(error));
-          throw error;
-        })
-        .finally(() => {
           setBuildConfigCreatingLoading(false);
-        });
+        },
+        onError: (result) => {
+          setBuildConfigCreatingError(result.errorMessage);
+          setBuildConfigCreatingLoading(false);
+        },
+      });
     }
 
-    return serviceContainerCreateWithScm
-      .run({
-        serviceData: {
-          data: { buildConfig, scmUrl: data.scmUrl, preBuildSyncEnabled: data.preBuildSyncEnabled },
-        },
-      })
-      .then((response) => {
+    return serviceContainerCreateWithScm.run({
+      serviceData: {
+        data: { buildConfig, scmUrl: data.scmUrl, preBuildSyncEnabled: data.preBuildSyncEnabled },
+      },
+      onSuccess: (result) => {
         // SCM repository already cloned internally
-        if ('buildConfig' in response.data) {
+        if ('buildConfig' in result.response.data) {
           setBuildConfigCreatingLoading(false);
-          setBuildConfigCreatingFinished(response.data.buildConfig);
+          setBuildConfigCreatingFinished(result.response.data.buildConfig);
         }
         // else it's handled by WebSockets
-      })
-      .catch((error) => {
+      },
+      onError: (result) => {
         setBuildConfigCreatingLoading(false);
-        setBuildConfigCreatingError(getErrorMessage(error));
-        throw error;
-      });
+        setBuildConfigCreatingError(result.errorMessage);
+      },
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
@@ -405,15 +402,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       : [];
     const patchData = [...createSafePatch(serviceContainerEditPageGet.data!, buildConfig), ...removedParameters];
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: buildConfigId, patchData } })
-      .then(() => {
-        navigate(`/build-configs/${buildConfigId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to edit Build Config.');
-        throw error;
-      });
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: buildConfigId, patchData },
+      onSuccess: () => navigate(`/build-configs/${buildConfigId}`),
+      onError: () => console.error('Failed to edit Build Config.'),
+    });
   };
 
   useEffect(() => {
@@ -421,33 +414,40 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       serviceContainerProjectRunner({ serviceData: { id: projectId } });
     }
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: buildConfigId } }).then((response) => {
-        const buildConfig = response.data;
-        const buildConfigFlat = {
-          ...buildConfig,
-          environment: buildConfig.environment?.description,
-          scmUrl: buildConfig.scmRepository?.internalUrl,
-          productVersion: buildConfig.productVersion?.version,
-          ...buildConfig.parameters,
-        };
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: buildConfigId },
+        onSuccess: (result) => {
+          const buildConfig = result.response.data;
+          const buildConfigFlat = {
+            ...buildConfig,
+            environment: buildConfig.environment?.description,
+            scmUrl: buildConfig.scmRepository?.internalUrl,
+            productVersion: buildConfig.productVersion?.version,
+            ...buildConfig.parameters,
+          };
 
-        setSelectedEnvironment(buildConfig.environment);
-        setSelectedScmRepository(buildConfig.scmRepository);
-        if (buildConfig.parameters) {
-          Object.keys(buildConfig.parameters).length && setShowBuildParametersSection(true);
-          setBuildParamData(Object.fromEntries(Object.entries(buildConfig.parameters).map(([k, v]) => [k, { value: v }])));
-        }
-        setFieldValues(buildConfigFlat);
+          setSelectedEnvironment(buildConfig.environment);
+          setSelectedScmRepository(buildConfig.scmRepository);
+          if (buildConfig.parameters) {
+            Object.keys(buildConfig.parameters).length && setShowBuildParametersSection(true);
+            setBuildParamData(Object.fromEntries(Object.entries(buildConfig.parameters).map(([k, v]) => [k, { value: v }])));
+          }
+          setFieldValues(buildConfigFlat);
 
-        if (buildConfig.productVersion) {
-          setShowProductVersionSection(true);
-          serviceContainerProductVersionRunner({ serviceData: { id: buildConfig.productVersion.id } }).then((response) => {
-            const productVersion: ProductVersion = response.data;
+          if (buildConfig.productVersion) {
+            setShowProductVersionSection(true);
 
-            setSelectedProductVersion(productVersion);
-            setSelectedProduct(productVersion.product);
-          });
-        }
+            serviceContainerProductVersionRunner({
+              serviceData: { id: buildConfig.productVersion.id },
+              onSuccess: (result) => {
+                const productVersion: ProductVersion = result.response.data;
+
+                setSelectedProductVersion(productVersion);
+                setSelectedProduct(productVersion.product);
+              },
+            });
+          }
+        },
       });
     }
   }, [
@@ -461,8 +461,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   ]);
 
   useEffect(() => {
-    serviceContainerParametersRunner().then((response) => {
-      setBuildParamOptions(response.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description })));
+    serviceContainerParametersRunner({
+      onSuccess: (result) =>
+        setBuildParamOptions(
+          result.response.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description }))
+        ),
     });
   }, [serviceContainerParametersRunner]);
 
@@ -1040,7 +1043,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             variant="primary"
             title={submitDisabledReason}
             isAriaDisabled={!!submitDisabledReason || serviceContainerScmRepositories.loading}
-            onClick={handleSubmit(isEditPage ? submitEdit : submitCreate)}
+            onClick={handleSubmit<IFieldValues, BuildConfiguration | BuildConfigCreationResponseCustomized>(
+              isEditPage ? submitEdit : submitCreate
+            )}
           >
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.buildConfig}
           </Button>

@@ -225,10 +225,12 @@ export const DemoPage = () => {
   const { register, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
 
   const submitForm = (data: IFieldValues) => {
-    return new Promise(() => {
+    return new Promise<{ status: 'empty' }>(() => {
       console.log('form state when submitted:', {
         ...data,
       });
+
+      return { status: 'empty' };
     });
   };
 

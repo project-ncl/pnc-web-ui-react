@@ -22,13 +22,10 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
   const serviceContainerProductMilestoneClose = useServiceContainer(productMilestoneApi.closeProductMilestone, 0);
 
   const confirmModal = () => {
-    serviceContainerProductMilestoneClose
-      .run({
-        serviceData: { id: productMilestone.id },
-      })
-      .catch(() => {
-        console.error('Failed to close Product Milestone.');
-      });
+    return serviceContainerProductMilestoneClose.run({
+      serviceData: { id: productMilestone.id },
+      onError: () => console.error('Failed to close Product Milestone.'),
+    });
   };
 
   return (

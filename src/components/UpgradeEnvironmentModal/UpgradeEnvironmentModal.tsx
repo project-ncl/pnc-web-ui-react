@@ -33,16 +33,13 @@ export const UpgradeEnvironmentModal = ({ isModalOpen, toggleModal, buildConfig 
   }, [serviceContainerNewEnvironmentRunner, replacementEnvironmentId]);
 
   const confirmModal = () => {
-    serviceContainerUpgradeEnvironment
-      .run({
-        serviceData: {
-          buildConfigId: buildConfig.id,
-          replacementEnvironmentId,
-        },
-      })
-      .catch(() => {
-        console.error('Failed to upgrade the Environment.');
-      });
+    return serviceContainerUpgradeEnvironment.run({
+      serviceData: {
+        buildConfigId: buildConfig.id,
+        replacementEnvironmentId,
+      },
+      onError: () => console.error('Failed to upgrade the Environment.'),
+    });
   };
 
   return (

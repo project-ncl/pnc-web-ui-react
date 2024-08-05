@@ -75,17 +75,15 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   );
 
   const submitCreate = (data: IFieldValues) => {
-    return serviceContainerCreatePage
-      .run({
-        serviceData: {
-          data: {
-            name: data.name,
-            productVersion: selectedProductVersion ? ({ id: selectedProductVersion.id } as ProductVersion) : null,
-          } as GroupConfiguration,
-        },
-      })
-      .then((response) => {
-        const newGroupConfigId = response?.data?.id;
+    return serviceContainerCreatePage.run({
+      serviceData: {
+        data: {
+          name: data.name,
+          productVersion: selectedProductVersion ? ({ id: selectedProductVersion.id } as ProductVersion) : null,
+        } as GroupConfiguration,
+      },
+      onSuccess: (result) => {
+        const newGroupConfigId = result.response.data.id;
         if (!newGroupConfigId) {
           throw new PncError({
             code: 'NEW_ENTITY_ID_ERROR',
@@ -94,11 +92,9 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
         }
 
         navigate(`/group-configs/${newGroupConfigId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to create Group Config.');
-        throw error;
-      });
+      },
+      onError: () => console.error('Failed to create Group Config.'),
+    });
   };
 
   const submitEdit = (data: IFieldValues) => {
@@ -109,15 +105,11 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
 
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, newData);
 
-    return serviceContainerEditPagePatch
-      .run({ serviceData: { id: groupConfigId, patchData } })
-      .then(() => {
-        navigate(`/group-configs/${groupConfigId}`);
-      })
-      .catch((error) => {
-        console.error('Failed to edit Group Config.');
-        throw error;
-      });
+    return serviceContainerEditPagePatch.run({
+      serviceData: { id: groupConfigId, patchData },
+      onSuccess: () => navigate(`/group-configs/${groupConfigId}`),
+      onError: () => console.error('Failed to edit Group Config.'),
+    });
   };
 
   const fetchProductVersions = useCallback(
@@ -129,22 +121,28 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
 
   useEffect(() => {
     if (isEditPage) {
-      serviceContainerEditPageGetRunner({ serviceData: { id: groupConfigId } }).then((response) => {
-        const groupConfig: GroupConfiguration = response.data;
+      serviceContainerEditPageGetRunner({
+        serviceData: { id: groupConfigId },
+        onSuccess: (result) => {
+          const groupConfig: GroupConfiguration = result.response.data;
 
-        if (groupConfig.productVersion) {
-          setFieldValues({ name: groupConfig.name });
-          serviceContainerProductVersionRunner({ serviceData: { id: groupConfig.productVersion.id } }).then((response) => {
-            const productVersion: ProductVersion = response.data;
+          if (groupConfig.productVersion) {
+            setFieldValues({ name: groupConfig.name });
+            serviceContainerProductVersionRunner({
+              serviceData: { id: groupConfig.productVersion.id },
+              onSuccess: (result) => {
+                const productVersion: ProductVersion = result.response.data;
 
-            setSelectedProductVersion(productVersion);
-            setSelectedProduct(productVersion.product);
+                setSelectedProductVersion(productVersion);
+                setSelectedProduct(productVersion.product);
 
-            setFieldValues({ name: groupConfig.name, productVersion: productVersion.version });
-          });
-        } else {
-          setFieldValues({ name: groupConfig.name });
-        }
+                setFieldValues({ name: groupConfig.name, productVersion: productVersion.version });
+              },
+            });
+          } else {
+            setFieldValues({ name: groupConfig.name });
+          }
+        },
       });
     }
   }, [isEditPage, groupConfigId, setFieldValues, serviceContainerEditPageGetRunner, serviceContainerProductVersionRunner]);

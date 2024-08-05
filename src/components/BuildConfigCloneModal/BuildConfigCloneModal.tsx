@@ -19,8 +19,9 @@ export const BuildConfigCloneModal = ({ isModalOpen, toggleModal, buildConfig }:
   const serviceContainerBuildConfigClone = useServiceContainer(buildConfigApi.cloneBuildConfig);
 
   const confirmModal = () => {
-    serviceContainerBuildConfigClone.run({ serviceData: { id: buildConfig.id } }).catch(() => {
-      console.error('Failed to clone Build Config.');
+    return serviceContainerBuildConfigClone.run({
+      serviceData: { id: buildConfig.id },
+      onError: () => console.error('Failed to clone Build Config.'),
     });
   };
 

@@ -6,7 +6,7 @@ import { backendErrorMessageMapper } from 'common/backendErrorMessageMapper';
 
 export type TServiceData = Object | undefined;
 
-interface IServiceDataPaginated<T extends Object> {
+export interface IServiceDataPaginated<T extends Object> {
   content: T[];
   pageIndex?: number;
   pageSize?: number;
@@ -27,7 +27,7 @@ type ServiceFunction<T extends TServiceData, U extends TServiceParams> =
   | ServiceFunctionWithParams<T, U>
   | ServiceFunctionWithoutParams<T>;
 
-export interface IService<U extends TServiceParams> {
+export interface IService<T extends TServiceData, U extends TServiceParams> {
   /**
    * Service data, eg { id: '2' }
    */
@@ -37,11 +37,27 @@ export interface IService<U extends TServiceParams> {
    * Axios based request config, eg { signal: <abortingSignal> }
    */
   requestConfig?: AxiosRequestConfig;
+
+  /**
+   * Callback executed on successful service response
+   */
+  onSuccess?: (result: Extract<ServiceContainerRunnerFunctionResult<T>, { status: 'success' }>) => void;
+
+  /**
+   * Callback executed on error service response (not on request cancel)
+   */
+  onError?: (error: Extract<ServiceContainerRunnerFunctionResult<T>, { status: 'error' }>) => void;
 }
 
+export type ServiceContainerRunnerFunctionResult<T extends TServiceData> =
+  | { status: 'success'; response: AxiosResponse<T> }
+  | { status: 'canceled'; error: Error | AxiosError }
+  | { status: 'error'; errorMessage: string; error: Error | AxiosError }
+  | { status: 'empty' };
+
 export type ServiceContainerRunnerFunction<T extends TServiceData, U extends TServiceParams> = (
-  iService?: IService<U>
-) => Promise<AxiosResponse<T>>;
+  iService?: IService<T, U>
+) => Promise<ServiceContainerRunnerFunctionResult<T>>;
 
 /**
  * Use when only data and state of the service is needed and possibly, 'run' function params are unknown.
@@ -105,7 +121,7 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
     };
   }, []);
 
-  const serviceContainerRunner = ({ serviceData = undefined, requestConfig = {} }: IService<U> = {}) => {
+  const serviceContainerRunner = ({ serviceData = undefined, requestConfig = {}, onSuccess, onError }: IService<T, U> = {}) => {
     loadingCount.current++;
 
     // set delayed (delayed to prevent flashing experience and unnecessary renders) loading state
@@ -149,25 +165,31 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
           setError(ERROR_INIT);
         });
 
-        return response;
+        const result = { status: 'success', response } as const;
+        onSuccess?.(result);
+        return result;
       })
       .catch((error: Error | AxiosError) => {
-        const errorMessage = getErrorMessage(error);
-
-        if (error.name !== 'CanceledError') {
-          // execute only for last request
-          if (loadingCount.current <= 1) {
-            // In a future React version (potentially in React 17) this could be removed as it will be default behavior
-            // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-            ReactDOM.unstable_batchedUpdates(() => {
-              setLoading(false);
-              setError(errorMessage);
-              setData(DataValues.noData);
-            });
-          }
+        if (error.name === 'CanceledError') {
+          return { status: 'canceled', error } as const;
         }
 
-        throw error;
+        const errorMessage = getErrorMessage(error);
+
+        // execute only for last request
+        if (loadingCount.current <= 1) {
+          // In a future React version (potentially in React 17) this could be removed as it will be default behavior
+          // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
+          ReactDOM.unstable_batchedUpdates(() => {
+            setLoading(false);
+            setError(errorMessage);
+            setData(DataValues.noData);
+          });
+        }
+
+        const result = { status: 'error', errorMessage, error } as const;
+        onError?.(result);
+        return result;
       })
       .finally(() => {
         loadingCount.current--;
