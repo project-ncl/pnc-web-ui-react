@@ -28,6 +28,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { SshCredentialsButton } from 'components/SshCredentialsButton/SshCredentialsButton';
 
 import * as buildApi from 'services/buildApi';
+import { uiLogger } from 'services/uiLogger';
 import { userService } from 'services/userService';
 
 import { generatePageTitle } from 'utils/titleHelper';
@@ -62,6 +63,8 @@ export const BuildPages = () => {
     [serviceContainerBuild.data]
   );
 
+  const isCurrentUserAdmin = useMemo(() => userService.isAdminUser(), []);
+
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
 
@@ -71,13 +74,25 @@ export const BuildPages = () => {
 
   useEffect(() => {
     if (
-      buildBelongToCurrentUser &&
+      (buildBelongToCurrentUser || isCurrentUserAdmin) &&
       serviceContainerBuild.data?.status &&
       buildStatusData[serviceContainerBuild.data.status].failed
     ) {
-      serviceContainerBuildSshCredentialsRunner({ serviceData: { id: buildId } });
+      serviceContainerBuildSshCredentialsRunner({ serviceData: { id: buildId } }).catch((error) => {
+        if (error.response && error.response.status === 403) {
+          uiLogger.error('403 Forbidden: The endpoint blocked your access to SSH credentials of this build.');
+        } else {
+          throw error;
+        }
+      });
     }
-  }, [serviceContainerBuildSshCredentialsRunner, buildId, buildBelongToCurrentUser, serviceContainerBuild.data?.status]);
+  }, [
+    serviceContainerBuildSshCredentialsRunner,
+    buildId,
+    buildBelongToCurrentUser,
+    serviceContainerBuild.data?.status,
+    isCurrentUserAdmin,
+  ]);
 
   usePncWebSocketEffect(
     useCallback(
@@ -150,7 +165,7 @@ export const BuildPages = () => {
     <SshCredentialsButton
       key="ssh-credentials"
       serviceContainerSshCredentials={serviceContainerBuildSshCredentials}
-      buildBelongToCurrentUser={buildBelongToCurrentUser}
+      buildBelongToCurrentUser={buildBelongToCurrentUser || isCurrentUserAdmin}
       hasBuildFailed={!!serviceContainerBuild.data?.status && !!buildStatusData[serviceContainerBuild.data.status].failed}
     />,
     <CancelBuildModalButton
