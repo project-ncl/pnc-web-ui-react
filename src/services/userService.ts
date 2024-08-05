@@ -1,5 +1,6 @@
 import { User } from 'pnc-api-types-ts';
 
+import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as userApi from 'services/userApi';
 
 /**
@@ -18,6 +19,10 @@ class UserService {
         this.user = { id: 'error' };
         console.error('User Manager: Could not fetch current user.');
       });
+  }
+
+  public isAdminUser() {
+    return keycloakService.hasRealmRole(AUTH_ROLE.Admin);
   }
 
   public getUserId() {
