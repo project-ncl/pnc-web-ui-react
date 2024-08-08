@@ -1,3 +1,4 @@
+import { authBroadcastService } from 'services/authBroadcastService';
 import { Keycloak } from 'services/keycloakHolder';
 import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
@@ -98,8 +99,11 @@ class KeycloakService {
    */
   public isAuthenticated(): boolean {
     this.checkKeycloakAvailability();
+    const authenticated = this.keycloakAuth.authenticated!;
 
-    return this.keycloakAuth.authenticated!;
+    authBroadcastService.send(authenticated);
+
+    return authenticated;
   }
 
   /**
