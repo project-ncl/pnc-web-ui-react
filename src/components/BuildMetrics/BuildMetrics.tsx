@@ -69,12 +69,6 @@ const generateTimeTitle = (metricValueData: number | string) => {
     return 'Not Available';
   }
 
-  console.log(
-    'metricValueData',
-    metricValueData,
-    'calculateDurationDiff(metricValueData)',
-    calculateDurationDiff(metricValueData)
-  );
   return calculateDurationDiff(metricValueData);
 };
 
