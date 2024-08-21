@@ -100,7 +100,7 @@ export const ProductVersionMilestonesList = ({
                 <Th width={15} sort={getSortParams(sortOptions.sortAttributes.endDate.id)}>
                   {productMilestoneEntityAttributes.endDate.title}
                 </Th>
-                <Th screenReaderText="Actions" />
+                <Th aria-label="Actions" />
               </Tr>
             </Thead>
             <Tbody>

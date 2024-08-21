@@ -81,7 +81,7 @@ export const ProductVersionReleasesList = ({
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes.supportLevel.id)}>
                   {productReleaseEntityAttributes.supportLevel.title}
                 </Th>
-                <Th screenReaderText="Actions" />
+                <Th aria-label="Actions" />
               </Tr>
             </Thead>
             <Tbody>

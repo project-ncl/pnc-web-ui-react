@@ -190,7 +190,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
                   }}
                   aria-label="Expand all"
                 />
-                {columns.includes(artifactEntityAttributes.build.id) && <Th width={10} />}
+                {columns.includes(artifactEntityAttributes.build.id) && <Th width={10} aria-label="Build Icon" />}
                 {columns.includes(artifactEntityAttributes.identifier.id) && (
                   <Th width={30} sort={getSortParams(sortOptions.sortAttributes['identifier'].id)}>
                     {artifactEntityAttributes.identifier.title}

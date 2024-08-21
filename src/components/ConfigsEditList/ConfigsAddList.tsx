@@ -188,7 +188,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
                     {buildConfigEntityAttributes['project.name'].title}
                   </Th>
                 )}
-                <Th screenReaderText="Actions" />
+                <Th aria-label="Actions" />
               </Tr>
             </Thead>
             <Tbody>
