@@ -304,6 +304,7 @@ Object {
                     </button>
                   </th>
                   <th
+                    aria-label="Build Icon"
                     class="pf-v5-c-table__th pf-m-width-10"
                     scope="col"
                     tabindex="-1"
@@ -1320,6 +1321,7 @@ Object {
                   </button>
                 </th>
                 <th
+                  aria-label="Build Icon"
                   class="pf-v5-c-table__th pf-m-width-10"
                   scope="col"
                   tabindex="-1"

@@ -156,7 +156,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
                     {buildConfigEntityAttributes['project.name'].title}
                   </Th>
                 )}
-                <Th screenReaderText="Actions" />
+                <Th aria-label="Actions" />
               </Tr>
             </Thead>
             <Tbody>
