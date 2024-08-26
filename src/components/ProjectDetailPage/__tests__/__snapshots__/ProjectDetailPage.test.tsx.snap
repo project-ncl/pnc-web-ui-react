@@ -73,8 +73,7 @@ Object {
             class=""
           >
             <div
-              class="pf-v5-l-flex pf-m-space-items-none"
-              style="gap: 1.5rem;"
+              class="pf-v5-l-flex pf-m-space-items-none toolbar"
             >
               <div
                 class=""
@@ -125,8 +124,7 @@ Object {
             class=""
           >
             <div
-              class="pf-v5-l-flex pf-m-space-items-none"
-              style="gap: 1.5rem;"
+              class="pf-v5-l-flex pf-m-space-items-none toolbar"
             >
               <div
                 class=""
@@ -491,8 +489,7 @@ Object {
           class=""
         >
           <div
-            class="pf-v5-l-flex pf-m-space-items-none"
-            style="gap: 1.5rem;"
+            class="pf-v5-l-flex pf-m-space-items-none toolbar"
           >
             <div
               class=""
@@ -543,8 +540,7 @@ Object {
           class=""
         >
           <div
-            class="pf-v5-l-flex pf-m-space-items-none"
-            style="gap: 1.5rem;"
+            class="pf-v5-l-flex pf-m-space-items-none toolbar"
           >
             <div
               class=""

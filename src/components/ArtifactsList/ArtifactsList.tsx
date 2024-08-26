@@ -36,6 +36,7 @@ import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/Pa
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { ToolbarRow } from 'components/Toolbar/ToolbarRow';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { isArtifactWithProductMilestone } from 'utils/entityRecognition';
@@ -119,54 +120,55 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
   return (
     <>
       <Toolbar borderTop>
-        <ToolbarItem>
-          <Filtering
-            filterOptions={useMemo(
-              () =>
-                getFilterOptions({
-                  entityAttributes: artifactEntityAttributes,
-                  defaultFiltering: { attribute: artifactEntityAttributes.identifier.id },
-                  customColumns: columns,
-                }),
-              [columns]
-            )}
-            componentId={componentId}
-            onFilter={(filterAttribute: TFilterAttribute, _) => {
-              if (
-                [artifactEntityAttributes.md5.id, artifactEntityAttributes.sha1.id, artifactEntityAttributes.sha256.id].some(
-                  (hash) => hash === filterAttribute.id
-                )
-              ) {
-                setAreBuildArtifactsExpanded(false);
-                setAreAllArtifactsExpanded(true);
-              }
-            }}
-          />
-        </ToolbarItem>
-      </Toolbar>
-
-      <Toolbar disablePaddingTop>
-        <ToolbarItem>
-          <Switch
-            id="toggle-artifact-name-parsed"
-            label="Parse Artifact identifier"
-            isChecked={isArtifactIdentifierParsed}
-            onChange={(_, checked) => {
-              storeIsArtifactIdentifierParsed(checked);
-            }}
-          />
-        </ToolbarItem>
-        <ToolbarItem>
-          <Switch
-            id="toggle-expand-build-associated"
-            label="Expand Build associated Artifacts"
-            isChecked={areBuildArtifactsExpanded}
-            onChange={() => {
-              setAreBuildArtifactsExpanded(!areBuildArtifactsExpanded);
-              setAreAllArtifactsExpanded(areBuildArtifactsExpanded ? false : undefined);
-            }}
-          />
-        </ToolbarItem>
+        <ToolbarRow>
+          <ToolbarItem>
+            <Filtering
+              filterOptions={useMemo(
+                () =>
+                  getFilterOptions({
+                    entityAttributes: artifactEntityAttributes,
+                    defaultFiltering: { attribute: artifactEntityAttributes.identifier.id },
+                    customColumns: columns,
+                  }),
+                [columns]
+              )}
+              componentId={componentId}
+              onFilter={(filterAttribute: TFilterAttribute, _) => {
+                if (
+                  [artifactEntityAttributes.md5.id, artifactEntityAttributes.sha1.id, artifactEntityAttributes.sha256.id].some(
+                    (hash) => hash === filterAttribute.id
+                  )
+                ) {
+                  setAreBuildArtifactsExpanded(false);
+                  setAreAllArtifactsExpanded(true);
+                }
+              }}
+            />
+          </ToolbarItem>
+        </ToolbarRow>
+        <ToolbarRow>
+          <ToolbarItem>
+            <Switch
+              id="toggle-artifact-name-parsed"
+              label="Parse Artifact identifier"
+              isChecked={isArtifactIdentifierParsed}
+              onChange={(_, checked) => {
+                storeIsArtifactIdentifierParsed(checked);
+              }}
+            />
+          </ToolbarItem>
+          <ToolbarItem>
+            <Switch
+              id="toggle-expand-build-associated"
+              label="Expand Build associated Artifacts"
+              isChecked={areBuildArtifactsExpanded}
+              onChange={() => {
+                setAreBuildArtifactsExpanded(!areBuildArtifactsExpanded);
+                setAreAllArtifactsExpanded(areBuildArtifactsExpanded ? false : undefined);
+              }}
+            />
+          </ToolbarItem>
+        </ToolbarRow>
       </Toolbar>
 
       <ContentBox borderTop>
