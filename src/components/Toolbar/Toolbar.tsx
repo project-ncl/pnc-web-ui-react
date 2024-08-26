@@ -2,8 +2,9 @@ import { Flex, FlexProps } from '@patternfly/react-core';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
 
+import styles from './Toolbar.module.css';
+
 const spaceItemsNone: FlexProps['spaceItems'] = { default: 'spaceItemsNone' };
-const styleGap = { gap: '1.5rem' };
 
 interface IToolbarProps {
   borderTop?: boolean;
@@ -29,7 +30,7 @@ export const Toolbar = ({
     paddingLeft={padding}
     paddingRight={padding}
   >
-    <Flex spaceItems={spaceItemsNone} style={styleGap}>
+    <Flex spaceItems={spaceItemsNone} className={styles['toolbar']}>
       {children}
     </Flex>
   </ContentBox>

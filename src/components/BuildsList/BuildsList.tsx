@@ -29,6 +29,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { ToolbarRow } from 'components/Toolbar/ToolbarRow';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
@@ -160,35 +161,36 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
   return (
     <>
       <Toolbar>
-        <ToolbarItem>
-          <Filtering
-            filterOptions={useMemo(
-              () =>
-                getFilterOptions({
-                  entityAttributes: buildEntityAttributes,
-                  defaultFiltering: { attribute: buildEntityAttributes.status.id },
-                  customColumns: columns,
-                }),
-              [columns]
-            )}
-            componentId={componentId}
-          />
-        </ToolbarItem>
-      </Toolbar>
-
-      <Toolbar disablePaddingTop>
-        <ToolbarItem>
-          <TooltipWrapper tooltip="Show Builds in compact format, where certain details are hidden.">
-            <Switch
-              id={StorageKeys.isBuildsListCompactMode}
-              label="Compact Mode"
-              isChecked={isCompactMode}
-              onChange={(_, checked) => {
-                storeIsCompactMode(checked);
-              }}
+        <ToolbarRow>
+          <ToolbarItem>
+            <Filtering
+              filterOptions={useMemo(
+                () =>
+                  getFilterOptions({
+                    entityAttributes: buildEntityAttributes,
+                    defaultFiltering: { attribute: buildEntityAttributes.status.id },
+                    customColumns: columns,
+                  }),
+                [columns]
+              )}
+              componentId={componentId}
             />
-          </TooltipWrapper>
-        </ToolbarItem>
+          </ToolbarItem>
+        </ToolbarRow>
+        <ToolbarRow>
+          <ToolbarItem>
+            <TooltipWrapper tooltip="Show Builds in compact format, where certain details are hidden.">
+              <Switch
+                id={StorageKeys.isBuildsListCompactMode}
+                label="Compact Mode"
+                isChecked={isCompactMode}
+                onChange={(_, checked) => {
+                  storeIsCompactMode(checked);
+                }}
+              />
+            </TooltipWrapper>
+          </ToolbarItem>
+        </ToolbarRow>
       </Toolbar>
 
       <ContentBox borderTop>
