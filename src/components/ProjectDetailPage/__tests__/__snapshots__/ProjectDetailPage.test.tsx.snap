@@ -93,7 +93,7 @@ Object {
                 </div>
               </div>
               <div
-                class=""
+                class="pf-m-align-right"
               >
                 <div
                   title="Keycloak service is not available."
@@ -509,7 +509,7 @@ Object {
               </div>
             </div>
             <div
-              class=""
+              class="pf-m-align-right"
             >
               <div
                 title="Keycloak service is not available."
