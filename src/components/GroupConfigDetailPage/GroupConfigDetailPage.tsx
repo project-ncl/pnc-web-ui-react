@@ -177,7 +177,7 @@ export const GroupConfigDetailPage = ({
               <Text component={TextVariants.h2}>Build Configs</Text>
             </TextContent>
           </ToolbarItem>
-          <ToolbarItem>
+          <ToolbarItem alignRight>
             <ProtectedComponent>
               <ActionButton link="build-configs/edit">Edit list</ActionButton>
             </ProtectedComponent>

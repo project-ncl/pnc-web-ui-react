@@ -109,7 +109,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
             <Text component={TextVariants.h2}>Build Configs</Text>
           </TextContent>
         </ToolbarItem>
-        <ToolbarItem>
+        <ToolbarItem alignRight>
           <ProtectedComponent>
             <ActionButton link="build-configs/create">Create Build Config</ActionButton>
           </ProtectedComponent>
