@@ -774,7 +774,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             </FormGroup>
           )}
 
-          {!isEditPage && getFieldState(scmRepositoryEntityAttributes.scmUrl.id) === 'success' && (
+          {!isEditPage && getFieldState(scmRepositoryEntityAttributes.scmUrl.id) !== 'error' && (
             <ServiceContainerLoading
               title="SCM Repository"
               emptyContent={<ScmRepositoryUrlAlert variant="not-synced" {...selectedScmRepository} />}

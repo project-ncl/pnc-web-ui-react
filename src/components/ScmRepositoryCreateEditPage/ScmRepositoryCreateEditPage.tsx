@@ -270,7 +270,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           </FormInputHelperText>
         </FormGroup>
 
-        {getFieldState(scmRepositoryEntityAttributesUrl.id) === 'success' && (
+        {getFieldState(scmRepositoryEntityAttributesUrl.id) !== 'error' && (
           <ServiceContainerLoading
             title="SCM Repository"
             emptyContent={<ScmRepositoryUrlAlert variant="not-synced" {...selectedScmRepository} />}
