@@ -57,7 +57,7 @@ export const PageLayout = ({
         </PageBreadcrumb>
       )}
       <PageSection variant={PageSectionVariants.light}>
-        <TextContent className={css((actions || sidebar) && 'pull-left')}>
+        <TextContent className={css((actions || sidebar) && 'pull-left m-b-15')}>
           <Text component="h1">{title}</Text>
           <Text component="p">{description}</Text>
         </TextContent>
