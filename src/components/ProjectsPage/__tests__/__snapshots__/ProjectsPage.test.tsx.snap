@@ -9,7 +9,7 @@ Object {
         class="pf-v5-c-page__main-section pf-m-light"
       >
         <div
-          class="pf-v5-c-content pull-left"
+          class="pf-v5-c-content pull-left m-b-15"
         >
           <h1
             class=""
@@ -807,7 +807,7 @@ Object {
       class="pf-v5-c-page__main-section pf-m-light"
     >
       <div
-        class="pf-v5-c-content pull-left"
+        class="pf-v5-c-content pull-left m-b-15"
       >
         <h1
           class=""
