@@ -14,23 +14,31 @@ import { ProgressButton } from 'components/ProgressButton/ProgressButton';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+export enum BUILD_STATUS {
+  InProgress,
+  Success,
+  Failed,
+}
+
 interface ISshCredentialsButtonProps {
   serviceContainerSshCredentials: IServiceContainerState<SSHCredentials>;
   buildBelongToCurrentUser: boolean;
-  hasBuildFailed: boolean;
+  buildStatus: BUILD_STATUS;
 }
 
 export const SshCredentialsButton = ({
   serviceContainerSshCredentials,
   buildBelongToCurrentUser,
-  hasBuildFailed,
+  buildStatus,
 }: ISshCredentialsButtonProps) => {
   const disabledReason = !buildBelongToCurrentUser
-    ? 'Build does not belong to the currently logged in user.'
-    : !hasBuildFailed
-    ? 'Build has not failed.'
+    ? 'Only user who executed the build and PNC admins are allowed to get the SSH Credentials.'
+    : buildStatus === BUILD_STATUS.InProgress
+    ? 'The build is currently in progress; SSH Credentials are only available for unsuccessful builds with "keep pod alive" option.'
+    : buildStatus === BUILD_STATUS.Success
+    ? 'SSH Credentials are only available for unsuccessful builds with "keep pod alive" option.'
     : !serviceContainerSshCredentials.data?.command
-    ? "SSH credentials are only available for those unsuccessful builds with 'keep pod alive' option. Alternatively you can modify your build script to intentionally fail it and get the SSH credentials you need."
+    ? "SSH credentials are only available for unsuccessful builds with 'keep pod alive' option. Alternatively you can modify your build script to intentionally fail it and get the SSH credentials you need."
     : undefined;
 
   return (
@@ -52,7 +60,7 @@ export const SshCredentialsButton = ({
       >
         <TooltipWrapper tooltip={disabledReason}>
           <ProgressButton
-            variant="control"
+            variant="tertiary"
             isSmall
             serviceContainer={serviceContainerSshCredentials}
             isDisabled={!!disabledReason || !!serviceContainerSshCredentials.error}
