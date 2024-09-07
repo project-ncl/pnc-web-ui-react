@@ -25,7 +25,7 @@ import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { SshCredentialsButton } from 'components/SshCredentialsButton/SshCredentialsButton';
+import { BUILD_STATUS, SshCredentialsButton } from 'components/SshCredentialsButton/SshCredentialsButton';
 
 import * as buildApi from 'services/buildApi';
 import { uiLogger } from 'services/uiLogger';
@@ -166,7 +166,15 @@ export const BuildPages = () => {
       key="ssh-credentials"
       serviceContainerSshCredentials={serviceContainerBuildSshCredentials}
       buildBelongToCurrentUser={buildBelongToCurrentUser || isCurrentUserAdmin}
-      hasBuildFailed={!!serviceContainerBuild.data?.status && !!buildStatusData[serviceContainerBuild.data.status].failed}
+      buildStatus={
+        !serviceContainerBuild.data?.status
+          ? BUILD_STATUS.InProgress
+          : buildStatusData[serviceContainerBuild.data.status].failed
+          ? BUILD_STATUS.Failed
+          : buildStatusData[serviceContainerBuild.data.status].progress !== 'FINISHED'
+          ? BUILD_STATUS.InProgress
+          : BUILD_STATUS.Success
+      }
     />,
     <CancelBuildModalButton
       key="cancel-build-button"
