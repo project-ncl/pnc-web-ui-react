@@ -1,5 +1,7 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
+import { useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
+import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -7,10 +9,11 @@ import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { LogViewer } from 'components/LogViewer/LogViewer';
-import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildApi from 'services/buildApi';
+
+import { timestampHiglighter } from 'utils/preprocessorHelper';
 
 export const BuildLogPage = () => {
   const { buildId } = useParamsRequired();
@@ -23,11 +26,23 @@ export const BuildLogPage = () => {
 
   const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/) || [], [serviceContainerBuildLog.data]);
 
+  const [buffer, addLines] = useDataBuffer(0, timestampHiglighter);
+
   useEffect(() => {
     if (!isBuilding) {
       serviceContainerBuildLogRunner({ serviceData: { id: buildId } });
     }
   }, [serviceContainerBuildLogRunner, buildId, isBuilding]);
+
+  useBifrostWebSocketEffect(
+    useCallback(
+      (message: string) => {
+        addLines([message]);
+      },
+      [addLines]
+    ),
+    { buildId }
+  );
 
   const logActions = [<BuildLogLink key="log-link" buildId={buildId!} />];
 
@@ -43,7 +58,15 @@ export const BuildLogPage = () => {
         </ContentBox>
       )}
 
-      {isBuilding && <OldUiContentLinkBox contentTitle="Build in Progress Log" route={`builds/${buildId}`} />}
+      {isBuilding && (
+        <>
+          <ContentBox>
+            <ContentBox padding>
+              <LogViewer data={buffer} />
+            </ContentBox>
+          </ContentBox>
+        </>
+      )}
     </>
   );
 };

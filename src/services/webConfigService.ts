@@ -105,6 +105,18 @@ export const getPncNotificationsUrl = (): string => {
 };
 
 /**
+ * Return PNC Bifrost WebSocket endpoint URL
+ */
+export const getBifrostWsUrl = (): string => {
+  const pncNotificationsUrl = getWebConfig().bifrostWsUrl;
+
+  if (!pncNotificationsUrl) {
+    throw new Error(`PNC Notifications URL does not contain any data: #${pncNotificationsUrl}#`);
+  }
+  return pncNotificationsUrl;
+};
+
+/**
  * Return UI logger endpoint
  */
 export const getUILoggerUrl = (): string => {
