@@ -9,6 +9,10 @@ import {
 
 import { SCMRepository } from 'pnc-api-types-ts';
 
+import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
+
+import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
+
 import { isBoolean } from 'utils/entityRecognition';
 
 interface IScmRepositoryUrlAlertProps {
@@ -43,15 +47,15 @@ export const ScmRepositoryUrlAlert = ({
     <Alert variant={alertLevel} isInline title="This external repository is already synced.">
       <DescriptionList isCompact>
         <DescriptionListGroup>
-          <DescriptionListTerm>Internal URL</DescriptionListTerm>
-          <DescriptionListDescription>{internalUrl}</DescriptionListDescription>
+          <DescriptionListTerm>{scmRepositoryEntityAttributes.internalUrl.title}</DescriptionListTerm>
+          <DescriptionListDescription>{internalUrl ? internalUrl : <EmptyStateSymbol />}</DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>External URL</DescriptionListTerm>
-          <DescriptionListDescription>{externalUrl}</DescriptionListDescription>
+          <DescriptionListTerm>{scmRepositoryEntityAttributes.externalUrl.title}</DescriptionListTerm>
+          <DescriptionListDescription>{externalUrl ? externalUrl : <EmptyStateSymbol />}</DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>Pre-build sync</DescriptionListTerm>
+          <DescriptionListTerm>{scmRepositoryEntityAttributes.preBuildSyncEnabled.title}</DescriptionListTerm>
           <DescriptionListDescription>
             {isBoolean(preBuildSyncEnabled) && (preBuildSyncEnabled ? 'enabled' : 'disabled')}
           </DescriptionListDescription>
