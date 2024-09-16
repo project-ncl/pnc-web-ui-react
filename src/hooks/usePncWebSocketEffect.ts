@@ -7,7 +7,7 @@ import { pncWebSocketClient } from 'services/webSocketClient';
  * HOOK
  */
 
-interface IUsePncWebSocketEffectOptions {
+export interface IUsePncWebSocketEffectOptions {
   // condition based listening, when true, events will be ignored (for example when Build is finished)
   preventListening?: boolean;
 

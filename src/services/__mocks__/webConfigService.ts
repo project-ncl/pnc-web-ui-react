@@ -11,3 +11,5 @@ export const getPncNotificationsUrl = (): string => webConfigDataMock.pncNotific
 export const getKafkaUrl = (): string => webConfigDataMock.kafkaUrl;
 
 export const getUILoggerUrl = (): string => webConfigDataMock.uiLoggerUrl;
+
+export const getBifrostWsUrl = (): string => webConfigDataMock.bifrostWsUrl;
