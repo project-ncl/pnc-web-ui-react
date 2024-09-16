@@ -23,7 +23,7 @@
   "externalEttUrl": "https://localhost/",
   "brewContentUrl": "https://localhost/",
   "externalUiLoggerUrl": "https://localhost",
-  "bifrostWsUrl": "https://localhost/",
+  "bifrostWsUrl": "ws://localhost/",
   "kafkaUrl": "https://localhost/",
   "pncNotificationsUrl": "wss://localhost/",
   "userGuideUrl": "https://localhost/",

@@ -63,7 +63,20 @@ const webSocketClient = (url: string) => {
         }
       };
     },
+    /**
+     * Send a message to the WebSocket server.
+     *
+     * @param message - The message to send.
+     */
+    sendMessage: (message: string) => {
+      if (webSocket.readyState === WebSocket.OPEN) {
+        webSocket.send(message);
+      } else {
+        uiLogger.log('WebSocket is not open. Unable to send message: ' + message);
+      }
+    },
   };
 };
 
 export const pncWebSocketClient = webSocketClient(webConfigService.getPncNotificationsUrl());
+export const bifrostWebSocketClient = webSocketClient(webConfigService.getBifrostWsUrl());
