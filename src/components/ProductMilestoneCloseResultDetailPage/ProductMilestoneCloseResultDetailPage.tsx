@@ -7,6 +7,8 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
+import { useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
+import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -17,7 +19,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
-import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
+import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PushedBuildsList } from 'components/PushedBuildsList/PushedBuildsList';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -27,10 +29,11 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
 
+import { timestampHiglighter } from 'utils/preprocessorHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneCloseResultDetailPage = () => {
-  const { closeResultId, productMilestoneId, productVersionId, productId } = useParamsRequired();
+  const { closeResultId, productMilestoneId, productVersionId } = useParamsRequired();
 
   const serviceContainerProductMilestoneCloseResult = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerProductMilestoneCloseResultRunner = serviceContainerProductMilestoneCloseResult.run;
@@ -40,6 +43,8 @@ export const ProductMilestoneCloseResultDetailPage = () => {
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
   const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProductMilestoneCloseResult.data?.content?.[0];
+
+  const [logBuffer, addLogLines] = useDataBuffer(750, timestampHiglighter);
 
   useEffect(() => {
     serviceContainerProductMilestoneCloseResultRunner({
@@ -72,6 +77,16 @@ export const ProductMilestoneCloseResultDetailPage = () => {
       },
       [serviceContainerProductMilestoneCloseResultSetter, closeResultId]
     )
+  );
+
+  useBifrostWebSocketEffect(
+    useCallback(
+      (logLine: string) => {
+        addLogLines([logLine]);
+      },
+      [addLogLines]
+    ),
+    { closeResultId }
   );
 
   useTitle(
@@ -141,11 +156,16 @@ export const ProductMilestoneCloseResultDetailPage = () => {
             <PushedBuildsList pushedBuilds={closeResult?.buildPushResults} />
           </ContentBox>
 
-          {/* TODO: Live Log */}
-          <OldUiContentLinkBox
-            contentTitle="Close Result Log"
-            route={`products/${productId}/versions/${productVersionId}/milestones/${productMilestoneId}/close-results/${closeResultId}`}
-          />
+          <Toolbar borderBottom>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Logs</Text>
+              </TextContent>
+            </ToolbarItem>
+          </Toolbar>
+          <ContentBox padding>
+            <LogViewer isStatic={closeResult?.status !== 'IN_PROGRESS'} data={logBuffer} />
+          </ContentBox>
         </PageLayout>
       </ServiceContainerLoading>
     </ServiceContainerLoading>
