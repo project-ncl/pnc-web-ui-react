@@ -261,6 +261,7 @@ export const hasGroupBuildStarted = (wsData: any, parameters: IGroupBuildParamet
  */
 interface IBrewPushParameters {
   buildId?: string;
+  buildIds?: string[];
 }
 
 /**
@@ -270,7 +271,7 @@ interface IBrewPushParameters {
  * @param parameters - See {@link IBrewPushParameters}
  * @returns true when Brew Push finished, otherwise false
  */
-export const hasBrewPushFinished = (wsData: any, { buildId }: IBrewPushParameters = {}): boolean => {
+export const hasBrewPushFinished = (wsData: any, { buildId, buildIds }: IBrewPushParameters = {}): boolean => {
   if (wsData.job !== 'BREW_PUSH' || wsData.notificationType !== 'BREW_PUSH_RESULT') {
     return false;
   }
@@ -280,7 +281,9 @@ export const hasBrewPushFinished = (wsData: any, { buildId }: IBrewPushParameter
     return false; // ignore changes when 'buildPushResult' is not available
   }
 
-  return !buildId || buildId === wsData.buildPushResult?.buildId;
+  return (
+    (!buildId || buildId === wsData.buildPushResult.buildId) && (!buildIds || buildIds.includes(wsData.buildPushResult.buildId))
+  );
 };
 
 /**
