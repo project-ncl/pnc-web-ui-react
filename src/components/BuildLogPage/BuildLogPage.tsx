@@ -41,7 +41,7 @@ export const BuildLogPage = () => {
       },
       [addLogLines]
     ),
-    { buildId }
+    { buildId, preventListening: !isBuilding }
   );
 
   const logActions = [<BuildLogLink key="log-link" buildId={buildId!} />];
