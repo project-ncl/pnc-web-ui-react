@@ -56,39 +56,25 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   const [renderedData, setRenderedData] = useState(data);
   // is log viewer paused? (data are still stored, but not rendered)
   const [isPaused, setIsPaused] = useState(true);
-  // count of rendered lines
-  // is assigned to 'scrollToRow' only if log viewer is paused (so no automatic scrolling happens when paused)
-  const [lineCount, setLineCount] = useState(0);
   // if paused, how many lines were not rendered?
-  const [linesBehind, setLinesBehind] = useState(0);
+  const linesBehind = data.length - renderedData.length;
 
   useEffect(() => {
     if ((!isPaused || isStatic) && data.length > 0) {
-      setLineCount(data.length);
       setRenderedData(data);
-      if (!isStatic) {
-        logViewerRef?.current?.scrollToBottom();
-      }
     }
-  }, [isPaused, data, isStatic]);
+  }, [data, isPaused, isStatic]);
 
   useEffect(() => {
-    setLinesBehind(data.length - lineCount);
-  }, [data.length, lineCount]);
-
-  useEffect(() => {
-    if (isFollowing) {
-      setIsPaused(false);
+    if (!isPaused || isStatic) {
+      logViewerRef.current?.scrollToBottom();
     }
-  }, [isFollowing, data]);
+  }, [renderedData.length, isPaused, isStatic]);
 
   const onScroll = ({ scrollOffsetToBottom, scrollUpdateWasRequested }: IOnScrollProps) => {
     if (!scrollUpdateWasRequested) {
-      if (scrollOffsetToBottom > 0) {
-        setIsPaused(true);
-      } else {
-        setIsPaused(false);
-      }
+      const offsetFromBottomPauseThreshold = 5;
+      setIsPaused(scrollOffsetToBottom > offsetFromBottomPauseThreshold);
     }
   };
 
@@ -113,7 +99,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
           <Button
             onClick={() => {
               setIsPaused(false);
-              logViewerRef.current?.scrollToItem(lineCount);
+              logViewerRef.current?.scrollToBottom();
             }}
             variant="control"
             icon={<LongArrowAltDownIcon />}
@@ -128,6 +114,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
               label="Force Following"
               isChecked={isFollowing}
               onChange={(_, checked) => {
+                setIsPaused(false);
                 storeIsFollowing(checked);
               }}
             />
@@ -138,7 +125,6 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
             label="Wrap Lines"
             isChecked={areLinesWrapped}
             onChange={(_, checked) => {
-              setIsPaused(true);
               storeAreLinesWrapped(checked);
             }}
           />
@@ -157,10 +143,9 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
     <LogViewerPF
       innerRef={logViewerRef}
       data={renderedData}
-      scrollToRow={(!isPaused || isFollowing) && !isStatic ? lineCount : 0}
       onScroll={onScroll}
       toolbar={<HeaderToolbar />}
-      footer={isPaused && !!linesBehind && <FooterButton />}
+      footer={isPaused && !isFollowing && <FooterButton />}
       isTextWrapped={areLinesWrapped}
     />
   );
