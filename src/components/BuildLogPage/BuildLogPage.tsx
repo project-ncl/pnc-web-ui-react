@@ -26,7 +26,7 @@ export const BuildLogPage = () => {
 
   const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/) || [], [serviceContainerBuildLog.data]);
 
-  const [logBuffer, addLogLines] = useDataBuffer(100, timestampHiglighter);
+  const [logBuffer, addLogLines] = useDataBuffer(750, timestampHiglighter);
 
   useEffect(() => {
     if (!isBuilding) {
