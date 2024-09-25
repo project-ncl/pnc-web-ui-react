@@ -55,7 +55,7 @@ export const BuildLogPage = () => {
     }
   );
 
-  const logActions = [<BuildLogLink key="log-link" buildId={buildId!} />];
+  const logActions = [<BuildLogLink key="log-link" isIconVariant buildId={buildId!} />];
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { Button, Switch, Toolbar, ToolbarContent, ToolbarItem } from '@patternfly/react-core';
+import { Button, Checkbox, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
 import { ReactNode, useEffect, useRef, useState } from 'react';
@@ -80,55 +80,72 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
 
   const HeaderToolbar = () => (
     <Toolbar>
-      <ToolbarContent>
-        <ToolbarItem>
-          <Button
-            onClick={() => {
-              if (logViewerRef.current?.state.scrollOffset) {
-                setIsPaused(true);
-                logViewerRef.current.scrollTo(0, 0);
-              }
-            }}
-            variant="control"
-            icon={<LongArrowAltUpIcon />}
-          >
-            Top
-          </Button>
-        </ToolbarItem>
-        <ToolbarItem>
-          <Button
-            onClick={() => {
-              setIsPaused(false);
-              logViewerRef.current?.scrollToBottom();
-            }}
-            variant="control"
-            icon={<LongArrowAltDownIcon />}
-          >
-            Bottom
-          </Button>
-        </ToolbarItem>
-        {!!customActions?.length && customActions.map((node, index) => <ToolbarItem key={index}>{node}</ToolbarItem>)}
-        {!isStatic && (
+      <ToolbarContent alignItems="center">
+        <ToolbarGroup>
           <ToolbarItem>
-            <Switch
-              label="Force Following"
-              isChecked={isFollowing}
-              onChange={(_, checked) => {
+            <Button
+              onClick={() => {
+                if (logViewerRef.current?.state.scrollOffset) {
+                  setIsPaused(true);
+                  logViewerRef.current.scrollTo(0, 0);
+                }
+              }}
+              variant="control"
+              icon={<LongArrowAltUpIcon />}
+            >
+              Top
+            </Button>
+          </ToolbarItem>
+          <ToolbarItem>
+            <Button
+              onClick={() => {
                 setIsPaused(false);
-                storeIsFollowing(checked);
+                logViewerRef.current?.scrollToBottom();
+              }}
+              variant="control"
+              icon={<LongArrowAltDownIcon />}
+            >
+              Bottom
+            </Button>
+          </ToolbarItem>
+        </ToolbarGroup>
+        <ToolbarGroup align={{ default: 'alignRight' }}>
+          {!isStatic && (
+            <>
+              <ToolbarItem alignSelf="center">
+                <Checkbox
+                  id="force-following-check"
+                  label="Force following"
+                  isChecked={isFollowing}
+                  onChange={(_, checked) => {
+                    setIsPaused(false);
+                    storeIsFollowing(checked);
+                  }}
+                />
+              </ToolbarItem>
+              <ToolbarItem variant="separator" />
+            </>
+          )}
+          <ToolbarItem alignSelf="center">
+            <Checkbox
+              id="wrap-lines-check"
+              label="Wrap lines"
+              isChecked={areLinesWrapped}
+              onChange={(_, checked) => {
+                storeAreLinesWrapped(checked);
               }}
             />
           </ToolbarItem>
-        )}
-        <ToolbarItem>
-          <Switch
-            label="Wrap Lines"
-            isChecked={areLinesWrapped}
-            onChange={(_, checked) => {
-              storeAreLinesWrapped(checked);
-            }}
-          />
-        </ToolbarItem>
+          {!!customActions?.length &&
+            customActions.map((node, index) => (
+              <>
+                <ToolbarItem variant="separator" />
+                <ToolbarItem key={index} alignSelf="center">
+                  {node}
+                </ToolbarItem>
+              </>
+            ))}
+        </ToolbarGroup>
       </ToolbarContent>
     </Toolbar>
   );
