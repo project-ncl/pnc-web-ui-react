@@ -3,13 +3,17 @@ import { useEffect } from 'react';
 import { IUsePncWebSocketEffectOptions } from 'hooks/usePncWebSocketEffect';
 
 import { uiLogger } from 'services/uiLogger';
-import { bifrostWebSocketClient } from 'services/webSocketClient';
+import * as webConfigService from 'services/webConfigService';
+import { createWebSocketClient } from 'services/webSocketClient';
 
-const buildLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc._userlog_';
-const buildLogMatchFiltersPrefix = 'mdc.processContext.keyword:build-';
+export const buildLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc._userlog_';
+export const buildLogMatchFiltersPrefix = 'mdc.processContext.keyword:build-';
 
-const closeResultLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc.causeway|org.jboss.pnc._userlog_';
-const closeResultLogMatchFiltersPrefix = 'level.keyword:INFO|ERROR|WARN,mdc.processContext.keyword:';
+export const closeResultLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc.causeway|org.jboss.pnc._userlog_';
+export const closeResultLogMatchFiltersPrefix = 'level.keyword:INFO|ERROR|WARN,mdc.processContext.keyword:';
+
+export const deliverablesAnalysisLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc';
+export const deliverablesAnalysisLogMatchFiltersPrefix = 'level.keyword:DEBUG|INFO|ERROR|WARN,mdc.processContext.keyword:';
 
 interface IMdc {
   requestContext: string;
@@ -42,21 +46,11 @@ interface IWsResponseData {
 }
 
 interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOptions {
-  buildId?: string;
-  closeResultId?: string;
+  filters: {
+    prefixFilters: string;
+    matchFilters: string;
+  };
 }
-
-const getPrefixFilters = ({ buildId, closeResultId }: { buildId?: string; closeResultId?: string }) => {
-  if (buildId) return buildLogPrefixFilters;
-  if (closeResultId) return closeResultLogPrefixFilters;
-  return '';
-};
-
-const getMatchFilters = ({ buildId, closeResultId }: { buildId?: string; closeResultId?: string }) => {
-  if (buildId) return buildLogMatchFiltersPrefix + buildId;
-  if (closeResultId) return closeResultLogMatchFiltersPrefix + closeResultId;
-  return '';
-};
 
 /**
  * WebSocket message listener hook.
@@ -66,18 +60,20 @@ const getMatchFilters = ({ buildId, closeResultId }: { buildId?: string; closeRe
  */
 export const useBifrostWebSocketEffect = (
   callback: (logLine: string) => void,
-  { preventListening = false, debug = '', buildId, closeResultId }: IUseBifrostWebSocketEffectOptions = {}
+  { filters, preventListening = false, debug = '' }: IUseBifrostWebSocketEffectOptions
 ) => {
   useEffect(() => {
     if (preventListening) return;
 
-    if (!buildId && !closeResultId) {
-      uiLogger.error('Missing ID of an entity of the log in the useBifrostWebSocketEffect');
+    if (!filters || (!filters.prefixFilters && !filters.matchFilters)) {
+      uiLogger.error('Missing filters in the useBifrostWebSocketEffect');
       return;
     }
 
-    const prefixFilters = getPrefixFilters({ buildId, closeResultId });
-    const matchFilters = getMatchFilters({ buildId, closeResultId });
+    const bifrostWebSocketClient = createWebSocketClient(webConfigService.getBifrostWsUrl());
+
+    const { prefixFilters, matchFilters } = filters;
+
     // Send subscribe message
     const subscribeMessage = {
       jsonrpc: '2.0',
@@ -101,6 +97,7 @@ export const useBifrostWebSocketEffect = (
 
     return () => {
       removeMessageListener();
+      bifrostWebSocketClient.close();
     };
-  }, [callback, buildId, closeResultId, preventListening, debug]);
+  }, [callback, filters, preventListening, debug]);
 };

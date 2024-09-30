@@ -1,4 +1,5 @@
-import { useCallback, useEffect } from 'react';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
@@ -6,6 +7,12 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
 import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
 
+import {
+  deliverablesAnalysisLogMatchFiltersPrefix,
+  deliverablesAnalysisLogPrefixFilters,
+  useBifrostWebSocketEffect,
+} from 'hooks/useBifrostWebSocketEffect';
+import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasDeliverablesAnalysisChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -17,17 +24,20 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { DeliverablesAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisProgressStatusLabelMapper';
 import { DeliverablesAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverablesAnalysisResultLabelMapper';
-import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
+import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as operationsApi from 'services/operationsApi';
 import * as productVersionApi from 'services/productVersionApi';
 
+import { timestampHiglighter } from 'utils/preprocessorHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
 export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
-  const { deliverablesAnalysisId, productMilestoneId, productVersionId, productId } = useParamsRequired();
+  const { deliverablesAnalysisId, productVersionId } = useParamsRequired();
 
   const serviceContainerProductMilestoneDeliverablesAnalysis = useServiceContainer(operationsApi.getDeliverablesAnalysis);
   const serviceContainerProductMilestoneDeliverablesAnalysisRunner = serviceContainerProductMilestoneDeliverablesAnalysis.run;
@@ -37,6 +47,8 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
 
   const deliverablesAnalysis: DeliverableAnalyzerOperation | undefined =
     serviceContainerProductMilestoneDeliverablesAnalysis.data || undefined;
+
+  const [logBuffer, addLogLines] = useDataBuffer(timestampHiglighter);
 
   useEffect(() => {
     serviceContainerProductMilestoneDeliverablesAnalysisRunner({
@@ -62,6 +74,26 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
       },
       [serviceContainerProductMilestoneDeliverablesAnalysisRunner, deliverablesAnalysisId]
     )
+  );
+
+  const filters = useMemo(
+    () => ({
+      prefixFilters: deliverablesAnalysisLogPrefixFilters,
+      matchFilters: `${deliverablesAnalysisLogMatchFiltersPrefix}${deliverablesAnalysisId}`,
+    }),
+    [deliverablesAnalysisId]
+  );
+
+  useBifrostWebSocketEffect(
+    useCallback(
+      (logLine: string) => {
+        addLogLines([logLine]);
+      },
+      [addLogLines]
+    ),
+    {
+      filters,
+    }
   );
 
   useTitle(
@@ -141,11 +173,16 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
             </Attributes>
           </ContentBox>
 
-          {/* TODO: Live Log */}
-          <OldUiContentLinkBox
-            contentTitle="Deliverables Analysis Log"
-            route={`products/${productId}/versions/${productVersionId}/milestones/${productMilestoneId}/deliverables-analysis/${deliverablesAnalysisId}`}
-          />
+          <Toolbar borderBottom>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Logs</Text>
+              </TextContent>
+            </ToolbarItem>
+          </Toolbar>
+          <ContentBox padding>
+            <LogViewer isStatic={deliverablesAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
+          </ContentBox>
         </PageLayout>
       </ServiceContainerLoading>
     </ServiceContainerLoading>

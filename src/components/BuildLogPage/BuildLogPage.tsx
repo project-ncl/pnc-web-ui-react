@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
-import { useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
+import { buildLogMatchFiltersPrefix, buildLogPrefixFilters, useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
 import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -26,13 +26,21 @@ export const BuildLogPage = () => {
 
   const logData = useMemo(() => serviceContainerBuildLog.data?.split(/[\r\n]/) || [], [serviceContainerBuildLog.data]);
 
-  const [logBuffer, addLogLines] = useDataBuffer(750, timestampHiglighter);
+  const [logBuffer, addLogLines] = useDataBuffer(timestampHiglighter);
 
   useEffect(() => {
     if (!isBuilding) {
       serviceContainerBuildLogRunner({ serviceData: { id: buildId } });
     }
   }, [serviceContainerBuildLogRunner, buildId, isBuilding]);
+
+  const filters = useMemo(
+    () => ({
+      prefixFilters: buildLogPrefixFilters,
+      matchFilters: `${buildLogMatchFiltersPrefix}${buildId}`,
+    }),
+    [buildId]
+  );
 
   useBifrostWebSocketEffect(
     useCallback(
@@ -41,7 +49,10 @@ export const BuildLogPage = () => {
       },
       [addLogLines]
     ),
-    { buildId, preventListening: !isBuilding }
+    {
+      filters,
+      preventListening: !isBuilding,
+    }
   );
 
   const logActions = [<BuildLogLink key="log-link" buildId={buildId!} />];

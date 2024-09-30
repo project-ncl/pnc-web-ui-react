@@ -1,5 +1,5 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { ProductMilestoneCloseResult } from 'pnc-api-types-ts';
 
@@ -7,7 +7,11 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
 import { productMilestoneCloseResultEntityAttributes } from 'common/productMilestoneCloseResultEntityAttributes';
 
-import { useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
+import {
+  closeResultLogMatchFiltersPrefix,
+  closeResultLogPrefixFilters,
+  useBifrostWebSocketEffect,
+} from 'hooks/useBifrostWebSocketEffect';
 import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasMilestoneCloseFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
@@ -44,7 +48,7 @@ export const ProductMilestoneCloseResultDetailPage = () => {
 
   const closeResult: ProductMilestoneCloseResult | undefined = serviceContainerProductMilestoneCloseResult.data?.content?.[0];
 
-  const [logBuffer, addLogLines] = useDataBuffer(750, timestampHiglighter);
+  const [logBuffer, addLogLines] = useDataBuffer(timestampHiglighter);
 
   useEffect(() => {
     serviceContainerProductMilestoneCloseResultRunner({
@@ -79,6 +83,14 @@ export const ProductMilestoneCloseResultDetailPage = () => {
     )
   );
 
+  const filters = useMemo(
+    () => ({
+      prefixFilters: closeResultLogPrefixFilters,
+      matchFilters: `${closeResultLogMatchFiltersPrefix}${closeResultId}`,
+    }),
+    [closeResultId]
+  );
+
   useBifrostWebSocketEffect(
     useCallback(
       (logLine: string) => {
@@ -86,7 +98,9 @@ export const ProductMilestoneCloseResultDetailPage = () => {
       },
       [addLogLines]
     ),
-    { closeResultId }
+    {
+      filters,
+    }
   );
 
   useTitle(
