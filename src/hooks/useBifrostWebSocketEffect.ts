@@ -3,13 +3,17 @@ import { useEffect } from 'react';
 import { IUsePncWebSocketEffectOptions } from 'hooks/usePncWebSocketEffect';
 
 import { uiLogger } from 'services/uiLogger';
-import { bifrostWebSocketClient } from 'services/webSocketClient';
+import * as webConfigService from 'services/webConfigService';
+import { createWebSocketClient } from 'services/webSocketClient';
 
 const buildLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc._userlog_';
 const buildLogMatchFiltersPrefix = 'mdc.processContext.keyword:build-';
 
 const closeResultLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc.causeway|org.jboss.pnc._userlog_';
 const closeResultLogMatchFiltersPrefix = 'level.keyword:INFO|ERROR|WARN,mdc.processContext.keyword:';
+
+const deliverablesAnalysisLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc';
+const deliverablesAnalysisLogMatchFiltersPrefix = 'level.keyword:DEBUG|INFO|ERROR|WARN,mdc.processContext.keyword:';
 
 interface IMdc {
   requestContext: string;
@@ -44,17 +48,36 @@ interface IWsResponseData {
 interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOptions {
   buildId?: string;
   closeResultId?: string;
+  deliverablesAnalysisId?: string;
 }
 
-const getPrefixFilters = ({ buildId, closeResultId }: { buildId?: string; closeResultId?: string }) => {
+const getPrefixFilters = ({
+  buildId,
+  closeResultId,
+  deliverablesAnalysisId,
+}: {
+  buildId?: string;
+  closeResultId?: string;
+  deliverablesAnalysisId?: string;
+}) => {
   if (buildId) return buildLogPrefixFilters;
   if (closeResultId) return closeResultLogPrefixFilters;
+  if (deliverablesAnalysisId) return deliverablesAnalysisLogPrefixFilters;
   return '';
 };
 
-const getMatchFilters = ({ buildId, closeResultId }: { buildId?: string; closeResultId?: string }) => {
+const getMatchFilters = ({
+  buildId,
+  closeResultId,
+  deliverablesAnalysisId,
+}: {
+  buildId?: string;
+  closeResultId?: string;
+  deliverablesAnalysisId?: string;
+}) => {
   if (buildId) return buildLogMatchFiltersPrefix + buildId;
   if (closeResultId) return closeResultLogMatchFiltersPrefix + closeResultId;
+  if (deliverablesAnalysisId) return deliverablesAnalysisLogMatchFiltersPrefix + deliverablesAnalysisId;
   return '';
 };
 
@@ -66,18 +89,21 @@ const getMatchFilters = ({ buildId, closeResultId }: { buildId?: string; closeRe
  */
 export const useBifrostWebSocketEffect = (
   callback: (logLine: string) => void,
-  { preventListening = false, debug = '', buildId, closeResultId }: IUseBifrostWebSocketEffectOptions = {}
+  { preventListening = false, debug = '', buildId, closeResultId, deliverablesAnalysisId }: IUseBifrostWebSocketEffectOptions = {}
 ) => {
   useEffect(() => {
     if (preventListening) return;
 
-    if (!buildId && !closeResultId) {
+    if (!buildId && !closeResultId && !deliverablesAnalysisId) {
       uiLogger.error('Missing ID of an entity of the log in the useBifrostWebSocketEffect');
       return;
     }
 
-    const prefixFilters = getPrefixFilters({ buildId, closeResultId });
-    const matchFilters = getMatchFilters({ buildId, closeResultId });
+    const webSocketClient = createWebSocketClient(webConfigService.getBifrostWsUrl());
+
+    const prefixFilters = getPrefixFilters({ buildId, closeResultId, deliverablesAnalysisId });
+    const matchFilters = getMatchFilters({ buildId, closeResultId, deliverablesAnalysisId });
+
     // Send subscribe message
     const subscribeMessage = {
       jsonrpc: '2.0',
@@ -89,7 +115,7 @@ export const useBifrostWebSocketEffect = (
       },
     };
 
-    bifrostWebSocketClient.sendMessage(JSON.stringify(subscribeMessage));
+    webSocketClient.sendMessage(JSON.stringify(subscribeMessage));
 
     const onMessage = (wsMessage: MessageEvent) => {
       const wsResponseData: IWsResponseData = JSON.parse(wsMessage.data);
@@ -97,10 +123,11 @@ export const useBifrostWebSocketEffect = (
       resultValue?.message && callback(`[${resultValue.timestamp}] ${resultValue.message}`);
     };
 
-    const removeMessageListener = bifrostWebSocketClient.addMessageListener(onMessage, { debug });
+    const removeMessageListener = webSocketClient.addMessageListener(onMessage, { debug });
 
     return () => {
       removeMessageListener();
+      webSocketClient.close();
     };
-  }, [callback, buildId, closeResultId, preventListening, debug]);
+  }, [callback, buildId, closeResultId, deliverablesAnalysisId, preventListening, debug]);
 };

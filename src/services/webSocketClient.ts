@@ -8,13 +8,20 @@ interface IAddMessageListenerOptions {
   debug?: string;
 }
 
-const webSocketClient = (url: string) => {
+export const createWebSocketClient = (url: string) => {
   const webSocket: WebSocket = new WebSocket(url);
   const messageListeners: Array<TWebSocketListener> = [];
+  let messageQueue: string[] = [];
   const LISTENERS_WARNING_COUNT = 20;
 
   webSocket.onopen = () => {
     console.log('WebSocket open', url);
+
+    // Send any messages that were queued while the WebSocket was not open
+    messageQueue.forEach((message) => {
+      webSocket.send(message);
+    });
+    messageQueue = []; // Clear the queue
   };
 
   webSocket.onmessage = (message: MessageEvent) => {
@@ -63,6 +70,7 @@ const webSocketClient = (url: string) => {
         }
       };
     },
+
     /**
      * Send a message to the WebSocket server.
      *
@@ -71,12 +79,21 @@ const webSocketClient = (url: string) => {
     sendMessage: (message: string) => {
       if (webSocket.readyState === WebSocket.OPEN) {
         webSocket.send(message);
+      } else if (webSocket.readyState === WebSocket.CONNECTING) {
+        // Queue the message to be sent when the WebSocket is open
+        messageQueue.push(message);
       } else {
         uiLogger.log('WebSocket is not open. Unable to send message: ' + message);
       }
     },
+
+    /**
+     * Close the WebSocket connection.
+     */
+    close: () => {
+      webSocket.close();
+    },
   };
 };
 
-export const pncWebSocketClient = webSocketClient(webConfigService.getPncNotificationsUrl());
-export const bifrostWebSocketClient = webSocketClient(webConfigService.getBifrostWsUrl());
+export const pncWebSocketClient = createWebSocketClient(webConfigService.getPncNotificationsUrl());
