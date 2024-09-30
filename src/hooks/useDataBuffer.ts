@@ -18,8 +18,8 @@ type AddLinesFunction = (lines: string[]) => void;
  * @param preprocessor - function by which each added line is modified
  */
 export const useDataBuffer = (
-  delay: number,
-  preprocessor: PreprocessorFunction = (lines: string[]) => lines
+  preprocessor: PreprocessorFunction = (lines: string[]) => lines,
+  delay: number = 750
 ): [string[], AddLinesFunction] => {
   // input to the buffer
   const [dataIn, setDataIn] = useState<string[]>([]);

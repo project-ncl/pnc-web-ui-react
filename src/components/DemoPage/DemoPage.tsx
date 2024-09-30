@@ -194,7 +194,7 @@ export const DemoPage = () => {
   const [logLinesToRemove, setLogLinesToRemove] = useState<number>(0);
   const savedTimer: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
 
-  const [buffer, addLines] = useDataBuffer(1500, timestampHiglighter);
+  const [buffer, addLines] = useDataBuffer(timestampHiglighter, 1500);
 
   const [searchSelectValue, setSearchSelectValue] = useState<string>();
   const searchSelectCallback = useCallback((requestConfig: AxiosRequestConfig = {}) => {
