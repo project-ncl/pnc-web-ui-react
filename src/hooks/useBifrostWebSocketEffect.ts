@@ -15,6 +15,10 @@ const closeResultLogMatchFiltersPrefix = 'level.keyword:INFO|ERROR|WARN,mdc.proc
 const deliverablesAnalysisLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc';
 const deliverablesAnalysisLogMatchFiltersPrefix = 'level.keyword:DEBUG|INFO|ERROR|WARN,mdc.processContext.keyword:';
 
+const brewPushLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc.causeway|org.jboss.pnc._userlog_';
+const brewPushLogMatchFiltersPrefix1 = 'level.keyword:INFO|ERROR|WARN,mdc.buildId.keyword:';
+const brewPushLogMatchFiltersPrefix2 = ',mdc.processContext.keyword:';
+
 interface IMdc {
   requestContext: string;
   processContextVariant: string;
@@ -46,20 +50,24 @@ interface IWsResponseData {
 }
 
 interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOptions {
+  brewPushId?: string;
   buildId?: string;
   closeResultId?: string;
   deliverablesAnalysisId?: string;
 }
 
 const getPrefixFilters = ({
+  brewPushId,
   buildId,
   closeResultId,
   deliverablesAnalysisId,
 }: {
+  brewPushId?: string;
   buildId?: string;
   closeResultId?: string;
   deliverablesAnalysisId?: string;
 }) => {
+  if (brewPushId) return brewPushLogPrefixFilters;
   if (buildId) return buildLogPrefixFilters;
   if (closeResultId) return closeResultLogPrefixFilters;
   if (deliverablesAnalysisId) return deliverablesAnalysisLogPrefixFilters;
@@ -67,14 +75,17 @@ const getPrefixFilters = ({
 };
 
 const getMatchFilters = ({
+  brewPushId,
   buildId,
   closeResultId,
   deliverablesAnalysisId,
 }: {
+  brewPushId?: string;
   buildId?: string;
   closeResultId?: string;
   deliverablesAnalysisId?: string;
 }) => {
+  if (brewPushId) return `${brewPushLogMatchFiltersPrefix1}${buildId}${brewPushLogMatchFiltersPrefix2}${brewPushId}`;
   if (buildId) return buildLogMatchFiltersPrefix + buildId;
   if (closeResultId) return closeResultLogMatchFiltersPrefix + closeResultId;
   if (deliverablesAnalysisId) return deliverablesAnalysisLogMatchFiltersPrefix + deliverablesAnalysisId;
@@ -89,7 +100,14 @@ const getMatchFilters = ({
  */
 export const useBifrostWebSocketEffect = (
   callback: (logLine: string) => void,
-  { preventListening = false, debug = '', buildId, closeResultId, deliverablesAnalysisId }: IUseBifrostWebSocketEffectOptions = {}
+  {
+    preventListening = false,
+    debug = '',
+    brewPushId,
+    buildId,
+    closeResultId,
+    deliverablesAnalysisId,
+  }: IUseBifrostWebSocketEffectOptions = {}
 ) => {
   useEffect(() => {
     if (preventListening) return;
@@ -101,8 +119,8 @@ export const useBifrostWebSocketEffect = (
 
     const webSocketClient = createWebSocketClient(webConfigService.getBifrostWsUrl());
 
-    const prefixFilters = getPrefixFilters({ buildId, closeResultId, deliverablesAnalysisId });
-    const matchFilters = getMatchFilters({ buildId, closeResultId, deliverablesAnalysisId });
+    const prefixFilters = getPrefixFilters({ brewPushId, buildId, closeResultId, deliverablesAnalysisId });
+    const matchFilters = getMatchFilters({ brewPushId, buildId, closeResultId, deliverablesAnalysisId });
 
     // Send subscribe message
     const subscribeMessage = {
@@ -129,5 +147,5 @@ export const useBifrostWebSocketEffect = (
       removeMessageListener();
       webSocketClient.close();
     };
-  }, [callback, buildId, closeResultId, deliverablesAnalysisId, preventListening, debug]);
+  }, [callback, brewPushId, buildId, closeResultId, deliverablesAnalysisId, preventListening, debug]);
 };

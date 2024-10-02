@@ -1,32 +1,40 @@
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { isAxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
 import { buildPushResultEntityAttributes } from 'common/buildPushResultEntityAttributes';
 
+import { useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
+import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBrewPushFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
-import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { BuildPushStatusLabelMapper } from 'components/BuildPushStatusLabelMapper/BuildPushStatusLabelMapper';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { OldUiContentLinkBox } from 'components/OldUiContentLinkBox/OldUiContentLinkBox';
+import { LogViewer } from 'components/LogViewer/LogViewer';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildApi from 'services/buildApi';
 
+import { timestampHiglighter } from 'utils/preprocessorHelper';
+
+const DEFAULT_LOG_BUFFER_DELAY = 750;
+
 export const BuildBrewPushPage = () => {
   const { buildId } = useParamsRequired();
-
-  const { serviceContainerBuild } = useServiceContainerBuild();
 
   const [isBrewPushEmpty, setIsBrewPushEmpty] = useState<boolean>(false);
 
   const serviceContainerBrewPush = useServiceContainer(buildApi.getBrewPush);
   const serviceContainerBrewPushRunner = serviceContainerBrewPush.run;
+
+  const [logBuffer, addLogLines] = useDataBuffer(DEFAULT_LOG_BUFFER_DELAY, timestampHiglighter);
 
   useEffect(() => {
     serviceContainerBrewPushRunner({
@@ -55,6 +63,16 @@ export const BuildBrewPushPage = () => {
     )
   );
 
+  useBifrostWebSocketEffect(
+    useCallback(
+      (logLine: string) => {
+        addLogLines([logLine]);
+      },
+      [addLogLines]
+    ),
+    { buildId, brewPushId: serviceContainerBrewPush.data?.id }
+  );
+
   return (
     <>
       {!isBrewPushEmpty ? (
@@ -80,10 +98,16 @@ export const BuildBrewPushPage = () => {
               </Attributes>
             </ContentBox>
 
-            <OldUiContentLinkBox
-              contentTitle="Brew Push Log"
-              route={`projects/${serviceContainerBuild.data?.project?.id}/build-configs/${serviceContainerBuild.data?.buildConfigRevision?.id}/builds/${buildId}/brew-push`}
-            />
+            <Toolbar borderBottom>
+              <ToolbarItem>
+                <TextContent>
+                  <Text component={TextVariants.h2}>Logs</Text>
+                </TextContent>
+              </ToolbarItem>
+            </Toolbar>
+            <ContentBox padding>
+              <LogViewer isStatic={serviceContainerBrewPush?.data?.status !== 'ACCEPTED'} data={logBuffer} />
+            </ContentBox>
           </ServiceContainerLoading>
         </>
       ) : (
