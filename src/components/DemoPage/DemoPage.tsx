@@ -156,7 +156,7 @@ const initLogData = [
 ];
 
 const DEPENDENCY_TREE_ROOT_BUILD: Build = {
-  id: 'ATFZH3MH4TIAG',
+  id: '16740',
   submitTime: '2017-12-01T13:17:18.007Z',
   status: 'REJECTED_FAILED_DEPENDENCIES',
   buildConfigRevision: {
@@ -170,7 +170,7 @@ const DEPENDENCY_TREE_ROOT_BUILD: Build = {
 };
 
 const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
-  id: '754',
+  id: '3198',
   status: 'REJECTED_FAILED_DEPENDENCIES',
   groupConfig: {
     id: '166',
