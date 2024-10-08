@@ -60,16 +60,23 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   const linesBehind = data.length - renderedData.length;
 
   useEffect(() => {
-    if ((!isPaused || isStatic) && data.length > 0) {
+    if ((!isPaused || isFollowing || isStatic) && data.length > 0) {
       setRenderedData(data);
     }
-  }, [data, isPaused, isStatic]);
+  }, [data, isPaused, isFollowing, isStatic]);
 
   useEffect(() => {
-    if (!isPaused || isStatic) {
+    logViewerRef.current?.scrollToBottom();
+  }, [renderedData.length]);
+
+  useEffect(() => {
+    // scroll to the bottom on init (useful for static variant)
+    const timeoutId = setTimeout(() => {
       logViewerRef.current?.scrollToBottom();
-    }
-  }, [renderedData.length, isPaused, isStatic]);
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   const onScroll = ({ scrollOffsetToBottom, scrollUpdateWasRequested }: IOnScrollProps) => {
     if (!scrollUpdateWasRequested) {
@@ -85,10 +92,8 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
           <ToolbarItem>
             <Button
               onClick={() => {
-                if (logViewerRef.current?.state.scrollOffset) {
-                  setIsPaused(true);
-                  logViewerRef.current.scrollTo(0, 0);
-                }
+                logViewerRef.current?.scrollTo(0, 0);
+                setIsPaused(true);
               }}
               variant="control"
               icon={<LongArrowAltUpIcon />}
@@ -99,8 +104,8 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
           <ToolbarItem>
             <Button
               onClick={() => {
-                setIsPaused(false);
                 logViewerRef.current?.scrollToBottom();
+                setIsPaused(false);
               }}
               variant="control"
               icon={<LongArrowAltDownIcon />}
@@ -118,7 +123,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
                   label="Force following"
                   isChecked={isFollowing}
                   onChange={(_, checked) => {
-                    setIsPaused(false);
+                    setIsPaused(!checked);
                     storeIsFollowing(checked);
                   }}
                 />
@@ -151,7 +156,14 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   );
 
   const FooterButton = () => (
-    <Button onClick={() => setIsPaused(false)} isBlock icon={<OutlinedPlayCircleIcon />}>
+    <Button
+      onClick={() => {
+        logViewerRef.current.scrollToBottom();
+        setIsPaused(false);
+      }}
+      isBlock
+      icon={<OutlinedPlayCircleIcon />}
+    >
       resume {linesBehind === 0 ? null : `and show ${linesBehind} lines`}
     </Button>
   );
