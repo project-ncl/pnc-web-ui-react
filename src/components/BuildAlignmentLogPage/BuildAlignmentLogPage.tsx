@@ -38,7 +38,7 @@ export const BuildAlignmentLogPage = () => {
               <LogViewer
                 isStatic
                 data={logData}
-                customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} />]}
+                customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} isIconVariant />]}
               />
             </ContentBox>
           </ServiceContainerLoading>
