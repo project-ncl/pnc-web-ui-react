@@ -29,9 +29,13 @@ export const useDataBuffer = (
 
   const sendDataOutThrottled = useMemo(
     () =>
-      throttle(() => {
-        setDataOut(dataIn.current);
-      }, delay),
+      throttle(
+        () => {
+          setDataOut(dataIn.current);
+        },
+        delay,
+        { leading: false, trailing: true }
+      ),
     [delay]
   );
 

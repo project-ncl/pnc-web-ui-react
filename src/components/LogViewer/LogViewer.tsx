@@ -162,7 +162,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
       data={renderedData}
       onScroll={onScroll}
       toolbar={<HeaderToolbar />}
-      footer={isPaused && !isFollowing && <FooterButton />}
+      footer={!isStatic && isPaused && !isFollowing && <FooterButton />}
       isTextWrapped={areLinesWrapped}
     />
   );
