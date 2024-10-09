@@ -1,9 +1,12 @@
 import { Button, Checkbox, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
 import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
+import { css } from '@patternfly/react-styles';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { StorageKeys, useStorage } from 'hooks/useStorage';
+
+import styles from './LogViewer.module.css';
 
 interface ILogViewerProps {
   isStatic?: boolean;
@@ -157,13 +160,15 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   );
 
   return (
-    <LogViewerPF
-      innerRef={logViewerRef}
-      data={renderedData}
-      onScroll={onScroll}
-      toolbar={<HeaderToolbar />}
-      footer={!isStatic && isPaused && !isFollowing && <FooterButton />}
-      isTextWrapped={areLinesWrapped}
-    />
+    <div className={css(!areLinesWrapped && styles['log-viewer__line--wrap-lines-off'])}>
+      <LogViewerPF
+        innerRef={logViewerRef}
+        data={renderedData}
+        onScroll={onScroll}
+        toolbar={<HeaderToolbar />}
+        footer={!isStatic && isPaused && !isFollowing && <FooterButton />}
+        isTextWrapped={areLinesWrapped}
+      />
+    </div>
   );
 };
