@@ -11,6 +11,13 @@ interface IAlignmentLogLinkProps {
   title?: string;
 }
 
+/**
+ * Link to the full raw alignment log. Opens in the new tab.
+ *
+ * @param buildId - ID of alignment log Build
+ * @param isIconVariant - if true, displays button with a icon, otherwise, plain anchor link
+ * @param title - displayed text on the button/link
+ */
 export const AlignmentLogLink = ({ buildId, isIconVariant, title = 'View raw' }: IAlignmentLogLinkProps) => {
   const alignmentLogUrl = `${webConfigService.getPncUrl()}/builds/${buildId}/logs/align`;
 
