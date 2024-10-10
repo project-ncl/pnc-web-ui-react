@@ -15,6 +15,8 @@ import * as buildApi from 'services/buildApi';
 
 import { timestampHiglighter } from 'utils/preprocessorHelper';
 
+export const LOG_VIEWER_HEIGHT_OFFSET = -90;
+
 export const BuildLogPage = () => {
   const { buildId } = useParamsRequired();
 
@@ -63,7 +65,7 @@ export const BuildLogPage = () => {
         <ContentBox>
           <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
             <ContentBox padding>
-              <LogViewer isStatic data={logData} customActions={logActions} />
+              <LogViewer isStatic data={logData} customActions={logActions} heightOffset={LOG_VIEWER_HEIGHT_OFFSET} />
             </ContentBox>
           </ServiceContainerLoading>
         </ContentBox>
@@ -72,7 +74,7 @@ export const BuildLogPage = () => {
       {isBuilding && (
         <ContentBox>
           <ContentBox padding>
-            <LogViewer data={logBuffer} />
+            <LogViewer data={logBuffer} heightOffset={LOG_VIEWER_HEIGHT_OFFSET} />
           </ContentBox>
         </ContentBox>
       )}

@@ -4,6 +4,7 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { AlignmentLogLink } from 'components/AlignmentLogLink/AlignmentLogLink';
+import { LOG_VIEWER_HEIGHT_OFFSET } from 'components/BuildLogPage/BuildLogPage';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { LogViewer } from 'components/LogViewer/LogViewer';
@@ -39,6 +40,7 @@ export const BuildAlignmentLogPage = () => {
                 isStatic
                 data={logData}
                 customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} isIconVariant />]}
+                heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
               />
             </ContentBox>
           </ServiceContainerLoading>
