@@ -10,9 +10,10 @@ import styles from './LogViewer.module.css';
 
 interface ILogViewerProps {
   isStatic?: boolean;
-  data: string | string[];
   heightOffset?: number;
+  autofocusSearchBar?: boolean;
   customActions?: ReactNode[];
+  data: string | string[];
 }
 
 /**
@@ -34,10 +35,18 @@ interface ILogViewerProps {
  * ```
  *
  * @param isStatic - true for static variant if whole log is available at once, false for live variant for dynamically loaded log lines
- * @param heightOffset - offset for the responsive height for the LogViewer component
  * @param data - data log viewer will render
+ * @param heightOffset - offset for the responsive height for the LogViewer component
+ * @param autofocusSearchBar - If true, activates the search input when the component mounts
+ * @param customActions - An array of React nodes that will be rendered as additional actions within the toolbar
  */
-export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActions }: ILogViewerProps) => {
+export const LogViewer = ({
+  isStatic = false,
+  data,
+  heightOffset = 0,
+  autofocusSearchBar = false,
+  customActions,
+}: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
   // is log viewer currently following new data input?
@@ -74,6 +83,7 @@ export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActi
             setIsFollowing={storeIsFollowing}
             areLinesWrapped={areLinesWrapped}
             setAreLinesWrapped={storeAreLinesWrapped}
+            autofocusSearchBar={autofocusSearchBar}
             customActions={customActions}
           />
         }
