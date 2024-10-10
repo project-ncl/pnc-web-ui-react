@@ -65,7 +65,13 @@ export const BuildLogPage = () => {
         <ContentBox>
           <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
             <ContentBox padding>
-              <LogViewer isStatic data={logData} customActions={logActions} heightOffset={LOG_VIEWER_HEIGHT_OFFSET} />
+              <LogViewer
+                isStatic
+                data={logData}
+                customActions={logActions}
+                heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
+                autofocusSearchBar
+              />
             </ContentBox>
           </ServiceContainerLoading>
         </ContentBox>
@@ -74,7 +80,7 @@ export const BuildLogPage = () => {
       {isBuilding && (
         <ContentBox>
           <ContentBox padding>
-            <LogViewer data={logBuffer} heightOffset={LOG_VIEWER_HEIGHT_OFFSET} />
+            <LogViewer data={logBuffer} heightOffset={LOG_VIEWER_HEIGHT_OFFSET} autofocusSearchBar />
           </ContentBox>
         </ContentBox>
       )}

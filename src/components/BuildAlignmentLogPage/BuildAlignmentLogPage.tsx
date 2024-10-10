@@ -41,6 +41,7 @@ export const BuildAlignmentLogPage = () => {
                 data={logData}
                 customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} isIconVariant />]}
                 heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
+                autofocusSearchBar
               />
             </ContentBox>
           </ServiceContainerLoading>

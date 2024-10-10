@@ -2,6 +2,7 @@ import { Button, Checkbox, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem } 
 import { LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 import { Fragment, ReactNode, memo } from 'react';
 
+import { LogViewerSearchBar } from 'components/LogViewer/LogViewerSearchBar';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface ILogViewerToolbarProps {
@@ -12,6 +13,7 @@ interface ILogViewerToolbarProps {
   setIsFollowing: (value: boolean) => void;
   areLinesWrapped: boolean;
   setAreLinesWrapped: (value: boolean) => void;
+  autofocusSearchBar?: boolean;
   customActions?: ReactNode[];
 }
 
@@ -24,11 +26,15 @@ export const LogViewerToolbar = memo(
     setIsFollowing,
     areLinesWrapped,
     setAreLinesWrapped,
+    autofocusSearchBar = false,
     customActions,
   }: ILogViewerToolbarProps) => (
     <Toolbar>
       <ToolbarContent alignItems="center">
         <ToolbarGroup>
+          <ToolbarItem>
+            <LogViewerSearchBar autofocusSearchBar={autofocusSearchBar} />
+          </ToolbarItem>
           <ToolbarItem>
             <Button
               onClick={() => {
