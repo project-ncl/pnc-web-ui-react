@@ -8,9 +8,12 @@ import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import styles from './LogViewer.module.css';
 
+const HEIGHT_DEFAULT_OFFSET = 300;
+
 interface ILogViewerProps {
   isStatic?: boolean;
   data: string | string[];
+  heightOffset?: number;
   customActions?: ReactNode[];
 }
 
@@ -38,10 +41,13 @@ interface IOnScrollProps {
  * ```
  *
  * @param isStatic - true for static variant if whole log is available at once, false for live variant for dynamically loaded log lines
+ * @param heightOffset - offset for the responsive height for the LogViewer component
  * @param data - data log viewer will render
  */
-export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerProps) => {
+export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActions }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
+
+  const [height, setHeight] = useState<number>(window.innerHeight - HEIGHT_DEFAULT_OFFSET + heightOffset);
 
   // is log viewer currently following new data input?
   const { storageValue: isFollowing, storeToStorage: storeIsFollowing } = useStorage<boolean>({
@@ -61,6 +67,21 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
   const [isPaused, setIsPaused] = useState(true);
   // if paused, how many lines were not rendered?
   const linesBehind = data.length - renderedData.length;
+
+  useEffect(() => {
+    const updateHeight = () => {
+      const calculatedHeight = window.innerHeight - HEIGHT_DEFAULT_OFFSET + heightOffset;
+      setHeight(calculatedHeight);
+    };
+
+    updateHeight();
+
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, [heightOffset]);
 
   useEffect(() => {
     if ((!isPaused || isFollowing || isStatic) && data.length > 0) {
@@ -180,6 +201,7 @@ export const LogViewer = ({ isStatic = false, data, customActions }: ILogViewerP
         toolbar={<HeaderToolbar />}
         footer={!isStatic && isPaused && !isFollowing && <FooterButton />}
         isTextWrapped={areLinesWrapped}
+        height={height}
       />
     </div>
   );
