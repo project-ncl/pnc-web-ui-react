@@ -1,6 +1,6 @@
 import { Button, Checkbox, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 import { LongArrowAltDownIcon, LongArrowAltUpIcon, OutlinedPlayCircleIcon } from '@patternfly/react-icons';
-import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
+import { LogViewer as LogViewerPF, LogViewerSearch } from '@patternfly/react-log-viewer';
 import { css } from '@patternfly/react-styles';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
@@ -11,9 +11,10 @@ import styles from './LogViewer.module.css';
 const HEIGHT_DEFAULT_OFFSET = 300;
 
 interface ILogViewerProps {
-  isStatic?: boolean;
   data: string | string[];
+  isStatic?: boolean;
   heightOffset?: number;
+  showSearchBar?: boolean;
   customActions?: ReactNode[];
 }
 
@@ -40,11 +41,13 @@ interface IOnScrollProps {
  * <LogViewer data={logData} follow={false} />
  * ```
  *
+ * @param data - data log viewer will render
  * @param isStatic - true for static variant if whole log is available at once, false for live variant for dynamically loaded log lines
  * @param heightOffset - offset for the responsive height for the LogViewer component
- * @param data - data log viewer will render
+ * @param showSearchBar - whether to display a search bar within the log viewer's toolbar
+ * @param customActions - An array of React nodes that will be rendered as additional actions within the toolbar.
  */
-export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActions }: ILogViewerProps) => {
+export const LogViewer = ({ data, isStatic = false, heightOffset = 0, showSearchBar = true, customActions }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
 
   const [height, setHeight] = useState<number>(window.innerHeight - HEIGHT_DEFAULT_OFFSET + heightOffset);
@@ -112,6 +115,13 @@ export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActi
   const HeaderToolbar = () => (
     <Toolbar>
       <ToolbarContent alignItems="center">
+        {showSearchBar && (
+          <ToolbarGroup>
+            <ToolbarItem>
+              <LogViewerSearch minSearchChars={1} placeholder="Search value" />
+            </ToolbarItem>
+          </ToolbarGroup>
+        )}
         <ToolbarGroup>
           <ToolbarItem>
             <Button
