@@ -11,6 +11,13 @@ interface IBuildLogLinkProps {
   title?: string;
 }
 
+/**
+ * Link to the full raw build log. Opens in the new tab.
+ *
+ * @param buildId - ID of build log Build
+ * @param isIconVariant - if true, displays button with a icon, otherwise, plain anchor link
+ * @param title - displayed text on the button/link
+ */
 export const BuildLogLink = ({ buildId, isIconVariant = false, title = 'View raw' }: IBuildLogLinkProps) => {
   const buildLogUrl = `${webConfigService.getPncUrl()}/builds/${buildId}/logs/build`;
 
