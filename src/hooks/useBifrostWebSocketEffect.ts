@@ -63,7 +63,7 @@ interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOption
  * @param options - See {@link IUseBifrostWebSocketEffectOptions}
  */
 export const useBifrostWebSocketEffect = (
-  callback: (logLine: string) => void,
+  callback: (logLines: string[]) => void,
   { filters, preventListening = false, debug = '' }: IUseBifrostWebSocketEffectOptions
 ) => {
   useEffect(() => {
@@ -94,7 +94,11 @@ export const useBifrostWebSocketEffect = (
     const onMessage = (wsMessage: MessageEvent) => {
       const wsResponseData: IWsResponseData = JSON.parse(wsMessage.data);
       const resultValue = wsResponseData.result?.value;
-      resultValue?.message && callback(`[${resultValue.timestamp}] ${resultValue.message}`);
+      const messages =
+        resultValue?.message
+          ?.split(/[\r\n]/)
+          .map((message, index) => (index === 0 ? `[${resultValue.timestamp}] ${message}` : message)) || [];
+      messages.length && callback(messages);
     };
 
     const removeMessageListener = bifrostWebSocketClient.addMessageListener(onMessage, { debug });

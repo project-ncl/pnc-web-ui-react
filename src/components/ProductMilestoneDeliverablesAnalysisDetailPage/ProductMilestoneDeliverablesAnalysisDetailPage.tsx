@@ -86,8 +86,8 @@ export const ProductMilestoneDeliverablesAnalysisDetailPage = () => {
 
   useBifrostWebSocketEffect(
     useCallback(
-      (logLine: string) => {
-        addLogLines([logLine]);
+      (logLines) => {
+        addLogLines(logLines);
       },
       [addLogLines]
     ),
