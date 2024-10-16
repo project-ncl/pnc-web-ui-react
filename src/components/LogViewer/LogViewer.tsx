@@ -39,6 +39,7 @@ interface ILogViewerProps {
  */
 export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActions }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
+  const logViewerDivRef = useRef<HTMLDivElement>(null);
 
   // is log viewer currently following new data input?
   const { storageValue: isFollowing, storeToStorage: storeIsFollowing } = useStorage<boolean>({
@@ -56,7 +57,7 @@ export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActi
   const [isPaused, setIsPaused] = useState(true);
 
   return (
-    <div className={css(!areLinesWrapped && styles['log-viewer__line--wrap-lines-off'])}>
+    <div ref={logViewerDivRef} className={css(!areLinesWrapped && styles['log-viewer__line--wrap-lines-off'])}>
       <LogViewerBase
         logViewerRef={logViewerRef}
         data={data}
@@ -68,6 +69,7 @@ export const LogViewer = ({ isStatic = false, data, heightOffset = 0, customActi
         toolbar={
           <LogViewerToolbar
             logViewerRef={logViewerRef}
+            logViewerContainerRef={logViewerDivRef}
             isStatic={isStatic}
             setIsPaused={setIsPaused}
             isFollowing={isFollowing}
