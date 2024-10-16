@@ -197,7 +197,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
               />
             </ServiceContainerLoading>
           </ContentBox>
-          <FullscreenButton containerRef={graphDivRef} />
+          <FullscreenButton containerRef={graphDivRef} position="bottom-left" />
         </div>
 
         {showSharedDeliveredArtifactsList && (
