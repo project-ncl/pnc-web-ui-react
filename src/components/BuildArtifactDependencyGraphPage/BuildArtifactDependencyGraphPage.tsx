@@ -188,7 +188,7 @@ export const BuildArtifactDependencyGraphPage = ({ componentId = 'a1' }: IBuildA
               />
             </ServiceContainerLoading>
           </ContentBox>
-          <FullscreenButton containerRef={graphDivRef} />
+          <FullscreenButton containerRef={graphDivRef} position="bottom-left" />
         </div>
 
         {showArtifactDependenciesList && (
