@@ -4,6 +4,8 @@ import { LogViewer as LogViewerPF } from '@patternfly/react-log-viewer';
 import { css } from '@patternfly/react-styles';
 import { ReactNode, memo, useEffect, useState } from 'react';
 
+import { useFullscreen } from 'hooks/useFullscreen';
+
 import styles from './LogViewer.module.css';
 
 const HEIGHT_DEFAULT_OFFSET = 300;
@@ -42,6 +44,7 @@ export const LogViewerBase = memo(
     // if paused, how many lines were not rendered?
     const linesBehind = data.length - renderedData.length;
 
+    const { isFullscreen } = useFullscreen();
     const [height, setHeight] = useState<number>(window.innerHeight - HEIGHT_DEFAULT_OFFSET + heightOffset);
 
     useEffect(() => {
@@ -99,7 +102,12 @@ export const LogViewerBase = memo(
     );
 
     return (
-      <div className={css(!areLinesWrapped && styles['log-viewer__line--wrap-lines-off'])}>
+      <div
+        className={css(
+          !areLinesWrapped && styles['log-viewer__line--wrap-lines-off'],
+          isFullscreen && styles['log-viewer-base--fullscreen']
+        )}
+      >
         <LogViewerPF
           innerRef={logViewerRef}
           data={renderedData}
@@ -107,7 +115,7 @@ export const LogViewerBase = memo(
           toolbar={toolbar}
           footer={!isStatic && isPaused && !isFollowing && resumeButton}
           isTextWrapped={areLinesWrapped}
-          height={height}
+          height={isFullscreen ? '100%' : height}
         />
       </div>
     );
