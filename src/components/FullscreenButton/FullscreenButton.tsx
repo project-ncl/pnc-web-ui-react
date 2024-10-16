@@ -1,5 +1,6 @@
 import { Button } from '@patternfly/react-core';
 import { CompressIcon, ExpandArrowsAltIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 import { MutableRefObject } from 'react';
 
 import { useFullscreen } from 'hooks/useFullscreen';
@@ -20,13 +21,20 @@ const toggleFullScreen = (containerRef: MutableRefObject<HTMLDivElement | null>)
 
 interface IFullscreenButtonProps {
   containerRef: MutableRefObject<HTMLDivElement | null>;
+  position?: 'relative' | 'bottom-left';
+  isPlain?: boolean;
 }
 
-export const FullscreenButton = ({ containerRef }: IFullscreenButtonProps) => {
+export const FullscreenButton = ({ containerRef, position = 'relative', isPlain = false }: IFullscreenButtonProps) => {
   const { isFullscreen } = useFullscreen();
 
   return (
-    <Button className={styles['fullscreen-button']} onClick={() => toggleFullScreen(containerRef)}>
+    <Button
+      variant={isPlain ? 'plain' : 'primary'}
+      className={css(position === 'bottom-left' && styles['fullscreen-button--bottom-left-position'])}
+      onClick={() => toggleFullScreen(containerRef)}
+      style={isPlain ? { padding: 0 } : undefined}
+    >
       {isFullscreen ? <CompressIcon /> : <ExpandArrowsAltIcon />}
     </Button>
   );
