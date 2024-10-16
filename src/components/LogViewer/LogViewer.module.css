@@ -1,3 +1,17 @@
+.log-viewer-base--fullscreen {
+  height: 100vh;
+}
+
+.log-viewer-toolbar {
+  padding-right: var(--pf-v5-global--spacer--sm);
+}
+
+.log-viewer-base--fullscreen .log-viewer-toolbar {
+  --padding: var(--pf-v5-global--spacer--sm);
+
+  padding: var(--padding) calc(var(--padding) * 2) 0;
+}
+
 /* PatternFly issue; see NCL-8849 */
 /* TODO: remove if fixed by PatternFly */
 .log-viewer__line--wrap-lines-off :global(.pf-v5-c-log-viewer__text) {

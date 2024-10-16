@@ -2,11 +2,15 @@ import { Button, Checkbox, Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem } 
 import { LongArrowAltDownIcon, LongArrowAltUpIcon } from '@patternfly/react-icons';
 import { Fragment, ReactNode, memo } from 'react';
 
+import { FullscreenButton } from 'components/FullscreenButton/FullscreenButton';
 import { LogViewerSearchBar } from 'components/LogViewer/LogViewerSearchBar';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import styles from './LogViewer.module.css';
+
 interface ILogViewerToolbarProps {
   logViewerRef: React.RefObject<any>;
+  logViewerContainerRef: React.RefObject<any>;
   isStatic: boolean;
   setIsPaused: (value: boolean) => void;
   isFollowing: boolean;
@@ -20,6 +24,7 @@ interface ILogViewerToolbarProps {
 export const LogViewerToolbar = memo(
   ({
     logViewerRef,
+    logViewerContainerRef,
     isStatic,
     setIsPaused,
     isFollowing,
@@ -30,7 +35,7 @@ export const LogViewerToolbar = memo(
     customActions,
   }: ILogViewerToolbarProps) => (
     <Toolbar>
-      <ToolbarContent alignItems="center">
+      <ToolbarContent alignItems="center" className={styles['log-viewer-toolbar']}>
         <ToolbarGroup>
           <ToolbarItem>
             <Button
@@ -88,6 +93,12 @@ export const LogViewerToolbar = memo(
                 setAreLinesWrapped(checked);
               }}
             />
+          </ToolbarItem>
+          <ToolbarItem variant="separator" />
+          <ToolbarItem alignSelf="center">
+            <span>
+              <FullscreenButton containerRef={logViewerContainerRef} isPlain hasTitle />
+            </span>
           </ToolbarItem>
           {!!customActions?.length &&
             customActions.map((node, index) => (
