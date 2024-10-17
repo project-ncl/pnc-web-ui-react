@@ -16,8 +16,7 @@ import * as buildApi from 'services/buildApi';
 export const BuildAlignmentLogPage = () => {
   const { buildId } = useParamsRequired();
 
-  const { serviceContainerBuild } = useServiceContainerBuild();
-  const isBuilding = useMemo(() => serviceContainerBuild.data?.status === 'BUILDING', [serviceContainerBuild.data?.status]);
+  const { isBuilding } = useServiceContainerBuild();
 
   const serviceContainerAlignmentLog = useServiceContainer(buildApi.getAlignmentLog);
   const serviceContainerAlignmentLogRunner = serviceContainerAlignmentLog.run;

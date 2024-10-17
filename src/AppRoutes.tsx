@@ -43,6 +43,7 @@ import { GroupConfigCreateEditPage } from 'components/GroupConfigCreateEditPage/
 import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 import { KeycloakStatusPage } from 'components/KeycloakStatusPage/KeycloakStatusPage';
+import { LiveBuildLogPage } from 'components/LiveBuildLogPage/LiveBuildLogPage';
 import { PreferencesPage } from 'components/PreferencesPage/PreferencesPage';
 import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
@@ -330,6 +331,7 @@ export const AppRoutes = (
     <Route path="builds" handle={breadcrumbData.builds.id}>
       <Route index element={<BuildsPage />} />
       <Route path=":buildId" element={<BuildPages />} handle={breadcrumbData.build.id}>
+        <Route path="live-log" element={<LiveBuildLogPage />} />
         <Route path="details" element={<BuildDetailPage />} />
         <Route path="build-log" element={<BuildLogPage />} />
         <Route path="alignment-log" element={<BuildAlignmentLogPage />} />

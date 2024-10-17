@@ -34,7 +34,7 @@ import { userService } from 'services/userService';
 import { generatePageTitle } from 'utils/titleHelper';
 import { isBuildWithLog } from 'utils/utils';
 
-type ContextType = { serviceContainerBuild: IServiceContainerState<Build> };
+type ContextType = { serviceContainerBuild: IServiceContainerState<Build>; isBuilding: boolean };
 
 export const BuildPages = () => {
   const { buildId } = useParamsRequired();
@@ -57,6 +57,8 @@ export const BuildPages = () => {
 
   const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
   const toggleCancelBuildModal = () => setIsCancelBuildModalOpen((isCancelBuildModalOpen) => !isCancelBuildModalOpen);
+
+  const isBuilding = useMemo(() => serviceContainerBuild.data?.status === 'BUILDING', [serviceContainerBuild.data?.status]);
 
   const buildBelongToCurrentUser = useMemo(
     () => userService.getUserId() === serviceContainerBuild.data?.user?.id,
@@ -127,32 +129,41 @@ export const BuildPages = () => {
 
   const isLogged = !serviceContainerBuild.data?.status || isBuildWithLog(serviceContainerBuild.data.status);
   const isLoggedTooltip = !isLogged ? `Builds with status ${serviceContainerBuild.data!.status} are not logged.` : '';
+  const liveLogLinkTooltip = !isBuilding ? `Build is not in progress.` : '';
+  const staticDataTooltip = isBuilding ? `Build is not finished yet.` : '';
 
   const pageTabs = (
     <PageTabs>
       <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="build-log" isDisabled={!isLogged} tooltip={isLoggedTooltip}>
+      <PageTabsItem url="live-log" isDisabled={!isLogged || !isBuilding} tooltip={isLoggedTooltip || liveLogLinkTooltip}>
+        Live Log
+      </PageTabsItem>
+      <PageTabsItem url="build-log" isDisabled={!isLogged || isBuilding} tooltip={isLoggedTooltip || staticDataTooltip}>
         Build Log
       </PageTabsItem>
-      <PageTabsItem url="alignment-log" isDisabled={!isLogged} tooltip={isLoggedTooltip}>
+      <PageTabsItem url="alignment-log" isDisabled={!isLogged || isBuilding} tooltip={isLoggedTooltip || staticDataTooltip}>
         Alignment Log
       </PageTabsItem>
-      <PageTabsItem url="artifacts">
+      <PageTabsItem url="artifacts" isDisabled={isBuilding} tooltip={staticDataTooltip}>
         Artifacts{' '}
         <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Artifacts Count">
           {serviceContainerArtifacts.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="dependencies">
+      <PageTabsItem url="dependencies" isDisabled={isBuilding} tooltip={staticDataTooltip}>
         Dependencies{' '}
         <PageTabsLabel serviceContainer={serviceContainerDependencies} title="Dependencies Count">
           {serviceContainerDependencies.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="brew-push">Brew Push</PageTabsItem>
-      <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
+      <PageTabsItem url="brew-push" isDisabled={isBuilding} tooltip={staticDataTooltip}>
+        Brew Push
+      </PageTabsItem>
+      <PageTabsItem url="build-metrics" isDisabled={isBuilding} tooltip={staticDataTooltip}>
+        Build Metrics
+      </PageTabsItem>
       <ExperimentalContent>
-        <PageTabsItem url="artifact-dependency-graph">
+        <PageTabsItem url="artifact-dependency-graph" isDisabled={isBuilding} tooltip={staticDataTooltip}>
           <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
             Artifact Dependency Graph
           </ExperimentalContentMarker>
@@ -193,7 +204,7 @@ export const BuildPages = () => {
         tabs={pageTabs}
         actions={actions}
       >
-        <Outlet context={{ serviceContainerBuild }} />
+        <Outlet context={{ serviceContainerBuild, isBuilding }} />
       </PageLayout>
 
       {isBrewPushModalOpen && (
