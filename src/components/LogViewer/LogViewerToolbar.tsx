@@ -33,9 +33,6 @@ export const LogViewerToolbar = memo(
       <ToolbarContent alignItems="center">
         <ToolbarGroup>
           <ToolbarItem>
-            <LogViewerSearchBar autofocusSearchBar={autofocusSearchBar} />
-          </ToolbarItem>
-          <ToolbarItem>
             <Button
               onClick={() => {
                 logViewerRef.current?.scrollTo(0, 0);
@@ -58,6 +55,9 @@ export const LogViewerToolbar = memo(
             >
               Bottom
             </Button>
+          </ToolbarItem>
+          <ToolbarItem>
+            <LogViewerSearchBar autofocusSearchBar={autofocusSearchBar} />
           </ToolbarItem>
         </ToolbarGroup>
         <ToolbarGroup align={{ default: 'alignRight' }}>
