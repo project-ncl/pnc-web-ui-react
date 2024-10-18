@@ -58,6 +58,8 @@ export const BuildPages = () => {
   const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
   const toggleCancelBuildModal = () => setIsCancelBuildModalOpen((isCancelBuildModalOpen) => !isCancelBuildModalOpen);
 
+  const isBuilding = useMemo(() => serviceContainerBuild.data?.status === 'BUILDING', [serviceContainerBuild.data?.status]);
+
   const buildBelongToCurrentUser = useMemo(
     () => userService.getUserId() === serviceContainerBuild.data?.user?.id,
     [serviceContainerBuild.data]
@@ -127,14 +129,19 @@ export const BuildPages = () => {
 
   const isLogged = !serviceContainerBuild.data?.status || isBuildWithLog(serviceContainerBuild.data.status);
   const isLoggedTooltip = !isLogged ? `Builds with status ${serviceContainerBuild.data!.status} are not logged.` : '';
+  const liveLogLinkTooltip = !isBuilding ? `Not available while not building.` : '';
+  const staticLogLinkTooltip = isBuilding ? `Not available while building.` : '';
 
   const pageTabs = (
     <PageTabs>
       <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="build-log" isDisabled={!isLogged} tooltip={isLoggedTooltip}>
+      <PageTabsItem url="live-log" isDisabled={!isLogged || !isBuilding} tooltip={isLoggedTooltip || liveLogLinkTooltip}>
+        Live Log
+      </PageTabsItem>
+      <PageTabsItem url="build-log" isDisabled={!isLogged || isBuilding} tooltip={isLoggedTooltip || staticLogLinkTooltip}>
         Build Log
       </PageTabsItem>
-      <PageTabsItem url="alignment-log" isDisabled={!isLogged} tooltip={isLoggedTooltip}>
+      <PageTabsItem url="alignment-log" isDisabled={!isLogged || isBuilding} tooltip={isLoggedTooltip || staticLogLinkTooltip}>
         Alignment Log
       </PageTabsItem>
       <PageTabsItem url="artifacts">
