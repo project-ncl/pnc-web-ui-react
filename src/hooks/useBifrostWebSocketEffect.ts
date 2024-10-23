@@ -96,7 +96,8 @@ export const useBifrostWebSocketEffect = (
       const resultValue = wsResponseData.result?.value;
       const messages =
         resultValue?.message
-          ?.split(/[\r\n]/)
+          ?.replace(/\n$/, '')
+          .split(/[\r\n]/)
           .map((message, index) => (index === 0 ? `[${resultValue.timestamp}] ${message}` : message)) || [];
       messages.length && callback(messages);
     };
