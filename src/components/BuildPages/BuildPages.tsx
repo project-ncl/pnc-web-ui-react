@@ -159,9 +159,7 @@ export const BuildPages = () => {
       <PageTabsItem url="brew-push" isDisabled={isBuilding} tooltip={staticDataTooltip}>
         Brew Push
       </PageTabsItem>
-      <PageTabsItem url="build-metrics" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-        Build Metrics
-      </PageTabsItem>
+      <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
       <ExperimentalContent>
         <PageTabsItem url="artifact-dependency-graph" isDisabled={isBuilding} tooltip={staticDataTooltip}>
           <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
