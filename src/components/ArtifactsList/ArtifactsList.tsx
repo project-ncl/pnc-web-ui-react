@@ -35,8 +35,8 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ParsedArtifactIdentifier } from 'components/ParsedArtifactIdentifier/ParsedArtifactIdentifier';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarGroup } from 'components/Toolbar/ToolbarGroup';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-import { ToolbarRow } from 'components/Toolbar/ToolbarRow';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { isArtifactWithProductMilestone } from 'utils/entityRecognition';
@@ -120,7 +120,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
   return (
     <>
       <Toolbar borderTop>
-        <ToolbarRow>
+        <ToolbarGroup>
           <ToolbarItem>
             <Filtering
               filterOptions={useMemo(
@@ -145,8 +145,8 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
               }}
             />
           </ToolbarItem>
-        </ToolbarRow>
-        <ToolbarRow>
+        </ToolbarGroup>
+        <ToolbarGroup>
           <ToolbarItem>
             <Switch
               id="toggle-artifact-name-parsed"
@@ -168,7 +168,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
               }}
             />
           </ToolbarItem>
-        </ToolbarRow>
+        </ToolbarGroup>
       </Toolbar>
 
       <ContentBox borderTop>

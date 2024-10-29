@@ -35,6 +35,7 @@ export const BuildConfigGroupConfigsPage = ({ componentId = 'bcg' }: IBuildConfi
         <ToolbarItem>
           <TextContent>
             <Text component={TextVariants.h2}>Group Configs</Text>
+            <Text>This list contains Group Configs where this Build Config is included in.</Text>
           </TextContent>
         </ToolbarItem>
       </Toolbar>

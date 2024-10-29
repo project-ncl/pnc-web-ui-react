@@ -1,4 +1,4 @@
-import { Text, TextContent } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -35,6 +35,7 @@ export const BuildDependenciesPage = ({ componentId = 'd1' }: IBuildDependencies
         <ToolbarItem>
           <TextContent>
             <Text>
+              <Text component={TextVariants.h2}>Dependencies</Text>
               This list contains Artifacts which are dependencies of this Build. Artifact is represented by PNC Identifier.
             </Text>
           </TextContent>
