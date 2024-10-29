@@ -1,9 +1,0 @@
-.toolbar {
-  gap: var(--global-spacer);
-}
-
-.toolbar__row {
-  flex-basis: 100%;
-
-  gap: var(--global-spacer);
-}

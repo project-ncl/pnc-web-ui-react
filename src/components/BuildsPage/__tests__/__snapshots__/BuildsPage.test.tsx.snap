@@ -45,10 +45,10 @@ Object {
             class=""
           >
             <div
-              class="pf-v5-l-flex pf-m-space-items-none toolbar"
+              class="pf-v5-l-flex pf-m-column pf-m-gap-lg"
             >
               <div
-                class="pf-v5-l-flex pf-m-space-items-none toolbar__row"
+                class="pf-v5-l-flex pf-m-space-items-lg"
               >
                 <div
                   class=""
@@ -140,7 +140,7 @@ Object {
                 </div>
               </div>
               <div
-                class="pf-v5-l-flex pf-m-space-items-none toolbar__row"
+                class="pf-v5-l-flex pf-m-space-items-lg"
               >
                 <div
                   class=""
@@ -1029,10 +1029,10 @@ Object {
           class=""
         >
           <div
-            class="pf-v5-l-flex pf-m-space-items-none toolbar"
+            class="pf-v5-l-flex pf-m-column pf-m-gap-lg"
           >
             <div
-              class="pf-v5-l-flex pf-m-space-items-none toolbar__row"
+              class="pf-v5-l-flex pf-m-space-items-lg"
             >
               <div
                 class=""
@@ -1124,7 +1124,7 @@ Object {
               </div>
             </div>
             <div
-              class="pf-v5-l-flex pf-m-space-items-none toolbar__row"
+              class="pf-v5-l-flex pf-m-space-items-lg"
             >
               <div
                 class=""

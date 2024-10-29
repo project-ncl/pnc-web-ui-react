@@ -28,8 +28,8 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarGroup } from 'components/Toolbar/ToolbarGroup';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-import { ToolbarRow } from 'components/Toolbar/ToolbarRow';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
@@ -160,8 +160,8 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
 
   return (
     <>
-      <Toolbar>
-        <ToolbarRow>
+      <Toolbar column>
+        <ToolbarGroup>
           <ToolbarItem>
             <Filtering
               filterOptions={useMemo(
@@ -176,8 +176,8 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
               componentId={componentId}
             />
           </ToolbarItem>
-        </ToolbarRow>
-        <ToolbarRow>
+        </ToolbarGroup>
+        <ToolbarGroup>
           <ToolbarItem>
             <TooltipWrapper tooltip="Show Builds in compact format, where certain details are hidden.">
               <Switch
@@ -190,7 +190,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
               />
             </TooltipWrapper>
           </ToolbarItem>
-        </ToolbarRow>
+        </ToolbarGroup>
       </Toolbar>
 
       <ContentBox borderTop>

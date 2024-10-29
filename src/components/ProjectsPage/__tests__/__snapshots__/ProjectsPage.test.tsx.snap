@@ -95,7 +95,7 @@ Object {
             class=""
           >
             <div
-              class="pf-v5-l-flex pf-m-space-items-none toolbar"
+              class="pf-v5-l-flex pf-m-gap-lg"
             >
               <div
                 class=""
@@ -893,7 +893,7 @@ Object {
           class=""
         >
           <div
-            class="pf-v5-l-flex pf-m-space-items-none toolbar"
+            class="pf-v5-l-flex pf-m-gap-lg"
           >
             <div
               class=""
