@@ -69,6 +69,8 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
     [serviceContainerBuildsRunner]
   );
 
+  const { componentQueryParamsString: buildHistoryQueryParamsString } = useComponentQueryParams(componentIdBuildHistory);
+
   useQueryParamsEffect(
     useCallback(
       ({ requestConfig } = {}) => {
@@ -118,34 +120,39 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
     })
   );
 
+  const appendBuildHistoryQueryParams = useCallback(
+    (route: string) => `${route}?${buildHistoryQueryParamsString}`,
+    [buildHistoryQueryParamsString]
+  );
+
   const pageTabs = (
     <PageTabs>
-      <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="dependencies">
+      <PageTabsItem url={appendBuildHistoryQueryParams('details')}>Details</PageTabsItem>
+      <PageTabsItem url={appendBuildHistoryQueryParams('dependencies')}>
         Dependencies{' '}
         <PageTabsLabel serviceContainer={serviceContainerDependencies} title="Dependencies Count">
           {serviceContainerDependencies.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="dependants">
+      <PageTabsItem url={appendBuildHistoryQueryParams('dependants')}>
         Dependants{' '}
         <PageTabsLabel serviceContainer={serviceContainerDependants} title="Dependants Count">
           {serviceContainerDependants.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="group-configs">
+      <PageTabsItem url={appendBuildHistoryQueryParams('group-configs')}>
         Group Configs{' '}
         <PageTabsLabel serviceContainer={serviceContainerGroupConfigs} title="Group Configs Count">
           {serviceContainerGroupConfigs.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="revisions">
+      <PageTabsItem url={appendBuildHistoryQueryParams('revisions')}>
         Revisions{' '}
         <PageTabsLabel serviceContainer={serviceContainerRevisions} title="Revisions Count">
           {serviceContainerRevisions.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
+      <PageTabsItem url={appendBuildHistoryQueryParams('build-metrics')}>Build Metrics</PageTabsItem>
     </PageTabs>
   );
 
