@@ -87,7 +87,7 @@ Object {
             class=""
           >
             <div
-              class="pf-v5-l-flex pf-m-gap-lg"
+              class="pf-v5-l-flex pf-m-column pf-m-gap-lg"
             >
               <div
                 class="pf-v5-l-flex pf-m-space-items-lg"
@@ -1098,7 +1098,7 @@ Object {
           class=""
         >
           <div
-            class="pf-v5-l-flex pf-m-gap-lg"
+            class="pf-v5-l-flex pf-m-column pf-m-gap-lg"
           >
             <div
               class="pf-v5-l-flex pf-m-space-items-lg"
