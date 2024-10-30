@@ -132,6 +132,32 @@ export const getComponentQueryParamsObject = (queryParamsString: string, compone
 };
 
 /**
+ * Return string representation of Query Params object, each param in the string prefixed by componentId.
+ *
+ * @example
+ * // from:
+ * { 'pageIndex': 1, 'pageSize': 10}
+ * // to (for component1):
+ * component1-pageIndex=1&component1-pageSize=10
+ *
+ * @param componentQueryParamsObject - URL Query Params in object representation without componentId prefixes
+ * @param componentId - Component string identifier
+ * @returns URL Query Params in object in string representation with componentId prefixes
+ */
+export const convertComponentQueryParamsObjectToString = (
+  componentQueryParamsObject: IQueryParamsObject,
+  componentId: string
+): string => {
+  const componentSearchParams = new URLSearchParams();
+
+  for (const key in componentQueryParamsObject) {
+    componentSearchParams.append(`${componentId}-${key}`, String(componentQueryParamsObject[key]));
+  }
+
+  return componentSearchParams.toString();
+};
+
+/**
  * The same as {@link getComponentQueryParamsObject}, but
  *  - it returns just single value (for specific component and key combination) in string
  *  - performance is better
