@@ -1,5 +1,5 @@
 import { throttle } from 'lodash-es';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type PreprocessorFunction = (lines: string[]) => string[];
 
@@ -21,7 +21,7 @@ type AddLinesFunction = (lines: string[]) => void;
 export const useDataBuffer = (
   preprocessor: PreprocessorFunction = (lines: string[]) => lines,
   delay: number = 750
-): [string[], AddLinesFunction] => {
+): [string[], AddLinesFunction, () => void] => {
   // input to the buffer
   const dataIn = useRef<string[]>([]);
   // output from the buffer
@@ -49,5 +49,19 @@ export const useDataBuffer = (
     [preprocessor, sendDataOutThrottled]
   );
 
-  return [dataOut, addLines];
+  // resets LogBuffer
+  const resetLogBuffer = useCallback(() => {
+    dataIn.current = [];
+    setDataOut([]);
+    sendDataOutThrottled.cancel();
+  }, [sendDataOutThrottled]);
+
+  // cancel throttle to avoid memory leak
+  useEffect(() => {
+    return () => {
+      sendDataOutThrottled.cancel();
+    };
+  }, [sendDataOutThrottled]);
+
+  return [dataOut, addLines, resetLogBuffer];
 };
