@@ -69,10 +69,14 @@ export const BuildBrewPushPage = () => {
   const filters = useMemo(
     () => ({
       prefixFilters: brewPushLogPrefixFilters,
-      matchFilters: `${brewPushLogMatchFiltersPrefix1}${buildId}${brewPushLogMatchFiltersPrefix2}${serviceContainerBrewPush.data?.id}`,
+      matchFilters: `${brewPushLogMatchFiltersPrefix1}${buildId}${brewPushLogMatchFiltersPrefix2}${
+        serviceContainerBrewPush.data?.id ?? ''
+      }`,
     }),
     [buildId, serviceContainerBrewPush.data?.id]
   );
+
+  const preventListening = useMemo(() => !serviceContainerBrewPush.data?.id, [serviceContainerBrewPush.data?.id]);
 
   useBifrostWebSocketEffect(
     useCallback(
@@ -81,7 +85,7 @@ export const BuildBrewPushPage = () => {
       },
       [addLogLines]
     ),
-    { filters }
+    { filters, preventListening }
   );
 
   return (
