@@ -54,6 +54,7 @@ interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOption
     prefixFilters: string;
     matchFilters: string;
   };
+  onCleanup?: () => void;
 }
 
 /**
@@ -61,10 +62,14 @@ interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOption
  *
  * @param callback - Callback method, WebSocket parsed data attribute will be passed in
  * @param options - See {@link IUseBifrostWebSocketEffectOptions}
+ *  - filters - Filtering criteria for the WebSocket messages
+ *      - prefixFilters: The prefixFilters for the WebSocket message
+ *      - matchFilters: The matchFilters for the WebSocket message
+ *  - onCleanup - Optional cleanup function to execute when the WebSocket connection is closed or the hook is unmounted
  */
 export const useBifrostWebSocketEffect = (
   callback: (logLines: string[]) => void,
-  { filters, preventListening = false, debug = '' }: IUseBifrostWebSocketEffectOptions
+  { filters, preventListening = false, debug = '', onCleanup }: IUseBifrostWebSocketEffectOptions
 ) => {
   useEffect(() => {
     if (preventListening) return;
@@ -107,6 +112,9 @@ export const useBifrostWebSocketEffect = (
     return () => {
       removeMessageListener();
       bifrostWebSocketClient.close();
+      if (onCleanup) {
+        onCleanup();
+      }
     };
-  }, [callback, filters, preventListening, debug]);
+  }, [callback, filters, preventListening, debug, onCleanup]);
 };

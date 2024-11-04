@@ -37,7 +37,7 @@ export const BuildBrewPushPage = () => {
   const serviceContainerBrewPush = useServiceContainer(buildApi.getBrewPush);
   const serviceContainerBrewPushRunner = serviceContainerBrewPush.run;
 
-  const [logBuffer, addLogLines] = useDataBuffer(timestampHiglighter);
+  const [logBuffer, addLogLines, resetLogBuffer] = useDataBuffer(timestampHiglighter);
 
   useEffect(() => {
     serviceContainerBrewPushRunner({
@@ -85,7 +85,8 @@ export const BuildBrewPushPage = () => {
       },
       [addLogLines]
     ),
-    { filters, preventListening }
+    // Clean up when WS close to prevent displaying log from previous brew-push.
+    { filters, preventListening, onCleanup: resetLogBuffer }
   );
 
   return (
