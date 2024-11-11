@@ -41,6 +41,7 @@ import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { OldUIAnnouncement } from 'components/TopBar/OldUIAnnouncement';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
 import { IAuthBroadcastMessage, authBroadcastService } from 'services/broadcastService';
@@ -131,6 +132,11 @@ export const AppLayout = () => {
         <ProtectedComponent role={AUTH_ROLE.Admin} hide key="administration">
           <DropdownLinkItem to="/admin/administration">Administration</DropdownLinkItem>
         </ProtectedComponent>
+        {process.env.REACT_APP_PNC_OLD_UI_WEB && (
+          <DropdownLinkItem key="old-ui" to={process.env.REACT_APP_PNC_OLD_UI_WEB}>
+            Old UI Version
+          </DropdownLinkItem>
+        )}
       </>
     );
 
@@ -358,6 +364,7 @@ export const AppLayout = () => {
   return (
     <>
       <div ref={topBarsRef}>
+        <OldUIAnnouncement />
         {serviceContainerPncStatus.data && (
           <TopBarAnnouncement
             id="site-top-bar"
