@@ -4,7 +4,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import { Artifact } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
@@ -44,10 +44,10 @@ export const ArtifactPages = () => {
   useEffect(() => {
     serviceContainerArtifactRunner({ serviceData: { id: artifactId } });
 
-    serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerProductMilestonesReleasesRunner({
       serviceData: { id: artifactId },
-      requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+      requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
     });
   }, [serviceContainerArtifactRunner, serviceContainerBuildsRunner, serviceContainerProductMilestonesReleasesRunner, artifactId]);
 
@@ -55,7 +55,7 @@ export const ArtifactPages = () => {
     useCallback(
       (wsData: any) => {
         if (hasBuildFinished(wsData)) {
-          serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+          serviceContainerBuildsRunner({ serviceData: { id: artifactId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
         }
       },
       [serviceContainerBuildsRunner, artifactId]
