@@ -4,7 +4,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import { Build, BuildConfiguration } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -100,10 +100,10 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
 
   useEffect(() => {
     serviceContainerBuildConfigRunner({ serviceData: { id: buildConfigId } });
-    serviceContainerDependenciesRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerDependantsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerGroupConfigsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerRevisionsRunner({ serviceData: { id: buildConfigId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerDependenciesRunner({ serviceData: { id: buildConfigId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerDependantsRunner({ serviceData: { id: buildConfigId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerGroupConfigsRunner({ serviceData: { id: buildConfigId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerRevisionsRunner({ serviceData: { id: buildConfigId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
   }, [
     serviceContainerBuildConfigRunner,
     serviceContainerDependenciesRunner,

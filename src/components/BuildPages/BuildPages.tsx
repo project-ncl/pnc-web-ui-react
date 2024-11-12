@@ -5,7 +5,7 @@ import { Build } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { buildStatusData } from 'common/buildStatusData';
-import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildFinished, hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
@@ -70,8 +70,8 @@ export const BuildPages = () => {
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
 
-    serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
   }, [serviceContainerBuildRunner, serviceContainerArtifactsRunner, serviceContainerDependenciesRunner, buildId]);
 
   useEffect(() => {
@@ -102,8 +102,8 @@ export const BuildPages = () => {
         if (hasBuildFinished(wsData, { buildId })) {
           serviceContainerBuildRunner({ serviceData: { id: buildId } });
 
-          serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-          serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+          serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+          serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
         } else if (hasBuildStatusChanged(wsData, { buildId })) {
           const wsBuild: Build = wsData.build;
           serviceContainerBuildSetter(wsBuild);

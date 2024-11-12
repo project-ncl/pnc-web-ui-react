@@ -81,7 +81,7 @@ export const RepositoryUrls = {
 };
 
 // For getting total item count
-export const SINGLE_PAGE_REQUEST_CONFIG: AxiosRequestConfig = { params: { pageSize: 1 } };
+export const TOTAL_COUNT_REQUEST_CONFIG: AxiosRequestConfig = { params: { pageSize: 0 } };
 
 export const FILTERING_PLACEHOLDER_DEFAULT: string = 'string | !string | s?ring | st*g';
 

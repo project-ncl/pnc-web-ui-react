@@ -4,7 +4,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import { ProductVersion } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
@@ -45,10 +45,10 @@ export const ProductVersionPages = () => {
   useEffect(() => {
     serviceContainerProductVersionRunner({ serviceData: { id: productVersionId } });
 
-    serviceContainerProductMilestonesRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerProductReleasesRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerBuildConfigsRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerProductMilestonesRunner({ serviceData: { id: productVersionId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerProductReleasesRunner({ serviceData: { id: productVersionId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerBuildConfigsRunner({ serviceData: { id: productVersionId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerGroupConfigsRunner({ serviceData: { id: productVersionId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
   }, [
     serviceContainerProductVersionRunner,
     serviceContainerProductMilestonesRunner,

@@ -4,7 +4,7 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import { ProductMilestone } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { SINGLE_PAGE_REQUEST_CONFIG } from 'common/constants';
+import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import {
@@ -93,13 +93,13 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       },
     });
 
-    serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
-    serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerDeliverablesAnalysesRunner({
       serviceData: { id: productMilestoneId },
-      requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+      requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
     });
-    serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: SINGLE_PAGE_REQUEST_CONFIG });
+    serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
   }, [
     serviceContainerProductMilestoneRunner,
     serviceContainerProductVersionRunner,
@@ -116,17 +116,17 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         if (hasBuildStarted(wsData, { productMilestoneId })) {
           serviceContainerBuildsRunnerDebounced({
             serviceData: { id: productMilestoneId },
-            requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+            requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
         } else if (hasMilestoneCloseFinished(wsData, { productMilestoneId })) {
           serviceContainerCloseResultsRunner({
             serviceData: { id: productMilestoneId },
-            requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+            requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
         } else if (hasDeliverablesAnalysisStarted(wsData, { productMilestoneId })) {
           serviceContainerDeliverablesAnalysesRunner({
             serviceData: { id: productMilestoneId },
-            requestConfig: SINGLE_PAGE_REQUEST_CONFIG,
+            requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
         }
       },
