@@ -134,7 +134,7 @@ export const AppLayout = () => {
         </ProtectedComponent>
         {process.env.REACT_APP_PNC_OLD_UI_WEB && (
           <DropdownLinkItem key="old-ui" to={process.env.REACT_APP_PNC_OLD_UI_WEB}>
-            Old UI Version
+            Old UI Version <ExternalLinkAltIcon />
           </DropdownLinkItem>
         )}
       </>
