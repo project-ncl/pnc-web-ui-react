@@ -40,6 +40,7 @@ import { StorageKeys, useStorage } from 'hooks/useStorage';
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
+import LegacyUrlRedirector from 'components/OldUrlRedirector/LegacyUrlRedirector';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { OldUIAnnouncement } from 'components/TopBar/OldUIAnnouncement';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
@@ -363,6 +364,7 @@ export const AppLayout = () => {
 
   return (
     <>
+      <LegacyUrlRedirector />
       <div ref={topBarsRef}>
         <OldUIAnnouncement />
         {serviceContainerPncStatus.data && (
