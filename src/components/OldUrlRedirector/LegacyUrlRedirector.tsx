@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LegacyUrlRedirector = () => {
+export const LegacyUrlRedirector = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,5 +28,3 @@ const LegacyUrlRedirector = () => {
 
   return null;
 };
-
-export default LegacyUrlRedirector;
