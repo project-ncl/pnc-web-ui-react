@@ -2,12 +2,9 @@ import { useEffect } from 'react';
 
 import { URL_BASE_PATH } from 'common/constants';
 
-import { uiLogger } from 'services/uiLogger';
-
 export const useLegacyUrlRedirector = () => {
   useEffect(() => {
     const { pathname, hash } = window.location;
-    const oldUrl = window.location;
 
     if (pathname.startsWith(URL_BASE_PATH + '/') && hash.startsWith('#/')) {
       let newPath = '/' + hash.substring(2); // Remove '#/' and concatenate
@@ -24,7 +21,7 @@ export const useLegacyUrlRedirector = () => {
         newPath = newPath.substring(buildsIndex);
       }
 
-      uiLogger.log(`Redirecting to new URL: ${newPath}`, undefined, { oldUrl, newUrl: newPath });
+      console.log(`Redirecting to new URL: ${newPath}`);
       window.location.href = URL_BASE_PATH + newPath;
     }
   }, []);
