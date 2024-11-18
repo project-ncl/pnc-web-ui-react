@@ -25,7 +25,7 @@ export const useLegacyUrlRedirector = () => {
       }
 
       uiLogger.log(`Redirecting to new URL: ${newPath}`, undefined, { oldUrl, newUrl: newPath });
-      window.history.replaceState({}, '', URL_BASE_PATH + newPath);
+      window.location.href = URL_BASE_PATH + newPath;
     }
   }, []);
 };
