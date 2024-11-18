@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-export const LegacyUrlRedirector = () => {
-  const navigate = useNavigate();
+import { URL_BASE_PATH } from 'common/constants';
 
+import { uiLogger } from 'services/uiLogger';
+
+export const useLegacyUrlRedirector = () => {
   useEffect(() => {
     const { pathname, hash } = window.location;
+    const oldUrl = window.location;
 
-    if (pathname.startsWith('/pnc-web/') && hash.startsWith('#/')) {
+    if (pathname.startsWith(URL_BASE_PATH + '/') && hash.startsWith('#/')) {
       let newPath = '/' + hash.substring(2); // Remove '#/' and concatenate
 
       // If it contains '/build-configs/', remove everything between '/pnc-web/' and '/build-configs/'
@@ -22,9 +24,8 @@ export const LegacyUrlRedirector = () => {
         newPath = newPath.substring(buildsIndex);
       }
 
-      navigate(newPath, { replace: true });
+      uiLogger.log(`Redirecting to new URL: ${newPath}`, undefined, { oldUrl, newUrl: newPath });
+      window.history.replaceState({}, '', URL_BASE_PATH + newPath);
     }
-  }, [navigate]);
-
-  return null;
+  }, []);
 };

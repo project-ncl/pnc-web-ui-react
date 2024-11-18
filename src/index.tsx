@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
+import { URL_BASE_PATH } from 'common/constants';
+
+import { useLegacyUrlRedirector } from 'hooks/useLegacyUrlRedirector';
+
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from 'services/keycloakService';
@@ -13,12 +17,14 @@ import { AppRoutes } from './AppRoutes';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: '/pnc-web' });
+const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: URL_BASE_PATH });
 
 const App = () => {
   const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);
   const [isKeycloakInitFail, setIsKeycloakInitFail] = useState<boolean>(false);
   const [isKeycloakInitInProcess, setIsKeycloakInitInProcess] = useState<boolean>(true);
+
+  useLegacyUrlRedirector();
 
   useEffect(() => {
     keycloakService
@@ -84,7 +90,6 @@ const App = () => {
   }
 
   // see also https://github.com/remix-run/react-router/issues/8427#issuecomment-1056988913
-  const URL_BASE_PATH = '/pnc-web';
   if (process.env.NODE_ENV === 'development' && !window.location.pathname.startsWith(URL_BASE_PATH)) {
     const message = `Redirection to ${URL_BASE_PATH}/...`;
     console.log(message);
