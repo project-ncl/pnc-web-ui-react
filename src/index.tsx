@@ -6,12 +6,12 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'r
 
 import { URL_BASE_PATH } from 'common/constants';
 
-import { useLegacyUrlRedirector } from 'hooks/useLegacyUrlRedirector';
-
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
+
+import { legacyUrlRedirector } from 'utils/legacyUrlRedirector';
 
 import { AppRoutes } from './AppRoutes';
 import './index.css';
@@ -19,12 +19,12 @@ import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: URL_BASE_PATH });
 
+legacyUrlRedirector();
+
 const App = () => {
   const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);
   const [isKeycloakInitFail, setIsKeycloakInitFail] = useState<boolean>(false);
   const [isKeycloakInitInProcess, setIsKeycloakInitInProcess] = useState<boolean>(true);
-
-  useLegacyUrlRedirector();
 
   useEffect(() => {
     keycloakService
