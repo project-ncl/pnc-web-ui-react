@@ -54,6 +54,7 @@ class KeycloakService {
    * @returns Promise.
    */
   private init(): Promise<any> {
+    console.log('keycloakService init');
     const keycloakConfig = webConfigService.getWebConfig().keycloak;
 
     if (Keycloak) {
