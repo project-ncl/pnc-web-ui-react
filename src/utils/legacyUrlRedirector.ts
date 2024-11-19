@@ -1,6 +1,7 @@
 import { URL_BASE_PATH } from 'common/constants';
 
 export const legacyUrlRedirector = () => {
+  console.log('legacyUrlRedirector init');
   const { pathname, hash } = window.location;
 
   if (pathname.startsWith(URL_BASE_PATH + '/') && hash.startsWith('#/')) {
