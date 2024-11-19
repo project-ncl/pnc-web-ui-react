@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'r
 
 import { URL_BASE_PATH } from 'common/constants';
 
+import { AppInit } from 'components/AppInit/AppInit';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
 import { keycloakService } from 'services/keycloakService';
@@ -107,7 +108,7 @@ const App = () => {
   }
 
   if (isKeycloakInitInProcess) {
-    return <div>keycloak initialization</div>;
+    return <AppInit />;
   }
 
   throw new Error('Keycloak initialization state is invalid.');

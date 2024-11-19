@@ -1,0 +1,13 @@
+.app-init {
+  background-color: #dddddd;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  height: 100vh;
+  width: 100%;
+
+  min-height: 50px;
+}
