@@ -44,7 +44,7 @@ export const ProtectedContent = ({
   }
 
   // Error state - Keycloak service not available
-  if (!keycloakService.isKeycloakAvailable) {
+  if (!keycloakService.isKeycloakAvailable()) {
     const reason = 'Keycloak service is not available.';
     switch (type) {
       case PROTECTED_TYPE.Route:

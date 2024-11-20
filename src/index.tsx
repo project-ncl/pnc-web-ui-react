@@ -18,9 +18,11 @@ import { AppRoutes } from './AppRoutes';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: URL_BASE_PATH });
-
 legacyUrlRedirector();
+
+keycloakService.init();
+
+const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: URL_BASE_PATH });
 
 const App = () => {
   const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);

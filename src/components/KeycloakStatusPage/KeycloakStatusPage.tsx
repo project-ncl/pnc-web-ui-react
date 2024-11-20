@@ -47,7 +47,7 @@ export const KeycloakStatusPage = ({ errorPageTitle }: IKeycloakStatusPageProps)
     </>
   );
 
-  if (!keycloakService.isKeycloakAvailable) {
+  if (!keycloakService.isKeycloakAvailable()) {
     return errorPageTitle ? (
       // Error page - requested page (for example projects/create) could not be displayed due to Keycloak
       <ErrorPage

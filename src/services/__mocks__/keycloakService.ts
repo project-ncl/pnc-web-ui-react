@@ -5,53 +5,55 @@ export enum AUTH_ROLE {
   Power = 'power-user',
 }
 
-class KeycloakServiceMock {
-  private initialized: boolean = false;
-  private user: any;
-  private isLogin: boolean = false;
-  private roles: String[] = ['Admin'];
+const createKeycloakServiceMock = () => {
+  const initialized: boolean = false;
+  let user: any;
+  let isLogin: boolean = false;
+  const roles: String[] = ['Admin'];
 
-  constructor() {
-    this.initialized = true;
-  }
+  const isKeycloakAvailable = (): boolean => {
+    return initialized;
+  };
 
-  public isInitialized(): Promise<any> {
+  const isInitialized = (): Promise<any> => {
     return new Promise<any>((resolve) => {
-      resolve(this.initialized);
+      resolve(initialized);
     });
-  }
+  };
 
-  public isAuthenticated(): boolean {
-    return this.isLogin;
-  }
+  const isAuthenticated = (): boolean => {
+    return isLogin;
+  };
 
-  public login(user: String): Promise<any> {
-    this.user = user;
-    this.isLogin = true;
+  const login = (userNew: String): Promise<any> => {
+    user = userNew;
+    isLogin = true;
     return new Promise<any>((resolve) => {
       resolve(true);
     });
-  }
+  };
 
-  public logout(): void {
-    this.isLogin = false;
-    this.user = undefined;
-  }
+  const logout = (): void => {
+    isLogin = false;
+    user = undefined;
+  };
 
-  public getToken(): String {
+  const getToken = (): String => {
     return 'example_token';
-  }
+  };
 
-  public getUser(): String {
-    return this.user;
-  }
+  const getUser = (): String => {
+    return user;
+  };
 
-  public hasRealmRole(role: String): boolean {
-    if (this.roles.includes(role)) {
+  const hasRealmRole = (role: String): boolean => {
+    if (roles.includes(role)) {
       return true;
     }
     return false;
-  }
-}
+  };
 
-export const keycloakService = new KeycloakServiceMock();
+  return { isKeycloakAvailable, isInitialized, isAuthenticated, login, logout, getToken, getUser, hasRealmRole };
+};
+
+export const keycloakService = createKeycloakServiceMock();
