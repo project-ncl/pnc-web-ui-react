@@ -56,7 +56,7 @@ import pncLogoText from './pnc-logo-text.svg';
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
 
-  const [user, setUser] = useState(keycloakService.isKeycloakAvailable ? keycloakService.getUser() : null);
+  const [user, setUser] = useState(keycloakService.isKeycloakAvailable() ? keycloakService.getUser() : null);
 
   const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
   const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;
@@ -247,14 +247,14 @@ export const AppLayout = () => {
                   isExpanded={isHeaderUserOpen}
                   onClick={() => setIsHeaderUserOpen((isHeaderUserOpen) => !isHeaderUserOpen)}
                 >
-                  {keycloakService.isKeycloakAvailable ? <>{user ? user : 'Not logged in'}</> : <>KEYCLOAK UNAVAILABLE</>}
+                  {keycloakService.isKeycloakAvailable() ? <>{user ? user : 'Not logged in'}</> : <>KEYCLOAK UNAVAILABLE</>}
                 </MenuToggle>
               )}
               isOpen={isHeaderUserOpen}
               onOpenChange={(isOpen: boolean) => setIsHeaderUserOpen(isOpen)}
             >
               <DropdownList>
-                {keycloakService.isKeycloakAvailable ? headerUserDropdownItems : headerKeycloakUnavailableDropdownItems}
+                {keycloakService.isKeycloakAvailable() ? headerUserDropdownItems : headerKeycloakUnavailableDropdownItems}
               </DropdownList>
             </Dropdown>
           </ToolbarItem>

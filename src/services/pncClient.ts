@@ -26,7 +26,7 @@ class PncClient {
 
     // perform actions before request is sent
     httpClient.interceptors.request.use(async (config) => {
-      if (keycloakService.isKeycloakAvailable && keycloakService.isAuthenticated()) {
+      if (keycloakService.isKeycloakAvailable() && keycloakService.isAuthenticated()) {
         config.headers = config.headers ?? {};
         config.headers.Authorization = `Bearer ` + (await keycloakService.getToken());
       }
