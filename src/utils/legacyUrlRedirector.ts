@@ -33,4 +33,6 @@ export const legacyUrlRedirector = () => {
     console.log(`Redirecting to new URL: ${newPath}`);
     window.location.href = URL_BASE_PATH + newPath;
   }
+
+  console.log('G1: legacyUrlRedirector done');
 };

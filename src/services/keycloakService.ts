@@ -64,6 +64,7 @@ class KeycloakService {
       });
 
       return new Promise((resolve, reject) => {
+        console.log('G1: keycloakAuth init');
         this.keycloakAuth
           .init({ onLoad: 'check-sso' })
           .then(() => {
