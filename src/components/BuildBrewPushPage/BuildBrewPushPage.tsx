@@ -43,7 +43,7 @@ export const BuildBrewPushPage = () => {
     serviceContainerBrewPushRunner({
       serviceData: { id: buildId },
       onError: (result) => {
-        if (isAxiosError(result.error) && result.error?.status === 404) {
+        if (isAxiosError(result.error) && result.error?.response?.status === 404) {
           setIsBrewPushEmpty(true);
         }
       },
@@ -92,40 +92,38 @@ export const BuildBrewPushPage = () => {
   return (
     <>
       {!isBrewPushEmpty ? (
-        <>
-          <ServiceContainerLoading {...serviceContainerBrewPush} title="Brew Push details">
-            <ContentBox padding marginBottom isResponsive>
-              <Attributes>
-                <AttributesItem title={buildPushResultEntityAttributes.status.title}>
-                  {serviceContainerBrewPush.data?.status && (
-                    <BuildPushStatusLabelMapper status={serviceContainerBrewPush.data.status} />
-                  )}
-                </AttributesItem>
-                <AttributesItem title={buildPushResultEntityAttributes.brewBuildId.title}>
-                  {serviceContainerBrewPush.data?.brewBuildId}
-                </AttributesItem>
-                <AttributesItem title={buildPushResultEntityAttributes.brewBuildUrl.title}>
-                  {serviceContainerBrewPush.data?.brewBuildUrl && (
-                    <a target="_blank" rel="noreferrer" href={serviceContainerBrewPush.data.brewBuildUrl}>
-                      {serviceContainerBrewPush.data.brewBuildUrl}
-                    </a>
-                  )}
-                </AttributesItem>
-              </Attributes>
-            </ContentBox>
+        <ServiceContainerLoading {...serviceContainerBrewPush} title="Brew Push details">
+          <ContentBox padding marginBottom isResponsive>
+            <Attributes>
+              <AttributesItem title={buildPushResultEntityAttributes.status.title}>
+                {serviceContainerBrewPush.data?.status && (
+                  <BuildPushStatusLabelMapper status={serviceContainerBrewPush.data.status} />
+                )}
+              </AttributesItem>
+              <AttributesItem title={buildPushResultEntityAttributes.brewBuildId.title}>
+                {serviceContainerBrewPush.data?.brewBuildId}
+              </AttributesItem>
+              <AttributesItem title={buildPushResultEntityAttributes.brewBuildUrl.title}>
+                {serviceContainerBrewPush.data?.brewBuildUrl && (
+                  <a target="_blank" rel="noreferrer" href={serviceContainerBrewPush.data.brewBuildUrl}>
+                    {serviceContainerBrewPush.data.brewBuildUrl}
+                  </a>
+                )}
+              </AttributesItem>
+            </Attributes>
+          </ContentBox>
 
-            <Toolbar borderBottom>
-              <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Logs</Text>
-                </TextContent>
-              </ToolbarItem>
-            </Toolbar>
-            <ContentBox padding>
-              <LogViewer isStatic={serviceContainerBrewPush?.data?.status !== 'ACCEPTED'} data={logBuffer} />
-            </ContentBox>
-          </ServiceContainerLoading>
-        </>
+          <Toolbar borderBottom>
+            <ToolbarItem>
+              <TextContent>
+                <Text component={TextVariants.h2}>Logs</Text>
+              </TextContent>
+            </ToolbarItem>
+          </Toolbar>
+          <ContentBox padding>
+            <LogViewer isStatic={serviceContainerBrewPush?.data?.status !== 'ACCEPTED'} data={logBuffer} />
+          </ContentBox>
+        </ServiceContainerLoading>
       ) : (
         <ContentBox padding marginBottom>
           <EmptyStateCard title="Brew Push of the Build" />
