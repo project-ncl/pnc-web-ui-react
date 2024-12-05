@@ -4,11 +4,12 @@ import { ProtectedComponent } from 'components/ProtectedContent/ProtectedCompone
 
 interface IBuildConfigRestoreModalButtonProps {
   toggleModal: () => void;
+  isDisabled?: boolean;
 }
 
-export const BuildConfigRestoreModalButton = ({ toggleModal }: IBuildConfigRestoreModalButtonProps) => (
+export const BuildConfigRestoreModalButton = ({ toggleModal, isDisabled = false }: IBuildConfigRestoreModalButtonProps) => (
   <ProtectedComponent>
-    <Button variant="primary" onClick={toggleModal} size="sm">
+    <Button variant="primary" onClick={toggleModal} size="sm" isDisabled={isDisabled}>
       Restore
     </Button>
   </ProtectedComponent>
