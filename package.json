@@ -61,7 +61,7 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/lodash-es": "^4.17.12",
-    "@types/react-test-renderer": "^18.0.0",
+    "@types/react-test-renderer": "^17.0.9",
     "axios-mock-adapter": "^1.21.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
