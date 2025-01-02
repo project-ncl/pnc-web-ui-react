@@ -34,17 +34,22 @@ interface IBuildConfigDetailProps {
   serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration | BuildConfigurationRevision>;
   serviceContainerProductVersion?: IServiceContainerState<ProductVersion>;
   isRevisionVariant?: boolean;
+  isCurrentRevision?: boolean;
 }
 
 export const BuildConfigDetail = ({
   serviceContainerBuildConfig,
   serviceContainerProductVersion,
   isRevisionVariant = false,
+  isCurrentRevision = true,
 }: IBuildConfigDetailProps) => {
   const [isRestoreModalOpen, setIsRestoreModalOpen] = useState<boolean>(false);
   const toggleRestoreModal = () => setIsRestoreModalOpen((isRestoreModalOpen) => !isRestoreModalOpen);
 
   const [isUpgradeEnvironmentModalOpen, setIsUpgradeEnvironmentModalOpen] = useState<boolean>(false);
+
+  const disabledButtonReason = isCurrentRevision ? 'Restore button is disabled for the current revision' : undefined;
+
   const toggleUpgradeEnvironmentModal = () =>
     setIsUpgradeEnvironmentModalOpen((isUpgradeEnvironmentModalOpen) => !isUpgradeEnvironmentModalOpen);
 
@@ -60,7 +65,7 @@ export const BuildConfigDetail = ({
             </ToolbarItem>
             {isRevisionVariant && (
               <ToolbarItem alignRight>
-                <BuildConfigRestoreModalButton toggleModal={toggleRestoreModal} />
+                <BuildConfigRestoreModalButton toggleModal={toggleRestoreModal} disabledButtonReason={disabledButtonReason} />
               </ToolbarItem>
             )}
           </Toolbar>
