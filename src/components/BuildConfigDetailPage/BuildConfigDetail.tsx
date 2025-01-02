@@ -34,12 +34,14 @@ interface IBuildConfigDetailProps {
   serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration | BuildConfigurationRevision>;
   serviceContainerProductVersion?: IServiceContainerState<ProductVersion>;
   isRevisionVariant?: boolean;
+  isCurrentRevision?: boolean;
 }
 
 export const BuildConfigDetail = ({
   serviceContainerBuildConfig,
   serviceContainerProductVersion,
   isRevisionVariant = false,
+  isCurrentRevision = true,
 }: IBuildConfigDetailProps) => {
   const [isRestoreModalOpen, setIsRestoreModalOpen] = useState<boolean>(false);
   const toggleRestoreModal = () => setIsRestoreModalOpen((isRestoreModalOpen) => !isRestoreModalOpen);
@@ -60,7 +62,7 @@ export const BuildConfigDetail = ({
             </ToolbarItem>
             {isRevisionVariant && (
               <ToolbarItem alignRight>
-                <BuildConfigRestoreModalButton toggleModal={toggleRestoreModal} />
+                <BuildConfigRestoreModalButton toggleModal={toggleRestoreModal} isDisabled={isCurrentRevision} />
               </ToolbarItem>
             )}
           </Toolbar>
