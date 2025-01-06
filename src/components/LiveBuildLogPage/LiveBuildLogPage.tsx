@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { buildLogMatchFiltersPrefix, buildLogPrefixFilters, useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
@@ -29,9 +29,12 @@ export const LiveBuildLogPage = () => {
     [buildId]
   );
 
-  if (!isBuilding) {
-    navigate(`/builds/${buildId}/build-log`, { replace: true });
-  }
+  useEffect(() => {
+    // Move navigate function call into useEffect to make navigation occurs after the component has rendered
+    if (!isBuilding) {
+      navigate(`/builds/${buildId}/build-log`, { replace: true });
+    }
+  }, [isBuilding, navigate, buildId]);
 
   useBifrostWebSocketEffect(
     useCallback(
