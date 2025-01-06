@@ -31,6 +31,14 @@ export const createWebSocketClient = (url: string) => {
     });
   };
 
+  webSocket.onclose = (event: CloseEvent) => {
+    if (event.code === 1000) {
+      console.log(`WebSocket closed normally: Code ${event.code}, Reason: ${event.reason}`);
+    } else {
+      console.log(`WebSocket closed unexpectedly: Code ${event.code}`);
+    }
+  };
+
   return {
     /**
      * Add WebSocket message listener.
@@ -91,7 +99,7 @@ export const createWebSocketClient = (url: string) => {
      * Close the WebSocket connection.
      */
     close: () => {
-      webSocket.close();
+      webSocket.close(1000, 'Client closed connection');
     },
   };
 };
