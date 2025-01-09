@@ -70,7 +70,7 @@ export const AdministrationPage = () => {
 
   const serviceContainerPncStatusSet = useServiceContainer(genericSettingsApi.setPncStatus);
 
-  const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const submitEdit = (data: IFieldValues) => {
     return serviceContainerPncStatusSet.run({
@@ -133,6 +133,7 @@ export const AdministrationPage = () => {
         <FlexItem>
           <ServiceContainerCreatingUpdating
             {...serviceContainerPncStatusSet}
+            error={hasFormChanged ? '' : serviceContainerPncStatusSet.error}
             serviceContainerLoading={serviceContainerPncStatusGet}
           >
             <ContentBox padding isResponsive>

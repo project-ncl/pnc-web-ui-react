@@ -104,7 +104,7 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
 
   const serviceContainerProductVersionPatch = useServiceContainer(productVersionApi.patchProductVersion);
 
-  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const isProductMilestoneCurrent =
     serviceContainerProductVersion.data?.currentProductMilestone &&
@@ -338,11 +338,17 @@ export const ProductMilestoneCreateEditPage = ({ isEditPage = false }: IProductM
             {...serviceContainerEditPagePatch}
             serviceContainerLoading={serviceContainerEditPageGet}
             title="Product Milestone"
+            error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
           >
             {formComponent}
           </ServiceContainerCreatingUpdating>
         ) : (
-          <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+          <ServiceContainerCreatingUpdating
+            {...serviceContainerCreatePage}
+            error={hasFormChanged ? '' : serviceContainerCreatePage.error}
+          >
+            {formComponent}
+          </ServiceContainerCreatingUpdating>
         )}
       </PageLayout>
     </ServiceContainerLoading>

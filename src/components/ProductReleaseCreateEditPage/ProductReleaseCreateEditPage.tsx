@@ -96,7 +96,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
-  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const [selectedProductMilestone, setSelectedProductMilestone] = useState<ProductMilestone>();
 
@@ -356,11 +356,17 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Product Release"
+          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerCreatePage}
+          error={hasFormChanged ? '' : serviceContainerCreatePage.error}
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
       )}
     </PageLayout>
   );

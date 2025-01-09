@@ -60,7 +60,7 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
   const serviceContainerProductVersion = useServiceContainer(productVersionApi.getProductVersion);
   const serviceContainerProductVersionRunner = serviceContainerProductVersion.run;
 
-  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
   const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
 
@@ -281,11 +281,17 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Group Config"
+          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerCreatePage}
+          error={hasFormChanged ? '' : serviceContainerCreatePage.error}
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
       )}
     </PageLayout>
   );

@@ -62,7 +62,7 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(projectApi.patchProject);
 
-  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -213,11 +213,17 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Project"
+          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerCreatePage}
+          error={hasFormChanged ? '' : serviceContainerCreatePage.error}
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
       )}
     </PageLayout>
   );
