@@ -66,7 +66,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(productVersionApi.patchProductVersion);
 
-  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -201,11 +201,17 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
             {...serviceContainerEditPagePatch}
             serviceContainerLoading={serviceContainerEditPageGet}
             title="Product Version"
+            error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
           >
             {formComponent}
           </ServiceContainerCreatingUpdating>
         ) : (
-          <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+          <ServiceContainerCreatingUpdating
+            {...serviceContainerCreatePage}
+            error={hasFormChanged ? '' : serviceContainerCreatePage.error}
+          >
+            {formComponent}
+          </ServiceContainerCreatingUpdating>
         )}
       </PageLayout>
     </ServiceContainerLoading>

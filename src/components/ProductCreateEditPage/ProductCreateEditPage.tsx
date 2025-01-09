@@ -54,7 +54,7 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
   // edit page - patch method
   const serviceContainerEditPagePatch = useServiceContainer(productApi.patchProduct);
 
-  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled } = useForm();
+  const { register, setFieldValues, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   useTitle(
     generatePageTitle({
@@ -196,11 +196,17 @@ export const ProductCreateEditPage = ({ isEditPage = false }: IProductCreateEdit
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Product"
+          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage}>{formComponent}</ServiceContainerCreatingUpdating>
+        <ServiceContainerCreatingUpdating
+          {...serviceContainerCreatePage}
+          error={hasFormChanged ? '' : serviceContainerCreatePage.error}
+        >
+          {formComponent}
+        </ServiceContainerCreatingUpdating>
       )}
     </PageLayout>
   );
