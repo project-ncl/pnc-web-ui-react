@@ -48,7 +48,7 @@ export const BuildConfigDetail = ({
 
   const [isUpgradeEnvironmentModalOpen, setIsUpgradeEnvironmentModalOpen] = useState<boolean>(false);
 
-  const disabledButtonReason = isCurrentRevision ? 'Restore button is disabled for the current revision' : undefined;
+  const disabledButtonReason = isCurrentRevision ? 'The last Build Config revision cannot be restored' : undefined;
 
   const toggleUpgradeEnvironmentModal = () =>
     setIsUpgradeEnvironmentModalOpen((isUpgradeEnvironmentModalOpen) => !isUpgradeEnvironmentModalOpen);
