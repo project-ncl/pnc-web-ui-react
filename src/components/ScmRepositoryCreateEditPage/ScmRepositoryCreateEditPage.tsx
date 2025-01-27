@@ -342,16 +342,12 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="SCM Repository"
-          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
+          hasFormChanged={hasFormChanged}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating
-          data={scmCreatingFinished}
-          loading={scmCreatingLoading}
-          error={hasFormChanged ? '' : scmCreatingError || ''}
-        >
+        <ServiceContainerCreatingUpdating data={scmCreatingFinished} loading={scmCreatingLoading} error={scmCreatingError || ''}>
           {formComponent}
         </ServiceContainerCreatingUpdating>
       )}

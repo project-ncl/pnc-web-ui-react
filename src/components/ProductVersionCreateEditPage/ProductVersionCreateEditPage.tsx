@@ -201,15 +201,12 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
             {...serviceContainerEditPagePatch}
             serviceContainerLoading={serviceContainerEditPageGet}
             title="Product Version"
-            error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
+            hasFormChanged={hasFormChanged}
           >
             {formComponent}
           </ServiceContainerCreatingUpdating>
         ) : (
-          <ServiceContainerCreatingUpdating
-            {...serviceContainerCreatePage}
-            error={hasFormChanged ? '' : serviceContainerCreatePage.error}
-          >
+          <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} hasFormChanged={hasFormChanged}>
             {formComponent}
           </ServiceContainerCreatingUpdating>
         )}

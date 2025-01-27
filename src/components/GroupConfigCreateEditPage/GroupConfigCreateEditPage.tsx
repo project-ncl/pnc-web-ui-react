@@ -281,15 +281,12 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Group Config"
-          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
+          hasFormChanged={hasFormChanged}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating
-          {...serviceContainerCreatePage}
-          error={hasFormChanged ? '' : serviceContainerCreatePage.error}
-        >
+        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} hasFormChanged={hasFormChanged}>
           {formComponent}
         </ServiceContainerCreatingUpdating>
       )}
