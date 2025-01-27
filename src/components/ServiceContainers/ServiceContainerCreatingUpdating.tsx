@@ -12,6 +12,7 @@ interface IServiceContainerCreatingUpdatingProps<T extends TServiceData> extends
    * Typically only edit pages pass serviceContainerLoading to handle initial data states (like loading or error)
    */
   serviceContainerLoading?: IServiceContainerState<T>;
+  hasFormChanged?: boolean;
 }
 
 export const ServiceContainerCreatingUpdating = <T extends TServiceData>({
@@ -19,6 +20,7 @@ export const ServiceContainerCreatingUpdating = <T extends TServiceData>({
   error,
   title,
   serviceContainerLoading,
+  hasFormChanged = false,
   children,
 }: PropsWithChildren<IServiceContainerCreatingUpdatingProps<T>>) => {
   // Edit pages only
@@ -36,7 +38,7 @@ export const ServiceContainerCreatingUpdating = <T extends TServiceData>({
   if (error) {
     return (
       <>
-        <Alert variant="danger" isInline title={error} />
+        <Alert variant="danger" isInline title={error} style={{ display: hasFormChanged ? 'none' : 'default' }} />
         {children}
       </>
     );

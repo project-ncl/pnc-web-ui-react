@@ -1136,7 +1136,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Build Config"
-          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
+          hasFormChanged={hasFormChanged}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
@@ -1144,7 +1144,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         <ServiceContainerCreatingUpdating
           data={buildConfigCreatingFinished}
           loading={buildConfigCreatingLoading}
-          error={hasFormChanged ? '' : buildConfigCreatingError || ''}
+          error={buildConfigCreatingError || ''}
+          hasFormChanged={hasFormChanged}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>

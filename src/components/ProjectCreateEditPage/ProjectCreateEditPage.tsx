@@ -213,15 +213,12 @@ export const ProjectCreateEditPage = ({ isEditPage = false }: IProjectCreateEdit
           {...serviceContainerEditPagePatch}
           serviceContainerLoading={serviceContainerEditPageGet}
           title="Project"
-          error={hasFormChanged ? '' : serviceContainerEditPagePatch.error}
+          hasFormChanged={hasFormChanged}
         >
           {formComponent}
         </ServiceContainerCreatingUpdating>
       ) : (
-        <ServiceContainerCreatingUpdating
-          {...serviceContainerCreatePage}
-          error={hasFormChanged ? '' : serviceContainerCreatePage.error}
-        >
+        <ServiceContainerCreatingUpdating {...serviceContainerCreatePage} hasFormChanged={hasFormChanged}>
           {formComponent}
         </ServiceContainerCreatingUpdating>
       )}

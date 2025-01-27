@@ -133,7 +133,7 @@ export const AdministrationPage = () => {
         <FlexItem>
           <ServiceContainerCreatingUpdating
             {...serviceContainerPncStatusSet}
-            error={hasFormChanged ? '' : serviceContainerPncStatusSet.error}
+            hasFormChanged={hasFormChanged}
             serviceContainerLoading={serviceContainerPncStatusGet}
           >
             <ContentBox padding isResponsive>
