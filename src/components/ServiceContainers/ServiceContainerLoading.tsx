@@ -67,7 +67,7 @@ export const ServiceContainerLoading = <T extends TServiceData>({
       <LoadingStateCard delayMs={loadingStateDelayMs} title={title} hasSkeleton={hasSkeleton} isInline={variant !== 'block'} />
     );
 
-  const areDataEmpty = !data || (areServiceDataPaginated(data) && !data.content.length);
+  const areDataEmpty = !data || (areServiceDataPaginated(data) && !data.content.length) || (Array.isArray(data) && !data.length);
 
   // Refresh loading: keep previous real data with loading indicator when loading new data and previous real data is available
   // (the component was rendered at some point before)
