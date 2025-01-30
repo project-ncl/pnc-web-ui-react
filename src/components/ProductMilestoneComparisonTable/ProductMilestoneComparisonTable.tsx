@@ -1,32 +1,17 @@
-import {
-  Button,
-  DescriptionList,
-  DescriptionListDescription,
-  DescriptionListGroup,
-  DescriptionListTerm,
-  Flex,
-  FlexItem,
-  FlexProps,
-} from '@patternfly/react-core';
+import { Button, Flex, FlexItem, FlexProps } from '@patternfly/react-core';
 import { CubesIcon, TimesCircleIcon } from '@patternfly/react-icons';
-import { ExpandableRowContent, InnerScrollContainer, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import { InnerScrollContainer, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { AxiosRequestConfig } from 'axios';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Artifact, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
+import { DeliveredArtifactInMilestones, ParsedArtifact, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
 import { PageTitles } from 'common/constants';
-import { getFilterOptions } from 'common/entityAttributes';
-import { productMilestoneComparisonEntityAttributes } from 'common/productMilestoneComparisonEntityAttributes';
 
-import { DataValues, IServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainer } from 'hooks/useServiceContainer';
 
-import { BuildName } from 'components/BuildName/BuildName';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { Filtering, IFilterOptions } from 'components/Filtering/Filtering';
-import { Pagination } from 'components/Pagination/Pagination';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { StateCard } from 'components/StateCard/StateCard';
@@ -49,9 +34,13 @@ interface IProductMilestoneColumn {
 const spaceItemsXs: FlexProps['spaceItems'] = { default: 'spaceItemsXs' };
 const flexWrapNone: FlexProps['flexWrap'] = { default: 'nowrap' };
 
+const MIN_MILESTONES_IN_COMPARISON_COUNT = 2;
+
 interface IProductMilestoneComparisonTableProps {
-  serviceContainerProductMilestoneComparisonTable: IServiceContainer<any, IProductMilestoneComparisonData>;
-  componentId: string;
+  serviceContainerProductMilestoneComparisonTable: IServiceContainer<
+    DeliveredArtifactInMilestones[],
+    IProductMilestoneComparisonData
+  >;
 }
 
 /**
@@ -62,7 +51,6 @@ interface IProductMilestoneComparisonTableProps {
  */
 export const ProductMilestoneComparisonTable = ({
   serviceContainerProductMilestoneComparisonTable,
-  componentId,
 }: IProductMilestoneComparisonTableProps) => {
   const [wereColumnsChanged, setWereColumnsChanged] = useState(true);
 
@@ -70,15 +58,6 @@ export const ProductMilestoneComparisonTable = ({
   const [selectedProductVersion, setSelectedProductVersion] = useState<ProductVersion>();
   const [selectedProductMilestone, setSelectedProductMilestone] = useState<ProductMilestone>();
   const [productMilestoneColumns, setProductMilestoneColumns] = useState<IProductMilestoneColumn[]>([]);
-
-  const [expandedArtifacts, setExpandedArtifacts] = useState<string[]>([]);
-  const [areAllArtifactsExpanded, setAreAllArtifactsExpanded] = useState<boolean>();
-  const setArtifactExpanded = (artifact: Artifact, isExpanding = true) =>
-    setExpandedArtifacts((prevExpanded) => {
-      const otherExpandedArtifactIdentifiers = prevExpanded.filter((identifier) => identifier !== artifact.identifier);
-      return isExpanding ? [...otherExpandedArtifactIdentifiers, artifact.identifier] : otherExpandedArtifactIdentifiers;
-    });
-  const isArtifactExpanded = (artifact: Artifact) => expandedArtifacts?.includes(artifact.identifier);
 
   const fetchProductVersions = useCallback(
     (requestConfig: AxiosRequestConfig = {}) => {
@@ -98,16 +77,6 @@ export const ProductMilestoneComparisonTable = ({
 
   const serviceContainerProductMilestoneComparisonTableRunner = serviceContainerProductMilestoneComparisonTable.run;
 
-  useEffect(() => {
-    if (areAllArtifactsExpanded === true) {
-      setExpandedArtifacts(
-        serviceContainerProductMilestoneComparisonTable.data?.content?.map((artifact: any) => artifact.identifier)
-      );
-    } else if (areAllArtifactsExpanded === false) {
-      setExpandedArtifacts([]);
-    }
-  }, [areAllArtifactsExpanded, serviceContainerProductMilestoneComparisonTable.data?.content]);
-
   const wasSelectedMilestoneAdded = productMilestoneColumns.some(
     (productMilestoneColumn) => selectedProductMilestone?.id === productMilestoneColumn.id
   );
@@ -116,30 +85,15 @@ export const ProductMilestoneComparisonTable = ({
 
   const disabledFetchButtonReason = !productMilestoneColumns.length
     ? 'No Milestone was added.'
+    : productMilestoneColumns.length < MIN_MILESTONES_IN_COMPARISON_COUNT
+    ? `At least ${MIN_MILESTONES_IN_COMPARISON_COUNT} Milestones need to be compared.`
     : !!selectedProductMilestone
     ? 'Selected Milestone was not added.'
     : undefined;
 
-  // useMemo is React Hook. Hooks can not be executed conditionally.
-  const filterOptions: IFilterOptions = useMemo(
-    () => getFilterOptions({ entityAttributes: productMilestoneComparisonEntityAttributes }),
-    []
-  );
-
   const tableHead = (
     <Thead>
       <Tr>
-        <Th
-          modifier="fitContent"
-          expand={{
-            // probably a Patternfly bug, must be negated
-            areAllExpanded: !areAllArtifactsExpanded,
-            onToggle: () => {
-              setAreAllArtifactsExpanded(areAllArtifactsExpanded !== undefined ? !areAllArtifactsExpanded : true);
-            },
-            collapseAllAriaLabel: '',
-          }}
-        />
         <Th width={15} modifier="fitContent">
           Artifact
         </Th>
@@ -172,6 +126,14 @@ export const ProductMilestoneComparisonTable = ({
         ))}
       </Tr>
     </Thead>
+  );
+
+  const emptyTable = (
+    <InnerScrollContainer>
+      <Table isStriped variant="compact">
+        {!!productMilestoneColumns.length && tableHead}
+      </Table>
+    </InnerScrollContainer>
   );
 
   return (
@@ -247,7 +209,7 @@ export const ProductMilestoneComparisonTable = ({
               }}
               variant="secondary"
               // https://www.patternfly.org/v4/components/tooltip/accessibility/#additional-considerations
-              isAriaDisabled={!selectedProductMilestone || wasSelectedMilestoneAdded}
+              isAriaDisabled={!!disabledAddColumnButtonReason || !selectedProductMilestone}
             >
               Add column
             </Button>
@@ -259,19 +221,14 @@ export const ProductMilestoneComparisonTable = ({
               onClick={() => {
                 serviceContainerProductMilestoneComparisonTableRunner({
                   serviceData: {
-                    data: {
-                      productMilestones: productMilestoneColumns.map((productMilestoneColumn) => productMilestoneColumn.id),
-                    },
+                    productMilestoneIds: productMilestoneColumns.map((productMilestoneColumn) => productMilestoneColumn.id),
                   },
                   onSuccess: () => setWereColumnsChanged(false),
                 });
               }}
               isLoading={serviceContainerProductMilestoneComparisonTable.loading}
               isAriaDisabled={
-                !productMilestoneColumns.length ||
-                !!selectedProductMilestone ||
-                serviceContainerProductMilestoneComparisonTable.loading ||
-                !wereColumnsChanged
+                !!disabledFetchButtonReason || serviceContainerProductMilestoneComparisonTable.loading || !wereColumnsChanged
               }
             >
               Fetch
@@ -279,25 +236,22 @@ export const ProductMilestoneComparisonTable = ({
           </TooltipWrapper>
         </ToolbarItem>
       </Toolbar>
-      {serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData && (
-        <Toolbar borderTop>
-          <ToolbarItem>
-            <Filtering filterOptions={filterOptions} componentId={componentId} />
-          </ToolbarItem>
-        </Toolbar>
-      )}
 
       <ContentBox borderTop>
         <ServiceContainerLoading
           {...serviceContainerProductMilestoneComparisonTable}
           title={PageTitles.productMilestoneComparison}
+          emptyContent={
+            <>
+              {emptyTable}
+              <ContentBox>
+                <StateCard icon={CubesIcon} title="No common Delivered Artifacts" />
+              </ContentBox>
+            </>
+          }
           notYetContent={
             <>
-              <InnerScrollContainer>
-                <Table isStriped variant="compact">
-                  {!!productMilestoneColumns.length && tableHead}
-                </Table>
-              </InnerScrollContainer>
+              {emptyTable}
               <ContentBox>
                 <StateCard icon={CubesIcon} title="Add columns and fetch data" />
               </ContentBox>
@@ -307,91 +261,51 @@ export const ProductMilestoneComparisonTable = ({
           <InnerScrollContainer>
             <Table isExpandable isStriped variant="compact">
               {/* table head */}
-              {(!!productMilestoneColumns.length ||
-                serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData) &&
-                tableHead}
+              {!!productMilestoneColumns.length && tableHead}
 
               {/* table body */}
-              {serviceContainerProductMilestoneComparisonTable.data !== DataValues.notYetData &&
-                serviceContainerProductMilestoneComparisonTable.data?.content?.map((artifact: any, rowIndex: number) => (
-                  <Tbody key={rowIndex}>
-                    <Tr>
-                      <Td
-                        expand={{
-                          rowIndex,
-                          isExpanded: isArtifactExpanded(artifact),
-                          onToggle: () => {
-                            setArtifactExpanded(artifact, !isArtifactExpanded(artifact));
-                            setAreAllArtifactsExpanded(undefined);
-                          },
-                        }}
-                        aria-label="Expand all"
-                      />
-                      <Td>{artifact.identifier}</Td>
-                      {productMilestoneColumns.map((productMilestoneColumn, index: number) => {
-                        const productMilestoneRef = artifact.productMilestones[productMilestoneColumn.id];
-                        return (
-                          <Td key={index}>
-                            {productMilestoneRef && (
-                              <Link to={`/artifacts/${productMilestoneRef.artifactId}`}>
-                                {productMilestoneRef.artifactVersion}
-                              </Link>
-                            )}
-                          </Td>
+              {serviceContainerProductMilestoneComparisonTable.data?.map((deliveredArtifactInMilestones, rowIndex: number) => (
+                <Tbody key={rowIndex}>
+                  <Tr>
+                    <Td>{deliveredArtifactInMilestones.artifactIdentifierPrefix}</Td>
+                    {productMilestoneColumns.map((productMilestoneColumn, index: number) => {
+                      const parsedArtifact =
+                        productMilestoneColumn.id in deliveredArtifactInMilestones.productMilestoneArtifacts! &&
+                        chooseArtifactDeliveredInMilestone(
+                          deliveredArtifactInMilestones.productMilestoneArtifacts![productMilestoneColumn.id]
                         );
-                      })}
-                    </Tr>
-                    <Tr isExpanded={isArtifactExpanded(artifact)}>
-                      <Td />
-                      <Td />
-                      {productMilestoneColumns.map((productMilestoneColumn) => {
-                        const productMilestoneRef = artifact.productMilestones[productMilestoneColumn.id];
-                        return (
-                          <Td>
-                            {productMilestoneRef && (
-                              <ExpandableRowContent>
-                                <DescriptionList isHorizontal isCompact isFluid>
-                                  <DescriptionListGroup>
-                                    <DescriptionListTerm>
-                                      Build
-                                      <TooltipWrapper
-                                        tooltip={
-                                          productMilestoneRef.build
-                                            ? 'Build which produced this Artifact version.'
-                                            : 'This Artifact version was not produced by any PNC Build.'
-                                        }
-                                      />
-                                    </DescriptionListTerm>
-                                    <DescriptionListDescription>
-                                      {productMilestoneRef.build ? (
-                                        <>
-                                          <BuildName build={productMilestoneRef.build} long includeBuildLink includeConfigLink />{' '}
-                                          (
-                                          <Link to={`/builds/${productMilestoneRef.build.id}`}>
-                                            #{productMilestoneRef.build.id}
-                                          </Link>
-                                          )
-                                        </>
-                                      ) : (
-                                        <EmptyStateSymbol />
-                                      )}
-                                    </DescriptionListDescription>
-                                  </DescriptionListGroup>
-                                </DescriptionList>
-                              </ExpandableRowContent>
-                            )}
-                          </Td>
-                        );
-                      })}
-                    </Tr>
-                  </Tbody>
-                ))}
+
+                      return (
+                        <Td key={index}>
+                          {parsedArtifact && <Link to={`/artifacts/${parsedArtifact.id}`}>{parsedArtifact.artifactVersion}</Link>}
+                        </Td>
+                      );
+                    })}
+                  </Tr>
+                </Tbody>
+              ))}
             </Table>
           </InnerScrollContainer>
         </ServiceContainerLoading>
       </ContentBox>
-
-      <Pagination componentId={componentId} count={serviceContainerProductMilestoneComparisonTable.data?.totalHits} />
     </>
   );
+};
+
+const chooseArtifactDeliveredInMilestone = (parsedArtifacts: ParsedArtifact[]): ParsedArtifact | undefined => {
+  // sorts primarily by classifier (null comes first), secondarily by type
+  const sortedArtifacts = [...parsedArtifacts].sort((a, b) => {
+    if (a.classifier === null && b.classifier !== null) return -1;
+    if (a.classifier !== null && b.classifier === null) return 1;
+    if (a.classifier !== null && b.classifier !== null) {
+      const classifierCompare = a.classifier!.localeCompare(b.classifier!);
+      if (classifierCompare !== 0) {
+        return classifierCompare;
+      }
+    }
+
+    return a.type!.localeCompare(b.type!);
+  });
+
+  return sortedArtifacts.at(0);
 };
