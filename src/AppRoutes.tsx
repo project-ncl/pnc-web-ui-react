@@ -403,14 +403,7 @@ export const AppRoutes = (
       />
     </Route>
     <Route path="insights">
-      <Route
-        path="product-milestone-comparison"
-        element={
-          <ExperimentalContent isRouteVariant>
-            <ProductMilestoneComparisonPage />
-          </ExperimentalContent>
-        }
-      />
+      <Route path="product-milestone-comparison" element={<ProductMilestoneComparisonPage />} />
     </Route>
     <Route path="about" element={<AboutPage />} />
     <Route path="preferences" element={<PreferencesPage />} />

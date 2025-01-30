@@ -38,8 +38,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
-import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
-import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { OldUIAnnouncement } from 'components/TopBar/OldUIAnnouncement';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
@@ -335,19 +333,15 @@ export const AppLayout = () => {
             <Link to="/scm-repositories">SCM Repositories</Link>
           </NavItem>
 
-          <ExperimentalContent>
-            <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
-              <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
-                <NavItem
-                  groupId="insights"
-                  itemId="insights_product-milestone-comparison"
-                  isActive={pathname.includes('/product-milestone-comparison')}
-                >
-                  <Link to="/insights/product-milestone-comparison">Product Milestone Comparison</Link>
-                </NavItem>
-              </NavExpandable>
-            </ExperimentalContentMarker>
-          </ExperimentalContent>
+          <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
+            <NavItem
+              groupId="insights"
+              itemId="insights_product-milestone-comparison"
+              isActive={pathname.includes('/product-milestone-comparison')}
+            >
+              <Link to="/insights/product-milestone-comparison">Product Milestone Comparison</Link>
+            </NavItem>
+          </NavExpandable>
         </NavList>
       </Nav>
     );
