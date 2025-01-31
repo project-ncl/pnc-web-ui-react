@@ -221,6 +221,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
   const [showBuildParametersSection, setShowBuildParametersSection] = useState<boolean>(false);
   const [showDependenciesSection, setShowDependenciesSection] = useState<boolean>(false);
 
+  const [isInitialDataLoaded, setIsInitialDataLoaded] = useState(false);
+
   const {
     register,
     unregister,
@@ -447,6 +449,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               },
             });
           }
+          setIsInitialDataLoaded(true);
         },
       });
     }
@@ -625,6 +628,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             fieldId={buildConfigEntityAttributes.buildScript.id}
           >
             <TextArea
+              // Change the key when build script loaded to force rerender the component with the right height
+              key={isInitialDataLoaded ? 'build-script-data-loaded' : 'build-script-loading'}
               id={buildConfigEntityAttributes.buildScript.id}
               name={buildConfigEntityAttributes.buildScript.id}
               autoResize
