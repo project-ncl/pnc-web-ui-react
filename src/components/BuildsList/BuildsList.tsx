@@ -20,6 +20,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { BuildName } from 'components/BuildName/BuildName';
+import { BuildPushStatusLabelMapper } from 'components/BuildPushStatusLabelMapper/BuildPushStatusLabelMapper';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -33,6 +34,7 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
+import { isBuildWithBrewPush } from 'utils/entityRecognition';
 import { areDatesEqual, calculateDuration } from 'utils/utils';
 
 type TColumns = Array<keyof typeof buildEntityAttributes>;
@@ -122,8 +124,8 @@ const TimesList = ({ build, isCompactMode }: ITimesListProps) => {
   );
 };
 
-interface IBuildsListProps {
-  serviceContainerBuilds: IServiceContainerState<BuildPage>;
+interface IBuildsListProps<T extends BuildPage> {
+  serviceContainerBuilds: IServiceContainerState<T>;
   columns?: TColumns;
   componentId: string;
 }
@@ -135,7 +137,11 @@ interface IBuildsListProps {
  * @param columns - The columns to be displayed
  * @param componentId - Component ID
  */
-export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, componentId }: IBuildsListProps) => {
+export const BuildsList = <T extends BuildPage>({
+  serviceContainerBuilds,
+  columns = defaultColumns,
+  componentId,
+}: IBuildsListProps<T>) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -230,6 +236,9 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                     {buildEntityAttributes['user.username'].title}
                   </Th>
                 )}
+                {columns.includes(buildEntityAttributes.brewPush.id) && (
+                  <Th width={10}>{buildEntityAttributes.brewPush.title}</Th>
+                )}
               </Tr>
             </Thead>
             <Tbody>
@@ -259,6 +268,13 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                     )}
                   {columns.includes(buildEntityAttributes['user.username'].id) && (
                     <Td>{build.user?.username && <Username text={build.user.username} />}</Td>
+                  )}
+                  {columns.includes(buildEntityAttributes.brewPush.id) && (
+                    <Td>
+                      {isBuildWithBrewPush(build) && build.brewPush && (
+                        <BuildPushStatusLabelMapper status={build.brewPush.status} />
+                      )}
+                    </Td>
                   )}
                 </Tr>
               ))}
