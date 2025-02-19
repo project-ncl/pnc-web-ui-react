@@ -16,6 +16,7 @@ interface IProgressButtonProps {
   isLarge?: boolean;
   className?: string;
   delayMs?: number;
+  disabledTooltip?: string;
 }
 
 /**
@@ -31,6 +32,7 @@ interface IProgressButtonProps {
  * @param isLarge - Large button styling
  * @param className - CSS class
  * @param delayMs - Delay after which the loading spinner is displayed
+ * @param disabledTooltip - The tooltip message to be displayed when button is disabled
  */
 export const ProgressButton = ({
   children,
@@ -43,16 +45,16 @@ export const ProgressButton = ({
   isLarge,
   className,
   delayMs = 200,
+  disabledTooltip,
 }: PropsWithChildren<IProgressButtonProps>) => {
   const [showLoadingSpinner, setShowLoadingSpinner] = useState<boolean>(false);
-  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>();
+  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
 
   const isErrorState = serviceContainer.error && !serviceContainer.loading;
 
   if (!isTooltipVisible && isErrorState) {
     setIsTooltipVisible(true);
   }
-
   if (isTooltipVisible && !isErrorState) {
     setIsTooltipVisible(false);
   }
@@ -60,7 +62,6 @@ export const ProgressButton = ({
   useEffect(() => {
     if (serviceContainer.loading) {
       setShowLoadingSpinner(!delayMs);
-
       if (delayMs) {
         const timer = setTimeout(() => setShowLoadingSpinner(true), delayMs);
         return () => clearTimeout(timer);
@@ -68,8 +69,17 @@ export const ProgressButton = ({
     }
   }, [delayMs, serviceContainer.loading]);
 
+  const combinedTooltip =
+    serviceContainer.error || disabledTooltip ? (
+      <>
+        {serviceContainer.error && <div>{serviceContainer.error}</div>}
+        {serviceContainer.error && disabledTooltip && <br />}
+        {disabledTooltip && <div>{disabledTooltip}</div>}
+      </>
+    ) : undefined;
+
   return (
-    <TooltipWrapper tooltip={isErrorState ? serviceContainer.error : undefined} isVisible={isTooltipVisible}>
+    <TooltipWrapper tooltip={combinedTooltip} isVisible={isTooltipVisible}>
       <Button
         onClick={onClick}
         variant={isErrorState ? 'danger' : variant}
