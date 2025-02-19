@@ -6,7 +6,7 @@ import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-interface IProgressButtonProps {
+export interface IProgressButtonProps {
   onClick?: () => void;
   serviceContainer: IServiceContainerState<Object>;
   variant?: ButtonProps['variant'];
@@ -16,6 +16,7 @@ interface IProgressButtonProps {
   isLarge?: boolean;
   className?: string;
   delayMs?: number;
+  disabledTooltip?: ReactNode | string;
 }
 
 /**
@@ -31,6 +32,7 @@ interface IProgressButtonProps {
  * @param isLarge - Large button styling
  * @param className - CSS class
  * @param delayMs - Delay after which the loading spinner is displayed
+ * @param disabledTooltip - The tooltip message to be displayed when button is disabled
  */
 export const ProgressButton = ({
   children,
@@ -43,24 +45,13 @@ export const ProgressButton = ({
   isLarge,
   className,
   delayMs = 200,
+  disabledTooltip,
 }: PropsWithChildren<IProgressButtonProps>) => {
   const [showLoadingSpinner, setShowLoadingSpinner] = useState<boolean>(false);
-  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>();
-
-  const isErrorState = serviceContainer.error && !serviceContainer.loading;
-
-  if (!isTooltipVisible && isErrorState) {
-    setIsTooltipVisible(true);
-  }
-
-  if (isTooltipVisible && !isErrorState) {
-    setIsTooltipVisible(false);
-  }
 
   useEffect(() => {
     if (serviceContainer.loading) {
       setShowLoadingSpinner(!delayMs);
-
       if (delayMs) {
         const timer = setTimeout(() => setShowLoadingSpinner(true), delayMs);
         return () => clearTimeout(timer);
@@ -69,11 +60,11 @@ export const ProgressButton = ({
   }, [delayMs, serviceContainer.loading]);
 
   return (
-    <TooltipWrapper tooltip={isErrorState ? serviceContainer.error : undefined} isVisible={isTooltipVisible}>
+    <TooltipWrapper tooltip={disabledTooltip}>
       <Button
         onClick={onClick}
-        variant={isErrorState ? 'danger' : variant}
-        icon={isErrorState ? <ExclamationCircleIcon /> : (!showLoadingSpinner || !serviceContainer.loading) && icon}
+        variant={serviceContainer.error ? 'danger' : variant}
+        icon={serviceContainer.error ? <ExclamationCircleIcon /> : (!showLoadingSpinner || !serviceContainer.loading) && icon}
         isLoading={showLoadingSpinner && serviceContainer.loading}
         isAriaDisabled={isDisabled || serviceContainer.loading}
         size={isSmall ? 'sm' : isLarge ? 'lg' : 'default'}
