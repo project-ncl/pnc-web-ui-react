@@ -12,7 +12,6 @@ import { IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { ProgressButton } from 'components/ProgressButton/ProgressButton';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 export enum BUILD_STATUS {
   InProgress,
@@ -41,6 +40,34 @@ export const SshCredentialsButton = ({
     ? "SSH credentials are only available for unsuccessful builds with 'keep pod alive' option. Alternatively you can modify your build script to intentionally fail it and get the SSH credentials you need."
     : undefined;
 
+  const messages: React.ReactNode[] = [];
+  if (serviceContainerSshCredentials.error) {
+    messages.push(<div key="error">{serviceContainerSshCredentials.error}</div>);
+  }
+  if (disabledReason) {
+    if (messages.length > 0) {
+      messages.push(<br key="separator" />);
+    }
+    messages.push(<div key="disabled">{disabledReason}</div>);
+  }
+  const combinedTooltip = messages.length ? <>{messages}</> : undefined;
+
+  const button = (
+    <ProgressButton
+      variant="tertiary"
+      isSmall
+      serviceContainer={serviceContainerSshCredentials}
+      isDisabled={!!combinedTooltip}
+      disabledTooltip={combinedTooltip}
+    >
+      SSH Credentials
+    </ProgressButton>
+  );
+
+  if (combinedTooltip) {
+    return <ProtectedComponent>{button}</ProtectedComponent>;
+  }
+
   return (
     <ProtectedComponent>
       <Popover
@@ -58,16 +85,7 @@ export const SshCredentialsButton = ({
           </DescriptionList>
         }
       >
-        <TooltipWrapper tooltip={disabledReason}>
-          <ProgressButton
-            variant="tertiary"
-            isSmall
-            serviceContainer={serviceContainerSshCredentials}
-            isDisabled={!!disabledReason || !!serviceContainerSshCredentials.error}
-          >
-            SSH Credentials
-          </ProgressButton>
-        </TooltipWrapper>
+        {button}
       </Popover>
     </ProtectedComponent>
   );
