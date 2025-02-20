@@ -47,7 +47,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
       serviceData: {
         id: productMilestone.id,
         data: {
-          deliverablesUrls: data.deliverablesUrls?.split(/\s+/),
+          deliverablesUrls: data.deliverablesUrls?.split(/\s+/).filter((url: string) => url.length > 0),
           runAsScratchAnalysis: data.runAsScratchAnalysis,
         },
       },
