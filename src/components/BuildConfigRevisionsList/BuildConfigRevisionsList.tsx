@@ -49,6 +49,7 @@ export const BuildConfigRevisionsList = ({
                 }}
                 title={
                   <TabTitleText>
+                    {!buildConfigRevision.modificationTime && <>Revision #{buildConfigRevision.rev}</>}
                     {buildConfigRevision.modificationTime && <DateTime date={buildConfigRevision.modificationTime} displayTime />}
                     {buildConfigRevision.modificationUser?.username && (
                       <>
