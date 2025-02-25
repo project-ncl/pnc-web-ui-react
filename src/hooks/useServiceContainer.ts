@@ -1,6 +1,5 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse, isAxiosError } from 'axios';
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
 
 import { backendErrorMessageMapper } from 'common/backendErrorMessageMapper';
 
@@ -148,22 +147,18 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
         : (service as ServiceFunctionWithoutParams<T>)(requestConfig)
     )
       .then((response) => {
-        // In a future React version (potentially in React 17) this could be removed as it will be default behavior
-        // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-        ReactDOM.unstable_batchedUpdates(() => {
-          setLoading(false);
+        setLoading(false);
 
-          /**
-           * Convert undefined to {@link DataValues.noData} as
-           * undefined is reserved for {@link DataValues.notYetData}
-           */
-          if (response.data === undefined) {
-            setData(DataValues.noData);
-          } else {
-            setData(response.data);
-          }
-          setError(ERROR_INIT);
-        });
+        /**
+         * Convert undefined to {@link DataValues.noData} as
+         * undefined is reserved for {@link DataValues.notYetData}
+         */
+        if (response.data === undefined) {
+          setData(DataValues.noData);
+        } else {
+          setData(response.data);
+        }
+        setError(ERROR_INIT);
 
         const result = { status: 'success', response } as const;
         onSuccess?.(result);
@@ -178,13 +173,9 @@ export const useServiceContainer = <T extends TServiceData, U extends TServicePa
 
         // execute only for last request
         if (loadingCount.current <= 1) {
-          // In a future React version (potentially in React 17) this could be removed as it will be default behavior
-          // https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-          ReactDOM.unstable_batchedUpdates(() => {
-            setLoading(false);
-            setError(errorMessage);
-            setData(DataValues.noData);
-          });
+          setLoading(false);
+          setError(errorMessage);
+          setData(DataValues.noData);
         }
 
         const result = { status: 'error', errorMessage, error } as const;
