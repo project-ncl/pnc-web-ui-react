@@ -30,11 +30,9 @@ beforeEach(() => {
 });
 
 test('renders PageLayout', () => {
-  act(() => {
-    render(
-      <MemoryRouter>
-        <PageLayout title="Rendering Test" children={null} />
-      </MemoryRouter>
-    );
-  });
+  render(
+    <MemoryRouter>
+      <PageLayout title="Rendering Test" children={null} />
+    </MemoryRouter>
+  );
 });

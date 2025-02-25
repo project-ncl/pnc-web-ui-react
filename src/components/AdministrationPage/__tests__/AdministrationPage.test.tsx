@@ -8,9 +8,7 @@ jest.mock('services/githubApi');
 jest.mock('services/uiLogger');
 
 test('renders AdministrationPage', async () => {
-  act(() => {
-    render(<AdministrationPage></AdministrationPage>);
-  });
+  render(<AdministrationPage></AdministrationPage>);
   await waitFor(() => {
     expect(screen.getByText('Administration')).toBeInTheDocument();
   });

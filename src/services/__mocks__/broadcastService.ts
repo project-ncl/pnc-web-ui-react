@@ -15,6 +15,13 @@ const broadcastServiceMock = (channelName: string) => {
 
     addMessageListener(onMessageListener: any) {
       console.log('Listener added');
+      return () => {
+        console.log('Listener removed');
+      };
+    },
+
+    close() {
+      console.log('Broadcast service closed');
     },
   };
 };
