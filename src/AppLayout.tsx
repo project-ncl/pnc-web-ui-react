@@ -333,6 +333,10 @@ export const AppLayout = () => {
             <Link to="/scm-repositories">SCM Repositories</Link>
           </NavItem>
 
+          <NavItem isActive={pathname.includes('/deliverable-analyses')}>
+            <Link to="/deliverable-analyses">Deliverable Analyses</Link>
+          </NavItem>
+
           <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
             <NavItem
               groupId="insights"
