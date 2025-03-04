@@ -68,12 +68,12 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
             <Thead>
               <Tr>
                 <Th width={20}>{deliverableAnalysisOperationEntityAttributes.id.title}</Th>
-                <Th width={20}>{deliverableAnalysisOperationEntityAttributes.progressStatus.title}</Th>
-                <Th width={20}>{deliverableAnalysisOperationEntityAttributes.result.title}</Th>
-                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
+                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.progressStatus.title}</Th>
+                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.result.title}</Th>
+                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
                   {deliverableAnalysisOperationEntityAttributes.submitTime.title}
                 </Th>
-                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['endTime'].id)}>
+                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['endTime'].id)}>
                   {deliverableAnalysisOperationEntityAttributes.endTime.title}
                 </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
@@ -85,7 +85,7 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
               {serviceContainerDeliverableAnalyses.data?.content?.map((deliverableAnalysis, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
-                    <Link to={deliverableAnalysis.id}>{deliverableAnalysis.id}</Link>
+                    <Link to={`/deliverable-analyses/${deliverableAnalysis.id}`}>{deliverableAnalysis.id}</Link>
                   </Td>
                   <Td>
                     {deliverableAnalysis.progressStatus && (
