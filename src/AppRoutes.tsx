@@ -52,8 +52,8 @@ import { ProductMilestoneCloseResultDetailPage } from 'components/ProductMilesto
 import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
-import { ProductMilestoneDeliverablesAnalysisDetailPage } from 'components/ProductMilestoneDeliverablesAnalysisDetailPage/ProductMilestoneDeliverablesAnalysisDetailPage';
-import { ProductMilestoneDeliverablesAnalysisPage } from 'components/ProductMilestoneDeliverablesAnalysisPage/ProductMilestoneDeliverablesAnalysisPage';
+import { ProductMilestoneDeliverableAnalysesPage } from 'components/ProductMilestoneDeliverableAnalysesPage/ProductMilestoneDeliverableAnalysesPage';
+import { ProductMilestoneDeliverableAnalysisDetailPage } from 'components/ProductMilestoneDeliverableAnalysisDetailPage/ProductMilestoneDeliverableAnalysisDetailPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
@@ -181,17 +181,17 @@ export const AppRoutes = (
                   element={<ProductMilestoneCloseResultDetailPage />}
                 />
                 <Route
-                  path="deliverables-analysis/:deliverablesAnalysisId"
+                  path="deliverable-analyses/:deliverableAnalysisId"
                   index
                   handle={breadcrumbData.productMilestone.id}
-                  element={<ProductMilestoneDeliverablesAnalysisDetailPage />}
+                  element={<ProductMilestoneDeliverableAnalysisDetailPage />}
                 />
               </Route>
               <Route path=":productMilestoneId" element={<ProductMilestonePages />} handle={breadcrumbData.productMilestone.id}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
                 <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
-                <Route path="deliverables-analysis" element={<ProductMilestoneDeliverablesAnalysisPage />} />
+                <Route path="deliverable-analyses" element={<ProductMilestoneDeliverableAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route
                   path="interconnection-graph"
