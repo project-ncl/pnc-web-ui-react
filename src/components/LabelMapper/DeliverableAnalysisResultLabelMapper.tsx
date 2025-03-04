@@ -2,7 +2,7 @@ import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-const DELIVERABLES_ANALYSIS_RESULTS: ILabelMapper<DeliverableAnalyzerOperation['result']> = {
+const DELIVERABLE_ANALYSIS_RESULTS: ILabelMapper<DeliverableAnalyzerOperation['result']> = {
   SUCCESSFUL: {
     text: 'SUCCESSFUL',
     color: 'green',
@@ -29,10 +29,10 @@ const DELIVERABLES_ANALYSIS_RESULTS: ILabelMapper<DeliverableAnalyzerOperation['
   },
 };
 
-interface IDeliverablesAnalysisResultLabelMapperProps {
+interface IDeliverableAnalysisResultLabelMapperProps {
   result: Exclude<DeliverableAnalyzerOperation['result'], undefined>;
 }
 
-export const DeliverablesAnalysisResultLabelMapper = ({ result }: IDeliverablesAnalysisResultLabelMapperProps) => (
-  <LabelMapper mapperItem={DELIVERABLES_ANALYSIS_RESULTS[result]} />
+export const DeliverableAnalysisResultLabelMapper = ({ result }: IDeliverableAnalysisResultLabelMapperProps) => (
+  <LabelMapper mapperItem={DELIVERABLE_ANALYSIS_RESULTS[result]} />
 );

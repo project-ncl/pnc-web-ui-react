@@ -14,12 +14,12 @@ const resultValues: DeliverableAnalyzerOperation['result'][] = [
 const progressStatusValues: DeliverableAnalyzerOperation['progressStatus'][] = ['NEW', 'PENDING', 'IN_PROGRESS', 'FINISHED'];
 
 interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOperation {
-  'user.username': any;
-  deliverablesUrls: any;
-  runAsScratchAnalysis: any;
+  'user.username': string;
+  deliverablesUrls: string;
+  runAsScratchAnalysis: boolean;
 }
 
-export const productMilestoneDeliverablesAnalysisEntityAttributes = {
+export const deliverableAnalysisOperationEntityAttributes = {
   id: {
     id: 'id',
     title: 'ID',

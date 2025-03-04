@@ -233,16 +233,16 @@ export const getCleanerUrl = (): string | null => {
 };
 
 /**
- * Return Deliverables Analyzer endpoint URL
+ * Return Deliverable Analyzer endpoint URL
  */
-export const getDeliverablesAnalyzerUrl = (): string | null => {
-  const deliverablesAnalyzerUrl = getWebConfig().externalDeliverablesAnalyzerUrl;
+export const getDeliverableAnalyzerUrl = (): string | null => {
+  const deliverableAnalyzerUrl = getWebConfig().externalDeliverablesAnalyzerUrl;
 
-  if (!deliverablesAnalyzerUrl) {
+  if (!deliverableAnalyzerUrl) {
     return null;
   }
 
-  return deliverablesAnalyzerUrl;
+  return deliverableAnalyzerUrl;
 };
 
 /**

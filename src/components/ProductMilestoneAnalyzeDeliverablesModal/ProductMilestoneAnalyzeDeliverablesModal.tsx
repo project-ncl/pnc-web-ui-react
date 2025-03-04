@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
-import { productMilestoneDeliverablesAnalysisEntityAttributes } from 'common/productMilestoneDeliverablesAnalysisEntityAttributes';
+import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -73,10 +73,10 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
           variant="secondary"
           // TODO: Make link absolute once Product data are available
           component={(props: any) => (
-            <Link {...props} to={`deliverables-analysis/${serviceContainerProductMilestoneAnalyzeDeliverables.data?.id}`} />
+            <Link {...props} to={`deliverable-analyses/${serviceContainerProductMilestoneAnalyzeDeliverables.data?.id}`} />
           )}
         >
-          Open Deliverables Analysis details
+          Open Deliverable Analysis details
         </Button>,
       ]}
     >
@@ -87,46 +87,41 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
       >
         <FormGroup
           isRequired
-          label={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.title}
-          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+          label={deliverableAnalysisOperationEntityAttributes.deliverablesUrls.title}
+          fieldId={deliverableAnalysisOperationEntityAttributes.deliverablesUrls.id}
         >
           <TextArea
             isRequired
             type="text"
-            id={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
-            name={productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id}
+            id={deliverableAnalysisOperationEntityAttributes.deliverablesUrls.id}
+            name={deliverableAnalysisOperationEntityAttributes.deliverablesUrls.id}
             resizeOrientation="vertical"
             autoResize
             autoComplete="off"
             placeholder={`https://url-path/to/file1.zip
 https://url-path/to/file2.zip
 https://url-path/to/file3.zip`}
-            {...register<string>(
-              productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id,
-              fieldConfigs.deliverablesUrls
-            )}
+            {...register<string>(deliverableAnalysisOperationEntityAttributes.deliverablesUrls.id, fieldConfigs.deliverablesUrls)}
           />
 
           <FormInputHelperText variant="error">
-            {getFieldErrors(productMilestoneDeliverablesAnalysisEntityAttributes.deliverablesUrls.id)}
+            {getFieldErrors(deliverableAnalysisOperationEntityAttributes.deliverablesUrls.id)}
           </FormInputHelperText>
         </FormGroup>
         <FormGroup
-          label={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.title}
-          fieldId={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-          labelIcon={
-            <TooltipWrapper tooltip={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.tooltip} />
-          }
+          label={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.title}
+          fieldId={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
+          labelIcon={<TooltipWrapper tooltip={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.tooltip} />}
         >
           <FormInput<boolean>
             {...register<boolean>(
-              productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id,
+              deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id,
               fieldConfigs.runAsScratchAnalysis
             )}
             render={({ value, onChange, onBlur }) => (
               <Switch
-                id={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
-                name={productMilestoneDeliverablesAnalysisEntityAttributes.runAsScratchAnalysis.id}
+                id={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
+                name={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
                 label="Enabled"
                 labelOff="Disabled"
                 isChecked={value}

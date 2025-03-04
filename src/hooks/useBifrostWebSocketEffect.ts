@@ -12,8 +12,8 @@ export const buildLogMatchFiltersPrefix = 'mdc.processContext.keyword:build-';
 export const closeResultLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc.causeway|org.jboss.pnc._userlog_';
 export const closeResultLogMatchFiltersPrefix = 'level.keyword:INFO|ERROR|WARN,mdc.processContext.keyword:';
 
-export const deliverablesAnalysisLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc';
-export const deliverablesAnalysisLogMatchFiltersPrefix = 'level.keyword:DEBUG|INFO|ERROR|WARN,mdc.processContext.keyword:';
+export const deliverableAnalysisLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc';
+export const deliverableAnalysisLogMatchFiltersPrefix = 'level.keyword:DEBUG|INFO|ERROR|WARN,mdc.processContext.keyword:';
 
 export const brewPushLogPrefixFilters = 'loggerName.keyword:org.jboss.pnc.causeway|org.jboss.pnc._userlog_';
 export const brewPushLogMatchFiltersPrefix1 = 'level.keyword:INFO|ERROR|WARN,mdc.buildId.keyword:';

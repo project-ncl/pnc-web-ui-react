@@ -15,7 +15,7 @@ type EntityType =
   | 'Milestone'
   | 'Release'
   | 'Close Result'
-  | 'Deliverables Analysis'
+  | 'Deliverable Analysis'
   | 'Artifact'
   | 'SCM Repository'
   | '';
@@ -63,6 +63,8 @@ export const generatePageTitle = ({
 
   const firstLevelEntityPluralized = firstLevelEntity.endsWith('y')
     ? `${firstLevelEntity.slice(0, -1)}ies`
+    : firstLevelEntity.endsWith('is')
+    ? `${firstLevelEntity.slice(0, -2)}es`
     : `${firstLevelEntity}s`;
   return `${entityTitle} ${entityTitle ? PageTitles.delimiterSymbol : ''} ${firstLevelEntityPluralized}`;
 };
