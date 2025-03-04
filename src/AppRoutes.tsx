@@ -33,6 +33,8 @@ import { BuildMetricsPage } from 'components/BuildMetricsPage/BuildMetricsPage';
 import { BuildPages } from 'components/BuildPages/BuildPages';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
+import { DeliverableAnalysesPage } from 'components/DeliverableAnalysesPage/DeliverableAnalysesPage';
+import { DeliverableAnalysisDetailPage } from 'components/DeliverableAnalysisDetailPage/DeliverableAnalysisDetailPage';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
@@ -53,7 +55,6 @@ import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneClo
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
 import { ProductMilestoneDeliverableAnalysesPage } from 'components/ProductMilestoneDeliverableAnalysesPage/ProductMilestoneDeliverableAnalysesPage';
-import { ProductMilestoneDeliverableAnalysisDetailPage } from 'components/ProductMilestoneDeliverableAnalysisDetailPage/ProductMilestoneDeliverableAnalysisDetailPage';
 import { ProductMilestoneDeliveredArtifactsPage } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
 import { ProductMilestoneDetailPage } from 'components/ProductMilestoneDetailPage/ProductMilestoneDetailPage';
 import { ProductMilestoneInterconnectionGraphPage } from 'components/ProductMilestoneInterconnectionGraphPage/ProductMilestoneInterconnectionGraphPage';
@@ -179,12 +180,6 @@ export const AppRoutes = (
                   index
                   handle={breadcrumbData.productMilestone.id}
                   element={<ProductMilestoneCloseResultDetailPage />}
-                />
-                <Route
-                  path="deliverable-analyses/:deliverableAnalysisId"
-                  index
-                  handle={breadcrumbData.productMilestone.id}
-                  element={<ProductMilestoneDeliverableAnalysisDetailPage />}
                 />
               </Route>
               <Route path=":productMilestoneId" element={<ProductMilestonePages />} handle={breadcrumbData.productMilestone.id}>
@@ -384,6 +379,14 @@ export const AppRoutes = (
         }
       />
       <Route path=":scmRepositoryId" element={<ScmRepositoryDetailPage />} handle={breadcrumbData.scmRepository.id} />
+    </Route>
+    <Route path="deliverable-analyses" handle={breadcrumbData.deliverableAnalyses.id}>
+      <Route index element={<DeliverableAnalysesPage />} />
+      <Route
+        path=":deliverableAnalysisId"
+        handle={breadcrumbData.deliverableAnalysisDetail.id}
+        element={<DeliverableAnalysisDetailPage />}
+      />
     </Route>
 
     {/* special pages */}
