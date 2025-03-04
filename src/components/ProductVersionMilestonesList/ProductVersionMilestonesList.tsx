@@ -10,12 +10,12 @@ import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityA
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
+import { AnalyzeDeliverablesModal } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModal';
+import { AnalyzeDeliverablesModalButton } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModalButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
-import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
-import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
 import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
@@ -147,7 +147,7 @@ export const ProductVersionMilestonesList = ({
                         {
                           style: actionItemStyle,
                           title: (
-                            <ProductMilestoneAnalyzeDeliverablesModalButton
+                            <AnalyzeDeliverablesModalButton
                               toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'analyze-deliverables')}
                               variant="list"
                             />
@@ -174,7 +174,7 @@ export const ProductVersionMilestonesList = ({
                       />
                     )}
                     {currentModalProductMilestoneId === productMilestone.id && currentModalType === 'analyze-deliverables' && (
-                      <ProductMilestoneAnalyzeDeliverablesModal
+                      <AnalyzeDeliverablesModal
                         isModalOpen={
                           currentModalProductMilestoneId === productMilestone.id && currentModalType === 'analyze-deliverables'
                         }
