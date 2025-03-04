@@ -17,6 +17,7 @@ import { Filtering } from 'components/Filtering/Filtering';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
+import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -25,6 +26,7 @@ import { Username } from 'components/Username/Username';
 interface IDeliverableAnalysesListProps {
   serviceContainerDeliverableAnalyses: IServiceContainerState<DeliverableAnalyzerOperationPage>;
   componentId: string;
+  displayMilestoneColumn?: boolean;
 }
 
 /**
@@ -33,7 +35,11 @@ interface IDeliverableAnalysesListProps {
  * @param serviceContainerProjects - Service Container for Deliverable Analysis operations
  * @param componentId - Component ID
  */
-export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, componentId }: IDeliverableAnalysesListProps) => {
+export const DeliverableAnalysesList = ({
+  serviceContainerDeliverableAnalyses,
+  componentId,
+  displayMilestoneColumn = false,
+}: IDeliverableAnalysesListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -67,13 +73,16 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
           <Table isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>{deliverableAnalysisOperationEntityAttributes.id.title}</Th>
-                <Th width={20}>{deliverableAnalysisOperationEntityAttributes.progressStatus.title}</Th>
-                <Th width={20}>{deliverableAnalysisOperationEntityAttributes.result.title}</Th>
-                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
+                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.id.title}</Th>
+                {displayMilestoneColumn && (
+                  <Th width={20}>{deliverableAnalysisOperationEntityAttributes['productMilestone.version'].title}</Th>
+                )}
+                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.progressStatus.title}</Th>
+                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.result.title}</Th>
+                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
                   {deliverableAnalysisOperationEntityAttributes.submitTime.title}
                 </Th>
-                <Th width={20} sort={getSortParams(sortOptions.sortAttributes['endTime'].id)}>
+                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['endTime'].id)}>
                   {deliverableAnalysisOperationEntityAttributes.endTime.title}
                 </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
@@ -85,8 +94,18 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
               {serviceContainerDeliverableAnalyses.data?.content?.map((deliverableAnalysis, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
-                    <Link to={deliverableAnalysis.id}>{deliverableAnalysis.id}</Link>
+                    <Link to={`/deliverable-analyses/${deliverableAnalysis.id}`}>{deliverableAnalysis.id}</Link>
                   </Td>
+                  {displayMilestoneColumn && (
+                    <Td>
+                      {deliverableAnalysis.productMilestone && (
+                        <ProductMilestoneReleaseLabel
+                          productMilestoneRelease={deliverableAnalysis.productMilestone}
+                          isCurrent={false}
+                        />
+                      )}
+                    </Td>
+                  )}
                   <Td>
                     {deliverableAnalysis.progressStatus && (
                       <DeliverableAnalysisProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
