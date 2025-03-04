@@ -13,7 +13,7 @@ import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import * as productMilestoneApi from 'services/productMilestoneApi';
+import * as operationsApi from 'services/operationsApi';
 
 import { validateUrls } from 'utils/formValidationHelpers';
 
@@ -27,28 +27,26 @@ const fieldConfigs = {
   },
 } satisfies IFieldConfigs;
 
-interface IProductMilestoneAnalyzeDeliverablesModalProps {
+const actionTitle = 'Analyze Deliverables';
+
+interface IAnalyzeDeliverablesModalProps {
   isModalOpen: boolean;
   toggleModal: () => void;
-  productMilestone: ProductMilestone;
+  productMilestone?: ProductMilestone;
 }
 
-export const ProductMilestoneAnalyzeDeliverablesModal = ({
-  isModalOpen,
-  toggleModal,
-  productMilestone,
-}: IProductMilestoneAnalyzeDeliverablesModalProps) => {
-  const serviceContainerProductMilestoneAnalyzeDeliverables = useServiceContainer(productMilestoneApi.analyzeDeliverables, 0);
+export const AnalyzeDeliverablesModal = ({ isModalOpen, toggleModal, productMilestone }: IAnalyzeDeliverablesModalProps) => {
+  const serviceContainerAnalyzeDeliverables = useServiceContainer(operationsApi.analyzeDeliverables, 0);
 
   const { register, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
-    return serviceContainerProductMilestoneAnalyzeDeliverables.run({
+    return serviceContainerAnalyzeDeliverables.run({
       serviceData: {
-        id: productMilestone.id,
+        id: productMilestone?.id,
         data: {
           deliverablesUrls: data.deliverablesUrls?.split(/\s+/).filter((url: string) => url.length > 0),
-          runAsScratchAnalysis: data.runAsScratchAnalysis,
+          runAsScratchAnalysis: productMilestone ? data.runAsScratchAnalysis : undefined,
         },
       },
       onError: () => console.error('Failed to analyze Deliverables.'),
@@ -57,14 +55,14 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
 
   return (
     <ActionModal
-      modalTitle={`Analyze Deliverables: ${productMilestone.version}?`}
-      actionTitle="Analyze Deliverables"
+      modalTitle={productMilestone ? `${actionTitle}: ${productMilestone.version}?` : `${actionTitle}?`}
+      actionTitle={actionTitle}
       isOpen={isModalOpen}
       isSubmitDisabled={isSubmitDisabled}
       wereSubmitDataChanged={hasFormChanged}
       onToggle={toggleModal}
       onSubmit={handleSubmit(confirmModal)}
-      serviceContainer={serviceContainerProductMilestoneAnalyzeDeliverables}
+      serviceContainer={serviceContainerAnalyzeDeliverables}
       modalVariant="large"
       refreshOnClose={false}
       onSuccessActions={[
@@ -73,7 +71,7 @@ export const ProductMilestoneAnalyzeDeliverablesModal = ({
           variant="secondary"
           // TODO: Make link absolute once Product data are available
           component={(props: any) => (
-            <Link {...props} to={`deliverable-analyses/${serviceContainerProductMilestoneAnalyzeDeliverables.data?.id}`} />
+            <Link {...props} to={`/deliverable-analyses/${serviceContainerAnalyzeDeliverables.data?.id}`} />
           )}
         >
           Open Deliverable Analysis details
@@ -119,15 +117,18 @@ https://url-path/to/file3.zip`}
               fieldConfigs.runAsScratchAnalysis
             )}
             render={({ value, onChange, onBlur }) => (
-              <Switch
-                id={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
-                name={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
-                label="Enabled"
-                labelOff="Disabled"
-                isChecked={value}
-                onChange={onChange}
-                onBlur={onBlur}
-              />
+              <TooltipWrapper tooltip={!productMilestone && 'All Milestone-less Analyses are marked as scratch.'}>
+                <Switch
+                  id={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
+                  name={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
+                  label="Enabled"
+                  labelOff="Disabled"
+                  isChecked={!productMilestone || value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  isDisabled={!productMilestone}
+                />
+              </TooltipWrapper>
             )}
           />
         </FormGroup>
