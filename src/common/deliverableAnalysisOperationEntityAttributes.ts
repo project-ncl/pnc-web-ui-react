@@ -17,6 +17,7 @@ interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOpera
   'user.username': string;
   deliverablesUrls: string;
   runAsScratchAnalysis: boolean;
+  'productMilestone.version': string;
 }
 
 export const deliverableAnalysisOperationEntityAttributes = {
@@ -53,6 +54,14 @@ export const deliverableAnalysisOperationEntityAttributes = {
     filter: {
       operator: '==',
     },
+  },
+  'productMilestone.version': {
+    id: 'productMilestone.version',
+    title: 'Milestone Version',
+    filter: {
+      operator: '=like=',
+    },
+    sort: {},
   },
   'user.username': {
     id: 'user.username',
