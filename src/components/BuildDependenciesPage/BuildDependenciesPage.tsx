@@ -34,8 +34,8 @@ export const BuildDependenciesPage = ({ componentId = 'd1' }: IBuildDependencies
       <Toolbar>
         <ToolbarItem>
           <TextContent>
+            <Text component={TextVariants.h2}>Dependencies</Text>
             <Text>
-              <Text component={TextVariants.h2}>Dependencies</Text>
               This list contains Artifacts which are dependencies of this Build. Artifact is represented by PNC Identifier.
             </Text>
           </TextContent>

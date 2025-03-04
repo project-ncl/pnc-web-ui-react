@@ -137,9 +137,7 @@ export const BuildConfigsList = ({
                     </Th>
                   )}
                 {columns.includes(buildConfigEntityAttributes.actions.id) && (
-                  <ProtectedComponent>
-                    <Th width={15}>{buildConfigEntityAttributes.actions.title}</Th>
-                  </ProtectedComponent>
+                  <Th width={15}>{buildConfigEntityAttributes.actions.title}</Th>
                 )}
               </Tr>
             </Thead>
