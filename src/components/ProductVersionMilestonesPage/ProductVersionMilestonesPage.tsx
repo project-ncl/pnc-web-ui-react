@@ -57,7 +57,7 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
           {latestProductMilestone && (
             <TextContent>
               <br />
-              <Text>
+              <div>
                 <>
                   {serviceContainerProductVersion.data?.currentProductMilestone?.id ? (
                     <>
@@ -80,7 +80,7 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
                     isCurrent={latestProductMilestone.id === serviceContainerProductVersion.data?.currentProductMilestone?.id}
                   />
                 </>
-              </Text>
+              </div>
             </TextContent>
           )}
         </ToolbarItem>
