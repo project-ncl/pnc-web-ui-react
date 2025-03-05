@@ -6,6 +6,7 @@ import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
+import { deliverableAnalysisReportEntityAttributes } from 'common/deliverableAnalysisReportEntityAttributes';
 
 import {
   deliverableAnalysisLogMatchFiltersPrefix,
@@ -22,6 +23,7 @@ import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
@@ -31,6 +33,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
+import * as deliverableAnalysisApi from 'services/deliverableAnalysisApi';
 import * as operationsApi from 'services/operationsApi';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
@@ -43,6 +46,9 @@ export const DeliverableAnalysisDetailPage = () => {
 
   const serviceContainerDeliverableAnalysisOperation = useServiceContainer(operationsApi.getDeliverableAnalysis);
   const serviceContainerDeliverableAnalysisOperationRunner = serviceContainerDeliverableAnalysisOperation.run;
+
+  const serviceContainerDeliverableAnalysisReport = useServiceContainer(deliverableAnalysisApi.getDeliverableAnalysisReport, 0);
+  const serviceContainerDeliverableAnalysisReportRunner = serviceContainerDeliverableAnalysisReport.run;
 
   const serviceContainerProductMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
   const serviceContainerProductMilestoneRunner = serviceContainerProductMilestone.run;
@@ -59,6 +65,10 @@ export const DeliverableAnalysisDetailPage = () => {
     serviceContainerDeliverableAnalysisOperationRunner({
       serviceData: { id: deliverableAnalysisId },
       onSuccess: (result) => {
+        if (result.response.data.result === 'SUCCESSFUL') {
+          serviceContainerDeliverableAnalysisReportRunner({ serviceData: { id: deliverableAnalysisId } });
+        }
+
         const productMilestoneId = result.response.data.productMilestone?.id;
 
         if (productMilestoneId) {
@@ -77,6 +87,7 @@ export const DeliverableAnalysisDetailPage = () => {
     });
   }, [
     serviceContainerDeliverableAnalysisOperationRunner,
+    serviceContainerDeliverableAnalysisReportRunner,
     serviceContainerProductMilestoneRunner,
     serviceContainerProductVersionRunner,
     deliverableAnalysisId,
@@ -88,10 +99,15 @@ export const DeliverableAnalysisDetailPage = () => {
         if (hasDeliverableAnalysisChanged(wsData, { operationId: deliverableAnalysisId })) {
           serviceContainerDeliverableAnalysisOperationRunner({
             serviceData: { id: deliverableAnalysisId },
+            onSuccess: (result) => {
+              if (result.response.data.result === 'SUCCESSFUL') {
+                serviceContainerDeliverableAnalysisReportRunner({ serviceData: { id: deliverableAnalysisId } });
+              }
+            },
           });
         }
       },
-      [serviceContainerDeliverableAnalysisOperationRunner, deliverableAnalysisId]
+      [serviceContainerDeliverableAnalysisOperationRunner, serviceContainerDeliverableAnalysisReportRunner, deliverableAnalysisId]
     )
   );
 
@@ -189,6 +205,23 @@ export const DeliverableAnalysisDetailPage = () => {
             <AttributesItem title={deliverableAnalysisOperationEntityAttributes.parameters.title}>
               {deliverableAnalysis?.parameters &&
                 Object.values(deliverableAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
+            </AttributesItem>
+            <AttributesItem title={deliverableAnalysisReportEntityAttributes.labels.title}>
+              {(serviceContainerDeliverableAnalysisReport.loading ||
+                serviceContainerDeliverableAnalysisReport.error ||
+                !!serviceContainerDeliverableAnalysisReport.data?.labels?.length) && (
+                <ServiceContainerLoading
+                  {...serviceContainerDeliverableAnalysisReport}
+                  variant="inline"
+                  title={'Deliverable Analysis label'}
+                >
+                  <div className="display-flex gap-5">
+                    {serviceContainerDeliverableAnalysisReport.data?.labels?.map((label) => (
+                      <DeliverableAnalysisLabelLabelMapper key={label} label={label} />
+                    ))}
+                  </div>
+                </ServiceContainerLoading>
+              )}
             </AttributesItem>
           </Attributes>
         </ContentBox>
