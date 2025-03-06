@@ -1,5 +1,6 @@
+import { Switch } from '@patternfly/react-core';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
@@ -10,16 +11,20 @@ import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
+import { SortGroup } from 'components/SortGroup/SortGroup';
+import { TimesList } from 'components/TimesList/TimesList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarGroup } from 'components/Toolbar/ToolbarGroup';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
 interface IDeliverableAnalysesListProps {
@@ -46,20 +51,43 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
     []
   );
 
-  const { getSortParams } = useSorting(sortOptions, componentId);
+  const { getSortParams, getSortGroupParams } = useSorting(sortOptions, componentId);
+
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
+
+  const { storageValue: isCompactMode, storeToStorage: storeIsCompactMode } = useStorage<boolean>({
+    storageKey: StorageKeys.isBuildsListCompactMode,
+    initialValue: true,
+  });
 
   return (
     <>
       <Toolbar>
-        <ToolbarItem>
-          <Filtering
-            filterOptions={useMemo(
-              () => getFilterOptions({ entityAttributes: deliverableAnalysisOperationEntityAttributes }),
-              []
-            )}
-            componentId={componentId}
-          />
-        </ToolbarItem>
+        <ToolbarGroup>
+          <ToolbarItem>
+            <Filtering
+              filterOptions={useMemo(
+                () => getFilterOptions({ entityAttributes: deliverableAnalysisOperationEntityAttributes }),
+                []
+              )}
+              componentId={componentId}
+            />
+          </ToolbarItem>
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <ToolbarItem>
+            <TooltipWrapper tooltip="Show Analyses in compact format, where certain details are hidden.">
+              <Switch
+                id={StorageKeys.isBuildsListCompactMode}
+                label="Compact Mode"
+                isChecked={isCompactMode}
+                onChange={(_, checked) => {
+                  storeIsCompactMode(checked);
+                }}
+              />
+            </TooltipWrapper>
+          </ToolbarItem>
+        </ToolbarGroup>
       </Toolbar>
 
       <ContentBox borderTop>
@@ -70,11 +98,13 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
                 <Th width={20}>{deliverableAnalysisOperationEntityAttributes.id.title}</Th>
                 <Th width={15}>{deliverableAnalysisOperationEntityAttributes.progressStatus.title}</Th>
                 <Th width={15}>{deliverableAnalysisOperationEntityAttributes.result.title}</Th>
-                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['submitTime'].id)}>
-                  {deliverableAnalysisOperationEntityAttributes.submitTime.title}
-                </Th>
-                <Th width={10} sort={getSortParams(sortOptions.sortAttributes['endTime'].id)}>
-                  {deliverableAnalysisOperationEntityAttributes.endTime.title}
+                <Th width={25} className="overflow-visible">
+                  <SortGroup
+                    title="Times"
+                    sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
+                    isDropdownOpen={isSortDropdownOpen}
+                    onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                  />
                 </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
                   {deliverableAnalysisOperationEntityAttributes['user.username'].title}
@@ -95,8 +125,13 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
                   <Td>
                     {deliverableAnalysis.result && <DeliverableAnalysisResultLabelMapper result={deliverableAnalysis.result} />}
                   </Td>
-                  <Td>{deliverableAnalysis.submitTime && <DateTime date={deliverableAnalysis.submitTime} />}</Td>
-                  <Td>{deliverableAnalysis.endTime && <DateTime date={deliverableAnalysis.endTime} />}</Td>
+                  <Td>
+                    <TimesList
+                      {...deliverableAnalysis}
+                      entityAttributes={deliverableAnalysisOperationEntityAttributes}
+                      isCompactMode={isCompactMode}
+                    />
+                  </Td>
                   <Td>{deliverableAnalysis.user?.username && <Username text={deliverableAnalysis.user.username} />}</Td>
                 </Tr>
               ))}
