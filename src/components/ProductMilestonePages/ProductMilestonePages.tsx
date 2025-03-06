@@ -9,7 +9,7 @@ import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import {
   hasBuildStarted,
-  hasDeliverablesAnalysisStarted,
+  hasDeliverableAnalysisStarted,
   hasMilestoneCloseFinished,
   usePncWebSocketEffect,
 } from 'hooks/usePncWebSocketEffect';
@@ -17,14 +17,14 @@ import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceCon
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
+import { AnalyzeDeliverablesModal } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModal';
+import { AnalyzeDeliverablesModalButton } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModalButton';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
-import { ProductMilestoneAnalyzeDeliverablesModal } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModal';
-import { ProductMilestoneAnalyzeDeliverablesModalButton } from 'components/ProductMilestoneAnalyzeDeliverablesModal/ProductMilestoneAnalyzeDeliverablesModalButton';
 import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModal';
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
@@ -59,8 +59,8 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
   const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
   const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
 
-  const serviceContainerDeliverablesAnalyses = useServiceContainer(productMilestoneApi.getDeliverablesAnalysis);
-  const serviceContainerDeliverablesAnalysesRunner = serviceContainerDeliverablesAnalyses.run;
+  const serviceContainerDeliverableAnalyses = useServiceContainer(productMilestoneApi.getDeliverableAnalyses);
+  const serviceContainerDeliverableAnalysesRunner = serviceContainerDeliverableAnalyses.run;
 
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
@@ -95,7 +95,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
     serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
-    serviceContainerDeliverablesAnalysesRunner({
+    serviceContainerDeliverableAnalysesRunner({
       serviceData: { id: productMilestoneId },
       requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
     });
@@ -105,7 +105,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     serviceContainerProductVersionRunner,
     serviceContainerBuildsRunner,
     serviceContainerCloseResultsRunner,
-    serviceContainerDeliverablesAnalysesRunner,
+    serviceContainerDeliverableAnalysesRunner,
     serviceContainerArtifactsRunner,
     productMilestoneId,
   ]);
@@ -123,8 +123,8 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
             serviceData: { id: productMilestoneId },
             requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
-        } else if (hasDeliverablesAnalysisStarted(wsData, { productMilestoneId })) {
-          serviceContainerDeliverablesAnalysesRunner({
+        } else if (hasDeliverableAnalysisStarted(wsData, { productMilestoneId })) {
+          serviceContainerDeliverableAnalysesRunner({
             serviceData: { id: productMilestoneId },
             requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
@@ -133,7 +133,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       [
         serviceContainerBuildsRunnerDebounced,
         serviceContainerCloseResultsRunner,
-        serviceContainerDeliverablesAnalysesRunner,
+        serviceContainerDeliverableAnalysesRunner,
         productMilestoneId,
       ]
     )
@@ -163,10 +163,10 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           {serviceContainerCloseResults.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="deliverables-analysis">
-        Deliverables Analyses{' '}
-        <PageTabsLabel serviceContainer={serviceContainerDeliverablesAnalyses} title="Deliverables Analyses Count">
-          {serviceContainerDeliverablesAnalyses.data?.totalHits}
+      <PageTabsItem url="deliverable-analyses">
+        Deliverable Analyses{' '}
+        <PageTabsLabel serviceContainer={serviceContainerDeliverableAnalyses} title="Deliverable Analyses Count">
+          {serviceContainerDeliverableAnalyses.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
       <PageTabsItem url="delivered-artifacts">
@@ -194,11 +194,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       variant="detail"
     />,
     <ProductMilestoneCloseModalButton key="close-milestone-button" toggleModal={toggleCloseModal} variant="detail" />,
-    <ProductMilestoneAnalyzeDeliverablesModalButton
-      key="del-analysis-button"
-      toggleModal={toggleAnalyzeDeliverablesModal}
-      variant="detail"
-    />,
+    <AnalyzeDeliverablesModalButton key="del-analysis-button" toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
     <ProtectedComponent key="edit-milestone-button">
       <ActionButton link="edit">Edit Milestone</ActionButton>
     </ProtectedComponent>,
@@ -239,7 +235,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           />
         )}
         {isAnalyzeDeliverablesModalOpen && (
-          <ProductMilestoneAnalyzeDeliverablesModal
+          <AnalyzeDeliverablesModal
             isModalOpen={isAnalyzeDeliverablesModalOpen}
             toggleModal={toggleAnalyzeDeliverablesModal}
             productMilestone={serviceContainerProductMilestone.data!}

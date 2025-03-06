@@ -96,13 +96,13 @@ export const breadcrumbData = {
     id: 'closeResults',
     title: 'Close Results',
   },
-  deliverablesAnalysis: {
-    id: 'deliverablesAnalysis',
-    title: 'Deliverables Analysis',
+  deliverableAnalyses: {
+    id: 'deliverableAnalyses',
+    title: 'Deliverable Analyses',
   },
-  deliverablesAnalysisDetail: {
-    id: 'deliverablesAnalysisDetail',
-    title: 'Deliverables Analysis Detail',
+  deliverableAnalysisDetail: {
+    id: 'deliverableAnalysisDetail',
+    title: 'Deliverable Analysis Detail',
   },
   create: {
     id: 'create',

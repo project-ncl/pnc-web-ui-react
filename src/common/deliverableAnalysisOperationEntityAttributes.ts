@@ -14,12 +14,13 @@ const resultValues: DeliverableAnalyzerOperation['result'][] = [
 const progressStatusValues: DeliverableAnalyzerOperation['progressStatus'][] = ['NEW', 'PENDING', 'IN_PROGRESS', 'FINISHED'];
 
 interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOperation {
-  'user.username': any;
-  deliverablesUrls: any;
-  runAsScratchAnalysis: any;
+  'user.username': string;
+  deliverablesUrls: string;
+  runAsScratchAnalysis: boolean;
+  'productMilestone.version': string;
 }
 
-export const productMilestoneDeliverablesAnalysisEntityAttributes = {
+export const deliverableAnalysisOperationEntityAttributes = {
   id: {
     id: 'id',
     title: 'ID',
@@ -27,16 +28,23 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
   submitTime: {
     id: 'submitTime',
     title: 'Submit Time',
-    sort: {},
+    sort: {
+      group: 'times',
+    },
   },
   startTime: {
     id: 'startTime',
     title: 'Start Time',
+    sort: {
+      group: 'times',
+    },
   },
   endTime: {
     id: 'endTime',
     title: 'End Time',
-    sort: {},
+    sort: {
+      group: 'times',
+    },
   },
   progressStatus: {
     id: 'progressStatus',
@@ -53,6 +61,14 @@ export const productMilestoneDeliverablesAnalysisEntityAttributes = {
     filter: {
       operator: '==',
     },
+  },
+  'productMilestone.version': {
+    id: 'productMilestone.version',
+    title: 'Milestone Version',
+    filter: {
+      operator: '=like=',
+    },
+    sort: {},
   },
   'user.username': {
     id: 'user.username',

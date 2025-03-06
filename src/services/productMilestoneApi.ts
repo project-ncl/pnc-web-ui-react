@@ -70,13 +70,13 @@ export const getDeliveredArtifacts = ({ id }: IProductMilestoneApiData, requestC
 };
 
 /**
- * Gets Product Milestone Deliverables Analysis.
+ * Gets Product Milestone Deliverable Analyses.
  *
  * @param serviceData - object containing:
  *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
-export const getDeliverablesAnalysis = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+export const getDeliverableAnalyses = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient
     .getHttpClient()
     .get<DeliverableAnalyzerOperationPage>(`/product-milestones/${id}/deliverables-analyzer-operations`, requestConfig);
@@ -176,7 +176,7 @@ export const closeProductMilestone = ({ id }: IProductMilestoneApiData, requestC
  *
  * @param serviceData - object containing:
  *  - id - Product Milestone ID
- *  - data - list of Deliverables Analysis URLs
+ *  - data - list of Deliverable Analysis URLs
  * @param requestConfig - Axios based request config
  */
 export const analyzeDeliverables = (

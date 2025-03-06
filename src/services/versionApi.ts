@@ -4,7 +4,7 @@ import { bifrostClient } from 'services/bifrostClient';
 import { buildDriverClient } from 'services/buildDriverClient';
 import { causewayClient } from 'services/causewayClient';
 import { cleanerClient } from 'services/cleanerClient';
-import { deliverablesAnalyzerClient } from 'services/deliverablesAnalyzerClient';
+import { deliverableAnalyzerClient } from 'services/deliverableAnalyzerClient';
 import { dependencyAnalyzerClient } from 'services/dependencyAnalyzerClient';
 import { environmentDriverClient } from 'services/environmentDriverClient';
 import { ettClient } from 'services/ettClient';
@@ -117,12 +117,12 @@ export const getCleanerVersion = (requestConfig: AxiosRequestConfig = {}) => {
 };
 
 /**
- * Gets version of Deliverables Analyzer.
+ * Gets version of Deliverable Analyzer.
  *
  * @param requestConfig - Axios based request config
  */
-export const getDeliverablesAnalyzerVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  const result = deliverablesAnalyzerClient.getHttpClient();
+export const getDeliverableAnalyzerVersion = (requestConfig: AxiosRequestConfig = {}) => {
+  const result = deliverableAnalyzerClient.getHttpClient();
 
   return result.success ? result.value.get<ComponentVersion>('/api/version', requestConfig) : Promise.reject(result.error);
 };

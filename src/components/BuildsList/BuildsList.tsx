@@ -1,15 +1,9 @@
-import {
-  DescriptionList,
-  DescriptionListDescription,
-  DescriptionListGroup,
-  DescriptionListTerm,
-  Switch,
-} from '@patternfly/react-core';
+import { Switch } from '@patternfly/react-core';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Build, BuildPage } from 'pnc-api-types-ts';
+import { BuildPage } from 'pnc-api-types-ts';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
@@ -22,18 +16,16 @@ import { StorageKeys, useStorage } from 'hooks/useStorage';
 import { BuildName } from 'components/BuildName/BuildName';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
+import { TimesList } from 'components/TimesList/TimesList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarGroup } from 'components/Toolbar/ToolbarGroup';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
-
-import { areDatesEqual, calculateDuration } from 'utils/utils';
 
 type TColumns = Array<keyof typeof buildEntityAttributes>;
 
@@ -47,80 +39,6 @@ const defaultColumns: TColumns = [
   buildEntityAttributes.endTime.id,
   buildEntityAttributes['user.username'].id,
 ];
-
-interface ITimesListProps {
-  build: Build;
-  isCompactMode: boolean;
-}
-
-const TimesList = ({ build, isCompactMode }: ITimesListProps) => {
-  const submitTimeItem = (
-    <DescriptionListGroup>
-      <DescriptionListTerm>{buildEntityAttributes.submitTime.title}</DescriptionListTerm>
-      <DescriptionListDescription>{build.submitTime && <DateTime date={build.submitTime} />}</DescriptionListDescription>
-    </DescriptionListGroup>
-  );
-
-  const startTimeItem = (
-    <DescriptionListGroup>
-      <DescriptionListTerm>{buildEntityAttributes.startTime.title}</DescriptionListTerm>
-      <DescriptionListDescription>
-        {build.startTime && (
-          <DateTime
-            date={build.startTime}
-            displayDate={isCompactMode || !build.submitTime || !areDatesEqual(build.submitTime, build.startTime)}
-          />
-        )}
-      </DescriptionListDescription>
-    </DescriptionListGroup>
-  );
-
-  const endTimeItem = (
-    <DescriptionListGroup>
-      <DescriptionListTerm>{buildEntityAttributes.endTime.title}</DescriptionListTerm>
-      <DescriptionListDescription>
-        {build.endTime && (
-          <DateTime
-            date={build.endTime}
-            displayDate={
-              isCompactMode ||
-              (!!build.startTime && !areDatesEqual(build.startTime, build.endTime)) ||
-              (!!build.submitTime && !areDatesEqual(build.submitTime, build.endTime))
-            }
-          />
-        )}
-        {build.startTime &&
-          build.endTime &&
-          ` (${isCompactMode ? '' : 'took '}${calculateDuration(build.startTime, build.endTime)})`}
-      </DescriptionListDescription>
-    </DescriptionListGroup>
-  );
-
-  let content;
-  if (isCompactMode) {
-    if (build.endTime) {
-      content = endTimeItem;
-    } else if (build.startTime) {
-      content = startTimeItem;
-    } else if (build.submitTime) {
-      content = submitTimeItem;
-    }
-  } else {
-    content = (
-      <>
-        {submitTimeItem}
-        {startTimeItem}
-        {endTimeItem}
-      </>
-    );
-  }
-
-  return (
-    <DescriptionList className="gap-0" isHorizontal isCompact isFluid={isCompactMode}>
-      {content}
-    </DescriptionList>
-  );
-};
 
 interface IBuildsListProps {
   serviceContainerBuilds: IServiceContainerState<BuildPage>;
@@ -254,7 +172,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
                     columns.includes(buildEntityAttributes.startTime.id) &&
                     columns.includes(buildEntityAttributes.endTime.id) && (
                       <Td>
-                        <TimesList build={build} isCompactMode={isCompactMode} />
+                        <TimesList {...build} entityAttributes={buildEntityAttributes} isCompactMode={isCompactMode} />
                       </Td>
                     )}
                   {columns.includes(buildEntityAttributes['user.username'].id) && (

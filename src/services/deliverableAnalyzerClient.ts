@@ -8,9 +8,9 @@ import { uiLogger } from 'services/uiLogger';
 import * as webConfigService from './webConfigService';
 
 /**
- * Deliverables Analyzer HTTP client.
+ * Deliverable Analyzer HTTP client.
  */
-class DeliverablesAnalyzerClient {
+class DeliverableAnalyzerClient {
   private httpClient: AxiosInstance | null;
 
   constructor() {
@@ -23,10 +23,10 @@ class DeliverablesAnalyzerClient {
    * @returns Axios instance
    */
   private createHttpClient = (): AxiosInstance | null => {
-    const url = webConfigService.getDeliverablesAnalyzerUrl();
+    const url = webConfigService.getDeliverableAnalyzerUrl();
 
     if (!url) {
-      uiLogger.error('Deliverables Analyzer URL not available in the config.');
+      uiLogger.error('Deliverable Analyzer URL not available in the config.');
       return null;
     }
 
@@ -44,7 +44,7 @@ class DeliverablesAnalyzerClient {
     if (!this.httpClient) {
       return {
         success: false,
-        error: new HttpClientCreationFailedError({ message: 'Deliverables Analyzer HTTP client could not be instantiated.' }),
+        error: new HttpClientCreationFailedError({ message: 'Deliverable Analyzer HTTP client could not be instantiated.' }),
       };
     }
 
@@ -52,4 +52,4 @@ class DeliverablesAnalyzerClient {
   };
 }
 
-export const deliverablesAnalyzerClient = new DeliverablesAnalyzerClient();
+export const deliverableAnalyzerClient = new DeliverableAnalyzerClient();

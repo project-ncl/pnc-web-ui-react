@@ -324,20 +324,20 @@ export const hasMilestoneCloseFinished = (
   );
 };
 
-interface IDeliverablesAnalysisParameters {
+interface IDeliverableAnalysisParameters {
   operationId?: string;
   productMilestoneId?: string;
 }
 
 /**
- * Check whether Deliverables Analysis changed WebSocket event was sent.
+ * Check whether Deliverable Analysis changed WebSocket event was sent.
  *
  * @param wsData - WebSocket data
- * @returns true when Deliverables Analysis changed, otherwise false
+ * @returns true when Deliverable Analysis changed, otherwise false
  */
-export const hasDeliverablesAnalysisChanged = (
+export const hasDeliverableAnalysisChanged = (
   wsData: any,
-  { operationId, productMilestoneId }: IDeliverablesAnalysisParameters = {}
+  { operationId, productMilestoneId }: IDeliverableAnalysisParameters = {}
 ): boolean => {
   if (wsData.job !== 'OPERATION' || wsData.notificationType !== 'DELIVERABLES_ANALYSIS') {
     return false;
@@ -345,7 +345,7 @@ export const hasDeliverablesAnalysisChanged = (
 
   if (!wsData.operation) {
     uiLogger.error(
-      'hasDeliverablesAnalysisChanged: invalid WebSocket message ("operation" parameter is missing)',
+      'hasDeliverableAnalysisChanged: invalid WebSocket message ("operation" parameter is missing)',
       undefined,
       wsData
     );
@@ -359,22 +359,22 @@ export const hasDeliverablesAnalysisChanged = (
 };
 
 /**
- * Check whether new Deliverables Analysis started WebSocket event was sent.
+ * Check whether new Deliverable Analysis started WebSocket event was sent.
  *
  * @param wsData - WebSocket data
- * @returns true when Deliverables Analysis started, otherwise false
+ * @returns true when Deliverable Analysis started, otherwise false
  */
-export const hasDeliverablesAnalysisStarted = (wsData: any, parameters: IDeliverablesAnalysisParameters = {}): boolean =>
-  hasDeliverablesAnalysisChanged(wsData, parameters) && wsData.oldProgress === 'PENDING';
+export const hasDeliverableAnalysisStarted = (wsData: any, parameters: IDeliverableAnalysisParameters = {}): boolean =>
+  hasDeliverableAnalysisChanged(wsData, parameters) && wsData.oldProgress === 'PENDING';
 
 /**
- * Check whether Deliverables Analysis finished WebSocket event was sent.
+ * Check whether Deliverable Analysis finished WebSocket event was sent.
  *
  * @param wsData - WebSocket data
- * @returns true when Deliverables Analysis finished, otherwise false
+ * @returns true when Deliverable Analysis finished, otherwise false
  */
-export const hasDeliverablesAnalysisFinished = (wsData: any, parameters: IDeliverablesAnalysisParameters = {}): boolean =>
-  hasDeliverablesAnalysisChanged(wsData, parameters) && wsData.progress === 'FINISHED';
+export const hasDeliverableAnalysisFinished = (wsData: any, parameters: IDeliverableAnalysisParameters = {}): boolean =>
+  hasDeliverableAnalysisChanged(wsData, parameters) && wsData.progress === 'FINISHED';
 
 /**
  * Check whether new PNC status changed WebSocket event was sent.

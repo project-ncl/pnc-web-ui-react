@@ -37,6 +37,7 @@ export const PageTitles = {
   scmRepositoryCreate: 'Create SCM Repository',
   scmRepositoryEdit: 'Edit SCM Repository',
   administration: 'Administration',
+  deliverableAnalyses: 'Deliverable Analyses',
   pageNotFound: 'Page Not Found',
   delimiterSymbol: '·',
 };
@@ -73,7 +74,7 @@ export const RepositoryUrls = {
   dependencyAnalyzerRepository: 'https://github.com/project-ncl/dependency-analysis',
   buildDriverRepository: 'https://github.com/project-ncl/build-driver',
   cleanerRepository: 'https://github.com/project-ncl/cleaner',
-  deliverablesAnalyzerRepository: 'https://github.com/project-ncl/deliverables-analyzer',
+  deliverableAnalyzerRepository: 'https://github.com/project-ncl/deliverables-analyzer',
   environmentDriverRepository: 'https://github.com/project-ncl/environment-driver',
   logEventDurationRepository: 'https://github.com/project-ncl/log-event-duration',
   repositoryDriverRepository: 'https://github.com/project-ncl/repository-driver',

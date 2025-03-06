@@ -43,8 +43,8 @@ export const AboutPage = () => {
   const serviceContainerCleanerVersion = useServiceContainer(versionApi.getCleanerVersion);
   const serviceContainerCleanerVersionRunner = serviceContainerCleanerVersion.run;
 
-  const serviceContainerDeliverablesAnalyzerVersion = useServiceContainer(versionApi.getDeliverablesAnalyzerVersion);
-  const serviceContainerDeliverablesAnalyzerVersionRunner = serviceContainerDeliverablesAnalyzerVersion.run;
+  const serviceContainerDeliverableAnalyzerVersion = useServiceContainer(versionApi.getDeliverableAnalyzerVersion);
+  const serviceContainerDeliverableAnalyzerVersionRunner = serviceContainerDeliverableAnalyzerVersion.run;
 
   const serviceContainerEnvironmentDriverVersion = useServiceContainer(versionApi.getEnvironmentDriverVersion);
   const serviceContainerEnvironmentDriverVersionRunner = serviceContainerEnvironmentDriverVersion.run;
@@ -71,7 +71,7 @@ export const AboutPage = () => {
     serviceContainerDependencyAnalyzerVersionRunner();
     serviceContainerBuildDriverVersionRunner();
     serviceContainerCleanerVersionRunner();
-    serviceContainerDeliverablesAnalyzerVersionRunner();
+    serviceContainerDeliverableAnalyzerVersionRunner();
     serviceContainerEnvironmentDriverVersionRunner();
     serviceContainerLogEventDurationVersionRunner();
     serviceContainerRepositoryDriverVersionRunner();
@@ -87,7 +87,7 @@ export const AboutPage = () => {
     serviceContainerDependencyAnalyzerVersionRunner,
     serviceContainerBuildDriverVersionRunner,
     serviceContainerCleanerVersionRunner,
-    serviceContainerDeliverablesAnalyzerVersionRunner,
+    serviceContainerDeliverableAnalyzerVersionRunner,
     serviceContainerEnvironmentDriverVersionRunner,
     serviceContainerLogEventDurationVersionRunner,
     serviceContainerRepositoryDriverVersionRunner,
@@ -264,21 +264,21 @@ export const AboutPage = () => {
 
           <AttributesItem
             title={
-              <a href={RepositoryUrls.deliverablesAnalyzerRepository} target="_blank" rel="noopener noreferrer">
-                Deliverables Analyzer
+              <a href={RepositoryUrls.deliverableAnalyzerRepository} target="_blank" rel="noopener noreferrer">
+                Deliverable Analyzer
               </a>
             }
           >
             <ServiceContainerLoading
-              {...serviceContainerDeliverablesAnalyzerVersion}
+              {...serviceContainerDeliverableAnalyzerVersion}
               variant="inline"
-              title="Deliverables Analyzer version"
+              title="Deliverable Analyzer version"
             >
               <VersionText
-                version={serviceContainerDeliverablesAnalyzerVersion.data?.version}
-                revision={serviceContainerDeliverablesAnalyzerVersion.data?.commit}
-                repositoryUrl={RepositoryUrls.deliverablesAnalyzerRepository}
-                builtOn={serviceContainerDeliverablesAnalyzerVersion.data?.builtOn}
+                version={serviceContainerDeliverableAnalyzerVersion.data?.version}
+                revision={serviceContainerDeliverableAnalyzerVersion.data?.commit}
+                repositoryUrl={RepositoryUrls.deliverableAnalyzerRepository}
+                builtOn={serviceContainerDeliverableAnalyzerVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
