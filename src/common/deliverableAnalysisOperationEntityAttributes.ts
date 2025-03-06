@@ -28,16 +28,23 @@ export const deliverableAnalysisOperationEntityAttributes = {
   submitTime: {
     id: 'submitTime',
     title: 'Submit Time',
-    sort: {},
+    sort: {
+      group: 'times',
+    },
   },
   startTime: {
     id: 'startTime',
     title: 'Start Time',
+    sort: {
+      group: 'times',
+    },
   },
   endTime: {
     id: 'endTime',
     title: 'End Time',
-    sort: {},
+    sort: {
+      group: 'times',
+    },
   },
   progressStatus: {
     id: 'progressStatus',
