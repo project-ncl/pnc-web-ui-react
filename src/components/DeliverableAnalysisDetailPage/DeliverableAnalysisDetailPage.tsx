@@ -151,6 +151,7 @@ export const DeliverableAnalysisDetailPage = () => {
                     <ProductMilestoneReleaseLabel
                       link={`/products/${serviceContainerProductVersion.data?.product?.id}/versions/${serviceContainerProductVersion.data?.id}/milestones/${serviceContainerProductMilestone.data?.id}`}
                       productMilestoneRelease={serviceContainerProductMilestone.data!}
+                      productName={serviceContainerProductVersion.data?.product?.name}
                       isCurrent={
                         serviceContainerProductVersion.data?.currentProductMilestone?.id ===
                         serviceContainerProductMilestone.data?.id
