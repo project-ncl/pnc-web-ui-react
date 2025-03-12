@@ -17,6 +17,7 @@ interface IProductMilestoneReleaseProp {
   productMilestoneRelease: ProductMilestone | ProductRelease;
   isCurrent: boolean;
   link?: string;
+  productName?: string;
 }
 
 /**
@@ -25,8 +26,14 @@ interface IProductMilestoneReleaseProp {
  * @param productMilestoneRelease - ProductMilestone or ProductRelease component to be displayed
  * @param isCurrent - If the ProductMilestone is current one
  * @param link - Link to navigate to
+ * @param productName - Name of a Product containing the Milestone/Release
  */
-export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurrent, link }: IProductMilestoneReleaseProp) => {
+export const ProductMilestoneReleaseLabel = ({
+  productMilestoneRelease,
+  isCurrent,
+  link,
+  productName,
+}: IProductMilestoneReleaseProp) => {
   let tooltipContent;
   let buttonClassName;
   let labelType;
@@ -76,7 +83,7 @@ export const ProductMilestoneReleaseLabel = ({ productMilestoneRelease, isCurren
           className={buttonClassName}
           component={link && labelType === 'milestone' ? (props: any) => <Link {...props} to={link} /> : 'span'}
         >
-          {productMilestoneRelease.version}
+          {productName} {productMilestoneRelease.version}
         </Button>
       </Tooltip>
     </span>
