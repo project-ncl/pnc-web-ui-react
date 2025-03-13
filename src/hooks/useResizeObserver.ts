@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 
 /**
  * Hook that observes and returns current width and height of a container.
@@ -9,26 +9,30 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  * - height - Height of the container
  */
 export const useResizeObserver = () => {
-  const resizeObserver = useRef<ResizeObserver>();
+  const [node, setNode] = useState<HTMLElement | null>(null);
   const [width, setWidth] = useState<number>();
   const [height, setHeight] = useState<number>();
 
   const ref = useCallback((node: HTMLElement | null) => {
-    if (!node) return;
-    resizeObserver.current = new ResizeObserver(() => {
-      window.requestAnimationFrame(() => {
-        setWidth(node.offsetWidth);
-        setHeight(node.offsetHeight);
-      });
-    });
-    resizeObserver.current.observe(node);
+    setNode(node);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (!node) return;
+    const observer = new ResizeObserver((entries) => {
+      window.requestAnimationFrame(() => {
+        if (entries.length > 0) {
+          const entry = entries[0];
+          setWidth((entry.target as HTMLElement).offsetWidth);
+          setHeight((entry.target as HTMLElement).offsetHeight);
+        }
+      });
+    });
+    observer.observe(node);
     return () => {
-      resizeObserver.current?.disconnect();
+      observer.disconnect();
     };
-  }, []);
+  }, [node]);
 
   return { ref, width, height };
 };

@@ -910,10 +910,10 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
               {Object.entries(buildParamData).map(([key, buildParam], index) => (
                 <FormInput<string>
+                  key={index}
                   {...register(key)}
                   render={({ onChange, ...rest }) => (
                     <FormGroup
-                      key={index}
                       label={
                         <>
                           <TooltipWrapper tooltip="Remove the parameter">
