@@ -1,5 +1,5 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
@@ -23,6 +23,8 @@ import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { DeliverableAnalysisAddLabelModal } from 'components/DeliverableAnalysisAddLabelModal/DeliverableAnalysisAddLabelModal';
+import { DeliverableAnalysisAddLabelModalButton } from 'components/DeliverableAnalysisAddLabelModal/DeliverableAnalysisAddLabelModalButton';
 import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
@@ -58,6 +60,10 @@ export const DeliverableAnalysisDetailPage = () => {
 
   const deliverableAnalysis: DeliverableAnalyzerOperation | undefined =
     serviceContainerDeliverableAnalysisOperation.data || undefined;
+
+  const [isAddLabelModalOpen, setIsAddLabelModalOpen] = useState<boolean>(false);
+
+  const toggleAddLabelModal = () => setIsAddLabelModalOpen((isAddLabelModalOpen) => !isAddLabelModalOpen);
 
   useEffect(() => {
     serviceContainerDeliverableAnalysisOperationRunner({
@@ -124,6 +130,13 @@ export const DeliverableAnalysisDetailPage = () => {
     >
       <PageLayout
         title="Deliverable Analysis details"
+        actions={
+          <DeliverableAnalysisAddLabelModalButton
+            toggleModal={toggleAddLabelModal}
+            deliverableAnalysisOperation={deliverableAnalysis!}
+            serviceContainerDeliverableAnalysisReport={serviceContainerDeliverableAnalysisReport}
+          />
+        }
         breadcrumbs={[
           {
             entity: breadcrumbData.deliverableAnalysisDetail.id,
@@ -207,6 +220,13 @@ export const DeliverableAnalysisDetailPage = () => {
 
         <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
       </PageLayout>
+      {isAddLabelModalOpen && (
+        <DeliverableAnalysisAddLabelModal
+          isModalOpen={isAddLabelModalOpen}
+          toggleModal={toggleAddLabelModal}
+          deliverableAnalysisReport={serviceContainerDeliverableAnalysisReport.data!}
+        />
+      )}
     </ServiceContainerLoading>
   );
 };

@@ -2,6 +2,8 @@ import { AxiosRequestConfig } from 'axios';
 
 import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
+import { AssignableDeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
+
 import { pncClient } from 'services/pncClient';
 
 interface IDeliverableAnalysisReportApiData {
@@ -20,4 +22,11 @@ export const getDeliverableAnalysisReport = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().get<DeliverableAnalyzerReport>(`/deliverable-analyses/${id}`, requestConfig);
+};
+
+export const addDeliverableAnalysisLabel = (
+  { id, data }: { id: string; data: { label: AssignableDeliverableAnalysisLabel; reason: string } },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<undefined>(`/deliverable-analyses/${id}/add-label`, data, requestConfig);
 };
