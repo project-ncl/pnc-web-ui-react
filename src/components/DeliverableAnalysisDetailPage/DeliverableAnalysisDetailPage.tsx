@@ -1,10 +1,11 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
+import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
+import { DeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { deliverableAnalysisReportEntityAttributes } from 'common/deliverableAnalysisReportEntityAttributes';
 
@@ -25,12 +26,14 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { DeliverableAnalysisAddLabelModal } from 'components/DeliverableAnalysisAddLabelModal/DeliverableAnalysisAddLabelModal';
 import { DeliverableAnalysisAddLabelModalButton } from 'components/DeliverableAnalysisAddLabelModal/DeliverableAnalysisAddLabelModalButton';
+import { DeliverableAnalysisRemoveLabelModal } from 'components/DeliverableAnalysisRemoveLabelModal/DeliverableAnalysisRemoveLabelModal';
 import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -209,7 +212,7 @@ export const DeliverableAnalysisDetailPage = () => {
                 >
                   <div className="display-flex gap-5">
                     {serviceContainerDeliverableAnalysisReport.data?.labels?.map((label) => (
-                      <DeliverableAnalysisLabelLabelMapper key={label} label={label} />
+                      <DeliverableAnalysisLabelLabel key={label} label={label} deliverableAnalysisReport={deliverableAnalysis!} />
                     ))}
                   </div>
                 </ServiceContainerLoading>
@@ -270,6 +273,35 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
       <ContentBox padding>
         <LogViewer isStatic={deliverableAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
       </ContentBox>
+    </>
+  );
+};
+
+interface IDeliverableAnalysisLabelLabelProps {
+  label: DeliverableAnalysisLabel;
+  deliverableAnalysisReport: DeliverableAnalyzerReport;
+}
+
+const DeliverableAnalysisLabelLabel = ({ label, deliverableAnalysisReport }: IDeliverableAnalysisLabelLabelProps) => {
+  const [isRemoveLabelModalOpen, setIsRemoveLabelModalOpen] = useState<boolean>(false);
+
+  const toggleRemoveLabelModal = () => setIsRemoveLabelModalOpen((isRemoveLabelModalOpen) => !isRemoveLabelModalOpen);
+
+  const canLabelBeChanged = label !== 'SCRATCH';
+
+  return (
+    <>
+      <ProtectedComponent>
+        <DeliverableAnalysisLabelLabelMapper label={label} onClose={canLabelBeChanged ? toggleRemoveLabelModal : undefined} />
+      </ProtectedComponent>
+      {canLabelBeChanged && (
+        <DeliverableAnalysisRemoveLabelModal
+          isModalOpen={isRemoveLabelModalOpen}
+          toggleModal={toggleRemoveLabelModal}
+          deliverableAnalysisReport={deliverableAnalysisReport}
+          label={label}
+        />
+      )}
     </>
   );
 };

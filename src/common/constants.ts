@@ -47,6 +47,7 @@ export const ButtonTitles = {
   create: 'Create',
   edit: 'Edit',
   add: 'Add',
+  remove: 'Remove',
   view: 'View',
 };
 

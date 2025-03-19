@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
-import { AssignableDeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
+import { EditableDeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
 
 import { pncClient } from 'services/pncClient';
 
@@ -24,9 +24,37 @@ export const getDeliverableAnalysisReport = (
   return pncClient.getHttpClient().get<DeliverableAnalyzerReport>(`/deliverable-analyses/${id}`, requestConfig);
 };
 
+interface IDeliverableAnalysisReportEditLabelApiData {
+  id: string;
+  data: { label: EditableDeliverableAnalysisLabel; reason: string };
+}
+
+/**
+ * Adds a label to the Deliverable Analysis report.
+ *
+ * @param serviceData - object containing:
+ *  - id - Deliverable Analysis ID
+ *  - data - label and the reason for the change
+ * @param requestConfig - Axios based request config
+ */
 export const addDeliverableAnalysisLabel = (
-  { id, data }: { id: string; data: { label: AssignableDeliverableAnalysisLabel; reason: string } },
+  { id, data }: IDeliverableAnalysisReportEditLabelApiData,
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().post<undefined>(`/deliverable-analyses/${id}/add-label`, data, requestConfig);
+};
+
+/**
+ * Removes a label from the Deliverable Analysis report.
+ *
+ * @param serviceData - object containing:
+ *  - id - Deliverable Analysis ID
+ *  - data - label and the reason for the change
+ * @param requestConfig - Axios based request config
+ */
+export const removeDeliverableAnalysisLabel = (
+  { id, data }: IDeliverableAnalysisReportEditLabelApiData,
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<undefined>(`/deliverable-analyses/${id}/remove-label`, data, requestConfig);
 };
