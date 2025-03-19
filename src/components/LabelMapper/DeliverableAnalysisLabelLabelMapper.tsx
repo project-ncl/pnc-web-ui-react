@@ -21,8 +21,9 @@ const DELIVERABLE_ANALYSIS_LABELS: ILabelMapper<deliverableAnalysisLabel> = {
 
 interface IDeliverableAnalysisLabelLabelMapperProps {
   label: deliverableAnalysisLabel;
+  onClose?: () => void;
 }
 
-export const DeliverableAnalysisLabelLabelMapper = ({ label }: IDeliverableAnalysisLabelLabelMapperProps) => (
-  <LabelMapper mapperItem={DELIVERABLE_ANALYSIS_LABELS[label]} />
+export const DeliverableAnalysisLabelLabelMapper = ({ label, onClose }: IDeliverableAnalysisLabelLabelMapperProps) => (
+  <LabelMapper mapperItem={DELIVERABLE_ANALYSIS_LABELS[label]} onClose={onClose} />
 );
