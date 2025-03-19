@@ -2,9 +2,11 @@ import { DeliverableAnalyzerLabelEntry, DeliverableAnalyzerReport } from 'pnc-ap
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
-export type AssignableDeliverableAnalysisLabel = Exclude<NonNullable<DeliverableAnalyzerReport['labels']>[number], 'SCRATCH'>;
+export type DeliverableAnalysisLabel = NonNullable<DeliverableAnalyzerReport['labels']>[number];
 
-const labelValues: AssignableDeliverableAnalysisLabel[] = ['RELEASED', 'DELETED'];
+export type EditableDeliverableAnalysisLabel = Exclude<DeliverableAnalysisLabel, 'SCRATCH'>;
+
+const labelValues: EditableDeliverableAnalysisLabel[] = ['RELEASED', 'DELETED'];
 
 export const deliverableAnalysisLabelEntryEntityAttributes = {
   label: {
