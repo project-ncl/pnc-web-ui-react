@@ -13,6 +13,22 @@
   background-color: #d2d2d2 !important;
 }
 
+.disabled-content :global(.pf-v5-c-label) {
+  background-color: var(--pf-v5-c-label--m-disabled--BackgroundColor);
+
+  :global(.pf-v5-c-label__content) {
+    color: var(--pf-v5-c-label--m-disabled__content--Color);
+  }
+
+  :global(.pf-v5-c-label__content)::before {
+    border-width: 0 !important;
+  }
+
+  :global(.pf-v5-c-label__actions) :global(.pf-v5-c-button) {
+    background-color: transparent !important;
+  }
+}
+
 .disabled-content :global(.pf-v5-c-button)::after {
   border-color: transparent !important;
 }
