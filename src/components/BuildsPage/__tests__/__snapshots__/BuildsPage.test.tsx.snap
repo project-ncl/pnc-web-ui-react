@@ -405,6 +405,7 @@ Object {
                          
                         <a
                           class="build-log-link"
+                          data-discover="true"
                           href="/builds/1001/alignment-log"
                         >
                           <span
@@ -427,6 +428,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/builds/1001"
                     >
                       #1001
@@ -438,18 +440,21 @@ Object {
                   >
                     <span>
                       <a
+                        data-discover="true"
                         href="/builds/1001"
                       >
                         #20201019-0013
                       </a>
                        of 
                       <a
+                        data-discover="true"
                         href="/build-configs/469?bh1-force=469"
                       >
                         123
                       </a>
                       <a
                         class="p-l-5"
+                        data-discover="true"
                         href="/build-configs/469/revisions/3027"
                         title="Go to specific Build Config revision (3027) that was used for this Build"
                       >
@@ -534,6 +539,7 @@ Object {
                          
                         <a
                           class="build-log-link"
+                          data-discover="true"
                           href="/builds/1002/alignment-log"
                         >
                           <span
@@ -556,6 +562,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/builds/1002"
                     >
                       #1002
@@ -567,18 +574,21 @@ Object {
                   >
                     <span>
                       <a
+                        data-discover="true"
                         href="/builds/1002"
                       >
                         #20201027-1206
                       </a>
                        of 
                       <a
+                        data-discover="true"
                         href="/build-configs/469?bh1-force=469"
                       >
                         123
                       </a>
                       <a
                         class="p-l-5"
+                        data-discover="true"
                         href="/build-configs/469/revisions/3027"
                         title="Go to specific Build Config revision (3027) that was used for this Build"
                       >
@@ -663,6 +673,7 @@ Object {
                          
                         <a
                           class="build-log-link"
+                          data-discover="true"
                           href="/builds/AJ4WUBX75VQAA/build-log"
                         >
                           <span
@@ -685,6 +696,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/builds/AJ4WUBX75VQAA"
                     >
                       #AJ4WUBX75VQAA
@@ -696,18 +708,21 @@ Object {
                   >
                     <span>
                       <a
+                        data-discover="true"
                         href="/builds/AJ4WUBX75VQAA"
                       >
                         #20210506-2341
                       </a>
                        of 
                       <a
+                        data-discover="true"
                         href="/build-configs/645?bh1-force=645"
                       >
                         DnsSSHTest
                       </a>
                       <a
                         class="p-l-5"
+                        data-discover="true"
                         href="/build-configs/645/revisions/6927"
                         title="Go to specific Build Config revision (6927) that was used for this Build"
                       >
@@ -1396,6 +1411,7 @@ Object {
                        
                       <a
                         class="build-log-link"
+                        data-discover="true"
                         href="/builds/1001/alignment-log"
                       >
                         <span
@@ -1418,6 +1434,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/builds/1001"
                   >
                     #1001
@@ -1429,18 +1446,21 @@ Object {
                 >
                   <span>
                     <a
+                      data-discover="true"
                       href="/builds/1001"
                     >
                       #20201019-0013
                     </a>
                      of 
                     <a
+                      data-discover="true"
                       href="/build-configs/469?bh1-force=469"
                     >
                       123
                     </a>
                     <a
                       class="p-l-5"
+                      data-discover="true"
                       href="/build-configs/469/revisions/3027"
                       title="Go to specific Build Config revision (3027) that was used for this Build"
                     >
@@ -1525,6 +1545,7 @@ Object {
                        
                       <a
                         class="build-log-link"
+                        data-discover="true"
                         href="/builds/1002/alignment-log"
                       >
                         <span
@@ -1547,6 +1568,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/builds/1002"
                   >
                     #1002
@@ -1558,18 +1580,21 @@ Object {
                 >
                   <span>
                     <a
+                      data-discover="true"
                       href="/builds/1002"
                     >
                       #20201027-1206
                     </a>
                      of 
                     <a
+                      data-discover="true"
                       href="/build-configs/469?bh1-force=469"
                     >
                       123
                     </a>
                     <a
                       class="p-l-5"
+                      data-discover="true"
                       href="/build-configs/469/revisions/3027"
                       title="Go to specific Build Config revision (3027) that was used for this Build"
                     >
@@ -1654,6 +1679,7 @@ Object {
                        
                       <a
                         class="build-log-link"
+                        data-discover="true"
                         href="/builds/AJ4WUBX75VQAA/build-log"
                       >
                         <span
@@ -1676,6 +1702,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/builds/AJ4WUBX75VQAA"
                   >
                     #AJ4WUBX75VQAA
@@ -1687,18 +1714,21 @@ Object {
                 >
                   <span>
                     <a
+                      data-discover="true"
                       href="/builds/AJ4WUBX75VQAA"
                     >
                       #20210506-2341
                     </a>
                      of 
                     <a
+                      data-discover="true"
                       href="/build-configs/645?bh1-force=645"
                     >
                       DnsSSHTest
                     </a>
                     <a
                       class="p-l-5"
+                      data-discover="true"
                       href="/build-configs/645/revisions/6927"
                       title="Go to specific Build Config revision (6927) that was used for this Build"
                     >

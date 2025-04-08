@@ -6,6 +6,7 @@ Object {
   "baseElement": <body>
     <div>
       <a
+        data-discover="true"
         href="/scm-repositories/101"
       >
         testRepo/empty1.git
@@ -14,6 +15,7 @@ Object {
   </body>,
   "container": <div>
     <a
+      data-discover="true"
       href="/scm-repositories/101"
     >
       testRepo/empty1.git

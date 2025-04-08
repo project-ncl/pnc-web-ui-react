@@ -41,6 +41,7 @@ Object {
               <a
                 aria-disabled="false"
                 class="pf-v5-c-button pf-m-primary pf-m-small"
+                data-discover="true"
                 data-ouia-component-id="OUIA-Generated-Button-primary-3"
                 data-ouia-component-type="PF5/Button"
                 data-ouia-safe="true"
@@ -104,6 +105,7 @@ Object {
                     <a
                       aria-disabled="false"
                       class="pf-v5-c-button pf-m-primary pf-m-small"
+                      data-discover="true"
                       data-ouia-component-id="OUIA-Generated-Button-primary-4"
                       data-ouia-component-type="PF5/Button"
                       data-ouia-safe="true"
@@ -460,6 +462,7 @@ Object {
             <a
               aria-disabled="false"
               class="pf-v5-c-button pf-m-primary pf-m-small"
+              data-discover="true"
               data-ouia-component-id="OUIA-Generated-Button-primary-3"
               data-ouia-component-type="PF5/Button"
               data-ouia-safe="true"
@@ -523,6 +526,7 @@ Object {
                   <a
                     aria-disabled="false"
                     class="pf-v5-c-button pf-m-primary pf-m-small"
+                    data-discover="true"
                     data-ouia-component-id="OUIA-Generated-Button-primary-4"
                     data-ouia-component-type="PF5/Button"
                     data-ouia-safe="true"
