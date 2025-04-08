@@ -12,6 +12,13 @@ jest.mock('services/genericSettingsApi');
 jest.mock('services/webConfigService');
 jest.mock('services/broadcastService');
 
+jest.mock('react-router', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router'),
+  };
+});
+
 window.pnc = {
   config: {
     userGuideUrl: 'https://localhost:3000/',
@@ -32,6 +39,7 @@ const mockMatches = [
 beforeEach(() => {
   jest.spyOn(routeData, 'useMatches').mockReturnValue(mockMatches);
 });
+
 test('renders AppLayout', async () => {
   act(() => {
     render(

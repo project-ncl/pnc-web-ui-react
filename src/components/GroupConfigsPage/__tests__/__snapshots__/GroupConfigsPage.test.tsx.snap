@@ -42,6 +42,7 @@ Object {
               <a
                 aria-disabled="false"
                 class="pf-v5-c-button pf-m-primary pf-m-small"
+                data-discover="true"
                 data-ouia-component-id="OUIA-Generated-Button-primary-2"
                 data-ouia-component-type="PF5/Button"
                 data-ouia-safe="true"
@@ -217,6 +218,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/101"
                     >
                       Example Build Group 1
@@ -256,6 +258,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/102"
                     >
                       Example Build Group 2
@@ -295,6 +298,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/103"
                     >
                       Example Build Group 3
@@ -334,6 +338,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/104"
                     >
                       Example Build Group 4
@@ -373,6 +378,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/105"
                     >
                       Example Build Group 5
@@ -412,6 +418,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/106"
                     >
                       Example Build Group 6
@@ -451,6 +458,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/107"
                     >
                       Example Build Group 7
@@ -490,6 +498,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/109"
                     >
                       Example Build Group 8
@@ -529,6 +538,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/group-configs/110"
                     >
                       Example Build Group 9
@@ -814,6 +824,7 @@ Object {
             <a
               aria-disabled="false"
               class="pf-v5-c-button pf-m-primary pf-m-small"
+              data-discover="true"
               data-ouia-component-id="OUIA-Generated-Button-primary-2"
               data-ouia-component-type="PF5/Button"
               data-ouia-safe="true"
@@ -989,6 +1000,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/101"
                   >
                     Example Build Group 1
@@ -1028,6 +1040,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/102"
                   >
                     Example Build Group 2
@@ -1067,6 +1080,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/103"
                   >
                     Example Build Group 3
@@ -1106,6 +1120,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/104"
                   >
                     Example Build Group 4
@@ -1145,6 +1160,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/105"
                   >
                     Example Build Group 5
@@ -1184,6 +1200,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/106"
                   >
                     Example Build Group 6
@@ -1223,6 +1240,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/107"
                   >
                     Example Build Group 7
@@ -1262,6 +1280,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/109"
                   >
                     Example Build Group 8
@@ -1301,6 +1320,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/group-configs/110"
                   >
                     Example Build Group 9

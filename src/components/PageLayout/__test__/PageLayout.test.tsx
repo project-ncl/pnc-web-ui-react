@@ -8,6 +8,13 @@ jest.mock('services/keycloakService');
 jest.mock('services/genericSettingsApi');
 jest.mock('services/webConfigService');
 
+jest.mock('react-router', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router'),
+  };
+});
+
 window.pnc = {
   config: {
     userGuideUrl: 'https://localhost:3000/',
