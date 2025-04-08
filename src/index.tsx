@@ -109,7 +109,7 @@ const App = () => {
   if (isKeycloakInitiated || isKeycloakInitFail) {
     return (
       <ErrorBoundary>
-        <RouterProvider router={router} />
+        <RouterProvider future={{ v7_startTransition: true }} router={router} />
       </ErrorBoundary>
     );
   }
