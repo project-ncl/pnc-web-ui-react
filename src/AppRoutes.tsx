@@ -1,5 +1,5 @@
 import { AppLayout } from 'AppLayout';
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles } from 'common/constants';

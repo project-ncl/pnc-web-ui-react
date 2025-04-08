@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 /**
  * Type translator of useParams React Router hook changing type of ID of URL param from string | undefined to string.

@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPage';
@@ -18,8 +18,8 @@ const mockMatches = [
   { id: '0-2-2-0', pathname: '/projects/106/', params: { projectId: '106' }, data: undefined, handle: undefined }, //proper handle is 'project' but test is failing
 ];
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'), // use actual for all non-hook parts
   useParams: () => ({
     projectId: '106',
   }),

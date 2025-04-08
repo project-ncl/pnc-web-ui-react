@@ -1,6 +1,6 @@
 import { Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';

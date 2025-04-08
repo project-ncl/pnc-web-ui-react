@@ -1,6 +1,6 @@
 import { ISortBy, ThProps } from '@patternfly/react-table';
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { IEntityAttribute } from 'common/entityAttributes';
 import { WithRequiredProperty } from 'common/types';

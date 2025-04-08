@@ -1,5 +1,5 @@
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 

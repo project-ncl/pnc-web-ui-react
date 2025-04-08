@@ -1,7 +1,7 @@
 import { ActionGroup, Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
 import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { GroupConfiguration, Product, ProductVersion } from 'pnc-api-types-ts';
 
