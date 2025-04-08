@@ -22,7 +22,12 @@ legacyUrlRedirector();
 
 keycloakService.init();
 
-const router = createBrowserRouter(createRoutesFromElements(AppRoutes), { basename: URL_BASE_PATH });
+const router = createBrowserRouter(createRoutesFromElements(AppRoutes), {
+  basename: URL_BASE_PATH,
+  future: {
+    v7_relativeSplatPath: true,
+  },
+});
 
 const App = () => {
   const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);
