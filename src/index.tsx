@@ -26,6 +26,7 @@ const router = createBrowserRouter(createRoutesFromElements(AppRoutes), {
   basename: URL_BASE_PATH,
   future: {
     v7_relativeSplatPath: true,
+    v7_fetcherPersist: true,
   },
 });
 
