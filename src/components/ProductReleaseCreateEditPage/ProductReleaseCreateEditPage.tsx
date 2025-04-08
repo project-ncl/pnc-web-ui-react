@@ -9,7 +9,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { ProductMilestone, ProductMilestoneRef, ProductRelease, ProductVersionRef } from 'pnc-api-types-ts';
 

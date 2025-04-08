@@ -1,7 +1,7 @@
 import { Button, Label, NumberInput, SearchInput, Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useFullscreen } from 'hooks/useFullscreen';
 import { useParamsRequired } from 'hooks/useParamsRequired';

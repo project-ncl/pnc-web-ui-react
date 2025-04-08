@@ -3,7 +3,7 @@ import { CubesIcon, TimesCircleIcon } from '@patternfly/react-icons';
 import { InnerScrollContainer, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { AxiosRequestConfig } from 'axios';
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { DeliveredArtifactInMilestones, ParsedArtifact, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 

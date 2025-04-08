@@ -1,7 +1,7 @@
 import { Switch } from '@patternfly/react-core';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
 

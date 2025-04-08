@@ -12,7 +12,7 @@ import {
 import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Artifact, ArtifactPage } from 'pnc-api-types-ts';
 

@@ -1,7 +1,7 @@
 import { ActionGroup, Button, Form, FormGroup, Label, Popover, Switch } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 
 import { SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 

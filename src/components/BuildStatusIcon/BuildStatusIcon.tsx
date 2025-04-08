@@ -1,7 +1,7 @@
 import { Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon, OutlinedClockIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 

@@ -1,5 +1,5 @@
 import { Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 

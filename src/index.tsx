@@ -2,7 +2,7 @@ import '@patternfly/react-core/dist/styles/base.css';
 
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router';
 
 import { URL_BASE_PATH } from 'common/constants';
 
@@ -24,13 +24,6 @@ keycloakService.init();
 
 const router = createBrowserRouter(createRoutesFromElements(AppRoutes), {
   basename: URL_BASE_PATH,
-  future: {
-    v7_relativeSplatPath: true,
-    v7_fetcherPersist: true,
-    v7_normalizeFormMethod: true,
-    v7_partialHydration: true,
-    v7_skipActionErrorRevalidation: true,
-  },
 });
 
 const App = () => {
@@ -113,7 +106,7 @@ const App = () => {
   if (isKeycloakInitiated || isKeycloakInitFail) {
     return (
       <ErrorBoundary>
-        <RouterProvider future={{ v7_startTransition: true }} router={router} />
+        <RouterProvider router={router} />
       </ErrorBoundary>
     );
   }

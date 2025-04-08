@@ -1,5 +1,5 @@
 import { BreadcrumbItem as BreadcrumbItemPF, Breadcrumb as BreadcrumbPF } from '@patternfly/react-core';
-import { Link, useMatches } from 'react-router-dom';
+import { Link, useMatches } from 'react-router';
 
 import { TBreadcrumb, breadcrumbData } from 'common/breadcrumbData';
 

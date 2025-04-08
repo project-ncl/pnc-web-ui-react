@@ -1,6 +1,6 @@
 import { act, render } from '@testing-library/react';
 import * as routeData from 'react-router';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import { AppLayout } from '../AppLayout';

@@ -1,7 +1,7 @@
 import { Button, Chip, ChipGroup, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 import { IEntityAttribute } from 'common/entityAttributes';
