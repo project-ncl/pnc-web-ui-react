@@ -554,6 +554,7 @@ Object {
                         class=""
                       >
                         <a
+                          data-discover="true"
                           href="/artifacts/1853"
                         >
                           abbrev:1.1.1
@@ -1564,6 +1565,7 @@ Object {
                       class=""
                     >
                       <a
+                        data-discover="true"
                         href="/artifacts/1853"
                       >
                         abbrev:1.1.1

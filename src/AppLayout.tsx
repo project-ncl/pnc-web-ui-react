@@ -30,7 +30,7 @@ import {
   UserIcon,
 } from '@patternfly/react-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, Outlet, useMatches } from 'react-router-dom';
+import { Link, Outlet, useMatches } from 'react-router';
 
 import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useResizeObserver } from 'hooks/useResizeObserver';

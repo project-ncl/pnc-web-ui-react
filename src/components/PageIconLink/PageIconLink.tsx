@@ -1,5 +1,5 @@
 import { ArrowRightIcon } from '@patternfly/react-icons';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 

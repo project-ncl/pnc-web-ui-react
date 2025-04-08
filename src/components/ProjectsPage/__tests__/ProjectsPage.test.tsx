@@ -1,5 +1,5 @@
 import { act, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';

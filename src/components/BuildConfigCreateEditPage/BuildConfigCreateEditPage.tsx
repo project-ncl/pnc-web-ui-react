@@ -20,7 +20,7 @@ import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-
 import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router';
 
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
 

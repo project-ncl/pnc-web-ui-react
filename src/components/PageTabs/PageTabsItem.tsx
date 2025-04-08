@@ -1,7 +1,7 @@
 import { css } from '@patternfly/react-styles';
 import styles from '@patternfly/react-styles/css/components/Tabs/tabs';
 import { PropsWithChildren, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 

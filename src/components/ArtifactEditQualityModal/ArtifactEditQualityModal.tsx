@@ -1,6 +1,6 @@
 import { Button, Form, FormGroup, TextArea } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Artifact, Build } from 'pnc-api-types-ts';
 

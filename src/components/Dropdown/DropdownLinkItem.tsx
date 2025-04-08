@@ -1,6 +1,6 @@
 import { DropdownItem, DropdownItemProps } from '@patternfly/react-core';
 import { PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface IDropdownLinkItemProps extends DropdownItemProps {
   to: string;

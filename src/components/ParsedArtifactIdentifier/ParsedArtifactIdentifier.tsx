@@ -1,5 +1,5 @@
 import { Flex, FlexItem, FlexProps, Label, LabelProps } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Artifact } from 'pnc-api-types-ts';
 

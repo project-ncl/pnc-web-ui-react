@@ -1,6 +1,6 @@
 import { act, render } from '@testing-library/react';
 import * as routeData from 'react-router';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import { AppLayout } from '../AppLayout';
@@ -11,6 +11,13 @@ jest.mock('services/keycloakService');
 jest.mock('services/genericSettingsApi');
 jest.mock('services/webConfigService');
 jest.mock('services/broadcastService');
+
+jest.mock('react-router', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router'),
+  };
+});
 
 window.pnc = {
   config: {
@@ -32,6 +39,7 @@ const mockMatches = [
 beforeEach(() => {
   jest.spyOn(routeData, 'useMatches').mockReturnValue(mockMatches);
 });
+
 test('renders AppLayout', async () => {
   act(() => {
     render(

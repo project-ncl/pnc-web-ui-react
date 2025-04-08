@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 

@@ -2,7 +2,7 @@ import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVa
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { BuildConfiguration } from 'pnc-api-types-ts';
 

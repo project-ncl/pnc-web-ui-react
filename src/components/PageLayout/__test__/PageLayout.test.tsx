@@ -1,12 +1,19 @@
 import { act, render } from '@testing-library/react';
 import * as routeData from 'react-router';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
 jest.mock('services/keycloakService');
 jest.mock('services/genericSettingsApi');
 jest.mock('services/webConfigService');
+
+jest.mock('react-router', () => {
+  return {
+    __esModule: true,
+    ...jest.requireActual('react-router'),
+  };
+});
 
 window.pnc = {
   config: {

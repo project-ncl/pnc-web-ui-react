@@ -9,7 +9,7 @@ import {
   TagIcon,
   TrashIcon,
 } from '@patternfly/react-icons';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const iconDictionary = {
   create: <FileIcon />,

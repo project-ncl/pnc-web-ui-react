@@ -2,7 +2,7 @@ import Graph from 'graphology';
 import FA2Layout from 'graphology-layout-forceatlas2/worker';
 import circular from 'graphology-layout/circular';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Sigma from 'sigma';
 import { PlainObject } from 'sigma/types';
 

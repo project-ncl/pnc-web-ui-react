@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { Product, ProductVersion } from 'pnc-api-types-ts';
 

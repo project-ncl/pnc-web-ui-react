@@ -1,6 +1,6 @@
 import { Pagination as PaginationPF, PaginationVariant } from '@patternfly/react-core';
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
 

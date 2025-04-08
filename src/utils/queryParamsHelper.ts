@@ -1,4 +1,4 @@
-import { Location, NavigateFunction } from 'react-router-dom';
+import { Location, NavigateFunction } from 'react-router';
 
 /*
  * URL Query Params are considered to be the Single Point of Truth.

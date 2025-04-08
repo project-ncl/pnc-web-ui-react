@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import { Outlet, useOutletContext } from 'react-router';
 
 import { ProductVersion } from 'pnc-api-types-ts';
 

@@ -70,6 +70,7 @@ Object {
               <a
                 aria-disabled="false"
                 class="pf-v5-c-button pf-m-primary pf-m-small"
+                data-discover="true"
                 data-ouia-component-id="OUIA-Generated-Button-primary-2"
                 data-ouia-component-type="PF5/Button"
                 data-ouia-safe="true"
@@ -283,6 +284,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/100"
                     >
                       Test Project Name 100
@@ -328,6 +330,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/101"
                     >
                       zz_2021110-101
@@ -373,6 +376,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/102"
                     >
                       zz_2021110-102
@@ -416,6 +420,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/103"
                     >
                       zz_2021110-103
@@ -459,6 +464,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/104"
                     >
                       zz_2021110-104
@@ -502,6 +508,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/105"
                     >
                       zz_2021110-105
@@ -547,6 +554,7 @@ Object {
                     tabindex="-1"
                   >
                     <a
+                      data-discover="true"
                       href="/projects/106"
                     >
                       Test Project Name 106
@@ -869,6 +877,7 @@ Object {
             <a
               aria-disabled="false"
               class="pf-v5-c-button pf-m-primary pf-m-small"
+              data-discover="true"
               data-ouia-component-id="OUIA-Generated-Button-primary-2"
               data-ouia-component-type="PF5/Button"
               data-ouia-safe="true"
@@ -1082,6 +1091,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/100"
                   >
                     Test Project Name 100
@@ -1127,6 +1137,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/101"
                   >
                     zz_2021110-101
@@ -1172,6 +1183,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/102"
                   >
                     zz_2021110-102
@@ -1215,6 +1227,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/103"
                   >
                     zz_2021110-103
@@ -1258,6 +1271,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/104"
                   >
                     zz_2021110-104
@@ -1301,6 +1315,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/105"
                   >
                     zz_2021110-105
@@ -1346,6 +1361,7 @@ Object {
                   tabindex="-1"
                 >
                   <a
+                    data-discover="true"
                     href="/projects/106"
                   >
                     Test Project Name 106

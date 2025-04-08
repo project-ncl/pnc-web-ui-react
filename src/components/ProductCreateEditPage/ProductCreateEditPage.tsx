@@ -1,6 +1,6 @@
 import { ActionGroup, Button, Form, FormGroup, Label, TextArea, TextInput } from '@patternfly/react-core';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { Product } from 'pnc-api-types-ts';
 

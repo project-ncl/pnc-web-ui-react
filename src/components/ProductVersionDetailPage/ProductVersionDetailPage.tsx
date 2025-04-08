@@ -1,6 +1,6 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 

@@ -1,6 +1,6 @@
 import { CubesIcon } from '@patternfly/react-icons';
 import { PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
