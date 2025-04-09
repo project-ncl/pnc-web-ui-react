@@ -2,15 +2,3 @@
   text-align: right;
   padding-right: 4px;
 }
-
-.description-icon {
-  font-size: 15px;
-  font-style: italic;
-  text-decoration: var(--pf-v5-global--link--TextDecoration);
-  color: var(--pf-v5-global--link--Color);
-}
-
-.description-icon:hover {
-  color: var(--pf-v5-global--link--Color--hover);
-  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
-}
