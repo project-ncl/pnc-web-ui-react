@@ -21,8 +21,9 @@ const DELIVERABLE_ANALYSIS_LABELS: ILabelMapper<deliverableAnalysisLabel> = {
 
 interface IDeliverableAnalysisLabelLabelMapperProps {
   label: deliverableAnalysisLabel;
+  onRemove?: () => void;
 }
 
-export const DeliverableAnalysisLabelLabelMapper = ({ label }: IDeliverableAnalysisLabelLabelMapperProps) => (
-  <LabelMapper mapperItem={DELIVERABLE_ANALYSIS_LABELS[label]} />
+export const DeliverableAnalysisLabelLabelMapper = ({ label, onRemove }: IDeliverableAnalysisLabelLabelMapperProps) => (
+  <LabelMapper mapperItem={DELIVERABLE_ANALYSIS_LABELS[label]} onRemove={onRemove} />
 );
