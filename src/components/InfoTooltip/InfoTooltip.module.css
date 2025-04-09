@@ -1,0 +1,26 @@
+.tooltip-icon {
+  font-size: 15px;
+  font-style: italic;
+  text-decoration: var(--pf-v5-global--link--TextDecoration);
+}
+
+.tooltip-icon:hover {
+  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
+}
+
+.tooltip-icon--blue {
+  color: var(--pf-v5-global--link--Color);
+}
+
+.tooltip-icon--blue:hover {
+  color: var(--pf-v5-global--link--Color--hover);
+}
+
+/* Popover component is used */
+.tooltip-info--clickable {
+  margin-left: 4px;
+}
+
+.tooltip-info--clickable:hover {
+  cursor: pointer;
+}
