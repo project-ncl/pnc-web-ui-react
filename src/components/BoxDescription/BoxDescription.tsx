@@ -1,20 +1,10 @@
-import { Popover } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
 import { ReactNode } from 'react';
 
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
-
-import { isString } from 'utils/entityRecognition';
+import { InfoTooltip } from 'components/InfoTooltip/InfoTooltip';
 
 import styles from './BoxDescription.module.css';
 
-const DescriptionIcon = () => (
-  <span className={styles['description-icon']}>
-    <InfoCircleIcon />
-  </span>
-);
-
-export type IDescription = ReactNode | string;
+export type IDescription = ReactNode;
 
 interface IBoxDescriptionProps {
   description: IDescription;
@@ -30,14 +20,6 @@ interface IBoxDescriptionProps {
  */
 export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
   <div className={styles['box-description']}>
-    {isString(description) ? (
-      <TooltipWrapper tooltip={description}>
-        <DescriptionIcon />
-      </TooltipWrapper>
-    ) : (
-      <Popover bodyContent={description} showClose={false} enableFlip={false} position="left-start">
-        <DescriptionIcon />
-      </Popover>
-    )}
+    <InfoTooltip tooltip={description} color="blue" tooltipPosition="left-start" />
   </div>
 );

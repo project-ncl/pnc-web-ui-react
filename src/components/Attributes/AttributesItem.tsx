@@ -3,7 +3,7 @@ import { css } from '@patternfly/react-styles';
 import { PropsWithChildren, ReactNode } from 'react';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { InfoTooltip } from 'components/InfoTooltip/InfoTooltip';
 
 import styles from './Attributes.module.css';
 
@@ -18,7 +18,7 @@ export const AttributesItem = ({ children, title, tooltip, forceStringWrap }: Pr
     <GridItem xl2={2} lg={3} sm={12} className={styles['name']}>
       <>
         {title}
-        {tooltip && <TooltipWrapper tooltip={tooltip} />}
+        {tooltip && <InfoTooltip tooltip={tooltip} tooltipPosition="right-start" />}
       </>
     </GridItem>
     <GridItem xl2={10} lg={9} sm={12} className={css(forceStringWrap && 'overflow-break-word')}>
