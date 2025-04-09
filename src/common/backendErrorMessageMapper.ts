@@ -18,6 +18,14 @@ export const backendErrorMessageMapper = (errorStatus: number, backendErrorMessa
       return backendErrorMessage.replace(/Artifact \d+/, 'Artifact');
     }
 
+    const labelMatch = backendErrorMessage.match(/Unable to add the label (\w+)/);
+    if (labelMatch) {
+      const label = labelMatch[1];
+      const errorReason = backendErrorMessage.split(': ').pop() || '';
+
+      return `Label ${label} cannot be assigned${errorReason ? `: ${errorReason}.` : '.'}`;
+    }
+
     return `Action was not successful due to the conflict with the current state of the target resource. Please, refresh the page and try again. [HTTP 409 Conflict]`;
   }
 

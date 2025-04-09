@@ -1,10 +1,11 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
+import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
+import { DeliverableAnalysisLabel, deliverableAnalysisLabels } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { deliverableAnalysisReportEntityAttributes } from 'common/deliverableAnalysisReportEntityAttributes';
 
@@ -16,19 +17,23 @@ import {
 import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasDeliverableAnalysisChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
-import { useServiceContainer } from 'hooks/useServiceContainer';
+import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { DeliverableAnalysisAddLabelModal } from 'components/DeliverableAnalysisAddLabelModal/DeliverableAnalysisAddLabelModal';
+import { DeliverableAnalysisAddLabelModalButton } from 'components/DeliverableAnalysisAddLabelModal/DeliverableAnalysisAddLabelModalButton';
+import { DeliverableAnalysisRemoveLabelModal } from 'components/DeliverableAnalysisRemoveLabelModal/DeliverableAnalysisRemoveLabelModal';
 import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
+import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -124,6 +129,12 @@ export const DeliverableAnalysisDetailPage = () => {
     >
       <PageLayout
         title="Deliverable Analysis details"
+        actions={
+          <DeliverableAnalysisAddLabelModalAndButton
+            deliverableAnalysisOperation={deliverableAnalysis!}
+            serviceContainerDeliverableAnalysisReport={serviceContainerDeliverableAnalysisReport}
+          />
+        }
         breadcrumbs={[
           {
             entity: breadcrumbData.deliverableAnalysisDetail.id,
@@ -185,7 +196,10 @@ export const DeliverableAnalysisDetailPage = () => {
               {deliverableAnalysis?.parameters &&
                 Object.values(deliverableAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
             </AttributesItem>
-            <AttributesItem title={deliverableAnalysisReportEntityAttributes.labels.title}>
+            <AttributesItem
+              title={deliverableAnalysisReportEntityAttributes.labels.title}
+              tooltip={<DeliverableAnalysisLabelTooltip />}
+            >
               {(serviceContainerDeliverableAnalysisReport.loading ||
                 serviceContainerDeliverableAnalysisReport.error ||
                 !!serviceContainerDeliverableAnalysisReport.data?.labels?.length) && (
@@ -196,7 +210,7 @@ export const DeliverableAnalysisDetailPage = () => {
                 >
                   <div className="display-flex gap-5">
                     {serviceContainerDeliverableAnalysisReport.data?.labels?.map((label) => (
-                      <DeliverableAnalysisLabelLabelMapper key={label} label={label} />
+                      <DeliverableAnalysisLabelLabel key={label} label={label} deliverableAnalysisReport={deliverableAnalysis!} />
                     ))}
                   </div>
                 </ServiceContainerLoading>
@@ -250,6 +264,95 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
       <ContentBox padding>
         <LogViewer isStatic={deliverableAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
       </ContentBox>
+    </>
+  );
+};
+
+const DeliverableAnalysisLabelTooltip = () => (
+  <div>
+    Label defines additional metadata about a Deliverable Analysis. This influences which Delivered Artifacts are included in
+    Product Milestone Comparison or Product statistics dashboards.
+    <dl className="m-t-20">
+      <dt>
+        <b>SCRATCH</b>
+      </dt>
+      <dd>{deliverableAnalysisLabels.find((l) => l.value === 'SCRATCH')!.description}</dd>
+    </dl>
+    <dl className="m-t-20">
+      <dt>
+        <b>DELETED</b>
+      </dt>
+      <dd>{deliverableAnalysisLabels.find((l) => l.value === 'DELETED')!.description}</dd>
+    </dl>
+    <dl className="m-t-20">
+      <dt>
+        <b>RELEASED</b>
+      </dt>
+      <dd>{deliverableAnalysisLabels.find((l) => l.value === 'RELEASED')!.description}</dd>
+    </dl>
+  </div>
+);
+
+interface IDeliverableAnalysisAddLabelModalAndButtonProps {
+  deliverableAnalysisOperation: DeliverableAnalyzerOperation;
+  serviceContainerDeliverableAnalysisReport: IServiceContainerState<DeliverableAnalyzerReport>;
+}
+
+const DeliverableAnalysisAddLabelModalAndButton = ({
+  deliverableAnalysisOperation,
+  serviceContainerDeliverableAnalysisReport,
+}: IDeliverableAnalysisAddLabelModalAndButtonProps) => {
+  const [isAddLabelModalOpen, setIsAddLabelModalOpen] = useState<boolean>(false);
+
+  const toggleAddLabelModal = () => setIsAddLabelModalOpen((isAddLabelModalOpen) => !isAddLabelModalOpen);
+
+  return (
+    <>
+      <DeliverableAnalysisAddLabelModalButton
+        toggleModal={toggleAddLabelModal}
+        deliverableAnalysisOperation={deliverableAnalysisOperation}
+        serviceContainerDeliverableAnalysisReport={serviceContainerDeliverableAnalysisReport}
+      />
+      {isAddLabelModalOpen && (
+        <DeliverableAnalysisAddLabelModal
+          isModalOpen={isAddLabelModalOpen}
+          toggleModal={toggleAddLabelModal}
+          deliverableAnalysisReport={serviceContainerDeliverableAnalysisReport.data!}
+        />
+      )}
+    </>
+  );
+};
+
+interface IDeliverableAnalysisLabelLabelProps {
+  label: DeliverableAnalysisLabel;
+  deliverableAnalysisReport: DeliverableAnalyzerReport;
+}
+
+const DeliverableAnalysisLabelLabel = ({ label, deliverableAnalysisReport }: IDeliverableAnalysisLabelLabelProps) => {
+  const [isRemoveLabelModalOpen, setIsRemoveLabelModalOpen] = useState<boolean>(false);
+
+  const toggleRemoveLabelModal = () => setIsRemoveLabelModalOpen((isRemoveLabelModalOpen) => !isRemoveLabelModalOpen);
+
+  const canLabelBeChanged = label !== 'SCRATCH';
+
+  return (
+    <>
+      {canLabelBeChanged ? (
+        <ProtectedComponent>
+          <DeliverableAnalysisLabelLabelMapper label={label} onRemove={toggleRemoveLabelModal} />
+        </ProtectedComponent>
+      ) : (
+        <DeliverableAnalysisLabelLabelMapper label={label} />
+      )}
+      {canLabelBeChanged && (
+        <DeliverableAnalysisRemoveLabelModal
+          isModalOpen={isRemoveLabelModalOpen}
+          toggleModal={toggleRemoveLabelModal}
+          deliverableAnalysisReport={deliverableAnalysisReport}
+          label={label}
+        />
+      )}
     </>
   );
 };
