@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
+import { ArtifactPage, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
 import { pncClient } from 'services/pncClient';
 
@@ -20,4 +20,15 @@ export const getDeliverableAnalysisReport = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().get<DeliverableAnalyzerReport>(`/deliverable-analyses/${id}`, requestConfig);
+};
+
+/**
+ * Gets analyzed artifacts of a Deliverable Analysis report.
+ *
+ * @param serviceData - object containing:
+ *  - id - Deliverable Analysis ID
+ * @param requestConfig - Axios based request config
+ */
+export const getAnalyzedArtifacts = ({ id }: IDeliverableAnalysisReportApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<ArtifactPage>(`/deliverable-analyses/${id}/analyzed-artifacts`, requestConfig);
 };
