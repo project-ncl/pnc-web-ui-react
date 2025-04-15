@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
-import { breadcrumbData } from 'common/breadcrumbData';
 import { EntityTitles } from 'common/constants';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { deliverableAnalysisReportEntityAttributes } from 'common/deliverableAnalysisReportEntityAttributes';
@@ -17,7 +16,6 @@ import { useDataBuffer } from 'hooks/useDataBuffer';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasDeliverableAnalysisChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
-import { useTitle } from 'hooks/useTitle';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
@@ -27,7 +25,6 @@ import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/Deli
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
 import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
-import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -39,7 +36,6 @@ import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
 
 import { timestampHiglighter } from 'utils/preprocessorHelper';
-import { generatePageTitle } from 'utils/titleHelper';
 
 export const DeliverableAnalysisDetailPage = () => {
   const { deliverableAnalysisId } = useParamsRequired();
@@ -109,104 +105,77 @@ export const DeliverableAnalysisDetailPage = () => {
     )
   );
 
-  useTitle(
-    generatePageTitle({
-      serviceContainer: serviceContainerDeliverableAnalysisOperation,
-      firstLevelEntity: 'Deliverable Analysis',
-      entityName: `Deliverable Analysis ${deliverableAnalysis?.id}`,
-    })
-  );
-
   return (
-    <ServiceContainerLoading
-      {...serviceContainerDeliverableAnalysisOperation}
-      title="Product Milestone Deliverable Analysis details"
-    >
-      <PageLayout
-        title="Deliverable Analysis details"
-        breadcrumbs={[
-          {
-            entity: breadcrumbData.deliverableAnalysisDetail.id,
-            title: serviceContainerDeliverableAnalysisOperation.data?.id,
-          },
-        ]}
-      >
-        <ContentBox padding marginBottom isResponsive>
-          <Attributes>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.id.title}>
-              {deliverableAnalysis?.id}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes['productMilestone.version'].title}>
-              {deliverableAnalysis?.productMilestone && (
-                <ServiceContainerLoading
-                  {...serviceContainerProductMilestone}
-                  variant="inline"
-                  title={EntityTitles.productMilestone}
-                >
-                  <ServiceContainerLoading
-                    {...serviceContainerProductVersion}
-                    variant="inline"
-                    title={EntityTitles.productVersion}
-                  >
-                    <ProductMilestoneReleaseLabel
-                      link={`/products/${serviceContainerProductVersion.data?.product?.id}/versions/${serviceContainerProductVersion.data?.id}/milestones/${serviceContainerProductMilestone.data?.id}`}
-                      productMilestoneRelease={serviceContainerProductMilestone.data!}
-                      productName={serviceContainerProductVersion.data?.product?.name}
-                      isCurrent={
-                        serviceContainerProductVersion.data?.currentProductMilestone?.id ===
-                        serviceContainerProductMilestone.data?.id
-                      }
-                    />
-                  </ServiceContainerLoading>
+    <ServiceContainerLoading {...serviceContainerDeliverableAnalysisOperation} title="Deliverable Analysis Details">
+      <ContentBox padding marginBottom isResponsive>
+        <Attributes>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.id.title}>{deliverableAnalysis?.id}</AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes['productMilestone.version'].title}>
+            {deliverableAnalysis?.productMilestone && (
+              <ServiceContainerLoading
+                {...serviceContainerProductMilestone}
+                variant="inline"
+                title={EntityTitles.productMilestone}
+              >
+                <ServiceContainerLoading {...serviceContainerProductVersion} variant="inline" title={EntityTitles.productVersion}>
+                  <ProductMilestoneReleaseLabel
+                    link={`/products/${serviceContainerProductVersion.data?.product?.id}/versions/${serviceContainerProductVersion.data?.id}/milestones/${serviceContainerProductMilestone.data?.id}`}
+                    productMilestoneRelease={serviceContainerProductMilestone.data!}
+                    productName={serviceContainerProductVersion.data?.product?.name}
+                    isCurrent={
+                      serviceContainerProductVersion.data?.currentProductMilestone?.id ===
+                      serviceContainerProductMilestone.data?.id
+                    }
+                  />
                 </ServiceContainerLoading>
-              )}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes['user.username'].title}>
-              {deliverableAnalysis?.user?.username}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.progressStatus.title}>
-              {deliverableAnalysis?.progressStatus && (
-                <DeliverableAnalysisProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
-              )}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.result.title}>
-              {deliverableAnalysis?.result && <DeliverableAnalysisResultLabelMapper result={deliverableAnalysis.result} />}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.submitTime.title}>
-              {deliverableAnalysis?.submitTime && <DateTime date={deliverableAnalysis.submitTime} />}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.startTime.title}>
-              {deliverableAnalysis?.startTime && <DateTime date={deliverableAnalysis.startTime} />}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.endTime.title}>
-              {deliverableAnalysis?.endTime && <DateTime date={deliverableAnalysis.endTime} />}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisOperationEntityAttributes.parameters.title}>
-              {deliverableAnalysis?.parameters &&
-                Object.values(deliverableAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
-            </AttributesItem>
-            <AttributesItem title={deliverableAnalysisReportEntityAttributes.labels.title}>
-              {(serviceContainerDeliverableAnalysisReport.loading ||
-                serviceContainerDeliverableAnalysisReport.error ||
-                !!serviceContainerDeliverableAnalysisReport.data?.labels?.length) && (
-                <ServiceContainerLoading
-                  {...serviceContainerDeliverableAnalysisReport}
-                  variant="inline"
-                  title={'Deliverable Analysis label'}
-                >
-                  <div className="display-flex gap-5">
-                    {serviceContainerDeliverableAnalysisReport.data?.labels?.map((label) => (
-                      <DeliverableAnalysisLabelLabelMapper key={label} label={label} />
-                    ))}
-                  </div>
-                </ServiceContainerLoading>
-              )}
-            </AttributesItem>
-          </Attributes>
-        </ContentBox>
+              </ServiceContainerLoading>
+            )}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes['user.username'].title}>
+            {deliverableAnalysis?.user?.username}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.progressStatus.title}>
+            {deliverableAnalysis?.progressStatus && (
+              <DeliverableAnalysisProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
+            )}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.result.title}>
+            {deliverableAnalysis?.result && <DeliverableAnalysisResultLabelMapper result={deliverableAnalysis.result} />}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.submitTime.title}>
+            {deliverableAnalysis?.submitTime && <DateTime date={deliverableAnalysis.submitTime} />}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.startTime.title}>
+            {deliverableAnalysis?.startTime && <DateTime date={deliverableAnalysis.startTime} />}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.endTime.title}>
+            {deliverableAnalysis?.endTime && <DateTime date={deliverableAnalysis.endTime} />}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisOperationEntityAttributes.parameters.title}>
+            {deliverableAnalysis?.parameters &&
+              Object.values(deliverableAnalysis.parameters).map((parameter, index) => <div key={index}>{parameter}</div>)}
+          </AttributesItem>
+          <AttributesItem title={deliverableAnalysisReportEntityAttributes.labels.title}>
+            {(serviceContainerDeliverableAnalysisReport.loading ||
+              serviceContainerDeliverableAnalysisReport.error ||
+              !!serviceContainerDeliverableAnalysisReport.data?.labels?.length) && (
+              <ServiceContainerLoading
+                {...serviceContainerDeliverableAnalysisReport}
+                variant="inline"
+                title={'Deliverable Analysis label'}
+              >
+                <div className="display-flex gap-5">
+                  {serviceContainerDeliverableAnalysisReport.data?.labels?.map((label) => (
+                    <DeliverableAnalysisLabelLabelMapper key={label} label={label} />
+                  ))}
+                </div>
+              </ServiceContainerLoading>
+            )}
+          </AttributesItem>
+        </Attributes>
+      </ContentBox>
 
-        <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
-      </PageLayout>
+      <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
     </ServiceContainerLoading>
   );
 };

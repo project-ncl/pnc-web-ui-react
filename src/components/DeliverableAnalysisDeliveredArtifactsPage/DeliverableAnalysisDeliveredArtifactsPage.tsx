@@ -9,22 +9,24 @@ import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
-import * as productMilestoneApi from 'services/productMilestoneApi';
+import * as deliverableAnalysisApi from 'services/deliverableAnalysisApi';
 
-interface IProductMilestoneDeliveredArtifactsPageProps {
+interface IDeliverableAnalysisDeliveredArtifactsPageProps {
   componentId?: string;
 }
 
-export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: IProductMilestoneDeliveredArtifactsPageProps) => {
-  const { productMilestoneId } = useParamsRequired();
+export const DeliverableAnalysisDeliveredArtifactsPage = ({
+  componentId = 'd2',
+}: IDeliverableAnalysisDeliveredArtifactsPageProps) => {
+  const { deliverableAnalysisId } = useParamsRequired();
 
-  const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
+  const serviceContainerArtifacts = useServiceContainer(deliverableAnalysisApi.getAnalyzedArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
   useQueryParamsEffect(
     useCallback(
-      ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
-      [serviceContainerArtifactsRunner, productMilestoneId]
+      ({ requestConfig } = {}) => serviceContainerArtifactsRunner({ serviceData: { id: deliverableAnalysisId }, requestConfig }),
+      [serviceContainerArtifactsRunner, deliverableAnalysisId]
     ),
     { componentId }
   );
@@ -36,7 +38,8 @@ export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: I
           <TextContent>
             <Text component="h2">Delivered Artifacts</Text>
             <Text>
-              This list contains artifacts delivered in the current milestone. Each Artifact is represented by PNC Identifier.
+              This list contains artifacts analyzed in the current deliverable analysis. Each Artifact is represented by PNC
+              Identifier.
             </Text>
           </TextContent>
         </ToolbarItem>
