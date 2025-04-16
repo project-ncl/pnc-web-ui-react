@@ -9,9 +9,12 @@ import {
   ProductMilestone,
   ProductMilestoneCloseResult,
   ProductMilestoneCloseResultPage,
+  ProductVersion,
 } from 'pnc-api-types-ts';
 
-import { pncApiMocksClient } from 'services/pncApiMocksClient';
+import * as productVersionApi from 'services/productVersionApi';
+
+import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { pncClient } from './pncClient';
 
@@ -115,15 +118,81 @@ export const getStatistics = ({ id }: IProductMilestoneApiData, requestConfig: A
   return pncClient.getHttpClient().get<any>(`/product-milestones/${id}/statistics`, requestConfig);
 };
 
+type ProductMilestoneWithFullVersion = Omit<ProductMilestone, 'productVersion'> & {
+  productVersion: ProductVersion;
+};
+
+interface VertexProductMilestone {
+  data?: ProductMilestoneWithFullVersion;
+  dataType?: string;
+  name?: string;
+}
+
+interface EdgeProductMilestone {
+  cost?: number;
+  source?: string;
+  target?: string;
+}
+
+// TODO (NCL-9075): import types from pnc-api-types-ts once upgraded
+export interface GraphProductMilestone {
+  edges?: EdgeProductMilestone[];
+  vertices?: {
+    [name: string]: VertexProductMilestone;
+  };
+}
+
+export const MAX_INTERCONNECTION_GRAPH_DEPTH = 5;
+
 /**
  * Gets Product Milestone interconnection graph.
  *
  * @param serviceData - object containing:
  *  - id - Product Milestone ID
+ * - depthLimit - Maximum depth of a graph from the node belonging to Product Milestone ID
  * @param requestConfig - Axios based request config
  */
-export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncApiMocksClient.getHttpClient().get<any>(`/product-milestones/${id}/interconnection-graph`, requestConfig);
+export const getInterconnectionGraph = async (
+  { id, depthLimit = MAX_INTERCONNECTION_GRAPH_DEPTH }: { id: string; depthLimit?: number },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  const graph = await pncClient.getHttpClient().get<GraphProductMilestone>(
+    `/product-milestones/${id}/interconnection-graph`,
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        depthLimit: depthLimit,
+      },
+    })
+  );
+
+  const graphVertices = graph.data.vertices;
+  const productVersionIds = Array.from(
+    new Set(
+      Object.values(graphVertices!)
+        .map((vertex) => vertex.data!.productVersion!.id!)
+        .filter(Boolean)
+    )
+  );
+
+  const productVersionMap = Object.fromEntries(
+    await Promise.all(
+      productVersionIds.map(async (id): Promise<[string, ProductVersion]> => {
+        const productVersion = await productVersionApi.getProductVersion({ id });
+        return [id, productVersion.data];
+      })
+    )
+  );
+
+  for (const vertex of Object.values(graphVertices!)) {
+    const productVersionId = vertex.data!.productVersion!.id;
+    const productVersion = productVersionId && productVersionMap[productVersionId];
+    if (productVersion) {
+      vertex.data!.productVersion = productVersion;
+    }
+  }
+
+  return graph;
 };
 
 /**
@@ -132,7 +201,7 @@ export const getInterconnectionGraph = ({ id }: IProductMilestoneApiData, reques
  * @param requestConfig - Axios based request config
  */
 export const getSharedDeliveredArtifacts = (requestConfig: AxiosRequestConfig = {}) => {
-  return pncApiMocksClient.getHttpClient().get<any>(`/product-milestone-shared-delivered-artifacts`, requestConfig);
+  return pncClient.getHttpClient().get<ArtifactPage>(`/product-milestones/delivered-artifacts/shared`, requestConfig);
 };
 
 export interface IProductMilestoneComparisonData {
