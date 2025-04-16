@@ -188,14 +188,7 @@ export const AppRoutes = (
                 <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
                 <Route path="deliverable-analyses" element={<ProductMilestoneDeliverableAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
-                <Route
-                  path="interconnection-graph"
-                  element={
-                    <ExperimentalContent isRouteVariant>
-                      <ProductMilestoneInterconnectionGraphPage />
-                    </ExperimentalContent>
-                  }
-                />
+                <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
                 <Route index element={<Navigate to="details" replace />} />
               </Route>
             </Route>

@@ -19,8 +19,6 @@ import { useTitle } from 'hooks/useTitle';
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { AnalyzeDeliverablesModal } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModal';
 import { AnalyzeDeliverablesModalButton } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModalButton';
-import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
-import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
@@ -175,13 +173,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           {serviceContainerArtifacts.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <ExperimentalContent>
-        <PageTabsItem url="interconnection-graph">
-          <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
-            Interconnection Graph
-          </ExperimentalContentMarker>
-        </PageTabsItem>
-      </ExperimentalContent>
+      <PageTabsItem url="interconnection-graph">Interconnection Graph</PageTabsItem>
     </PageTabs>
   );
 
