@@ -12,7 +12,7 @@
     "axios": "^1.2.6",
     "chart.js": "^4.4.2",
     "fast-json-patch": "^3.1.1",
-    "graphology": "^0.25.4",
+    "graphology": "^0.26.0",
     "graphology-layout": "^0.6.1",
     "graphology-layout-forceatlas2": "^0.10.1",
     "lodash-es": "^4.17.21",
@@ -23,7 +23,7 @@
     "react-scripts": "5.0.1",
     "react-test-renderer": "^18.3.1",
     "resize-observer-polyfill": "^1.5.1",
-    "sigma": "^3.0.0-beta.19",
+    "sigma": "^3.0.1",
     "typescript": "^4.3.2",
     "web-vitals": "^2.1.4"
   },
