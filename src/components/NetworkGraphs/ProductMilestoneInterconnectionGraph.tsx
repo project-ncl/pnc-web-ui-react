@@ -54,26 +54,29 @@ export const ProductMilestoneInterconnectionGraph = ({
 
   useEffect(() => {
     if (data) {
-      createNetworkGraph((graph: Graph) => {
-        Object.values(data.vertices).forEach((node: any) => {
-          graph.addNode(node.name, {
-            id: node.data.id,
-            label: `${node.data.product.name} ${node.name}`,
-            mainLabel: node.name,
-            subLabel: node.data.product.name,
-            link: `/products/${node.data.product.id}/versions/${node.data.productVersion.id}/milestones/${node.data.id}`,
-            size: node.data.version === mainNode ? 9 : 6,
-            color: node.data.version === mainNode ? MAIN_NODE_COLOR : NODE_COLOR,
-            x: 0,
-            y: 0,
+      // defer graph rendering until after the UI paint; there were issues with useEffect double-invocation
+      requestAnimationFrame(() => {
+        createNetworkGraph((graph: Graph) => {
+          Object.values(data.vertices).forEach((node: any) => {
+            graph.addNode(node.name, {
+              id: node.name,
+              label: `${node.data.productVersion.product.name} ${node.data.version}`,
+              mainLabel: node.data.version,
+              subLabel: node.data.productVersion.product.name,
+              link: `/products/${node.data.productVersion.product.id}/versions/${node.data.productVersion.id}/milestones/${node.data.id}`,
+              size: node.data.id === mainNode ? 9 : 6,
+              color: node.data.id === mainNode ? MAIN_NODE_COLOR : NODE_COLOR,
+              x: 0,
+              y: 0,
+            });
           });
-        });
 
-        data.edges.forEach((edge: any) => {
-          graph.addEdge(edge.source, edge.target, {
-            label: edge.sharedDeliveredArtifacts,
-            size: 3,
-            color: EDGE_COLOR,
+          data.edges.forEach((edge: any) => {
+            graph.addEdge(edge.source, edge.target, {
+              label: edge.cost,
+              size: 3,
+              color: EDGE_COLOR,
+            });
           });
         });
       });

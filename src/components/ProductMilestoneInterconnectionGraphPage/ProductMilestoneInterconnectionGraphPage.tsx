@@ -10,8 +10,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
-import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
 import { FullscreenButton } from 'components/FullscreenButton/FullscreenButton';
 import { ProductMilestoneInterconnectionGraph } from 'components/NetworkGraphs/ProductMilestoneInterconnectionGraph';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
@@ -57,7 +55,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
   const serviceContainerProductMilestone2Runner = serviceContainerProductMilestone2.run;
 
   const [hasLimitedNesting, setHasLimitedNesting] = useState<boolean>(true);
-  const [nestingLevel, setNestingLevel] = useState<number>(10);
+  const [nestingLevel, setNestingLevel] = useState<number>(productMilestoneApi.MAX_INTERCONNECTION_GRAPH_DEPTH);
   const [searchValueProduct, setSearchValueProduct] = useState<string>('');
   const [searchValueProductMilestone, setSearchValueProductMilestone] = useState<string>('');
   const [showSharedDeliveredArtifactsList, setShowSharedDeliveredArtifactsList] = useState<boolean>(false);
@@ -120,86 +118,83 @@ export const ProductMilestoneInterconnectionGraphPage = ({
   );
 
   return (
-    <ExperimentalContent>
-      <ExperimentalContentMarker dataSource="mock" contentType="box" showTooltip>
-        <Toolbar>
+    <>
+      <Toolbar>
+        <ToolbarItem>
+          <TextContent>
+            <Text component={TextVariants.h2}>Product Milestone Interconnection Graph</Text>
+          </TextContent>
+          <TextContent>
+            <Text component={TextVariants.p}>
+              Edges interconnect Product Milestones sharing Delivered Artifacts. An edge number represents the number of shared
+              Delivered Artifacts between the two Milestones. Clicking on an edge displays a list of shared Delivered Artifacts.
+              The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to highlight
+              them and their neighbors. Double-clicking on a node opens the Milestone detail page. To drag a node, hold down the{' '}
+              <Label>Shift</Label> key and the mouse button and click on the node.
+            </Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+
+      <div ref={graphDivRef} className="position-relative">
+        <Toolbar borderTop>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Product Milestone Interconnection Graph</Text>
-            </TextContent>
-            <TextContent>
-              <Text component={TextVariants.p}>
-                Edges interconnect Product Milestones sharing Delivered Artifacts. An edge number represents the number of shared
-                Delivered Artifacts between the two Milestones. Clicking on an edge displays a list of shared Delivered Artifacts.
-                The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to
-                highlight them and their neighbors. Double-clicking on a node opens the Milestone detail page. To drag a node,
-                hold down the <Label>Shift</Label> key and the mouse button and click on the node.
-              </Text>
-            </TextContent>
+            <SearchInput
+              placeholder="Find Product"
+              value={searchValueProduct}
+              onChange={(_, value) => setSearchValueProduct(value)}
+              onClear={() => setSearchValueProduct('')}
+            />
+          </ToolbarItem>
+          <ToolbarItem>
+            <SearchInput
+              placeholder="Find Milestone"
+              value={searchValueProductMilestone}
+              onChange={(_, value) => setSearchValueProductMilestone(value)}
+              onClear={() => setSearchValueProductMilestone('')}
+            />
+          </ToolbarItem>
+          <ToolbarItem>
+            <Switch
+              label="Limit nesting"
+              isChecked={hasLimitedNesting}
+              onChange={(_, checked) => setHasLimitedNesting(checked)}
+            />
+          </ToolbarItem>
+          <ToolbarItem>
+            <NumberInput
+              min={0}
+              max={productMilestoneApi.MAX_INTERCONNECTION_GRAPH_DEPTH}
+              isDisabled={!hasLimitedNesting}
+              value={nestingLevel}
+              onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                const value = (event.target as HTMLInputElement).value;
+                setNestingLevel(+value);
+              }}
+              onMinus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel - 1)}
+              onPlus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel + 1)}
+            />
           </ToolbarItem>
         </Toolbar>
 
-        <div ref={graphDivRef} className="position-relative">
-          <Toolbar borderTop>
-            <ToolbarItem>
-              <SearchInput
-                placeholder="Find Product"
-                value={searchValueProduct}
-                onChange={(_, value) => setSearchValueProduct(value)}
-                onClear={() => setSearchValueProduct('')}
-              />
-            </ToolbarItem>
-            <ToolbarItem>
-              <SearchInput
-                placeholder="Find Milestone"
-                value={searchValueProductMilestone}
-                onChange={(_, value) => setSearchValueProductMilestone(value)}
-                onClear={() => setSearchValueProductMilestone('')}
-              />
-            </ToolbarItem>
-            <ToolbarItem>
-              <Switch
-                label="Limit nesting"
-                isChecked={hasLimitedNesting}
-                onChange={(_, checked) => setHasLimitedNesting(checked)}
-              />
-            </ToolbarItem>
-            <ToolbarItem>
-              <NumberInput
-                min={0}
-                isDisabled={!hasLimitedNesting}
-                value={nestingLevel}
-                onChange={(event: React.FormEvent<HTMLInputElement>) => {
-                  const value = (event.target as HTMLInputElement).value;
-                  setNestingLevel(+value);
-                }}
-                onMinus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel - 1)}
-                onPlus={() => setNestingLevel((prevNestingLevel) => prevNestingLevel + 1)}
-              />
-            </ToolbarItem>
-          </Toolbar>
+        <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}>
+          <ServiceContainerLoading {...serviceContainerInterconnectionGraph} title="Product Milestone Interconnection Graph">
+            <ProductMilestoneInterconnectionGraph
+              data={serviceContainerInterconnectionGraph.data}
+              mainNode={serviceContainerProductMilestone.data!.id}
+              hasLimitedNesting={hasLimitedNesting}
+              nestingLevel={nestingLevel}
+              searchValueMainLabel={searchValueProductMilestone}
+              searchValueSubLabel={searchValueProduct}
+              onEdgeSelected={loadSharedDeliveredArtifacts}
+              componentId={componentId}
+            />
+          </ServiceContainerLoading>
+        </ContentBox>
+        <FullscreenButton containerRef={graphDivRef} position="bottom-left" />
+      </div>
 
-          <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}>
-            <ServiceContainerLoading
-              {...serviceContainerInterconnectionGraph}
-              hasSkeleton
-              title="Product Milestone Interconnection Graph"
-            >
-              <ProductMilestoneInterconnectionGraph
-                data={serviceContainerInterconnectionGraph.data}
-                mainNode={serviceContainerProductMilestone.data!.version}
-                hasLimitedNesting={hasLimitedNesting}
-                nestingLevel={nestingLevel}
-                searchValueMainLabel={searchValueProductMilestone}
-                searchValueSubLabel={searchValueProduct}
-                onEdgeSelected={loadSharedDeliveredArtifacts}
-                componentId={componentId}
-              />
-            </ServiceContainerLoading>
-          </ContentBox>
-          <FullscreenButton containerRef={graphDivRef} position="bottom-left" />
-        </div>
-
+      <>
         {showSharedDeliveredArtifactsList && (
           <>
             <div ref={sharedDeliveredArtifactsListTopRef} />
@@ -248,7 +243,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
             />
           </>
         )}
-      </ExperimentalContentMarker>
-    </ExperimentalContent>
+      </>
+    </>
   );
 };

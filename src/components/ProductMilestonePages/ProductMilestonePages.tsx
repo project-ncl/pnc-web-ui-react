@@ -177,7 +177,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
       </PageTabsItem>
       <ExperimentalContent>
         <PageTabsItem url="interconnection-graph">
-          <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
+          <ExperimentalContentMarker dataSource="experimental" contentType="text" showTooltip>
             Interconnection Graph
           </ExperimentalContentMarker>
         </PageTabsItem>
