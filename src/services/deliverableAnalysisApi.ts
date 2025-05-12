@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
+import { AnalyzedArtifactPage, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
 import { DeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
 
@@ -57,4 +57,15 @@ export const removeDeliverableAnalysisLabel = (
   requestConfig: AxiosRequestConfig = {}
 ) => {
   return pncClient.getHttpClient().post<undefined>(`/deliverable-analyses/${id}/remove-label`, data, requestConfig);
+};
+
+/**
+ * Gets analyzed artifacts of a Deliverable Analysis report.
+ *
+ * @param serviceData - object containing:
+ *  - id - Deliverable Analysis ID
+ * @param requestConfig - Axios based request config
+ */
+export const getAnalyzedArtifacts = ({ id }: IDeliverableAnalysisReportApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<AnalyzedArtifactPage>(`/deliverable-analyses/${id}/analyzed-artifacts`, requestConfig);
 };

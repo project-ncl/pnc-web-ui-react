@@ -34,7 +34,9 @@ import { BuildPages } from 'components/BuildPages/BuildPages';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DeliverableAnalysesPage } from 'components/DeliverableAnalysesPage/DeliverableAnalysesPage';
+import { DeliverableAnalysisDeliveredArtifactsPage } from 'components/DeliverableAnalysisDeliveredArtifactsPage/DeliverableAnalysisDeliveredArtifactsPage';
 import { DeliverableAnalysisDetailPage } from 'components/DeliverableAnalysisDetailPage/DeliverableAnalysisDetailPage';
+import { DeliverableAnalysisPages } from 'components/DeliverableAnalysisPages/DeliverableAnalysisPages';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
@@ -378,8 +380,12 @@ export const AppRoutes = (
       <Route
         path=":deliverableAnalysisId"
         handle={breadcrumbData.deliverableAnalysisDetail.id}
-        element={<DeliverableAnalysisDetailPage />}
-      />
+        element={<DeliverableAnalysisPages />}
+      >
+        <Route path="details" element={<DeliverableAnalysisDetailPage />} />
+        <Route path="delivered-artifacts" element={<DeliverableAnalysisDeliveredArtifactsPage />} />
+        <Route index element={<Navigate to="details" replace />} />
+      </Route>
     </Route>
 
     {/* special pages */}
