@@ -32,6 +32,7 @@ type TColumns = Array<keyof typeof buildEntityAttributes>;
 const defaultColumns: TColumns = [
   buildEntityAttributes.status.id,
   buildEntityAttributes.id.id,
+  buildEntityAttributes.temporaryBuild.id,
   buildEntityAttributes.name.id,
   buildEntityAttributes.buildConfigName.id,
   buildEntityAttributes.submitTime.id,
