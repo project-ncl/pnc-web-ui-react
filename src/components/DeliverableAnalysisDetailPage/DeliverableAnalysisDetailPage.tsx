@@ -4,8 +4,8 @@ import { useOutletContext } from 'react-router';
 
 import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
 
-import { EntityTitles } from 'common/constants';
-import { DeliverableAnalysisLabel, deliverableAnalysisLabels } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
+import { EntityTitles, PageTitles } from 'common/constants';
+import { DeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { deliverableAnalysisReportEntityAttributes } from 'common/deliverableAnalysisReportEntityAttributes';
 
@@ -15,12 +15,16 @@ import {
   useBifrostWebSocketEffect,
 } from 'hooks/useBifrostWebSocketEffect';
 import { useDataBuffer } from 'hooks/useDataBuffer';
+import { useParamsRequired } from 'hooks/useParamsRequired';
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { DeliverableAnalysisLabelsHistoryList } from 'components/DeliverableAnalysisLabelHistoryList/DeliverableAnalysisLabelHistoryList';
+import { DeliverableAnalysisLabelTooltip } from 'components/DeliverableAnalysisLabelTooltip/DeliverableAnalysisLabelTooltip';
 import { DeliverableAnalysisRemoveLabelModal } from 'components/DeliverableAnalysisRemoveLabelModal/DeliverableAnalysisRemoveLabelModal';
 import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
 import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
@@ -32,19 +36,29 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
+import * as deliverableAnalysisApi from 'services/deliverableAnalysisApi';
 import * as productMilestoneApi from 'services/productMilestoneApi';
 import * as productVersionApi from 'services/productVersionApi';
 
 import { timestampHiglighter } from 'utils/preprocessorHelper';
+
+interface IDeliverableAnalysisDetailPage {
+  componentId?: string;
+}
 
 interface ContextType {
   serviceContainerDeliverableAnalysisOperation: IServiceContainerState<DeliverableAnalyzerOperation>;
   serviceContainerDeliverableAnalysisReport: IServiceContainerState<DeliverableAnalyzerReport>;
 }
 
-export const DeliverableAnalysisDetailPage = () => {
+export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDeliverableAnalysisDetailPage) => {
   const { serviceContainerDeliverableAnalysisOperation, serviceContainerDeliverableAnalysisReport } =
     useOutletContext<ContextType>();
+
+  const { deliverableAnalysisId } = useParamsRequired();
+
+  const serviceContainerLabelsHistory = useServiceContainer(deliverableAnalysisApi.getLabelsHistory, 0);
+  const serviceContainerlabelsHistoryRunner = serviceContainerLabelsHistory.run;
 
   const serviceContainerProductMilestone = useServiceContainer(productMilestoneApi.getProductMilestone, 0);
   const serviceContainerProductMilestoneRunner = serviceContainerProductMilestone.run;
@@ -68,6 +82,21 @@ export const DeliverableAnalysisDetailPage = () => {
       });
     }
   }, [deliverableAnalysis?.productMilestone?.id, serviceContainerProductMilestoneRunner, serviceContainerProductVersionRunner]);
+
+  useQueryParamsEffect(
+    useCallback(
+      ({ requestConfig } = {}) =>
+        serviceContainerlabelsHistoryRunner({
+          serviceData: { id: deliverableAnalysisId },
+          requestConfig,
+        }),
+      [deliverableAnalysisId, serviceContainerlabelsHistoryRunner]
+    ),
+    {
+      componentId,
+      mandatoryQueryParams: listMandatoryQueryParams.pagination,
+    }
+  );
 
   return (
     <ServiceContainerLoading
@@ -149,6 +178,20 @@ export const DeliverableAnalysisDetailPage = () => {
         </Attributes>
       </ContentBox>
 
+      <ContentBox marginBottom>
+        <Toolbar borderBottom>
+          <ToolbarItem>
+            <TextContent>
+              <Text component={TextVariants.h2}>{PageTitles.deliverableAnalysisLabelsHistory}</Text>
+            </TextContent>
+          </ToolbarItem>
+        </Toolbar>
+        <DeliverableAnalysisLabelsHistoryList
+          serviceContainerLabelsHistory={serviceContainerLabelsHistory}
+          componentId={componentId}
+        />
+      </ContentBox>
+
       <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
     </ServiceContainerLoading>
   );
@@ -189,31 +232,6 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
     </>
   );
 };
-
-const DeliverableAnalysisLabelTooltip = () => (
-  <div>
-    Label defines additional metadata about a Deliverable Analysis. This influences which Delivered Artifacts are included in
-    Product Milestone Comparison or Product statistics dashboards.
-    <dl className="m-t-20">
-      <dt>
-        <b>SCRATCH</b>
-      </dt>
-      <dd>{deliverableAnalysisLabels.find((l) => l.value === 'SCRATCH')!.description}</dd>
-    </dl>
-    <dl className="m-t-20">
-      <dt>
-        <b>DELETED</b>
-      </dt>
-      <dd>{deliverableAnalysisLabels.find((l) => l.value === 'DELETED')!.description}</dd>
-    </dl>
-    <dl className="m-t-20">
-      <dt>
-        <b>RELEASED</b>
-      </dt>
-      <dd>{deliverableAnalysisLabels.find((l) => l.value === 'RELEASED')!.description}</dd>
-    </dl>
-  </div>
-);
 
 interface IDeliverableAnalysisLabelLabelProps {
   label: DeliverableAnalysisLabel;
