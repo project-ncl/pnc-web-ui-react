@@ -43,7 +43,7 @@ export const DeliverableAnalysisDeliveredArtifactsPage = ({
           </TextContent>
         </ToolbarItem>
       </Toolbar>
-      <AnalyzedArtifactsList {...{ serviceContainerArtifacts, componentId }} />;
+      <AnalyzedArtifactsList {...{ serviceContainerArtifacts, componentId }} />
     </>
   );
 };
