@@ -40,6 +40,7 @@ export const PageTitles = {
   deliverableAnalyses: 'Deliverable Analyses',
   pageNotFound: 'Page Not Found',
   delimiterSymbol: '·',
+  deliverableAnalysisLabelsHistory: 'Labels History',
 };
 
 export const ButtonTitles = {
