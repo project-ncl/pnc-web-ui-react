@@ -912,6 +912,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 <FormInput<string>
                   key={index}
                   {...register(key)}
+                  value={buildParam.value}
                   render={({ onChange, ...rest }) => (
                     <FormGroup
                       label={
