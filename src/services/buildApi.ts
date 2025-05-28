@@ -204,7 +204,10 @@ export const getArtifactDependencies = (requestConfig: AxiosRequestConfig = {}) 
  *  - id - Build ID
  * @param requestConfig - Axios based request config
  */
-export const pushToBrew = ({ id, data }: { id: string; data: { tagPrefix: string } }, requestConfig: AxiosRequestConfig = {}) => {
+export const pushToBrew = (
+  { id, data }: { id: string; data: { tagPrefix: string; reimport: string } },
+  requestConfig: AxiosRequestConfig = {}
+) => {
   return pncClient.getHttpClient().post<BuildPushResult>(`/builds/${id}/brew-push`, data, requestConfig);
 };
 
