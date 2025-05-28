@@ -1,4 +1,5 @@
-import { Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
+import { Button, Form, FormGroup, Switch, TextInput } from '@patternfly/react-core';
+import { useMemo } from 'react';
 import { Link } from 'react-router';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -9,6 +10,7 @@ import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
+import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
@@ -18,6 +20,9 @@ import * as groupBuildApi from 'services/groupBuildApi';
 const fieldConfigs = {
   tagPrefix: {
     isRequired: true,
+  },
+  reimport: {
+    value: false,
   },
 } satisfies IFieldConfigs;
 
@@ -29,7 +34,9 @@ export interface IBrewPushModalProps {
 }
 
 export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBrewPushModalProps) => {
-  const serviceContainerPushToBrew = useServiceContainer(variant === 'Build' ? buildApi.pushToBrew : groupBuildApi.pushToBrew, 0);
+  const isSingleBuildPush = useMemo(() => variant === 'Build', [variant]);
+
+  const serviceContainerPushToBrew = useServiceContainer(isSingleBuildPush ? buildApi.pushToBrew : groupBuildApi.pushToBrew, 0);
 
   const { register, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
@@ -37,7 +44,7 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
     return serviceContainerPushToBrew.run({
       serviceData: {
         id: build.id,
-        data: { tagPrefix: data.tagPrefix },
+        data: { tagPrefix: data.tagPrefix, reimport: isSingleBuildPush ? data.reimport : undefined },
       },
       onError: () => console.error('Failed to push to Brew.'),
     });
@@ -92,6 +99,28 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
           <FormInputHelperText variant="error">
             {getFieldErrors(buildPushParametersEntityAttributes.tagPrefix.id)}
           </FormInputHelperText>
+        </FormGroup>
+        <FormGroup
+          label={buildPushParametersEntityAttributes.reimport.title}
+          fieldId={buildPushParametersEntityAttributes.reimport.id}
+          labelIcon={<TooltipWrapper tooltip={buildPushParametersEntityAttributes.reimport.tooltip} />}
+        >
+          <FormInput<boolean>
+            {...register<boolean>(buildPushParametersEntityAttributes.reimport.id, fieldConfigs.reimport)}
+            render={({ value, ...rest }) => (
+              <TooltipWrapper tooltip={!isSingleBuildPush && 'Group Build pushes cannot use this option.'}>
+                <Switch
+                  id={buildPushParametersEntityAttributes.reimport.id}
+                  name={buildPushParametersEntityAttributes.reimport.id}
+                  label="Enabled"
+                  labelOff="Disabled"
+                  isChecked={isSingleBuildPush && value}
+                  isDisabled={!isSingleBuildPush}
+                  {...rest}
+                />
+              </TooltipWrapper>
+            )}
+          />
         </FormGroup>
       </Form>
     </ActionModal>
