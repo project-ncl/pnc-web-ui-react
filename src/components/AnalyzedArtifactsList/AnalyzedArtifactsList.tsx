@@ -326,21 +326,25 @@ export const AnalyzedArtifactsList = ({
                               </DescriptionListDescription>
                             </DescriptionListGroup>
                           )}
-                          {analyzedArtifact.licenses && analyzedArtifact.licenses.length > 0 && (
-                            <DescriptionListGroup className="m-t-10">
-                              <DescriptionListTerm>Licenses</DescriptionListTerm>
-                              <DescriptionListDescription>
-                                {analyzedArtifact.licenses.map((license, index) => (
+                          <DescriptionListGroup className="m-t-10">
+                            <DescriptionListTerm>Licenses</DescriptionListTerm>
+                            <DescriptionListDescription>
+                              {analyzedArtifact.licenses && analyzedArtifact.licenses.length > 0 ? (
+                                analyzedArtifact.licenses.map((license, index) => (
                                   <span key={index}>
                                     <a href={license.url} target="_blank" rel="noopener noreferrer">
                                       {license.spdxLicenseId}
                                     </a>
                                     {index < analyzedArtifact.licenses!.length - 1 && ', '}
                                   </span>
-                                ))}
-                              </DescriptionListDescription>
-                            </DescriptionListGroup>
-                          )}
+                                ))
+                              ) : (
+                                <>
+                                  <TooltipWrapper tooltip="This artifact has no associated license." /> <EmptyStateSymbol />
+                                </>
+                              )}
+                            </DescriptionListDescription>
+                          </DescriptionListGroup>
                           <DescriptionListGroup className="m-t-10">
                             <DescriptionListTerm>Distribution URL</DescriptionListTerm>
                             <DescriptionListDescription>
