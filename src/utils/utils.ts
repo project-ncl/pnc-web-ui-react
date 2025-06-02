@@ -2,6 +2,9 @@ import { debounce as lodashDebounce } from 'lodash-es';
 
 import { Build, ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
+import { buildStatusData } from 'common/buildStatusData';
+import { ReasonedBoolean } from 'common/types';
+
 import { uiLogger } from 'services/uiLogger';
 
 import { isString } from 'utils/entityRecognition';
@@ -245,14 +248,52 @@ export const getProductVersionSuffix = (productMilestoneRelease: ProductMileston
 
 const CANCELABLE_BUILD_STATUSES = ['NEW', 'ENQUEUED', 'WAITING_FOR_DEPENDENCIES', 'BUILDING'];
 
-export const isBuildCancelable = (status: NonNullable<Build['status']>) => {
+export const isBuildCancelable = (status: NonNullable<Build['status']>): boolean => {
   return CANCELABLE_BUILD_STATUSES.includes(status);
+};
+
+export const isBuildFinished = (status: Build['status']): boolean => {
+  return !!status && buildStatusData[status].progress === 'FINISHED';
+};
+
+const HAS_ARTIFACTS_BUILD_STATUSES = ['SUCCESS'];
+
+export const isBuildWithArtifacts = (status: Build['status']): ReasonedBoolean => {
+  if (!isBuildFinished(status)) {
+    return { value: false, reason: 'Build is not finished yet.' };
+  }
+
+  if (!HAS_ARTIFACTS_BUILD_STATUSES.includes(status!)) {
+    return { value: false, reason: `Builds with status ${status} contain no artifacts.` };
+  }
+
+  return { value: true, reason: '' };
+};
+
+export const isBuildWithStaticLog = (status: Build['status']): ReasonedBoolean => {
+  if (!isBuildFinished(status)) {
+    return { value: false, reason: 'Build is not finished yet.' };
+  }
+
+  return isBuildWithLog(status);
+};
+
+export const isBuildWithLiveLog = (status: Build['status']): ReasonedBoolean => {
+  if (isBuildFinished(status)) {
+    return { value: false, reason: 'Build is not in progress.' };
+  }
+
+  return isBuildWithLog(status);
 };
 
 const NOT_LOGGED_BUILD_STATUSES = ['NO_REBUILD_REQUIRED', 'REJECTED_FAILED_DEPENDENCIES'];
 
-export const isBuildWithLog = (status: NonNullable<Build['status']>) => {
-  return !NOT_LOGGED_BUILD_STATUSES.includes(status);
+const isBuildWithLog = (status: Build['status']): ReasonedBoolean => {
+  if (NOT_LOGGED_BUILD_STATUSES.includes(status!)) {
+    return { value: false, reason: `Builds with status ${status} are not logged.` };
+  }
+
+  return { value: true, reason: '' };
 };
 
 /**

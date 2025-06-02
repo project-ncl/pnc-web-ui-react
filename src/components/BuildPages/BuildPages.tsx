@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
-import { Build } from 'pnc-api-types-ts';
+import { ArtifactPage, Build, BuildPushOperationPage } from 'pnc-api-types-ts';
 
 import { breadcrumbData } from 'common/breadcrumbData';
 import { buildStatusData } from 'common/buildStatusData';
@@ -37,7 +37,7 @@ import { uiLogger } from 'services/uiLogger';
 import { userService } from 'services/userService';
 
 import { generatePageTitle } from 'utils/titleHelper';
-import { isBuildWithLog } from 'utils/utils';
+import { isBuildFinished, isBuildWithArtifacts, isBuildWithLiveLog, isBuildWithStaticLog } from 'utils/utils';
 
 type ContextType = { serviceContainerBuild: IServiceContainerState<Build>; isBuilding: boolean };
 
@@ -63,7 +63,7 @@ export const BuildPages = () => {
   const toggleBewPushModal = () => setIsBrewPushModalOpen((isBrewPushModalOpen) => !isBrewPushModalOpen);
   const toggleCancelBuildModal = () => setIsCancelBuildModalOpen((isCancelBuildModalOpen) => !isCancelBuildModalOpen);
 
-  const isBuilding = useMemo(() => serviceContainerBuild.data?.status === 'BUILDING', [serviceContainerBuild.data?.status]);
+  const isBuilding = useMemo(() => !isBuildFinished(serviceContainerBuild.data?.status), [serviceContainerBuild.data?.status]);
 
   useEffect(() => {
     serviceContainerBuildRunner({ serviceData: { id: buildId } });
@@ -116,52 +116,6 @@ export const BuildPages = () => {
     })
   );
 
-  const isLogged = !serviceContainerBuild.data?.status || isBuildWithLog(serviceContainerBuild.data.status);
-  const isLoggedTooltip = !isLogged ? `Builds with status ${serviceContainerBuild.data!.status} are not logged.` : '';
-  const liveLogLinkTooltip = !isBuilding ? `Build is not in progress.` : '';
-  const staticDataTooltip = isBuilding ? `Build is not finished yet.` : '';
-
-  const pageTabs = (
-    <PageTabs>
-      <PageTabsItem url="details">Details</PageTabsItem>
-      <PageTabsItem url="live-log" isDisabled={!isLogged || !isBuilding} tooltip={isLoggedTooltip || liveLogLinkTooltip}>
-        Live Log
-      </PageTabsItem>
-      <PageTabsItem url="build-log" isDisabled={!isLogged || isBuilding} tooltip={isLoggedTooltip || staticDataTooltip}>
-        Build Log
-      </PageTabsItem>
-      <PageTabsItem url="alignment-log" isDisabled={!isLogged || isBuilding} tooltip={isLoggedTooltip || staticDataTooltip}>
-        Alignment Log
-      </PageTabsItem>
-      <PageTabsItem url="artifacts" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-        Artifacts{' '}
-        <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Artifacts Count">
-          {serviceContainerArtifacts.data?.totalHits}
-        </PageTabsLabel>
-      </PageTabsItem>
-      <PageTabsItem url="dependencies" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-        Dependencies{' '}
-        <PageTabsLabel serviceContainer={serviceContainerDependencies} title="Dependencies Count">
-          {serviceContainerDependencies.data?.totalHits}
-        </PageTabsLabel>
-      </PageTabsItem>
-      <PageTabsItem url="build-pushes" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-        Build Pushes{' '}
-        <PageTabsLabel serviceContainer={serviceContainerBuildPushes} title="Build Pushes Count">
-          {serviceContainerBuildPushes.data?.totalHits}
-        </PageTabsLabel>
-      </PageTabsItem>
-      <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
-      <ExperimentalContent>
-        <PageTabsItem url="implicit-dependency-graph" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-          <ExperimentalContentMarker dataSource="experimental" contentType="text" showTooltip>
-            Implicit Dependency Graph
-          </ExperimentalContentMarker>
-        </PageTabsItem>
-      </ExperimentalContent>
-    </PageTabs>
-  );
-
   const actions = [
     <BuildSshCredentialsButton key="ssh-credentials" serviceContainerBuild={serviceContainerBuild} />,
     <CancelBuildModalButton
@@ -181,7 +135,14 @@ export const BuildPages = () => {
           { entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id },
           { entity: breadcrumbData.buildPush.id, title: serviceContainerBuild.data?.id },
         ]}
-        tabs={pageTabs}
+        tabs={
+          <BuildPageTabs
+            build={serviceContainerBuild.data!}
+            serviceContainerArtifacts={serviceContainerArtifacts}
+            serviceContainerDependencies={serviceContainerDependencies}
+            serviceContainerBuildPushes={serviceContainerBuildPushes}
+          />
+        }
         actions={actions}
       >
         <Outlet context={{ serviceContainerBuild, isBuilding }} />
@@ -211,6 +172,65 @@ export const BuildPages = () => {
 export function useServiceContainerBuild() {
   return useOutletContext<ContextType>();
 }
+
+interface IBuildPageTabsProps {
+  build: Build;
+  serviceContainerArtifacts: IServiceContainerState<ArtifactPage>;
+  serviceContainerDependencies: IServiceContainerState<ArtifactPage>;
+  serviceContainerBuildPushes: IServiceContainerState<BuildPushOperationPage>;
+}
+
+const BuildPageTabs = ({
+  build,
+  serviceContainerArtifacts,
+  serviceContainerDependencies,
+  serviceContainerBuildPushes,
+}: IBuildPageTabsProps) => {
+  const hasArtifacts = useMemo(() => isBuildWithArtifacts(build.status), [build.status]);
+  const isStaticLogAvailable = useMemo(() => isBuildWithStaticLog(build.status), [build.status]);
+  const isLiveLogAvailable = useMemo(() => isBuildWithLiveLog(build.status), [build.status]);
+
+  return (
+    <PageTabs>
+      <PageTabsItem url="details">Details</PageTabsItem>
+      <PageTabsItem url="live-log" isDisabled={!isLiveLogAvailable.value} tooltip={isLiveLogAvailable.reason}>
+        Live Log
+      </PageTabsItem>
+      <PageTabsItem url="build-log" isDisabled={!isStaticLogAvailable.value} tooltip={isStaticLogAvailable.reason}>
+        Build Log
+      </PageTabsItem>
+      <PageTabsItem url="alignment-log" isDisabled={!isStaticLogAvailable.value} tooltip={isStaticLogAvailable.reason}>
+        Alignment Log
+      </PageTabsItem>
+      <PageTabsItem url="artifacts" isDisabled={!hasArtifacts.value} tooltip={hasArtifacts.reason}>
+        Artifacts{' '}
+        <PageTabsLabel serviceContainer={serviceContainerArtifacts} title="Artifacts Count">
+          {serviceContainerArtifacts.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="dependencies" isDisabled={!hasArtifacts.value} tooltip={hasArtifacts.reason}>
+        Dependencies{' '}
+        <PageTabsLabel serviceContainer={serviceContainerDependencies} title="Dependencies Count">
+          {serviceContainerDependencies.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="build-pushes" isDisabled={!hasArtifacts.value} tooltip={hasArtifacts.reason}>
+        Build Pushes{' '}
+        <PageTabsLabel serviceContainer={serviceContainerBuildPushes} title="Build Pushes Count">
+          {serviceContainerBuildPushes.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
+      <ExperimentalContent>
+        <PageTabsItem url="implicit-dependency-graph" isDisabled={!hasArtifacts.value} tooltip={hasArtifacts.reason}>
+          <ExperimentalContentMarker dataSource="experimental" contentType="text" showTooltip>
+            Implicit Dependency Graph
+          </ExperimentalContentMarker>
+        </PageTabsItem>
+      </ExperimentalContent>
+    </PageTabs>
+  );
+};
 
 interface IBuildSshCredentialsButtonProps {
   serviceContainerBuild: IServiceContainerState<Build>;
