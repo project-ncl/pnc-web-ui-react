@@ -21,3 +21,8 @@ export interface RepositoryCreationResponseCustomized extends Omit<RepositoryCre
 export interface BuildConfigCreationResponseCustomized extends Omit<BuildConfigCreationResponse, 'taskId'> {
   taskId: string;
 }
+
+export interface ReasonedBoolean {
+  value: boolean;
+  reason: string;
+}
