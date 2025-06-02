@@ -11,6 +11,7 @@ import { IconWrapper } from 'components/IconWrapper/IconWrapper';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { isBuild } from 'utils/entityRecognition';
+import { isBuildWithLiveLog, isBuildWithStaticLog } from 'utils/utils';
 
 import styles from './BuildStatusIcon.module.css';
 
@@ -99,7 +100,13 @@ interface IBuildLogLinkProps {
 }
 
 const BuildLogLink = ({ build, children }: PropsWithChildren<IBuildLogLinkProps>) => {
-  const buildLogLink = useMemo(() => getAdequateBuildLogLink(build), [build]);
+  const isStaticLogAvailable = useMemo(() => isBuildWithStaticLog(build.status), [build.status]);
+  const isLiveLogAvailable = useMemo(() => isBuildWithLiveLog(build.status), [build.status]);
+  const buildLogLink = useMemo(() => getAdequateBuildLogLink(build, isLiveLogAvailable.value), [build, isLiveLogAvailable.value]);
+
+  if (!isStaticLogAvailable.value && !isLiveLogAvailable.value) {
+    return <TooltipWrapper tooltip={build.status && buildStatusData[build.status].tooltip}>{children}</TooltipWrapper>;
+  }
 
   return (
     <TooltipWrapper tooltip={build.status && `${buildStatusData[build.status].tooltip}. Click to open the log`}>
@@ -110,5 +117,12 @@ const BuildLogLink = ({ build, children }: PropsWithChildren<IBuildLogLinkProps>
   );
 };
 
-const getAdequateBuildLogLink = (build: Build): string =>
-  !build.scmUrl && buildStatusData[build.status!].failed ? `/builds/${build.id}/alignment-log` : `/builds/${build.id}/build-log`;
+const getAdequateBuildLogLink = (build: Build, isLiveLogAvailable: boolean): string => {
+  if (isLiveLogAvailable) {
+    return `/builds/${build.id}/live-log`;
+  }
+
+  return !build.scmUrl && buildStatusData[build.status!].failed
+    ? `/builds/${build.id}/alignment-log`
+    : `/builds/${build.id}/build-log`;
+};
