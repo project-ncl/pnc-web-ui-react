@@ -11,6 +11,7 @@ import { IconWrapper } from 'components/IconWrapper/IconWrapper';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { isBuild } from 'utils/entityRecognition';
+import { isBuildWithStaticLog } from 'utils/utils';
 
 import styles from './BuildStatusIcon.module.css';
 
@@ -99,7 +100,12 @@ interface IBuildLogLinkProps {
 }
 
 const BuildLogLink = ({ build, children }: PropsWithChildren<IBuildLogLinkProps>) => {
+  const isStaticLogAvailable = useMemo(() => isBuildWithStaticLog(build.status), [build]);
   const buildLogLink = useMemo(() => getAdequateBuildLogLink(build), [build]);
+
+  if (!isStaticLogAvailable.value) {
+    return <TooltipWrapper tooltip={build.status && buildStatusData[build.status].tooltip}>{children}</TooltipWrapper>;
+  }
 
   return (
     <TooltipWrapper tooltip={build.status && `${buildStatusData[build.status].tooltip}. Click to open the log`}>
