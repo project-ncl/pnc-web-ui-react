@@ -331,12 +331,14 @@ export const AnalyzedArtifactsList = ({
                             <DescriptionListDescription>
                               {analyzedArtifact.licenses && analyzedArtifact.licenses.length > 0 ? (
                                 analyzedArtifact.licenses.map((license, index) => (
-                                  <span key={index}>
-                                    <a href={license.url} target="_blank" rel="noopener noreferrer">
-                                      {license.spdxLicenseId}
-                                    </a>
-                                    {index < analyzedArtifact.licenses!.length - 1 && ', '}
-                                  </span>
+                                  <TooltipWrapper tooltip={license.sourceUrl}>
+                                    <span key={index}>
+                                      <a href={license.url} target="_blank" rel="noopener noreferrer">
+                                        {license.spdxLicenseId}
+                                      </a>
+                                      {index < analyzedArtifact.licenses!.length - 1 && ', '}
+                                    </span>
+                                  </TooltipWrapper>
                                 ))
                               ) : (
                                 <>
