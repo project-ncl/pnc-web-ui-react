@@ -64,8 +64,8 @@ const rebuildModes: Array<IParamOption> = [
 const persistentPopoverText = 'Standard build, which can be used for product release';
 const temporaryPopoverText =
   'Temporary build, option used for test builds which will be garbage collected during automatic cleaning and cannot be used for product release';
-const keepPodOnFailureAPopoverText =
-  "The builder container won't be destroyed if the build fails and you can use SSH to debug it";
+const keepPodOnFailureWarningPopoverText =
+  "The builder container won't be destroyed if the build fails. Only a PNC admin will be able to connect to the pod";
 const buildDependenciesPopoverText = 'Build also dependencies of this build configuration if they are not built yet';
 const descriptionTextPopoverText =
   'Not implicit (automatically captured) ones - those are used only to determine if the rebuild is required';
@@ -338,10 +338,15 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
                     id="keepPodOnFailure-check"
                     name="keepPodOnFailure-check"
                   />
-                  <span className="pnc-info-icon">
-                    <Popover bodyContent={keepPodOnFailureAPopoverText} showClose={false} enableFlip={false} position="auto">
+                  <span className="pnc-warning-icon">
+                    <Popover
+                      bodyContent={keepPodOnFailureWarningPopoverText}
+                      showClose={false}
+                      enableFlip={false}
+                      position="auto"
+                    >
                       <small>
-                        <InfoCircleIcon />
+                        <WarningTriangleIcon />
                       </small>
                     </Popover>
                   </span>
