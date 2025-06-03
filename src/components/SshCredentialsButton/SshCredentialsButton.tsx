@@ -23,14 +23,18 @@ interface ISshCredentialsButtonProps {
   serviceContainerSshCredentials: IServiceContainerState<SSHCredentials>;
   buildBelongToCurrentUser: boolean;
   buildStatus: BUILD_STATUS;
+  areSshCredentialsUnavailable?: boolean;
 }
 
 export const SshCredentialsButton = ({
   serviceContainerSshCredentials,
   buildBelongToCurrentUser,
   buildStatus,
+  areSshCredentialsUnavailable = false,
 }: ISshCredentialsButtonProps) => {
-  const disabledReason = !buildBelongToCurrentUser
+  const disabledReason = areSshCredentialsUnavailable
+    ? 'SSH credentials are no longer provided. Contact a PNC admin. A PNC admin can connect to the pod only if the "keep pod alive" option was used when starting the build and the build failed.'
+    : !buildBelongToCurrentUser
     ? 'Only user who executed the build and PNC admins are allowed to get the SSH Credentials.'
     : buildStatus === BUILD_STATUS.InProgress
     ? 'The build is currently in progress; SSH Credentials are only available for unsuccessful builds with "keep pod alive" option.'
