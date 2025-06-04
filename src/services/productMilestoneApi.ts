@@ -223,8 +223,11 @@ export const getProductMilestoneComparison = (
  *  - id - Product Milestone ID
  * @param requestConfig - Axios based request config
  */
-export const closeProductMilestone = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<undefined>(`/product-milestones/${id}/close`, undefined, requestConfig);
+export const closeProductMilestone = (
+  { id, data }: { id: string; data: { skipBrewPush: boolean } },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().post<undefined>(`/product-milestones/${id}/close`, data, requestConfig);
 };
 
 /**
