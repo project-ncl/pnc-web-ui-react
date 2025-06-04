@@ -165,7 +165,12 @@ export const ProductMilestonePages = () => {
       serviceContainerProductVersion={serviceContainerProductVersion}
       variant="detail"
     />,
-    <ProductMilestoneCloseModalButton key="close-milestone-button" toggleModal={toggleCloseModal} variant="detail" />,
+    <ProductMilestoneCloseModalButton
+      key="close-milestone-button"
+      toggleModal={toggleCloseModal}
+      productMilestone={serviceContainerProductMilestone.data!}
+      variant="detail"
+    />,
     <AnalyzeDeliverablesModalButton key="del-analysis-button" toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
     <ProtectedComponent key="edit-milestone-button">
       <ActionButton link="edit">Edit Milestone</ActionButton>
