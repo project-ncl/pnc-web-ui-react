@@ -7,8 +7,6 @@ import {
   DeliverableAnalyzerOperationPage,
   DeliveredArtifactInMilestones,
   ProductMilestone,
-  ProductMilestoneCloseResult,
-  ProductMilestoneCloseResultPage,
   ProductVersion,
 } from 'pnc-api-types-ts';
 
@@ -83,17 +81,6 @@ export const getDeliverableAnalyses = ({ id }: IProductMilestoneApiData, request
   return pncClient
     .getHttpClient()
     .get<DeliverableAnalyzerOperationPage>(`/product-milestones/${id}/deliverables-analyzer-operations`, requestConfig);
-};
-
-/**
- * Gets Product Milestone Close Results.
- *
- * @param serviceData - object containing:
- *  - id - Product Milestone ID
- * @param requestConfig - Axios based request config
- */
-export const getCloseResults = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<ProductMilestoneCloseResultPage>(`/product-milestones/${id}/close-results`, requestConfig);
 };
 
 /**
@@ -237,7 +224,7 @@ export const getProductMilestoneComparison = (
  * @param requestConfig - Axios based request config
  */
 export const closeProductMilestone = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().post<ProductMilestoneCloseResult>(`/product-milestones/${id}/close`, undefined, requestConfig);
+  return pncClient.getHttpClient().post<undefined>(`/product-milestones/${id}/close`, undefined, requestConfig);
 };
 
 /**

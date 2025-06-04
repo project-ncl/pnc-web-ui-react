@@ -52,8 +52,6 @@ import { PreferencesPage } from 'components/PreferencesPage/PreferencesPage';
 import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
-import { ProductMilestoneCloseResultDetailPage } from 'components/ProductMilestoneCloseResultDetailPage/ProductMilestoneCloseResultDetailPage';
-import { ProductMilestoneCloseResultsPage } from 'components/ProductMilestoneCloseResultsPage/ProductMilestoneCloseResultsPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
 import { ProductMilestoneDeliverableAnalysesPage } from 'components/ProductMilestoneDeliverableAnalysesPage/ProductMilestoneDeliverableAnalysesPage';
@@ -177,17 +175,10 @@ export const AppRoutes = (
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="close-results/:closeResultId"
-                  index
-                  handle={breadcrumbData.productMilestone.id}
-                  element={<ProductMilestoneCloseResultDetailPage />}
-                />
               </Route>
               <Route path=":productMilestoneId" element={<ProductMilestonePages />} handle={breadcrumbData.productMilestone.id}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
-                <Route path="close-results" element={<ProductMilestoneCloseResultsPage />} />
                 <Route path="deliverable-analyses" element={<ProductMilestoneDeliverableAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
