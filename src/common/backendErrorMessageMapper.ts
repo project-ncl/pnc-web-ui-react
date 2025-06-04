@@ -18,6 +18,10 @@ export const backendErrorMessageMapper = (errorStatus: number, backendErrorMessa
       return backendErrorMessage.replace(/Artifact \d+/, 'Artifact');
     }
 
+    if (/Build push.*already in progress/.test(backendErrorMessage)) {
+      return backendErrorMessage;
+    }
+
     const labelMatch = backendErrorMessage.match(/Unable to add the label (\w+)/);
     if (labelMatch) {
       const label = labelMatch[1];

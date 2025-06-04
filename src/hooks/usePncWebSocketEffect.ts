@@ -283,47 +283,6 @@ export const hasBrewPushFinished = (wsData: any, { buildId }: IBrewPushParameter
   return !buildId || buildId === wsData.buildPushResult?.buildId;
 };
 
-/**
- * Additional filtering parameters.
- */
-interface IMilestoneCloseParameters {
-  closeResultId?: string;
-  productMilestoneId?: string;
-}
-
-/**
- * Check whether Milestone Close (Milestone Push) finished WebSocket event was sent.
- *
- * @param wsData - WebSocket data
- * @returns true when Milestone Close finished, otherwise false
- */
-export const hasMilestoneCloseFinished = (
-  wsData: any,
-  { closeResultId, productMilestoneId }: IMilestoneCloseParameters = {}
-): boolean => {
-  if (
-    wsData.job !== 'PRODUCT_MILESTONE_CLOSE' ||
-    wsData.notificationType !== 'PRODUCT_MILESTONE_CLOSE_RESULT' ||
-    wsData.progress !== 'FINISHED'
-  ) {
-    return false;
-  }
-
-  if (!wsData.productMilestoneCloseResult) {
-    uiLogger.error(
-      'hasMilestonePushFinished: invalid WebSocket message ("productMilestoneCloseResult" parameter is missing)',
-      undefined,
-      wsData
-    );
-    return false; // ignore changes when 'productMilestoneCloseResult' is not available
-  }
-
-  return (
-    (!closeResultId || closeResultId === wsData.productMilestoneCloseResult.id) &&
-    (!productMilestoneId || productMilestoneId === wsData.productMilestoneCloseResult.milestone?.id)
-  );
-};
-
 interface IDeliverableAnalysisParameters {
   operationId?: string;
   productMilestoneId?: string;

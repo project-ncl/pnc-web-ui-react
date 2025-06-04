@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
@@ -7,12 +7,7 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import {
-  hasBuildStarted,
-  hasDeliverableAnalysisStarted,
-  hasMilestoneCloseFinished,
-  usePncWebSocketEffect,
-} from 'hooks/usePncWebSocketEffect';
+import { hasBuildStarted, hasDeliverableAnalysisStarted, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -38,13 +33,11 @@ import * as productVersionApi from 'services/productVersionApi';
 import { generatePageTitle } from 'utils/titleHelper';
 import { debounce } from 'utils/utils';
 
-interface IProductMilestonePagesProps {}
-
 type ContextType = {
   serviceContainerProductMilestone: IServiceContainerState<ProductMilestone>;
 };
 
-export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMilestonePagesProps>) => {
+export const ProductMilestonePages = () => {
   const { productMilestoneId } = useParamsRequired();
 
   const serviceContainerProductMilestone = useServiceContainer(productMilestoneApi.getProductMilestone);
@@ -55,9 +48,6 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
 
   const serviceContainerBuilds = useServiceContainer(productMilestoneApi.getBuilds);
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
-
-  const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
-  const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
 
   const serviceContainerDeliverableAnalyses = useServiceContainer(productMilestoneApi.getDeliverableAnalyses);
   const serviceContainerDeliverableAnalysesRunner = serviceContainerDeliverableAnalyses.run;
@@ -94,7 +84,6 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     });
 
     serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
-    serviceContainerCloseResultsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerDeliverableAnalysesRunner({
       serviceData: { id: productMilestoneId },
       requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
@@ -104,7 +93,6 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
     serviceContainerProductMilestoneRunner,
     serviceContainerProductVersionRunner,
     serviceContainerBuildsRunner,
-    serviceContainerCloseResultsRunner,
     serviceContainerDeliverableAnalysesRunner,
     serviceContainerArtifactsRunner,
     productMilestoneId,
@@ -118,11 +106,6 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
             serviceData: { id: productMilestoneId },
             requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
-        } else if (hasMilestoneCloseFinished(wsData, { productMilestoneId })) {
-          serviceContainerCloseResultsRunner({
-            serviceData: { id: productMilestoneId },
-            requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
-          });
         } else if (hasDeliverableAnalysisStarted(wsData, { productMilestoneId })) {
           serviceContainerDeliverableAnalysesRunner({
             serviceData: { id: productMilestoneId },
@@ -130,12 +113,7 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
           });
         }
       },
-      [
-        serviceContainerBuildsRunnerDebounced,
-        serviceContainerCloseResultsRunner,
-        serviceContainerDeliverableAnalysesRunner,
-        productMilestoneId,
-      ]
+      [serviceContainerBuildsRunnerDebounced, serviceContainerDeliverableAnalysesRunner, productMilestoneId]
     )
   );
 
@@ -155,12 +133,6 @@ export const ProductMilestonePages = ({ children }: PropsWithChildren<IProductMi
         Builds Performed{' '}
         <PageTabsLabel serviceContainer={serviceContainerBuilds} title="Build Performed Count">
           {serviceContainerBuilds.data?.totalHits}
-        </PageTabsLabel>
-      </PageTabsItem>
-      <PageTabsItem url="close-results">
-        Close Results{' '}
-        <PageTabsLabel serviceContainer={serviceContainerCloseResults} title="Close Results Count">
-          {serviceContainerCloseResults.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
       <PageTabsItem url="deliverable-analyses">

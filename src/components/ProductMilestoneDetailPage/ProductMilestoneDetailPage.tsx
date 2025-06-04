@@ -15,7 +15,6 @@ import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
-import { ProductMilestoneCloseStatusLabelMapper } from 'components/LabelMapper/ProductMilestoneCloseStatusLabelMapper';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -29,9 +28,6 @@ export const ProductMilestoneDetailPage = () => {
   const { productMilestoneId } = useParamsRequired();
 
   const { serviceContainerProductMilestone } = useServiceContainerProductMilestone();
-
-  const serviceContainerCloseResults = useServiceContainer(productMilestoneApi.getCloseResults);
-  const serviceContainerCloseResultsRunner = serviceContainerCloseResults.run;
 
   const serviceContainerStatistics = useServiceContainer(productMilestoneApi.getStatistics);
   const serviceContainerStatisticsRunner = serviceContainerStatistics.run;
@@ -53,14 +49,10 @@ export const ProductMilestoneDetailPage = () => {
   );
 
   useEffect(() => {
-    serviceContainerCloseResultsRunner({
-      serviceData: { id: productMilestoneId },
-      requestConfig: { params: { latest: true } },
-    });
     serviceContainerStatisticsRunner({
       serviceData: { id: productMilestoneId },
     });
-  }, [serviceContainerCloseResultsRunner, serviceContainerStatisticsRunner, productMilestoneId]);
+  }, [serviceContainerStatisticsRunner, productMilestoneId]);
 
   return (
     <Grid hasGutter>
@@ -84,19 +76,6 @@ export const ProductMilestoneDetailPage = () => {
               {serviceContainerProductMilestone.data?.endDate && (
                 <DateTime date={serviceContainerProductMilestone.data.endDate} displayTime={false} />
               )}
-            </AttributesItem>
-            <AttributesItem title={productMilestoneEntityAttributes.lastCloseResult.title}>
-              <div style={{ height: '25px' }}>
-                <ServiceContainerLoading
-                  {...serviceContainerCloseResults}
-                  variant="inline"
-                  title="Product Milestone latest close result"
-                >
-                  {serviceContainerCloseResults.data?.content?.[0]?.status && (
-                    <ProductMilestoneCloseStatusLabelMapper status={serviceContainerCloseResults.data.content[0].status} />
-                  )}
-                </ServiceContainerLoading>
-              </div>
             </AttributesItem>
           </Attributes>
         </ContentBox>
