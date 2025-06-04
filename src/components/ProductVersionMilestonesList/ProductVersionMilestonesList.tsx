@@ -140,6 +140,7 @@ export const ProductVersionMilestonesList = ({
                           title: (
                             <ProductMilestoneCloseModalButton
                               toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'close')}
+                              productMilestone={productMilestone}
                               variant="list"
                             />
                           ),
