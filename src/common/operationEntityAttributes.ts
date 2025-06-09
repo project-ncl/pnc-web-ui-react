@@ -2,8 +2,10 @@ import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
-// this supertype is not coming from pnc-api-types-ts
-// but these props are same for all Operations
+/*
+ * This supertype is not coming from pnc-api-types-ts,
+ * but these props are the same for all Operations.
+ */
 export interface Operation {
   id: DeliverableAnalyzerOperation['id'];
   parameters?: DeliverableAnalyzerOperation['parameters'];

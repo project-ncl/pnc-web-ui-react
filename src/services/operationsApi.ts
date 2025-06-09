@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { DeliverableAnalyzerOperation, DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
+import { BuildPushOperation, DeliverableAnalyzerOperation, DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -47,4 +47,19 @@ export const analyzeDeliverables = (
   }
 
   return pncClient.getHttpClient().post<any>(`/operations/deliverable-analyzer/start`, data, requestConfig);
+};
+
+interface IBuildPushApiData {
+  id: string;
+}
+
+/**
+ * Gets a Build Push operation.
+ *
+ * @param serviceData - object containing:
+ *  - id - Build Push ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildPush = ({ id }: IBuildPushApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPushOperation>(`/operations/build-pushes/${id}`, requestConfig);
 };

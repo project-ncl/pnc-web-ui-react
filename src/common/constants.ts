@@ -27,6 +27,7 @@ export const PageTitles = {
   groupConfigCreate: 'Create Group Config',
   groupConfigEdit: 'Edit Group Config',
   builds: 'Builds',
+  buildPushes: 'Build Pushes',
   buildHistory: 'Build History',
   buildMetrics: 'Build Metrics',
   groupBuilds: 'Group Builds',
@@ -55,6 +56,7 @@ export const ButtonTitles = {
 export const EntityTitles = {
   artifact: 'Artifact',
   build: 'Build',
+  buildPush: 'Build Push',
   buildConfig: 'Build Config',
   groupBuild: 'Group Build',
   groupConfig: 'Group Config',

@@ -69,9 +69,9 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
                 key="brew-push-link"
                 variant="secondary"
                 onClick={toggleModal}
-                component={(props: any) => <Link {...props} to={`/builds/${build.id}/brew-push`} />}
+                component={(props: any) => <Link {...props} to={`/builds/${build.id}/build-pushes`} />}
               >
-                Open Brew Push details
+                Open Build Pushes
               </Button>,
             ]
           : undefined

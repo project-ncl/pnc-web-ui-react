@@ -1,18 +1,14 @@
-import { BuildPushResult } from 'pnc-api-types-ts';
+import { BuildPushReport } from 'pnc-api-types-ts';
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
-export const buildPushResultEntityAttributes = {
+export const buildPushReportEntityAttributes = {
   id: {
     id: 'id',
     title: 'ID',
   },
-  status: {
-    id: 'status',
-    title: 'Status',
-  },
-  buildId: {
-    id: 'buildId',
+  build: {
+    id: 'build',
     title: 'Build ID',
   },
   brewBuildId: {
@@ -23,4 +19,4 @@ export const buildPushResultEntityAttributes = {
     id: 'brewBuildUrl',
     title: 'Brew Build URL',
   },
-} as const satisfies TEntityAttributes<BuildPushResult>;
+} as const satisfies TEntityAttributes<BuildPushReport>;

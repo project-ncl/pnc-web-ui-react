@@ -4,6 +4,7 @@ import { Operation } from 'fast-json-patch';
 import {
   ArtifactPage,
   BuildPage,
+  BuildPushOperationPage,
   DeliverableAnalyzerOperationPage,
   DeliveredArtifactInMilestones,
   ProductMilestone,
@@ -92,6 +93,17 @@ export const getDeliverableAnalyses = ({ id }: IProductMilestoneApiData, request
  */
 export const getBuilds = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
   return pncClient.getHttpClient().get<BuildPage>(`/product-milestones/${id}/builds`, requestConfig);
+};
+
+/**
+ * Gets Build Push operations of the Builds pushed on Milestone close.
+ *
+ * @param serviceData - object containing:
+ *  - id - Product Milestone ID
+ * @param requestConfig - Axios based request config
+ */
+export const getBuildPushes = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPushOperationPage>(`/product-milestones/${id}/build-push-operations`, requestConfig);
 };
 
 /**

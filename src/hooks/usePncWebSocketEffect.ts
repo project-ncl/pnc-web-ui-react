@@ -259,28 +259,32 @@ export const hasGroupBuildStarted = (wsData: any, parameters: IGroupBuildParamet
 /**
  * Additional filtering parameters.
  */
-interface IBrewPushParameters {
+interface IBuildPushParameters {
   buildId?: string;
+  productMilestoneId?: string;
 }
 
 /**
- * Check whether Brew Push finished WebSocket event was sent.
+ * Check whether Build Push finished WebSocket event was sent.
  *
  * @param wsData - WebSocket data
- * @param parameters - See {@link IBrewPushParameters}
- * @returns true when Brew Push finished, otherwise false
+ * @param parameters - See {@link IBuildPushParameters}
+ * @returns true when Build Push finished, otherwise false
  */
-export const hasBrewPushFinished = (wsData: any, { buildId }: IBrewPushParameters = {}): boolean => {
-  if (wsData.job !== 'BREW_PUSH' || wsData.notificationType !== 'BREW_PUSH_RESULT') {
+export const hasBuildPushFinished = (wsData: any, { buildId, productMilestoneId }: IBuildPushParameters = {}): boolean => {
+  if (wsData.job !== 'OPERATION' || wsData.notificationType !== 'BUILD_PUSH') {
     return false;
   }
 
-  if (!wsData.buildPushResult) {
-    uiLogger.error('hasBrewPushFinished: invalid WebSocket message ("buildPushResult" parameter is missing)', undefined, wsData);
-    return false; // ignore changes when 'buildPushResult' is not available
+  if (!wsData.operation) {
+    uiLogger.error('hasBuildPushFinished: invalid WebSocket message ("operation" parameter is missing)', undefined, wsData);
+    return false; // ignore changes when 'operation' is not available
   }
 
-  return !buildId || buildId === wsData.buildPushResult?.buildId;
+  return (
+    (!buildId || buildId === wsData.operation?.build?.id) &&
+    (!productMilestoneId || productMilestoneId === wsData.operation?.parameters?.milestoneClose)
+  );
 };
 
 interface IDeliverableAnalysisParameters {

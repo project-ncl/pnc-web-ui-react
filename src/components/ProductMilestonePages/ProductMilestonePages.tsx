@@ -7,7 +7,12 @@ import { breadcrumbData } from 'common/breadcrumbData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { hasBuildStarted, hasDeliverableAnalysisStarted, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
+import {
+  hasBuildPushFinished,
+  hasBuildStarted,
+  hasDeliverableAnalysisStarted,
+  usePncWebSocketEffect,
+} from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -49,6 +54,9 @@ export const ProductMilestonePages = () => {
   const serviceContainerBuilds = useServiceContainer(productMilestoneApi.getBuilds);
   const serviceContainerBuildsRunner = serviceContainerBuilds.run;
 
+  const serviceContainerBuildPushes = useServiceContainer(productMilestoneApi.getBuildPushes);
+  const serviceContainerBuildPushesRunner = serviceContainerBuildPushes.run;
+
   const serviceContainerDeliverableAnalyses = useServiceContainer(productMilestoneApi.getDeliverableAnalyses);
   const serviceContainerDeliverableAnalysesRunner = serviceContainerDeliverableAnalyses.run;
 
@@ -84,6 +92,7 @@ export const ProductMilestonePages = () => {
     });
 
     serviceContainerBuildsRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    serviceContainerBuildPushesRunner({ serviceData: { id: productMilestoneId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerDeliverableAnalysesRunner({
       serviceData: { id: productMilestoneId },
       requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
@@ -93,6 +102,7 @@ export const ProductMilestonePages = () => {
     serviceContainerProductMilestoneRunner,
     serviceContainerProductVersionRunner,
     serviceContainerBuildsRunner,
+    serviceContainerBuildPushesRunner,
     serviceContainerDeliverableAnalysesRunner,
     serviceContainerArtifactsRunner,
     productMilestoneId,
@@ -106,6 +116,11 @@ export const ProductMilestonePages = () => {
             serviceData: { id: productMilestoneId },
             requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
           });
+        } else if (hasBuildPushFinished(wsData, { productMilestoneId })) {
+          serviceContainerBuildPushesRunner({
+            serviceData: { id: productMilestoneId },
+            requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
+          });
         } else if (hasDeliverableAnalysisStarted(wsData, { productMilestoneId })) {
           serviceContainerDeliverableAnalysesRunner({
             serviceData: { id: productMilestoneId },
@@ -113,7 +128,12 @@ export const ProductMilestonePages = () => {
           });
         }
       },
-      [serviceContainerBuildsRunnerDebounced, serviceContainerDeliverableAnalysesRunner, productMilestoneId]
+      [
+        serviceContainerBuildsRunnerDebounced,
+        serviceContainerBuildPushesRunner,
+        serviceContainerDeliverableAnalysesRunner,
+        productMilestoneId,
+      ]
     )
   );
 
@@ -133,6 +153,12 @@ export const ProductMilestonePages = () => {
         Builds Performed{' '}
         <PageTabsLabel serviceContainer={serviceContainerBuilds} title="Build Performed Count">
           {serviceContainerBuilds.data?.totalHits}
+        </PageTabsLabel>
+      </PageTabsItem>
+      <PageTabsItem url="build-pushes">
+        Build Pushes{' '}
+        <PageTabsLabel serviceContainer={serviceContainerBuildPushes} title="Build Pushes Count">
+          {serviceContainerBuildPushes.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
       <PageTabsItem url="deliverable-analyses">

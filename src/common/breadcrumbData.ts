@@ -64,6 +64,14 @@ export const breadcrumbData = {
     id: 'build',
     title: EntityTitles.build,
   },
+  buildPushes: {
+    id: 'buildPushes',
+    title: PageTitles.buildPushes,
+  },
+  buildPush: {
+    id: 'buildPush',
+    title: EntityTitles.buildPush,
+  },
   groupBuilds: {
     id: 'groupBuilds',
     title: PageTitles.groupBuilds,
