@@ -27,8 +27,8 @@ import { DeliverableAnalysisLabelsHistoryList } from 'components/DeliverableAnal
 import { DeliverableAnalysisLabelTooltip } from 'components/DeliverableAnalysisLabelTooltip/DeliverableAnalysisLabelTooltip';
 import { DeliverableAnalysisRemoveLabelModal } from 'components/DeliverableAnalysisRemoveLabelModal/DeliverableAnalysisRemoveLabelModal';
 import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
-import { DeliverableAnalysisProgressStatusLabelMapper } from 'components/LabelMapper/DeliverableAnalysisProgressStatusLabelMapper';
-import { DeliverableAnalysisResultLabelMapper } from 'components/LabelMapper/DeliverableAnalysisResultLabelMapper';
+import { OperationProgressStatusLabelMapper } from 'components/LabelMapper/OperationProgressStatusLabelMapper';
+import { OperationResultLabelMapper } from 'components/LabelMapper/OperationResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -132,11 +132,11 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
           </AttributesItem>
           <AttributesItem title={deliverableAnalysisOperationEntityAttributes.progressStatus.title}>
             {deliverableAnalysis?.progressStatus && (
-              <DeliverableAnalysisProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
+              <OperationProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
             )}
           </AttributesItem>
           <AttributesItem title={deliverableAnalysisOperationEntityAttributes.result.title}>
-            {deliverableAnalysis?.result && <DeliverableAnalysisResultLabelMapper result={deliverableAnalysis.result} />}
+            {deliverableAnalysis?.result && <OperationResultLabelMapper result={deliverableAnalysis.result} />}
           </AttributesItem>
           <AttributesItem title={deliverableAnalysisOperationEntityAttributes.submitTime.title}>
             {deliverableAnalysis?.submitTime && <DateTime date={deliverableAnalysis.submitTime} />}

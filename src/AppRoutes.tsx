@@ -14,7 +14,6 @@ import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
 import { BuildArtifactDependencyGraphPage } from 'components/BuildArtifactDependencyGraphPage/BuildArtifactDependencyGraphPage';
 import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
-import { BuildBrewPushPage } from 'components/BuildBrewPushPage/BuildBrewPushPage';
 import { BuildConfigBuildMetricsPage } from 'components/BuildConfigBuildMetricsPage/BuildConfigBuildMetricsPage';
 import { BuildConfigCreateEditPage } from 'components/BuildConfigCreateEditPage/BuildConfigCreateEditPage';
 import { BuildConfigDependantsPage } from 'components/BuildConfigDependantsPage/BuildConfigDependantsPage';
@@ -31,6 +30,8 @@ import { BuildDetailPage } from 'components/BuildDetailPage/BuildDetailPage';
 import { BuildLogPage } from 'components/BuildLogPage/BuildLogPage';
 import { BuildMetricsPage } from 'components/BuildMetricsPage/BuildMetricsPage';
 import { BuildPages } from 'components/BuildPages/BuildPages';
+import { BuildPushPage } from 'components/BuildPushPage/BuildPushPage';
+import { BuildPushesPage } from 'components/BuildPushesPage/BuildPushesPage';
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 import { DeliverableAnalysesPage } from 'components/DeliverableAnalysesPage/DeliverableAnalysesPage';
@@ -51,6 +52,7 @@ import { LiveBuildLogPage } from 'components/LiveBuildLogPage/LiveBuildLogPage';
 import { PreferencesPage } from 'components/PreferencesPage/PreferencesPage';
 import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
 import { ProductDetailPage } from 'components/ProductDetailPage/ProductDetailPage';
+import { ProductMilestoneBuildPushesPage } from 'components/ProductMilestoneBuildPushesPage/ProductMilestoneBuildPushesPage';
 import { ProductMilestoneBuildsPerformedPage } from 'components/ProductMilestoneBuildsPerformedPage/ProductMilestoneBuildsPerformedPage';
 import { ProductMilestoneComparisonPage } from 'components/ProductMilestoneComparisonPage/ProductMilestoneComparisonPage';
 import { ProductMilestoneCreateEditPage } from 'components/ProductMilestoneCreateEditPage/ProductMilestoneCreateEditPage';
@@ -179,6 +181,7 @@ export const AppRoutes = (
               <Route path=":productMilestoneId" element={<ProductMilestonePages />} handle={breadcrumbData.productMilestone.id}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
+                <Route path="build-pushes" element={<ProductMilestoneBuildPushesPage />} />
                 <Route path="deliverable-analyses" element={<ProductMilestoneDeliverableAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
@@ -318,7 +321,10 @@ export const AppRoutes = (
         <Route path="alignment-log" element={<BuildAlignmentLogPage />} />
         <Route path="artifacts" element={<BuildArtifactsPage />} />
         <Route path="dependencies" element={<BuildDependenciesPage />} />
-        <Route path="brew-push" element={<BuildBrewPushPage />} />
+        <Route path="build-pushes" handle={breadcrumbData.buildPushes.id}>
+          <Route index element={<BuildPushesPage />} />
+          <Route path=":buildPushId" element={<BuildPushPage />} handle={breadcrumbData.buildPush.id} />
+        </Route>
         <Route path="build-metrics" element={<BuildMetricsPage />} />
         <Route
           path="artifact-dependency-graph"

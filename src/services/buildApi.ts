@@ -4,7 +4,8 @@ import {
   ArtifactPage,
   Build,
   BuildPage,
-  BuildPushResult,
+  BuildPushOperation,
+  BuildPushOperationPage,
   BuildsGraph,
   RunningBuildCount,
   SSHCredentials,
@@ -125,14 +126,12 @@ export const getDependencies = ({ id }: IBuildApiData, requestConfig: AxiosReque
 };
 
 /**
- * Gets Brew Push of a Build.
+ * Gets Build Push operations of the Build.
  *
- * @param serviceData - object containing:
- *  - id - Build ID
  * @param requestConfig - Axios based request config
  */
-export const getBrewPush = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<BuildPushResult>(`/builds/${id}/brew-push`, requestConfig);
+export const getBuildPushes = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPushOperationPage>(`/builds/${id}/build-push-operations`, requestConfig);
 };
 
 /**
@@ -208,7 +207,7 @@ export const pushToBrew = (
   { id, data }: { id: string; data: { tagPrefix: string; reimport: string } },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  return pncClient.getHttpClient().post<BuildPushResult>(`/builds/${id}/brew-push`, data, requestConfig);
+  return pncClient.getHttpClient().post<BuildPushOperation>(`/builds/${id}/brew-push`, data, requestConfig);
 };
 
 /**

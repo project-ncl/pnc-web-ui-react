@@ -3,10 +3,10 @@ import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 
-import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
+import { BuildPushOperationPage } from 'pnc-api-types-ts';
 
+import { buildPushOperationEntityAttributes } from 'common/buildPushOperationEntityAttributes';
 import { PageTitles } from 'common/constants';
-import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
@@ -27,24 +27,24 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
-interface IDeliverableAnalysesListProps {
-  serviceContainerDeliverableAnalyses: IServiceContainerState<DeliverableAnalyzerOperationPage>;
+interface IBuildPushesListProps {
+  serviceContainerBuildPushes: IServiceContainerState<BuildPushOperationPage>;
   componentId: string;
 }
 
 /**
- * Component displaying list of Deliverable Analysis operations.
+ * Component displaying list of Build Push operations.
  *
- * @param serviceContainerProjects - Service Container for Deliverable Analysis operations
+ * @param serviceContainerProjects - Service Container for Build Push operations
  * @param componentId - Component ID
  */
-export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, componentId }: IDeliverableAnalysesListProps) => {
+export const BuildPushesList = ({ serviceContainerBuildPushes, componentId }: IBuildPushesListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
-        entityAttributes: deliverableAnalysisOperationEntityAttributes,
+        entityAttributes: buildPushOperationEntityAttributes,
         defaultSorting: {
-          attribute: deliverableAnalysisOperationEntityAttributes.endTime.id,
+          attribute: buildPushOperationEntityAttributes.endTime.id,
           direction: 'desc',
         },
       }),
@@ -66,17 +66,14 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering
-              filterOptions={useMemo(
-                () => getFilterOptions({ entityAttributes: deliverableAnalysisOperationEntityAttributes }),
-                []
-              )}
+              filterOptions={useMemo(() => getFilterOptions({ entityAttributes: buildPushOperationEntityAttributes }), [])}
               componentId={componentId}
             />
           </ToolbarItem>
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarItem>
-            <TooltipWrapper tooltip="Show Analyses in compact format, where certain details are hidden.">
+            <TooltipWrapper tooltip="Show Build Pushes in compact format, where certain details are hidden.">
               <Switch
                 id={StorageKeys.isBuildsListCompactMode}
                 label="Compact Mode"
@@ -91,13 +88,13 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
       </Toolbar>
 
       <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerDeliverableAnalyses} title={PageTitles.deliverableAnalyses}>
+        <ServiceContainerLoading {...serviceContainerBuildPushes} title={PageTitles.buildPushes}>
           <Table isStriped variant="compact">
             <Thead>
               <Tr>
-                <Th width={20}>{deliverableAnalysisOperationEntityAttributes.id.title}</Th>
-                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.progressStatus.title}</Th>
-                <Th width={15}>{deliverableAnalysisOperationEntityAttributes.result.title}</Th>
+                <Th width={20}>{buildPushOperationEntityAttributes.id.title}</Th>
+                <Th width={15}>{buildPushOperationEntityAttributes.progressStatus.title}</Th>
+                <Th width={15}>{buildPushOperationEntityAttributes.result.title}</Th>
                 <Th width={25} className="overflow-visible">
                   <SortGroup
                     title="Times"
@@ -107,30 +104,28 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
                   />
                 </Th>
                 <Th width={20} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
-                  {deliverableAnalysisOperationEntityAttributes['user.username'].title}
+                  {buildPushOperationEntityAttributes['user.username'].title}
                 </Th>
               </Tr>
             </Thead>
             <Tbody>
-              {serviceContainerDeliverableAnalyses.data?.content?.map((deliverableAnalysis, rowIndex) => (
+              {serviceContainerBuildPushes.data?.content?.map((buildPush, rowIndex) => (
                 <Tr key={rowIndex}>
                   <Td>
-                    <Link to={`/deliverable-analyses/${deliverableAnalysis.id}`}>{deliverableAnalysis.id}</Link>
+                    <Link to={`/builds/${buildPush.build?.id}/build-pushes/${buildPush.id}`}>{buildPush.id}</Link>
                   </Td>
                   <Td>
-                    {deliverableAnalysis.progressStatus && (
-                      <OperationProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
-                    )}
+                    {buildPush.progressStatus && <OperationProgressStatusLabelMapper progressStatus={buildPush.progressStatus} />}
                   </Td>
-                  <Td>{deliverableAnalysis.result && <OperationResultLabelMapper result={deliverableAnalysis.result} />}</Td>
+                  <Td>{buildPush.result && <OperationResultLabelMapper result={buildPush.result} />}</Td>
                   <Td>
                     <TimesList
-                      {...deliverableAnalysis}
-                      entityAttributes={deliverableAnalysisOperationEntityAttributes}
+                      {...buildPush}
+                      entityAttributes={buildPushOperationEntityAttributes}
                       isCompactMode={isCompactMode}
                     />
                   </Td>
-                  <Td>{deliverableAnalysis.user?.username && <Username text={deliverableAnalysis.user.username} />}</Td>
+                  <Td>{buildPush.user?.username && <Username text={buildPush.user.username} />}</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -138,7 +133,7 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Pagination componentId={componentId} count={serviceContainerDeliverableAnalyses.data?.totalHits} />
+      <Pagination componentId={componentId} count={serviceContainerBuildPushes.data?.totalHits} />
     </>
   );
 };

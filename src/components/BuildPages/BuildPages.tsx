@@ -8,7 +8,12 @@ import { buildStatusData } from 'common/buildStatusData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
-import { hasBuildFinished, hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
+import {
+  hasBuildFinished,
+  hasBuildPushFinished,
+  hasBuildStatusChanged,
+  usePncWebSocketEffect,
+} from 'hooks/usePncWebSocketEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
@@ -49,6 +54,9 @@ export const BuildPages = () => {
   const serviceContainerDependencies = useServiceContainer(buildApi.getDependencies);
   const serviceContainerDependenciesRunner = serviceContainerDependencies.run;
 
+  const serviceContainerBuildPushes = useServiceContainer(buildApi.getBuildPushes);
+  const serviceContainerBuildPushesRunner = serviceContainerBuildPushes.run;
+
   const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
   const [isCancelBuildModalOpen, setIsCancelBuildModalOpen] = useState<boolean>(false);
 
@@ -62,7 +70,14 @@ export const BuildPages = () => {
 
     serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
-  }, [serviceContainerBuildRunner, serviceContainerArtifactsRunner, serviceContainerDependenciesRunner, buildId]);
+    serviceContainerBuildPushesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+  }, [
+    serviceContainerBuildRunner,
+    serviceContainerArtifactsRunner,
+    serviceContainerDependenciesRunner,
+    serviceContainerBuildPushesRunner,
+    buildId,
+  ]);
 
   usePncWebSocketEffect(
     useCallback(
@@ -75,6 +90,11 @@ export const BuildPages = () => {
         } else if (hasBuildStatusChanged(wsData, { buildId })) {
           const wsBuild: Build = wsData.build;
           serviceContainerBuildSetter(wsBuild);
+        } else if (hasBuildPushFinished(wsData, { buildId })) {
+          serviceContainerBuildPushesRunner({
+            serviceData: { id: buildId },
+            requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
+          });
         }
       },
       [
@@ -82,6 +102,7 @@ export const BuildPages = () => {
         serviceContainerBuildSetter,
         serviceContainerArtifactsRunner,
         serviceContainerDependenciesRunner,
+        serviceContainerBuildPushesRunner,
         buildId,
       ]
     )
@@ -124,8 +145,11 @@ export const BuildPages = () => {
           {serviceContainerDependencies.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="brew-push" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-        Brew Push
+      <PageTabsItem url="build-pushes" isDisabled={isBuilding} tooltip={staticDataTooltip}>
+        Build Pushes{' '}
+        <PageTabsLabel serviceContainer={serviceContainerBuildPushes} title="Build Pushes Count">
+          {serviceContainerBuildPushes.data?.totalHits}
+        </PageTabsLabel>
       </PageTabsItem>
       <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
       <ExperimentalContent>
@@ -153,7 +177,10 @@ export const BuildPages = () => {
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
       <PageLayout
         title={<BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername includeConfigLink />}
-        breadcrumbs={[{ entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id }]}
+        breadcrumbs={[
+          { entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id },
+          { entity: breadcrumbData.buildPush.id, title: serviceContainerBuild.data?.id },
+        ]}
         tabs={pageTabs}
         actions={actions}
       >
