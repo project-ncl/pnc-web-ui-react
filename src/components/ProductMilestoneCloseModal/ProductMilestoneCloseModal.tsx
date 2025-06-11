@@ -1,4 +1,4 @@
-import { Form, FormGroup, Switch } from '@patternfly/react-core';
+import { Alert, Form, FormAlert, FormGroup, Switch } from '@patternfly/react-core';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
@@ -28,7 +28,7 @@ export interface IProductMilestoneCloseModalProps {
 export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMilestone }: IProductMilestoneCloseModalProps) => {
   const serviceContainerProductMilestoneClose = useServiceContainer(productMilestoneApi.closeProductMilestone, 0);
 
-  const { register, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
+  const { register, getFieldValue, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
   const confirmModal = (data: IFieldValues) => {
     return serviceContainerProductMilestoneClose.run({
@@ -73,6 +73,24 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
             )}
           />
         </FormGroup>
+        <FormAlert>
+          <Alert
+            variant="warning"
+            isInline
+            title="Milestone end date will be set. If the Milestone is marked as current, the current status will be removed. No more Builds will be added to the Milestone."
+          />
+        </FormAlert>
+        <FormAlert>
+          <Alert
+            variant={getFieldValue(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id) ? 'warning' : 'info'}
+            isInline
+            title={
+              getFieldValue(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id)
+                ? 'No Build Push will be performed.'
+                : 'New Brew Push will be performed for each successful Build in the Milestone.'
+            }
+          />
+        </FormAlert>
       </Form>
     </ActionModal>
   );
