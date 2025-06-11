@@ -1,3 +1,4 @@
+import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -30,8 +31,6 @@ import { CancelBuildModalButton } from 'components/CancelBuildModal/CancelBuildM
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { GroupConfigLink } from 'components/GroupConfigLink/GroupConfigLink';
-import { NestedTabs } from 'components/NestedTabs/NestedTabs';
-import { NestedTabsItem } from 'components/NestedTabs/NestedTabsItem';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
@@ -40,6 +39,8 @@ import * as groupBuildApi from 'services/groupBuildApi';
 import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 import { createDateTime } from 'utils/utils';
+
+import styles from './NestedTabsItem.module.css';
 
 interface IGroupBuildDetailPageProps {
   componentId?: string;
@@ -179,10 +180,20 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
           </Attributes>
         </ContentBox>
 
-        <NestedTabs activeTabKey={activeTabKey} onTabSelect={(tabKey) => setActiveTabKey(tabKey)}>
-          <NestedTabsItem tabKey={0}>Builds</NestedTabsItem>
-          <NestedTabsItem tabKey={1}>Build Dependencies</NestedTabsItem>
-        </NestedTabs>
+        <Tabs activeKey={activeTabKey} onSelect={(_, tabIndex) => setActiveTabKey(Number(tabIndex))} isBox>
+          <Tab
+            className={styles['nested-tabs-item']}
+            eventKey={0}
+            tabContentId="content-0"
+            title={<TabTitleText>Builds</TabTitleText>}
+          />
+          <Tab
+            className={styles['nested-tabs-item']}
+            eventKey={1}
+            tabContentId="content-1"
+            title={<TabTitleText>Build Dependencies</TabTitleText>}
+          />
+        </Tabs>
 
         {activeTabKey === 0 && (
           <ContentBox>
