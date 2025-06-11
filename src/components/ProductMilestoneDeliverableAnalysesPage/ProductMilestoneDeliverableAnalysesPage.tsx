@@ -1,3 +1,4 @@
+import { Text, TextContent } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
@@ -9,6 +10,8 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { DeliverableAnalysesList } from 'components/DeliverableAnalysesList/DeliverableAnalysesList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -58,5 +61,17 @@ export const ProductMilestoneDeliverableAnalysesPage = ({ componentId = 'c1' }: 
     )
   );
 
-  return <DeliverableAnalysesList {...{ serviceContainerDeliverableAnalyses, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem reservedWidth>
+          <TextContent>
+            <Text component="h2">Deliverable Analyses</Text>
+            <Text>This list contains Analyses of the deliverables produced in the Milestone.</Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <DeliverableAnalysesList {...{ serviceContainerDeliverableAnalyses, componentId }} />
+    </>
+  );
 };
