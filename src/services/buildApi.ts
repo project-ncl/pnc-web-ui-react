@@ -11,8 +11,6 @@ import {
   SSHCredentials,
 } from 'pnc-api-types-ts';
 
-import { pncApiMocksClient } from 'services/pncApiMocksClient';
-
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 
 import { kafkaClient } from './kafkaClient';
@@ -176,24 +174,46 @@ export const getDependencyGraph = ({ id }: IBuildApiData, requestConfig: AxiosRe
   return pncClient.getHttpClient().get<BuildsGraph>(`/builds/${id}/dependency-graph`, requestConfig);
 };
 
+export const MAX_IMPLICIT_DEPENDENCY_GRAPH_DEPTH = 5;
+
 /**
- * Gets Build Artifact dependency graph.
+ * Gets Implicit Dependency Graph (based on built Artifacts) for a Build.
  *
  * @param serviceData
  *  - id - Build ID
+ *  - depthLimit - Maximum depth of a graph from the node belonging to Build ID
  * @param requestConfig - Axios based request config
  */
-export const getArtifactDependencyGrah = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncApiMocksClient.getHttpClient().get<any>(`/builds/${id}/artifact-dependency-graph`, requestConfig);
+export const getImplicitDependencyGraph = (
+  { id, depthLimit = MAX_IMPLICIT_DEPENDENCY_GRAPH_DEPTH }: { id: string; depthLimit?: number },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient.getHttpClient().get<BuildsGraph>(
+    `/builds/${id}/implicit-dependency-graph`,
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        depthLimit: depthLimit,
+      },
+    })
+  );
 };
 
 /**
- * Gets Artifact dependencies of one Build dependent on another Build.
+ * Gets implicit dependencies (built Artifacts) of one Build depending on another Build.
  *
+ * @param serviceData
+ *  - dependentId - ID of the Build using the Artifacts
+ *  - dependencyId - ID of the Build which produced the Artifacts
  * @param requestConfig - Axios based request config
  */
-export const getArtifactDependencies = (requestConfig: AxiosRequestConfig = {}) => {
-  return pncApiMocksClient.getHttpClient().get<any>(`/build-artifact-dependencies`, requestConfig);
+export const getImplicitDependencies = (
+  { dependentId, dependencyId }: { dependentId: string; dependencyId: string },
+  requestConfig: AxiosRequestConfig = {}
+) => {
+  return pncClient
+    .getHttpClient()
+    .get<ArtifactPage>(`/builds/${dependentId}/artifacts/dependencies?q=build.id==${dependencyId}`, requestConfig);
 };
 
 /**

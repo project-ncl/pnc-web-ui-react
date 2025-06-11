@@ -3,6 +3,8 @@ import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
+import { ProductMilestone } from 'pnc-api-types-ts';
+
 import { useFullscreen } from 'hooks/useFullscreen';
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
@@ -67,7 +69,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
   const { isFullscreen } = useFullscreen();
 
   const loadSharedDeliveredArtifacts = useCallback(
-    (milestone1: any, milestone2: any) => {
+    (milestone1: ProductMilestone, milestone2: ProductMilestone) => {
       updateQueryParamsInURL(
         { milestone1: milestone1 ? milestone1.id : '', milestone2: milestone2 ? milestone2.id : '', pageIndex: 1 },
         componentId,
@@ -180,7 +182,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
         <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}>
           <ServiceContainerLoading {...serviceContainerInterconnectionGraph} title="Product Milestone Interconnection Graph">
             <ProductMilestoneInterconnectionGraph
-              data={serviceContainerInterconnectionGraph.data}
+              data={serviceContainerInterconnectionGraph.data!}
               mainNode={serviceContainerProductMilestone.data!.id}
               hasLimitedNesting={hasLimitedNesting}
               nestingLevel={nestingLevel}

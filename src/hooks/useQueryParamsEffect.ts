@@ -38,7 +38,7 @@ const areMandatoryParamsAvailable = (mandatoryParams: IMandatoryQueryParams, com
     return false;
   }
 
-  // Example usage: BuildArtifactDependencyGraphPage
+  // Example usage: BuildImplicitDependencyGraph
   if (
     mandatoryParams.buildDependency &&
     (!componentQueryParamsObject.dependentBuild || !componentQueryParamsObject.dependencyBuild)

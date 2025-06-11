@@ -1,6 +1,8 @@
 import Graph from 'graphology';
 import { useCallback, useEffect } from 'react';
 
+import { Build, BuildsGraph } from 'pnc-api-types-ts';
+
 import { EDGE_COLOR, MAIN_NODE_COLOR, NODE_COLOR, useNetworkGraph } from 'hooks/useNetworkGraph';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 
@@ -10,30 +12,30 @@ import { SelectedNodesInfo } from 'components/NetworkGraphs/SelectedNodesInfo';
 
 import styles from './NetworkGraph.module.css';
 
-interface IBuildArtifactDependencyGraphProps {
-  data: any;
+interface IBuildImplicitDependencyGraphProps {
+  data: BuildsGraph;
   mainNode: string;
   hasLimitedNesting: boolean;
   nestingLevel: number;
   searchValueMainLabel?: string;
   searchValueSubLabel?: string;
-  onEdgeSelected?: (dependentBuild: any, dependencyBuild: any) => void;
+  onEdgeSelected?: (dependentBuild: Build, dependencyBuild: Build) => void;
   componentId: string;
 }
 
 /**
- * Build Artifact Dependency Graph pointing Builds to their Artifact (build-time) dependencies.
+ * Build Implicit Dependency Graph pointing Builds to Builds producing their Artifact (build-time) dependencies.
  *
  * @param data - Graph data.
  * @param mainNode - Name of the main node of the graph.
- * @param hasLimitedNesting - Whether is nesting level limitted. Relative to the main node.
+ * @param hasLimitedNesting - Whether is nesting level limited. Relative to the main node.
  * @param nestingLevel - Nesting level. 1 = maximally, neighbors of the main node are displayed, etc.
  * @param searchValueMainLabel - Search value for nodes' main label. Used for node highlighting.
  * @param searchValueSubLabel - Search value for nodes' sublabel. Used for node highlighting.
  * @param onEdgeSelected - Callback to be executed when edge is selected.
- * @param componentId - Component ID of Artifact dependencies list.
+ * @param componentId - Component ID of implicit dependencies list.
  */
-export const BuildArtifactDependencyGraph = ({
+export const BuildImplicitDependencyGraph = ({
   data,
   mainNode,
   hasLimitedNesting,
@@ -42,7 +44,7 @@ export const BuildArtifactDependencyGraph = ({
   searchValueSubLabel,
   onEdgeSelected,
   componentId,
-}: IBuildArtifactDependencyGraphProps) => {
+}: IBuildImplicitDependencyGraphProps) => {
   const { createNetworkGraph, selectEdge, isLayoutRunning, layoutStart, layoutStop, selectedNodesCount, unselectAllNodes } =
     useNetworkGraph({
       mainNode,
@@ -55,27 +57,30 @@ export const BuildArtifactDependencyGraph = ({
 
   useEffect(() => {
     if (data) {
-      createNetworkGraph((graph: Graph) => {
-        Object.values(data.vertices).forEach((node: any) => {
-          graph.addNode(node.name, {
-            id: node.data.id,
-            label: calculateLongBuildName(node.data),
-            mainLabel: calculateBuildName(node.data),
-            subLabel: calculateBuildConfigName(node.data),
-            link: `/builds/${node.data.id}`,
-            size: node.data.id === mainNode ? 9 : 6,
-            color: node.data.id === mainNode ? MAIN_NODE_COLOR : NODE_COLOR,
-            x: 0,
-            y: 0,
+      // defer graph rendering until after the UI paint; there were issues with useEffect double-invocation
+      requestAnimationFrame(() => {
+        createNetworkGraph((graph: Graph) => {
+          Object.values(data.vertices!).forEach((node) => {
+            graph.addNode(node.name, {
+              id: node.name,
+              label: calculateLongBuildName(node.data!),
+              mainLabel: calculateBuildName(node.data!),
+              subLabel: calculateBuildConfigName(node.data!),
+              link: `/builds/${node.data!.id}`,
+              size: node.name === mainNode ? 9 : 6,
+              color: node.name === mainNode ? MAIN_NODE_COLOR : NODE_COLOR,
+              x: 0,
+              y: 0,
+            });
           });
-        });
 
-        data.edges.forEach((edge: any) => {
-          graph.addEdge(edge.source, edge.target, {
-            label: edge.artifactDependencies,
-            size: 5,
-            color: EDGE_COLOR,
-            type: 'arrow',
+          data.edges!.forEach((edge) => {
+            graph.addEdge(edge.source, edge.target, {
+              label: edge.cost,
+              size: 5,
+              color: EDGE_COLOR,
+              type: 'arrow',
+            });
           });
         });
       });
@@ -89,8 +94,8 @@ export const BuildArtifactDependencyGraph = ({
       ({ requestConfig } = {}) => {
         if (requestConfig?.params.dependentBuild && requestConfig?.params.dependencyBuild) {
           selectEdge(
-            data.vertices[requestConfig.params.dependentBuild]?.name,
-            data.vertices[requestConfig.params.dependencyBuild]?.name
+            data.vertices![requestConfig.params.dependentBuild]?.name,
+            data.vertices![requestConfig.params.dependencyBuild]?.name
           );
         } else {
           selectEdge(undefined);

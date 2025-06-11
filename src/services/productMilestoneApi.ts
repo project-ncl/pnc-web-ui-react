@@ -7,8 +7,10 @@ import {
   BuildPushOperationPage,
   DeliverableAnalyzerOperationPage,
   DeliveredArtifactInMilestones,
+  GraphProductMilestone,
   ProductMilestone,
   ProductVersion,
+  VertexProductMilestone,
 } from 'pnc-api-types-ts';
 
 import * as productVersionApi from 'services/productVersionApi';
@@ -121,25 +123,16 @@ type ProductMilestoneWithFullVersion = Omit<ProductMilestone, 'productVersion'> 
   productVersion: ProductVersion;
 };
 
-interface VertexProductMilestone {
+type VertexProductMilestoneWithFullVersion = Omit<VertexProductMilestone, 'data'> & {
   data?: ProductMilestoneWithFullVersion;
-  dataType?: string;
-  name?: string;
-}
+};
 
-interface EdgeProductMilestone {
-  cost?: number;
-  source?: string;
-  target?: string;
-}
-
-// TODO (NCL-9075): import types from pnc-api-types-ts once upgraded
-export interface GraphProductMilestone {
-  edges?: EdgeProductMilestone[];
+// full Versions are fetched manually and added to the graph data
+export type GraphProductMilestoneWithFullVersion = Omit<GraphProductMilestone, 'vertices'> & {
   vertices?: {
-    [name: string]: VertexProductMilestone;
+    [name: string]: VertexProductMilestoneWithFullVersion;
   };
-}
+};
 
 export const MAX_INTERCONNECTION_GRAPH_DEPTH = 5;
 
@@ -155,7 +148,7 @@ export const getInterconnectionGraph = async (
   { id, depthLimit = MAX_INTERCONNECTION_GRAPH_DEPTH }: { id: string; depthLimit?: number },
   requestConfig: AxiosRequestConfig = {}
 ) => {
-  const graph = await pncClient.getHttpClient().get<GraphProductMilestone>(
+  const graph = await pncClient.getHttpClient().get<GraphProductMilestoneWithFullVersion>(
     `/product-milestones/${id}/interconnection-graph`,
     extendRequestConfig({
       originalConfig: requestConfig,
