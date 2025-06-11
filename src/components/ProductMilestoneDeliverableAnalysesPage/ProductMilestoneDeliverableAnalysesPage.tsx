@@ -1,4 +1,4 @@
-import { Text, TextContent } from '@patternfly/react-core';
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
@@ -66,7 +66,7 @@ export const ProductMilestoneDeliverableAnalysesPage = ({ componentId = 'c1' }: 
       <Toolbar>
         <ToolbarItem reservedWidth>
           <TextContent>
-            <Text component="h2">Deliverable Analyses</Text>
+            <Text component={TextVariants.h2}>Deliverable Analyses</Text>
             <Text>This list contains Analyses of the deliverables produced in the Milestone.</Text>
           </TextContent>
         </ToolbarItem>
