@@ -62,11 +62,18 @@ export const BuildPushesList = ({ serviceContainerBuildPushes, componentId }: IB
 
   return (
     <>
-      <Toolbar>
+      <Toolbar column>
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering
-              filterOptions={useMemo(() => getFilterOptions({ entityAttributes: buildPushOperationEntityAttributes }), [])}
+              filterOptions={useMemo(
+                () =>
+                  getFilterOptions({
+                    entityAttributes: buildPushOperationEntityAttributes,
+                    defaultFiltering: { attribute: buildPushOperationEntityAttributes.progressStatus.id },
+                  }),
+                []
+              )}
               componentId={componentId}
             />
           </ToolbarItem>
