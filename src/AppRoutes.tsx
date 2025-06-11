@@ -12,7 +12,6 @@ import { ArtifactProductMilestonesReleasesPage } from 'components/ArtifactProduc
 import { ArtifactUsagesPage } from 'components/ArtifactUsagesPage/ArtifactUsagesPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
-import { BuildArtifactDependencyGraphPage } from 'components/BuildArtifactDependencyGraphPage/BuildArtifactDependencyGraphPage';
 import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
 import { BuildConfigBuildMetricsPage } from 'components/BuildConfigBuildMetricsPage/BuildConfigBuildMetricsPage';
 import { BuildConfigCreateEditPage } from 'components/BuildConfigCreateEditPage/BuildConfigCreateEditPage';
@@ -27,6 +26,7 @@ import { BuildConfigRevisionPages } from 'components/BuildConfigRevisionPages/Bu
 import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
 import { BuildDependenciesPage } from 'components/BuildDependenciesPage/BuildDependenciesPage';
 import { BuildDetailPage } from 'components/BuildDetailPage/BuildDetailPage';
+import { BuildImplicitDependencyGraphPage } from 'components/BuildImplicitDependencyGraphPage/BuildImplicitDependencyGraphPage';
 import { BuildLogPage } from 'components/BuildLogPage/BuildLogPage';
 import { BuildMetricsPage } from 'components/BuildMetricsPage/BuildMetricsPage';
 import { BuildPages } from 'components/BuildPages/BuildPages';
@@ -40,7 +40,6 @@ import { DeliverableAnalysisDetailPage } from 'components/DeliverableAnalysisDet
 import { DeliverableAnalysisPages } from 'components/DeliverableAnalysisPages/DeliverableAnalysisPages';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
-import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigBuildConfigsEditPage } from 'components/GroupConfigBuildConfigsEditPage/GroupConfigBuildConfigsEditPage';
@@ -326,14 +325,7 @@ export const AppRoutes = (
           <Route path=":buildPushId" element={<BuildPushPage />} handle={breadcrumbData.buildPush.id} />
         </Route>
         <Route path="build-metrics" element={<BuildMetricsPage />} />
-        <Route
-          path="artifact-dependency-graph"
-          element={
-            <ExperimentalContent isRouteVariant>
-              <BuildArtifactDependencyGraphPage />
-            </ExperimentalContent>
-          }
-        />
+        <Route path="implicit-dependency-graph" element={<BuildImplicitDependencyGraphPage />} />
         <Route index element={<Navigate to="details" replace />} />
       </Route>
     </Route>

@@ -153,9 +153,9 @@ export const BuildPages = () => {
       </PageTabsItem>
       <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
       <ExperimentalContent>
-        <PageTabsItem url="artifact-dependency-graph" isDisabled={isBuilding} tooltip={staticDataTooltip}>
-          <ExperimentalContentMarker dataSource="mock" contentType="text" showTooltip>
-            Artifact Dependency Graph
+        <PageTabsItem url="implicit-dependency-graph" isDisabled={isBuilding} tooltip={staticDataTooltip}>
+          <ExperimentalContentMarker dataSource="experimental" contentType="text" showTooltip>
+            Implicit Dependency Graph
           </ExperimentalContentMarker>
         </PageTabsItem>
       </ExperimentalContent>
