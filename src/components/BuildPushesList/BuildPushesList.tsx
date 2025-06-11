@@ -1,6 +1,6 @@
 import { Switch } from '@patternfly/react-core';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 
 import { BuildPushOperationPage } from 'pnc-api-types-ts';
@@ -27,9 +27,12 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
+import { isArray } from 'utils/entityRecognition';
+
 interface IBuildPushesListProps {
   serviceContainerBuildPushes: IServiceContainerState<BuildPushOperationPage>;
   componentId: string;
+  customToolbarItems?: ReactNode | ReactNode[];
 }
 
 /**
@@ -37,8 +40,9 @@ interface IBuildPushesListProps {
  *
  * @param serviceContainerProjects - Service Container for Build Push operations
  * @param componentId - Component ID
+ * @param customToolbarItems - custom toolbar components in the second row of the toolbar
  */
-export const BuildPushesList = ({ serviceContainerBuildPushes, componentId }: IBuildPushesListProps) => {
+export const BuildPushesList = ({ serviceContainerBuildPushes, componentId, customToolbarItems }: IBuildPushesListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -91,6 +95,11 @@ export const BuildPushesList = ({ serviceContainerBuildPushes, componentId }: IB
               />
             </TooltipWrapper>
           </ToolbarItem>
+          {isArray(customToolbarItems) ? (
+            customToolbarItems.map((customToolbarItem) => <ToolbarItem>{customToolbarItem}</ToolbarItem>)
+          ) : (
+            <ToolbarItem>{customToolbarItems}</ToolbarItem>
+          )}
         </ToolbarGroup>
       </Toolbar>
 
