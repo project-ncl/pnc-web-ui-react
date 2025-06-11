@@ -62,7 +62,7 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
 
   return (
     <>
-      <Toolbar>
+      <Toolbar column>
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering
