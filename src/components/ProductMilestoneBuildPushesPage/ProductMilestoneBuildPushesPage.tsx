@@ -1,3 +1,4 @@
+import { Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -5,8 +6,12 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildPushFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
+import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { BuildPushesList } from 'components/BuildPushesList/BuildPushesList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -22,10 +27,19 @@ export const ProductMilestoneBuildPushesPage = ({ componentId = 'bp1' }: IProduc
   const serviceContainerBuildPushes = useServiceContainer(productMilestoneApi.getBuildPushes);
   const serviceContainerBuildPushesRunner = serviceContainerBuildPushes.run;
 
+  const { storageValue: areOnlyLatestBuildPushesShown, storeToStorage: setAreOnlyLatestBuildPushesShown } = useStorage<boolean>({
+    storageKey: StorageKeys.areOnlyLatestBuildPushesShown,
+    initialValue: true,
+  });
+
   useQueryParamsEffect(
     useCallback(
-      ({ requestConfig } = {}) => serviceContainerBuildPushesRunner({ serviceData: { id: productMilestoneId }, requestConfig }),
-      [serviceContainerBuildPushesRunner, productMilestoneId]
+      ({ requestConfig } = {}) =>
+        serviceContainerBuildPushesRunner({
+          serviceData: { id: productMilestoneId, latest: areOnlyLatestBuildPushesShown },
+          requestConfig,
+        }),
+      [productMilestoneId, serviceContainerBuildPushesRunner, areOnlyLatestBuildPushesShown]
     ),
     { componentId }
   );
@@ -35,14 +49,46 @@ export const ProductMilestoneBuildPushesPage = ({ componentId = 'bp1' }: IProduc
       (wsData: any) => {
         if (hasBuildPushFinished(wsData, { productMilestoneId })) {
           serviceContainerBuildPushesRunner({
-            serviceData: { id: productMilestoneId },
+            serviceData: { id: productMilestoneId, latest: areOnlyLatestBuildPushesShown },
             requestConfig: { params: buildPushesQueryParamsObject },
           });
         }
       },
-      [serviceContainerBuildPushesRunner, buildPushesQueryParamsObject, productMilestoneId]
+      [productMilestoneId, serviceContainerBuildPushesRunner, buildPushesQueryParamsObject, areOnlyLatestBuildPushesShown]
     )
   );
 
-  return <BuildPushesList {...{ serviceContainerBuildPushes, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem reservedWidth>
+          <TextContent>
+            <Text component={TextVariants.h2}>Build Pushes</Text>
+            <Text>
+              This list contains Build Pushes for each Build in the Milestone. This includes Pushes done during Milestone close
+              and Pushes done outside the close.
+            </Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <BuildPushesList
+        {...{
+          serviceContainerBuildPushes,
+          componentId,
+          customToolbarItems: (
+            <TooltipWrapper tooltip="Show only latest Build Pushes for each Build in the Milestone.">
+              <Switch
+                id={StorageKeys.areOnlyLatestBuildPushesShown}
+                label="Latest Build Pushes"
+                isChecked={areOnlyLatestBuildPushesShown}
+                onChange={(_, checked) => {
+                  setAreOnlyLatestBuildPushesShown(checked);
+                }}
+              />
+            </TooltipWrapper>
+          ),
+        }}
+      />
+    </>
+  );
 };

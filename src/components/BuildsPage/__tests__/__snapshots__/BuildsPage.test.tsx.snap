@@ -39,7 +39,7 @@ Object {
         class="pf-v5-c-page__main-section"
       >
         <div
-          class="shadow-global bg-w p-t-global p-b-global p-l-global p-r-global"
+          class="shadow-global bg-w border-t-gray p-t-global p-b-global p-l-global p-r-global"
         >
           <div
             class=""
@@ -1045,7 +1045,7 @@ Object {
       class="pf-v5-c-page__main-section"
     >
       <div
-        class="shadow-global bg-w p-t-global p-b-global p-l-global p-r-global"
+        class="shadow-global bg-w border-t-gray p-t-global p-b-global p-l-global p-r-global"
       >
         <div
           class=""

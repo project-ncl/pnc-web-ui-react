@@ -66,5 +66,6 @@ export const StorageKeys = {
   isLogViewerFollowingNewContent: 'log-viewer-following',
   isLogViewerContentWrapped: 'log-viewer-wrapping',
   isExperimentalContentEnabled: 'is-experimental-content-enabled',
+  areOnlyLatestBuildPushesShown: 'are-only-latest-build-pushes-shown',
   loggerLabel: 'logger-label',
 } as const;

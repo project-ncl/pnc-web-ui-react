@@ -100,10 +100,19 @@ export const getBuilds = ({ id }: IProductMilestoneApiData, requestConfig: Axios
  *
  * @param serviceData - object containing:
  *  - id - Product Milestone ID
+ *  - latest - fetch only the latest Build Push operation for each Build in the Milestone
  * @param requestConfig - Axios based request config
  */
-export const getBuildPushes = ({ id }: IProductMilestoneApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<BuildPushOperationPage>(`/product-milestones/${id}/build-push-operations`, requestConfig);
+export const getBuildPushes = ({ id, latest }: { id: string; latest?: boolean }, requestConfig: AxiosRequestConfig = {}) => {
+  return pncClient.getHttpClient().get<BuildPushOperationPage>(
+    `/product-milestones/${id}/build-push-operations`,
+    extendRequestConfig({
+      originalConfig: requestConfig,
+      newParams: {
+        latest: latest,
+      },
+    })
+  );
 };
 
 /**
