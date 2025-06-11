@@ -1,4 +1,4 @@
-import { Switch } from '@patternfly/react-core';
+import { Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -9,6 +9,8 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { BuildPushesList } from 'components/BuildPushesList/BuildPushesList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
@@ -57,23 +59,36 @@ export const ProductMilestoneBuildPushesPage = ({ componentId = 'bp1' }: IProduc
   );
 
   return (
-    <BuildPushesList
-      {...{
-        serviceContainerBuildPushes,
-        componentId,
-        customToolbarItems: (
-          <TooltipWrapper tooltip="Show only latest Build Pushes for each Build in the Milestone.">
-            <Switch
-              id={StorageKeys.areOnlyLatestBuildPushesShown}
-              label="Latest Build Pushes"
-              isChecked={areOnlyLatestBuildPushesShown}
-              onChange={(_, checked) => {
-                setAreOnlyLatestBuildPushesShown(checked);
-              }}
-            />
-          </TooltipWrapper>
-        ),
-      }}
-    />
+    <>
+      <Toolbar>
+        <ToolbarItem reservedWidth>
+          <TextContent>
+            <Text component={TextVariants.h2}>Build Pushes</Text>
+            <Text>
+              This list contains Build Pushes for each Build in the Milestone. This includes Pushes done during Milestone close
+              and Pushes done outside the close.
+            </Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <BuildPushesList
+        {...{
+          serviceContainerBuildPushes,
+          componentId,
+          customToolbarItems: (
+            <TooltipWrapper tooltip="Show only the latest Build Pushes for each Build in the Milestone.">
+              <Switch
+                id={StorageKeys.areOnlyLatestBuildPushesShown}
+                label="Latest Build Pushes"
+                isChecked={areOnlyLatestBuildPushesShown}
+                onChange={(_, checked) => {
+                  setAreOnlyLatestBuildPushesShown(checked);
+                }}
+              />
+            </TooltipWrapper>
+          ),
+        }}
+      />
+    </>
   );
 };

@@ -1,3 +1,4 @@
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -7,6 +8,8 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildPushesList } from 'components/BuildPushesList/BuildPushesList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as buildApi from 'services/buildApi';
 
@@ -44,5 +47,17 @@ export const BuildPushesPage = ({ componentId = 'bp1' }: IBuildPushesPageProps) 
     )
   );
 
-  return <BuildPushesList {...{ serviceContainerBuildPushes, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem reservedWidth>
+          <TextContent>
+            <Text component={TextVariants.h2}>Build Pushes</Text>
+            <Text>This list contains Pushes of the Build.</Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <BuildPushesList {...{ serviceContainerBuildPushes, componentId }} />
+    </>
+  );
 };
