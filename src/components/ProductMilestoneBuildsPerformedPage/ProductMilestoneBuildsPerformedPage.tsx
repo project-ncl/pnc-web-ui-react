@@ -1,3 +1,4 @@
+import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useMemo } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
@@ -9,6 +10,8 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildsList } from 'components/BuildsList/BuildsList';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -58,5 +61,20 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
     )
   );
 
-  return <BuildsList {...{ serviceContainerBuilds, componentId }} />;
+  return (
+    <>
+      <Toolbar>
+        <ToolbarItem reservedWidth>
+          <TextContent>
+            <Text component={TextVariants.h2}>Builds Performed</Text>
+            <Text>
+              This list contains Builds in the Milestone. Builds produced from the Build Configuration are assigned to the current
+              Milestone in the Product Version linked in the Build Configuration.
+            </Text>
+          </TextContent>
+        </ToolbarItem>
+      </Toolbar>
+      <BuildsList {...{ serviceContainerBuilds, componentId }} />
+    </>
+  );
 };
