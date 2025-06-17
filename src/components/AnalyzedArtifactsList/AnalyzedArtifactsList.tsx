@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 
 import { AnalyzedArtifact, AnalyzedArtifactPage } from 'pnc-api-types-ts';
@@ -331,14 +331,12 @@ export const AnalyzedArtifactsList = ({
                             <DescriptionListDescription>
                               {analyzedArtifact.licenses && analyzedArtifact.licenses.length > 0 ? (
                                 analyzedArtifact.licenses.map((license, index) => (
-                                  <TooltipWrapper tooltip={license.sourceUrl}>
-                                    <span key={index}>
-                                      <a href={license.url} target="_blank" rel="noopener noreferrer">
-                                        {license.spdxLicenseId}
-                                      </a>
-                                      {index < analyzedArtifact.licenses!.length - 1 && ', '}
-                                    </span>
-                                  </TooltipWrapper>
+                                  <div key={index}>
+                                    <a href={license.url} target="_blank" rel="noopener noreferrer">
+                                      {license.spdxLicenseId}
+                                    </a>{' '}
+                                    {license.sourceUrl}
+                                  </div>
                                 ))
                               ) : (
                                 <>
