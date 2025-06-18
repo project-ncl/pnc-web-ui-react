@@ -71,67 +71,77 @@ const generateTimeTitle = (metricValueData: number | string): string => {
 
 /**
  * Color and label data for each metric
- * Colors are based on v4-archive.patternfly.org/v4/guidelines/colors
+ * Colors are based on https://v5-archive.patternfly.org/design-foundations/colors
  */
 const METRICS_DATA: MetricsData = {
   WAITING_FOR_DEPENDENCIES: {
-    color: '#B2A3FF',
+    color: '#B8BBBE', // black-400
     label: 'Waiting',
     description: 'Waiting for dependencies',
   },
   ENQUEUED: {
-    color: '#C8EB79',
+    color: '#73C5C5', // cyan-200
     label: 'Enqueued',
     description: 'Waiting to be started, the metric ends with the BPM process being started from PNC Orchestrator',
   },
   SCM_CLONE: {
-    color: '#73C5C5',
+    color: '#CBC1FF', // purple-100
     label: 'SCM Clone',
     description: 'Cloning / Syncing from Gerrit',
   },
-  ALIGNMENT_ADJUST: {
-    color: '#EF9234',
+  STARTING_ALIGNMENT_POD: {
+    color: '#F9E0A2', // gold-100
+    label: 'Starting Alignment Pod',
+    description: 'Starting alignment environment pod',
+  },
+  ALIGNMENT: {
+    color: '#2B9AF3', // blue-300
     label: 'Alignment',
-    description: 'Alignment only',
+    description: 'Alignment stage',
+  },
+  ALIGNMENT_ADJUST: {
+    color: '#EF9234', // orange-200
+    label: 'Alignment Adjust',
+    description: 'Alignment adjustment stage',
   },
   BUILD_ENV_SETTING_UP: {
-    color: '#7CDBF3',
+    color: '#7CDBF3', // light-blue-200
     label: 'Starting Environment',
     description: 'Requesting to start new Build Environment in OpenShift',
   },
   REPO_SETTING_UP: {
-    color: '#00B9E4',
+    color: '#B2A3FF', // purple-200
     label: 'Artifact Repos Setup',
     description: 'Creating per build artifact repositories in Indy',
   },
   BUILD_SETTING_UP: {
-    color: '#008BAD',
+    color: '#008BAD', // light-blue-500
     label: 'Building',
     description: 'Uploading the build script, running the build, downloading the results (logs)',
   },
-  COLLECTING_RESULTS_FROM_BUILD_DRIVER: {
-    color: 'black',
-    label: 'Collecting Results From Build Driver',
-    description: '',
-    skip: true,
-  },
   SEALING_REPOSITORY_MANAGER_RESULTS: {
-    color: '#CBC1FF',
+    color: '#F4C145', // gold-300
     label: 'Sealing',
     description: 'Sealing artifact repository in Indy',
   },
   COLLECTING_RESULTS_FROM_REPOSITORY_MANAGER: {
-    color: '#8476D1',
+    color: '#8476D1', // purple-400
     label: 'Promotion',
     description: 'Downloading the list of built artifact and dependencies from Indy, promoting them to shared repository in Indy',
   },
   FINALIZING_BUILD: {
-    color: '#5BA352',
+    color: '#5BA352', // green-400
     label: 'Finalizing',
     description: 'Completing all other build execution tasks, destroying build environments, invoking the BPM',
   },
+  COLLECTING_RESULTS_FROM_BUILD_DRIVER: {
+    color: '#151515', // black-900
+    label: 'Collecting Results From Build Driver',
+    description: '',
+    skip: true,
+  },
   OTHER: {
-    color: 'silver',
+    color: '#D2D2D2', // black-300
     label: 'Other',
     description: 'Other tasks from the time when the build was submitted to the time when the build ends',
   },
