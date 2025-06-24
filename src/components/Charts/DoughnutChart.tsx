@@ -9,6 +9,7 @@ import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJsPlugins';
 export interface IDoughnutChartProps {
   data: number[];
   labels: string[];
+  colors?: string[];
   id?: string;
   description?: IDescription;
   legendHeight?: number;
@@ -19,11 +20,12 @@ export interface IDoughnutChartProps {
  *
  * @param data - Chart data
  * @param labels - Chart data labels
+ * @param colors - Background colors for the chart data
  * @param id - ID of canvas
  * @param description - Description to be displayed in help icon
  * @param legendHeight - Legend height
  */
-export const DoughnutChart = ({ data, labels, id, description, legendHeight = 100 }: IDoughnutChartProps) => {
+export const DoughnutChart = ({ data, labels, colors, id, description, legendHeight = 100 }: IDoughnutChartProps) => {
   const chart = useRef<Chart>();
   const chartRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,7 +33,12 @@ export const DoughnutChart = ({ data, labels, id, description, legendHeight = 10
     const chartConfig: ChartConfiguration = {
       type: 'doughnut',
       data: {
-        datasets: [{ data }],
+        datasets: [
+          {
+            data,
+            backgroundColor: colors?.map((color) => color ?? '#CCCCCC'),
+          },
+        ],
         labels,
       },
       options: {
@@ -75,7 +82,7 @@ export const DoughnutChart = ({ data, labels, id, description, legendHeight = 10
       chart.current.config.options = chartConfig.options;
       chart.current.update();
     }
-  }, [data, labels, legendHeight]);
+  }, [data, labels, colors, legendHeight]);
 
   return (
     <ChartBox description={description}>

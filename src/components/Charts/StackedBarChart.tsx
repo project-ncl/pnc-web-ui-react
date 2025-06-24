@@ -22,6 +22,7 @@ interface IStackedBarChartDataset {
 export interface IStackedBarChartProps {
   data: IStackedBarChartDataset[];
   labels: string[];
+  colors?: string[];
   id?: string;
   description?: IDescription;
   legendHeight?: number;
@@ -32,11 +33,12 @@ export interface IStackedBarChartProps {
  *
  * @param data - Chart data
  * @param labels - Labels of stacked rows
+ * @param colors - Background colors for the chart data
  * @param id - ID of canvas
  * @param description - Description to be displayed in help icon
  * @param legendHeight - Legend height
  */
-export const StackedBarChart = ({ data, labels, id, description, legendHeight = 100 }: IStackedBarChartProps) => {
+export const StackedBarChart = ({ data, labels, colors, id, description, legendHeight = 100 }: IStackedBarChartProps) => {
   const chart = useRef<Chart>();
   const chartRef = useRef<HTMLCanvasElement>(null);
 
@@ -45,7 +47,7 @@ export const StackedBarChart = ({ data, labels, id, description, legendHeight = 
       type: 'bar',
       data: {
         datasets: data.map((dataset: IStackedBarChartDataset, index: number) => {
-          return { ...dataset, backgroundColor: COLORS[index % COLORS.length] };
+          return { ...dataset, backgroundColor: colors ? colors[index] : COLORS[index % COLORS.length] };
         }),
         labels: labels,
       },
@@ -97,7 +99,7 @@ export const StackedBarChart = ({ data, labels, id, description, legendHeight = 
       chart.current.config.options = chartConfig.options;
       chart.current.update();
     }
-  }, [data, labels, legendHeight]);
+  }, [data, labels, colors, legendHeight]);
 
   return (
     <ChartBox description={description}>

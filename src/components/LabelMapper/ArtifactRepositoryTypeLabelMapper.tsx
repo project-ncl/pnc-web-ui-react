@@ -1,34 +1,16 @@
 import { TargetRepository } from 'pnc-api-types-ts';
 
-import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
+import { repositoryTypeColorMap } from 'common/colorMap';
 
-const ARTIFACT_REPOSITORY_TYPES: ILabelMapper<TargetRepository['repositoryType']> = {
-  MAVEN: {
-    text: 'MAVEN',
-    color: 'gold',
-  },
-  GENERIC_PROXY: {
-    text: 'GENERIC_PROXY',
-    color: 'grey',
-  },
-  NPM: {
-    text: 'NPM',
-    color: 'purple',
-  },
-  COCOA_POD: {
-    text: 'COCOA_POD',
-    color: 'cyan',
-  },
-  DISTRIBUTION_ARCHIVE: {
-    text: 'DISTRIBUTION_ARCHIVE',
-    color: 'red',
-  },
-};
+import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 
 interface IArtifactRepositoryTypeLabelMapperProps {
   repositoryType: TargetRepository['repositoryType'];
 }
 
-export const ArtifactRepositoryTypeLabelMapper = ({ repositoryType }: IArtifactRepositoryTypeLabelMapperProps) => (
-  <LabelMapper mapperItem={ARTIFACT_REPOSITORY_TYPES[repositoryType]} />
-);
+export const ArtifactRepositoryTypeLabelMapper = ({ repositoryType }: IArtifactRepositoryTypeLabelMapperProps) => {
+  const config = repositoryTypeColorMap[repositoryType] ?? {
+    text: repositoryType,
+  };
+  return <LabelMapper mapperItem={config} />;
+};
