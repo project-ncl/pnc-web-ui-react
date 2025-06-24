@@ -1,38 +1,13 @@
+import { operationResultColorMap } from 'common/colorMap';
 import { Operation } from 'common/operationEntityAttributes';
 
-import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
-
-const OPERATION_RESULTS: ILabelMapper<Operation['result']> = {
-  SUCCESSFUL: {
-    text: 'SUCCESSFUL',
-    color: 'green',
-  },
-  FAILED: {
-    text: 'FAILED',
-    color: 'orange',
-  },
-  REJECTED: {
-    text: 'REJECTED',
-    color: 'orange',
-  },
-  CANCELLED: {
-    text: 'CANCELLED',
-    color: 'grey',
-  },
-  TIMEOUT: {
-    text: 'TIMEOUT',
-    color: 'grey',
-  },
-  SYSTEM_ERROR: {
-    text: 'SYSTEM_ERROR',
-    color: 'red',
-  },
-};
+import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 
 interface IOperationResultLabelMapperProps {
   result: Exclude<Operation['result'], undefined>;
 }
 
-export const OperationResultLabelMapper = ({ result }: IOperationResultLabelMapperProps) => (
-  <LabelMapper mapperItem={OPERATION_RESULTS[result]} />
-);
+export const OperationResultLabelMapper = ({ result }: IOperationResultLabelMapperProps) => {
+  const config = operationResultColorMap[result] ?? { text: result };
+  return <LabelMapper mapperItem={config} />;
+};

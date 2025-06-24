@@ -1,30 +1,14 @@
 import { BuildConfiguration } from 'pnc-api-types-ts';
 
-import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
+import { buildTypeColorMap } from 'common/colorMap';
 
-const BUILD_CONFIG_BUILD_TYPES: ILabelMapper<BuildConfiguration['buildType']> = {
-  MVN: {
-    text: 'MVN',
-    color: 'gold',
-  },
-  NPM: {
-    text: 'NPM',
-    color: 'purple',
-  },
-  GRADLE: {
-    text: 'GRADLE',
-    color: 'cyan',
-  },
-  SBT: {
-    text: 'SBT',
-    color: 'grey',
-  },
-};
+import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 
 interface IBuildConfigBuildTypeLabelMapperProps {
   buildType: BuildConfiguration['buildType'];
 }
 
-export const BuildConfigBuildTypeLabelMapper = ({ buildType }: IBuildConfigBuildTypeLabelMapperProps) => (
-  <LabelMapper mapperItem={BUILD_CONFIG_BUILD_TYPES[buildType]} />
-);
+export const BuildConfigBuildTypeLabelMapper = ({ buildType }: IBuildConfigBuildTypeLabelMapperProps) => {
+  const config = buildTypeColorMap[buildType] ?? { text: buildType };
+  return <LabelMapper mapperItem={config} />;
+};

@@ -1,6 +1,7 @@
 import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
 
+import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -186,6 +187,7 @@ export const ProductMilestoneDetailPage = () => {
             <DoughnutChart
               data={dougnutChartArtifactQuality.data}
               labels={dougnutChartArtifactQuality.labels}
+              colors={dougnutChartArtifactQuality.labels?.map((label) => artifactQualityColorMap[label]?.hexColor)}
               description={<div>Chart displays proportion of quality of Delivered Artifacts.</div>}
             />
           </ServiceContainerLoading>
@@ -205,6 +207,7 @@ export const ProductMilestoneDetailPage = () => {
             <DoughnutChart
               data={dougnutChartRepositoryType.data}
               labels={dougnutChartRepositoryType.labels}
+              colors={dougnutChartRepositoryType.labels?.map((label) => repositoryTypeColorMap[label]?.hexColor)}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts.
