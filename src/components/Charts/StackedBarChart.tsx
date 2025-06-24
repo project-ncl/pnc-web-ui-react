@@ -70,8 +70,9 @@ export const StackedBarChart = ({ data, labels, id, description, legendHeight = 
         plugins: {
           legend: {
             position: 'bottom',
+            maxHeight: legendHeight * 4,
             labels: {
-              padding: 25,
+              padding: 15,
               color: 'black',
               font: {
                 size: 15,
