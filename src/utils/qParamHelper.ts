@@ -23,10 +23,13 @@ import { isString } from 'utils/entityRecognition';
 export type TQParamValue = string | boolean | number;
 
 /**
- * Operator =like= is converted to =notlike= automatically when qValue starts with ! character,
- * there is no need to declare it manually.
+ * Operator =like= is converted to =notlike= automatically when qValue starts with ! character.
  */
-export type IQParamOperators = '=like=' | '==' | '!=' | '=isnull=';
+export type IQParamOperators = '=like=' | '=notlike=' | '==' | '!=' | '=isnull=';
+
+export const isQParamOperator = (value: string): value is IQParamOperators => qParamSupportedOperators.comparison.includes(value);
+
+export type TQParamLogicalOperator = 'and' | 'or';
 
 /**
  * List of all supported RSQL operators.
@@ -35,6 +38,11 @@ const qParamSupportedOperators = {
   comparison: ['=like=', '=notlike=', '==', '!=', '=isnull='],
   logical: [',', ';'],
 };
+
+const logicalOperatorToQParamMap = {
+  and: ';',
+  or: ',',
+} as const;
 
 const qParamSupportedComparisonOperatorsRegex = new RegExp('(' + qParamSupportedOperators.comparison.join('|') + ')');
 
@@ -46,7 +54,7 @@ const qParamSupportedComparisonOperatorsRegex = new RegExp('(' + qParamSupported
  * }
  */
 export interface IQParamObject {
-  [key: string]: string[];
+  [key: string]: { logicalOperator: TQParamLogicalOperator; values: string[] };
 }
 
 /**
@@ -131,12 +139,15 @@ const joinQParamItems = (qParamItems: string[]): string => {
 
   return qParamItemsObjectsGroupedById
     .map((group) => {
-      const groupStringified = group.map((item) => `${item.id}${item.operator}${item.value}`).join(',');
+      const logicalOperator = selectLogicalOperator(group[0].operator); // all in the group have the same operator
+      const groupStringified = group
+        .map((item) => `${item.id}${item.operator}${item.value}`)
+        .join(logicalOperatorToQParamMap[logicalOperator]);
 
       // () because: AND precedence > OR precedence
       return `(${groupStringified})`;
     })
-    .join(';');
+    .join(logicalOperatorToQParamMap.and);
 };
 
 /**
@@ -206,11 +217,10 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
 
   // loop Q Params Items
   for (let i = 0; i < qParamItems.length; i++) {
-    let qParamItemSplitted = qParamItems[i].split(qParamSupportedComparisonOperatorsRegex);
+    const qParamItemSplitted = qParamItems[i].split(qParamSupportedComparisonOperatorsRegex);
+    let [qKey, qOperator, qValue] = [...qParamItemSplitted.slice(0, 2), qParamItemSplitted.slice(2).join('')];
 
-    if (qParamItemSplitted.length >= 3) {
-      let [qKey, qOperator, qValue] = [...qParamItemSplitted.splice(0, 2), qParamItemSplitted.join('')];
-
+    if (qParamItemSplitted.length >= 3 && isQParamOperator(qOperator)) {
       // add ! character
       // #support =notlike=
       if (qOperator === '=notlike=') {
@@ -218,9 +228,9 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
       }
 
       if (qParamObject[qKey]) {
-        qParamObject[qKey].push(qValue);
+        qParamObject[qKey].values.push(qValue);
       } else {
-        qParamObject[qKey] = [qValue];
+        qParamObject[qKey] = { logicalOperator: selectLogicalOperator(qOperator), values: [qValue] };
       }
     } else {
       uiLogger.error(
@@ -230,3 +240,5 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
   }
   return qParamObject;
 };
+
+const selectLogicalOperator = (operator: IQParamOperators): TQParamLogicalOperator => (operator === '==' ? 'or' : 'and');

@@ -11,7 +11,7 @@ import { Select } from 'components/Select/Select';
 import { SelectOption } from 'components/Select/SelectOption';
 
 import { constructCustomFilterParam } from 'utils/customParamHelper';
-import { addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
+import { TQParamLogicalOperator, addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
 import styles from './Filtering.module.css';
@@ -30,7 +30,7 @@ import styles from './Filtering.module.css';
  * }
  */
 export interface IAppliedFilters {
-  [key: string]: string[];
+  [key: string]: { logicalOperator: TQParamLogicalOperator; values: string[] };
 }
 
 export type TFilterAttribute = WithRequiredProperty<IEntityAttribute, 'filter'>;
@@ -195,7 +195,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
       if (v.filter.isCustomParam) {
         const customParamValue = getComponentQueryParamValue(location.search, k, componentId);
         if (customParamValue) {
-          appliedFilters[k] = [customParamValue];
+          appliedFilters[k].values = [customParamValue];
         }
       }
     });
@@ -285,7 +285,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
               key={filterAttributeKey}
               categoryName={filterOptions.filterAttributes[filterAttributeKey].title}
             >
-              {appliedFilters[filterAttributeKey].map((filterValueItem, i) => (
+              {appliedFilters[filterAttributeKey].values.map((filterValueItem, i) => (
                 <span key={filterValueItem}>
                   <Chip
                     onClick={() => {
@@ -294,8 +294,10 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
                   >
                     {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
                   </Chip>
-                  {i + 1 !== appliedFilters[filterAttributeKey].length && (
-                    <span className={css('p-l-5', styles['chip-group-separator'])}>or</span>
+                  {i + 1 !== appliedFilters[filterAttributeKey].values.length && (
+                    <span className={css('p-l-5', styles['chip-group-separator'])}>
+                      {appliedFilters[filterAttributeKey].logicalOperator}
+                    </span>
                   )}
                 </span>
               ))}
