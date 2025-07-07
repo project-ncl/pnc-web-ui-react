@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@patternfly/react-core": "^5.3.3",
-    "@patternfly/react-log-viewer": "^5.2.0",
-    "@patternfly/react-table": "^5.3.3",
+    "@patternfly/react-core": "^6.3.0",
+    "@patternfly/react-log-viewer": "^6.3.0",
+    "@patternfly/react-table": "^6.3.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
