@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -51,10 +51,10 @@ export const ArtifactUsagesPage = ({ componentId = 'b1' }: IArtifactUsagesPagePr
     <>
       <Toolbar borderBottom>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Usages</Text>
-            <Text>This list shows in which Builds this Artifact was used as dependency.</Text>
-          </TextContent>
+          <Content>
+            <Content component={ContentVariants.h2}>Usages</Content>
+            <Content component={ContentVariants.p}>This list shows in which Builds this Artifact was used as dependency.</Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <BuildsList {...{ serviceContainerBuilds, componentId }} />{' '}

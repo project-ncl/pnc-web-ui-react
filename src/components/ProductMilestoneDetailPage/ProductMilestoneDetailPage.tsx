@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
 
 import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
@@ -177,9 +177,7 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Artifact Quality Distribution</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Artifact Quality Distribution</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight="500px">
@@ -197,9 +195,7 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Repository Type Distribution</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Repository Type Distribution</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight="500px">

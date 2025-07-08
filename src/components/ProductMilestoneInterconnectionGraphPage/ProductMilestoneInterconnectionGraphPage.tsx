@@ -1,4 +1,4 @@
-import { Button, Label, NumberInput, SearchInput, Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Content, ContentVariants, Label, NumberInput, SearchInput, Switch } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -123,18 +123,16 @@ export const ProductMilestoneInterconnectionGraphPage = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Product Milestone Interconnection Graph</Text>
-          </TextContent>
-          <TextContent>
-            <Text component={TextVariants.p}>
+          <Content>
+            <Content component={ContentVariants.h2}>Product Milestone Interconnection Graph</Content>
+            <Content component={ContentVariants.p}>
               Edges interconnect Product Milestones sharing Delivered Artifacts. An edge number represents the number of shared
               Delivered Artifacts between the two Milestones. Clicking on an edge displays a list of shared Delivered Artifacts.
               The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to highlight
               them and their neighbors. Double-clicking on a node opens the Milestone detail page. To drag a node, hold down the{' '}
               <Label>Shift</Label> key and the mouse button and click on the node.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
 
@@ -202,28 +200,26 @@ export const ProductMilestoneInterconnectionGraphPage = ({
             <div ref={sharedDeliveredArtifactsListTopRef} />
             <Toolbar>
               <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>
-                    Shared Delivered Artifacts between{' '}
-                    <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="icon" title="Product Milestone">
-                      <span className={styles['product-milestone-label']}>
-                        <ProductMilestoneReleaseLabel
-                          productMilestoneRelease={serviceContainerProductMilestone1.data!}
-                          isCurrent={false}
-                        />
-                      </span>
-                    </ServiceContainerLoading>{' '}
-                    and{' '}
-                    <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="icon" title="Product Milestone">
-                      <span className={styles['product-milestone-label']}>
-                        <ProductMilestoneReleaseLabel
-                          productMilestoneRelease={serviceContainerProductMilestone2.data!}
-                          isCurrent={false}
-                        />
-                      </span>
-                    </ServiceContainerLoading>
-                  </Text>
-                </TextContent>
+                <Content component={ContentVariants.h2}>
+                  Shared Delivered Artifacts between{' '}
+                  <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="icon" title="Product Milestone">
+                    <span className={styles['product-milestone-label']}>
+                      <ProductMilestoneReleaseLabel
+                        productMilestoneRelease={serviceContainerProductMilestone1.data!}
+                        isCurrent={false}
+                      />
+                    </span>
+                  </ServiceContainerLoading>{' '}
+                  and{' '}
+                  <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="icon" title="Product Milestone">
+                    <span className={styles['product-milestone-label']}>
+                      <ProductMilestoneReleaseLabel
+                        productMilestoneRelease={serviceContainerProductMilestone2.data!}
+                        isCurrent={false}
+                      />
+                    </span>
+                  </ServiceContainerLoading>
+                </Content>
               </ToolbarItem>
               <ToolbarItem alignRight>
                 <TooltipWrapper tooltip="Close this table.">
@@ -232,9 +228,8 @@ export const ProductMilestoneInterconnectionGraphPage = ({
                     onClick={() =>
                       updateQueryParamsInURL({ milestone1: '', milestone2: '', pageIndex: 1 }, componentId, location, navigate)
                     }
-                  >
-                    <TimesIcon />
-                  </Button>
+                    icon={<TimesIcon />}
+                  />
                 </TooltipWrapper>
               </ToolbarItem>
             </Toolbar>

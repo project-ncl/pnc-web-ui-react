@@ -1,4 +1,16 @@
-import { ActionGroup, Button, Flex, FlexItem, FlexProps, Form, FormGroup, Switch, Text, TextInput } from '@patternfly/react-core';
+import {
+  ActionGroup,
+  Button,
+  Content,
+  ContentVariants,
+  Flex,
+  FlexItem,
+  FlexProps,
+  Form,
+  FormGroup,
+  Switch,
+  TextInput,
+} from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
 
 import { ButtonTitles } from 'common/constants';
@@ -169,7 +181,6 @@ export const AdministrationPage = () => {
                         id={pncStatusEntityAttributes.isMaintenanceMode.id}
                         name={pncStatusEntityAttributes.isMaintenanceMode.id}
                         label="Enabled"
-                        labelOff="Disabled"
                         isChecked={value}
                         onChange={onChange}
                         onBlur={onBlur}
@@ -234,7 +245,7 @@ export const AdministrationPage = () => {
           <ContentBox padding title="Test UI Logger" isResponsive>
             <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
               <FlexItem>
-                <Text>Sends UI log to the UI Logger service - use for testing purposes.</Text>
+                <Content component={ContentVariants.p}>Sends UI log to the UI Logger service - use for testing purposes.</Content>
               </FlexItem>
               <FlexItem>
                 <Button

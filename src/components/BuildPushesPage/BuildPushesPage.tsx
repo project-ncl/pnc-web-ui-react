@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -51,10 +51,10 @@ export const BuildPushesPage = ({ componentId = 'bp1' }: IBuildPushesPageProps) 
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Build Pushes</Text>
-            <Text>This list contains Pushes of the Build.</Text>
-          </TextContent>
+          <Content>
+            <Content component={ContentVariants.h2}>Build Pushes</Content>
+            <Content component={ContentVariants.p}>This list contains Pushes of the Build.</Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <BuildPushesList {...{ serviceContainerBuildPushes, componentId }} />

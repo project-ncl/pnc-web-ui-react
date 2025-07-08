@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -34,10 +34,12 @@ export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IA
     <>
       <Toolbar borderBottom>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Milestones and Releases</Text>
-            <Text>This list shows in which Product Version and Milestone this Artifact is used.</Text>
-          </TextContent>
+          <Content>
+            <Content component={ContentVariants.h2}>Milestones and Releases</Content>
+            <Content component={ContentVariants.p}>
+              This list shows in which Product Version and Milestone this Artifact is used.
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <ArtifactProductMilestonesReleasesList {...{ serviceContainerArtifactProductMilestonesReleases, componentId }} />{' '}

@@ -109,7 +109,7 @@ https://url-path/to/file3.zip`}
         <FormGroup
           label={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.title}
           fieldId={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
-          labelIcon={<TooltipWrapper tooltip={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.tooltip} />}
         >
           <FormInput<boolean>
             {...register<boolean>(
@@ -122,7 +122,6 @@ https://url-path/to/file3.zip`}
                   id={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
                   name={deliverableAnalysisOperationEntityAttributes.runAsScratchAnalysis.id}
                   label="Enabled"
-                  labelOff="Disabled"
                   isChecked={!productMilestone || value}
                   onChange={onChange}
                   onBlur={onBlur}

@@ -1,4 +1,4 @@
-import { Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Switch } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -62,13 +62,13 @@ export const ProductMilestoneBuildPushesPage = ({ componentId = 'bp1' }: IProduc
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Build Pushes</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Build Pushes</Content>
+            <Content component={ContentVariants.p}>
               This list contains Build Pushes for each Build in the Milestone. This includes Pushes done during Milestone close
               and Pushes done outside the close.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <BuildPushesList

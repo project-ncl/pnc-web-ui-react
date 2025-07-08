@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useMemo } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -62,9 +62,7 @@ export const DashboardPage = () => {
           <GridItem lg={12} xl2={6}>
             <Toolbar borderBottom>
               <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>My Builds</Text>
-                </TextContent>
+                <Content component={ContentVariants.h2}>My Builds</Content>
               </ToolbarItem>
             </Toolbar>
 
@@ -73,9 +71,7 @@ export const DashboardPage = () => {
           <GridItem lg={12} xl2={6}>
             <Toolbar borderBottom>
               <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>My Group Builds</Text>
-                </TextContent>
+                <Content component={ContentVariants.h2}>My Group Builds</Content>
               </ToolbarItem>
             </Toolbar>
 

@@ -1,4 +1,4 @@
-import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Label } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -81,13 +81,13 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
 
         <Toolbar borderBottom>
           <ToolbarItem reservedWidth>
-            <TextContent>
-              <Text component={TextVariants.h2}>Product Versions</Text>
-              <Text>
+            <Content>
+              <Content component={ContentVariants.h2}>Product Versions</Content>
+              <Content component={ContentVariants.p}>
                 Product Version represents one Product stream like <Label>6.3</Label> or <Label>7.4</Label>. Each Product can
                 contain multiple Product Versions and each Product Version can contain multiple Product Milestones.
-              </Text>
-            </TextContent>
+              </Content>
+            </Content>
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>

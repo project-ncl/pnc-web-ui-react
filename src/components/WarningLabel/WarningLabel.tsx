@@ -7,7 +7,7 @@ interface IWarningLabelProps extends Exclude<LabelProps, 'color' | 'icon'> {
 }
 
 export const WarningLabel = ({ hasIcon = false, children, ...otherProps }: IWarningLabelProps) => (
-  <Label color="gold" icon={hasIcon && <WarningIcon />} {...otherProps}>
+  <Label color="yellow" icon={hasIcon && <WarningIcon />} {...otherProps}>
     {children}
   </Label>
 );

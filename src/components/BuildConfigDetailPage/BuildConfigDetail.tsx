@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
 import { CSSProperties, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -59,9 +59,7 @@ export const BuildConfigDetail = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Details</Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>Details</Content>
             </ToolbarItem>
             {isRevisionVariant && (
               <ToolbarItem alignRight>
@@ -177,9 +175,7 @@ export const BuildConfigDetail = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>{buildConfigEntityAttributes.parameters.title}</Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>{buildConfigEntityAttributes.parameters.title}</Content>
             </ToolbarItem>
           </Toolbar>
           <ContentBox borderTop padding isResponsive>

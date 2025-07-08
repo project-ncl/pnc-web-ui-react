@@ -193,7 +193,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           isRequired
           label={productReleaseEntityAttributes.version.title}
           fieldId={productReleaseEntityAttributes.version.id}
-          labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.version.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={productReleaseEntityAttributes.version.tooltip} />}
         >
           <InputGroup>
             <InputGroupText>
@@ -218,7 +218,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           isRequired
           label={productReleaseEntityAttributes.releaseDate.title}
           fieldId={productReleaseEntityAttributes.releaseDate.id}
-          labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.releaseDate.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={productReleaseEntityAttributes.releaseDate.tooltip} />}
         >
           <DatePicker
             id={productReleaseEntityAttributes.releaseDate.id}
@@ -292,7 +292,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
         <FormGroup
           label={productReleaseEntityAttributes.commonPlatformEnumeration.title}
           fieldId={productReleaseEntityAttributes.commonPlatformEnumeration.id}
-          labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.commonPlatformEnumeration.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={productReleaseEntityAttributes.commonPlatformEnumeration.tooltip} />}
         >
           <TextInput
             type="text"
@@ -311,7 +311,7 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
         <FormGroup
           label={productReleaseEntityAttributes.productPagesCode.title}
           fieldId={productReleaseEntityAttributes.productPagesCode.id}
-          labelIcon={<TooltipWrapper tooltip={productReleaseEntityAttributes.productPagesCode.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={productReleaseEntityAttributes.productPagesCode.tooltip} />}
         >
           <TextInput
             type="text"

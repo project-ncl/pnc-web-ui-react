@@ -1,4 +1,4 @@
-import { Button, Label, NumberInput, SearchInput, Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Content, ContentVariants, Label, NumberInput, SearchInput, Switch } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -119,19 +119,17 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
     <>
       <Toolbar>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Implicit Dependency Graph</Text>
-          </TextContent>
-          <TextContent>
-            <Text component={TextVariants.p}>
+          <Content>
+            <Content component={ContentVariants.h2}>Implicit Dependency Graph</Content>
+            <Content component={ContentVariants.p}>
               Edge arrows point from Builds that have implicit (build-time) dependencies to the Builds that produced those
               dependencies. An implicit or build-time dependency is an Artifact used by a Build and produced by another Build. An
               edge number represents the number of Artifact dependencies. Clicking on an edge displays a list of the Artifact
               dependencies. The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on
               them to highlight them and their neighbors. Double-clicking on a node opens the Build detail page. To drag a node,
               hold down the <Label>Shift</Label> key and the mouse button and click on the node.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
 
@@ -198,18 +196,16 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
           <div ref={implicitDependenciesListTopRef} />
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>
-                  Artifact dependencies used by{' '}
-                  <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
-                    <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
-                  </ServiceContainerLoading>{' '}
-                  and produced by{' '}
-                  <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
-                    <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
-                  </ServiceContainerLoading>
-                </Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>
+                Artifact dependencies used by{' '}
+                <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
+                  <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
+                </ServiceContainerLoading>{' '}
+                and produced by{' '}
+                <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
+                  <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
+                </ServiceContainerLoading>
+              </Content>
             </ToolbarItem>
             <ToolbarItem alignRight>
               <TooltipWrapper tooltip="Close this table.">
@@ -223,9 +219,8 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
                       navigate
                     )
                   }
-                >
-                  <TimesIcon />
-                </Button>
+                  icon={<TimesIcon />}
+                />
               </TooltipWrapper>
             </ToolbarItem>
           </Toolbar>
