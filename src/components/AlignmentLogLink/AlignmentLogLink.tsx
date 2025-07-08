@@ -30,9 +30,12 @@ export const AlignmentLogLink = ({ buildId, isIconVariant, title = 'View raw' }:
         component="a"
         href={alignmentLogUrl}
         style={{ padding: 0 }}
-      >
-        <ExternalLinkAltIcon /> {title}
-      </Button>
+        icon={
+          <>
+            <ExternalLinkAltIcon /> {title}
+          </>
+        }
+      />
     </TooltipWrapper>
   ) : (
     <a target="_blank" rel="noopener noreferrer" href={alignmentLogUrl}>

@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -35,13 +35,13 @@ export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }: IBuildConf
     <>
       <Toolbar borderBottom>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Dependencies</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Dependencies</Content>
+            <Content component={ContentVariants.p}>
               This list contains Build Configs that are dependencies of this Build Config. Depending on the build preferences,
               Build Configs from this list may be rebuilt when building this Build Config.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>

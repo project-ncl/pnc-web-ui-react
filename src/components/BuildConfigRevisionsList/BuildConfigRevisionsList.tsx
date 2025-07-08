@@ -39,7 +39,7 @@ export const BuildConfigRevisionsList = ({
     <>
       <ContentBox borderBottom>
         <ServiceContainerLoading {...serviceContainerBuildConfigRevisions} title={PageTitles.buildConfigRevision}>
-          <Tabs activeKey={selectedRevision} isVertical isSecondary className={styles['responsive-tab']}>
+          <Tabs activeKey={selectedRevision} isVertical isSubtab className={styles['responsive-tab']}>
             {serviceContainerBuildConfigRevisions.data?.content?.map((buildConfigRevision, rowIndex) => (
               <Tab
                 eventKey={String(buildConfigRevision.rev)}

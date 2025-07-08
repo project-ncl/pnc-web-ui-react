@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { buildPushOperationEntityAttributes } from 'common/buildPushOperationEntityAttributes';
@@ -124,9 +124,7 @@ export const BuildPushPage = () => {
 
       <Toolbar borderBottom>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Logs</Text>
-          </TextContent>
+          <Content component={ContentVariants.h2}>Logs</Content>
         </ToolbarItem>
       </Toolbar>
       <ContentBox padding>

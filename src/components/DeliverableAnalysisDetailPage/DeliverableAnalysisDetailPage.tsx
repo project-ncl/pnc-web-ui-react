@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router';
 
@@ -181,9 +181,7 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
       <ContentBox marginBottom>
         <Toolbar borderBottom>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>{PageTitles.deliverableAnalysisLabelsHistory}</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>{PageTitles.deliverableAnalysisLabelsHistory}</Content>
           </ToolbarItem>
         </Toolbar>
         <DeliverableAnalysisLabelsHistoryList
@@ -221,9 +219,7 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
     <>
       <Toolbar borderBottom>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Logs</Text>
-          </TextContent>
+          <Content component={ContentVariants.h2}>Logs</Content>
         </ToolbarItem>
       </Toolbar>
       <ContentBox padding>

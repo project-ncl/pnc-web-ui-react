@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -35,9 +35,7 @@ export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductV
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Group Configs</Text>
-          </TextContent>
+          <Content component={ContentVariants.h2}>Group Configs</Content>
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>

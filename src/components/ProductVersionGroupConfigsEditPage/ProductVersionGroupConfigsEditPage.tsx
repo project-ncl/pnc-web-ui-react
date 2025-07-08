@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Content, ContentVariants, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -145,9 +145,7 @@ export const ProductVersionGroupConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Group Configs currently in the Version</Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>Group Configs currently in the Version</Content>
             </ToolbarItem>
           </Toolbar>
           <ContentBox borderTop>
@@ -166,12 +164,10 @@ export const ProductVersionGroupConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>
-                  Add new Group Configs{' '}
-                  <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
-                </Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>
+                Add new Group Configs{' '}
+                <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
+              </Content>
             </ToolbarItem>
           </Toolbar>
           <ContentBox borderTop>
@@ -192,9 +188,7 @@ export const ProductVersionGroupConfigsEditPage = ({
           <ServiceContainerCreatingUpdating {...serviceContainerProductVersionPatch}>
             <Toolbar>
               <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Changes Summary</Text>
-                </TextContent>
+                <Content component={ContentVariants.h2}>Changes Summary</Content>
               </ToolbarItem>
               <ToolbarItem>
                 <Button

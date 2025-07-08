@@ -1,4 +1,4 @@
-import { Grid, GridItem, Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Grid, GridItem, Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
@@ -50,9 +50,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem xl={12} xl2={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Details</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Details</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
@@ -83,9 +81,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem xl={12} xl2={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Checksums and Build</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Checksums and Build</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
@@ -112,9 +108,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Locations</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Locations</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive>
@@ -153,9 +147,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Target Repository</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Target Repository</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive>
@@ -183,9 +175,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar borderBottom>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Quality Revisions</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Quality Revisions</Content>
           </ToolbarItem>
         </Toolbar>
 

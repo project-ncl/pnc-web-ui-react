@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 import { Link } from 'react-router';
 
@@ -294,9 +294,7 @@ export const ProductVersionDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Product Milestone Artifact Quality Distribution</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Product Milestone Artifact Quality Distribution</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerArtifactQualityStatistics.data?.content)}>
@@ -321,9 +319,7 @@ export const ProductVersionDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Product Milestone Repository Type Distribution</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Product Milestone Repository Type Distribution</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerRepositoryTypeStatistics.data?.content)}>

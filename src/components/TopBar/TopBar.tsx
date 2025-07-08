@@ -85,9 +85,8 @@ export const TopBar = ({ children, id, type, icon, hideCloseButton = false }: Re
             storeTopBarState('closed');
           }}
           variant="plain"
-        >
-          <TimesIcon className={styles['close-icon']} />
-        </Button>
+          icon={<TimesIcon className={styles['close-icon']} />}
+        />
       )}
     </div>
   ) : null;

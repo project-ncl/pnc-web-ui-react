@@ -2,6 +2,8 @@ import {
   ActionGroup,
   Button,
   Checkbox,
+  Content,
+  ContentVariants,
   Form,
   FormGroup,
   Grid,
@@ -10,9 +12,7 @@ import {
   InputGroup,
   InputGroupItem,
   Switch,
-  Text,
   TextArea,
-  TextContent,
   TextInput,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
@@ -611,7 +611,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             isRequired
             label={buildConfigEntityAttributes.buildType.title}
             fieldId={buildConfigEntityAttributes.buildType.id}
-            labelIcon={
+            labelHelp={
               <TooltipWrapper
                 tooltip={
                   <>
@@ -668,7 +668,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           <FormGroup
             label={buildConfigEntityAttributes.brewPullActive.title}
             fieldId={buildConfigEntityAttributes.brewPullActive.id}
-            labelIcon={<TooltipWrapper tooltip={buildConfigEntityAttributes.brewPullActive.tooltip} />}
+            labelHelp={<TooltipWrapper tooltip={buildConfigEntityAttributes.brewPullActive.tooltip} />}
           >
             <FormInput<boolean>
               {...register<boolean>(buildConfigEntityAttributes.brewPullActive.id, fieldConfigs.brewPullActive)}
@@ -681,7 +681,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       id={buildConfigEntityAttributes.brewPullActive.id}
                       name={buildConfigEntityAttributes.brewPullActive.id}
                       label="Enabled"
-                      labelOff="Disabled"
                       isChecked={!isDisabled ? value : false}
                       onChange={onChange}
                       onBlur={onBlur}
@@ -705,7 +704,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             isRequired
             label={scmRepositoryEntityAttributes.scmUrl.title}
             fieldId={scmRepositoryEntityAttributes.scmUrl.id}
-            labelIcon={
+            labelHelp={
               <TooltipWrapper
                 tooltip={
                   isEditPage ? scmRepositoryEntityAttributes.internalUrl.tooltip : scmRepositoryEntityAttributes.scmUrl.tooltip
@@ -781,7 +780,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             <FormGroup
               label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
               fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-              labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
+              labelHelp={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
             >
               <FormInput<boolean>
                 {...register<boolean>(scmRepositoryEntityAttributes.preBuildSyncEnabled.id, fieldConfigs.preBuildSyncEnabled)}
@@ -791,7 +790,6 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
                       name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
                       label="Enabled"
-                      labelOff="Disabled"
                       isChecked={selectedScmRepository?.preBuildSyncEnabled || value}
                       onChange={onChange}
                       onBlur={onBlur}
@@ -1012,9 +1010,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <GridItem lg={12} xl2={6}>
                 <Toolbar borderBottom>
                   <ToolbarItem>
-                    <TextContent>
-                      <Text component="h2">Add Build Config dependencies</Text>
-                    </TextContent>
+                    <Content component={ContentVariants.h2}>Add Build Config dependencies</Content>
                   </ToolbarItem>
                 </Toolbar>
                 <ConfigsAddList<BuildConfiguration>
@@ -1031,9 +1027,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <GridItem lg={12} xl2={6}>
                 <Toolbar>
                   <ToolbarItem>
-                    <TextContent>
-                      <Text component="h2">Dependencies to be added</Text>
-                    </TextContent>
+                    <Content component={ContentVariants.h2}>Dependencies to be added</Content>
                   </ToolbarItem>
                   <ToolbarItem>
                     <Button
@@ -1103,8 +1097,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <Button
                 variant="secondary"
                 component={(props) => <Link {...props} to={`/build-configs/${buildConfigCreatingFinished.id}`} />}
+                icon={<CheckIcon />}
               >
-                <CheckIcon /> {ButtonTitles.view} {EntityTitles.buildConfig}
+                {ButtonTitles.view} {EntityTitles.buildConfig}
               </Button>
             </>
           )}

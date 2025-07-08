@@ -68,14 +68,13 @@ export const PreferencesPage = () => {
           <FormGroup
             label="Experimental content"
             fieldId="experimental-content"
-            labelIcon={
+            labelHelp={
               <TooltipWrapper tooltip="Experimental content is potentially unstable, data are either mocked or backend is WIP." />
             }
           >
             <Switch
               id="experimental-content"
               label="Enabled"
-              labelOff="Disabled"
               isChecked={isExperimentalContentEnabled}
               onChange={(_, checked) => {
                 storeIsExperimentalContentEnabled(checked);
@@ -98,7 +97,7 @@ export const PreferencesPage = () => {
               <FormGroup
                 label="Logger Label"
                 fieldId="logger-label"
-                labelIcon={<TooltipWrapper tooltip="For debugging purposes only, leave it empty by default." />}
+                labelHelp={<TooltipWrapper tooltip="For debugging purposes only, leave it empty by default." />}
               >
                 <TextInput
                   type="text"

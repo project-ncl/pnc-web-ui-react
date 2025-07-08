@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useMemo } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
@@ -65,13 +65,13 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Builds Performed</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Builds Performed</Content>
+            <Content component={ContentVariants.p}>
               This list contains Builds in the Milestone. Builds produced from the Build Configuration are assigned to the current
               Milestone in the Product Version linked in the Build Configuration.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <BuildsList {...{ serviceContainerBuilds, componentId }} />

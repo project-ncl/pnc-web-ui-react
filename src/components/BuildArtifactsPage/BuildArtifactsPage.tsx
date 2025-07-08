@@ -1,4 +1,4 @@
-import { Text, TextContent } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useState } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -42,13 +42,13 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component="h2">Artifacts</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Artifacts</Content>
+            <Content component={ContentVariants.p}>
               This list contains artifacts produced by this Build. Each Artifact is represented by PNC Identifier. You can also
               change quality of all artifacts produced by the Build here.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ArtifactEditQualityModalButton

@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 
@@ -338,9 +338,7 @@ export const BuildDetailPage = () => {
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>{buildEntityAttributes.parameters.title}</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>{buildEntityAttributes.parameters.title}</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive>
@@ -366,9 +364,7 @@ export const BuildDetailPage = () => {
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Dependency Tree</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Dependency Tree</Content>
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding>

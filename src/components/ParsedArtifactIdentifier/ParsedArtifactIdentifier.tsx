@@ -5,7 +5,7 @@ import { Artifact } from 'pnc-api-types-ts';
 
 import { PageIconLink } from 'components/PageIconLink/PageIconLink';
 
-const LABEL_COLORS: LabelProps['color'][] = ['orange', 'cyan', 'purple', 'green', 'grey'];
+const LABEL_COLORS: LabelProps['color'][] = ['orange', 'teal', 'purple', 'green', 'grey'];
 
 interface IGeneratedLabelProps {
   artifactLabel: string;

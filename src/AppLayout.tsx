@@ -5,6 +5,7 @@ import {
   Masthead,
   MastheadBrand,
   MastheadContent,
+  MastheadLogo,
   MastheadMain,
   MastheadToggle,
   MenuToggle,
@@ -196,7 +197,7 @@ export const AppLayout = () => {
     return (
       <Toolbar isFullHeight isStatic>
         <ToolbarContent>
-          <ToolbarGroup variant="icon-button-group" align={toolbarGroupAlign}>
+          <ToolbarGroup variant="action-group-plain" align={toolbarGroupAlign}>
             <ToolbarItem>
               <Dropdown
                 toggle={(toggleRef) => (
@@ -263,14 +264,16 @@ export const AppLayout = () => {
 
   const appHeader = (
     <Masthead>
-      <MastheadToggle>
-        <PageToggleButton aria-label="Global navigation">
-          <BarsIcon />
-        </PageToggleButton>
-      </MastheadToggle>
       <MastheadMain>
+        <MastheadToggle>
+          <PageToggleButton aria-label="Global navigation">
+            <BarsIcon />
+          </PageToggleButton>
+        </MastheadToggle>
         <MastheadBrand>
-          <AppLogoImage />
+          <MastheadLogo>
+            <AppLogoImage />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
       <MastheadContent>
@@ -373,7 +376,7 @@ export const AppLayout = () => {
         )}
       </div>
       <div style={{ height: topBarsHeight ? `calc(100% - ${topBarsHeight}px)` : '100%' }}>
-        <Page header={appHeader} sidebar={appSidebar} isManagedSidebar>
+        <Page masthead={appHeader} sidebar={appSidebar} isManagedSidebar>
           <Outlet />
         </Page>
       </div>
@@ -381,4 +384,4 @@ export const AppLayout = () => {
   );
 };
 
-const toolbarGroupAlign = { default: 'alignRight' } as const;
+const toolbarGroupAlign = { default: 'alignEnd' } as const;

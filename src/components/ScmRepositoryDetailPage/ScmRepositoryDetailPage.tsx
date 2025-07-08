@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -108,10 +108,10 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
 
         <Toolbar borderBottom>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Usages</Text>
-            </TextContent>
-            <Text>This list shows in which Build Configs this SCM Repository is used.</Text>
+            <Content>
+              <Content component={ContentVariants.h2}>Usages</Content>
+              <Content component={ContentVariants.p}>This list shows in which Build Configs this SCM Repository is used.</Content>
+            </Content>
           </ToolbarItem>
         </Toolbar>
 

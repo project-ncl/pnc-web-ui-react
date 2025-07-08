@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Content, ContentVariants, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -151,9 +151,7 @@ export const ProductVersionBuildConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar borderBottom>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Build Configs currently in the Version</Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>Build Configs currently in the Version</Content>
             </ToolbarItem>
           </Toolbar>
 
@@ -171,12 +169,10 @@ export const ProductVersionBuildConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar borderBottom>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>
-                  Add new Build Configs{' '}
-                  <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Version are displayed. If you add assigned Build Config, it will be removed from its original Version." />
-                </Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>
+                Add new Build Configs{' '}
+                <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Version are displayed. If you add assigned Build Config, it will be removed from its original Version." />
+              </Content>
             </ToolbarItem>
           </Toolbar>
 
@@ -195,9 +191,7 @@ export const ProductVersionBuildConfigsEditPage = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Changes Summary</Text>
-              </TextContent>
+              <Content component={ContentVariants.h2}>Changes Summary</Content>
             </ToolbarItem>
             <ToolbarItem>
               <Button

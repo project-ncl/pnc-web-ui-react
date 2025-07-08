@@ -1,4 +1,4 @@
-import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -36,14 +36,14 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Product Releases</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Product Releases</Content>
+            <Content component={ContentVariants.p}>
               Product Release represents the final release suffix of the parent Product Version like <Label>0.GA</Label>, for
               example Product Version of <Label>1.0.0.GA</Label>. Product Milestone needs to be created from existing Product
               Milestone.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
