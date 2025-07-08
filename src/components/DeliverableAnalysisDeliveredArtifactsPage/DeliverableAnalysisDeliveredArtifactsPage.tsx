@@ -1,4 +1,4 @@
-import { Text, TextContent } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -35,12 +35,12 @@ export const DeliverableAnalysisDeliveredArtifactsPage = ({
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component="h2">Delivered Artifacts</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Delivered Artifacts</Content>
+            <Content component={ContentVariants.p}>
               This list contains Artifacts analyzed in the Deliverable Analysis. Each Artifact is represented by a PNC Identifier.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <AnalyzedArtifactsList {...{ serviceContainerArtifacts, componentId }} />

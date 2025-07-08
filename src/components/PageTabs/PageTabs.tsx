@@ -1,4 +1,4 @@
-import { PageSection, PageSectionProps, PageSectionVariants } from '@patternfly/react-core';
+import { PageSection, PageSectionProps } from '@patternfly/react-core';
 import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import stylesPF from '@patternfly/react-styles/css/components/Tabs/tabs';
@@ -43,7 +43,7 @@ export const PageTabs = ({ children }: IPageTabsProps) => {
       stickyOnBreakpoint={stickyOnBreakpoint}
       className={styles['page-section-tabs']}
       type="tabs"
-      variant={PageSectionVariants.light}
+      hasBodyWrapper={false}
     >
       <div
         className={css(

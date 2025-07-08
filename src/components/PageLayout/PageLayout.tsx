@@ -1,4 +1,4 @@
-import { Divider, PageBreadcrumb, PageSection, PageSectionVariants, Switch, Text, TextContent } from '@patternfly/react-core';
+import { Content, ContentVariants, Divider, PageBreadcrumb, PageSection, Switch } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import React, { useState } from 'react';
 
@@ -52,15 +52,15 @@ export const PageLayout = ({
   const pageContent = (
     <>
       {breadcrumbs && (
-        <PageBreadcrumb>
+        <PageBreadcrumb hasBodyWrapper={false}>
           <Breadcrumb pageBreadcrumbs={breadcrumbs} />
         </PageBreadcrumb>
       )}
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent className={css((actions || sidebar) && 'pull-left m-b-15')}>
-          <Text component="h1">{title}</Text>
-          <Text component="p">{description}</Text>
-        </TextContent>
+      <PageSection hasBodyWrapper={false}>
+        <Content className={css((actions || sidebar) && 'pull-left m-b-15')}>
+          <Content component={ContentVariants.h2}>{title}</Content>
+          <Content component={ContentVariants.p}>{description}</Content>
+        </Content>
         {(actions || sidebar) && (
           <div className="pull-right display-flex align-items-center gap-10">
             {actions}
@@ -79,7 +79,7 @@ export const PageLayout = ({
 
       <Divider component="div" />
 
-      <PageSection>{children}</PageSection>
+      <PageSection hasBodyWrapper={false}>{children}</PageSection>
     </>
   );
 

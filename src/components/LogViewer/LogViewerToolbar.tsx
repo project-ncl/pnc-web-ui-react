@@ -65,7 +65,7 @@ export const LogViewerToolbar = memo(
             <LogViewerSearchBar autofocusSearchBar={autofocusSearchBar} />
           </ToolbarItem>
         </ToolbarGroup>
-        <ToolbarGroup align={{ default: 'alignRight' }}>
+        <ToolbarGroup align={{ default: 'alignEnd' }}>
           {!isStatic && (
             <>
               <ToolbarItem alignSelf="center">

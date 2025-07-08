@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -33,12 +33,12 @@ export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: I
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Delivered Artifacts</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Delivered Artifacts</Content>
+            <Content component={ContentVariants.p}>
               This list contains Artifacts delivered in the Milestone. Each Artifact is represented by a PNC Identifier.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
         </ToolbarItem>
       </Toolbar>
       <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />

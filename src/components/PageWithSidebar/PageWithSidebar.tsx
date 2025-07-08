@@ -1,4 +1,6 @@
 import {
+  Content,
+  ContentVariants,
   Drawer,
   DrawerActions,
   DrawerCloseButton,
@@ -7,9 +9,6 @@ import {
   DrawerPanelBody,
   DrawerPanelContent,
   DrawerPanelContentProps,
-  Text,
-  TextContent,
-  TextVariants,
 } from '@patternfly/react-core';
 import { PropsWithChildren, useEffect, useState } from 'react';
 
@@ -69,9 +68,7 @@ export const PageWithSidebar = ({
       <DrawerPanelBody hasNoPadding>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>{sidebarTitle}</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>{sidebarTitle}</Content>
           </ToolbarItem>
           <ToolbarItem alignRight>
             <DrawerActions>

@@ -198,7 +198,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           <FormGroup
             label={scmRepositoryEntityAttributes.internalUrl.title}
             fieldId={scmRepositoryEntityAttributes.internalUrl.id}
-            labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
+            labelHelp={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.internalUrl.tooltip} />}
           >
             {serviceContainerEditPageGet.data && <ScmRepositoryUrl internalScmRepository={serviceContainerEditPageGet.data} />}
           </FormGroup>
@@ -208,7 +208,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           isRequired={!isEditPage}
           label={scmRepositoryEntityAttributesUrl.title}
           fieldId={scmRepositoryEntityAttributesUrl.id}
-          labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributesUrl.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={scmRepositoryEntityAttributesUrl.tooltip} />}
         >
           <FormInput
             {...register<string>(
@@ -236,7 +236,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
         <FormGroup
           label={scmRepositoryEntityAttributes.preBuildSyncEnabled.title}
           fieldId={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
-          labelIcon={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={scmRepositoryEntityAttributes.preBuildSyncEnabled.tooltip} />}
         >
           <Popover
             position="right"
@@ -257,7 +257,6 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
                   id={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
                   name={scmRepositoryEntityAttributes.preBuildSyncEnabled.id}
                   label="Enabled"
-                  labelOff="Disabled"
                   isChecked={value}
                   onChange={onChange}
                   onBlur={onBlur}
@@ -302,8 +301,9 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
             <Button
               variant="secondary"
               component={(props) => <Link {...props} to={`/scm-repositories/${scmCreatingFinished.id}`} />}
+              icon={<CheckIcon />}
             >
-              <CheckIcon /> {ButtonTitles.view} {EntityTitles.scmRepository}
+              {ButtonTitles.view} {EntityTitles.scmRepository}
             </Button>
           )}
         </ActionGroup>

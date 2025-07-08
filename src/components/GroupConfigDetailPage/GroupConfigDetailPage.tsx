@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { GroupBuild } from 'pnc-api-types-ts';
@@ -173,9 +173,7 @@ export const GroupConfigDetailPage = ({
 
         <Toolbar borderBottom>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Build Configs</Text>
-            </TextContent>
+            <Content component={ContentVariants.h2}>Build Configs</Content>
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>

@@ -86,7 +86,7 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
           isRequired
           label={buildPushParametersEntityAttributes.tagPrefix.title}
           fieldId={buildPushParametersEntityAttributes.tagPrefix.id}
-          labelIcon={<TooltipWrapper tooltip={buildPushParametersEntityAttributes.tagPrefix.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={buildPushParametersEntityAttributes.tagPrefix.tooltip} />}
         >
           <TextInput
             isRequired
@@ -103,7 +103,7 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
         <FormGroup
           label={buildPushParametersEntityAttributes.reimport.title}
           fieldId={buildPushParametersEntityAttributes.reimport.id}
-          labelIcon={<TooltipWrapper tooltip={buildPushParametersEntityAttributes.reimport.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={buildPushParametersEntityAttributes.reimport.tooltip} />}
         >
           <FormInput<boolean>
             {...register<boolean>(buildPushParametersEntityAttributes.reimport.id, fieldConfigs.reimport)}
@@ -113,7 +113,6 @@ export const BrewPushModal = ({ isModalOpen, toggleModal, build, variant }: IBre
                   id={buildPushParametersEntityAttributes.reimport.id}
                   name={buildPushParametersEntityAttributes.reimport.id}
                   label="Enabled"
-                  labelOff="Disabled"
                   isChecked={isSingleBuildPush && value}
                   isDisabled={!isSingleBuildPush}
                   {...rest}

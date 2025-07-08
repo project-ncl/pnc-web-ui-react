@@ -1,4 +1,4 @@
-import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Content, ContentVariants, Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { ProductMilestoneRef } from 'pnc-api-types-ts';
@@ -46,16 +46,16 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
     <>
       <Toolbar borderBottom>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Product Milestones</Text>
-            <Text>
+          <Content>
+            <Content component={ContentVariants.h2}>Product Milestones</Content>
+            <Content component={ContentVariants.p}>
               Product Milestone represents the working release suffix of the parent Product Version like <Label>0.CR1</Label>, for
               example Product Version of <Label>1.0.0.CR1</Label>. Each Product Version can contain multiple Product Milestones.
               Only one Product Milestone can be set as current.
-            </Text>
-          </TextContent>
+            </Content>
+          </Content>
           {latestProductMilestone && (
-            <TextContent>
+            <Content>
               <br />
               <div>
                 <>
@@ -81,7 +81,7 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
                   />
                 </>
               </div>
-            </TextContent>
+            </Content>
           )}
         </ToolbarItem>
         <ToolbarItem alignRight>

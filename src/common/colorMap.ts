@@ -8,9 +8,9 @@ export interface LabelConfig {
 }
 
 export const buildTypeColorMap: Record<string, LabelConfig> = {
-  MVN: { text: 'MVN', color: 'gold', hexColor: '#F9E0A2' }, // gold-100
+  MVN: { text: 'MVN', color: 'yellow', hexColor: '#F9E0A2' }, // gold-100
   NPM: { text: 'NPM', color: 'purple', hexColor: '#CBC1FF' }, // purple-100
-  GRADLE: { text: 'GRADLE', color: 'cyan', hexColor: '#A2D9D9' }, // cyan-100
+  GRADLE: { text: 'GRADLE', color: 'teal', hexColor: '#A2D9D9' }, // cyan-100
   SBT: { text: 'SBT', color: 'grey', hexColor: '#D2D2D2' }, // black-300
   MVN_RPM: { text: 'MVN_RPM', color: 'orange', hexColor: '#F4B678' }, // orange-100
 };
@@ -22,15 +22,15 @@ export const artifactQualityColorMap: Record<string, LabelConfig> = {
   DEPRECATED: { text: 'DEPRECATED', color: 'orange', hexColor: '#F4B678' }, // orange-100
   BLACKLISTED: { text: 'BLACKLISTED', color: 'red', hexColor: '#C9190B' }, // red-100
   DELETED: { text: 'DELETED', color: 'red', hexColor: '#7D1007' }, // red-300
-  TEMPORARY: { text: 'TEMPORARY', color: 'cyan', hexColor: '#A2D9D9' }, // cyan-100
+  TEMPORARY: { text: 'TEMPORARY', color: 'teal', hexColor: '#A2D9D9' }, // cyan-100
   IMPORTED: { text: 'IMPORTED', color: 'grey', hexColor: '#F0F0F0' }, // black-200
 };
 
 export const repositoryTypeColorMap: Record<string, LabelConfig> = {
-  MAVEN: { text: 'MAVEN', color: 'gold', hexColor: '#F9E0A2' }, // gold-100
+  MAVEN: { text: 'MAVEN', color: 'yellow', hexColor: '#F9E0A2' }, // gold-100
   GENERIC_PROXY: { text: 'GENERIC_PROXY', color: 'grey', hexColor: '#D2D2D2' }, // black-300
   NPM: { text: 'NPM', color: 'purple', hexColor: '#CBC1FF' }, // purple-100
-  COCOA_POD: { text: 'COCOA_POD', color: 'cyan', hexColor: '#A2D9D9' }, // cyan-100
+  COCOA_POD: { text: 'COCOA_POD', color: 'teal', hexColor: '#A2D9D9' }, // cyan-100
   DISTRIBUTION_ARCHIVE: { text: 'DISTRIBUTION_ARCHIVE', color: 'red', hexColor: '#C9190B' }, // red-100
 };
 
