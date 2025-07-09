@@ -126,7 +126,10 @@ export const dougnutCenterPlugin = {
 export const legendHeightPlugin = {
   id: 'legendHeightPlugin',
   beforeInit: (chart: any) => {
-    if (chart.config?.options?.elements?.legend) {
+    const pluginLegend = chart.config.options.plugins?.legend;
+    const elemLegend = chart.config.options.elements?.legend;
+    const forcedHeight = pluginLegend?.maxHeight ?? elemLegend?.height;
+    if (forcedHeight) {
       // Get reference to the original fit function
       const originalFit = chart.legend.fit;
 
@@ -135,7 +138,7 @@ export const legendHeightPlugin = {
         // Call original function and bind scope in order to use `this` correctly inside it
         originalFit.bind(chart.legend)();
         // Change the height as suggested in another answers
-        this.height = chart.config.options.elements.legend.height;
+        this.height = Math.min(this.height, forcedHeight);
       };
     }
   },

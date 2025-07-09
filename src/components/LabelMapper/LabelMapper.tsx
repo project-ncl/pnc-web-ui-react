@@ -6,7 +6,7 @@ import { uiLogger } from 'services/uiLogger';
 
 interface ILabelMapperItem {
   text: string;
-  color: LabelPropsPF['color'];
+  color?: LabelPropsPF['color'];
 }
 
 export type ILabelMapper<Types> = {
@@ -27,12 +27,15 @@ interface ILabelMapperProps {
 export const LabelMapper = ({ mapperItem, onRemove }: ILabelMapperProps) => {
   if (!mapperItem) {
     uiLogger.error(`Error attempting to get mapper item: mapper item undefined`);
+    return <EmptyStateSymbol text={false} />;
   }
-  return mapperItem ? (
-    <LabelPF color={mapperItem.color} onClose={onRemove}>
-      {mapperItem.text}
+
+  const { text, color } = mapperItem;
+  const safeColor = color ?? 'grey';
+
+  return (
+    <LabelPF color={safeColor} onClose={onRemove}>
+      {text}
     </LabelPF>
-  ) : (
-    <EmptyStateSymbol text={false} />
   );
 };

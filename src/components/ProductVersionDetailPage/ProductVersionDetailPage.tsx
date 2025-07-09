@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
 
+import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -307,6 +308,7 @@ export const ProductVersionDetailPage = () => {
             <StackedBarChart
               data={stackedBarChartArtifactQuality.data}
               labels={stackedBarChartArtifactQuality.labels}
+              colors={(stackedBarChartArtifactQuality.data || []).map((ds) => artifactQualityColorMap[ds.label]?.hexColor)}
               description={
                 <div>Chart displays proportion of quality of Delivered Artifacts among Product Milestones of this Version.</div>
               }
@@ -333,6 +335,7 @@ export const ProductVersionDetailPage = () => {
             <StackedBarChart
               data={stackedBarChartRepositoryType.data}
               labels={stackedBarChartRepositoryType.labels}
+              colors={(stackedBarChartRepositoryType.data || []).map((ds) => repositoryTypeColorMap[ds.label]?.hexColor)}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts among Product Milestones of this Version.
