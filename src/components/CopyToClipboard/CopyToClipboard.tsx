@@ -5,6 +5,7 @@ import styles from './CopyToClipboard.module.css';
 interface ICopyToClipboardProps {
   suffixComponent?: React.ReactNode;
   isInline?: boolean;
+  children: string | string[] | undefined;
 }
 
 /**
@@ -14,7 +15,7 @@ interface ICopyToClipboardProps {
  * @param isInline - whether to use inline style for the component
  * @param children - the content to be used for ClipboardCopy
  */
-export const CopyToClipboard = ({ suffixComponent, isInline, children }: React.PropsWithChildren<ICopyToClipboardProps>) => (
+export const CopyToClipboard = ({ suffixComponent, isInline, children }: ICopyToClipboardProps) => (
   <Split hasGutter>
     <SplitItem isFilled>
       <ClipboardCopy
@@ -25,7 +26,7 @@ export const CopyToClipboard = ({ suffixComponent, isInline, children }: React.P
         additionalActions={suffixComponent && isInline && <ClipboardCopyAction>{suffixComponent}</ClipboardCopyAction>}
         className={styles['no-bg']}
       >
-        {children}
+        {children || ''}
       </ClipboardCopy>
     </SplitItem>
     {suffixComponent && !isInline && <SplitItem>{suffixComponent}</SplitItem>}
