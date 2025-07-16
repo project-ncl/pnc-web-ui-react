@@ -1,101 +1,89 @@
-import { Spinner } from '@patternfly/react-core';
-import { Select, SelectOption, SelectOptionObject, SelectProps, SelectVariant } from '@patternfly/react-core/deprecated';
-import { css } from '@patternfly/react-styles';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
 
 import { IRegisterData } from 'hooks/useForm';
 import { IServiceDataPaginated, areServiceDataPaginated, useServiceContainer } from 'hooks/useServiceContainer';
 
-import '../../index.css';
-import styles from './SearchSelect.module.css';
+import { TypeaheadSelect } from 'components/TypeaheadSelect/TypeaheadSelect';
 
-type FetchCallbackFunction = (requstConfig?: AxiosRequestConfig) => Promise<AxiosResponse<any, any> | any>;
-type OnSelectFunction = (event: FormEvent | undefined, selection: string | SelectOptionObject, selectedEntity?: any) => void;
-type OnClearFunction = (event: FormEvent | undefined) => void;
+const pageIndexDefault = 1;
 
-interface ISearchSelectProps {
-  selectedItem?: string;
-  validated?: IRegisterData<any>['validated'];
-  onSelect?: OnSelectFunction;
-  onClear?: OnClearFunction;
-  fetchCallback: FetchCallbackFunction;
-  titleAttribute: string;
-  descriptionAttribute?: string;
-  getCustomDescription?: (optionEntity: any) => ReactNode;
+type Entity = Record<string, any>;
+
+interface ISearchSelectProps<T extends Entity> {
+  selectedValue: string | undefined;
+  onSelect: (selectedValue: string, selectedEntity?: T) => void;
+  onClear: () => void;
+  fetchCallback: (requestConfig?: AxiosRequestConfig) => Promise<
+    AxiosResponse<
+      Omit<IServiceDataPaginated<T>, 'content'> & {
+        content?: T[];
+      },
+      any
+    >
+  >;
   delayMilliseconds?: number;
   pageSizeDefault?: number;
-  width?: SelectProps['width'];
-  placeholderText?: SelectProps['placeholderText'];
-  isDisabled?: SelectProps['isDisabled'];
+  titleAttribute: keyof T & string;
+  descriptionAttribute?: keyof T & string;
+  getCustomDescription?: (entity: T) => ReactNode;
+  placeholderText?: string;
+  validated?: IRegisterData<any>['validated'];
+  width?: number;
+  isDisabled?: boolean;
 }
 
 /**
- * Filtered select with data dynamically fetched from backend.
+ * Filtrable select with data dynamically fetched from backend.
  * Select options data are fetched:
  *  -> when select is firstly loaded
- *  -> when filter input text is changed (by typing or selecting an option)
+ *  -> when filter input text is changed
  *
- * Filtering is done by titleAttribute equality to current filter text value (=like= operator).
- * If descriptionAttribute is defined, descriptionAttribute equality to current filter operation is also appended
- * by OR operator.
+ * Filtered by: 'titleAttribute =like= current filter text value'
+ * If descriptionAttribute is defined: 'descriptionAttribute =like= current filter operation' is also appended
+ * by OR operator
  *
- * onSelect callback is used so selected option is accessible from outside.
- *
- * @param selectedItem - selectected item string
- * @param validated - input validation state
- * @param onSelect - onSelect callback
- * @param onClear - onClear callback
+ * @param selectedValue - value currently selected in the menu
+ * @param onSelect - callback setting selectedValue state
+ * @param onClear - callback unselecting selectedValue state
  * @param fetchCallback - function to fetch the data from backend
+ * @param delayMilliseconds - fetch delay for filter input change
+ * @param pageSizeDefault - count of entries per page fetched by default
  * @param titleAttribute - primary attribute to filter by (in query params), displayed as option name
  * @param descriptionAttribute - secondary attribute to filter by (in query params), displayed as option description (if getCustomDescription is undefined)
  * @param getCustomDescription - callback to construct the option description based on the option entity
- * @param delayMilliseconds - fetch delay for filter input change
- * @param pageSizeDefault - count of entries fetched defaultly
- * @param width - select width
- * @param placeholderText - select placeholder
+ * @param placeholderText - text displayed in the empty text input
+ * @param validated - state of validation in the form state
+ * @param width - width of select toggle button / text input
  * @param isDisabled - whether is select disabled
  */
-export const SearchSelect = ({
-  selectedItem,
-  validated,
+export const SearchSelect = <T extends Entity>({
+  selectedValue,
   onSelect,
   onClear,
   fetchCallback,
+  delayMilliseconds = 200,
+  pageSizeDefault = 10,
   titleAttribute,
   descriptionAttribute,
   getCustomDescription,
-  delayMilliseconds = 200,
-  pageSizeDefault = 10,
-  width,
   placeholderText = FILTERING_PLACEHOLDER_DEFAULT,
-  isDisabled,
-}: ISearchSelectProps) => {
-  // data downloaded using fetchCallback
-  const [fetchedData, setFetchedData] = useState<any[]>([]);
-  const pageIndexDefault = 1;
-  // current page index
+  validated,
+  width,
+  isDisabled = false,
+}: ISearchSelectProps<T>) => {
+  const [isSelectMenuOpen, setIsSelectMenuOpen] = useState<boolean>(false);
+
+  const [fetchedData, setFetchedData] = useState<T[]>([]);
   const [pageIndex, setPageIndex] = useState<number>(pageIndexDefault);
 
-  const [searchValue, setSearchValue] = useState<string>(selectedItem ? selectedItem : '');
-  const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
-
-  const selectRef = useRef<Select>(null);
-
-  // used to fetch data after delay
-  const timeout = useRef<NodeJS.Timeout>();
+  const fetchTimeout = useRef<NodeJS.Timeout>();
 
   const serviceContainer = useServiceContainer(fetchCallback);
   const serviceContainerRunner = serviceContainer.run;
 
-  // return text of select filter
-  const getFilterText = useCallback(() => {
-    return selectRef.current?.['inputRef'].current.value || '';
-  }, []);
-
-  // fetch data and save them
   const fetchData = useCallback(
     (filterText: string = '', pageIndex: number = pageIndexDefault) => {
       const requestConfig: AxiosRequestConfig = { params: { pageIndex, pageSize: pageSizeDefault } };
@@ -111,7 +99,7 @@ export const SearchSelect = ({
       serviceContainerRunner({
         requestConfig,
         onSuccess: (result) => {
-          const data = (result.response.data as IServiceDataPaginated<Object>)?.content;
+          const data = result.response.data?.content || [];
           if (pageIndex === pageIndexDefault) {
             setFetchedData(data);
           } else {
@@ -127,135 +115,64 @@ export const SearchSelect = ({
     [serviceContainerRunner, titleAttribute, descriptionAttribute, pageSizeDefault]
   );
 
-  // fetch data with same filtering string as currently set
-  const refetchData = useCallback(
-    (pageIndex: number = pageIndexDefault) => {
-      fetchData(getFilterText(), pageIndex);
-    },
-    [fetchData, getFilterText]
-  );
-
   useEffect(() => {
-    fetchData(selectedItem);
-    setSearchValue(selectedItem ? selectedItem : '');
-  }, [fetchData, selectedItem]);
+    fetchData();
+  }, [fetchData]);
 
-  // filtering of select
-  const filterSelect = (value: string) => {
-    if (selectedItem) {
-      onClear?.(undefined);
-    }
-
-    setSearchValue(value);
-    clearTimeout(timeout?.current);
-    timeout.current = setTimeout(() => fetchData(value), delayMilliseconds);
+  const onMenuSelect = (selectedValue: string) => {
+    onSelect(
+      selectedValue,
+      fetchedData.find((value) => value[titleAttribute] === selectedValue)
+    );
   };
 
-  // inner onSelect callback
-  const selectItem = (
-    event: React.MouseEvent<Element, MouseEvent> | React.ChangeEvent<Element>,
-    selection: string | SelectOptionObject,
-    isPlaceholder: boolean | undefined
-  ) => {
-    if (isPlaceholder) clear(event);
-    else {
-      if (event) {
-        // do this only when select option is clicked
-        // (for some reason, this function is called also on blur)
-
-        // set options to an empty array for a while so loading state is visible
-        setFetchedData([]);
-        onSelect?.(event, selection.toString(), (selection as any).entity);
-      }
-      setIsSelectOpen(false);
-    }
+  const onFilter = (inputValue: string) => {
+    clearTimeout(fetchTimeout?.current);
+    fetchTimeout.current = setTimeout(() => fetchData(inputValue), delayMilliseconds);
   };
 
-  // inner onClear callback
-  const clear = (event: FormEvent) => {
-    setIsSelectOpen(false);
-    if (selectedItem) {
-      // on selection clear
-      onClear?.(event);
+  const onViewMoreClick = (inputValue: string) => {
+    fetchData(inputValue, pageIndex + 1);
+  };
+
+  const onClearButtonClick = () => {
+    if (selectedValue) {
+      onClear();
     } else {
-      // on unselected filter text clear
-      setSearchValue('');
       fetchData();
     }
   };
 
-  const onViewMoreClick = () => {
-    refetchData(pageIndex + 1);
-  };
-
-  const getLoadingVariant = (): undefined | SelectProps['loadingVariant'] => {
-    if (serviceContainer.loading) return 'spinner';
-
-    // When error, then noResultsFoundText property is used to display error message
-    if (serviceContainer.error) return undefined;
-
-    if (
-      areServiceDataPaginated(serviceContainer.data) &&
-      serviceContainer.data?.totalPages &&
-      pageIndex < serviceContainer.data.totalPages
-    ) {
-      return { text: 'View more', onClick: onViewMoreClick };
-    }
-  };
-
   return (
-    <div className="position-relative">
-      {serviceContainer.loading && serviceContainer.data && (
-        <Spinner
-          size="md"
-          className={css(
-            styles['search-select-spinner'],
-            getFilterText() && validated && validated !== 'default'
-              ? styles['search-select-spinner-filtered-and-validated']
-              : getFilterText() || (validated && validated !== 'default')
-              ? styles['search-select-spinner-filtered']
-              : styles['search-select-spinner-nofilter']
-          )}
-        />
-      )}
-      <Select
-        ref={selectRef}
-        variant={SelectVariant.typeahead}
-        selections={searchValue}
-        validated={validated}
-        onSelect={selectItem}
-        onClear={clear}
-        onTypeaheadInputChanged={filterSelect}
-        onFilter={() => {
-          // filtering is not done here
-          return undefined;
-        }}
-        isOpen={isSelectOpen}
-        onToggle={(_, isOpen) => {
-          setIsSelectOpen(isOpen);
-        }}
-        width={width}
-        placeholderText={placeholderText}
-        isDisabled={isDisabled}
-        isInputValuePersisted={true}
-        isInputFilterPersisted={true}
-        noResultsFoundText={serviceContainer.error ? serviceContainer.error : 'No results were found'}
-        loadingVariant={getLoadingVariant()}
-      >
-        {fetchedData?.map((entity: any, index: number) => {
+    <div className="position-relative" style={{ width: `${width}px` }}>
+      <TypeaheadSelect
+        selectOptions={fetchedData.map((entity) => {
+          const title = entity[titleAttribute];
           const description = getCustomDescription
             ? getCustomDescription(entity)
             : descriptionAttribute && entity[descriptionAttribute];
 
-          return (
-            <SelectOption
-              key={index}
-              value={{ entity, toString: () => entity[titleAttribute] } as SelectOptionObject}
-              description={description}
-            />
-          );
+          return { value: title, children: title, description };
         })}
-      </Select>
+        isMenuOpen={isSelectMenuOpen}
+        onMenuToggle={setIsSelectMenuOpen}
+        selectedValue={selectedValue}
+        onSelect={onMenuSelect}
+        onInputChange={onFilter}
+        onViewMore={onViewMoreClick}
+        isViewMoreDisabled={
+          !areServiceDataPaginated(serviceContainer.data) ||
+          !serviceContainer.data?.totalPages ||
+          pageIndex >= serviceContainer.data.totalPages
+        }
+        onClear={onClearButtonClick}
+        isFiltrable={false}
+        placeholderText={placeholderText}
+        validated={validated}
+        isLoading={serviceContainer.loading}
+        errorMessage={serviceContainer.error}
+        isDisabled={isDisabled}
+      />
     </div>
   );
 };
