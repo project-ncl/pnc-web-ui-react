@@ -38,6 +38,7 @@ import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
+import { AppLogo } from 'components/AppLogo/AppLogo';
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch';
@@ -50,8 +51,6 @@ import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
 
 import { createDateTime } from 'utils/utils';
-
-import pncLogoText from './pnc-logo-text.svg';
 
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
@@ -90,12 +89,6 @@ export const AppLayout = () => {
       authBroadcastService.close();
     };
   }, []);
-
-  const AppLogoImage = () => (
-    <Link to="/" className="p-t-10 p-b-10">
-      <img src={pncLogoText} alt="Newcastle Build System" />
-    </Link>
-  );
 
   const AppHeaderToolbar = () => {
     const pncUserGuideUrl = webConfig.userGuideUrl;
@@ -276,7 +269,7 @@ export const AppLayout = () => {
         </MastheadToggle>
         <MastheadBrand>
           <MastheadLogo>
-            <AppLogoImage />
+            <AppLogo />
           </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
