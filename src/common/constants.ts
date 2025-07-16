@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 
 export const PageTitles = {
   projects: 'Projects',
@@ -97,3 +97,17 @@ export const MESSAGE_WAIT_AND_REFRESH = 'Wait 5 minutes and try to refresh your 
 
 // PNC URL base
 export const URL_BASE_PATH = '/pnc-web';
+
+export const emptyPaginatedAxiosResponse = {
+  data: {
+    content: [],
+    total: 0,
+    page: 0,
+    pageSize: 0,
+  },
+  status: 200,
+  statusText: 'OK',
+  headers: {},
+  config: { headers: new AxiosHeaders() },
+  request: {},
+};

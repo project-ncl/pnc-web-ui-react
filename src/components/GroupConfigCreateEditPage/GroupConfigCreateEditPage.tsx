@@ -7,7 +7,7 @@ import { GroupConfiguration, Product, ProductVersion } from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
-import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
+import { ButtonTitles, EntityTitles, PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
@@ -114,7 +114,9 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
 
   const fetchProductVersions = useCallback(
     (requestConfig: AxiosRequestConfig = {}) => {
-      return selectedProduct ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig) : Promise.resolve([]);
+      return selectedProduct
+        ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig)
+        : Promise.resolve(emptyPaginatedAxiosResponse);
     },
     [selectedProduct]
   );
@@ -149,15 +151,15 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
 
   const productSearchSelect = (
     <SearchSelect
-      selectedItem={selectedProduct?.name}
-      onSelect={(event, _, product: Product) => {
+      selectedValue={selectedProduct?.name}
+      onSelect={(_, product) => {
         setSelectedProduct(product);
-        productVersionRegisterObject.onChange(event, '');
+        productVersionRegisterObject.onChange(undefined, '');
         setSelectedProductVersion(undefined);
       }}
-      onClear={(event) => {
+      onClear={() => {
         setSelectedProduct(undefined);
-        productVersionRegisterObject.onChange(event, '');
+        productVersionRegisterObject.onChange(undefined, '');
         setSelectedProductVersion(undefined);
       }}
       fetchCallback={productApi.getProducts}
@@ -171,19 +173,19 @@ export const GroupConfigCreateEditPage = ({ isEditPage = false }: IGroupConfigCr
       {...productVersionRegisterObject}
       render={({ value, validated, onChange }) => (
         <SearchSelect
-          selectedItem={value}
-          validated={validated}
-          onSelect={(event, _, productVersion: ProductVersion) => {
-            onChange(event, productVersion.version);
+          selectedValue={value}
+          onSelect={(_, productVersion) => {
+            onChange(undefined, productVersion?.version || '');
             setSelectedProductVersion(productVersion);
           }}
-          onClear={(event) => {
-            onChange(event, '');
+          onClear={() => {
+            onChange(undefined, '');
             setSelectedProductVersion(undefined);
           }}
           fetchCallback={fetchProductVersions}
           titleAttribute="version"
           placeholderText="Select Version"
+          validated={validated}
           isDisabled={!selectedProduct}
         />
       )}
