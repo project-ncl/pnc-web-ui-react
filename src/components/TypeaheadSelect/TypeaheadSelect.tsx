@@ -98,11 +98,11 @@ export const TypeaheadSelect = ({
   }, [selectOptions, filterValue, isFiltrable]);
 
   useEffect(() => {
-    if (!selectedValue) {
+    if (!selectedValue && isDisabled) {
       setTextInputValue('');
       setFilterValue('');
     }
-  }, [selectedValue]);
+  }, [selectedValue, isDisabled]);
 
   const closeMenu = () => {
     onMenuToggle(false);

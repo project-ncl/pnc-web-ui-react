@@ -1,8 +1,7 @@
 import { ActionGroup, Button, Flex, FlexItem, Form, FormGroup, TextArea, TextInput } from '@patternfly/react-core';
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from '@patternfly/react-core/deprecated';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { AxiosRequestConfig } from 'axios';
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
@@ -31,6 +30,7 @@ import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLin
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { TypeaheadSelect } from 'components/TypeaheadSelect/TypeaheadSelect';
 
 import * as buildApi from 'services/buildApi';
 import * as groupBuildApi from 'services/groupBuildApi';
@@ -182,6 +182,8 @@ const DEPENDENCY_TREE_ROOT_GROUP_BUILD: GroupBuild = {
   },
 };
 
+const defaultSelectOptions = [{ value: 'Build' }, { value: 'Option' }, { value: 'Project' }, { value: 'Version' }];
+
 export const DemoPage = () => {
   useTitle('Demo Page');
 
@@ -234,7 +236,14 @@ export const DemoPage = () => {
     });
   };
 
-  const selectOptions = [{ value: 'Build' }, { value: 'Option' }, { value: 'Project' }, { value: 'Version' }];
+  const selectOptions = useMemo(
+    () =>
+      defaultSelectOptions.map((option) => ({
+        value: option.value,
+        children: option.value,
+      })),
+    []
+  );
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
@@ -244,10 +253,10 @@ export const DemoPage = () => {
         <FlexItem>
           <ContentBox title="SearchSelect" padding>
             <SearchSelect
-              selectedItem={searchSelectValue}
-              onSelect={(_event, selection: string | SelectOptionObject) => {
+              selectedValue={searchSelectValue}
+              onSelect={(selection) => {
                 console.log(`SEARCH SELECT> selected ${selection}`);
-                setSearchSelectValue(selection as string);
+                setSearchSelectValue(selection);
               }}
               onClear={() => {
                 console.log('SEARCH SELECT> cleared');
@@ -311,30 +320,20 @@ export const DemoPage = () => {
                 <FormInput<string>
                   {...register<string>('selectA', fieldConfigs.selectA)}
                   render={({ value, onChange, validated }) => (
-                    <Select
-                      id="selectA"
-                      variant={SelectVariant.typeahead}
-                      placeholderText="Select an option"
-                      typeAheadAriaLabel="Select an option"
-                      isOpen={isSelectOpen}
-                      selections={value}
+                    <TypeaheadSelect
+                      selectOptions={selectOptions}
+                      isMenuOpen={isSelectOpen}
+                      onMenuToggle={setIsSelectOpen}
+                      selectedValue={value}
+                      onSelect={(selection) => {
+                        onChange(undefined, selection);
+                      }}
+                      onClear={() => {
+                        onChange(undefined, '');
+                      }}
                       validated={validated}
-                      onToggle={(_, isOpen) => {
-                        setIsSelectOpen(isOpen);
-                      }}
-                      onSelect={(event, selection) => {
-                        onChange(event, selection as string);
-                        setIsSelectOpen(false);
-                      }}
-                      onClear={(event) => {
-                        onChange(event, '');
-                        setIsSelectOpen(false);
-                      }}
-                    >
-                      {selectOptions.map((option: any, index: any) => (
-                        <SelectOption key={index} value={option.value} />
-                      ))}
-                    </Select>
+                      placeholderText="Select an option"
+                    />
                   )}
                 />
                 <FormInputHelperText variant="error">{getFieldErrors('selectA')}</FormInputHelperText>
