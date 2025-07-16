@@ -246,20 +246,21 @@ export const ProductReleaseCreateEditPage = ({ isEditPage = false }: IProductRel
           >
             <FormInput<string>
               {...register<string>(productReleaseEntityAttributes.productMilestone.id, fieldConfigs.productMilestone)}
-              render={({ value, onChange }) => (
+              render={({ value, validated, onChange }) => (
                 <SearchSelect
-                  selectedItem={value}
-                  onSelect={(event, _, productMilestone: ProductMilestone) => {
-                    onChange(event, productMilestone.version!);
+                  selectedValue={value}
+                  onSelect={(_, productMilestone) => {
+                    onChange(undefined, productMilestone?.version || '');
                     setSelectedProductMilestone(productMilestone);
                   }}
-                  onClear={(event) => {
-                    onChange(event, '');
+                  onClear={() => {
+                    onChange(undefined, '');
                     setSelectedProductMilestone(undefined);
                   }}
                   fetchCallback={fetchProductMilestones}
                   titleAttribute={productMilestoneEntityAttributes.version.id}
                   placeholderText="Select Milestone"
+                  validated={validated}
                 />
               )}
             />

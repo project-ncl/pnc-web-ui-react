@@ -15,11 +15,10 @@ import {
   TextContent,
   TextInput,
 } from '@patternfly/react-core';
-import { SelectOption as SelectOptionPF } from '@patternfly/react-core/deprecated';
 import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
@@ -28,7 +27,7 @@ import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { buildTypeData } from 'common/buildTypeData';
-import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
+import { ButtonTitles, EntityTitles, PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 import { BuildConfigCreationResponseCustomized } from 'common/types';
@@ -45,7 +44,6 @@ import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmM
 import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
-import { CreatableSelect } from 'components/CreatableSelect/CreatableSelect';
 import { ExpandableSection } from 'components/ExpandableSection/ExpandableSection';
 import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
@@ -63,6 +61,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipSimple } from 'components/TooltipSimple/TooltipSimple';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { TypeaheadSelect } from 'components/TypeaheadSelect/TypeaheadSelect';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as environmentApi from 'services/environmentApi';
@@ -306,7 +305,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   const fetchProductVersions = useCallback(
     (requestConfig = {}) => {
-      return selectedProduct ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig) : Promise.resolve([]);
+      return selectedProduct
+        ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig)
+        : Promise.resolve(emptyPaginatedAxiosResponse);
     },
     [selectedProduct]
   );
@@ -481,15 +482,15 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   const productSearchSelect = (
     <SearchSelect
-      selectedItem={selectedProduct?.name}
-      onSelect={(event, _, product: Product) => {
+      selectedValue={selectedProduct?.name}
+      onSelect={(_, product) => {
         setSelectedProduct(product);
-        productVersionRegisterObject.onChange(event, '');
+        productVersionRegisterObject.onChange(undefined, '');
         setSelectedProductVersion(undefined);
       }}
-      onClear={(event) => {
+      onClear={() => {
         setSelectedProduct(undefined);
-        productVersionRegisterObject.onChange(event, '');
+        productVersionRegisterObject.onChange(undefined, '');
         setSelectedProductVersion(undefined);
       }}
       fetchCallback={productApi.getProducts}
@@ -503,19 +504,19 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       {...productVersionRegisterObject}
       render={({ value, validated, onChange }) => (
         <SearchSelect
-          selectedItem={value}
-          validated={validated}
-          onSelect={(event, _, productVersion: ProductVersion) => {
-            onChange(event, productVersion.version);
+          selectedValue={value}
+          onSelect={(_, productVersion) => {
+            onChange(undefined, productVersion?.version || '');
             setSelectedProductVersion(productVersion);
           }}
-          onClear={(event) => {
-            onChange(event, '');
+          onClear={() => {
+            onChange(undefined, '');
             setSelectedProductVersion(undefined);
           }}
           fetchCallback={fetchProductVersions}
           titleAttribute="version"
           placeholderText="Select Version"
+          validated={validated}
           isDisabled={!selectedProduct}
         />
       )}
@@ -561,26 +562,29 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               {...register<string>(buildConfigEntityAttributes.environment.id, fieldConfigs.environment)}
               render={({ value, validated, onChange }) => (
                 <SearchSelect
-                  selectedItem={value}
-                  validated={validated}
-                  onSelect={(event, _, environment: Environment) => {
-                    onChange(event, environment.description!);
+                  selectedValue={value}
+                  onSelect={(_, environment) => {
+                    onChange(undefined, environment?.description || '');
                     setSelectedEnvironment(environment);
                   }}
-                  onClear={(event) => {
-                    onChange(event, '');
+                  onClear={() => {
+                    onChange(undefined, '');
                     setSelectedEnvironment(undefined);
                   }}
                   fetchCallback={fetchEnvironments}
                   titleAttribute="description"
-                  placeholderText="Select Environment"
-                  getCustomDescription={(environment: Environment) =>
+                  getCustomDescription={(environment) =>
                     environment.deprecated ? (
-                      <Icon status="warning">
-                        <ExclamationTriangleIcon /> DEPRECATED
-                      </Icon>
+                      <>
+                        <Icon status="warning">
+                          <ExclamationTriangleIcon />
+                        </Icon>{' '}
+                        DEPRECATED
+                      </>
                     ) : null
                   }
+                  placeholderText="Select Environment"
+                  validated={validated}
                 />
               )}
             />
@@ -734,19 +738,19 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                 {...register<string>(scmRepositoryEntityAttributes.scmUrl.id, fieldConfigs.scmUrl)}
                 render={({ value, validated, onChange }) => (
                   <SearchSelect
-                    selectedItem={value}
-                    validated={validated}
-                    onSelect={(event, _, scmRepository: SCMRepository) => {
-                      onChange(event, scmRepository.internalUrl!);
+                    selectedValue={value}
+                    onSelect={(_, scmRepository) => {
+                      onChange(undefined, scmRepository?.internalUrl || '');
                       setSelectedScmRepository(scmRepository);
                     }}
-                    onClear={(event) => {
-                      onChange(event, '');
+                    onClear={() => {
+                      onChange(undefined, '');
                       setSelectedScmRepository(undefined);
                     }}
                     fetchCallback={scmRepositoryApi.getScmRepositories}
                     titleAttribute="internalUrl"
                     placeholderText="Select SCM Repository"
+                    validated={validated}
                   />
                 )}
               />
@@ -877,53 +881,45 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <ServiceContainerLoading {...serviceContainerParameters} title="Build parameters" variant="inline">
                 <InputGroup>
                   <InputGroupItem isFill>
-                    <CreatableSelect
-                      onSelect={(_, selection) => {
-                        if (selection) {
-                          setSelectedBuildParamOption(selection as string);
-                          setBuildParamData({
-                            ...buildParamData,
-                            [selection as string]: {
-                              value: '',
-                            },
-                          });
-                          setIsBuildParamSelectOpen(false);
-                        }
-                      }}
-                      onCreateOption={(newOption) => {
-                        setSelectedBuildParamOption(undefined);
-                        setBuildParamOptions([...buildParamOptions, { title: newOption }]);
+                    <TypeaheadSelect
+                      isMenuOpen={isBuildParamSelectOpen}
+                      onMenuToggle={setIsBuildParamSelectOpen}
+                      selectedValue={selectedBuildParamOption}
+                      onSelect={(selection) => {
+                        setSelectedBuildParamOption(selection);
                         setBuildParamData({
                           ...buildParamData,
-                          [newOption]: {
+                          [selection as string]: {
                             value: '',
                           },
                         });
-                        setIsBuildParamSelectOpen(false);
                       }}
-                      onToggle={(_, value) => setIsBuildParamSelectOpen(value)}
-                      selectedItem={selectedBuildParamOption}
-                      isOpen={isBuildParamSelectOpen}
-                      placeholderText="Select Parameter or type a new one"
+                      onCreateOption={(newOption) => {
+                        setBuildParamOptions([...buildParamOptions, { title: newOption }]);
+                      }}
                       creatableOptionText="Create custom Parameter"
-                      width="40%"
-                      dropdownDirection="up"
-                    >
-                      {buildParamOptions.map((option, index) => (
-                        <SelectOptionPF
-                          key={index}
-                          value={option.title}
-                          description={
-                            option.title === 'ALIGNMENT_PARAMETERS' ? (
-                              <i>Once selected, more detailed information will be displayed.</i>
-                            ) : (
-                              option.description
-                            )
-                          }
-                          isDisabled={!!buildParamData[option.title]}
-                        />
-                      ))}
-                    </CreatableSelect>
+                      onClear={() => {
+                        setSelectedBuildParamOption('');
+                      }}
+                      placeholderText="Select Parameter or type a new one"
+                      selectOptions={useMemo(
+                        () =>
+                          buildParamOptions.map((option) => {
+                            return {
+                              value: option.title,
+                              children: option.title,
+                              isDisabled: !!buildParamData[option.title],
+                              description:
+                                option.title === 'ALIGNMENT_PARAMETERS' ? (
+                                  <i>Once selected, more detailed information will be displayed.</i>
+                                ) : (
+                                  option.description
+                                ),
+                            };
+                          }),
+                        [buildParamOptions, buildParamData]
+                      )}
+                    />
                   </InputGroupItem>
                 </InputGroup>
               </ServiceContainerLoading>
@@ -940,6 +936,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                           <TooltipWrapper tooltip="Remove the parameter">
                             <RemoveItemButton
                               onRemove={() => {
+                                setSelectedBuildParamOption('');
                                 setBuildParamData(Object.fromEntries(Object.entries(buildParamData).filter(([k]) => k !== key)));
                                 unregister(key);
                               }}

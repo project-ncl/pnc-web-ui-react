@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 
 import { DeliveredArtifactInMilestones, ParsedArtifact, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
-import { PageTitles } from 'common/constants';
+import { PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 
@@ -61,7 +61,9 @@ export const ProductMilestoneComparisonTable = ({
 
   const fetchProductVersions = useCallback(
     (requestConfig: AxiosRequestConfig = {}) => {
-      return selectedProduct ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig) : Promise.resolve([]);
+      return selectedProduct
+        ? productApi.getProductVersions({ id: selectedProduct.id }, requestConfig)
+        : Promise.resolve(emptyPaginatedAxiosResponse);
     },
     [selectedProduct]
   );
@@ -70,7 +72,7 @@ export const ProductMilestoneComparisonTable = ({
     (requestConfig: AxiosRequestConfig = {}) => {
       return selectedProductVersion
         ? productVersionApi.getProductMilestones({ id: selectedProductVersion.id }, requestConfig)
-        : Promise.resolve([]);
+        : Promise.resolve(emptyPaginatedAxiosResponse);
     },
     [selectedProductVersion]
   );
@@ -141,8 +143,8 @@ export const ProductMilestoneComparisonTable = ({
       <Toolbar>
         <ToolbarItem>
           <SearchSelect
-            selectedItem={selectedProduct?.name}
-            onSelect={(_event, _, entity?: Product) => {
+            selectedValue={selectedProduct?.name}
+            onSelect={(_, entity) => {
               setSelectedProduct(entity);
               setSelectedProductVersion(undefined);
               setSelectedProductMilestone(undefined);
@@ -154,14 +156,14 @@ export const ProductMilestoneComparisonTable = ({
             }}
             fetchCallback={productApi.getProducts}
             titleAttribute="name"
-            width={416}
             placeholderText="Select Product"
+            width={416}
           />
         </ToolbarItem>
         <ToolbarItem>
           <SearchSelect
-            selectedItem={selectedProductVersion?.version}
-            onSelect={(_event, _, entity?: ProductVersion) => {
+            selectedValue={selectedProductVersion?.version}
+            onSelect={(_, entity) => {
               setSelectedProductVersion(entity);
               setSelectedProductMilestone(undefined);
             }}
@@ -171,20 +173,20 @@ export const ProductMilestoneComparisonTable = ({
             }}
             fetchCallback={fetchProductVersions}
             titleAttribute="version"
-            width={200}
             placeholderText="Select Version"
+            width={200}
             isDisabled={!selectedProduct}
           />
         </ToolbarItem>
         <ToolbarItem>
           <SearchSelect
-            selectedItem={selectedProductMilestone?.version}
-            onSelect={(_event, _, entity?: ProductMilestone) => setSelectedProductMilestone(entity)}
+            selectedValue={selectedProductMilestone?.version}
+            onSelect={(_, entity) => setSelectedProductMilestone(entity)}
             onClear={() => setSelectedProductMilestone(undefined)}
             fetchCallback={fetchProductMilestones}
             titleAttribute="version"
-            width={200}
             placeholderText="Select Milestone"
+            width={200}
             isDisabled={!selectedProduct || !selectedProductVersion}
           />
         </ToolbarItem>

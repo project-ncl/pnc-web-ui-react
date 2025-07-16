@@ -102,6 +102,10 @@ export const TypeaheadSelect = ({
       setTextInputValue('');
       setFilterValue('');
     }
+
+    if (selectedValue) {
+      setTextInputValue(selectedValue);
+    }
   }, [selectedValue]);
 
   const closeMenu = () => {
@@ -122,8 +126,6 @@ export const TypeaheadSelect = ({
       onSelect(textInputValue);
     } else {
       onSelect(String(value));
-      const selectedOptionChildren = filteredSelectOptions.find((option) => option.value === value)?.children;
-      setTextInputValue(String(selectedOptionChildren));
     }
   };
 
@@ -212,7 +214,7 @@ export const TypeaheadSelect = ({
 
   const onSelectMenuToggle = () => {
     onMenuToggle(!isMenuOpen);
-    textInputRef.current?.focus();
+    !isMenuOpen && textInputRef.current?.focus();
   };
 
   const onClearButtonClick = () => {
@@ -305,7 +307,8 @@ export const TypeaheadSelect = ({
         <SelectOption
           isAriaDisabled={isViewMoreDisabled}
           isLoadButton={!isViewMoreDisabled}
-          onClick={() => onViewMore(textInputValue)}
+          onClick={() => onViewMore(filterValue)}
+          tooltipProps={viewMoreButtonTooltipProps}
         >
           View more
         </SelectOption>
@@ -354,5 +357,7 @@ export const TypeaheadSelect = ({
     </>
   );
 };
+
+const viewMoreButtonTooltipProps = { content: 'No more options available' };
 
 const selectPopperProps = { width: 'trigger' };
