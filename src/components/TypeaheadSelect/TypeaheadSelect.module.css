@@ -1,0 +1,17 @@
+.select_spinner {
+  position: absolute !important;
+  top: 12px;
+  z-index: 100;
+}
+
+.select_spinner--filtered-and-validated {
+  right: 124px;
+}
+
+.select_spinner--filtered {
+  right: 90px;
+}
+
+.select_spinner--no-filter {
+  right: 60px;
+}
