@@ -231,8 +231,10 @@ code {
   --c-info-close-icon: black;
   --c-info-close-icon-hover: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--palette--black-700 */);
 
-  --global-gutter: var(--pf-v5-global--gutter); /* outside spacing, typically between boxes */
-  --global-spacer: var(--pf-v5-global--spacer--lg); /* inside spacing, typically inside boxes */
+  --global-gutter: var(--pf-t--global--spacer--gutter--default); /* outside spacing, typically between boxes */
+  --global-spacer: var(--pf-t--global--spacer--lg); /* inside spacing, typically inside boxes */
+  --global-spacer--md: var(--pf-t--global--spacer--md);
+  --global-spacer--sm: var(--pf-t--global--spacer--sm);
 }
 
 /* ====================

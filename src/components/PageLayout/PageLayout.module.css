@@ -1,0 +1,20 @@
+.page-layout__title-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--global-spacer--md);
+}
+
+.page-layout__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--global-spacer--sm);
+}
+
+/* pf-t--global--breakpoint--sm */
+@media (min-width: 36rem) {
+  .page-layout__title-section {
+    flex-direction: row;
+  }
+}
