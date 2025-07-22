@@ -1,9 +1,10 @@
 import { Content, ContentVariants, Divider, PageBreadcrumb, PageSection, Switch } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import React, { useState } from 'react';
 
 import { Breadcrumb, IBreadcrumbData } from 'components/Breadcrumb/Breadcrumb';
 import { PageWithSidebar } from 'components/PageWithSidebar/PageWithSidebar';
+
+import styles from './PageLayout.module.css';
 
 interface IAppLayoutProps {
   title: React.ReactNode;
@@ -57,22 +58,24 @@ export const PageLayout = ({
         </PageBreadcrumb>
       )}
       <PageSection hasBodyWrapper={false}>
-        <Content className={css((actions || sidebar) && 'pull-left m-b-15')}>
-          <Content component={ContentVariants.h2}>{title}</Content>
-          <Content component={ContentVariants.p}>{description}</Content>
-        </Content>
-        {(actions || sidebar) && (
-          <div className="pull-right display-flex align-items-center gap-10">
-            {actions}
-            {sidebar && (
-              <Switch
-                label={sidebar.title}
-                isChecked={isSidebarExpanded}
-                onChange={() => setIsSidebarExpanded((isExpanded) => !isExpanded)}
-              />
-            )}
-          </div>
-        )}
+        <div className={styles['page-layout__title-section']}>
+          <Content>
+            <Content component={ContentVariants.h2}>{title}</Content>
+            <Content component={ContentVariants.p}>{description}</Content>
+          </Content>
+          {(actions || sidebar) && (
+            <div className={styles['page-layout__actions']}>
+              {actions}
+              {sidebar && (
+                <Switch
+                  label={sidebar.title}
+                  isChecked={isSidebarExpanded}
+                  onChange={() => setIsSidebarExpanded((isExpanded) => !isExpanded)}
+                />
+              )}
+            </div>
+          )}
+        </div>
       </PageSection>
 
       {tabs}
