@@ -607,6 +607,15 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             isRequired
             label={buildConfigEntityAttributes.buildType.title}
             fieldId={buildConfigEntityAttributes.buildType.id}
+            labelIcon={
+              <TooltipWrapper
+                tooltip={
+                  <>
+                    To view more information about {buildTypeData.MVN_RPM.title}, select an {buildTypeData.MVN_RPM.id} option.
+                  </>
+                }
+              />
+            }
           >
             <Select
               id={buildConfigEntityAttributes.buildType.id}
@@ -620,6 +629,17 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               ))}
             </Select>
             <FormInputHelperText variant="error">{getFieldErrors(buildConfigEntityAttributes.buildType.id)}</FormInputHelperText>
+            <FormInputHelperText variant="default">
+              {getFieldValue(buildConfigEntityAttributes.buildType.id) === buildTypeData.MVN_RPM.id ? (
+                <>
+                  The {buildTypeData.MVN_RPM.title} build is executing the alignment phase using PME and running Maven within the
+                  builder pod. For more detail on the build phase, please refer to the{' '}
+                  <a href="https://project-ncl.github.io/rpm-builder-maven-plugin/" target="_blank" rel="noopener noreferrer">
+                    RPM Builder Maven Plugin documentation <ExternalLinkAltIcon />
+                  </a>
+                </>
+              ) : null}
+            </FormInputHelperText>
           </FormGroup>
 
           <FormGroup
