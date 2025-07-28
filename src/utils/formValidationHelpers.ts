@@ -231,7 +231,7 @@ const buildScriptChecker = (
 export const validateBuildScript = (fieldValues: IFieldValues, options?: IBuildScriptCheckerOptions): boolean => {
   return (
     !fieldValues.buildScript ||
-    fieldValues.buildType !== buildTypeData.MVN.id ||
+    (fieldValues.buildType !== buildTypeData.MVN.id && fieldValues.buildType !== buildTypeData.MVN_RPM.id) ||
     buildScriptChecker(fieldValues.buildScript, options)
   );
 };
