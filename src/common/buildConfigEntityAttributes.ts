@@ -2,7 +2,7 @@ import { Build, BuildConfiguration } from 'pnc-api-types-ts';
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
-const buildTypeValues: BuildConfiguration['buildType'][] = ['MVN', 'NPM', 'GRADLE', 'SBT'];
+const buildTypeValues: BuildConfiguration['buildType'][] = ['MVN', 'NPM', 'GRADLE', 'SBT', 'MVN_RPM'];
 
 interface IExtendedBuildConfig extends BuildConfiguration {
   buildStatus: Build['status'];

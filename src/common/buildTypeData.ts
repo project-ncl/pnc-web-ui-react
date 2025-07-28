@@ -26,4 +26,8 @@ export const buildTypeData: TBuildTypeData = {
     id: 'SBT',
     title: 'Scala Build Tool (SBT)',
   },
+  MVN_RPM: {
+    id: 'MVN_RPM',
+    title: 'Maven RPM',
+  },
 } as const;

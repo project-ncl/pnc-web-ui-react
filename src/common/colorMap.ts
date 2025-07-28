@@ -12,6 +12,7 @@ export const buildTypeColorMap: Record<string, LabelConfig> = {
   NPM: { text: 'NPM', color: 'purple', hexColor: '#CBC1FF' }, // purple-100
   GRADLE: { text: 'GRADLE', color: 'cyan', hexColor: '#A2D9D9' }, // cyan-100
   SBT: { text: 'SBT', color: 'grey', hexColor: '#D2D2D2' }, // black-300
+  MVN_RPM: { text: 'MVN_RPM', color: 'orange', hexColor: '#F4B678' }, // orange-100
 };
 
 export const artifactQualityColorMap: Record<string, LabelConfig> = {

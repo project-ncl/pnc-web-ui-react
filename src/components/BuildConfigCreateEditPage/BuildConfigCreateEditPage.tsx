@@ -146,7 +146,7 @@ const generateAlignmentParametersDescription = (buildType: BuildConfiguration['b
   }
 
   const cliProject =
-    buildType === buildTypeData.MVN.id
+    buildType === buildTypeData.MVN.id || buildType === buildTypeData.MVN_RPM.id
       ? { name: 'PME', url: 'https://release-engineering.github.io/pom-manipulation-ext/#feature-guide' }
       : buildType === buildTypeData.GRADLE.id
       ? { name: 'GME', url: 'https://project-ncl.github.io/gradle-manipulator/#feature-guide' }
