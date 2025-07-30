@@ -25,7 +25,7 @@ export const ExperimentalContent = ({ children, isRouteVariant = false }: PropsW
   if (isRouteVariant && !isExperimentalContentEnabled) {
     return (
       <StateCard title="404: Page does not exist" icon={CubesIcon}>
-        <Link className="pf-v5-c-button pf-m-primary" to="/">
+        <Link className="pf-v6-c-button pf-m-primary" to="/">
           Return to Dashboard
         </Link>
       </StateCard>
