@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
+import { getColorValue } from 'components/Charts/common';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJsPlugins';
 
@@ -30,13 +31,15 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const style = getComputedStyle(document.body);
+
     const chartConfig: ChartConfiguration = {
       type: 'doughnut',
       data: {
         datasets: [
           {
             data,
-            backgroundColor: colors?.map((color) => color ?? '#CCCCCC'),
+            backgroundColor: colors?.map((color) => getColorValue(style, color)),
           },
         ],
         labels,
