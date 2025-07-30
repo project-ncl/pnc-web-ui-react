@@ -216,18 +216,20 @@ code {
    ==================== */
 
 :root {
-  --c-error-primary: var(--pf-v5-global--danger-color--200);
+  --c-error-primary: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--danger-color--200 */);
   --c-error-text: white;
   --c-error-close-icon: white;
-  --c-error-close-icon-hover: var(--pf-v5-global--Color--light-300);
-  --c-warning-primary: var(--pf-v5-global--warning-color--100);
+  --c-error-close-icon-hover: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--Color--light-300 */);
+  --c-warning-primary: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--warning-color--100 */);
   --c-warning-text: black;
   --c-warning-close-icon: black;
-  --c-warning-close-icon-hover: var(--pf-v5-global--palette--black-700);
-  --c-info-primary: var(--pf-v5-global--info-color--100);
+  --c-warning-close-icon-hover: var(
+    --pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--palette--black-700 */
+  );
+  --c-info-primary: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--info-color--100 */);
   --c-info-text: black;
   --c-info-close-icon: black;
-  --c-info-close-icon-hover: var(--pf-v5-global--palette--black-700);
+  --c-info-close-icon-hover: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--palette--black-700 */);
 
   --global-gutter: var(--pf-v5-global--gutter); /* outside spacing, typically between boxes */
   --global-spacer: var(--pf-v5-global--spacer--lg); /* inside spacing, typically inside boxes */
@@ -269,22 +271,22 @@ code {
 }
 
 .pnc-info-icon {
-  color: var(--pf-v5-global--link--Color);
-  text-decoration: var(--pf-v5-global--link--TextDecoration);
+  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color */);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
   padding-left: 5px;
   padding-right: 5px;
 }
 .pnc-info-icon:hover {
-  color: var(--pf-v5-global--link--Color--hover);
-  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
+  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color--hover */);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
 }
 .pnc-warning-icon {
   color: #ec7a08;
-  text-decoration: var(--pf-v5-global--link--TextDecoration);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
   padding-left: 5px;
   padding-right: 5px;
 }
 .pnc-warning-icon:hover {
   color: #ac5701;
-  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
 }

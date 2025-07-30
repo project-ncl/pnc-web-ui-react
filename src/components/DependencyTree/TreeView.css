@@ -11,8 +11,8 @@
   .pf-v6-c-tree-view__list-item
   .pf-v6-c-tree-view__list-item
   .pf-v6-c-tree-view__list-item {
-  --pf-v5-c-tree-view__node--PaddingLeft: calc(
-    var(--pf-v5-c-tree-view__node--nested-indent--base) * var(--nesting-level) + var(--pf-v5-c-tree-view__node--indent--base)
+  --pf-v6-c-tree-view__node--PaddingInlineStart: calc(
+    var(--pf-v6-c-tree-view__node--nested-indent--base) * var(--nesting-level) + var(--pf-v6-c-tree-view__node--indent--base)
   );
 
   --nesting-level: 11;

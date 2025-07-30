@@ -3,14 +3,14 @@
 }
 
 .sort-title {
-  color: var(--pf-v5-c-table__sort__button--Color);
-  font-weight: var(--pf-v5-c-table__thead--cell--FontWeight);
+  color: var(--pf-v6-c-table__sort-indicator--Color);
+  font-weight: var(--pf-v6-c-table__thead--cell--FontWeight);
 }
 
 .sort-icon {
   margin-left: 1rem;
 
-  color: var(--pf-v5-c-table__sort-indicator--Color);
+  color: var(--pf-v6-c-table__sort-indicator--Color);
 }
 
 .sort-icon-title {
@@ -20,17 +20,17 @@
 .sort-title,
 .sort-icon,
 .sort-icon-title {
-  font-size: var(--pf-v5-c-table__thead--cell--FontSize);
+  font-size: var(--pf-v6-c-table__thead--cell--FontSize);
 }
 
 .sort-toggle:hover .sort-icon {
-  color: var(--pf-v5-c-table__sort__button--hover__sort-indicator--Color);
+  color: var(--pf-v6-c-table__sort__button--hover__sort-indicator--Color);
 }
 
 .sort-toggle--active {
   & .sort-title,
   & .sort-icon,
   & .sort-icon-title {
-    color: var(--pf-v5-c-table__sort--m-selected__sort-indicator--Color) !important;
+    color: var(--pf-v6-c-table__sort--m-selected__sort-indicator--Color) !important;
   }
 }
