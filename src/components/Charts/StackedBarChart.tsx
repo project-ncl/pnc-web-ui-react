@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
-import { COLORS } from 'components/Charts/common';
+import { getColorValue } from 'components/Charts/common';
 
 import { legendHeightPlugin } from 'libs/chartJsPlugins';
 
@@ -22,7 +22,7 @@ interface IStackedBarChartDataset {
 export interface IStackedBarChartProps {
   data: IStackedBarChartDataset[];
   labels: string[];
-  colors?: string[];
+  colors: string[];
   id?: string;
   description?: IDescription;
   legendHeight?: number;
@@ -43,11 +43,13 @@ export const StackedBarChart = ({ data, labels, colors, id, description, legendH
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const style = getComputedStyle(document.body);
+
     const chartConfig: ChartConfiguration = {
       type: 'bar',
       data: {
         datasets: data.map((dataset: IStackedBarChartDataset, index: number) => {
-          return { ...dataset, backgroundColor: colors ? colors[index] : COLORS[index % COLORS.length] };
+          return { ...dataset, backgroundColor: getColorValue(style, colors[index]) };
         }),
         labels: labels,
       },
