@@ -8,11 +8,11 @@ export const SystemErrorPage = () => {
       icon={CubesIcon}
       titleText="System Error"
       variant={EmptyStateVariant.xl}
-      className="pf-v5-u-pt-4xl"
+      className="pf-v6-u-pt-4xl"
     >
       <EmptyStateBody>Unexpected error occurred, report has been sent to the server.</EmptyStateBody>
       <EmptyStateFooter>
-        <a href="/" className="pf-v5-c-button pf-m-primary">
+        <a href="/" className="pf-v6-c-button pf-m-primary">
           Return to Dashboard
         </a>
       </EmptyStateFooter>

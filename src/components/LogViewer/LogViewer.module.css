@@ -14,6 +14,6 @@
 
 /* PatternFly issue; see NCL-8849 */
 /* TODO: remove if fixed by PatternFly */
-.log-viewer__line--wrap-lines-off :global(.pf-v5-c-log-viewer__text) {
+.log-viewer__line--wrap-lines-off :global(.pf-v6-c-log-viewer__text) {
   white-space: pre !important;
 }

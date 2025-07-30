@@ -8,15 +8,15 @@
   color: #6a6e73 !important;
 }
 
-.disabled-content a:global(.pf-v5-c-button),
+.disabled-content a:global(.pf-v6-c-button),
 .disabled-content button {
   background-color: #d2d2d2 !important;
 }
 
-.disabled-content :global(.pf-v5-c-label) :global(.pf-v5-c-label__actions) :global(.pf-v5-c-button) {
+.disabled-content :global(.pf-v6-c-label) :global(.pf-v6-c-label__actions) :global(.pf-v6-c-button) {
   background-color: transparent !important;
 }
 
-.disabled-content :global(.pf-v5-c-button)::after {
+.disabled-content :global(.pf-v6-c-button)::after {
   border-color: transparent !important;
 }

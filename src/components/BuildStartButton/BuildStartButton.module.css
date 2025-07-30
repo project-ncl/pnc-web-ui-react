@@ -25,7 +25,7 @@
   width: 45px;
 }
 
-.toggle-button :global(.pf-v5-c-menu-toggle__controls) {
+.toggle-button :global(.pf-v6-c-menu-toggle__controls) {
   padding: 0 !important;
 }
 
