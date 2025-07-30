@@ -1,7 +1,7 @@
 import { LogViewerSearch } from '@patternfly/react-log-viewer';
 import { memo, useEffect } from 'react';
 
-const SEARCH_INPUT_SELECTOR = '.pf-v5-c-log-viewer__header .pf-v5-c-text-input-group__text-input';
+const SEARCH_INPUT_SELECTOR = '.pf-v6-c-log-viewer__header .pf-v6-c-text-input-group__text-input';
 
 interface ILogViewerSearchBarProps {
   autofocusSearchBar: boolean;
