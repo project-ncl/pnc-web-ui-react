@@ -3,11 +3,11 @@
 }
 
 .log-viewer-toolbar {
-  padding-right: var(--pf-v5-global--spacer--sm);
+  padding-right: var(--pf-t--global--spacer--sm);
 }
 
 .log-viewer-base--fullscreen .log-viewer-toolbar {
-  --padding: var(--pf-v5-global--spacer--sm);
+  --padding: var(--pf-t--global--spacer--sm);
 
   padding: var(--padding) calc(var(--padding) * 2) 0;
 }

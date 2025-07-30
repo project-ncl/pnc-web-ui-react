@@ -1,19 +1,19 @@
 .tooltip-icon {
   font-size: 15px;
   font-style: italic;
-  text-decoration: var(--pf-v5-global--link--TextDecoration);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
 }
 
 .tooltip-icon:hover {
-  text-decoration: var(--pf-v5-global--link--TextDecoration--hover);
+  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
 }
 
 .tooltip-icon--blue {
-  color: var(--pf-v5-global--link--Color);
+  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color */);
 }
 
 .tooltip-icon--blue:hover {
-  color: var(--pf-v5-global--link--Color--hover);
+  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color--hover */);
 }
 
 /* Popover component is used */
