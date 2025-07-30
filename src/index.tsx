@@ -1,5 +1,6 @@
 import '@patternfly/react-core/dist/styles/base.css';
 
+import { ThemeProvider } from 'contexts/ThemeContext';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router';
@@ -125,7 +126,9 @@ if (!container) {
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
