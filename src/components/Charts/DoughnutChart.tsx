@@ -1,4 +1,5 @@
 import { Chart, ChartConfiguration } from 'chart.js';
+import { useTheme } from 'contexts/ThemeContext';
 import { useEffect, useRef } from 'react';
 
 import { IDescription } from 'components/BoxDescription/BoxDescription';
@@ -29,6 +30,8 @@ export interface IDoughnutChartProps {
 export const DoughnutChart = ({ data, labels, colors, id, description, legendHeight = 100 }: IDoughnutChartProps) => {
   const chart = useRef<Chart>();
   const chartRef = useRef<HTMLCanvasElement>(null);
+
+  const { resolvedThemeMode } = useTheme();
 
   useEffect(() => {
     const style = getComputedStyle(document.body);
@@ -85,7 +88,7 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
       chart.current.config.options = chartConfig.options;
       chart.current.update();
     }
-  }, [data, labels, colors, legendHeight]);
+  }, [data, labels, colors, legendHeight, resolvedThemeMode]);
 
   return (
     <ChartBox description={description}>

@@ -40,6 +40,7 @@ import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch';
 import { OldUIAnnouncement } from 'components/TopBar/OldUIAnnouncement';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
@@ -236,6 +237,9 @@ export const AppLayout = () => {
               </Dropdown>
             </ToolbarItem>
           </ToolbarGroup>
+          <ToolbarItem>
+            <ThemeSwitch />
+          </ToolbarItem>
           <ToolbarItem>
             <Dropdown
               toggle={(toggleRef) => (

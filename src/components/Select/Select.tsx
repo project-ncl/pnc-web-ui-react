@@ -14,6 +14,7 @@ interface ISelectProps<T extends TSelectOption> {
   validated?: TState;
   placeholder?: string;
   onBlur?: SelectProps['onBlur'];
+  toggleIcon?: ReactNode;
   isToggleFullWidth?: boolean;
   className?: string;
   children: ReactNode | ReactNode[];
@@ -41,6 +42,7 @@ export const Select = <T extends TSelectOption>({
   validated,
   placeholder,
   onBlur,
+  toggleIcon,
   isToggleFullWidth = true,
   children,
 }: ISelectProps<T>) => {
@@ -61,8 +63,9 @@ export const Select = <T extends TSelectOption>({
           status={status}
           isExpanded={isOpen}
           onClick={() => onToggle(!isOpen)}
+          icon={toggleIcon}
         >
-          {value?.toString() || placeholder}
+          {!toggleIcon && (value?.toString() || placeholder)}
         </MenuToggle>
       )}
       isOpen={isOpen}
