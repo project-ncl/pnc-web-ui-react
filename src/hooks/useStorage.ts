@@ -68,4 +68,5 @@ export const StorageKeys = {
   isExperimentalContentEnabled: 'is-experimental-content-enabled',
   areOnlyLatestBuildPushesShown: 'are-only-latest-build-pushes-shown',
   loggerLabel: 'logger-label',
+  themeMode: 'theme-mode',
 } as const;
