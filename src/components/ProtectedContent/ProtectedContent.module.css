@@ -2,19 +2,28 @@
   pointer-events: none;
 }
 
-.disabled-content a,
-.disabled-content button {
-  pointer-events: none;
-  color: #6a6e73 !important;
-}
-
 .disabled-content a:global(.pf-v6-c-button),
-.disabled-content button {
-  background-color: #d2d2d2 !important;
+.disabled-content button:global(.pf-v6-c-button) {
+  pointer-events: none;
+  background-color: var(--c--disabled--background) !important;
+  color: var(--c--disabled--text-on-background) !important;
 }
 
 .disabled-content :global(.pf-v6-c-label) :global(.pf-v6-c-label__actions) :global(.pf-v6-c-button) {
   background-color: transparent !important;
+
+  & :global(.pf-v6-c-button__icon) {
+    color: var(--c--disabled--icon) !important;
+  }
+}
+
+:global(.pf-v6-c-menu__item):has(.disabled-content) {
+  cursor: default;
+}
+
+:global(.pf-v6-c-menu__item) .disabled-content button:global(.pf-v6-c-button) {
+  background-color: transparent !important;
+  color: var(--c--disabled--text) !important;
 }
 
 .disabled-content :global(.pf-v6-c-button)::after {
