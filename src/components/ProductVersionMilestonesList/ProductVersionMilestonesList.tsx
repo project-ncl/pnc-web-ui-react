@@ -26,8 +26,6 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
-const actionItemStyle = { padding: 0 };
-
 interface IProductVersionMilestonesListProps {
   serviceContainerProductMilestones: IServiceContainerState<ProductMilestonePage>;
   componentId: string;
@@ -125,7 +123,7 @@ export const ProductVersionMilestonesList = ({
                     <ActionsColumn
                       items={[
                         {
-                          style: actionItemStyle,
+                          className: 'p-0',
                           title: (
                             <ProductMilestoneMarkModalButton
                               toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'mark-as-current')}
@@ -136,7 +134,7 @@ export const ProductVersionMilestonesList = ({
                           ),
                         },
                         {
-                          style: actionItemStyle,
+                          className: 'p-0',
                           title: (
                             <ProductMilestoneCloseModalButton
                               toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'close')}
@@ -146,7 +144,7 @@ export const ProductVersionMilestonesList = ({
                           ),
                         },
                         {
-                          style: actionItemStyle,
+                          className: 'p-0',
                           title: (
                             <AnalyzeDeliverablesModalButton
                               toggleModal={toggleCurrentModalProductMilestoneId(productMilestone.id, 'analyze-deliverables')}
