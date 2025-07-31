@@ -14,7 +14,6 @@ export const AnalyzeDeliverablesModalButton = ({ toggleModal, variant }: IAnalyz
       variant={variant === 'list' ? 'plain' : 'tertiary'}
       onClick={toggleModal}
       className={css('dropdown-item-font-size', 'text-align-left')}
-      isBlock
       size="sm"
     >
       Analyze Deliverables
