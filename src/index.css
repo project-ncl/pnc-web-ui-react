@@ -43,6 +43,14 @@ code {
   text-align: right !important;
 }
 
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
 .overflow-visible {
   overflow: visible !important;
 }
@@ -143,6 +151,10 @@ code {
   margin-bottom: 25px !important;
 }
 
+.b-radius-0 {
+  border-radius: 0 !important;
+}
+
 .p-t-0 {
   padding-top: 0 !important;
 }
@@ -211,6 +223,10 @@ code {
   padding: var(--global-spacer);
 }
 
+.full-width {
+  width: 100% !important;
+}
+
 /* ====================
    Global colors
    ==================== */
@@ -230,6 +246,11 @@ code {
   --c--info--text-on-background: var(--pf-t--global--text--color--status--on-info--default);
   --c--info--icon: var(--pf-t--global--icon--color--status--info--default);
   --c--info--icon--hover: var(--pf-t--global--icon--color--status--info--hover);
+
+  --c--disabled--background: var(--pf-t--global--background--color--disabled--default);
+  --c--disabled--text-on-background: var(--pf-t--global--text--color--on-disabled);
+  --c--disabled--text: var(--pf-t--global--text--color--disabled);
+  --c--disabled--icon: var(--pf-t--global--icon--color--disabled);
 
   --global-gutter: var(--pf-t--global--spacer--gutter--default); /* outside spacing, typically between boxes */
   --global-spacer: var(--pf-t--global--spacer--lg); /* inside spacing, typically inside boxes */
@@ -251,22 +272,6 @@ code {
 /* ====================
    PNC Global Styles
    ==================== */
-
-.pull-left {
-  float: left !important;
-}
-
-.pull-right {
-  float: right !important;
-}
-
-.disabled-color {
-  color: var(--pf-v5-c-dropdown__menu-item--disabled--Color) !important;
-}
-
-.dropdown-item-font-size {
-  font-size: var(--pf-v5-c-dropdown__menu-item--FontSize) !important;
-}
 
 .pnc-info-icon {
   color: var(--c--info--icon);

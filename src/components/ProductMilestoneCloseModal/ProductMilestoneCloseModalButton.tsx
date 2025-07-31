@@ -19,19 +19,17 @@ export const ProductMilestoneCloseModalButton = ({
 }: IProductMilestoneCloseModalButtonProps) => {
   const disabledButtonReason = !!productMilestone.endDate ? 'Milestone is already closed.' : '';
 
+  const isListVariant = variant === 'list';
+
   return (
     <ProtectedComponent>
       <TooltipWrapper tooltip={disabledButtonReason}>
         <Button
-          variant={variant === 'list' ? 'plain' : 'tertiary'}
+          variant={isListVariant ? 'plain' : 'tertiary'}
           onClick={toggleModal}
           isAriaDisabled={!!disabledButtonReason}
-          className={css(
-            variant === 'list' && !!disabledButtonReason && 'disabled-color',
-            'dropdown-item-font-size',
-            'text-align-left'
-          )}
-          size="sm"
+          className={css(isListVariant && 'full-width b-radius-0')}
+          size={!isListVariant ? 'sm' : 'default'}
         >
           Close Milestone
         </Button>
