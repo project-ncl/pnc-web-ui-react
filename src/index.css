@@ -260,10 +260,6 @@ code {
   float: right !important;
 }
 
-.black-color {
-  color: var(--pf-v5-c-dropdown__menu-item--Color) !important;
-}
-
 .disabled-color {
   color: var(--pf-v5-c-dropdown__menu-item--disabled--Color) !important;
 }
@@ -273,22 +269,21 @@ code {
 }
 
 .pnc-info-icon {
-  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color */);
-  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
+  color: var(--c--info--icon);
   padding-left: 5px;
   padding-right: 5px;
 }
+
 .pnc-info-icon:hover {
-  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color--hover */);
-  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
+  color: var(--c--info--icon--hover);
 }
+
 .pnc-warning-icon {
-  color: #ec7a08;
-  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
+  color: var(--c--warning--icon);
   padding-left: 5px;
   padding-right: 5px;
 }
+
 .pnc-warning-icon:hover {
-  color: #ac5701;
-  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
+  color: var(--c--warning--icon--hover);
 }
