@@ -60,11 +60,9 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.pnc-build-metric-info-icon {
-  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color */);
-  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
+.pnc-build-metric__info-icon {
+  fill: var(--c--info--icon);
 }
-.pnc-build-metric-info-icon:hover {
-  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color--hover */);
-  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
+.pnc-build-metric__info-icon:hover {
+  fill: var(--c--info--icon--hover);
 }

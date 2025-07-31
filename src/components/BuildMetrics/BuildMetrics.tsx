@@ -490,9 +490,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                     enableFlip={false}
                     position="left-start"
                   >
-                    <span className={styles['pnc-build-metric-info-icon']}>
-                      <InfoCircleIcon />
-                    </span>
+                    <InfoCircleIcon className={styles['pnc-build-metric__info-icon']} />
                   </Popover>
                 </small>
               </div>

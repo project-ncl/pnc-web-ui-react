@@ -219,14 +219,17 @@ code {
   --c--danger--background: var(--pf-t--global--color--status--danger--default);
   --c--danger--text-on-background: var(--pf-t--global--text--color--status--on-danger--default);
   --c--danger--icon: var(--pf-t--global--icon--color--status--danger--default);
+  --c--danger--icon--hover: var(--pf-t--global--icon--color--status--danger--hover);
 
   --c--warning--background: var(--pf-t--global--color--status--warning--default);
   --c--warning--text-on-background: var(--pf-t--global--text--color--status--on-warning--default);
   --c--warning--icon: var(--pf-t--global--icon--color--status--warning--default);
+  --c--warning--icon--hover: var(--pf-t--global--icon--color--status--warning--hover);
 
   --c--info--background: var(--pf-t--global--color--status--info--default);
   --c--info--text-on-background: var(--pf-t--global--text--color--status--on-info--default);
   --c--info--icon: var(--pf-t--global--icon--color--status--info--default);
+  --c--info--icon--hover: var(--pf-t--global--icon--color--status--info--hover);
 
   --global-gutter: var(--pf-t--global--spacer--gutter--default); /* outside spacing, typically between boxes */
   --global-spacer: var(--pf-t--global--spacer--lg); /* inside spacing, typically inside boxes */
