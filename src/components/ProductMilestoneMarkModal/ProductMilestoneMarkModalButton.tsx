@@ -49,7 +49,6 @@ export const ProductMilestoneMarkModalButton = ({
               'dropdown-item-font-size',
               'text-align-left'
             )}
-            isBlock
             size="sm"
           >
             <ServiceContainerLoading {...serviceContainerProductVersion} variant="icon" title="Product Version" /> Mark as current

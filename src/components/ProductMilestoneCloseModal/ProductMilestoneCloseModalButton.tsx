@@ -31,7 +31,6 @@ export const ProductMilestoneCloseModalButton = ({
             'dropdown-item-font-size',
             'text-align-left'
           )}
-          isBlock
           size="sm"
         >
           Close Milestone
