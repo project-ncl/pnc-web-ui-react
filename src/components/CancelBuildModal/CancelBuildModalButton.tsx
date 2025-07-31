@@ -20,7 +20,7 @@ export const CancelBuildModalButton = ({ toggleModal, build, variant }: ICancelB
   return (
     <ProtectedComponent>
       <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button variant="primary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} isBlock size="sm">
+        <Button variant="primary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} size="sm">
           Abort
         </Button>
       </TooltipWrapper>

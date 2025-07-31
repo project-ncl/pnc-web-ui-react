@@ -16,7 +16,7 @@ export const BrewPushModalButton = ({ toggleModal, build }: IBrewPushModalButton
   return (
     <ProtectedComponent>
       <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button variant="primary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} isBlock size="sm">
+        <Button variant="primary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} size="sm">
           Push to Brew
         </Button>
       </TooltipWrapper>
