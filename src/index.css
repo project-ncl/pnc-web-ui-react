@@ -216,20 +216,17 @@ code {
    ==================== */
 
 :root {
-  --c-error-primary: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--danger-color--200 */);
-  --c-error-text: white;
-  --c-error-close-icon: white;
-  --c-error-close-icon-hover: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--Color--light-300 */);
-  --c-warning-primary: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--warning-color--100 */);
-  --c-warning-text: black;
-  --c-warning-close-icon: black;
-  --c-warning-close-icon-hover: var(
-    --pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--palette--black-700 */
-  );
-  --c-info-primary: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--info-color--100 */);
-  --c-info-text: black;
-  --c-info-close-icon: black;
-  --c-info-close-icon-hover: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--palette--black-700 */);
+  --c--danger--background: var(--pf-t--global--color--status--danger--default);
+  --c--danger--text-on-background: var(--pf-t--global--text--color--status--on-danger--default);
+  --c--danger--icon: var(--pf-t--global--icon--color--status--danger--default);
+
+  --c--warning--background: var(--pf-t--global--color--status--warning--default);
+  --c--warning--text-on-background: var(--pf-t--global--text--color--status--on-warning--default);
+  --c--warning--icon: var(--pf-t--global--icon--color--status--warning--default);
+
+  --c--info--background: var(--pf-t--global--color--status--info--default);
+  --c--info--text-on-background: var(--pf-t--global--text--color--status--on-info--default);
+  --c--info--icon: var(--pf-t--global--icon--color--status--info--default);
 
   --global-gutter: var(--pf-t--global--spacer--gutter--default); /* outside spacing, typically between boxes */
   --global-spacer: var(--pf-t--global--spacer--lg); /* inside spacing, typically inside boxes */

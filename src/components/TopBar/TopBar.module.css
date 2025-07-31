@@ -5,41 +5,29 @@
   align-items: center;
 }
 
-.top-bar-error {
-  color: var(--c-error-text);
-  background-color: var(--c-error-primary);
+.top-bar--danger {
+  background-color: var(--c--danger--background);
+  color: var(--c--danger--text-on-background);
 }
 
-.top-bar-warning {
-  color: var(--c-warning-text);
-  background-color: var(--c-warning-primary);
+.top-bar__close-icon--danger {
+  color: var(--c--danger--text-on-background);
 }
 
-.top-bar-info {
-  color: var(--c-info-text);
-  background-color: var(--c-info-primary);
+.top-bar--warning {
+  background-color: var(--c--warning--background);
+  color: var(--c--warning--text-on-background);
 }
 
-.top-bar-error .close-icon {
-  color: var(--c-error-close-icon);
+.top-bar__close-icon--warning {
+  color: var(--c--warning--text-on-background);
 }
 
-.top-bar-error button:hover > .close-icon {
-  color: var(--c-error-close-icon-hover);
+.top-bar--info {
+  background-color: var(--c--info--background);
+  color: var(--c--info--text-on-background);
 }
 
-.top-bar-warning .close-icon {
-  color: var(--c-warning-close-icon);
-}
-
-.top-bar-warning button:hover > .close-icon {
-  color: var(--c-warning-close-icon-hover);
-}
-
-.top-bar-info .close-icon {
-  color: var(--c-info-close-icon);
-}
-
-.top-bar-info button:hover > .close-icon {
-  color: var(--c-info-close-icon-hover);
+.top-bar__close-icon--info {
+  color: var(--c--info--text-on-background);
 }

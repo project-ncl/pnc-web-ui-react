@@ -42,7 +42,6 @@ import { AppLogo } from 'components/AppLogo/AppLogo';
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch';
-import { OldUIAnnouncement } from 'components/TopBar/OldUIAnnouncement';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
 import { IAuthBroadcastMessage, authBroadcastService } from 'services/broadcastService';
@@ -362,7 +361,6 @@ export const AppLayout = () => {
   return (
     <>
       <div ref={topBarsRef}>
-        <OldUIAnnouncement />
         {serviceContainerPncStatus.data && (
           <TopBarAnnouncement
             id="site-top-bar"
