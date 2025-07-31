@@ -44,7 +44,6 @@ export const ProductMilestoneMarkModalButton = ({
             onClick={toggleModal}
             isAriaDisabled={isDisabled}
             className={css(
-              variant === 'list' && !isDisabled && 'black-color',
               variant === 'list' && isDisabled && 'disabled-color',
               variant === 'list' && 'dropdown-item-font-size',
               'dropdown-item-font-size',

@@ -27,7 +27,6 @@ export const ProductMilestoneCloseModalButton = ({
           onClick={toggleModal}
           isAriaDisabled={!!disabledButtonReason}
           className={css(
-            variant === 'list' && !disabledButtonReason && 'black-color',
             variant === 'list' && !!disabledButtonReason && 'disabled-color',
             'dropdown-item-font-size',
             'text-align-left'
