@@ -29,9 +29,10 @@ const UrlButton = ({ parsedUrl, isInline }: IUrlButtonProps) => (
       target="_blank"
       rel="noopener noreferrer"
       variant={isInline ? 'plain' : 'tertiary'}
-      icon={<ExternalLinkAltIcon />} //icon is ignored when variant plain is used
+      hasNoPadding={isInline}
+      icon={<ExternalLinkAltIcon />}
     >
-      {isInline ? <ExternalLinkAltIcon /> : parsedUrl.name}
+      {!isInline && parsedUrl.name}
     </Button>
   </TooltipWrapper>
 );
