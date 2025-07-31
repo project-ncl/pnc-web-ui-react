@@ -1,26 +1,13 @@
-.tooltip-icon {
+.info-tooltip__icon {
   font-size: 15px;
   font-style: italic;
-  text-decoration: var(--pf-t--global--text-decoration--link--line--default);
-}
-
-.tooltip-icon:hover {
-  text-decoration: var(--pf-t--global--text-decoration--link--line--hover);
-}
-
-.tooltip-icon--blue {
-  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color */);
-}
-
-.tooltip-icon--blue:hover {
-  color: var(--pf-t--temp--dev--tbd /* CODEMODS: original v5 color was:--pf-v5-global--link--Color--hover */);
 }
 
 /* Popover component is used */
-.tooltip-info--clickable {
+.info-tooltip__icon--clickable {
   margin-left: 4px;
 }
 
-.tooltip-info--clickable:hover {
+.info-tooltip__icon--clickable:hover {
   cursor: pointer;
 }

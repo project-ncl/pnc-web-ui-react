@@ -8,7 +8,7 @@ import { useStorage } from 'hooks/useStorage';
 
 import styles from './TopBar.module.css';
 
-export type TopBarType = 'error' | 'warning' | 'info';
+export type TopBarType = 'danger' | 'warning' | 'info';
 
 interface ITopBarProps {
   id?: string;
