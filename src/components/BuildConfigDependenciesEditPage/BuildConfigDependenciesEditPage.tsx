@@ -141,7 +141,7 @@ export const BuildConfigDependenciesEditPage = ({
     >
       <Grid hasGutter>
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
               <Content component={ContentVariants.h2}>Current Build Config dependencies</Content>
             </ToolbarItem>
@@ -159,7 +159,7 @@ export const BuildConfigDependenciesEditPage = ({
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
               <Content component={ContentVariants.h2}>Add new Build Config dependencies</Content>
             </ToolbarItem>

@@ -1,38 +1,19 @@
-import { Flex, FlexProps } from '@patternfly/react-core';
-
-import { ContentBox } from 'components/ContentBox/ContentBox';
-
-const gapLg: FlexProps['gap'] = { default: 'gapLg' };
-const directionColumn: FlexProps['direction'] = { default: 'column' };
+import { Flex } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 
 interface IToolbarProps {
-  borderTop?: boolean;
-  borderBottom?: boolean;
-  padding?: boolean;
-  disablePaddingTop?: boolean;
-  disablePaddingBottom?: boolean;
+  marginBottom?: boolean;
   column?: boolean;
 }
 
-export const Toolbar = ({
-  children,
-  borderTop,
-  borderBottom,
-  padding = true,
-  disablePaddingTop,
-  disablePaddingBottom,
-  column = false,
-}: React.PropsWithChildren<IToolbarProps>) => (
-  <ContentBox
-    borderTop={borderTop}
-    borderBottom={borderBottom}
-    paddingTop={padding && !disablePaddingTop}
-    paddingBottom={padding && !disablePaddingBottom}
-    paddingLeft={padding}
-    paddingRight={padding}
-  >
-    <Flex direction={column ? directionColumn : undefined} gap={gapLg}>
+export const Toolbar = ({ children, marginBottom = true, column = false }: React.PropsWithChildren<IToolbarProps>) => (
+  <div className={css(marginBottom && 'm-b-global')}>
+    <Flex gap={flexGapMd} direction={column ? flexDirectionColumn : undefined}>
       {children}
     </Flex>
-  </ContentBox>
+  </div>
 );
+
+const flexGapMd = { default: 'gapMd' } as const;
+
+const flexDirectionColumn = { default: 'column' } as const;

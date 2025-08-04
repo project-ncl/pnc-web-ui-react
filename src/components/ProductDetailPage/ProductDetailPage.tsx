@@ -79,7 +79,7 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
           </Attributes>
         </ContentBox>
 
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem reservedWidth>
             <Content>
               <Content component={ContentVariants.h2}>Product Versions</Content>

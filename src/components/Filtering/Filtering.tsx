@@ -288,7 +288,6 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
               {appliedFilters[filterAttributeKey].values.map((filterValueItem, i) => (
                 <span key={filterValueItem}>
                   <Label
-                    variant="outline"
                     onClose={() => {
                       removeFilter(filterAttributeKey, filterValueItem);
                     }}
@@ -312,6 +311,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
                 removeAllFilters();
               }}
               variant="link"
+              size="sm"
             >
               Clear all filters
             </Button>

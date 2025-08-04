@@ -1,10 +1,8 @@
-import { Pagination as PaginationPF, PaginationVariant } from '@patternfly/react-core';
+import { Pagination as PaginationPF } from '@patternfly/react-core';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { useResizeObserver } from 'hooks/useResizeObserver';
-
-import { ContentBox } from 'components/ContentBox/ContentBox';
 
 import { getComponentQueryParamsObject, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 import { debounce } from 'utils/utils';
@@ -66,27 +64,25 @@ export const Pagination = ({ componentId, count = 0, pageSizeDefault = 'page50',
 
   // pagination was already rendered
   return (
-    <ContentBox>
-      <div ref={paginationRef}>
-        <PaginationPF
-          itemCount={count}
-          perPage={pageSize}
-          page={pageIndex}
-          onSetPage={(_event, pageIndex) => {
-            updateQueryParamsInURLDebounced({ pageIndex }, componentId, location, navigate);
-            setPageIndex(pageIndex);
-          }}
-          onPerPageSelect={(_event, pageSize) => {
-            const pageIndexDefault = 1;
-            updateQueryParamsInURL({ pageIndex: pageIndexDefault, pageSize }, componentId, location, navigate);
-            setPageSize(pageSize);
-            setPageIndex(pageIndexDefault);
-          }}
-          variant={PaginationVariant.bottom}
-          isCompact={isCompact !== undefined ? isCompact : !!paginationWidth && paginationWidth < PAGINATION_WIDTH_THRESHOLD_PX}
-          perPageOptions={perPageOptions}
-        />
-      </div>
-    </ContentBox>
+    <div ref={paginationRef}>
+      <PaginationPF
+        itemCount={count}
+        perPage={pageSize}
+        page={pageIndex}
+        onSetPage={(_event, pageIndex) => {
+          updateQueryParamsInURLDebounced({ pageIndex }, componentId, location, navigate);
+          setPageIndex(pageIndex);
+        }}
+        onPerPageSelect={(_event, pageSize) => {
+          const pageIndexDefault = 1;
+          updateQueryParamsInURL({ pageIndex: pageIndexDefault, pageSize }, componentId, location, navigate);
+          setPageSize(pageSize);
+          setPageIndex(pageIndexDefault);
+        }}
+        variant="bottom"
+        isCompact={isCompact !== undefined ? isCompact : !!paginationWidth && paginationWidth < PAGINATION_WIDTH_THRESHOLD_PX}
+        perPageOptions={perPageOptions}
+      />
+    </div>
   );
 };

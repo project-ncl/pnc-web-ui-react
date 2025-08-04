@@ -31,7 +31,7 @@ export const BuildConfigDependantsPage = ({ componentId = 'bcd2' }: IBuildConfig
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content>
             <Content component={ContentVariants.h2}>Dependants</Content>

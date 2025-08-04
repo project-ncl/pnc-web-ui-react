@@ -31,7 +31,7 @@ export const BuildConfigGroupConfigsPage = ({ componentId = 'bcg' }: IBuildConfi
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content>
             <Content component={ContentVariants.h2}>Group Configs</Content>

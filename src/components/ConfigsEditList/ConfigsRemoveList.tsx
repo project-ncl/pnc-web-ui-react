@@ -110,7 +110,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
       </Toolbar>
 
       {!!serviceContainerConfigs.data?.content?.length && (
-        <Toolbar disablePaddingTop>
+        <Toolbar>
           <ToolbarItem>
             <Button
               variant="tertiary"

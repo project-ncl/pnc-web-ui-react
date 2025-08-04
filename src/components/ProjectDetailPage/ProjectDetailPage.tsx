@@ -103,7 +103,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content component={ContentVariants.h2}>Build Configs</Content>
         </ToolbarItem>

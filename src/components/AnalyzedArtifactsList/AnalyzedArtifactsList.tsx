@@ -126,7 +126,7 @@ export const AnalyzedArtifactsList = ({
 
   return (
     <>
-      <Toolbar borderTop column>
+      <Toolbar column>
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering

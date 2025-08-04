@@ -32,7 +32,7 @@ export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IA
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content>
             <Content component={ContentVariants.h2}>Milestones and Releases</Content>

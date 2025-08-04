@@ -179,7 +179,7 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
       </ContentBox>
 
       <ContentBox marginBottom>
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem>
             <Content component={ContentVariants.h2}>{PageTitles.deliverableAnalysisLabelsHistory}</Content>
           </ToolbarItem>
@@ -217,7 +217,7 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content component={ContentVariants.h2}>Logs</Content>
         </ToolbarItem>

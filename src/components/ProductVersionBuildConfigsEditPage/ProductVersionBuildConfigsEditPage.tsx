@@ -149,7 +149,7 @@ export const ProductVersionBuildConfigsEditPage = ({
     >
       <Grid hasGutter>
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
               <Content component={ContentVariants.h2}>Build Configs currently in the Version</Content>
             </ToolbarItem>
@@ -167,7 +167,7 @@ export const ProductVersionBuildConfigsEditPage = ({
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
               <Content component={ContentVariants.h2}>
                 Add new Build Configs{' '}

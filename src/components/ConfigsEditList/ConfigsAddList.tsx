@@ -142,7 +142,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
       </Toolbar>
 
       {!!serviceContainerConfigs.data?.content?.length && (
-        <Toolbar disablePaddingTop>
+        <Toolbar>
           <ToolbarItem>
             <Button
               variant="tertiary"
