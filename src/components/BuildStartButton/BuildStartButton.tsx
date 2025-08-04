@@ -1,15 +1,4 @@
-import {
-  Checkbox,
-  Divider,
-  Dropdown,
-  List,
-  ListItem,
-  Menu,
-  MenuContent,
-  MenuToggle,
-  Popover,
-  Radio,
-} from '@patternfly/react-core';
+import { Checkbox, Divider, Dropdown, List, ListItem, MenuToggle, Popover, Radio } from '@patternfly/react-core';
 import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useState } from 'react';
@@ -183,26 +172,28 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
   };
 
   return (
-    <div className={css(styles['button-wrapper'], isCompact && styles['is-compact'])}>
-      <ProgressButton
-        onClick={triggerBuild}
-        serviceContainer={serviceContainer}
-        icon={<BuildIcon />}
-        isSmall
-        className={styles['button-build']}
-      >
-        Build
-      </ProgressButton>
-
+    <div className={css(styles['button-start-button'], isCompact && styles['button-start-button--compact'])}>
       <Dropdown
         popperProps={dropdownPopperProps}
         toggle={(toggleRef) => (
           <MenuToggle
-            id="dropdown-toggle"
-            className={styles['toggle-button']}
             ref={toggleRef}
+            id="dropdown-toggle"
             onClick={() => setIsDropdownOpen((isDropdownOpen) => !isDropdownOpen)}
             isExpanded={isDropdownOpen}
+            size="sm"
+            splitButtonItems={[
+              <ProgressButton
+                key="build-button"
+                onClick={triggerBuild}
+                serviceContainer={serviceContainer}
+                icon={<BuildIcon />}
+                isSmall
+                className={styles['build-button']}
+              >
+                Build
+              </ProgressButton>,
+            ]}
           >
             {!isCompact && (isTempBuild ? 'Temporary' : 'Persistent')}
           </MenuToggle>
@@ -210,193 +201,186 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
         onOpenChange={(isOpen: boolean) => setIsDropdownOpen(isOpen)}
         isOpen={isDropdownOpen}
       >
-        <Menu className={styles['dropdown-panel']}>
-          <MenuContent>
-            <div className={styles['dropdown-icon-item']}>
-              <Radio
-                isChecked={!isTempBuild}
-                name="isTempBuild-false-radio"
-                onChange={() => {
-                  setIsTempBuild(false);
-                  setAlignmentPreference(undefined);
-                }}
-                label="Persistent"
-                id="isTempBuild-false-radio"
-              />
-              <span className="pnc-info-icon">
-                <Popover bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
-                  <small>
-                    <InfoCircleIcon />
-                  </small>
-                </Popover>
-              </span>
-            </div>
-            <div className={styles['dropdown-icon-item']}>
-              <Radio
-                isChecked={isTempBuild}
-                name="isTempBuild-true-radio"
-                onChange={() => {
-                  setIsTempBuild(true);
-                  setAlignmentPreference(alignmentPreferences[ALIGNMENT_PREFERENCE_DEFAULT_INDEX]);
-                }}
-                label="Temporary"
-                id="isTempBuild-true-radio"
-              />
-              <span className="pnc-warning-icon">
-                <Popover bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
-                  <small>
-                    <WarningTriangleIcon />
-                  </small>
-                </Popover>
-              </span>
-            </div>
+        <div className={styles['dropdown-panel']}>
+          <div className={styles['dropdown-icon-item']}>
+            <Radio
+              isChecked={!isTempBuild}
+              name="isTempBuild-false-radio"
+              onChange={() => {
+                setIsTempBuild(false);
+                setAlignmentPreference(undefined);
+              }}
+              label="Persistent"
+              id="isTempBuild-false-radio"
+            />
+            <span className="pnc-info-icon">
+              <Popover bodyContent={persistentPopoverText} showClose={false} enableFlip={false} position="auto">
+                <small>
+                  <InfoCircleIcon />
+                </small>
+              </Popover>
+            </span>
+          </div>
+          <div className={styles['dropdown-icon-item']}>
+            <Radio
+              isChecked={isTempBuild}
+              name="isTempBuild-true-radio"
+              onChange={() => {
+                setIsTempBuild(true);
+                setAlignmentPreference(alignmentPreferences[ALIGNMENT_PREFERENCE_DEFAULT_INDEX]);
+              }}
+              label="Temporary"
+              id="isTempBuild-true-radio"
+            />
+            <span className="pnc-warning-icon">
+              <Popover bodyContent={temporaryPopoverText} showClose={false} enableFlip={false} position="auto">
+                <small>
+                  <WarningTriangleIcon />
+                </small>
+              </Popover>
+            </span>
+          </div>
 
-            <Divider className={styles['divider']} />
+          <Divider className={styles['divider']} />
 
-            {isTempBuild && (
-              <>
-                <div>
-                  Alignment Preference
-                  <span className="pnc-info-icon">
-                    <Popover bodyContent={alignmentPreferencePopoverText} showClose={false} enableFlip={false} position="auto">
-                      <small>
-                        <InfoCircleIcon />
-                      </small>
-                    </Popover>
-                  </span>
-                </div>
-                <div>
-                  <Radio
-                    isChecked={alignmentPreference === alignmentPreferences[0]}
-                    name={`alignmentPref-${alignmentPreferences[0].title}-radio`}
-                    onChange={() => setAlignmentPreference(alignmentPreferences[0])}
-                    label={alignmentPreferences[0].title}
-                    id={`alignmentPref-${alignmentPreferences[0].title}-radio`}
-                  />
-                </div>
-                <div>
-                  <Radio
-                    isChecked={alignmentPreference === alignmentPreferences[1]}
-                    name={`alignmentPref-${alignmentPreferences[1].title}-radio`}
-                    onChange={() => setAlignmentPreference(alignmentPreferences[1])}
-                    label={alignmentPreferences[1].title}
-                    id={`alignmentPref-${alignmentPreferences[1].title}-radio`}
-                  />
-                </div>
-
-                <Divider className={styles['divider']} />
-              </>
-            )}
-
-            <div>
-              Rebuild Mode
-              <span className="pnc-info-icon">
-                <Popover bodyContent={rebuildModePopoverText} showClose={false} enableFlip={false} position="auto">
-                  <small>
-                    <InfoCircleIcon />
-                  </small>
-                </Popover>
-              </span>
-            </div>
-            <div>
-              <Radio
-                isChecked={rebuildMode === rebuildModes[0]}
-                name={`rebuildMode-${rebuildModes[0].title}-radio`}
-                onChange={() => setRebuildMode(rebuildModes[0])}
-                label={rebuildModes[0].title}
-                id={`rebuildMode-${rebuildModes[0].title}-radio`}
-              />
-            </div>
-            <div>
-              <Radio
-                isChecked={rebuildMode === rebuildModes[1]}
-                name={`rebuildMode-${rebuildModes[1].title}-radio`}
-                onChange={() => setRebuildMode(rebuildModes[1])}
-                label={rebuildModes[1].title}
-                id={`rebuildMode-${rebuildModes[1].title}-radio`}
-              />
-            </div>
-            <div>
-              <Radio
-                isChecked={rebuildMode === rebuildModes[2]}
-                name={`rebuildMode-${rebuildModes[2].title}-radio`}
-                onChange={() => setRebuildMode(rebuildModes[2])}
-                label={rebuildModes[2].title}
-                id={`rebuildMode-${rebuildModes[2].title}-radio`}
-              />
-            </div>
-
-            <Divider className={styles['divider']} />
-
-            {buildConfig && (
-              <>
-                <div className={styles['dropdown-icon-item']}>
-                  <Checkbox
-                    label="keep pod alive"
-                    isChecked={keepPodOnFailure}
-                    onChange={() => setKeepPodOnFailure(!keepPodOnFailure)}
-                    id="keepPodOnFailure-check"
-                    name="keepPodOnFailure-check"
-                  />
-                  <span className="pnc-warning-icon">
-                    <Popover
-                      bodyContent={keepPodOnFailureWarningPopoverText}
-                      showClose={false}
-                      enableFlip={false}
-                      position="auto"
-                    >
-                      <small>
-                        <WarningTriangleIcon />
-                      </small>
-                    </Popover>
-                  </span>
-                </div>
-                <div className={styles['dropdown-icon-item']}>
-                  <Checkbox
-                    label="with dependencies"
-                    isChecked={buildDependencies}
-                    onChange={() => setBuildDependencies(!buildDependencies)}
-                    id="buildDependencies-check"
-                    name="buildDependencies-check"
-                  />
-                  <span className="pnc-info-icon">
-                    <Popover bodyContent={buildDependenciesPopoverText} showClose={false} enableFlip={false} position="auto">
-                      <small>
-                        <InfoCircleIcon />
-                      </small>
-                    </Popover>
-                  </span>
-                </div>
-
-                <Divider className={styles['divider']} />
-              </>
-            )}
-
-            <small className={styles['description-text']}>
-              <p>
-                Press <i>Build</i> button to start
-              </p>
-              {buildDependencies && buildConfig && (
-                <div>
-                  {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
-                  explicitly defined dependencies
-                  <span className="pnc-info-icon">
-                    <Popover bodyContent={descriptionTextPopoverText} showClose={false} enableFlip={false} position="auto">
+          {isTempBuild && (
+            <>
+              <div>
+                Alignment Preference
+                <span className="pnc-info-icon">
+                  <Popover bodyContent={alignmentPreferencePopoverText} showClose={false} enableFlip={false} position="auto">
+                    <small>
                       <InfoCircleIcon />
-                    </Popover>
-                  </span>
-                </div>
-              )}
-              {(!buildDependencies || groupConfig) && (
-                <span>
-                  <p>
-                    {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build
-                  </p>
+                    </small>
+                  </Popover>
                 </span>
-              )}
-            </small>
-          </MenuContent>
-        </Menu>
+              </div>
+              <div>
+                <Radio
+                  isChecked={alignmentPreference === alignmentPreferences[0]}
+                  name={`alignmentPref-${alignmentPreferences[0].title}-radio`}
+                  onChange={() => setAlignmentPreference(alignmentPreferences[0])}
+                  label={alignmentPreferences[0].title}
+                  id={`alignmentPref-${alignmentPreferences[0].title}-radio`}
+                />
+              </div>
+              <div>
+                <Radio
+                  isChecked={alignmentPreference === alignmentPreferences[1]}
+                  name={`alignmentPref-${alignmentPreferences[1].title}-radio`}
+                  onChange={() => setAlignmentPreference(alignmentPreferences[1])}
+                  label={alignmentPreferences[1].title}
+                  id={`alignmentPref-${alignmentPreferences[1].title}-radio`}
+                />
+              </div>
+
+              <Divider className={styles['divider']} />
+            </>
+          )}
+
+          <div>
+            Rebuild Mode
+            <span className="pnc-info-icon">
+              <Popover bodyContent={rebuildModePopoverText} showClose={false} enableFlip={false} position="auto">
+                <small>
+                  <InfoCircleIcon />
+                </small>
+              </Popover>
+            </span>
+          </div>
+          <div>
+            <Radio
+              isChecked={rebuildMode === rebuildModes[0]}
+              name={`rebuildMode-${rebuildModes[0].title}-radio`}
+              onChange={() => setRebuildMode(rebuildModes[0])}
+              label={rebuildModes[0].title}
+              id={`rebuildMode-${rebuildModes[0].title}-radio`}
+            />
+          </div>
+          <div>
+            <Radio
+              isChecked={rebuildMode === rebuildModes[1]}
+              name={`rebuildMode-${rebuildModes[1].title}-radio`}
+              onChange={() => setRebuildMode(rebuildModes[1])}
+              label={rebuildModes[1].title}
+              id={`rebuildMode-${rebuildModes[1].title}-radio`}
+            />
+          </div>
+          <div>
+            <Radio
+              isChecked={rebuildMode === rebuildModes[2]}
+              name={`rebuildMode-${rebuildModes[2].title}-radio`}
+              onChange={() => setRebuildMode(rebuildModes[2])}
+              label={rebuildModes[2].title}
+              id={`rebuildMode-${rebuildModes[2].title}-radio`}
+            />
+          </div>
+
+          <Divider className={styles['divider']} />
+
+          {buildConfig && (
+            <>
+              <div className={styles['dropdown-icon-item']}>
+                <Checkbox
+                  label="keep pod alive"
+                  isChecked={keepPodOnFailure}
+                  onChange={() => setKeepPodOnFailure(!keepPodOnFailure)}
+                  id="keepPodOnFailure-check"
+                  name="keepPodOnFailure-check"
+                />
+                <span className="pnc-warning-icon">
+                  <Popover bodyContent={keepPodOnFailureWarningPopoverText} showClose={false} enableFlip={false} position="auto">
+                    <small>
+                      <WarningTriangleIcon />
+                    </small>
+                  </Popover>
+                </span>
+              </div>
+              <div className={styles['dropdown-icon-item']}>
+                <Checkbox
+                  label="with dependencies"
+                  isChecked={buildDependencies}
+                  onChange={() => setBuildDependencies(!buildDependencies)}
+                  id="buildDependencies-check"
+                  name="buildDependencies-check"
+                />
+                <span className="pnc-info-icon">
+                  <Popover bodyContent={buildDependenciesPopoverText} showClose={false} enableFlip={false} position="auto">
+                    <small>
+                      <InfoCircleIcon />
+                    </small>
+                  </Popover>
+                </span>
+              </div>
+
+              <Divider className={styles['divider']} />
+            </>
+          )}
+
+          <small className={styles['description-text']}>
+            <p>
+              Press <i>Build</i> button to start
+            </p>
+            {buildDependencies && buildConfig && (
+              <div>
+                {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build applying the same Rebuild Mode also to
+                explicitly defined dependencies
+                <span className="pnc-info-icon">
+                  <Popover bodyContent={descriptionTextPopoverText} showClose={false} enableFlip={false} position="auto">
+                    <InfoCircleIcon />
+                  </Popover>
+                </span>
+              </div>
+            )}
+            {(!buildDependencies || groupConfig) && (
+              <span>
+                <p>
+                  {isTempBuild ? 'Temporary' : 'Persistent'} {rebuildMode.title} build
+                </p>
+              </span>
+            )}
+          </small>
+        </div>
       </Dropdown>
     </div>
   );
