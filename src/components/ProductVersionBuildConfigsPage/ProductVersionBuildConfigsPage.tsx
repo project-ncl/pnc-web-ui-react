@@ -33,7 +33,7 @@ export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductV
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem reservedWidth>
           <Content component={ContentVariants.h2}>Build Configs</Content>
         </ToolbarItem>

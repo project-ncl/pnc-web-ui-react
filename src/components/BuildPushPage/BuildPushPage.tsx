@@ -122,7 +122,7 @@ export const BuildPushPage = () => {
         </Attributes>
       </ContentBox>
 
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content component={ContentVariants.h2}>Logs</Content>
         </ToolbarItem>

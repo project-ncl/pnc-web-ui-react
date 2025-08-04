@@ -171,7 +171,7 @@ export const GroupConfigDetailPage = ({
           </Attributes>
         </ContentBox>
 
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem>
             <Content component={ContentVariants.h2}>Build Configs</Content>
           </ToolbarItem>

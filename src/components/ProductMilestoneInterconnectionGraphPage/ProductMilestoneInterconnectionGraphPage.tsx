@@ -137,7 +137,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
       </Toolbar>
 
       <div ref={graphDivRef} className="position-relative">
-        <Toolbar borderTop>
+        <Toolbar>
           <ToolbarItem>
             <SearchInput
               placeholder="Find Product"

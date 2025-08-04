@@ -49,7 +49,7 @@ export const ArtifactUsagesPage = ({ componentId = 'b1' }: IArtifactUsagesPagePr
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
           <Content>
             <Content component={ContentVariants.h2}>Usages</Content>
