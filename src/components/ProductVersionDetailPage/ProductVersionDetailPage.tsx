@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 import { Link } from 'react-router';
 
@@ -19,6 +19,7 @@ import { CardTitle } from 'components/CardFlex/CardTitle';
 import { CardValue } from 'components/CardFlex/CardValue';
 import { StackedBarChart } from 'components/Charts/StackedBarChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -294,7 +295,7 @@ export const ProductVersionDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Product Milestone Artifact Quality Distribution</Content>
+            <PageSectionHeader title="Product Milestone Artifact Quality Distribution" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerArtifactQualityStatistics.data?.content)}>
@@ -319,7 +320,7 @@ export const ProductVersionDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Product Milestone Repository Type Distribution</Content>
+            <PageSectionHeader title="Product Milestone Repository Type Distribution" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerRepositoryTypeStatistics.data?.content)}>

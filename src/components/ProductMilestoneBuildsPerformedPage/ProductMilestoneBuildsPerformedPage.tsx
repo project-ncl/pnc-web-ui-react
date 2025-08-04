@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useMemo } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
@@ -10,6 +9,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildsList } from 'components/BuildsList/BuildsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -65,13 +65,15 @@ export const ProductMilestoneBuildsPerformedPage = ({ componentId = 'b1' }: IPro
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Builds Performed</Content>
-            <Content component={ContentVariants.p}>
-              This list contains Builds in the Milestone. Builds produced from the Build Configuration are assigned to the current
-              Milestone in the Product Version linked in the Build Configuration.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Builds Performed"
+            description={
+              <>
+                This list contains Builds in the Milestone. Builds produced from the Build Configuration are assigned to the
+                current Milestone in the Product Version linked in the Build Configuration.
+              </>
+            }
+          />
         </ToolbarItem>
       </Toolbar>
       <BuildsList {...{ serviceContainerBuilds, componentId }} />

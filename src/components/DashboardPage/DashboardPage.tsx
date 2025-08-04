@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useMemo } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -22,6 +22,7 @@ import { BuildsList } from 'components/BuildsList/BuildsList';
 import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
 import { GroupBuildsList } from 'components/GroupBuildsList/GroupBuildsList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -62,7 +63,7 @@ export const DashboardPage = () => {
           <GridItem lg={12} xl2={6}>
             <Toolbar>
               <ToolbarItem>
-                <Content component={ContentVariants.h2}>My Builds</Content>
+                <PageSectionHeader title="My Builds" />
               </ToolbarItem>
             </Toolbar>
 
@@ -71,7 +72,7 @@ export const DashboardPage = () => {
           <GridItem lg={12} xl2={6}>
             <Toolbar>
               <ToolbarItem>
-                <Content component={ContentVariants.h2}>My Group Builds</Content>
+                <PageSectionHeader title="My Group Builds" />
               </ToolbarItem>
             </Toolbar>
 

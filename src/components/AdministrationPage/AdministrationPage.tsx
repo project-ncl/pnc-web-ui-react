@@ -2,7 +2,6 @@ import {
   ActionGroup,
   Button,
   Content,
-  ContentVariants,
   Flex,
   FlexItem,
   FlexProps,
@@ -245,7 +244,7 @@ export const AdministrationPage = () => {
           <ContentBox padding title="Test UI Logger" isResponsive>
             <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
               <FlexItem>
-                <Content component={ContentVariants.p}>Sends UI log to the UI Logger service - use for testing purposes.</Content>
+                <Content component="p">Sends UI log to the UI Logger service - use for testing purposes.</Content>
               </FlexItem>
               <FlexItem>
                 <Button

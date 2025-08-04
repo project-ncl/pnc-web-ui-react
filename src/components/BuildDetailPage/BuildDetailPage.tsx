@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockCode, Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 
@@ -24,6 +24,7 @@ import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { GroupBuildLink } from 'components/GroupBuildLink/GroupBuildLink';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -338,7 +339,7 @@ export const BuildDetailPage = () => {
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>{buildEntityAttributes.parameters.title}</Content>
+            <PageSectionHeader title={buildEntityAttributes.parameters.title} />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive>
@@ -364,7 +365,7 @@ export const BuildDetailPage = () => {
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Dependency Tree</Content>
+            <PageSectionHeader title="Dependency Tree" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding>

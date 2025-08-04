@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -8,6 +7,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { GroupConfigsList } from 'components/GroupConfigsList/GroupConfigsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -35,7 +35,7 @@ export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductV
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content component={ContentVariants.h2}>Group Configs</Content>
+          <PageSectionHeader title="Group Configs" />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>

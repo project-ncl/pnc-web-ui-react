@@ -1,4 +1,4 @@
-import { Button, Content, ContentVariants, Label, NumberInput, SearchInput, Switch } from '@patternfly/react-core';
+import { Button, Label, NumberInput, SearchInput, Switch } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -14,6 +14,7 @@ import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { FullscreenButton } from 'components/FullscreenButton/FullscreenButton';
 import { ProductMilestoneInterconnectionGraph } from 'components/NetworkGraphs/ProductMilestoneInterconnectionGraph';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -123,16 +124,18 @@ export const ProductMilestoneInterconnectionGraphPage = ({
     <>
       <Toolbar>
         <ToolbarItem>
-          <Content>
-            <Content component={ContentVariants.h2}>Product Milestone Interconnection Graph</Content>
-            <Content component={ContentVariants.p}>
-              Edges interconnect Product Milestones sharing Delivered Artifacts. An edge number represents the number of shared
-              Delivered Artifacts between the two Milestones. Clicking on an edge displays a list of shared Delivered Artifacts.
-              The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to highlight
-              them and their neighbors. Double-clicking on a node opens the Milestone detail page. To drag a node, hold down the{' '}
-              <Label>Shift</Label> key and the mouse button and click on the node.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Product Milestone Interconnection Graph"
+            description={
+              <>
+                Edges interconnect Product Milestones sharing Delivered Artifacts. An edge number represents the number of shared
+                Delivered Artifacts between the two Milestones. Clicking on an edge displays a list of shared Delivered Artifacts.
+                The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on them to
+                highlight them and their neighbors. Double-clicking on a node opens the Milestone detail page. To drag a node,
+                hold down the <Label>Shift</Label> key and the mouse button and click on the node.
+              </>
+            }
+          />
         </ToolbarItem>
       </Toolbar>
 
@@ -200,26 +203,30 @@ export const ProductMilestoneInterconnectionGraphPage = ({
             <div ref={sharedDeliveredArtifactsListTopRef} />
             <Toolbar>
               <ToolbarItem>
-                <Content component={ContentVariants.h2}>
-                  Shared Delivered Artifacts between{' '}
-                  <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="icon" title="Product Milestone">
-                    <span className={styles['product-milestone-label']}>
-                      <ProductMilestoneReleaseLabel
-                        productMilestoneRelease={serviceContainerProductMilestone1.data!}
-                        isCurrent={false}
-                      />
-                    </span>
-                  </ServiceContainerLoading>{' '}
-                  and{' '}
-                  <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="icon" title="Product Milestone">
-                    <span className={styles['product-milestone-label']}>
-                      <ProductMilestoneReleaseLabel
-                        productMilestoneRelease={serviceContainerProductMilestone2.data!}
-                        isCurrent={false}
-                      />
-                    </span>
-                  </ServiceContainerLoading>
-                </Content>
+                <PageSectionHeader
+                  title={
+                    <>
+                      Shared Delivered Artifacts between{' '}
+                      <ServiceContainerLoading {...serviceContainerProductMilestone1} variant="icon" title="Product Milestone">
+                        <span className={styles['product-milestone-label']}>
+                          <ProductMilestoneReleaseLabel
+                            productMilestoneRelease={serviceContainerProductMilestone1.data!}
+                            isCurrent={false}
+                          />
+                        </span>
+                      </ServiceContainerLoading>{' '}
+                      and{' '}
+                      <ServiceContainerLoading {...serviceContainerProductMilestone2} variant="icon" title="Product Milestone">
+                        <span className={styles['product-milestone-label']}>
+                          <ProductMilestoneReleaseLabel
+                            productMilestoneRelease={serviceContainerProductMilestone2.data!}
+                            isCurrent={false}
+                          />
+                        </span>
+                      </ServiceContainerLoading>
+                    </>
+                  }
+                />
               </ToolbarItem>
               <ToolbarItem alignRight>
                 <TooltipWrapper tooltip="Close this table.">

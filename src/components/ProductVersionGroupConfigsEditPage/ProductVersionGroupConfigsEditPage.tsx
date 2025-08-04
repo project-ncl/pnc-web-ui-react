@@ -1,4 +1,4 @@
-import { Button, Content, ContentVariants, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
+import { Button, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -21,6 +21,7 @@ import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesLis
 import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -145,7 +146,7 @@ export const ProductVersionGroupConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>Group Configs currently in the Version</Content>
+              <PageSectionHeader title="Group Configs currently in the Version" />
             </ToolbarItem>
           </Toolbar>
           <ContentBox borderTop>
@@ -164,10 +165,14 @@ export const ProductVersionGroupConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>
-                Add new Group Configs{' '}
-                <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
-              </Content>
+              <PageSectionHeader
+                title={
+                  <>
+                    Add new Group Configs{' '}
+                    <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
+                  </>
+                }
+              />
             </ToolbarItem>
           </Toolbar>
           <ContentBox borderTop>
@@ -188,7 +193,7 @@ export const ProductVersionGroupConfigsEditPage = ({
           <ServiceContainerCreatingUpdating {...serviceContainerProductVersionPatch}>
             <Toolbar>
               <ToolbarItem>
-                <Content component={ContentVariants.h2}>Changes Summary</Content>
+                <PageSectionHeader title="Changes Summary" />
               </ToolbarItem>
               <ToolbarItem>
                 <Button

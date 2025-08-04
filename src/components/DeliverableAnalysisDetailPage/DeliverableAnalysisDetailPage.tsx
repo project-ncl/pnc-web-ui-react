@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router';
 
@@ -30,6 +29,7 @@ import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/Deli
 import { OperationProgressStatusLabelMapper } from 'components/LabelMapper/OperationProgressStatusLabelMapper';
 import { OperationResultLabelMapper } from 'components/LabelMapper/OperationResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -181,7 +181,7 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
       <ContentBox marginBottom>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>{PageTitles.deliverableAnalysisLabelsHistory}</Content>
+            <PageSectionHeader title={PageTitles.deliverableAnalysisLabelsHistory} />
           </ToolbarItem>
         </Toolbar>
         <DeliverableAnalysisLabelsHistoryList
@@ -219,7 +219,7 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
     <>
       <Toolbar>
         <ToolbarItem>
-          <Content component={ContentVariants.h2}>Logs</Content>
+          <PageSectionHeader title="Logs" />
         </ToolbarItem>
       </Toolbar>
       <ContentBox padding>

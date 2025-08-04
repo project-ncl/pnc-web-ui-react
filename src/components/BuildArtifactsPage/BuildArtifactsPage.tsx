@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useState } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -9,6 +8,7 @@ import { ArtifactEditQualityModal } from 'components/ArtifactEditQualityModal/Ar
 import { ArtifactEditQualityModalButton } from 'components/ArtifactEditQualityModal/ArtifactEditQualityModalButton';
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -42,13 +42,15 @@ export const BuildArtifactsPage = ({ componentId = 'a1' }: IBuildArtifactsPagePr
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Artifacts</Content>
-            <Content component={ContentVariants.p}>
-              This list contains artifacts produced by this Build. Each Artifact is represented by PNC Identifier. You can also
-              change quality of all artifacts produced by the Build here.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Artifacts"
+            description={
+              <>
+                This list contains artifacts produced by this Build. Each Artifact is represented by PNC Identifier. You can also
+                change quality of all artifacts produced by the Build here.
+              </>
+            }
+          />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ArtifactEditQualityModalButton

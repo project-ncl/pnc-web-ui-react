@@ -1,4 +1,4 @@
-import { Button, Content, ContentVariants } from '@patternfly/react-core';
+import { Button, Content } from '@patternfly/react-core';
 import { Modal, ModalProps } from '@patternfly/react-core/deprecated';
 import { TimesIcon } from '@patternfly/react-icons';
 import { CheckIcon } from '@patternfly/react-icons';
@@ -85,7 +85,7 @@ export const ActionModal = ({
     <div className={css('p-t-global', 'p-l-global', 'p-r-global')}>
       <div className={css('p-b-global', styles['action-modal-header'])}>
         <Content className={styles['action-modal-title']}>
-          <Content component={ContentVariants.h1}>{modalTitle}</Content>
+          <Content component="h1">{modalTitle}</Content>
         </Content>
         <Button variant="plain" onClick={onClose} className={styles['action-modal-close-button']} icon={<TimesIcon />} />
       </div>

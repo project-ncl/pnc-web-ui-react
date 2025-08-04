@@ -41,7 +41,7 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
           <Filtering
             filterOptions={useMemo(() => getFilterOptions({ entityAttributes: productVersionEntityAttributes }), [])}
             componentId={componentId}
-          />{' '}
+          />
         </ToolbarItem>
       </Toolbar>
 

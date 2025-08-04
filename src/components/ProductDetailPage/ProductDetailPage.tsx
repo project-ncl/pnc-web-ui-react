@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Label } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -14,6 +14,7 @@ import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionsList } from 'components/ProductVersionsList/ProductVersionsList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -81,13 +82,15 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
 
         <Toolbar>
           <ToolbarItem reservedWidth>
-            <Content>
-              <Content component={ContentVariants.h2}>Product Versions</Content>
-              <Content component={ContentVariants.p}>
-                Product Version represents one Product stream like <Label>6.3</Label> or <Label>7.4</Label>. Each Product can
-                contain multiple Product Versions and each Product Version can contain multiple Product Milestones.
-              </Content>
-            </Content>
+            <PageSectionHeader
+              title="Product Versions"
+              description={
+                <>
+                  Product Version represents one Product stream like <Label>6.3</Label> or <Label>7.4</Label>. Each Product can
+                  contain multiple Product Versions and each Product Version can contain multiple Product Milestones.
+                </>
+              }
+            />
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>

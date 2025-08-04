@@ -1,4 +1,4 @@
-import { Button, Content, ContentVariants, Label, NumberInput, SearchInput, Switch } from '@patternfly/react-core';
+import { Button, Label, NumberInput, SearchInput, Switch } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -16,6 +16,7 @@ import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { FullscreenButton } from 'components/FullscreenButton/FullscreenButton';
 import { BuildImplicitDependencyGraph } from 'components/NetworkGraphs/BuildImplicitDependencyGraph';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -119,17 +120,19 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
     <>
       <Toolbar>
         <ToolbarItem>
-          <Content>
-            <Content component={ContentVariants.h2}>Implicit Dependency Graph</Content>
-            <Content component={ContentVariants.p}>
-              Edge arrows point from Builds that have implicit (build-time) dependencies to the Builds that produced those
-              dependencies. An implicit or build-time dependency is an Artifact used by a Build and produced by another Build. An
-              edge number represents the number of Artifact dependencies. Clicking on an edge displays a list of the Artifact
-              dependencies. The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on
-              them to highlight them and their neighbors. Double-clicking on a node opens the Build detail page. To drag a node,
-              hold down the <Label>Shift</Label> key and the mouse button and click on the node.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Implicit Dependency Graph"
+            description={
+              <>
+                Edge arrows point from Builds that have implicit (build-time) dependencies to the Builds that produced those
+                dependencies. An implicit or build-time dependency is an Artifact used by a Build and produced by another Build.
+                An edge number represents the number of Artifact dependencies. Clicking on an edge displays a list of the Artifact
+                dependencies. The graph size can be limited by adjusting the nesting level. Nodes can be selected by clicking on
+                them to highlight them and their neighbors. Double-clicking on a node opens the Build detail page. To drag a node,
+                hold down the <Label>Shift</Label> key and the mouse button and click on the node.
+              </>
+            }
+          />
         </ToolbarItem>
       </Toolbar>
 
@@ -196,16 +199,20 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
           <div ref={implicitDependenciesListTopRef} />
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>
-                Artifact dependencies used by{' '}
-                <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
-                  <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
-                </ServiceContainerLoading>{' '}
-                and produced by{' '}
-                <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
-                  <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
-                </ServiceContainerLoading>
-              </Content>
+              <PageSectionHeader
+                title={
+                  <>
+                    Artifact dependencies used by{' '}
+                    <ServiceContainerLoading {...serviceContainerDependentBuild} variant="icon" title="Build">
+                      <BuildName build={serviceContainerDependentBuild.data!} long includeBuildLink includeConfigLink />
+                    </ServiceContainerLoading>{' '}
+                    and produced by{' '}
+                    <ServiceContainerLoading {...serviceContainerDependencyBuild} variant="icon" title="Build">
+                      <BuildName build={serviceContainerDependencyBuild.data!} long includeBuildLink includeConfigLink />
+                    </ServiceContainerLoading>
+                  </>
+                }
+              />
             </ToolbarItem>
             <ToolbarItem alignRight>
               <TooltipWrapper tooltip="Close this table.">

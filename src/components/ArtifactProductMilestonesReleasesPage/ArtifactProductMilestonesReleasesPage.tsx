@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -6,6 +5,7 @@ import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryPa
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactProductMilestonesReleasesList } from 'components/ArtifactProductMilestonesReleasesList/ArtifactProductMilestonesReleasesList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -34,12 +34,10 @@ export const ArtifactProductMilestonesReleasesPage = ({ componentId = 'm1' }: IA
     <>
       <Toolbar>
         <ToolbarItem>
-          <Content>
-            <Content component={ContentVariants.h2}>Milestones and Releases</Content>
-            <Content component={ContentVariants.p}>
-              This list shows in which Product Version and Milestone this Artifact is used.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Milestones and Releases"
+            description={<>This list shows in which Product Version and Milestone this Artifact is used.</>}
+          />
         </ToolbarItem>
       </Toolbar>
       <ArtifactProductMilestonesReleasesList {...{ serviceContainerArtifactProductMilestonesReleases, componentId }} />{' '}

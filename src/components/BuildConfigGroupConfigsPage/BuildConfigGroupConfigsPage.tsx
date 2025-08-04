@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -6,6 +5,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { GroupConfigsList } from 'components/GroupConfigsList/GroupConfigsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -33,12 +33,10 @@ export const BuildConfigGroupConfigsPage = ({ componentId = 'bcg' }: IBuildConfi
     <>
       <Toolbar>
         <ToolbarItem>
-          <Content>
-            <Content component={ContentVariants.h2}>Group Configs</Content>
-            <Content component={ContentVariants.p}>
-              This list contains Group Configs where this Build Config is included in.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Group Configs"
+            description={<>This list contains Group Configs where this Build Config is included in.</>}
+          />
         </ToolbarItem>
       </Toolbar>
 

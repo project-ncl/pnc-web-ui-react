@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -15,6 +14,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -108,10 +108,10 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
 
         <Toolbar>
           <ToolbarItem>
-            <Content>
-              <Content component={ContentVariants.h2}>Usages</Content>
-              <Content component={ContentVariants.p}>This list shows in which Build Configs this SCM Repository is used.</Content>
-            </Content>
+            <PageSectionHeader
+              title="Usages"
+              description={<>This list shows in which Build Configs this SCM Repository is used.</>}
+            />
           </ToolbarItem>
         </Toolbar>
 
