@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -8,6 +7,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildPushesList } from 'components/BuildPushesList/BuildPushesList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -51,10 +51,7 @@ export const BuildPushesPage = ({ componentId = 'bp1' }: IBuildPushesPageProps) 
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Build Pushes</Content>
-            <Content component={ContentVariants.p}>This list contains Pushes of the Build.</Content>
-          </Content>
+          <PageSectionHeader title="Build Pushes" description={<>This list contains Pushes of the Build.</>} />
         </ToolbarItem>
       </Toolbar>
       <BuildPushesList {...{ serviceContainerBuildPushes, componentId }} />

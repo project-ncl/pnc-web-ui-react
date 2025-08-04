@@ -48,7 +48,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
           <Filtering
             filterOptions={useMemo(() => getFilterOptions({ entityAttributes: projectEntityAttributes }), [])}
             componentId={componentId}
-          />{' '}
+          />
         </ToolbarItem>
       </Toolbar>
 

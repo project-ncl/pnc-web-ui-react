@@ -1,4 +1,4 @@
-import { Button, Content, ContentVariants, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
+import { Button, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -20,6 +20,7 @@ import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -151,7 +152,7 @@ export const ProductVersionBuildConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>Build Configs currently in the Version</Content>
+              <PageSectionHeader title="Build Configs currently in the Version" />
             </ToolbarItem>
           </Toolbar>
 
@@ -169,10 +170,14 @@ export const ProductVersionBuildConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>
-                Add new Build Configs{' '}
-                <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Version are displayed. If you add assigned Build Config, it will be removed from its original Version." />
-              </Content>
+              <PageSectionHeader
+                title={
+                  <>
+                    Add new Build Configs{' '}
+                    <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Version are displayed. If you add assigned Build Config, it will be removed from its original Version." />
+                  </>
+                }
+              />
             </ToolbarItem>
           </Toolbar>
 
@@ -191,7 +196,7 @@ export const ProductVersionBuildConfigsEditPage = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>Changes Summary</Content>
+              <PageSectionHeader title="Changes Summary" />
             </ToolbarItem>
             <ToolbarItem>
               <Button

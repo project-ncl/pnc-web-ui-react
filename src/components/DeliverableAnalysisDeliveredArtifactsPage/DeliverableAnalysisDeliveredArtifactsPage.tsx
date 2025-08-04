@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -6,6 +5,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { AnalyzedArtifactsList } from 'components/AnalyzedArtifactsList/AnalyzedArtifactsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -32,18 +32,21 @@ export const DeliverableAnalysisDeliveredArtifactsPage = ({
   );
 
   return (
-    <>
+    <div>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Delivered Artifacts</Content>
-            <Content component={ContentVariants.p}>
-              This list contains Artifacts analyzed in the Deliverable Analysis. Each Artifact is represented by a PNC Identifier.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Delivered Artifacts"
+            description={
+              <>
+                This list contains Artifacts analyzed in the Deliverable Analysis. Each Artifact is represented by a PNC
+                Identifier.
+              </>
+            }
+          />
         </ToolbarItem>
       </Toolbar>
       <AnalyzedArtifactsList {...{ serviceContainerArtifacts, componentId }} />
-    </>
+    </div>
   );
 };

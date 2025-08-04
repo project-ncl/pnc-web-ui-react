@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -6,6 +5,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -33,12 +33,12 @@ export const BuildDependenciesPage = ({ componentId = 'd1' }: IBuildDependencies
     <>
       <Toolbar>
         <ToolbarItem>
-          <Content>
-            <Content component={ContentVariants.h2}>Dependencies</Content>
-            <Content component={ContentVariants.p}>
-              This list contains Artifacts which are dependencies of this Build. Artifact is represented by PNC Identifier.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Dependencies"
+            description={
+              <>This list contains Artifacts which are dependencies of this Build. Artifact is represented by PNC Identifier.</>
+            }
+          />
         </ToolbarItem>
       </Toolbar>
       <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />
