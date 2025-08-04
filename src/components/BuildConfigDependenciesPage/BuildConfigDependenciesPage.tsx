@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -7,6 +6,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -35,13 +35,15 @@ export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }: IBuildConf
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Dependencies</Content>
-            <Content component={ContentVariants.p}>
-              This list contains Build Configs that are dependencies of this Build Config. Depending on the build preferences,
-              Build Configs from this list may be rebuilt when building this Build Config.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Dependencies"
+            description={
+              <>
+                This list contains Build Configs that are dependencies of this Build Config. Depending on the build preferences,
+                Build Configs from this list may be rebuilt when building this Build Config.
+              </>
+            }
+          />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>

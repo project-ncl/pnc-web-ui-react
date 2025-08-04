@@ -1,7 +1,8 @@
-import { Content, ContentVariants, Divider, PageBreadcrumb, PageSection, Switch } from '@patternfly/react-core';
+import { Divider, PageBreadcrumb, PageSection, Switch } from '@patternfly/react-core';
 import React, { useState } from 'react';
 
 import { Breadcrumb, IBreadcrumbData } from 'components/Breadcrumb/Breadcrumb';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { PageWithSidebar } from 'components/PageWithSidebar/PageWithSidebar';
 
 import styles from './PageLayout.module.css';
@@ -59,10 +60,7 @@ export const PageLayout = ({
       )}
       <PageSection hasBodyWrapper={false}>
         <div className={styles['page-layout__title-section']}>
-          <Content>
-            <Content component={ContentVariants.h2}>{title}</Content>
-            <Content component={ContentVariants.p}>{description}</Content>
-          </Content>
+          <PageSectionHeader title={title} titleComponent="h1" description={description} />
           {(actions || sidebar) && (
             <div className={styles['page-layout__actions']}>
               {actions}
@@ -82,7 +80,9 @@ export const PageLayout = ({
 
       <Divider component="div" />
 
-      <PageSection hasBodyWrapper={false}>{children}</PageSection>
+      <PageSection hasBodyWrapper={false}>
+        <div>{children}</div>
+      </PageSection>
     </>
   );
 

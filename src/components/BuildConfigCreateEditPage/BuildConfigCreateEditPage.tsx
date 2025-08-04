@@ -2,8 +2,6 @@ import {
   ActionGroup,
   Button,
   Checkbox,
-  Content,
-  ContentVariants,
   Form,
   FormGroup,
   Grid,
@@ -53,6 +51,7 @@ import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { RemoveItemButton } from 'components/RemoveItemButton/RemoveItemButton';
 import { ScmRepositoryUrlAlert } from 'components/ScmRepositoryUrlAlert/ScmRepositoryUrlAlert';
 import { SearchSelect } from 'components/SearchSelect/SearchSelect';
@@ -1026,7 +1025,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <GridItem lg={12} xl2={6}>
                 <Toolbar>
                   <ToolbarItem>
-                    <Content component={ContentVariants.h2}>Add Build Config dependencies</Content>
+                    <PageSectionHeader title="Add Build Config dependencies" />
                   </ToolbarItem>
                 </Toolbar>
                 <ConfigsAddList<BuildConfiguration>
@@ -1043,7 +1042,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <GridItem lg={12} xl2={6}>
                 <Toolbar>
                   <ToolbarItem>
-                    <Content component={ContentVariants.h2}>Dependencies to be added</Content>
+                    <PageSectionHeader title="Dependencies to be added" />
                   </ToolbarItem>
                   <ToolbarItem>
                     <Button

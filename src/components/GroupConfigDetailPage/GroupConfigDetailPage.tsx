@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { GroupBuild } from 'pnc-api-types-ts';
@@ -22,6 +21,7 @@ import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -173,7 +173,7 @@ export const GroupConfigDetailPage = ({
 
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Build Configs</Content>
+            <PageSectionHeader title="Build Configs" />
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>

@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Grid, GridItem, Label } from '@patternfly/react-core';
+import { Grid, GridItem, Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
@@ -18,6 +18,7 @@ import { DateTime } from 'components/DateTime/DateTime';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -50,9 +51,10 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem xl={12} xl2={6}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Details</Content>
+            <PageSectionHeader title="Details" />
           </ToolbarItem>
         </Toolbar>
+
         <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.filename.title}>
@@ -81,7 +83,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem xl={12} xl2={6}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Checksums and Build</Content>
+            <PageSectionHeader title="Checksums and Build" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
@@ -108,7 +110,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Locations</Content>
+            <PageSectionHeader title="Locations" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop padding isResponsive>
@@ -147,9 +149,10 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Target Repository</Content>
+            <PageSectionHeader title="Target Repository" />
           </ToolbarItem>
         </Toolbar>
+
         <ContentBox borderTop padding isResponsive>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes['targetRepository.identifier'].title}>
@@ -175,7 +178,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Quality Revisions</Content>
+            <PageSectionHeader title="Quality Revisions" />
           </ToolbarItem>
         </Toolbar>
 

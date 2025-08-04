@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { buildPushOperationEntityAttributes } from 'common/buildPushOperationEntityAttributes';
@@ -21,6 +20,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { OperationProgressStatusLabelMapper } from 'components/LabelMapper/OperationProgressStatusLabelMapper';
 import { OperationResultLabelMapper } from 'components/LabelMapper/OperationResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -124,7 +124,7 @@ export const BuildPushPage = () => {
 
       <Toolbar>
         <ToolbarItem>
-          <Content component={ContentVariants.h2}>Logs</Content>
+          <PageSectionHeader title="Logs" />
         </ToolbarItem>
       </Toolbar>
       <ContentBox padding>

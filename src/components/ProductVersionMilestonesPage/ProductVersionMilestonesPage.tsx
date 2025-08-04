@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Label } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { ProductMilestoneRef } from 'pnc-api-types-ts';
@@ -8,6 +8,7 @@ import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryPa
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ProductVersionMilestonesList } from 'components/ProductVersionMilestonesList/ProductVersionMilestonesList';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -46,43 +47,43 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Product Milestones</Content>
-            <Content component={ContentVariants.p}>
-              Product Milestone represents the working release suffix of the parent Product Version like <Label>0.CR1</Label>, for
-              example Product Version of <Label>1.0.0.CR1</Label>. Each Product Version can contain multiple Product Milestones.
-              Only one Product Milestone can be set as current.
-            </Content>
-          </Content>
-          {latestProductMilestone && (
-            <Content>
-              <br />
-              <div>
-                <>
-                  {serviceContainerProductVersion.data?.currentProductMilestone?.id ? (
+          <PageSectionHeader
+            title="Product Milestones"
+            description={
+              <>
+                Product Milestone represents the working release suffix of the parent Product Version like <Label>0.CR1</Label>,
+                for example Product Version of <Label>1.0.0.CR1</Label>. Each Product Version can contain multiple Product
+                Milestones. Only one Product Milestone can be set as current.
+                {latestProductMilestone && (
+                  <>
+                    <br />
                     <>
-                      The <b>current</b> Product Milestone is{' '}
+                      {serviceContainerProductVersion.data?.currentProductMilestone?.id ? (
+                        <>
+                          The <b>current</b> Product Milestone is{' '}
+                          <ProductMilestoneReleaseLabel
+                            link={`../milestones/${serviceContainerProductVersion.data.currentProductMilestone.id}`}
+                            productMilestoneRelease={serviceContainerProductVersion.data.currentProductMilestone}
+                            isCurrent={true}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          No Product Milestone is set as <b>current</b>
+                        </>
+                      )}{' '}
+                      and the <b>latest</b> is{' '}
                       <ProductMilestoneReleaseLabel
-                        link={`../milestones/${serviceContainerProductVersion.data.currentProductMilestone.id}`}
-                        productMilestoneRelease={serviceContainerProductVersion.data.currentProductMilestone}
-                        isCurrent={true}
+                        link={`../milestones/${latestProductMilestone.id}`}
+                        productMilestoneRelease={latestProductMilestone}
+                        isCurrent={latestProductMilestone.id === serviceContainerProductVersion.data?.currentProductMilestone?.id}
                       />
                     </>
-                  ) : (
-                    <>
-                      No Product Milestone is set as <b>current</b>
-                    </>
-                  )}{' '}
-                  and the <b>latest</b> is{' '}
-                  <ProductMilestoneReleaseLabel
-                    link={`../milestones/${latestProductMilestone.id}`}
-                    productMilestoneRelease={latestProductMilestone}
-                    isCurrent={latestProductMilestone.id === serviceContainerProductVersion.data?.currentProductMilestone?.id}
-                  />
-                </>
-              </div>
-            </Content>
-          )}
+                  </>
+                )}
+              </>
+            }
+          />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>

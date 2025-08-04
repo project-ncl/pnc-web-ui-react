@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockCode, Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
 import { CSSProperties, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -16,6 +16,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
@@ -59,7 +60,7 @@ export const BuildConfigDetail = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>Details</Content>
+              <PageSectionHeader title="Details" />
             </ToolbarItem>
             {isRevisionVariant && (
               <ToolbarItem alignRight>
@@ -175,7 +176,7 @@ export const BuildConfigDetail = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <Content component={ContentVariants.h2}>{buildConfigEntityAttributes.parameters.title}</Content>
+              <PageSectionHeader title={buildConfigEntityAttributes.parameters.title} />
             </ToolbarItem>
           </Toolbar>
           <ContentBox borderTop padding isResponsive>

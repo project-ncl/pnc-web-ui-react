@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
 
 import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
@@ -16,6 +16,7 @@ import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -177,7 +178,7 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Artifact Quality Distribution</Content>
+            <PageSectionHeader title="Artifact Quality Distribution" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight="500px">
@@ -195,7 +196,7 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <Content component={ContentVariants.h2}>Repository Type Distribution</Content>
+            <PageSectionHeader title="Repository Type Distribution" />
           </ToolbarItem>
         </Toolbar>
         <ContentBox borderTop contentHeight="500px">

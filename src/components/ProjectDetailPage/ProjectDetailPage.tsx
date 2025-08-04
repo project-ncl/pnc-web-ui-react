@@ -1,4 +1,3 @@
-import { Content, ContentVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -16,6 +15,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -105,7 +105,7 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
 
       <Toolbar>
         <ToolbarItem>
-          <Content component={ContentVariants.h2}>Build Configs</Content>
+          <PageSectionHeader title="Build Configs" />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>

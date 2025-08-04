@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Label } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -7,6 +7,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionReleasesList } from 'components/ProductVersionReleasesList/ProductVersionReleasesList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -36,14 +37,16 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <Content>
-            <Content component={ContentVariants.h2}>Product Releases</Content>
-            <Content component={ContentVariants.p}>
-              Product Release represents the final release suffix of the parent Product Version like <Label>0.GA</Label>, for
-              example Product Version of <Label>1.0.0.GA</Label>. Product Milestone needs to be created from existing Product
-              Milestone.
-            </Content>
-          </Content>
+          <PageSectionHeader
+            title="Product Releases"
+            description={
+              <>
+                Product Release represents the final release suffix of the parent Product Version like <Label>0.GA</Label>, for
+                example Product Version of <Label>1.0.0.GA</Label>. Product Milestone needs to be created from existing Product
+                Milestone.
+              </>
+            }
+          />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
