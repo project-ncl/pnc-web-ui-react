@@ -1,32 +1,18 @@
-.button-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 33px;
-
+.button-start-button {
   z-index: 500;
 }
 
 /* BUILD BUTTON */
 
-.button-build {
+.build-button {
   width: 108px;
 
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
-/* TOGGLE BUTTON */
-
-.toggle-button {
-  width: 135px;
-}
-
-.is-compact .toggle-button {
-  width: 45px;
-}
-
-.toggle-button :global(.pf-v6-c-menu-toggle__controls) {
-  padding: 0 !important;
+.button-start-button--compact .build-button {
+  width: 86px;
 }
 
 /* DROPDOWN PANEL */
