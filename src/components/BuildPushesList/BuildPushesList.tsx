@@ -66,7 +66,7 @@ export const BuildPushesList = ({ serviceContainerBuildPushes, componentId, cust
 
   return (
     <>
-      <Toolbar borderTop column>
+      <Toolbar column>
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering

@@ -106,7 +106,7 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
           </Attributes>
         </ContentBox>
 
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem>
             <Content>
               <Content component={ContentVariants.h2}>Usages</Content>

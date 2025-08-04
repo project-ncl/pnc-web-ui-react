@@ -134,7 +134,7 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
       </Toolbar>
 
       <div ref={graphDivRef} className="position-relative">
-        <Toolbar borderTop>
+        <Toolbar>
           <ToolbarItem>
             <SearchInput
               placeholder="Find Build"

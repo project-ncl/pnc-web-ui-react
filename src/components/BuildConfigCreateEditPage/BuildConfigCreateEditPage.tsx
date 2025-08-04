@@ -1024,7 +1024,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
           >
             <Grid hasGutter>
               <GridItem lg={12} xl2={6}>
-                <Toolbar borderBottom>
+                <Toolbar>
                   <ToolbarItem>
                     <Content component={ContentVariants.h2}>Add Build Config dependencies</Content>
                   </ToolbarItem>

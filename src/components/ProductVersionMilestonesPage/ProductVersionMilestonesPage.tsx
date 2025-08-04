@@ -44,7 +44,7 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem reservedWidth>
           <Content>
             <Content component={ContentVariants.h2}>Product Milestones</Content>

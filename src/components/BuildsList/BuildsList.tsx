@@ -79,7 +79,7 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
 
   return (
     <>
-      <Toolbar borderTop column>
+      <Toolbar column>
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering

@@ -60,7 +60,7 @@ export const DashboardPage = () => {
         </GridItem>
         <ProtectedComponent hide>
           <GridItem lg={12} xl2={6}>
-            <Toolbar borderBottom>
+            <Toolbar>
               <ToolbarItem>
                 <Content component={ContentVariants.h2}>My Builds</Content>
               </ToolbarItem>
@@ -69,7 +69,7 @@ export const DashboardPage = () => {
             <MyBuildsList />
           </GridItem>
           <GridItem lg={12} xl2={6}>
-            <Toolbar borderBottom>
+            <Toolbar>
               <ToolbarItem>
                 <Content component={ContentVariants.h2}>My Group Builds</Content>
               </ToolbarItem>
