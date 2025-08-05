@@ -65,7 +65,7 @@ export const ProductVersionReleasesList = ({
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerProductReleases} title={PageTitles.productReleases}>
           <Table isStriped variant="compact">
             <Thead>

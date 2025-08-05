@@ -524,7 +524,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   const formComponent = (
     <>
-      <ContentBox padding marginBottom>
+      <ContentBox padding marginBottom isResponsive>
         <Form
           onSubmit={(e) => {
             e.preventDefault();
@@ -693,7 +693,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </Form>
       </ContentBox>
 
-      <ContentBox padding marginBottom>
+      <ContentBox padding marginBottom isResponsive>
         <Form
           onSubmit={(e) => {
             e.preventDefault();
@@ -812,13 +812,13 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </Form>
       </ContentBox>
 
-      <ContentBox marginBottom background={false} shadow={false}>
+      <div className="m-b-global">
         <ExpandableSection
           title="Product Version"
           isExpanded={showProductVersionSection}
           onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
         >
-          <ContentBox padding>
+          <ContentBox padding isResponsive>
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -861,15 +861,15 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             </Form>
           </ContentBox>
         </ExpandableSection>
-      </ContentBox>
+      </div>
 
-      <ContentBox marginBottom background={false} shadow={false}>
+      <div className="m-b-global">
         <ExpandableSection
           title="Build parameters"
           isExpanded={showBuildParametersSection}
           onToggle={(isExpanded) => setShowBuildParametersSection(isExpanded)}
         >
-          <ContentBox padding>
+          <ContentBox padding isResponsive>
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -996,61 +996,59 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             </Form>
           </ContentBox>
         </ExpandableSection>
-      </ContentBox>
+      </div>
 
       {!isEditPage && (
-        <ContentBox background={false} shadow={false}>
-          <ExpandableSection
-            title="Dependencies"
-            isExpanded={showDependenciesSection}
-            onToggle={(isExpanded) => setShowDependenciesSection(isExpanded)}
-          >
-            <Grid hasGutter>
-              <GridItem lg={12} xl2={6}>
-                <Toolbar>
-                  <ToolbarItem>
-                    <PageSectionHeader title="Add Build Config dependencies" />
-                  </ToolbarItem>
-                </Toolbar>
-                <ConfigsAddList<BuildConfiguration>
-                  variant="Build"
-                  serviceContainerConfigs={serviceContainerProjectBuildConfigs}
-                  componentId={componentIdBuildConfigs}
-                  onConfigAdd={(buildConfig: BuildConfiguration) => {
-                    insertBuildConfigChange(buildConfig, 'add');
-                  }}
-                  addedConfigs={addedBuildConfigs}
-                />
-              </GridItem>
+        <ExpandableSection
+          title="Dependencies"
+          isExpanded={showDependenciesSection}
+          onToggle={(isExpanded) => setShowDependenciesSection(isExpanded)}
+        >
+          <Grid hasGutter>
+            <GridItem lg={12} xl2={6}>
+              <Toolbar>
+                <ToolbarItem>
+                  <PageSectionHeader title="Add Build Config dependencies" />
+                </ToolbarItem>
+              </Toolbar>
+              <ConfigsAddList<BuildConfiguration>
+                variant="Build"
+                serviceContainerConfigs={serviceContainerProjectBuildConfigs}
+                componentId={componentIdBuildConfigs}
+                onConfigAdd={(buildConfig: BuildConfiguration) => {
+                  insertBuildConfigChange(buildConfig, 'add');
+                }}
+                addedConfigs={addedBuildConfigs}
+              />
+            </GridItem>
 
-              <GridItem lg={12} xl2={6}>
-                <Toolbar>
-                  <ToolbarItem>
-                    <PageSectionHeader title="Dependencies to be added" />
-                  </ToolbarItem>
-                  <ToolbarItem>
-                    <Button
-                      variant="tertiary"
-                      onClick={() => {
-                        toggleCancelAllModal();
-                      }}
-                      isDisabled={!buildConfigChanges.length}
-                    >
-                      Cancel all
-                    </Button>
-                  </ToolbarItem>
-                </Toolbar>
-                <ConfigsChangesList<BuildConfiguration>
-                  variant="Build"
-                  configChanges={buildConfigChanges}
-                  onCancel={(buildConfig: BuildConfiguration) => {
-                    cancelBuildConfigChange(buildConfig);
-                  }}
-                />
-              </GridItem>
-            </Grid>
-          </ExpandableSection>
-        </ContentBox>
+            <GridItem lg={12} xl2={6}>
+              <Toolbar>
+                <ToolbarItem>
+                  <PageSectionHeader title="Dependencies to be added" />
+                </ToolbarItem>
+                <ToolbarItem>
+                  <Button
+                    variant="tertiary"
+                    onClick={() => {
+                      toggleCancelAllModal();
+                    }}
+                    isDisabled={!buildConfigChanges.length}
+                  >
+                    Cancel all
+                  </Button>
+                </ToolbarItem>
+              </Toolbar>
+              <ConfigsChangesList<BuildConfiguration>
+                variant="Build"
+                configChanges={buildConfigChanges}
+                onCancel={(buildConfig: BuildConfiguration) => {
+                  cancelBuildConfigChange(buildConfig);
+                }}
+              />
+            </GridItem>
+          </Grid>
+        </ExpandableSection>
       )}
 
       <Form>

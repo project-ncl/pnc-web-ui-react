@@ -103,7 +103,7 @@ export const BuildPushesList = ({ serviceContainerBuildPushes, componentId, cust
         </ToolbarGroup>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerBuildPushes} title={PageTitles.buildPushes}>
           <Table isStriped variant="compact">
             <Thead>

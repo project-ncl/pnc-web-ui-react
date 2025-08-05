@@ -79,9 +79,7 @@ export const PageWithSidebar = ({
             </DrawerActions>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox shadow={false} borderTop>
-          {sidebarContent}
-        </ContentBox>
+        <ContentBox>{sidebarContent}</ContentBox>
       </DrawerPanelBody>
     </DrawerPanelContent>
   );

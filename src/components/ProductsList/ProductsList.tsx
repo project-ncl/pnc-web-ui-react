@@ -52,7 +52,7 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerProducts} title={PageTitles.products}>
           <Table isStriped variant="compact">
             <Thead>

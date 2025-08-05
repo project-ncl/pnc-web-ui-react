@@ -1,3 +1,4 @@
+import { Card, CardBody, CardTitle } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { PropsWithChildren } from 'react';
 
@@ -6,21 +7,13 @@ import { BoxDescription, IDescription } from 'components/BoxDescription/BoxDescr
 import styles from './ContentBox.module.css';
 
 interface IContentBoxProps {
-  shadow?: boolean;
-  background?: boolean;
-  borderTop?: boolean;
-  borderBottom?: boolean;
+  title?: string;
+  description?: IDescription;
   padding?: boolean;
-  paddingTop?: boolean;
-  paddingBottom?: boolean;
-  paddingLeft?: boolean;
-  paddingRight?: boolean;
+  border?: boolean;
   marginTop?: boolean;
   marginBottom?: boolean;
-  title?: string;
   contentBoxHeight?: string;
-  contentHeight?: string;
-  description?: IDescription;
   isResponsive?: boolean;
 }
 
@@ -29,20 +22,12 @@ interface IContentBoxProps {
  *
  * @param children - Body content, for example tables
  * @param title - Section title, for example "Projects"
- * @param description - Section description containing brief page introduction and information about displayed entities
- * @param shadow - Whether to display shadow
- * @param background - Whether to display background
- * @param borderTop - Whether to display border on the top
- * @param borderBottom - Whether to display border on the bottom 
- * @param padding - Whether to set padding
- * @param paddingTop - Whether to set padding-top
- * @param paddingBottom - Whether to set padding-left
- * @param paddingLeft - Whether to set padding-left 
- * @param paddingRight - Whether to set padding-right 
- * @param marginTop - Whether to set margin-top
- * @param marginBottom - Whether to set margin-bottom
- * @param contentBoxHeight - Set height of the content box
- * @param contentHeight - Set height of the content
+ * @param description - Section description containing brief content introduction and information about displayed entities (displayed as tooltip icon)
+ * @param padding - Whether to set padding (inside border)
+ * @param border - Whether to display border around the box
+ * @param marginTop - Whether to set margin above the box (above border)
+ * @param marginBottom - Whether to set margin below the box (below border)
+ * @param contentBoxHeight - Set height of the content box (margin not included)
  * @param isResponsive - Whether the content should have responsive width over different sizes of screens, ideal for displaying attributes and forms, not suggested for table contents.
  * 
  * @example
@@ -60,81 +45,31 @@ export const ContentBox = ({
   children,
   title,
   description,
-  shadow = true,
-  background = true,
-  borderTop,
-  borderBottom,
   padding,
-  paddingTop,
-  paddingBottom,
-  paddingLeft,
-  paddingRight,
+  border = true,
   marginTop,
   marginBottom,
   contentBoxHeight,
-  contentHeight,
-  isResponsive = false,
+  isResponsive,
 }: PropsWithChildren<IContentBoxProps>) => {
-  const classList = [];
-
-  if (shadow) {
-    classList.push(styles['shadow-global']);
-  }
-
-  if (background) {
-    classList.push(styles['bg-w']);
-  }
-
-  if (borderTop) {
-    classList.push(styles['border-t-gray']);
-  }
-
-  if (borderBottom) {
-    classList.push(styles['border-b-gray']);
-  }
-
-  if (padding) {
-    classList.push('p-global');
-  }
-
-  if (paddingTop) {
-    classList.push('p-t-global');
-  }
-
-  if (paddingBottom) {
-    classList.push('p-b-global');
-  }
-
-  if (paddingLeft) {
-    classList.push('p-l-global');
-  }
-
-  if (paddingRight) {
-    classList.push('p-r-global');
-  }
-
-  if (marginTop) {
-    classList.push('m-t-25');
-  }
-
-  if (marginBottom) {
-    classList.push(styles['margin-bottom']);
-  }
-
   return (
-    <div className={classList.join(' ')} style={contentBoxHeight ? { height: contentBoxHeight } : undefined}>
+    <Card
+      isPlain={!border}
+      className={css(
+        styles['content-box'],
+        marginTop && 'm-t-global',
+        marginBottom && 'm-b-global',
+        isResponsive && styles['content-box--responsive-content']
+      )}
+      style={contentBoxHeight ? { height: contentBoxHeight } : undefined}
+    >
       {title && (
-        <div className="p-b-10">
+        <CardTitle>
           <strong>{title}</strong>
-        </div>
+        </CardTitle>
       )}
       {description && <BoxDescription description={description} />}
-      <div
-        style={contentHeight ? { height: contentHeight } : undefined}
-        className={css(isResponsive && styles['responsive-content'])}
-      >
-        {children}
-      </div>
-    </div>
+      {padding ? <CardBody>{children}</CardBody> : children}
+    </Card>
   );
 };

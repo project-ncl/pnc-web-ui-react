@@ -52,7 +52,7 @@ export const ProjectsList = ({ serviceContainerProjects, componentId }: IProject
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerProjects} title={PageTitles.projects}>
           <Table isStriped variant="compact">
             <Thead>

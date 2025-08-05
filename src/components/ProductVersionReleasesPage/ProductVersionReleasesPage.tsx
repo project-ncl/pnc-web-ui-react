@@ -6,7 +6,6 @@ import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryPa
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionReleasesList } from 'components/ProductVersionReleasesList/ProductVersionReleasesList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -54,9 +53,7 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>
-      <ContentBox borderTop>
-        <ProductVersionReleasesList {...{ serviceContainerProductReleases, componentId }} />
-      </ContentBox>
+      <ProductVersionReleasesList {...{ serviceContainerProductReleases, componentId }} />
     </>
   );
 };

@@ -112,78 +112,80 @@ export const BuildsList = ({ serviceContainerBuilds, columns = defaultColumns, c
         </ToolbarGroup>
       </Toolbar>
 
-      <ContentBox borderTop>
-        <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.builds}>
-          <Table isStriped variant="compact">
-            <Thead>
-              <Tr>
-                {columns.includes(buildEntityAttributes.status.id) && (
-                  <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
-                    {buildEntityAttributes.status.title}
-                  </Th>
-                )}
-                {columns.includes(buildEntityAttributes.id.id) && (
-                  <Th width={15}>
-                    {buildEntityAttributes.id.title} <TooltipWrapper tooltip={buildEntityAttributes.id.tooltip} />
-                  </Th>
-                )}
-                {columns.includes(buildEntityAttributes.name.id) && (
-                  <Th width={30}>
-                    {buildEntityAttributes.name.title} <TooltipWrapper tooltip={buildEntityAttributes.name.tooltip} />
-                  </Th>
-                )}
-                {columns.includes(buildEntityAttributes.submitTime.id) &&
-                  columns.includes(buildEntityAttributes.startTime.id) &&
-                  columns.includes(buildEntityAttributes.endTime.id) && (
-                    <Th width={25} className="overflow-visible">
-                      <SortGroup
-                        title="Times"
-                        sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
-                        isDropdownOpen={isSortDropdownOpen}
-                        onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                      />
+      <ContentBox>
+        <div>
+          <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.builds}>
+            <Table isStriped variant="compact">
+              <Thead>
+                <Tr>
+                  {columns.includes(buildEntityAttributes.status.id) && (
+                    <Th width={20} sort={getSortParams(sortOptions.sortAttributes.status.id)}>
+                      {buildEntityAttributes.status.title}
                     </Th>
                   )}
-                {columns.includes(buildEntityAttributes['user.username'].id) && (
-                  <Th width={10} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
-                    {buildEntityAttributes['user.username'].title}
-                  </Th>
-                )}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {serviceContainerBuilds.data?.content?.map((build, rowIndex) => (
-                <Tr key={rowIndex}>
-                  {columns.includes(buildEntityAttributes.status.id) && (
-                    <Td>
-                      <BuildStatusIcon build={build} long />
-                    </Td>
-                  )}
                   {columns.includes(buildEntityAttributes.id.id) && (
-                    <Td>
-                      <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
-                    </Td>
+                    <Th width={15}>
+                      {buildEntityAttributes.id.title} <TooltipWrapper tooltip={buildEntityAttributes.id.tooltip} />
+                    </Th>
                   )}
                   {columns.includes(buildEntityAttributes.name.id) && (
-                    <Td>
-                      <BuildName build={build} includeBuildLink includeConfigLink long />
-                    </Td>
+                    <Th width={30}>
+                      {buildEntityAttributes.name.title} <TooltipWrapper tooltip={buildEntityAttributes.name.tooltip} />
+                    </Th>
                   )}
                   {columns.includes(buildEntityAttributes.submitTime.id) &&
                     columns.includes(buildEntityAttributes.startTime.id) &&
                     columns.includes(buildEntityAttributes.endTime.id) && (
-                      <Td>
-                        <TimesList {...build} entityAttributes={buildEntityAttributes} isCompactMode={isCompactMode} />
-                      </Td>
+                      <Th width={25} className="overflow-visible">
+                        <SortGroup
+                          title="Times"
+                          sort={getSortGroupParams(sortOptions.sortAttributes['submitTime'].id!)}
+                          isDropdownOpen={isSortDropdownOpen}
+                          onDropdownToggle={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                        />
+                      </Th>
                     )}
                   {columns.includes(buildEntityAttributes['user.username'].id) && (
-                    <Td>{build.user?.username && <Username text={build.user.username} />}</Td>
+                    <Th width={10} sort={getSortParams(sortOptions.sortAttributes['user.username'].id)}>
+                      {buildEntityAttributes['user.username'].title}
+                    </Th>
                   )}
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </ServiceContainerLoading>
+              </Thead>
+              <Tbody>
+                {serviceContainerBuilds.data?.content?.map((build, rowIndex) => (
+                  <Tr key={rowIndex}>
+                    {columns.includes(buildEntityAttributes.status.id) && (
+                      <Td>
+                        <BuildStatusIcon build={build} long />
+                      </Td>
+                    )}
+                    {columns.includes(buildEntityAttributes.id.id) && (
+                      <Td>
+                        <Link to={`/builds/${build.id}`}>{`#${build.id}`}</Link>
+                      </Td>
+                    )}
+                    {columns.includes(buildEntityAttributes.name.id) && (
+                      <Td>
+                        <BuildName build={build} includeBuildLink includeConfigLink long />
+                      </Td>
+                    )}
+                    {columns.includes(buildEntityAttributes.submitTime.id) &&
+                      columns.includes(buildEntityAttributes.startTime.id) &&
+                      columns.includes(buildEntityAttributes.endTime.id) && (
+                        <Td>
+                          <TimesList {...build} entityAttributes={buildEntityAttributes} isCompactMode={isCompactMode} />
+                        </Td>
+                      )}
+                    {columns.includes(buildEntityAttributes['user.username'].id) && (
+                      <Td>{build.user?.username && <Username text={build.user.username} />}</Td>
+                    )}
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </ServiceContainerLoading>
+        </div>
       </ContentBox>
 
       <Pagination componentId={componentId} count={serviceContainerBuilds.data?.totalHits} />

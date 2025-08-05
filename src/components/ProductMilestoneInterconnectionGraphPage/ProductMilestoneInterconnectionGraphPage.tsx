@@ -180,7 +180,10 @@ export const ProductMilestoneInterconnectionGraphPage = ({
           </ToolbarItem>
         </Toolbar>
 
-        <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}>
+        <ContentBox
+          marginBottom={showSharedDeliveredArtifactsList}
+          contentBoxHeight={isFullscreen ? `calc(100vh - ${graphContentOffet}px)` : '60vh'}
+        >
           <ServiceContainerLoading {...serviceContainerInterconnectionGraph} title="Product Milestone Interconnection Graph">
             <ProductMilestoneInterconnectionGraph
               data={serviceContainerInterconnectionGraph.data!}

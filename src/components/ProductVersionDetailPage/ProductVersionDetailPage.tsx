@@ -298,7 +298,7 @@ export const ProductVersionDetailPage = () => {
             <PageSectionHeader title="Product Milestone Artifact Quality Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerArtifactQualityStatistics.data?.content)}>
+        <ContentBox contentBoxHeight={stackedBarChartHeight(serviceContainerArtifactQualityStatistics.data?.content)}>
           <ServiceContainerLoading
             {...serviceContainerArtifactQualityStatistics}
             hasSkeleton
@@ -323,7 +323,7 @@ export const ProductVersionDetailPage = () => {
             <PageSectionHeader title="Product Milestone Repository Type Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerRepositoryTypeStatistics.data?.content)}>
+        <ContentBox contentBoxHeight={stackedBarChartHeight(serviceContainerRepositoryTypeStatistics.data?.content)}>
           <ServiceContainerLoading
             {...serviceContainerRepositoryTypeStatistics}
             hasSkeleton

@@ -239,24 +239,20 @@ export const ProductMilestoneComparisonTable = ({
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading
           {...serviceContainerProductMilestoneComparisonTable}
           title={PageTitles.productMilestoneComparison}
           emptyContent={
             <>
               {emptyTable}
-              <ContentBox>
-                <StateCard icon={CubesIcon} title="No common Delivered Artifacts" />
-              </ContentBox>
+              <StateCard icon={CubesIcon} title="No common Delivered Artifacts" />
             </>
           }
           notYetContent={
             <>
               {emptyTable}
-              <ContentBox>
-                <StateCard icon={CubesIcon} title="Add columns and fetch data" />
-              </ContentBox>
+              <StateCard icon={CubesIcon} title="Add columns and fetch data" />
             </>
           }
         >

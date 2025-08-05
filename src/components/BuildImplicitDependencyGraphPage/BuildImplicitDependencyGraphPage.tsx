@@ -177,7 +177,10 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
           </ToolbarItem>
         </Toolbar>
 
-        <ContentBox marginBottom borderTop contentHeight={isFullscreen ? `calc(100vh - ${graphContentOffset}px)` : '60vh'}>
+        <ContentBox
+          marginBottom={showImplicitDependenciesList}
+          contentBoxHeight={isFullscreen ? `calc(100vh - ${graphContentOffset}px)` : '60vh'}
+        >
           <ServiceContainerLoading {...serviceContainerDependencyGraph} title="Implicit Dependency Graph">
             <BuildImplicitDependencyGraph
               data={serviceContainerDependencyGraph.data!}

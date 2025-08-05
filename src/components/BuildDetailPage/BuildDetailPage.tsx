@@ -342,7 +342,7 @@ export const BuildDetailPage = () => {
             <PageSectionHeader title={buildEntityAttributes.parameters.title} />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive>
+        <ContentBox padding isResponsive>
           <ServiceContainerLoading {...serviceContainerBuildConfigRev} title="Build Config Revision parameters">
             {serviceContainerBuildConfigRev.data?.parameters &&
             Object.keys(serviceContainerBuildConfigRev.data.parameters).length ? (
@@ -368,7 +368,7 @@ export const BuildDetailPage = () => {
             <PageSectionHeader title="Dependency Tree" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding>
+        <ContentBox padding>
           <DependencyTree
             rootBuild={serviceContainerBuild.data!}
             serviceContainerDependencyGraph={serviceContainerDependencyGraph}

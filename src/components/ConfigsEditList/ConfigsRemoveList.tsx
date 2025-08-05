@@ -133,7 +133,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
         </Toolbar>
       )}
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading
           {...serviceContainerConfigs}
           title={isBuildVariant ? PageTitles.buildConfigs : PageTitles.groupConfigs}

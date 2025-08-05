@@ -55,7 +55,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
           </ToolbarItem>
         </Toolbar>
 
-        <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
+        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 42px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.filename.title}>
               {serviceContainerArtifact.data?.filename}
@@ -86,7 +86,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
             <PageSectionHeader title="Checksums and Build" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
+        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 42px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.md5.title}>
               <CopyToClipboard isInline>{serviceContainerArtifact.data?.md5}</CopyToClipboard>
@@ -113,7 +113,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
             <PageSectionHeader title="Locations" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem
               title={artifactEntityAttributes.publicUrl.title}
@@ -153,7 +153,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
           </ToolbarItem>
         </Toolbar>
 
-        <ContentBox borderTop padding isResponsive>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes['targetRepository.identifier'].title}>
               {serviceContainerArtifact.data?.targetRepository?.identifier}

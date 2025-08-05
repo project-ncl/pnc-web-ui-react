@@ -77,7 +77,7 @@ export const BuildHistoryList = ({ serviceContainerBuilds, variant, componentId 
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.buildHistory}>
           <Table isStriped variant="compact">
             <Tbody>

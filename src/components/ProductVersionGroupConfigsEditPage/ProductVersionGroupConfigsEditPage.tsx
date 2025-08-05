@@ -19,7 +19,6 @@ import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmM
 import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
@@ -149,17 +148,15 @@ export const ProductVersionGroupConfigsEditPage = ({
               <PageSectionHeader title="Group Configs currently in the Version" />
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop>
-            <ConfigsRemoveList<GroupConfiguration>
-              variant="Group Build"
-              serviceContainerConfigs={serviceContainerProductVersionGroupConfigs}
-              componentId={componentIdProductVersionGroupConfigs}
-              onConfigRemove={(groupConfig: GroupConfiguration) => {
-                insertGroupConfigChange(groupConfig, 'remove');
-              }}
-              removedConfigs={removedGroupConfigs}
-            />
-          </ContentBox>
+          <ConfigsRemoveList<GroupConfiguration>
+            variant="Group Build"
+            serviceContainerConfigs={serviceContainerProductVersionGroupConfigs}
+            componentId={componentIdProductVersionGroupConfigs}
+            onConfigRemove={(groupConfig: GroupConfiguration) => {
+              insertGroupConfigChange(groupConfig, 'remove');
+            }}
+            removedConfigs={removedGroupConfigs}
+          />
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
@@ -175,18 +172,16 @@ export const ProductVersionGroupConfigsEditPage = ({
               />
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop>
-            <ConfigsAddList<GroupConfiguration>
-              variant="Group Build"
-              serviceContainerConfigs={serviceContainerGroupConfigs}
-              componentId={componentIdGroupConfigs}
-              onConfigAdd={(groupConfig: GroupConfiguration) => {
-                insertGroupConfigChange(groupConfig, 'add');
-              }}
-              addedConfigs={addedGroupConfigs}
-              productVersionToExclude={productVersionId!}
-            />
-          </ContentBox>
+          <ConfigsAddList<GroupConfiguration>
+            variant="Group Build"
+            serviceContainerConfigs={serviceContainerGroupConfigs}
+            componentId={componentIdGroupConfigs}
+            onConfigAdd={(groupConfig: GroupConfiguration) => {
+              insertGroupConfigChange(groupConfig, 'add');
+            }}
+            addedConfigs={addedGroupConfigs}
+            productVersionToExclude={productVersionId!}
+          />
         </GridItem>
 
         <GridItem span={12}>

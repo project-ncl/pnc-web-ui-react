@@ -20,6 +20,6 @@ interface IBoxDescriptionProps {
  */
 export const BoxDescription = ({ description }: IBoxDescriptionProps) => (
   <div className={styles['box-description']}>
-    <InfoTooltip tooltip={description} tooltipPosition="left-start" />
+    <InfoTooltip tooltip={description} />
   </div>
 );
