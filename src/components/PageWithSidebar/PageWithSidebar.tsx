@@ -64,7 +64,7 @@ export const PageWithSidebar = ({
 
   const panelContent = (
     <DrawerPanelContent isResizable widths={sidebarContentWidth}>
-      <DrawerPanelBody hasNoPadding>
+      <DrawerPanelBody hasNoPadding className="m-global">
         <Toolbar>
           <ToolbarItem>
             <PageSectionHeader title={sidebarTitle} />
@@ -79,7 +79,7 @@ export const PageWithSidebar = ({
             </DrawerActions>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox>{sidebarContent}</ContentBox>
+        {sidebarContent}
       </DrawerPanelBody>
     </DrawerPanelContent>
   );
