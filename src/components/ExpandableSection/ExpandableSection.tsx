@@ -1,5 +1,8 @@
 import { ExpandableSection as ExpandableSectionPF } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { PropsWithChildren } from 'react';
+
+import styles from './ExpandableSection.module.css';
 
 export interface IExpandableSectionProps {
   title: string;
@@ -17,7 +20,12 @@ export interface IExpandableSectionProps {
  * @param children - Section contents
  */
 export const ExpandableSection = ({ children, title, isExpanded, onToggle }: PropsWithChildren<IExpandableSectionProps>) => (
-  <ExpandableSectionPF toggleText={title} isExpanded={isExpanded} onToggle={(_, value) => onToggle(value)}>
+  <ExpandableSectionPF
+    toggleText={title}
+    isExpanded={isExpanded}
+    onToggle={(_, value) => onToggle(value)}
+    className={styles['expandable-section']}
+  >
     {children}
   </ExpandableSectionPF>
 );
