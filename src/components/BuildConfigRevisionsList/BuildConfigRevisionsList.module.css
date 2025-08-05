@@ -1,3 +1,7 @@
+.responsive-tab {
+  height: fit-content !important;
+}
+
 .responsive-tab ul {
   max-width: none !important;
 }
