@@ -19,5 +19,5 @@
 
 .no-data-text {
   text-align: center;
-  color: grey;
+  color: var(--c--gray--text);
 }
