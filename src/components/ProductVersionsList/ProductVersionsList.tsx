@@ -45,9 +45,9 @@ export const ProductVersionsList = ({ serviceContainerProductVersions, component
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerProductVersions} title={PageTitles.productVersions}>
-          <Table variant="compact">
+          <Table isStriped variant="compact">
             <Thead>
               <Tr>
                 <Th width={10}>{productVersionEntityAttributes.version.title}</Th>

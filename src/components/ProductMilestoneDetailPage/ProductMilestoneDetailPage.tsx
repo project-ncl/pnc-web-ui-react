@@ -181,7 +181,7 @@ export const ProductMilestoneDetailPage = () => {
             <PageSectionHeader title="Artifact Quality Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight="500px">
+        <ContentBox contentBoxHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
               data={dougnutChartArtifactQuality.data}
@@ -199,7 +199,7 @@ export const ProductMilestoneDetailPage = () => {
             <PageSectionHeader title="Repository Type Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight="500px">
+        <ContentBox contentBoxHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
               data={dougnutChartRepositoryType.data}

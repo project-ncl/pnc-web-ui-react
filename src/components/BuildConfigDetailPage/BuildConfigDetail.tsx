@@ -68,7 +68,7 @@ export const BuildConfigDetail = ({
               </ToolbarItem>
             )}
           </Toolbar>
-          <ContentBox padding borderTop isResponsive>
+          <ContentBox padding isResponsive>
             <Attributes>
               {isRevisionVariant && (
                 <AttributesItem title={buildConfigEntityAttributes.name.title}>
@@ -179,7 +179,7 @@ export const BuildConfigDetail = ({
               <PageSectionHeader title={buildConfigEntityAttributes.parameters.title} />
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop padding isResponsive>
+          <ContentBox padding isResponsive>
             {serviceContainerBuildConfig.data?.parameters && Object.keys(serviceContainerBuildConfig.data.parameters).length ? (
               <Attributes>
                 {Object.entries(serviceContainerBuildConfig.data.parameters).map(([parameterKey, parameter], index) => (

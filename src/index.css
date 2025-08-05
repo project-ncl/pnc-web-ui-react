@@ -152,11 +152,15 @@ code {
 }
 
 .m-global {
-  margin: var(--global-gutter);
+  margin: var(--global-gutter) !important;
+}
+
+.m-t-global {
+  margin-top: var(--global-gutter) !important;
 }
 
 .m-b-global {
-  margin-bottom: var(--global-gutter);
+  margin-bottom: var(--global-gutter) !important;
 }
 
 .b-radius-0 {
@@ -274,7 +278,15 @@ code {
  * table row highlight on hover 
  */
 .pf-v6-c-table tbody tr:hover {
-  background-color: #e9e9e9 !important;
+  background-color: var(--pf-t--global--background--color--secondary--hover) !important;
+}
+
+.pf-v6-c-table__tr {
+  position: static !important;
+}
+
+.pf-v6-c-table__expandable-row-content {
+  background: transparent !important;
 }
 
 /* ====================

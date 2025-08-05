@@ -30,7 +30,7 @@ export const ArtifactQualityRevisionsList = ({
 }: IArtifactQualityRevisionsListProps) => {
   return (
     <>
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerQualityRevisions} title={PageTitles.artifactQualityRevisions}>
           <Table isStriped variant="compact">
             <Thead>
