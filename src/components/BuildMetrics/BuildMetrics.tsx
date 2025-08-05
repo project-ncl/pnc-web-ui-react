@@ -472,49 +472,49 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   }, [buildMetrics, chartType, metricsTooltipList]);
 
   return (
-    <div style={{ minHeight: `${computedChartHeight}px` }}>
-      <ServiceContainerLoading {...serviceContainerBuildMetrics} title="Build Metrics">
-        <div className={styles['pnc-build-metrics']}>
-          <div className={styles['pnc-build-metrics-body']}>
-            <div className={styles['pnc-build-metrics-help']}>
-              <small>Select specific metric in the chart legend to filter it out:</small>
-            </div>
-            {metricsTooltipList.length > 0 && (
-              <div className={`${styles['pnc-build-metrics-help']} ${styles['pnc-build-metrics-help--right']}`}>
+    <ServiceContainerLoading {...serviceContainerBuildMetrics} title="Build Metrics">
+      <div className={styles['pnc-build-metrics']} style={{ minHeight: `${computedChartHeight}px` }}>
+        <div>
+          <div className={styles['pnc-build-metrics-help']}>
+            <small>Select specific metric in the chart legend to filter it out:</small>
+            <div>
+              {metricsTooltipList.length > 0 && (
                 <small>
-                  Metrics Descriptions &nbsp;
-                  <Popover
-                    aria-label="Basic popover"
-                    bodyContent={MetricsPopoverContent(metricsTooltipList)}
-                    showClose={false}
-                    enableFlip={false}
-                    position="left-start"
-                  >
-                    <InfoCircleIcon className={styles['pnc-build-metric__info-icon']} />
-                  </Popover>
+                  Metrics Descriptions{' '}
+                  <span className="pnc-info-icon">
+                    <Popover
+                      aria-label="Basic popover"
+                      bodyContent={MetricsPopoverContent(metricsTooltipList)}
+                      showClose={false}
+                      enableFlip={false}
+                      position="auto"
+                    >
+                      <InfoCircleIcon />
+                    </Popover>
+                  </span>
                 </small>
-              </div>
-            )}
-            <div className={styles['canvas-wrapper']}>
-              {buildMetrics && buildMetrics.builds && buildMetrics.buildMetricsData && <canvas id={componentId} ref={chartRef} />}
+              )}
             </div>
           </div>
-          {buildMetrics?.builds?.length && buildMetrics.builds.length > 1 && (
-            <div className={styles['pnc-build-metric-navigation']}>
-              <div className="pull-left"></div>
-              <div className="pull-right">
-                Display every&nbsp;
-                <Select
-                  isOpen={isSelectOpen}
-                  onToggle={onToggleSelect}
-                  value={selectedNavigation}
-                  onChange={onNavigationSelect}
-                  isToggleFullWidth={false}
-                  aria-labelledby={`${componentId}-select`}
-                >
-                  {navigationSelectOptions}
-                </Select>
-                &nbsp;build
+          <div className={styles['canvas-wrapper']}>
+            {buildMetrics && buildMetrics.builds && buildMetrics.buildMetricsData && <canvas id={componentId} ref={chartRef} />}
+          </div>
+        </div>
+        {buildMetrics?.builds?.length && buildMetrics.builds.length > 1 && (
+          <div className={styles['pnc-build-metric-navigation']}>
+            <div className="pull-right">
+              Display every{' '}
+              <Select
+                isOpen={isSelectOpen}
+                onToggle={onToggleSelect}
+                value={selectedNavigation}
+                onChange={onNavigationSelect}
+                isToggleFullWidth={false}
+                aria-labelledby={`${componentId}-select`}
+              >
+                {navigationSelectOptions}
+              </Select>{' '}
+              <span className="pnc-info-icon">
                 <Popover
                   aria-label="Basic popover"
                   bodyContent={`Always a maximum of ${BUILDS_DISPLAY_LIMIT} builds will be displayed if they are available, eg. if every ${BUILDS_DISPLAY_LIMIT_EXAMPLE}th build is displayed, ${BUILDS_DISPLAY_LIMIT} builds will cover last ${
@@ -523,17 +523,14 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
                   showClose={false}
                 >
                   <small>
-                    &nbsp;
-                    <span className={styles['pnc-build-metric-info-icon']}>
-                      <InfoCircleIcon />
-                    </span>
+                    <InfoCircleIcon />
                   </small>
                 </Popover>
-              </div>
+              </span>
             </div>
-          )}
-        </div>
-      </ServiceContainerLoading>
-    </div>
+          </div>
+        )}
+      </div>
+    </ServiceContainerLoading>
   );
 };
