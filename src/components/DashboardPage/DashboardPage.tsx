@@ -1,4 +1,5 @@
 import { Grid, GridItem } from '@patternfly/react-core';
+import { useTheme } from 'contexts/ThemeContext';
 import { useCallback, useMemo } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
@@ -33,12 +34,23 @@ import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
 
 import { refreshPage } from 'utils/refreshHelper';
+import { updateUrlQueryParamValue } from 'utils/urlParseHelper';
 import { debounce } from 'utils/utils';
 
 export const DashboardPage = () => {
-  const webConfig = webConfigService.getWebConfig();
-  const trafficLightsUrl = webConfig.grafana.trafficLightsUrl;
-  const statusMapUrl = webConfig.grafana.statusMapUrl;
+  const { resolvedThemeMode } = useTheme();
+
+  const webConfig = useMemo(() => webConfigService.getWebConfig(), []);
+
+  const trafficLightsUrl = useMemo(
+    () => updateUrlQueryParamValue(webConfig.grafana.trafficLightsUrl, 'theme', String(resolvedThemeMode)),
+    [webConfig, resolvedThemeMode]
+  );
+
+  const statusMapUrl = useMemo(
+    () => updateUrlQueryParamValue(webConfig.grafana.statusMapUrl, 'theme', String(resolvedThemeMode)),
+    [webConfig, resolvedThemeMode]
+  );
 
   useTitle('Dashboard');
 

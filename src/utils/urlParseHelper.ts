@@ -69,3 +69,9 @@ export const parseScmRepositoryUrl = ({ url }: IScmRepositoryUrl): IParsedUrl =>
 
   return { scmRepositoryUrl: url, webUrl, name };
 };
+
+export const updateUrlQueryParamValue = (url: string, queryParam: string, value: string) => {
+  const newUrl = new URL(url);
+  newUrl.searchParams.set(queryParam, value);
+  return newUrl.toString();
+};
