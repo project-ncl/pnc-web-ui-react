@@ -37,36 +37,34 @@ export const BuildConfigRevisionsList = ({
 
   return (
     <>
-      <ContentBox>
-        <ServiceContainerLoading {...serviceContainerBuildConfigRevisions} title={PageTitles.buildConfigRevision}>
-          <Tabs activeKey={selectedRevision} isVertical isSubtab className={styles['responsive-tab']}>
-            {serviceContainerBuildConfigRevisions.data?.content?.map((buildConfigRevision, rowIndex) => (
-              <Tab
-                eventKey={String(buildConfigRevision.rev)}
-                key={rowIndex}
-                onClick={() => {
-                  navigate(`/build-configs/${buildConfigRevision.id}/revisions/${buildConfigRevision.rev}${search}`);
-                }}
-                title={
-                  <TabTitleText>
-                    {!buildConfigRevision.modificationTime && <>Revision #{buildConfigRevision.rev}</>}
-                    {buildConfigRevision.modificationTime && <DateTime date={buildConfigRevision.modificationTime} displayTime />}
-                    {buildConfigRevision.modificationUser?.username && (
-                      <>
-                        {' '}
-                        by{' '}
-                        <b>
-                          <Username text={buildConfigRevision.modificationUser.username} />
-                        </b>
-                      </>
-                    )}
-                  </TabTitleText>
-                }
-              />
-            ))}
-          </Tabs>
-        </ServiceContainerLoading>
-      </ContentBox>
+      <ServiceContainerLoading {...serviceContainerBuildConfigRevisions} title={PageTitles.buildConfigRevision}>
+        <Tabs activeKey={selectedRevision} isVertical isSubtab className={styles['responsive-tab']}>
+          {serviceContainerBuildConfigRevisions.data?.content?.map((buildConfigRevision, rowIndex) => (
+            <Tab
+              eventKey={String(buildConfigRevision.rev)}
+              key={rowIndex}
+              onClick={() => {
+                navigate(`/build-configs/${buildConfigRevision.id}/revisions/${buildConfigRevision.rev}${search}`);
+              }}
+              title={
+                <TabTitleText>
+                  {!buildConfigRevision.modificationTime && <>Revision #{buildConfigRevision.rev}</>}
+                  {buildConfigRevision.modificationTime && <DateTime date={buildConfigRevision.modificationTime} displayTime />}
+                  {buildConfigRevision.modificationUser?.username && (
+                    <>
+                      {' '}
+                      by{' '}
+                      <b>
+                        <Username text={buildConfigRevision.modificationUser.username} />
+                      </b>
+                    </>
+                  )}
+                </TabTitleText>
+              }
+            />
+          ))}
+        </Tabs>
+      </ServiceContainerLoading>
 
       <Pagination
         componentId={componentId}
