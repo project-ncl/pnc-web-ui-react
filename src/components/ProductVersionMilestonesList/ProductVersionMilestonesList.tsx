@@ -80,7 +80,7 @@ export const ProductVersionMilestonesList = ({
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerProductMilestones} title={PageTitles.productMilestones}>
           <Table isStriped variant="compact">
             <Thead>

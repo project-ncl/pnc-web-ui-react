@@ -178,7 +178,7 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
         </Attributes>
       </ContentBox>
 
-      <ContentBox marginBottom>
+      <div className="m-b-global">
         <Toolbar>
           <ToolbarItem>
             <PageSectionHeader title={PageTitles.deliverableAnalysisLabelsHistory} />
@@ -188,7 +188,7 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
           serviceContainerLabelsHistory={serviceContainerLabelsHistory}
           componentId={componentId}
         />
-      </ContentBox>
+      </div>
 
       <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
     </ServiceContainerLoading>
@@ -222,9 +222,7 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
           <PageSectionHeader title="Logs" />
         </ToolbarItem>
       </Toolbar>
-      <ContentBox padding>
-        <LogViewer isStatic={deliverableAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
-      </ContentBox>
+      <LogViewer isStatic={deliverableAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
     </>
   );
 };

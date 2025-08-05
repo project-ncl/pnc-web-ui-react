@@ -120,7 +120,7 @@ export const AboutPage = () => {
         </Attributes>
       </ContentBox>
 
-      <ContentBox padding marginBottom isResponsive title="Other PNC related services versions (revisions)">
+      <ContentBox padding isResponsive title="Other PNC related services versions (revisions)">
         <Attributes>
           <AttributesItem
             title={

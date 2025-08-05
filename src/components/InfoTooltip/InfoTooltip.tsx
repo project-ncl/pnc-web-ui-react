@@ -14,7 +14,7 @@ interface IInfoTooltipProps {
   tooltipPosition?: PopoverProps['position'];
 }
 
-export const InfoTooltip = ({ tooltip, tooltipPosition }: IInfoTooltipProps) => (
+export const InfoTooltip = ({ tooltip, tooltipPosition = 'auto' }: IInfoTooltipProps) => (
   <>
     {isString(tooltip) ? (
       <TooltipWrapper tooltip={tooltip}>

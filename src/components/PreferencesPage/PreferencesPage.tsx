@@ -63,7 +63,7 @@ export const PreferencesPage = () => {
 
   return (
     <PageLayout title="Preferences" description="User preferences can be set here, including content and visual settings.">
-      <ContentBox padding marginBottom>
+      <ContentBox padding marginBottom isResponsive>
         <Form>
           <FormGroup
             label="Experimental content"
@@ -85,46 +85,44 @@ export const PreferencesPage = () => {
         </Form>
       </ContentBox>
 
-      <ContentBox marginBottom background={false} shadow={false}>
-        <ExpandableSection
-          title="Advanced"
-          isExpanded={showAdvanced || !!loggerLabel}
-          onToggle={(isExpanded) => setShowAdvanced(isExpanded)}
-        >
-          <ContentBox padding>
-            <Form>
-              {/** Core features like {@link useForm} need to be avoided */}
-              <FormGroup
-                label="Logger Label"
-                fieldId="logger-label"
-                labelHelp={<TooltipWrapper tooltip="For debugging purposes only, leave it empty by default." />}
-              >
-                <TextInput
-                  type="text"
-                  id="logger-label"
-                  name="logger-label"
-                  autoComplete="off"
-                  value={loggerLabel}
-                  validated={loggerLabelField.validated}
-                  onChange={(_, value) => updateLoggerLabelField(value)}
-                  onBlur={() => {
-                    if (loggerLabelField.changed) {
-                      window.location.reload();
-                    }
-                  }}
-                />
-                <FormInputHelperText variant="default" isHidden={!loggerLabel && !loggerLabelField.error}>
-                  Up to {LOGGER_LABEL_MAX} alphanumeric characters and dash symbol are allowed. It's recommended to use Jira
-                  number, such as <Label isCompact>NCL-1234</Label>
-                </FormInputHelperText>
-                <FormInputHelperText variant="error" isHidden={!loggerLabelField.error}>
-                  The attempt to enter invalid value was rejected.
-                </FormInputHelperText>
-              </FormGroup>
-            </Form>
-          </ContentBox>
-        </ExpandableSection>
-      </ContentBox>
+      <ExpandableSection
+        title="Advanced"
+        isExpanded={showAdvanced || !!loggerLabel}
+        onToggle={(isExpanded) => setShowAdvanced(isExpanded)}
+      >
+        <ContentBox padding isResponsive>
+          <Form>
+            {/** Core features like {@link useForm} need to be avoided */}
+            <FormGroup
+              label="Logger Label"
+              fieldId="logger-label"
+              labelHelp={<TooltipWrapper tooltip="For debugging purposes only, leave it empty by default." />}
+            >
+              <TextInput
+                type="text"
+                id="logger-label"
+                name="logger-label"
+                autoComplete="off"
+                value={loggerLabel}
+                validated={loggerLabelField.validated}
+                onChange={(_, value) => updateLoggerLabelField(value)}
+                onBlur={() => {
+                  if (loggerLabelField.changed) {
+                    window.location.reload();
+                  }
+                }}
+              />
+              <FormInputHelperText variant="default" isHidden={!loggerLabel && !loggerLabelField.error}>
+                Up to {LOGGER_LABEL_MAX} alphanumeric characters and dash symbol are allowed. It's recommended to use Jira number,
+                such as <Label isCompact>NCL-1234</Label>
+              </FormInputHelperText>
+              <FormInputHelperText variant="error" isHidden={!loggerLabelField.error}>
+                The attempt to enter invalid value was rejected.
+              </FormInputHelperText>
+            </FormGroup>
+          </Form>
+        </ContentBox>
+      </ExpandableSection>
     </PageLayout>
   );
 };

@@ -90,7 +90,7 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
         </ToolbarGroup>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerDeliverableAnalyses} title={PageTitles.deliverableAnalyses}>
           <Table isStriped variant="compact">
             <Thead>

@@ -5,7 +5,6 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { GroupConfigsList } from 'components/GroupConfigsList/GroupConfigsList';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
@@ -44,9 +43,7 @@ export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductV
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop shadow={false}>
-        <GroupConfigsList {...{ serviceContainerGroupConfigs, componentId }} />
-      </ContentBox>
+      <GroupConfigsList {...{ serviceContainerGroupConfigs, componentId }} />
     </>
   );
 };

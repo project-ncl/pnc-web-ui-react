@@ -171,7 +171,7 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
         </ToolbarGroup>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerArtifacts} title={PageTitles.artifacts}>
           <Table isExpandable isStriped variant="compact">
             <Thead>

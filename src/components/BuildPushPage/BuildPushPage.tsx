@@ -127,9 +127,7 @@ export const BuildPushPage = () => {
           <PageSectionHeader title="Logs" />
         </ToolbarItem>
       </Toolbar>
-      <ContentBox padding>
-        <LogViewer isStatic={serviceContainerBuildPushOperation?.data?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
-      </ContentBox>
+      <LogViewer isStatic={serviceContainerBuildPushOperation?.data?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
     </ServiceContainerLoading>
   );
 };

@@ -5,7 +5,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
@@ -33,26 +32,18 @@ export const BuildLogPage = () => {
   return (
     <>
       {!isBuilding && (
-        <ContentBox>
-          <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
-            <ContentBox padding>
-              <LogViewer
-                isStatic
-                data={logData}
-                customActions={[<BuildLogLink key="log-link" isIconVariant buildId={buildId!} />]}
-                heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
-                autofocusSearchBar
-              />
-            </ContentBox>
-          </ServiceContainerLoading>
-        </ContentBox>
+        <ServiceContainerLoading {...serviceContainerBuildLog} allowEmptyData title="Build Log">
+          <LogViewer
+            isStatic
+            data={logData}
+            customActions={[<BuildLogLink key="log-link" isIconVariant buildId={buildId!} />]}
+            heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
+            autofocusSearchBar
+          />
+        </ServiceContainerLoading>
       )}
 
-      {isBuilding && (
-        <ContentBox>
-          <EmptyStateCard title="Build Log" />
-        </ContentBox>
-      )}
+      {isBuilding && <EmptyStateCard title="Build Log" />}
     </>
   );
 };

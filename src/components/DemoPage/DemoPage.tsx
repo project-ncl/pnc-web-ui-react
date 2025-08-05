@@ -251,7 +251,7 @@ export const DemoPage = () => {
     <PageLayout title="Component Demo" description="Component demo page intended for showcasing React components.">
       <Flex direction={{ default: 'column' }}>
         <FlexItem>
-          <ContentBox title="SearchSelect" padding>
+          <ContentBox title="SearchSelect" padding marginBottom>
             <SearchSelect
               selectedValue={searchSelectValue}
               onSelect={(selection) => {
@@ -272,7 +272,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="DependencyTree - Build" padding>
+          <ContentBox title="DependencyTree - Build" padding marginBottom>
             <DependencyTree<Build>
               rootBuild={DEPENDENCY_TREE_ROOT_BUILD}
               serviceContainerDependencyGraph={serviceContainerDependencyGraph}
@@ -281,7 +281,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="DependencyTree - Group Build" padding>
+          <ContentBox title="DependencyTree - Group Build" padding marginBottom>
             <DependencyTree<GroupBuild>
               rootBuild={DEPENDENCY_TREE_ROOT_GROUP_BUILD}
               serviceContainerDependencyGraph={serviceContainerGroupDependencyGraph}
@@ -290,13 +290,13 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox padding>
+          <ContentBox padding marginBottom>
             <LogViewer data={buffer} />
           </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="Form Demo" padding isResponsive>
+          <ContentBox title="Form Demo" padding isResponsive marginBottom>
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -348,7 +348,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="BuildStatus" padding>
+          <ContentBox title="BuildStatus" padding marginBottom>
             <BuildStatus
               long
               build={{
@@ -421,7 +421,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="BuildStatusIcon" padding>
+          <ContentBox title="BuildStatusIcon" padding marginBottom>
             <BuildStatusIcon
               build={{
                 id: '0',
@@ -481,7 +481,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="BuildName" padding>
+          <ContentBox title="BuildName" padding marginBottom>
             <BuildName
               build={{
                 id: '0',
@@ -576,7 +576,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="ScmRepositoryLink" padding>
+          <ContentBox title="ScmRepositoryLink" padding marginBottom>
             <ScmRepositoryLink
               scmRepository={{
                 id: '101',
@@ -598,7 +598,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="ProductMilestoneReleaseLabel" padding>
+          <ContentBox title="ProductMilestoneReleaseLabel" padding marginBottom>
             <ProductMilestoneReleaseLabel
               productMilestoneRelease={{
                 id: '5',
@@ -634,7 +634,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="BuildMetrics" padding>
+          <ContentBox title="BuildMetrics" padding marginBottom>
             <BuildMetrics builds={buildRes} chartType="line" componentId="BMTEST1"></BuildMetrics>
             <br />
             <BuildMetrics builds={buildRes} chartType="horizontalBar" componentId="BMTEST2"></BuildMetrics>
@@ -642,7 +642,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="BuildStartButtonGroup" padding>
+          <ContentBox title="BuildStartButtonGroup" padding marginBottom>
             <BuildStartButton
               buildConfig={{
                 buildType: 'MVN',
@@ -665,7 +665,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="Attributes" padding>
+          <ContentBox title="Attributes" padding marginBottom>
             <Attributes>
               <AttributesItem title="Project URL">
                 <a href="demo" target="_blank" rel="noopener noreferrer">
@@ -683,7 +683,7 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="ActionButton" padding>
+          <ContentBox title="ActionButton" padding marginBottom>
             <ActionButton iconType="create" link="/projects">
               Button with create icon
             </ActionButton>
@@ -709,13 +709,13 @@ export const DemoPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="CopyToClipboard" padding>
+          <ContentBox title="CopyToClipboard" padding marginBottom>
             <CopyToClipboard>Test Copy Content</CopyToClipboard>
           </ContentBox>
         </FlexItem>
 
         <FlexItem>
-          <ContentBox title="ScmRepositoryUrl" padding>
+          <ContentBox title="ScmRepositoryUrl" padding marginBottom>
             <span>
               <ScmRepositoryUrl
                 internalScmRepository={{
