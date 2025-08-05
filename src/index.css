@@ -264,6 +264,8 @@ code {
   --c--disabled--text: var(--pf-t--global--text--color--disabled);
   --c--disabled--icon: var(--pf-t--global--icon--color--disabled);
 
+  --c--gray--text: var(--pf-t--global--text--color--subtle);
+
   --global-gutter: var(--pf-t--global--spacer--gutter--default); /* outside spacing, typically between boxes - margin, gap */
   --global-spacer: var(--pf-t--global--spacer--lg); /* inside spacing, typically inside boxes - padding */
   --global-spacer--md: var(--pf-t--global--spacer--md);
