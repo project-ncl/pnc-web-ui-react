@@ -272,6 +272,7 @@ code {
   --c--disabled--text: var(--pf-t--global--text--color--disabled);
   --c--disabled--icon: var(--pf-t--global--icon--color--disabled);
 
+  --c--regular--text: var(--pf-t--global--text--color--regular);
   --c--gray--text: var(--pf-t--global--text--color--subtle);
 
   --global-gutter: var(--pf-t--global--spacer--gutter--default); /* outside spacing, typically between boxes - margin, gap */

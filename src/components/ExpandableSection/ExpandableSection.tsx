@@ -1,5 +1,4 @@
 import { ExpandableSection as ExpandableSectionPF } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
 import { PropsWithChildren } from 'react';
 
 import styles from './ExpandableSection.module.css';
