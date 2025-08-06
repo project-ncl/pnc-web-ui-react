@@ -9,7 +9,7 @@ interface IBuildConfigCloneModalButtonProps {
 
 export const BuildConfigCloneModalButton = ({ toggleModal, variant }: IBuildConfigCloneModalButtonProps) => (
   <ProtectedComponent>
-    <Button variant={variant === 'list' ? 'secondary' : 'tertiary'} onClick={toggleModal} size="sm">
+    <Button variant={variant === 'list' ? 'plain' : 'secondary'} onClick={toggleModal} size="sm">
       Clone
     </Button>
   </ProtectedComponent>

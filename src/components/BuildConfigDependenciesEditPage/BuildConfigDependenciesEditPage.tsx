@@ -121,6 +121,7 @@ export const BuildConfigDependenciesEditPage = ({
           <Button
             key="submit-btn"
             variant="primary"
+            size="sm"
             onClick={() => {
               toggleSubmitModal();
             }}
@@ -189,6 +190,7 @@ export const BuildConfigDependenciesEditPage = ({
             <ToolbarItem>
               <Button
                 variant="tertiary"
+                size="sm"
                 onClick={() => {
                   toggleCancelAllModal();
                 }}

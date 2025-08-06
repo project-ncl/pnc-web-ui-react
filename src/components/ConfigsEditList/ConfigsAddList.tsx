@@ -145,7 +145,8 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
         <Toolbar>
           <ToolbarItem>
             <Button
-              variant="tertiary"
+              variant="secondary"
+              size="sm"
               onClick={() => {
                 checkedItems.forEach((checkedItem) => {
                   onConfigAdd(checkedItem);

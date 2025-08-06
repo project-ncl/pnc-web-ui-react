@@ -74,7 +74,9 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
         ]}
         actions={
           <ProtectedComponent>
-            <ActionButton link="edit">Edit SCM Repository</ActionButton>
+            <ActionButton variant="primary" link="edit">
+              Edit SCM Repository
+            </ActionButton>
           </ProtectedComponent>
         }
       >

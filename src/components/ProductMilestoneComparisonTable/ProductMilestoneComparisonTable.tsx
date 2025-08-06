@@ -118,7 +118,7 @@ export const ProductMilestoneComparisonTable = ({
                   }}
                   variant="plain"
                   icon={<TimesCircleIcon />}
-                  className="p-0"
+                  hasNoPadding
                   size="sm"
                   isInline
                 />
@@ -220,6 +220,7 @@ export const ProductMilestoneComparisonTable = ({
         <ToolbarItem>
           <TooltipWrapper tooltip={disabledFetchButtonReason}>
             <Button
+              variant="primary"
               onClick={() => {
                 serviceContainerProductMilestoneComparisonTableRunner({
                   serviceData: {

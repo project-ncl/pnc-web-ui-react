@@ -108,7 +108,9 @@ export const ProductVersionPages = () => {
         ]}
         actions={
           <ProtectedComponent>
-            <ActionButton link="edit">Edit Product Version</ActionButton>
+            <ActionButton variant="primary" link="edit">
+              Edit Product Version
+            </ActionButton>
           </ProtectedComponent>
         }
       >

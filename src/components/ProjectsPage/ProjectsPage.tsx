@@ -35,7 +35,9 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
       }
       actions={
         <ProtectedComponent>
-          <ActionButton link="create">Create Project</ActionButton>
+          <ActionButton variant="primary" link="create">
+            Create Project
+          </ActionButton>
         </ProtectedComponent>
       }
     >

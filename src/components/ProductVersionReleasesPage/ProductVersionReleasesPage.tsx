@@ -49,7 +49,9 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="create">Create Release</ActionButton>
+            <ActionButton variant="secondary" link="create">
+              Create Release
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>
