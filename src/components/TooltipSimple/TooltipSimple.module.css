@@ -1,4 +1,4 @@
 .tooltip-simple {
-  border-bottom: 1px dotted black;
+  border-bottom: 1px dotted var(--c--regular--text);
   cursor: help;
 }
