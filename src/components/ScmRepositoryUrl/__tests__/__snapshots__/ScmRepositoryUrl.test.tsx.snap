@@ -6,27 +6,27 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="pf-v5-l-split pf-m-gutter"
+        class="pf-v6-l-split pf-m-gutter"
       >
         <div
-          class="pf-v5-l-split__item pf-m-fill"
+          class="pf-v6-l-split__item pf-m-fill"
         >
           <div
-            class="pf-v5-c-clipboard-copy no-bg"
-            data-ouia-component-type="PF5/ClipboardCopy"
+            class="pf-v6-c-clipboard-copy no-bg"
+            data-ouia-component-type="PF6/ClipboardCopy"
             data-ouia-safe="true"
           >
             <div
-              class="pf-v5-c-clipboard-copy__group"
+              class="pf-v6-c-clipboard-copy__group"
             >
               <span
-                class="pf-v5-c-form-control pf-m-readonly"
+                class="pf-v6-c-form-control pf-m-readonly"
               >
                 <input
                   aria-invalid="false"
                   aria-label="Copyable input"
                   data-ouia-component-id="OUIA-Generated-TextInputBase-2"
-                  data-ouia-component-type="PF5/TextInput"
+                  data-ouia-component-type="PF6/TextInput"
                   data-ouia-safe="true"
                   id="text-input-1"
                   readonly=""
@@ -35,56 +35,58 @@ Object {
                 />
               </span>
               <button
-                aria-disabled="false"
                 aria-label="Copy"
                 aria-labelledby="copy-button-1 text-input-1"
-                class="pf-v5-c-button pf-m-control"
+                class="pf-v6-c-button pf-m-control"
                 data-ouia-component-id="OUIA-Generated-Button-control-2"
-                data-ouia-component-type="PF5/Button"
+                data-ouia-component-type="PF6/Button"
                 data-ouia-safe="true"
                 id="copy-button-1"
                 type="button"
               >
-                <svg
-                  aria-hidden="true"
-                  class="pf-v5-svg"
-                  fill="currentColor"
-                  height="1em"
-                  role="img"
-                  viewBox="0 0 448 512"
-                  width="1em"
+                <span
+                  class="pf-v6-c-button__icon"
                 >
-                  <path
-                    d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
-                  />
-                </svg>
+                  <svg
+                    aria-hidden="true"
+                    class="pf-v6-svg"
+                    fill="currentColor"
+                    height="1em"
+                    role="img"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                  >
+                    <path
+                      d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                    />
+                  </svg>
+                </span>
               </button>
             </div>
           </div>
         </div>
         <div
-          class="pf-v5-l-split__item"
+          class="pf-v6-l-split__item"
         >
           <div
             style="display: contents;"
           >
              
             <a
-              aria-disabled="false"
-              class="pf-v5-c-button pf-m-tertiary"
+              class="pf-v6-c-button pf-m-tertiary"
               data-ouia-component-id="OUIA-Generated-Button-tertiary-2"
-              data-ouia-component-type="PF5/Button"
+              data-ouia-component-type="PF6/Button"
               data-ouia-safe="true"
               href="https://test.env.com/testRepo/testUrlClipboardCopyGerrit.git"
               rel="noopener noreferrer"
               target="_blank"
             >
               <span
-                class="pf-v5-c-button__icon pf-m-start"
+                class="pf-v6-c-button__icon pf-m-start"
               >
                 <svg
                   aria-hidden="true"
-                  class="pf-v5-svg"
+                  class="pf-v6-svg"
                   fill="currentColor"
                   height="1em"
                   role="img"
@@ -96,7 +98,11 @@ Object {
                   />
                 </svg>
               </span>
-              test.env.com
+              <span
+                class="pf-v6-c-button__text"
+              >
+                test.env.com
+              </span>
             </a>
           </div>
         </div>
@@ -105,27 +111,27 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="pf-v5-l-split pf-m-gutter"
+      class="pf-v6-l-split pf-m-gutter"
     >
       <div
-        class="pf-v5-l-split__item pf-m-fill"
+        class="pf-v6-l-split__item pf-m-fill"
       >
         <div
-          class="pf-v5-c-clipboard-copy no-bg"
-          data-ouia-component-type="PF5/ClipboardCopy"
+          class="pf-v6-c-clipboard-copy no-bg"
+          data-ouia-component-type="PF6/ClipboardCopy"
           data-ouia-safe="true"
         >
           <div
-            class="pf-v5-c-clipboard-copy__group"
+            class="pf-v6-c-clipboard-copy__group"
           >
             <span
-              class="pf-v5-c-form-control pf-m-readonly"
+              class="pf-v6-c-form-control pf-m-readonly"
             >
               <input
                 aria-invalid="false"
                 aria-label="Copyable input"
                 data-ouia-component-id="OUIA-Generated-TextInputBase-2"
-                data-ouia-component-type="PF5/TextInput"
+                data-ouia-component-type="PF6/TextInput"
                 data-ouia-safe="true"
                 id="text-input-1"
                 readonly=""
@@ -134,56 +140,58 @@ Object {
               />
             </span>
             <button
-              aria-disabled="false"
               aria-label="Copy"
               aria-labelledby="copy-button-1 text-input-1"
-              class="pf-v5-c-button pf-m-control"
+              class="pf-v6-c-button pf-m-control"
               data-ouia-component-id="OUIA-Generated-Button-control-2"
-              data-ouia-component-type="PF5/Button"
+              data-ouia-component-type="PF6/Button"
               data-ouia-safe="true"
               id="copy-button-1"
               type="button"
             >
-              <svg
-                aria-hidden="true"
-                class="pf-v5-svg"
-                fill="currentColor"
-                height="1em"
-                role="img"
-                viewBox="0 0 448 512"
-                width="1em"
+              <span
+                class="pf-v6-c-button__icon"
               >
-                <path
-                  d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
-                />
-              </svg>
+                <svg
+                  aria-hidden="true"
+                  class="pf-v6-svg"
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                >
+                  <path
+                    d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                  />
+                </svg>
+              </span>
             </button>
           </div>
         </div>
       </div>
       <div
-        class="pf-v5-l-split__item"
+        class="pf-v6-l-split__item"
       >
         <div
           style="display: contents;"
         >
            
           <a
-            aria-disabled="false"
-            class="pf-v5-c-button pf-m-tertiary"
+            class="pf-v6-c-button pf-m-tertiary"
             data-ouia-component-id="OUIA-Generated-Button-tertiary-2"
-            data-ouia-component-type="PF5/Button"
+            data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             href="https://test.env.com/testRepo/testUrlClipboardCopyGerrit.git"
             rel="noopener noreferrer"
             target="_blank"
           >
             <span
-              class="pf-v5-c-button__icon pf-m-start"
+              class="pf-v6-c-button__icon pf-m-start"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
+                class="pf-v6-svg"
                 fill="currentColor"
                 height="1em"
                 role="img"
@@ -195,7 +203,11 @@ Object {
                 />
               </svg>
             </span>
-            test.env.com
+            <span
+              class="pf-v6-c-button__text"
+            >
+              test.env.com
+            </span>
           </a>
         </div>
       </div>
