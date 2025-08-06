@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
 
 import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
@@ -16,6 +16,7 @@ import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -177,12 +178,10 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Artifact Quality Distribution</Text>
-            </TextContent>
+            <PageSectionHeader title="Artifact Quality Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight="500px">
+        <ContentBox contentBoxHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
               data={dougnutChartArtifactQuality.data}
@@ -197,12 +196,10 @@ export const ProductMilestoneDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Repository Type Distribution</Text>
-            </TextContent>
+            <PageSectionHeader title="Repository Type Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight="500px">
+        <ContentBox contentBoxHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
               data={dougnutChartRepositoryType.data}

@@ -1,6 +1,3 @@
-/*
- * pnc-dependency-tree
- */
 .tree-item {
   display: flex;
   align-items: center;
@@ -19,5 +16,5 @@
 
 .no-data-text {
   text-align: center;
-  color: grey;
+  color: var(--c--gray--text);
 }

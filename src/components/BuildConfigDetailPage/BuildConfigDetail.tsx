@@ -1,5 +1,5 @@
-import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { CSSProperties, useState } from 'react';
+import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
+import { useState } from 'react';
 import { Link } from 'react-router';
 
 import { BuildConfiguration, BuildConfigurationRevision, ProductVersion } from 'pnc-api-types-ts';
@@ -16,6 +16,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
 import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLink';
@@ -25,10 +26,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { UpgradeEnvironmentModal } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModal';
 import { UpgradeEnvironmentModalButton } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModalButton';
 import { WarningLabel } from 'components/WarningLabel/WarningLabel';
-
-const tooltipLinkStyle: CSSProperties = {
-  color: '#55AAFF',
-};
 
 interface IBuildConfigDetailProps {
   serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration | BuildConfigurationRevision>;
@@ -59,9 +56,7 @@ export const BuildConfigDetail = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Details</Text>
-              </TextContent>
+              <PageSectionHeader title="Details" />
             </ToolbarItem>
             {isRevisionVariant && (
               <ToolbarItem alignRight>
@@ -69,7 +64,7 @@ export const BuildConfigDetail = ({
               </ToolbarItem>
             )}
           </Toolbar>
-          <ContentBox padding borderTop isResponsive>
+          <ContentBox padding isResponsive>
             <Attributes>
               {isRevisionVariant && (
                 <AttributesItem title={buildConfigEntityAttributes.name.title}>
@@ -177,12 +172,10 @@ export const BuildConfigDetail = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>{buildConfigEntityAttributes.parameters.title}</Text>
-              </TextContent>
+              <PageSectionHeader title={buildConfigEntityAttributes.parameters.title} />
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop padding isResponsive>
+          <ContentBox padding isResponsive>
             {serviceContainerBuildConfig.data?.parameters && Object.keys(serviceContainerBuildConfig.data.parameters).length ? (
               <Attributes>
                 {Object.entries(serviceContainerBuildConfig.data.parameters).map(([parameterKey, parameter], index) => (
@@ -194,7 +187,6 @@ export const BuildConfigDetail = ({
                         <>
                           See{' '}
                           <Link
-                            style={tooltipLinkStyle}
                             to="http://release-engineering.github.io/pom-manipulation-ext/#feature-guide"
                             target="_blank"
                             rel="noopener noreferrer"

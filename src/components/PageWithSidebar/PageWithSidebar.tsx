@@ -7,15 +7,12 @@ import {
   DrawerPanelBody,
   DrawerPanelContent,
   DrawerPanelContentProps,
-  Text,
-  TextContent,
-  TextVariants,
 } from '@patternfly/react-core';
 import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { useWindowSizeObserver } from 'hooks/useWindowSizeObserver';
 
-import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -66,12 +63,10 @@ export const PageWithSidebar = ({
 
   const panelContent = (
     <DrawerPanelContent isResizable widths={sidebarContentWidth}>
-      <DrawerPanelBody hasNoPadding>
+      <DrawerPanelBody hasNoPadding className="m-global">
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>{sidebarTitle}</Text>
-            </TextContent>
+            <PageSectionHeader title={sidebarTitle} />
           </ToolbarItem>
           <ToolbarItem alignRight>
             <DrawerActions>
@@ -83,9 +78,7 @@ export const PageWithSidebar = ({
             </DrawerActions>
           </ToolbarItem>
         </Toolbar>
-        <ContentBox shadow={false} borderTop>
-          {sidebarContent}
-        </ContentBox>
+        {sidebarContent}
       </DrawerPanelBody>
     </DrawerPanelContent>
   );

@@ -1,4 +1,4 @@
-import { Grid, GridItem, Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Grid, GridItem, Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
@@ -18,6 +18,7 @@ import { DateTime } from 'components/DateTime/DateTime';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { ArtifactQualityLabelMapper } from 'components/LabelMapper/ArtifactQualityLabelMapper';
 import { ArtifactRepositoryTypeLabelMapper } from 'components/LabelMapper/ArtifactRepositoryTypeLabelMapper';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -50,12 +51,11 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem xl={12} xl2={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Details</Text>
-            </TextContent>
+            <PageSectionHeader title="Details" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
+
+        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 42px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.filename.title}>
               {serviceContainerArtifact.data?.filename}
@@ -83,12 +83,10 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem xl={12} xl2={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Checksums and Build</Text>
-            </TextContent>
+            <PageSectionHeader title="Checksums and Build" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive contentBoxHeight={`calc(100% - 78px)`}>
+        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 42px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.md5.title}>
               <CopyToClipboard isInline>{serviceContainerArtifact.data?.md5}</CopyToClipboard>
@@ -112,12 +110,10 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Locations</Text>
-            </TextContent>
+            <PageSectionHeader title="Locations" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive>
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem
               title={artifactEntityAttributes.publicUrl.title}
@@ -153,12 +149,11 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Target Repository</Text>
-            </TextContent>
+            <PageSectionHeader title="Target Repository" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive>
+
+        <ContentBox padding isResponsive>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes['targetRepository.identifier'].title}>
               {serviceContainerArtifact.data?.targetRepository?.identifier}
@@ -181,11 +176,9 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
       </GridItem>
 
       <GridItem span={12}>
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Quality Revisions</Text>
-            </TextContent>
+            <PageSectionHeader title="Quality Revisions" />
           </ToolbarItem>
         </Toolbar>
 

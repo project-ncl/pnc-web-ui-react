@@ -1,0 +1,7 @@
+.app-logo {
+  filter: invert(1);
+}
+
+:global(.pf-v6-theme-dark) .app-logo {
+  filter: none;
+}

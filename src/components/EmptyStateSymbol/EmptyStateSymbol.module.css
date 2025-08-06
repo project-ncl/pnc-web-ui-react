@@ -1,5 +1,5 @@
 .value-empty {
-  color: grey;
+  color: var(--c--gray--text);
   font-style: italic;
   padding-right: 7px;
 }

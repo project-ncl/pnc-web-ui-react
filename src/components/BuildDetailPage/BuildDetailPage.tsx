@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockCode, Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 
@@ -24,6 +24,7 @@ import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { GroupBuildLink } from 'components/GroupBuildLink/GroupBuildLink';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -338,12 +339,10 @@ export const BuildDetailPage = () => {
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>{buildEntityAttributes.parameters.title}</Text>
-            </TextContent>
+            <PageSectionHeader title={buildEntityAttributes.parameters.title} />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding isResponsive>
+        <ContentBox padding isResponsive>
           <ServiceContainerLoading {...serviceContainerBuildConfigRev} title="Build Config Revision parameters">
             {serviceContainerBuildConfigRev.data?.parameters &&
             Object.keys(serviceContainerBuildConfigRev.data.parameters).length ? (
@@ -366,12 +365,10 @@ export const BuildDetailPage = () => {
       <GridItem span={12}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Dependency Tree</Text>
-            </TextContent>
+            <PageSectionHeader title="Dependency Tree" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop padding>
+        <ContentBox padding>
           <DependencyTree
             rootBuild={serviceContainerBuild.data!}
             serviceContainerDependencyGraph={serviceContainerDependencyGraph}

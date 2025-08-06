@@ -49,11 +49,11 @@ export const ScmRepositoriesList = ({ serviceContainerScmRepositories, component
           <Filtering
             filterOptions={useMemo(() => getFilterOptions({ entityAttributes: scmRepositoryEntityAttributes }), [])}
             componentId={componentId}
-          />{' '}
+          />
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerScmRepositories} title={PageTitles.scmRepositories}>
           <Table variant="compact" isStriped>
             <Thead>

@@ -6,7 +6,6 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { AlignmentLogLink } from 'components/AlignmentLogLink/AlignmentLogLink';
 import { LOG_VIEWER_HEIGHT_OFFSET } from 'components/BuildLogPage/BuildLogPage';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { EmptyStateCard } from 'components/StateCard/EmptyStateCard';
@@ -32,26 +31,18 @@ export const BuildAlignmentLogPage = () => {
   return (
     <>
       {!isBuilding && (
-        <ContentBox>
-          <ServiceContainerLoading {...serviceContainerAlignmentLog} allowEmptyData title="Alignment Log">
-            <ContentBox padding>
-              <LogViewer
-                isStatic
-                data={logData}
-                customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} isIconVariant />]}
-                heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
-                autofocusSearchBar
-              />
-            </ContentBox>
-          </ServiceContainerLoading>
-        </ContentBox>
+        <ServiceContainerLoading {...serviceContainerAlignmentLog} allowEmptyData title="Alignment Log">
+          <LogViewer
+            isStatic
+            data={logData}
+            customActions={[<AlignmentLogLink key="alignment-log-link" buildId={buildId!} isIconVariant />]}
+            heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
+            autofocusSearchBar
+          />
+        </ServiceContainerLoading>
       )}
 
-      {isBuilding && (
-        <ContentBox>
-          <EmptyStateCard title="Alignment Log" />
-        </ContentBox>
-      )}
+      {isBuilding && <EmptyStateCard title="Alignment Log" />}
     </>
   );
 };

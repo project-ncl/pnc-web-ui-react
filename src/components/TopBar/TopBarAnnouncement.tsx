@@ -1,6 +1,6 @@
 import { ExclamationTriangleIcon, InfoCircleIcon } from '@patternfly/react-icons';
 
-import { TOPBAR_TYPE, TopBar } from 'components/TopBar/TopBar';
+import { TopBar } from 'components/TopBar/TopBar';
 
 interface ITopBarAnnouncementProps {
   id?: string;
@@ -18,7 +18,7 @@ export const TopBarAnnouncement = ({ id, banner, isMaintenanceMode, eta, hideClo
   return (
     <TopBar
       id={id}
-      type={isMaintenanceMode ? TOPBAR_TYPE.Warning : TOPBAR_TYPE.Info}
+      type={isMaintenanceMode ? 'warning' : 'info'}
       icon={isMaintenanceMode ? <ExclamationTriangleIcon /> : <InfoCircleIcon />}
       hideCloseButton={hideCloseButton}
     >

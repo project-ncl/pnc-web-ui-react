@@ -118,7 +118,7 @@ export const ProductMilestoneComparisonTable = ({
                   }}
                   variant="plain"
                   icon={<TimesCircleIcon />}
-                  className="p-0"
+                  hasNoPadding
                   size="sm"
                   isInline
                 />
@@ -220,6 +220,7 @@ export const ProductMilestoneComparisonTable = ({
         <ToolbarItem>
           <TooltipWrapper tooltip={disabledFetchButtonReason}>
             <Button
+              variant="primary"
               onClick={() => {
                 serviceContainerProductMilestoneComparisonTableRunner({
                   serviceData: {
@@ -239,24 +240,20 @@ export const ProductMilestoneComparisonTable = ({
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading
           {...serviceContainerProductMilestoneComparisonTable}
           title={PageTitles.productMilestoneComparison}
           emptyContent={
             <>
               {emptyTable}
-              <ContentBox>
-                <StateCard icon={CubesIcon} title="No common Delivered Artifacts" />
-              </ContentBox>
+              <StateCard icon={CubesIcon} title="No common Delivered Artifacts" />
             </>
           }
           notYetContent={
             <>
               {emptyTable}
-              <ContentBox>
-                <StateCard icon={CubesIcon} title="Add columns and fetch data" />
-              </ContentBox>
+              <StateCard icon={CubesIcon} title="Add columns and fetch data" />
             </>
           }
         >

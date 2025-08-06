@@ -52,7 +52,7 @@ export const GroupConfigsList = ({ serviceContainerGroupConfigs, componentId }: 
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerGroupConfigs} title={PageTitles.groupConfigs}>
           <Table isStriped variant="compact">
             <Thead>

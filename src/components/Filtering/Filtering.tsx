@@ -1,4 +1,4 @@
-import { Button, Chip, ChipGroup, InputGroup, InputGroupItem, TextInput } from '@patternfly/react-core';
+import { Button, InputGroup, InputGroupItem, Label, LabelGroup, TextInput } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -280,20 +280,20 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
         <div className={styles['applied-filters']}>
           {/* FILTER CHIPS */}
           {Object.keys(appliedFilters).map((filterAttributeKey) => (
-            <ChipGroup
+            <LabelGroup
               className={styles['chip-group']}
               key={filterAttributeKey}
               categoryName={filterOptions.filterAttributes[filterAttributeKey].title}
             >
               {appliedFilters[filterAttributeKey].values.map((filterValueItem, i) => (
                 <span key={filterValueItem}>
-                  <Chip
-                    onClick={() => {
+                  <Label
+                    onClose={() => {
                       removeFilter(filterAttributeKey, filterValueItem);
                     }}
                   >
                     {generateChipTitle(filterOptions.filterAttributes[filterAttributeKey], filterValueItem)}
-                  </Chip>
+                  </Label>
                   {i + 1 !== appliedFilters[filterAttributeKey].values.length && (
                     <span className={css('p-l-5', styles['chip-group-separator'])}>
                       {appliedFilters[filterAttributeKey].logicalOperator}
@@ -301,7 +301,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
                   )}
                 </span>
               ))}
-            </ChipGroup>
+            </LabelGroup>
           ))}
 
           {/* CLEAR ALL */}
@@ -311,6 +311,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
                 removeAllFilters();
               }}
               variant="link"
+              size="sm"
             >
               Clear all filters
             </Button>

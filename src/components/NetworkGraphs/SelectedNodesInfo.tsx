@@ -13,10 +13,16 @@ interface ISelectedNodesInfoProps {
 export const SelectedNodesInfo = ({ selectedNodesCount, unselectAllNodes }: ISelectedNodesInfoProps) => (
   <div className={styles['selected-nodes-info']}>
     {`${selectedNodesCount} node${selectedNodesCount !== 1 ? 's' : ''} selected`}
-    <Button variant="plain" onClick={unselectAllNodes} className={styles['unselect-nodes-button']}>
-      <TooltipWrapper tooltip="Unselect all nodes.">
-        <TimesIcon />
-      </TooltipWrapper>
-    </Button>
+    <Button
+      variant="plain"
+      hasNoPadding
+      onClick={unselectAllNodes}
+      className={styles['unselect-nodes-button']}
+      icon={
+        <TooltipWrapper tooltip="Unselect all nodes.">
+          <TimesIcon />
+        </TooltipWrapper>
+      }
+    />
   </div>
 );

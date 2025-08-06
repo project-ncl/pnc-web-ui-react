@@ -39,9 +39,10 @@ export const FullscreenButton = ({
       variant={isPlain ? 'plain' : 'primary'}
       className={css(position === 'bottom-left' && styles['fullscreen-button--bottom-left-position'])}
       onClick={() => toggleFullScreen(containerRef)}
-      style={isPlain ? { padding: 0 } : undefined}
+      size={isPlain ? 'sm' : 'default'}
+      icon={isFullscreen ? <CompressIcon /> : <ExpandArrowsAltIcon />}
     >
-      {isFullscreen ? <CompressIcon /> : <ExpandArrowsAltIcon />} {hasTitle && (isFullscreen ? 'Collapse' : 'Expand')}
+      {hasTitle && (isFullscreen ? 'Collapse' : 'Expand')}
     </Button>
   );
 };

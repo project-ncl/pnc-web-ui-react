@@ -10,7 +10,7 @@ export const BuildMetricsPage = ({ componentId = 'm1' }: IBuildMetricsPageProps)
   const { serviceContainerBuild } = useServiceContainerBuild();
 
   return (
-    <ContentBox padding>
+    <ContentBox>
       <BuildMetrics builds={[serviceContainerBuild.data!]} chartType="horizontalBar" componentId={componentId} />
     </ContentBox>
   );

@@ -1,6 +1,6 @@
 :root {
-  --mock-color: #c9190b;
-  --experimental-color: #c58c00;
+  --mock-color: var(--pf-t--color--red--50);
+  --experimental-color: var(--pf-t--color--orange--50);
 }
 
 .mock-data.box-content {

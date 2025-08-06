@@ -142,10 +142,11 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
       </Toolbar>
 
       {!!serviceContainerConfigs.data?.content?.length && (
-        <Toolbar disablePaddingTop>
+        <Toolbar>
           <ToolbarItem>
             <Button
-              variant="tertiary"
+              variant="secondary"
+              size="sm"
               onClick={() => {
                 checkedItems.forEach((checkedItem) => {
                   onConfigAdd(checkedItem);
@@ -165,7 +166,7 @@ export const ConfigsAddList = <T extends BuildConfiguration | GroupConfiguration
         </Toolbar>
       )}
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading
           {...serviceContainerConfigs}
           title={isBuildVariant ? PageTitles.buildConfigs : PageTitles.groupConfigs}

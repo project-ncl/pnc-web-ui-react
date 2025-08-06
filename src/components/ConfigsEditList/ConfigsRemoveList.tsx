@@ -110,7 +110,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
       </Toolbar>
 
       {!!serviceContainerConfigs.data?.content?.length && (
-        <Toolbar disablePaddingTop>
+        <Toolbar>
           <ToolbarItem>
             <Button
               variant="tertiary"
@@ -121,6 +121,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
                 });
               }}
               isDisabled={!checkedItems.length}
+              size="sm"
             >
               Remove selected
             </Button>
@@ -133,7 +134,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
         </Toolbar>
       )}
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading
           {...serviceContainerConfigs}
           title={isBuildVariant ? PageTitles.buildConfigs : PageTitles.groupConfigs}

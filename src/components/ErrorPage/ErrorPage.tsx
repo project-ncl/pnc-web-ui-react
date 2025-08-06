@@ -21,7 +21,7 @@ export const ErrorPage = ({ pageTitle, errorDescription }: IErrorPageProps) => {
         icon={CubesIcon}
       >
         <div>{errorDescription}</div>
-        <Link className="m-t-15 pf-v5-c-button pf-m-primary" to="/">
+        <Link className="m-t-15 pf-v6-c-button pf-m-primary" to="/">
           Return to Dashboard
         </Link>
       </StateCard>

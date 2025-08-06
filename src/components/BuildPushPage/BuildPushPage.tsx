@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { buildPushOperationEntityAttributes } from 'common/buildPushOperationEntityAttributes';
@@ -21,6 +20,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { OperationProgressStatusLabelMapper } from 'components/LabelMapper/OperationProgressStatusLabelMapper';
 import { OperationResultLabelMapper } from 'components/LabelMapper/OperationResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -122,16 +122,12 @@ export const BuildPushPage = () => {
         </Attributes>
       </ContentBox>
 
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Logs</Text>
-          </TextContent>
+          <PageSectionHeader title="Logs" />
         </ToolbarItem>
       </Toolbar>
-      <ContentBox padding>
-        <LogViewer isStatic={serviceContainerBuildPushOperation?.data?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
-      </ContentBox>
+      <LogViewer isStatic={serviceContainerBuildPushOperation?.data?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
     </ServiceContainerLoading>
   );
 };

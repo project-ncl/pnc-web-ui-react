@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -8,6 +7,7 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { BuildsList } from 'components/BuildsList/BuildsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -48,16 +48,16 @@ export const ArtifactUsagesPage = ({ componentId = 'b1' }: IArtifactUsagesPagePr
   );
 
   return (
-    <>
-      <Toolbar borderBottom>
+    <div>
+      <Toolbar>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Usages</Text>
-            <Text>This list shows in which Builds this Artifact was used as dependency.</Text>
-          </TextContent>
+          <PageSectionHeader
+            title="Usages"
+            description={<>This list shows in which Builds this Artifact was used as dependency.</>}
+          />
         </ToolbarItem>
       </Toolbar>
       <BuildsList {...{ serviceContainerBuilds, componentId }} />{' '}
-    </>
+    </div>
   );
 };

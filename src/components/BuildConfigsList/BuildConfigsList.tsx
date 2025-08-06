@@ -102,7 +102,7 @@ export const BuildConfigsList = ({
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerBuildConfigs} title={PageTitles.buildConfigs}>
           <Table isStriped variant="compact">
             <Thead>

@@ -1,6 +1,6 @@
 .card-title {
   text-align: center;
-  font-size: var(--pf-v5-global--FontSize--lg);
-  color: #757575;
+  font-size: var(--pf-t--global--font--size--lg);
+  color: var(--c--gray--text);
   padding: 10px;
 }

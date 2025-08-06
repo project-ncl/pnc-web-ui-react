@@ -57,7 +57,7 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
         <FormGroup
           label={productMilestoneCloseRequestEntityAttributes.skipBrewPush.title}
           fieldId={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
-          labelIcon={<TooltipWrapper tooltip={productMilestoneCloseRequestEntityAttributes.skipBrewPush.tooltip} />}
+          labelHelp={<TooltipWrapper tooltip={productMilestoneCloseRequestEntityAttributes.skipBrewPush.tooltip} />}
         >
           <FormInput<boolean>
             {...register<boolean>(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id, fieldConfigs.skipBrewPush)}
@@ -66,7 +66,6 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
                 id={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
                 name={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
                 label="Enabled"
-                labelOff="Disabled"
                 isChecked={value}
                 {...rest}
               />

@@ -1,4 +1,4 @@
-import { Switch, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Switch } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
@@ -9,6 +9,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { BuildPushesList } from 'components/BuildPushesList/BuildPushesList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -62,13 +63,15 @@ export const ProductMilestoneBuildPushesPage = ({ componentId = 'bp1' }: IProduc
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Build Pushes</Text>
-            <Text>
-              This list contains Build Pushes for each Build in the Milestone. This includes Pushes done during Milestone close
-              and Pushes done outside the close.
-            </Text>
-          </TextContent>
+          <PageSectionHeader
+            title="Build Pushes"
+            description={
+              <>
+                This list contains Build Pushes for each Build in the Milestone. This includes Pushes done during Milestone close
+                and Pushes done outside the close.
+              </>
+            }
+          />
         </ToolbarItem>
       </Toolbar>
       <BuildPushesList

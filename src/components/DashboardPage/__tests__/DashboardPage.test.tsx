@@ -7,6 +7,7 @@ jest.mock('services/webConfigService');
 jest.mock('services/keycloakService');
 jest.mock('services/userService');
 jest.mock('services/buildApi');
+jest.mock('contexts/ThemeContext');
 
 test('renders DashboardPage', () => {
   render(

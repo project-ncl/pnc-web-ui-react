@@ -1,9 +1,11 @@
-import { Divider, PageBreadcrumb, PageSection, PageSectionVariants, Switch, Text, TextContent } from '@patternfly/react-core';
-import { css } from '@patternfly/react-styles';
+import { Divider, PageBreadcrumb, PageSection, Switch } from '@patternfly/react-core';
 import React, { useState } from 'react';
 
 import { Breadcrumb, IBreadcrumbData } from 'components/Breadcrumb/Breadcrumb';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { PageWithSidebar } from 'components/PageWithSidebar/PageWithSidebar';
+
+import styles from './PageLayout.module.css';
 
 interface IAppLayoutProps {
   title: React.ReactNode;
@@ -52,34 +54,35 @@ export const PageLayout = ({
   const pageContent = (
     <>
       {breadcrumbs && (
-        <PageBreadcrumb>
+        <PageBreadcrumb hasBodyWrapper={false}>
           <Breadcrumb pageBreadcrumbs={breadcrumbs} />
         </PageBreadcrumb>
       )}
-      <PageSection variant={PageSectionVariants.light}>
-        <TextContent className={css((actions || sidebar) && 'pull-left m-b-15')}>
-          <Text component="h1">{title}</Text>
-          <Text component="p">{description}</Text>
-        </TextContent>
-        {(actions || sidebar) && (
-          <div className="pull-right display-flex align-items-center gap-10">
-            {actions}
-            {sidebar && (
-              <Switch
-                label={sidebar.title}
-                isChecked={isSidebarExpanded}
-                onChange={() => setIsSidebarExpanded((isExpanded) => !isExpanded)}
-              />
-            )}
-          </div>
-        )}
+      <PageSection hasBodyWrapper={false}>
+        <div className={styles['page-layout__title-section']}>
+          <PageSectionHeader title={title} description={description} />
+          {(actions || sidebar) && (
+            <div className={styles['page-layout__actions']}>
+              {actions}
+              {sidebar && (
+                <Switch
+                  label={sidebar.title}
+                  isChecked={isSidebarExpanded}
+                  onChange={() => setIsSidebarExpanded((isExpanded) => !isExpanded)}
+                />
+              )}
+            </div>
+          )}
+        </div>
       </PageSection>
 
       {tabs}
 
       <Divider component="div" />
 
-      <PageSection>{children}</PageSection>
+      <PageSection hasBodyWrapper={false}>
+        <div>{children}</div>
+      </PageSection>
     </>
   );
 

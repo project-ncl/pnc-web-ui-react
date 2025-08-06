@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -15,6 +14,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -74,7 +74,9 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
         ]}
         actions={
           <ProtectedComponent>
-            <ActionButton link="edit">Edit SCM Repository</ActionButton>
+            <ActionButton variant="primary" link="edit">
+              Edit SCM Repository
+            </ActionButton>
           </ProtectedComponent>
         }
       >
@@ -106,12 +108,12 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
           </Attributes>
         </ContentBox>
 
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Usages</Text>
-            </TextContent>
-            <Text>This list shows in which Build Configs this SCM Repository is used.</Text>
+            <PageSectionHeader
+              title="Usages"
+              description={<>This list shows in which Build Configs this SCM Repository is used.</>}
+            />
           </ToolbarItem>
         </Toolbar>
 

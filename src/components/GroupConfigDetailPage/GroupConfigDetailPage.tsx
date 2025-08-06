@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { GroupBuild } from 'pnc-api-types-ts';
@@ -22,6 +21,7 @@ import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
 import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -136,7 +136,7 @@ export const GroupConfigDetailPage = ({
             <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />
           </ProtectedComponent>,
           <ProtectedComponent key="edit-group-config-button">
-            <ActionButton variant="tertiary" link="edit">
+            <ActionButton variant="primary" link="edit">
               Edit Group Config
             </ActionButton>
           </ProtectedComponent>,
@@ -171,15 +171,15 @@ export const GroupConfigDetailPage = ({
           </Attributes>
         </ContentBox>
 
-        <Toolbar borderBottom>
+        <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Build Configs</Text>
-            </TextContent>
+            <PageSectionHeader title="Build Configs" />
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>
-              <ActionButton link="build-configs/edit">Edit list</ActionButton>
+              <ActionButton variant="secondary" link="build-configs/edit">
+                Edit list
+              </ActionButton>
             </ProtectedComponent>
           </ToolbarItem>
         </Toolbar>

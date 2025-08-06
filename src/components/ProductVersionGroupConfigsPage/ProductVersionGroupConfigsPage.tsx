@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -6,8 +5,8 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { GroupConfigsList } from 'components/GroupConfigsList/GroupConfigsList';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -35,20 +34,18 @@ export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductV
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Group Configs</Text>
-          </TextContent>
+          <PageSectionHeader title="Group Configs" />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="edit">Edit list</ActionButton>
+            <ActionButton variant="secondary" link="edit">
+              Edit list
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop shadow={false}>
-        <GroupConfigsList {...{ serviceContainerGroupConfigs, componentId }} />
-      </ContentBox>
+      <GroupConfigsList {...{ serviceContainerGroupConfigs, componentId }} />
     </>
   );
 };

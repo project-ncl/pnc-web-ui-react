@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -20,6 +20,7 @@ import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -121,6 +122,7 @@ export const GroupConfigBuildConfigsEditPage = ({
           <Button
             key="submit-btn"
             variant="primary"
+            size="sm"
             onClick={() => {
               toggleSubmitModal();
             }}
@@ -133,11 +135,9 @@ export const GroupConfigBuildConfigsEditPage = ({
     >
       <Grid hasGutter>
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Build Configs currently in the Group Config</Text>
-              </TextContent>
+              <PageSectionHeader title="Build Configs currently in the Group Config" />
             </ToolbarItem>
           </Toolbar>
 
@@ -153,14 +153,16 @@ export const GroupConfigBuildConfigsEditPage = ({
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>
-                  Add new Build Configs{' '}
-                  <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Group Config are displayed since Build Configs can belong to multiple Group Configs." />
-                </Text>
-              </TextContent>
+              <PageSectionHeader
+                title={
+                  <>
+                    Add new Build Configs{' '}
+                    <TooltipWrapper tooltip="Both unassigned Build Configs and those assigned to another Group Config are displayed since Build Configs can belong to multiple Group Configs." />
+                  </>
+                }
+              />
             </ToolbarItem>
           </Toolbar>
 
@@ -179,13 +181,12 @@ export const GroupConfigBuildConfigsEditPage = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Changes Summary</Text>
-              </TextContent>
+              <PageSectionHeader title="Changes Summary" />
             </ToolbarItem>
             <ToolbarItem>
               <Button
                 variant="tertiary"
+                size="sm"
                 onClick={() => {
                   toggleCancelAllModal();
                 }}

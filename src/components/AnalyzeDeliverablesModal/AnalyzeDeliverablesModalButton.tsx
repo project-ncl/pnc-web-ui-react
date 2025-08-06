@@ -8,16 +8,19 @@ interface IAnalyzeDeliverablesModalButtonProps {
   variant: 'detail' | 'list';
 }
 
-export const AnalyzeDeliverablesModalButton = ({ toggleModal, variant }: IAnalyzeDeliverablesModalButtonProps) => (
-  <ProtectedComponent>
-    <Button
-      variant={variant === 'list' ? 'plain' : 'tertiary'}
-      onClick={toggleModal}
-      className={css(variant === 'list' && 'black-color', 'dropdown-item-font-size', 'text-align-left')}
-      isBlock
-      size="sm"
-    >
-      Analyze Deliverables
-    </Button>
-  </ProtectedComponent>
-);
+export const AnalyzeDeliverablesModalButton = ({ toggleModal, variant }: IAnalyzeDeliverablesModalButtonProps) => {
+  const isListVariant = variant === 'list';
+
+  return (
+    <ProtectedComponent>
+      <Button
+        variant={isListVariant ? 'plain' : 'secondary'}
+        onClick={toggleModal}
+        className={css(isListVariant && 'full-width b-radius-0')}
+        size={isListVariant ? 'default' : 'sm'}
+      >
+        Analyze Deliverables
+      </Button>
+    </ProtectedComponent>
+  );
+};

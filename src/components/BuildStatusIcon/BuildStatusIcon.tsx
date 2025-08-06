@@ -19,17 +19,17 @@ const alignmentData = {
   PREFER_TEMPORARY: {
     tooltip: `Test build, which cannot be used for product release and which will be garbage collected during automatic cleaning. 
     Latest temporary dependencies' versions were preferred in alignment.`,
-    className: 'icon-color-info',
+    className: 'temporary-build-icon--info',
   },
   PREFER_PERSISTENT: {
     tooltip: `Test build, which cannot be used for product release and which will be garbage collected during automatic cleaning. 
     Latest persistent dependencies' versions were preferred in alignment.`,
-    className: 'icon-color-warning',
+    className: 'temporary-build-icon--warning',
   },
   NOT_SPECIFIED: {
     tooltip: `Test build, which cannot be used for product release and which will be garbage collected during automatic
     cleaning. Alignment Preference was not defined.`,
-    className: 'icon-color-info',
+    className: 'temporary-build-icon--info',
   },
 };
 

@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -20,6 +20,7 @@ import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -120,6 +121,7 @@ export const BuildConfigDependenciesEditPage = ({
           <Button
             key="submit-btn"
             variant="primary"
+            size="sm"
             onClick={() => {
               toggleSubmitModal();
             }}
@@ -141,11 +143,9 @@ export const BuildConfigDependenciesEditPage = ({
     >
       <Grid hasGutter>
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Current Build Config dependencies</Text>
-              </TextContent>
+              <PageSectionHeader title="Current Build Config dependencies" />
             </ToolbarItem>
           </Toolbar>
 
@@ -161,11 +161,9 @@ export const BuildConfigDependenciesEditPage = ({
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
-          <Toolbar borderBottom>
+          <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Add new Build Config dependencies</Text>
-              </TextContent>
+              <PageSectionHeader title="Add new Build Config dependencies" />
             </ToolbarItem>
           </Toolbar>
 
@@ -187,13 +185,12 @@ export const BuildConfigDependenciesEditPage = ({
         <GridItem span={12}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Changes Summary</Text>
-              </TextContent>
+              <PageSectionHeader title="Changes Summary" />
             </ToolbarItem>
             <ToolbarItem>
               <Button
                 variant="tertiary"
+                size="sm"
                 onClick={() => {
                   toggleCancelAllModal();
                 }}

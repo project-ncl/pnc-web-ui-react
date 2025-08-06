@@ -1,4 +1,15 @@
-import { ActionGroup, Button, Flex, FlexItem, FlexProps, Form, FormGroup, Switch, Text, TextInput } from '@patternfly/react-core';
+import {
+  ActionGroup,
+  Button,
+  Content,
+  Flex,
+  FlexItem,
+  FlexProps,
+  Form,
+  FormGroup,
+  Switch,
+  TextInput,
+} from '@patternfly/react-core';
 import { useCallback, useEffect, useState } from 'react';
 
 import { ButtonTitles } from 'common/constants';
@@ -103,7 +114,7 @@ export const AdministrationPage = () => {
     <PageLayout title="Administration" description="Administration tools for admin users">
       <Flex direction={directionColumn}>
         <FlexItem>
-          <ContentBox isResponsive>
+          <ContentBox marginBottom isResponsive>
             <ServiceContainerLoading {...serviceContainerBuildCount} title="Builds count">
               <div className="p-global">
                 <Attributes>
@@ -136,7 +147,7 @@ export const AdministrationPage = () => {
             hasFormChanged={hasFormChanged}
             serviceContainerLoading={serviceContainerPncStatusGet}
           >
-            <ContentBox padding isResponsive>
+            <ContentBox padding marginBottom isResponsive>
               <Form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -169,7 +180,6 @@ export const AdministrationPage = () => {
                         id={pncStatusEntityAttributes.isMaintenanceMode.id}
                         name={pncStatusEntityAttributes.isMaintenanceMode.id}
                         label="Enabled"
-                        labelOff="Disabled"
                         isChecked={value}
                         onChange={onChange}
                         onBlur={onBlur}
@@ -208,10 +218,9 @@ export const AdministrationPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox padding>
+          <ContentBox padding marginBottom>
             <Attributes>
               <AttributesItem title="Deployed commit SHA">{process.env.REACT_APP_GIT_SHORT_SHA}</AttributesItem>
-
               <AttributesItem title="Latest commit SHA">
                 <ServiceContainerLoading {...serviceContainerCurrentPncWebUiCommit} variant="icon" title="Latest commit SHA">
                   {serviceContainerCurrentPncWebUiCommit.data?.sha}{' '}
@@ -220,7 +229,6 @@ export const AdministrationPage = () => {
                   )}
                 </ServiceContainerLoading>
               </AttributesItem>
-
               <AttributesItem title="Latest commit message">
                 <ServiceContainerLoading {...serviceContainerCurrentPncWebUiCommit} variant="icon" title="Latest commit message">
                   {serviceContainerCurrentPncWebUiCommit.data?.commit.message}
@@ -231,10 +239,10 @@ export const AdministrationPage = () => {
         </FlexItem>
 
         <FlexItem>
-          <ContentBox padding title="Test UI Logger" isResponsive>
+          <ContentBox padding isResponsive title="Test UI Logger">
             <Flex spaceItems={spaceItemsXs} direction={directionColumn}>
               <FlexItem>
-                <Text>Sends UI log to the UI Logger service - use for testing purposes.</Text>
+                <Content component="p">Sends UI log to the UI Logger service - use for testing purposes.</Content>
               </FlexItem>
               <FlexItem>
                 <Button

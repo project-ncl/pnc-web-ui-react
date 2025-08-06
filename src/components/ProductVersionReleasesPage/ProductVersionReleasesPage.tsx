@@ -1,4 +1,4 @@
-import { Label, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -6,7 +6,7 @@ import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryPa
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
-import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionReleasesList } from 'components/ProductVersionReleasesList/ProductVersionReleasesList';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -36,24 +36,26 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
     <>
       <Toolbar>
         <ToolbarItem reservedWidth>
-          <TextContent>
-            <Text component={TextVariants.h2}>Product Releases</Text>
-            <Text>
-              Product Release represents the final release suffix of the parent Product Version like <Label>0.GA</Label>, for
-              example Product Version of <Label>1.0.0.GA</Label>. Product Milestone needs to be created from existing Product
-              Milestone.
-            </Text>
-          </TextContent>
+          <PageSectionHeader
+            title="Product Releases"
+            description={
+              <>
+                Product Release represents the final release suffix of the parent Product Version like <Label>0.GA</Label>, for
+                example Product Version of <Label>1.0.0.GA</Label>. Product Milestone needs to be created from existing Product
+                Milestone.
+              </>
+            }
+          />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="create">Create Release</ActionButton>
+            <ActionButton variant="secondary" link="create">
+              Create Release
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>
-      <ContentBox borderTop>
-        <ProductVersionReleasesList {...{ serviceContainerProductReleases, componentId }} />
-      </ContentBox>
+      <ProductVersionReleasesList {...{ serviceContainerProductReleases, componentId }} />
     </>
   );
 };

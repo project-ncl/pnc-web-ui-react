@@ -32,7 +32,7 @@ export const DeliverableAnalysisLabelsHistoryList = ({
 }: IDeliverableAnalysisLabelsHistoryListProps) => {
   return (
     <>
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerLabelsHistory} title={PageTitles.deliverableAnalysisLabelsHistory}>
           <Table isStriped variant="compact">
             <Thead>
@@ -41,7 +41,7 @@ export const DeliverableAnalysisLabelsHistoryList = ({
                 <Th width={20}>{deliverableAnalyzerLabelEntityAttributes['user.username'].title}</Th>
                 <Th width={15}>
                   {deliverableAnalyzerLabelEntityAttributes.label.title}
-                  <InfoTooltip tooltip={<DeliverableAnalysisLabelTooltip />} tooltipPosition="right-start" />
+                  <InfoTooltip tooltip={<DeliverableAnalysisLabelTooltip />} />
                 </Th>
                 <Th width={15}>{deliverableAnalyzerLabelEntityAttributes.change.title}</Th>
                 <Th width={30}>{deliverableAnalyzerLabelEntityAttributes.reason.title}</Th>

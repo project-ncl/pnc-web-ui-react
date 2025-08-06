@@ -1,5 +1,5 @@
 .applied-filters {
-  margin-top: 10px;
+  margin-top: var(--global-gutter);
 }
 
 .filter-attribute-select button {
@@ -11,8 +11,7 @@
 }
 
 .chip-group {
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin-right: var(--global-gutter);
 }
 
 .chip-group-separator {

@@ -10,7 +10,11 @@ interface ILayoutControlButtonProps {
 }
 
 export const LayoutControlButton = ({ isLayoutRunning, layoutStart, layoutStop }: ILayoutControlButtonProps) => (
-  <Button onClick={() => (isLayoutRunning ? layoutStop() : layoutStart())} className={styles['layout-control-button']}>
+  <Button
+    variant="primary"
+    onClick={() => (isLayoutRunning ? layoutStop() : layoutStart())}
+    className={styles['layout-control-button']}
+  >
     {isLayoutRunning ? <PauseIcon /> : <PlayIcon />}
   </Button>
 );

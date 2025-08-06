@@ -5,6 +5,7 @@ import {
   Masthead,
   MastheadBrand,
   MastheadContent,
+  MastheadLogo,
   MastheadMain,
   MastheadToggle,
   MenuToggle,
@@ -37,9 +38,10 @@ import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
+import { AppLogo } from 'components/AppLogo/AppLogo';
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { OldUIAnnouncement } from 'components/TopBar/OldUIAnnouncement';
+import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
 import { IAuthBroadcastMessage, authBroadcastService } from 'services/broadcastService';
@@ -48,8 +50,6 @@ import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
 
 import { createDateTime } from 'utils/utils';
-
-import pncLogoText from './pnc-logo-text.svg';
 
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
@@ -88,12 +88,6 @@ export const AppLayout = () => {
       authBroadcastService.close();
     };
   }, []);
-
-  const AppLogoImage = () => (
-    <Link to="/" className="p-t-10 p-b-10">
-      <img src={pncLogoText} alt="Newcastle Build System" />
-    </Link>
-  );
 
   const AppHeaderToolbar = () => {
     const pncUserGuideUrl = webConfig.userGuideUrl;
@@ -196,7 +190,7 @@ export const AppLayout = () => {
     return (
       <Toolbar isFullHeight isStatic>
         <ToolbarContent>
-          <ToolbarGroup variant="icon-button-group" align={toolbarGroupAlign}>
+          <ToolbarGroup variant="action-group-plain" align={toolbarGroupAlign}>
             <ToolbarItem>
               <Dropdown
                 toggle={(toggleRef) => (
@@ -236,6 +230,9 @@ export const AppLayout = () => {
             </ToolbarItem>
           </ToolbarGroup>
           <ToolbarItem>
+            <ThemeSwitch />
+          </ToolbarItem>
+          <ToolbarItem>
             <Dropdown
               toggle={(toggleRef) => (
                 <MenuToggle
@@ -263,14 +260,16 @@ export const AppLayout = () => {
 
   const appHeader = (
     <Masthead>
-      <MastheadToggle>
-        <PageToggleButton aria-label="Global navigation">
-          <BarsIcon />
-        </PageToggleButton>
-      </MastheadToggle>
       <MastheadMain>
+        <MastheadToggle>
+          <PageToggleButton aria-label="Global navigation">
+            <BarsIcon />
+          </PageToggleButton>
+        </MastheadToggle>
         <MastheadBrand>
-          <AppLogoImage />
+          <MastheadLogo>
+            <AppLogo />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
       <MastheadContent>
@@ -362,7 +361,6 @@ export const AppLayout = () => {
   return (
     <>
       <div ref={topBarsRef}>
-        <OldUIAnnouncement />
         {serviceContainerPncStatus.data && (
           <TopBarAnnouncement
             id="site-top-bar"
@@ -373,7 +371,7 @@ export const AppLayout = () => {
         )}
       </div>
       <div style={{ height: topBarsHeight ? `calc(100% - ${topBarsHeight}px)` : '100%' }}>
-        <Page header={appHeader} sidebar={appSidebar} isManagedSidebar>
+        <Page masthead={appHeader} sidebar={appSidebar} isManagedSidebar>
           <Outlet />
         </Page>
       </div>
@@ -381,4 +379,4 @@ export const AppLayout = () => {
   );
 };
 
-const toolbarGroupAlign = { default: 'alignRight' } as const;
+const toolbarGroupAlign = { default: 'alignEnd' } as const;

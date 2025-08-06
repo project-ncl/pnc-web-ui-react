@@ -38,7 +38,7 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
   return (
     <>
       {configChanges.length ? (
-        <ContentBox borderTop>
+        <ContentBox>
           <Table isStriped variant="compact">
             <Thead>
               <Tr>
@@ -85,7 +85,7 @@ export const ConfigsChangesList = <T extends BuildConfiguration | GroupConfigura
           </Table>
         </ContentBox>
       ) : (
-        <ContentBox borderTop>
+        <ContentBox>
           <StateCard icon={CubesIcon} title="No changes yet" />
         </ContentBox>
       )}

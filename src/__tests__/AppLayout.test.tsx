@@ -11,6 +11,7 @@ jest.mock('services/keycloakService');
 jest.mock('services/genericSettingsApi');
 jest.mock('services/webConfigService');
 jest.mock('services/broadcastService');
+jest.mock('contexts/ThemeContext');
 
 jest.mock('react-router', () => {
   return {

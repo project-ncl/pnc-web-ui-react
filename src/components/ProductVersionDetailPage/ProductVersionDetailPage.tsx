@@ -1,4 +1,4 @@
-import { Grid, GridItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 import { Link } from 'react-router';
 
@@ -19,6 +19,7 @@ import { CardTitle } from 'components/CardFlex/CardTitle';
 import { CardValue } from 'components/CardFlex/CardValue';
 import { StackedBarChart } from 'components/Charts/StackedBarChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
@@ -294,12 +295,10 @@ export const ProductVersionDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Product Milestone Artifact Quality Distribution</Text>
-            </TextContent>
+            <PageSectionHeader title="Product Milestone Artifact Quality Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerArtifactQualityStatistics.data?.content)}>
+        <ContentBox contentBoxHeight={stackedBarChartHeight(serviceContainerArtifactQualityStatistics.data?.content)}>
           <ServiceContainerLoading
             {...serviceContainerArtifactQualityStatistics}
             hasSkeleton
@@ -321,12 +320,10 @@ export const ProductVersionDetailPage = () => {
       <GridItem sm={12} lg={6}>
         <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>Product Milestone Repository Type Distribution</Text>
-            </TextContent>
+            <PageSectionHeader title="Product Milestone Repository Type Distribution" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox borderTop contentHeight={stackedBarChartHeight(serviceContainerRepositoryTypeStatistics.data?.content)}>
+        <ContentBox contentBoxHeight={stackedBarChartHeight(serviceContainerRepositoryTypeStatistics.data?.content)}>
           <ServiceContainerLoading
             {...serviceContainerRepositoryTypeStatistics}
             hasSkeleton

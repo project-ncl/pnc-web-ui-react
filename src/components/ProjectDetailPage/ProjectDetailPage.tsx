@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect } from 'react';
 
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -16,6 +15,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -72,11 +72,13 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
       breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
       actions={
         <ProtectedComponent>
-          <ActionButton link="edit">Edit Project</ActionButton>
+          <ActionButton variant="primary" link="edit">
+            Edit Project
+          </ActionButton>
         </ProtectedComponent>
       }
     >
-      <ContentBox padding marginBottom>
+      <ContentBox padding marginBottom isResponsive>
         <ServiceContainerLoading {...serviceContainerProject} title="Project details">
           <Attributes>
             <AttributesItem title={projectEntityAttributes.projectUrl.title}>
@@ -103,15 +105,15 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
         </ServiceContainerLoading>
       </ContentBox>
 
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Build Configs</Text>
-          </TextContent>
+          <PageSectionHeader title="Build Configs" />
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="build-configs/create">Create Build Config</ActionButton>
+            <ActionButton variant="secondary" link="build-configs/create">
+              Create Build Config
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>

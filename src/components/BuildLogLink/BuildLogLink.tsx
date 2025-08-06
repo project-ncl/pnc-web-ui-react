@@ -23,8 +23,16 @@ export const BuildLogLink = ({ buildId, isIconVariant = false, title = 'View raw
 
   return isIconVariant ? (
     <TooltipWrapper tooltip={title}>
-      <Button variant="plain" target="_blank" rel="noopener noreferrer" component="a" href={buildLogUrl} style={{ padding: 0 }}>
-        <ExternalLinkAltIcon /> {title}
+      <Button
+        variant="plain"
+        target="_blank"
+        rel="noopener noreferrer"
+        component="a"
+        href={buildLogUrl}
+        size="sm"
+        icon={<ExternalLinkAltIcon />}
+      >
+        {title}
       </Button>
     </TooltipWrapper>
   ) : (

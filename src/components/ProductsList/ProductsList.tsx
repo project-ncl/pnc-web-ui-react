@@ -48,11 +48,11 @@ export const ProductsList = ({ serviceContainerProducts, componentId }: IProduct
           <Filtering
             filterOptions={useMemo(() => getFilterOptions({ entityAttributes: productEntityAttributes }), [])}
             componentId={componentId}
-          />{' '}
+          />
         </ToolbarItem>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerProducts} title={PageTitles.products}>
           <Table isStriped variant="compact">
             <Thead>

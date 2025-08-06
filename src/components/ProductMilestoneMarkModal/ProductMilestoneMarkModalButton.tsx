@@ -34,24 +34,19 @@ export const ProductMilestoneMarkModalButton = ({
     !!serviceContainerProductVersion.error ||
     !!disabledButtonReason;
 
+  const isListVariant = variant === 'list';
+
   return (
     <>
       <ProtectedComponent>
         <TooltipWrapper tooltip={disabledButtonReason}>
           {/* TODO: progress button - NCL-8010 */}
           <Button
-            variant={variant === 'list' ? 'plain' : 'tertiary'}
+            variant={isListVariant ? 'plain' : 'secondary'}
             onClick={toggleModal}
             isAriaDisabled={isDisabled}
-            className={css(
-              variant === 'list' && !isDisabled && 'black-color',
-              variant === 'list' && isDisabled && 'disabled-color',
-              variant === 'list' && 'dropdown-item-font-size',
-              'dropdown-item-font-size',
-              'text-align-left'
-            )}
-            isBlock
-            size="sm"
+            className={css(isListVariant && 'full-width b-radius-0')}
+            size={isListVariant ? 'default' : 'sm'}
           >
             <ServiceContainerLoading {...serviceContainerProductVersion} variant="icon" title="Product Version" /> Mark as current
           </Button>

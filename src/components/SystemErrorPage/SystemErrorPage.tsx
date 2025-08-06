@@ -1,20 +1,18 @@
-import {
-  EmptyState,
-  EmptyStateBody,
-  EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
-  EmptyStateVariant,
-} from '@patternfly/react-core';
+import { EmptyState, EmptyStateBody, EmptyStateFooter, EmptyStateVariant } from '@patternfly/react-core';
 import { CubesIcon } from '@patternfly/react-icons';
 
 export const SystemErrorPage = () => {
   return (
-    <EmptyState variant={EmptyStateVariant.xl} className="pf-v5-u-pt-4xl">
-      <EmptyStateHeader titleText="System Error" icon={<EmptyStateIcon icon={CubesIcon} />} headingLevel="h1" />
+    <EmptyState
+      headingLevel="h1"
+      icon={CubesIcon}
+      titleText="System Error"
+      variant={EmptyStateVariant.xl}
+      className="pf-v6-u-pt-4xl"
+    >
       <EmptyStateBody>Unexpected error occurred, report has been sent to the server.</EmptyStateBody>
       <EmptyStateFooter>
-        <a href="/" className="pf-v5-c-button pf-m-primary">
+        <a href="/" className="pf-v6-c-button pf-m-primary">
           Return to Dashboard
         </a>
       </EmptyStateFooter>

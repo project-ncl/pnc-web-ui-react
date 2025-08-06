@@ -1,4 +1,7 @@
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
+import { Toolbar } from 'components/Toolbar/Toolbar';
+import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
 interface IDashboardWidget {
   title: string;
@@ -19,8 +22,16 @@ interface IDashboardWidget {
  */
 
 const cardBodyStyles = { width: '100%', height: '250px' };
+
 export const DashboardWidget = ({ title, src }: IDashboardWidget) => (
-  <ContentBox padding title={title}>
-    <iframe src={src} title={title} style={cardBodyStyles}></iframe>
-  </ContentBox>
+  <>
+    <Toolbar>
+      <ToolbarItem>
+        <PageSectionHeader title={title} />
+      </ToolbarItem>
+    </Toolbar>
+    <ContentBox>
+      <iframe src={src} title={title} style={cardBodyStyles}></iframe>
+    </ContentBox>
+  </>
 );

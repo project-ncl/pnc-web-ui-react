@@ -1,4 +1,3 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router';
 
@@ -30,6 +29,7 @@ import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/Deli
 import { OperationProgressStatusLabelMapper } from 'components/LabelMapper/OperationProgressStatusLabelMapper';
 import { OperationResultLabelMapper } from 'components/LabelMapper/OperationResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -178,19 +178,17 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
         </Attributes>
       </ContentBox>
 
-      <ContentBox marginBottom>
-        <Toolbar borderBottom>
+      <div className="m-b-global">
+        <Toolbar>
           <ToolbarItem>
-            <TextContent>
-              <Text component={TextVariants.h2}>{PageTitles.deliverableAnalysisLabelsHistory}</Text>
-            </TextContent>
+            <PageSectionHeader title={PageTitles.deliverableAnalysisLabelsHistory} />
           </ToolbarItem>
         </Toolbar>
         <DeliverableAnalysisLabelsHistoryList
           serviceContainerLabelsHistory={serviceContainerLabelsHistory}
           componentId={componentId}
         />
-      </ContentBox>
+      </div>
 
       <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
     </ServiceContainerLoading>
@@ -219,16 +217,12 @@ const LogViewerSection = ({ deliverableAnalysis }: ILogViewerSectionProps) => {
 
   return (
     <>
-      <Toolbar borderBottom>
+      <Toolbar>
         <ToolbarItem>
-          <TextContent>
-            <Text component={TextVariants.h2}>Logs</Text>
-          </TextContent>
+          <PageSectionHeader title="Logs" />
         </ToolbarItem>
       </Toolbar>
-      <ContentBox padding>
-        <LogViewer isStatic={deliverableAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
-      </ContentBox>
+      <LogViewer isStatic={deliverableAnalysis?.progressStatus !== 'IN_PROGRESS'} data={logBuffer} />
     </>
   );
 };

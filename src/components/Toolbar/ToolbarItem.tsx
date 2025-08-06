@@ -1,7 +1,4 @@
-import { FlexItem, FlexProps } from '@patternfly/react-core';
-
-const flexAlignRight: FlexProps['align'] = { default: 'alignRight' };
-const flexAllowFloat: FlexProps['flex'] = { default: 'flex_1' };
+import { FlexItem } from '@patternfly/react-core';
 
 interface IToolbarItemProps {
   alignRight?: boolean;
@@ -18,3 +15,7 @@ export const ToolbarItem = ({ children, alignRight, marginLeft, reservedWidth }:
     {children}
   </FlexItem>
 );
+
+const flexAlignRight = { default: 'alignRight' } as const;
+
+const flexAllowFloat = { default: 'flex_1' } as const;

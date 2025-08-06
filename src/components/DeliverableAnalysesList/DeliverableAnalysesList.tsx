@@ -62,7 +62,7 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
 
   return (
     <>
-      <Toolbar borderTop column>
+      <Toolbar column>
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering
@@ -90,7 +90,7 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
         </ToolbarGroup>
       </Toolbar>
 
-      <ContentBox borderTop>
+      <ContentBox>
         <ServiceContainerLoading {...serviceContainerDeliverableAnalyses} title={PageTitles.deliverableAnalyses}>
           <Table isStriped variant="compact">
             <Thead>

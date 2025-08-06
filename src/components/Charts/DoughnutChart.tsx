@@ -1,8 +1,10 @@
 import { Chart, ChartConfiguration } from 'chart.js';
+import { useTheme } from 'contexts/ThemeContext';
 import { useEffect, useRef } from 'react';
 
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
+import { getColorValue } from 'components/Charts/common';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJsPlugins';
 
@@ -29,14 +31,18 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
   const chart = useRef<Chart>();
   const chartRef = useRef<HTMLCanvasElement>(null);
 
+  const { resolvedThemeMode } = useTheme();
+
   useEffect(() => {
+    const style = getComputedStyle(document.body);
+
     const chartConfig: ChartConfiguration = {
       type: 'doughnut',
       data: {
         datasets: [
           {
             data,
-            backgroundColor: colors?.map((color) => color ?? '#CCCCCC'),
+            backgroundColor: colors?.map((color) => getColorValue(style, color)),
           },
         ],
         labels,
@@ -82,7 +88,7 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
       chart.current.config.options = chartConfig.options;
       chart.current.update();
     }
-  }, [data, labels, colors, legendHeight]);
+  }, [data, labels, colors, legendHeight, resolvedThemeMode]);
 
   return (
     <ChartBox description={description}>

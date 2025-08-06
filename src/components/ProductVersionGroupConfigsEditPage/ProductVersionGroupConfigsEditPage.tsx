@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Icon, List, ListItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, Grid, GridItem, Icon, List, ListItem } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
@@ -19,8 +19,8 @@ import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmM
 import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ConfigsRemoveList } from 'components/ConfigsEditList/ConfigsRemoveList';
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -117,6 +117,7 @@ export const ProductVersionGroupConfigsEditPage = ({
           <Button
             key="submit-btn"
             variant="primary"
+            size="sm"
             onClick={() => {
               toggleSubmitModal();
             }}
@@ -145,60 +146,55 @@ export const ProductVersionGroupConfigsEditPage = ({
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>Group Configs currently in the Version</Text>
-              </TextContent>
+              <PageSectionHeader title="Group Configs currently in the Version" />
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop>
-            <ConfigsRemoveList<GroupConfiguration>
-              variant="Group Build"
-              serviceContainerConfigs={serviceContainerProductVersionGroupConfigs}
-              componentId={componentIdProductVersionGroupConfigs}
-              onConfigRemove={(groupConfig: GroupConfiguration) => {
-                insertGroupConfigChange(groupConfig, 'remove');
-              }}
-              removedConfigs={removedGroupConfigs}
-            />
-          </ContentBox>
+          <ConfigsRemoveList<GroupConfiguration>
+            variant="Group Build"
+            serviceContainerConfigs={serviceContainerProductVersionGroupConfigs}
+            componentId={componentIdProductVersionGroupConfigs}
+            onConfigRemove={(groupConfig: GroupConfiguration) => {
+              insertGroupConfigChange(groupConfig, 'remove');
+            }}
+            removedConfigs={removedGroupConfigs}
+          />
         </GridItem>
 
         <GridItem lg={12} xl2={6}>
           <Toolbar>
             <ToolbarItem>
-              <TextContent>
-                <Text component={TextVariants.h2}>
-                  Add new Group Configs{' '}
-                  <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
-                </Text>
-              </TextContent>
+              <PageSectionHeader
+                title={
+                  <>
+                    Add new Group Configs{' '}
+                    <TooltipWrapper tooltip="Only unassigned Group Configs are displayed. If you want to add Group Config already assigned to another Version, remove it from that Version first." />
+                  </>
+                }
+              />
             </ToolbarItem>
           </Toolbar>
-          <ContentBox borderTop>
-            <ConfigsAddList<GroupConfiguration>
-              variant="Group Build"
-              serviceContainerConfigs={serviceContainerGroupConfigs}
-              componentId={componentIdGroupConfigs}
-              onConfigAdd={(groupConfig: GroupConfiguration) => {
-                insertGroupConfigChange(groupConfig, 'add');
-              }}
-              addedConfigs={addedGroupConfigs}
-              productVersionToExclude={productVersionId!}
-            />
-          </ContentBox>
+          <ConfigsAddList<GroupConfiguration>
+            variant="Group Build"
+            serviceContainerConfigs={serviceContainerGroupConfigs}
+            componentId={componentIdGroupConfigs}
+            onConfigAdd={(groupConfig: GroupConfiguration) => {
+              insertGroupConfigChange(groupConfig, 'add');
+            }}
+            addedConfigs={addedGroupConfigs}
+            productVersionToExclude={productVersionId!}
+          />
         </GridItem>
 
         <GridItem span={12}>
           <ServiceContainerCreatingUpdating {...serviceContainerProductVersionPatch}>
             <Toolbar>
               <ToolbarItem>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Changes Summary</Text>
-                </TextContent>
+                <PageSectionHeader title="Changes Summary" />
               </ToolbarItem>
               <ToolbarItem>
                 <Button
                   variant="tertiary"
+                  size="sm"
                   onClick={() => {
                     toggleCancelAllModal();
                   }}
