@@ -5,117 +5,117 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <span
-        class="label"
+      <div
+        style="display: contents;"
       >
-        <div
-          style="display: contents;"
+        <span
+          class="pf-v6-c-label pf-m-blue pf-m-filled pf-m-clickable milestone-release-label"
         >
           <span
-            aria-disabled="false"
-            class="pf-v5-c-button pf-m-primary pf-m-small milestone-label"
-            data-ouia-component-id="OUIA-Generated-Button-primary-4"
-            data-ouia-component-type="PF5/Button"
-            data-ouia-safe="true"
+            class="pf-v6-c-label__content pf-m-clickable"
+          >
+            <span
+              class="pf-v6-c-label__text"
+            >
+               
+              ERP1.2.3
+            </span>
+          </span>
+        </span>
+      </div>
+      <div
+        style="display: contents;"
+      >
+        <span
+          class="pf-v6-c-label pf-m-teal pf-m-filled pf-m-clickable milestone-release-label"
+        >
+          <span
+            class="pf-v6-c-label__content pf-m-clickable"
+          >
+            <span
+              class="pf-v6-c-label__text"
+            >
+               
+              ERP1.2.4-C
+            </span>
+          </span>
+        </span>
+      </div>
+      <div
+        style="display: contents;"
+      >
+        <span
+          class="pf-v6-c-label pf-m-green pf-m-filled milestone-release-label milestone-release-label--release"
+        >
+          <span
+            class="pf-v6-c-label__content"
+          >
+            <span
+              class="pf-v6-c-label__text"
+            >
+               
+              CAM1.2.5
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      style="display: contents;"
+    >
+      <span
+        class="pf-v6-c-label pf-m-blue pf-m-filled pf-m-clickable milestone-release-label"
+      >
+        <span
+          class="pf-v6-c-label__content pf-m-clickable"
+        >
+          <span
+            class="pf-v6-c-label__text"
           >
              
             ERP1.2.3
           </span>
-        </div>
+        </span>
       </span>
+    </div>
+    <div
+      style="display: contents;"
+    >
       <span
-        class="label"
+        class="pf-v6-c-label pf-m-teal pf-m-filled pf-m-clickable milestone-release-label"
       >
-        <div
-          style="display: contents;"
+        <span
+          class="pf-v6-c-label__content pf-m-clickable"
         >
           <span
-            aria-disabled="false"
-            class="pf-v5-c-button pf-m-primary pf-m-small milestone-label is-current"
-            data-ouia-component-id="OUIA-Generated-Button-primary-5"
-            data-ouia-component-type="PF5/Button"
-            data-ouia-safe="true"
+            class="pf-v6-c-label__text"
           >
              
             ERP1.2.4-C
           </span>
-        </div>
+        </span>
       </span>
+    </div>
+    <div
+      style="display: contents;"
+    >
       <span
-        class="label"
+        class="pf-v6-c-label pf-m-green pf-m-filled milestone-release-label milestone-release-label--release"
       >
-        <div
-          style="display: contents;"
+        <span
+          class="pf-v6-c-label__content"
         >
           <span
-            aria-disabled="false"
-            class="pf-v5-c-button pf-m-primary pf-m-small release-label"
-            data-ouia-component-id="OUIA-Generated-Button-primary-6"
-            data-ouia-component-type="PF5/Button"
-            data-ouia-safe="true"
+            class="pf-v6-c-label__text"
           >
              
             CAM1.2.5
           </span>
-        </div>
+        </span>
       </span>
     </div>
-  </body>,
-  "container": <div>
-    <span
-      class="label"
-    >
-      <div
-        style="display: contents;"
-      >
-        <span
-          aria-disabled="false"
-          class="pf-v5-c-button pf-m-primary pf-m-small milestone-label"
-          data-ouia-component-id="OUIA-Generated-Button-primary-4"
-          data-ouia-component-type="PF5/Button"
-          data-ouia-safe="true"
-        >
-           
-          ERP1.2.3
-        </span>
-      </div>
-    </span>
-    <span
-      class="label"
-    >
-      <div
-        style="display: contents;"
-      >
-        <span
-          aria-disabled="false"
-          class="pf-v5-c-button pf-m-primary pf-m-small milestone-label is-current"
-          data-ouia-component-id="OUIA-Generated-Button-primary-5"
-          data-ouia-component-type="PF5/Button"
-          data-ouia-safe="true"
-        >
-           
-          ERP1.2.4-C
-        </span>
-      </div>
-    </span>
-    <span
-      class="label"
-    >
-      <div
-        style="display: contents;"
-      >
-        <span
-          aria-disabled="false"
-          class="pf-v5-c-button pf-m-primary pf-m-small release-label"
-          data-ouia-component-id="OUIA-Generated-Button-primary-6"
-          data-ouia-component-type="PF5/Button"
-          data-ouia-safe="true"
-        >
-           
-          CAM1.2.5
-        </span>
-      </div>
-    </span>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
