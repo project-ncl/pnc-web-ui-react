@@ -46,7 +46,7 @@ export const SshCredentialsButton = ({
 
   const button = (
     <ProgressButton
-      variant="tertiary"
+      variant="secondary"
       isSmall
       serviceContainer={serviceContainerSshCredentials}
       isDisabled={!!disabledReason || !!serviceContainerSshCredentials.error}

@@ -31,7 +31,9 @@ export const GroupConfigsPage = ({ componentId = 'g1' }: IGroupConfigsPage) => {
       }
       actions={
         <ProtectedComponent>
-          <ActionButton link="create">Create Group Config</ActionButton>
+          <ActionButton variant="primary" link="create">
+            Create Group Config
+          </ActionButton>
         </ProtectedComponent>
       }
     >

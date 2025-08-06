@@ -15,6 +15,7 @@ export const SelectedNodesInfo = ({ selectedNodesCount, unselectAllNodes }: ISel
     {`${selectedNodesCount} node${selectedNodesCount !== 1 ? 's' : ''} selected`}
     <Button
       variant="plain"
+      hasNoPadding
       onClick={unselectAllNodes}
       className={styles['unselect-nodes-button']}
       icon={

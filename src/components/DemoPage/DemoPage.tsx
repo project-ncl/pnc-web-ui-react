@@ -684,27 +684,37 @@ export const DemoPage = () => {
 
         <FlexItem>
           <ContentBox title="ActionButton" padding marginBottom>
-            <ActionButton iconType="create" link="/projects">
+            <ActionButton variant="primary" iconType="create" link="/projects">
               Button with create icon
             </ActionButton>
             <span>On click, move to the specified web link (this one links to projects)</span>
             <br />
-            <ActionButton iconType="edit" action={() => alert('Hello this is actionbutton!')}>
+            <ActionButton variant="primary" iconType="edit" action={() => alert('Hello this is actionbutton!')}>
               Edit
             </ActionButton>
             <span>On click, performs a function (this one creates an alert)</span>
             <br />
-            <ActionButton iconType="delete">Delete</ActionButton>
+            <ActionButton variant="primary" iconType="delete">
+              Delete
+            </ActionButton>
             <br />
-            <ActionButton iconType="clone">Clone</ActionButton>
+            <ActionButton variant="primary" iconType="clone">
+              Clone
+            </ActionButton>
             <br />
-            <ActionButton iconType="quality">Quality</ActionButton>
+            <ActionButton variant="primary" iconType="quality">
+              Quality
+            </ActionButton>
             <br />
-            <ActionButton iconType="external">External, set text such as Push to Brew</ActionButton>
+            <ActionButton variant="primary" iconType="external">
+              External, set text such as Push to Brew
+            </ActionButton>
             <br />
-            <ActionButton iconType="mark">Mark as current</ActionButton>
+            <ActionButton variant="primary" iconType="mark">
+              Mark as current
+            </ActionButton>
             <br />
-            <ActionButton>No Icon</ActionButton>
+            <ActionButton variant="primary">No Icon</ActionButton>
           </ContentBox>
         </FlexItem>
 

@@ -13,7 +13,7 @@ interface IArtifactBuildProps {
 
 export const ArtifactBuild = ({ build }: IArtifactBuildProps) => (
   <>
-    <span className="p-r-20">
+    <span className="m-r-global">
       <TooltipWrapper tooltip={buildEntityAttributes.id.tooltip} /> <b>{buildEntityAttributes.id.title}:</b>{' '}
       <Link to={`/builds/${build.id}`}>#{build.id}</Link>
     </span>

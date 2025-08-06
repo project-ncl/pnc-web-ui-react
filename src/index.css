@@ -163,6 +163,14 @@ code {
   margin-bottom: var(--global-gutter) !important;
 }
 
+.m-l-global {
+  margin-left: var(--global-gutter) !important;
+}
+
+.m-r-global {
+  margin-right: var(--global-gutter) !important;
+}
+
 .b-radius-0 {
   border-radius: 0 !important;
 }

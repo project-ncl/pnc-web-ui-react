@@ -47,7 +47,9 @@ export const BuildConfigDependenciesPage = ({ componentId = 'bcd1' }: IBuildConf
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="edit">Edit list</ActionButton>
+            <ActionButton variant="secondary" link="edit">
+              Edit list
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>

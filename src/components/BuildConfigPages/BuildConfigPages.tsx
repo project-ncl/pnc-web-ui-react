@@ -168,8 +168,8 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
           </ProtectedComponent>,
           <BuildConfigCloneModalButton key="config-clone-button" toggleModal={toggleCloneModal} variant="detail" />,
           <ProtectedComponent key="edit-config-button">
-            <ActionButton variant="tertiary" link="edit">
-              Edit
+            <ActionButton variant="primary" link="edit">
+              Edit Build Config
             </ActionButton>
           </ProtectedComponent>,
         ]}

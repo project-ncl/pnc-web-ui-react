@@ -72,7 +72,9 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
       breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
       actions={
         <ProtectedComponent>
-          <ActionButton link="edit">Edit Project</ActionButton>
+          <ActionButton variant="primary" link="edit">
+            Edit Project
+          </ActionButton>
         </ProtectedComponent>
       }
     >
@@ -109,7 +111,9 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="build-configs/create">Create Build Config</ActionButton>
+            <ActionButton variant="secondary" link="build-configs/create">
+              Create Build Config
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>

@@ -87,7 +87,9 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="create">Create Milestone</ActionButton>
+            <ActionButton variant="secondary" link="create">
+              Create Milestone
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>

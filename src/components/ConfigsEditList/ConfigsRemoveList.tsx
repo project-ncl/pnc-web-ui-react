@@ -121,6 +121,7 @@ export const ConfigsRemoveList = <T extends BuildConfiguration | GroupConfigurat
                 });
               }}
               isDisabled={!checkedItems.length}
+              size="sm"
             >
               Remove selected
             </Button>

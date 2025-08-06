@@ -199,7 +199,9 @@ export const ProductMilestonePages = () => {
     />,
     <AnalyzeDeliverablesModalButton key="del-analysis-button" toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
     <ProtectedComponent key="edit-milestone-button">
-      <ActionButton link="edit">Edit Milestone</ActionButton>
+      <ActionButton variant="primary" link="edit">
+        Edit Milestone
+      </ActionButton>
     </ProtectedComponent>,
   ];
 

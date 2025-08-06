@@ -29,13 +29,11 @@ export const BuildLogLink = ({ buildId, isIconVariant = false, title = 'View raw
         rel="noopener noreferrer"
         component="a"
         href={buildLogUrl}
-        style={{ padding: 0 }}
-        icon={
-          <>
-            <ExternalLinkAltIcon /> {title}
-          </>
-        }
-      />
+        size="sm"
+        icon={<ExternalLinkAltIcon />}
+      >
+        {title}
+      </Button>
     </TooltipWrapper>
   ) : (
     <a target="_blank" rel="noopener noreferrer" href={buildLogUrl}>

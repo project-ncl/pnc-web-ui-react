@@ -11,7 +11,7 @@ interface IBuildConfigRestoreModalButtonProps {
 export const BuildConfigRestoreModalButton = ({ toggleModal, disabledButtonReason }: IBuildConfigRestoreModalButtonProps) => (
   <ProtectedComponent>
     <TooltipWrapper tooltip={disabledButtonReason}>
-      <Button variant="primary" onClick={toggleModal} size="sm" isAriaDisabled={!!disabledButtonReason}>
+      <Button variant="tertiary" onClick={toggleModal} size="sm" isAriaDisabled={!!disabledButtonReason}>
         Restore
       </Button>
     </TooltipWrapper>

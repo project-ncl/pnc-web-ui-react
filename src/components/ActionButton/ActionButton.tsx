@@ -24,7 +24,7 @@ const iconDictionary = {
 
 export interface IActionButtonProps {
   iconType?: keyof typeof iconDictionary;
-  variant?: ButtonProps['variant'];
+  variant: ButtonProps['variant'];
   link?: string;
   action?: React.MouseEventHandler<HTMLButtonElement>;
 }
@@ -40,13 +40,7 @@ export interface IActionButtonProps {
  * @param action - function to perform on clicking the button
  * @param children - the inner components of the button (usually a textual description)
  */
-export const ActionButton = ({
-  iconType,
-  variant = 'primary',
-  link,
-  action,
-  children,
-}: React.PropsWithChildren<IActionButtonProps>) => (
+export const ActionButton = ({ iconType, variant, link, action, children }: React.PropsWithChildren<IActionButtonProps>) => (
   <Button
     variant={variant}
     size="sm"

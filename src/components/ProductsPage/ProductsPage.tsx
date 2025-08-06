@@ -35,7 +35,9 @@ export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
       }
       actions={
         <ProtectedComponent>
-          <ActionButton link="create">Create Product</ActionButton>
+          <ActionButton variant="primary" link="create">
+            Create Product
+          </ActionButton>
         </ProtectedComponent>
       }
     >

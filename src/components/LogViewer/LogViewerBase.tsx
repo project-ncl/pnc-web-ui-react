@@ -90,6 +90,7 @@ export const LogViewerBase = memo(
 
     const resumeButton = (
       <Button
+        variant="primary"
         onClick={() => {
           logViewerRef.current?.scrollToBottom();
           setIsPaused(false);
