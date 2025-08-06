@@ -1,4 +1,5 @@
-import { Button, Tooltip } from '@patternfly/react-core';
+import { Label, Tooltip } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
 import { Link } from 'react-router';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
@@ -35,7 +36,6 @@ export const ProductMilestoneReleaseLabel = ({
   productName,
 }: IProductMilestoneReleaseProp) => {
   let tooltipContent;
-  let buttonClassName;
   let labelType;
   if (isProductMilestone(productMilestoneRelease)) {
     const productMilestone = productMilestoneRelease as ProductMilestone;
@@ -58,7 +58,6 @@ export const ProductMilestoneReleaseLabel = ({
         )}
       </div>
     );
-    buttonClassName = isCurrent ? `${styles['milestone-label']} ${styles['is-current']}` : `${styles['milestone-label']}`;
   } else if (isProductRelease(productMilestoneRelease)) {
     labelType = 'release';
     const productRelease = productMilestoneRelease as ProductRelease;
@@ -73,19 +72,25 @@ export const ProductMilestoneReleaseLabel = ({
         {productRelease.supportLevel}
       </div>
     );
-    buttonClassName = `${styles['release-label']}`;
   }
   return (
-    <span className={styles.label}>
-      <Tooltip content={tooltipContent} isContentLeftAligned={true} position="auto">
-        <Button
-          size="sm"
-          className={buttonClassName}
-          component={link && labelType === 'milestone' ? (props: any) => <Link {...props} to={link} /> : 'span'}
-        >
-          {productName} {productMilestoneRelease.version}
-        </Button>
-      </Tooltip>
-    </span>
+    <Tooltip content={tooltipContent} isContentLeftAligned={true} position="auto">
+      <Label
+        color={labelType === 'milestone' ? (isCurrent ? 'teal' : 'blue') : 'green'}
+        isClickable={labelType === 'milestone'}
+        className={css(styles['milestone-release-label'], labelType === 'release' && styles['milestone-release-label--release'])}
+        render={
+          link && labelType === 'milestone'
+            ? ({ content, componentRef, ...props }) => (
+                <Link to={link} {...props}>
+                  {content}
+                </Link>
+              )
+            : undefined
+        }
+      >
+        {productName} {productMilestoneRelease.version}
+      </Label>
+    </Tooltip>
   );
 };

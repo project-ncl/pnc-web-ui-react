@@ -1,28 +1,11 @@
-.label {
-  padding: 0px 2px 0px 2px;
+.milestone-release-label * {
+  text-decoration: none !important;
+}
+
+.milestone-release-label--release {
+  cursor: default;
 }
 
 .tooltip-text {
   text-align: left;
-}
-
-.milestone-label {
-  background-color: #9c9c9c !important;
-  color: white !important;
-}
-.milestone-label:hover {
-  background-color: #838383 !important;
-}
-
-.is-current {
-  background-color: #39a5dc !important;
-}
-.is-current:hover {
-  background-color: #228bc0 !important;
-}
-
-.release-label {
-  background-color: #3f9c35 !important;
-  color: white !important;
-  cursor: default;
 }
