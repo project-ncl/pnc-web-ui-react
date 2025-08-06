@@ -12,7 +12,6 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { useWindowSizeObserver } from 'hooks/useWindowSizeObserver';
 
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';

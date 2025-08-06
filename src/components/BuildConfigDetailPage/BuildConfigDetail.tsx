@@ -27,10 +27,6 @@ import { UpgradeEnvironmentModal } from 'components/UpgradeEnvironmentModal/Upgr
 import { UpgradeEnvironmentModalButton } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModalButton';
 import { WarningLabel } from 'components/WarningLabel/WarningLabel';
 
-const tooltipLinkStyle: CSSProperties = {
-  color: '#55AAFF',
-};
-
 interface IBuildConfigDetailProps {
   serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration | BuildConfigurationRevision>;
   serviceContainerProductVersion?: IServiceContainerState<ProductVersion>;
@@ -191,7 +187,6 @@ export const BuildConfigDetail = ({
                         <>
                           See{' '}
                           <Link
-                            style={tooltipLinkStyle}
                             to="http://release-engineering.github.io/pom-manipulation-ext/#feature-guide"
                             target="_blank"
                             rel="noopener noreferrer"

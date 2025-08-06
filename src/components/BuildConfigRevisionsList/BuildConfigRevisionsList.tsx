@@ -7,7 +7,6 @@ import { PageTitles } from 'common/constants';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
-import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
