@@ -117,6 +117,7 @@ export const ProductVersionGroupConfigsEditPage = ({
           <Button
             key="submit-btn"
             variant="primary"
+            size="sm"
             onClick={() => {
               toggleSubmitModal();
             }}
@@ -193,6 +194,7 @@ export const ProductVersionGroupConfigsEditPage = ({
               <ToolbarItem>
                 <Button
                   variant="tertiary"
+                  size="sm"
                   onClick={() => {
                     toggleCancelAllModal();
                   }}

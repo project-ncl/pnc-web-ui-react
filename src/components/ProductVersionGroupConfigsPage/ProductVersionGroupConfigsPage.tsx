@@ -38,7 +38,9 @@ export const ProductVersionGroupConfigsPage = ({ componentId = 'g1' }: IProductV
         </ToolbarItem>
         <ToolbarItem alignRight>
           <ProtectedComponent>
-            <ActionButton link="edit">Edit list</ActionButton>
+            <ActionButton variant="secondary" link="edit">
+              Edit list
+            </ActionButton>
           </ProtectedComponent>
         </ToolbarItem>
       </Toolbar>

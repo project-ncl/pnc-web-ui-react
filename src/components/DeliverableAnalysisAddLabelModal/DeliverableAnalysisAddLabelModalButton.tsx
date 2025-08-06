@@ -28,7 +28,7 @@ export const DeliverableAnalysisAddLabelModalButton = ({
   return (
     <ProtectedComponent>
       <ProgressButton
-        variant="tertiary"
+        variant="secondary"
         onClick={toggleModal}
         isDisabled={isDisabled}
         serviceContainer={serviceContainerDeliverableAnalysisReport}

@@ -221,6 +221,7 @@ export const BuildImplicitDependencyGraphPage = ({ componentId = 'a1' }: IBuildI
               <TooltipWrapper tooltip="Close this table.">
                 <Button
                   variant="plain"
+                  size="sm"
                   onClick={() =>
                     updateQueryParamsInURL(
                       { dependentBuild: '', dependencyBuild: '', pageIndex: 1 },

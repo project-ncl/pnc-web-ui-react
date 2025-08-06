@@ -87,7 +87,13 @@ export const ActionModal = ({
         <Content className={styles['action-modal-title']}>
           <Content component="h1">{modalTitle}</Content>
         </Content>
-        <Button variant="plain" onClick={onClose} className={styles['action-modal-close-button']} icon={<TimesIcon />} />
+        <Button
+          variant="plain"
+          size="sm"
+          onClick={onClose}
+          className={styles['action-modal-close-button']}
+          icon={<TimesIcon />}
+        />
       </div>
       {children}
     </div>

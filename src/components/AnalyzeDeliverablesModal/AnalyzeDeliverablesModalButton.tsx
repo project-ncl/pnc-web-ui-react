@@ -14,10 +14,10 @@ export const AnalyzeDeliverablesModalButton = ({ toggleModal, variant }: IAnalyz
   return (
     <ProtectedComponent>
       <Button
-        variant={isListVariant ? 'plain' : 'tertiary'}
+        variant={isListVariant ? 'plain' : 'secondary'}
         onClick={toggleModal}
         className={css(isListVariant && 'full-width b-radius-0')}
-        size={!isListVariant ? 'sm' : 'default'}
+        size={isListVariant ? 'default' : 'sm'}
       >
         Analyze Deliverables
       </Button>

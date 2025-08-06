@@ -62,7 +62,9 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
         breadcrumbs={[{ entity: breadcrumbData.product.id, title: serviceContainerProduct.data?.name }]}
         actions={
           <ProtectedComponent>
-            <ActionButton link="edit">Edit Product</ActionButton>
+            <ActionButton variant="primary" link="edit">
+              Edit Product
+            </ActionButton>
           </ProtectedComponent>
         }
       >
@@ -94,7 +96,9 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
           </ToolbarItem>
           <ToolbarItem alignRight>
             <ProtectedComponent>
-              <ActionButton link="versions/create">Create Version</ActionButton>
+              <ActionButton variant="secondary" link="versions/create">
+                Create Version
+              </ActionButton>
             </ProtectedComponent>
           </ToolbarItem>
         </Toolbar>

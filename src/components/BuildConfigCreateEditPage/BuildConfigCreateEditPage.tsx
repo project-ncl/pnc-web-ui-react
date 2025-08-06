@@ -1034,6 +1034,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                       toggleCancelAllModal();
                     }}
                     isDisabled={!buildConfigChanges.length}
+                    size="sm"
                   >
                     Cancel all
                   </Button>

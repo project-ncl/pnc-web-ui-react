@@ -235,6 +235,7 @@ export const ProductMilestoneInterconnectionGraphPage = ({
                 <TooltipWrapper tooltip="Close this table.">
                   <Button
                     variant="plain"
+                    size="sm"
                     onClick={() =>
                       updateQueryParamsInURL({ milestone1: '', milestone2: '', pageIndex: 1 }, componentId, location, navigate)
                     }
