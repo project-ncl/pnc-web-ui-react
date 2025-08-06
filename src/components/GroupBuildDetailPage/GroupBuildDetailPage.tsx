@@ -1,5 +1,5 @@
-import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
-import { useCallback, useEffect, useState } from 'react';
+import { Tab, TabContent, TabContentBody, TabTitleText, Tabs } from '@patternfly/react-core';
+import { createRef, useCallback, useEffect, useState } from 'react';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
@@ -39,8 +39,6 @@ import * as groupBuildApi from 'services/groupBuildApi';
 import { refreshPage } from 'utils/refreshHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 import { createDateTime } from 'utils/utils';
-
-import styles from './NestedTabsItem.module.css';
 
 interface IGroupBuildDetailPageProps {
   componentId?: string;
@@ -138,6 +136,9 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
     { componentId }
   );
 
+  const contentRef1 = createRef<HTMLElement>();
+  const contentRef2 = createRef<HTMLElement>();
+
   return (
     <ServiceContainerLoading {...serviceContainerGroupBuild} title="Group Build details">
       <PageLayout
@@ -180,39 +181,45 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
           </Attributes>
         </ContentBox>
 
-        <Tabs activeKey={activeTabKey} onSelect={(_, tabIndex) => setActiveTabKey(Number(tabIndex))} isBox>
+        <Tabs
+          activeKey={activeTabKey}
+          onSelect={(_, tabIndex) => setActiveTabKey(Number(tabIndex))}
+          variant="secondary"
+          usePageInsets
+        >
+          <Tab eventKey={0} tabContentId="content-0" title={<TabTitleText>Builds</TabTitleText>} tabContentRef={contentRef1} />
           <Tab
-            className={styles['nested-tabs-item']}
-            eventKey={0}
-            tabContentId="content-0"
-            title={<TabTitleText>Builds</TabTitleText>}
-          />
-          <Tab
-            className={styles['nested-tabs-item']}
             eventKey={1}
             tabContentId="content-1"
             title={<TabTitleText>Build Dependencies</TabTitleText>}
+            tabContentRef={contentRef2}
           />
         </Tabs>
 
         {activeTabKey === 0 && (
-          <ContentBox>
-            <BuildsList
-              {...{
-                serviceContainerBuilds: serviceContainerGroupBuildBuilds,
-                componentId,
-              }}
-            />
-          </ContentBox>
+          <TabContent eventKey={0} id="content-0">
+            <TabContentBody hasPadding>
+              <BuildsList
+                {...{
+                  serviceContainerBuilds: serviceContainerGroupBuildBuilds,
+                  componentId,
+                }}
+              />
+            </TabContentBody>
+          </TabContent>
         )}
 
         {activeTabKey === 1 && (
-          <ContentBox padding>
-            <DependencyTree
-              rootBuild={serviceContainerGroupBuild.data!}
-              serviceContainerDependencyGraph={serviceContainerDependencyGraph}
-            />
-          </ContentBox>
+          <TabContent eventKey={0} id="content-0">
+            <TabContentBody hasPadding>
+              <ContentBox padding>
+                <DependencyTree
+                  rootBuild={serviceContainerGroupBuild.data!}
+                  serviceContainerDependencyGraph={serviceContainerDependencyGraph}
+                />
+              </ContentBox>
+            </TabContentBody>
+          </TabContent>
         )}
       </PageLayout>
 
