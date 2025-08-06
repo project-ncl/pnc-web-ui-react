@@ -1,5 +1,5 @@
 import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
-import { CSSProperties, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 
 import { BuildConfiguration, BuildConfigurationRevision, ProductVersion } from 'pnc-api-types-ts';
