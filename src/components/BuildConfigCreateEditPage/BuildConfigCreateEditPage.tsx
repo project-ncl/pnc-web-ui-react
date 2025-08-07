@@ -69,6 +69,7 @@ import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 import * as projectApi from 'services/projectApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
+import * as webConfigService from 'services/webConfigService';
 
 import { maxLengthValidator, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
@@ -180,6 +181,8 @@ const generateAlignmentParametersDescription = (buildType: BuildConfiguration['b
 };
 
 export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCreateEditPageProps) => {
+  const webConfig = webConfigService.getWebConfig();
+
   const { buildConfigId } = useParamsRequired();
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -629,7 +632,34 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               {...register<string>(buildConfigEntityAttributes.buildType.id, fieldConfigs.buildType)}
             >
               {buildConfigEntityAttributes.buildType.values.map((buildType) => (
-                <SelectOption key={buildType} option={buildType} />
+                <SelectOption
+                  key={buildType}
+                  option={buildType}
+                  title={
+                    buildType === buildTypeData.MVN_RPM.id ? (
+                      <>
+                        {buildTypeData.MVN_RPM.id}{' '}
+                        <Icon status="warning">
+                          <ExclamationTriangleIcon />
+                        </Icon>
+                      </>
+                    ) : undefined
+                  }
+                  description={
+                    buildType === buildTypeData.MVN_RPM.id ? (
+                      <>
+                        This feature is experimental. Feedback is being collected to evaluate and improve it. You may create a new{' '}
+                        <a href={webConfig.userGuideUrl} target="_blank" rel="noopener noreferrer">
+                          feature request <ExternalLinkAltIcon />
+                        </a>{' '}
+                        or contact{' '}
+                        <a href={webConfig.userSupportUrl} target="_blank" rel="noopener noreferrer">
+                          user's support <ExternalLinkAltIcon />
+                        </a>
+                      </>
+                    ) : undefined
+                  }
+                />
               ))}
             </Select>
             <FormInputHelperText variant="error">{getFieldErrors(buildConfigEntityAttributes.buildType.id)}</FormInputHelperText>
