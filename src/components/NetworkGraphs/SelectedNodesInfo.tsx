@@ -1,5 +1,6 @@
 import { Button } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
@@ -11,7 +12,7 @@ interface ISelectedNodesInfoProps {
 }
 
 export const SelectedNodesInfo = ({ selectedNodesCount, unselectAllNodes }: ISelectedNodesInfoProps) => (
-  <div className={styles['selected-nodes-info']}>
+  <div className={css(styles['selected-nodes-info'], !selectedNodesCount && 'display-none')}>
     {`${selectedNodesCount} node${selectedNodesCount !== 1 ? 's' : ''} selected`}
     <Button
       variant="plain"

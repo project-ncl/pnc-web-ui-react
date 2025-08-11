@@ -1,3 +1,4 @@
+import { useTheme } from 'contexts/ThemeContext';
 import Graph from 'graphology';
 import { useCallback, useEffect } from 'react';
 
@@ -9,6 +10,8 @@ import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryPa
 import { calculateBuildConfigName, calculateBuildName, calculateLongBuildName } from 'components/BuildName/BuildName';
 import { LayoutControlButton } from 'components/NetworkGraphs/LayoutControlButton';
 import { SelectedNodesInfo } from 'components/NetworkGraphs/SelectedNodesInfo';
+
+import { getCssColorValue } from 'utils/utils';
 
 import styles from './NetworkGraph.module.css';
 
@@ -55,37 +58,48 @@ export const BuildImplicitDependencyGraph = ({
       onEdgeSelected,
     });
 
-  useEffect(() => {
-    if (data) {
-      // defer graph rendering until after the UI paint; there were issues with useEffect double-invocation
-      requestAnimationFrame(() => {
-        createNetworkGraph((graph: Graph) => {
-          Object.values(data.vertices!).forEach((node) => {
-            graph.addNode(node.name, {
-              id: node.name,
-              label: calculateLongBuildName(node.data!),
-              mainLabel: calculateBuildName(node.data!),
-              subLabel: calculateBuildConfigName(node.data!),
-              link: `/builds/${node.data!.id}`,
-              size: node.name === mainNode ? 9 : 6,
-              color: node.name === mainNode ? MAIN_NODE_COLOR : NODE_COLOR,
-              x: 0,
-              y: 0,
-            });
-          });
+  const { resolvedThemeMode } = useTheme();
 
-          data.edges!.forEach((edge) => {
-            graph.addEdge(edge.source, edge.target, {
-              label: edge.cost,
-              size: 5,
-              color: EDGE_COLOR,
-              type: 'arrow',
-            });
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    let graphCleanup: (() => void) | undefined;
+
+    // defer graph rendering until after the UI paint; there were issues with useEffect double-invocation
+    const rafId = requestAnimationFrame(() => {
+      graphCleanup = createNetworkGraph((graph: Graph) => {
+        Object.values(data.vertices!).forEach((node) => {
+          graph.addNode(node.name, {
+            id: node.name,
+            label: calculateLongBuildName(node.data!),
+            mainLabel: calculateBuildName(node.data!),
+            subLabel: calculateBuildConfigName(node.data!),
+            link: `/builds/${node.data!.id}`,
+            size: node.name === mainNode ? 9 : 6,
+            color: getCssColorValue(node.name === mainNode ? MAIN_NODE_COLOR : NODE_COLOR),
+            x: 0,
+            y: 0,
+          });
+        });
+
+        data.edges!.forEach((edge) => {
+          graph.addEdge(edge.source, edge.target, {
+            label: edge.cost,
+            size: 5,
+            color: getCssColorValue(EDGE_COLOR),
+            type: 'arrow',
           });
         });
       });
-    }
-  }, [data, mainNode, createNetworkGraph]);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      graphCleanup?.();
+    };
+  }, [data, mainNode, createNetworkGraph, resolvedThemeMode]);
 
   // must be below createNetworkGraph useEffect
   // URL -> UI (select graph edge)
@@ -107,9 +121,10 @@ export const BuildImplicitDependencyGraph = ({
   );
 
   return (
-    <div id="sigma-container" className={styles['sigma-container']}>
-      {!!selectedNodesCount && <SelectedNodesInfo selectedNodesCount={selectedNodesCount} unselectAllNodes={unselectAllNodes} />}
+    <>
+      <div id="sigma-container" className={styles['sigma-container']} />
+      <SelectedNodesInfo selectedNodesCount={selectedNodesCount} unselectAllNodes={unselectAllNodes} />
       <LayoutControlButton isLayoutRunning={isLayoutRunning} layoutStart={layoutStart} layoutStop={layoutStop} />
-    </div>
+    </>
   );
 };
