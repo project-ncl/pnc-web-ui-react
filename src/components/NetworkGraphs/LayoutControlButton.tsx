@@ -14,7 +14,6 @@ export const LayoutControlButton = ({ isLayoutRunning, layoutStart, layoutStop }
     variant="primary"
     onClick={() => (isLayoutRunning ? layoutStop() : layoutStart())}
     className={styles['layout-control-button']}
-  >
-    {isLayoutRunning ? <PauseIcon /> : <PlayIcon />}
-  </Button>
+    icon={isLayoutRunning ? <PauseIcon /> : <PlayIcon />}
+  />
 );

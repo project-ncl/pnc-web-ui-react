@@ -8,12 +8,15 @@ import { PlainObject } from 'sigma/types';
 
 import { drawHover, drawLabel } from 'libs/sigmaJsCanvasRenderer';
 
-export const MAIN_NODE_COLOR = 'black';
-export const NODE_COLOR = '#1257A1';
-export const EDGE_COLOR = '#BDBDBD';
-export const SELECTED_COLOR = '#C58C00';
-export const SEARCH_HIGHLIGHT_COLOR = '#C58C00';
-export const GRAY_COLOR = '#F0F0F0';
+import { getCssColorValue } from 'utils/utils';
+
+export const NODE_COLOR = '--c--graph--node';
+export const MAIN_NODE_COLOR = '--c--graph--node--main';
+export const EDGE_COLOR = '--c--graph--edge';
+export const LABEL_COLOR = '--c--graph--label';
+export const SELECTED_COLOR = '--c--graph--highlighted';
+export const SEARCH_HIGHLIGHT_COLOR = '--c--graph--highlighted';
+export const SUBTLE_COLOR = '--c--graph--subtle';
 
 interface IGraphSearchNode {
   name: string;
@@ -89,7 +92,7 @@ export const useNetworkGraph = ({
   const createNetworkGraph = (onGraphCreated: OnGraphCreatedFunction) => {
     const sigmaContainer = document.getElementById(sigmaContainerId);
 
-    if (sigmaContainer && !graph.current) {
+    if (sigmaContainer) {
       graph.current = new Graph();
 
       renderer.current = new Sigma(graph.current, sigmaContainer, {
@@ -100,7 +103,7 @@ export const useNetworkGraph = ({
         allowInvalidContainer: true,
         defaultDrawNodeLabel: drawLabel,
         edgeLabelColor: {
-          color: 'black',
+          color: getCssColorValue(LABEL_COLOR),
         },
       });
 
@@ -144,11 +147,11 @@ export const useNetworkGraph = ({
         navigate(graph.current?.getNodeAttributes(node)?.link);
       });
 
-      renderer.current?.on('enterEdge', () => {
+      renderer.current.on('enterEdge', () => {
         sigmaContainer.style.cursor = 'pointer';
       });
 
-      renderer.current?.on('leaveEdge', () => {
+      renderer.current.on('leaveEdge', () => {
         sigmaContainer.style.cursor = 'default';
       });
 
@@ -163,8 +166,8 @@ export const useNetworkGraph = ({
         if (!draggedNodeRef.current) return;
 
         const pos = renderer.current!.viewportToGraph(e);
-        graph.current!.setNodeAttribute(draggedNodeRef.current, 'x', pos.x);
-        graph.current!.setNodeAttribute(draggedNodeRef.current, 'y', pos.y);
+        graph.current?.setNodeAttribute(draggedNodeRef.current, 'x', pos.x);
+        graph.current?.setNodeAttribute(draggedNodeRef.current, 'y', pos.y);
 
         e.preventSigmaDefault();
         e.original.preventDefault();
@@ -190,6 +193,23 @@ export const useNetworkGraph = ({
 
       setIsGraphRendered(true);
     }
+
+    return () => {
+      layoutStop();
+      setIsGraphRendered(false);
+      setHoveredNode(undefined);
+      setDraggedNode(undefined);
+      draggedNodeRef.current = undefined;
+      setSelectedNodes([]);
+      setSelectedEdge(undefined);
+      selectedEdgeRef.current = undefined;
+      layout.current?.kill?.();
+      renderer.current?.kill();
+      graph.current?.clear();
+      layout.current = undefined;
+      renderer.current = undefined;
+      graph.current = undefined;
+    };
   };
 
   const layoutStart = () => {
@@ -205,7 +225,6 @@ export const useNetworkGraph = ({
   // DYNAMIC EVENT HANDLERS
 
   useEffect(() => {
-    renderer.current?.removeAllListeners('clickEdge');
     renderer.current?.on('clickEdge', ({ edge, event }) => {
       if (event.original.shiftKey) return;
 
@@ -266,14 +285,14 @@ export const useNetworkGraph = ({
         (searchValueMainLabel && !searchValueSubLabel && doesLabelMatch) ||
         (!searchValueMainLabel && searchValueSubLabel && doesSubLabelMatch)
       ) {
-        return { ...data, highlighted: true, label: '', color: SEARCH_HIGHLIGHT_COLOR };
+        return { ...data, highlighted: true, label: '', color: getCssColorValue(SEARCH_HIGHLIGHT_COLOR) };
       }
 
       if (hoveredNode || draggedNode || selectedNodes.length) {
         const newData = {
           ...data,
           ...(node === hoveredNode || node === draggedNode ? { highlighted: true, label: '' } : {}),
-          ...(selectedNodes.includes(node) ? { color: SELECTED_COLOR } : {}),
+          ...(selectedNodes.includes(node) ? { color: getCssColorValue(SELECTED_COLOR) } : {}),
         };
 
         if (
@@ -299,7 +318,7 @@ export const useNetworkGraph = ({
           return newData;
         }
 
-        return { ...data, highlighted: false, label: '', color: GRAY_COLOR };
+        return { ...data, highlighted: false, label: '', color: getCssColorValue(SUBTLE_COLOR) };
       }
 
       return data;
@@ -309,7 +328,7 @@ export const useNetworkGraph = ({
       if (hoveredNode || draggedNode || selectedNodes.length || selectedEdge) {
         const newData = {
           ...data,
-          ...(edge === selectedEdge ? { color: SELECTED_COLOR } : {}),
+          ...(edge === selectedEdge ? { color: getCssColorValue(SELECTED_COLOR) } : {}),
         };
 
         if (draggedNode && graph.current?.hasExtremity(edge, draggedNode)) {
@@ -328,21 +347,12 @@ export const useNetworkGraph = ({
           return newData;
         }
 
-        return { ...newData, label: '', color: GRAY_COLOR };
+        return { ...newData, label: '', color: getCssColorValue(SUBTLE_COLOR) };
       }
 
       return data;
     });
   }, [isGraphRendered, hoveredNode, draggedNode, selectedNodes, selectedEdge, searchValueMainLabel, searchValueSubLabel]);
-
-  // CLEAN-UP
-
-  useEffect(() => {
-    return () => {
-      layout.current?.kill();
-      renderer.current?.kill();
-    };
-  }, []);
 
   return {
     createNetworkGraph: useCallback(createNetworkGraph, [sigmaContainerId, navigate]),

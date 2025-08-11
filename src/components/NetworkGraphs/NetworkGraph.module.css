@@ -1,5 +1,23 @@
+:root {
+  --c--graph--node: var(--pf-t--global--color--brand--default);
+  --c--graph--node--main: var(--pf-t--global--text--color--regular);
+
+  --c--graph--edge: var(--pf-t--color--gray--40);
+
+  --c--graph--label: var(--pf-t--global--text--color--regular);
+
+  --c--graph--highlighted: var(--pf-t--global--background--color--highlight--default);
+  --c--graph--subtle: var(--pf-t--color--gray--30);
+}
+
+html:global(.pf-v6-theme-dark) {
+  --c--graph--subtle: var(--pf-t--color--gray--60);
+}
+
 .sigma-container {
   height: 100%;
   width: 100%;
   position: relative;
+
+  background-color: var(--c--secondary--background);
 }

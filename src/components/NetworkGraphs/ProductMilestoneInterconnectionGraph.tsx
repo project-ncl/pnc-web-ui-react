@@ -1,3 +1,4 @@
+import { useTheme } from 'contexts/ThemeContext';
 import Graph from 'graphology';
 import { useCallback, useEffect } from 'react';
 
@@ -10,6 +11,8 @@ import { LayoutControlButton } from 'components/NetworkGraphs/LayoutControlButto
 import { SelectedNodesInfo } from 'components/NetworkGraphs/SelectedNodesInfo';
 
 import { GraphProductMilestoneWithFullVersion } from 'services/productMilestoneApi';
+
+import { getCssColorValue } from 'utils/utils';
 
 import styles from './NetworkGraph.module.css';
 
@@ -56,38 +59,49 @@ export const ProductMilestoneInterconnectionGraph = ({
       onEdgeSelected,
     });
 
-  useEffect(() => {
-    if (data) {
-      // defer graph rendering until after the UI paint; there were issues with useEffect double-invocation
-      requestAnimationFrame(() => {
-        createNetworkGraph((graph: Graph) => {
-          Object.values(data.vertices!).forEach((node) => {
-            graph.addNode(node.name, {
-              id: node.name,
-              label: `${node.data!.productVersion.product!.name} ${node.data!.version}`,
-              mainLabel: node.data!.version,
-              subLabel: node.data!.productVersion.product!.name,
-              link: `/products/${node.data!.productVersion.product!.id}/versions/${node.data!.productVersion.id}/milestones/${
-                node.data!.id
-              }`,
-              size: node.data!.id === mainNode ? 9 : 6,
-              color: node.data!.id === mainNode ? MAIN_NODE_COLOR : NODE_COLOR,
-              x: 0,
-              y: 0,
-            });
-          });
+  const { resolvedThemeMode } = useTheme();
 
-          data.edges!.forEach((edge) => {
-            graph.addEdge(edge.source, edge.target, {
-              label: edge.cost,
-              size: 3,
-              color: EDGE_COLOR,
-            });
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    let graphCleanup: (() => void) | undefined;
+
+    // defer graph rendering until after the UI paint; there were issues with useEffect double-invocation
+    const rafId = requestAnimationFrame(() => {
+      graphCleanup = createNetworkGraph((graph: Graph) => {
+        Object.values(data.vertices!).forEach((node) => {
+          graph.addNode(node.name, {
+            id: node.name,
+            label: `${node.data!.productVersion.product!.name} ${node.data!.version}`,
+            mainLabel: node.data!.version,
+            subLabel: node.data!.productVersion.product!.name,
+            link: `/products/${node.data!.productVersion.product!.id}/versions/${node.data!.productVersion.id}/milestones/${
+              node.data!.id
+            }`,
+            size: node.data!.id === mainNode ? 9 : 6,
+            color: getCssColorValue(node.data!.id === mainNode ? MAIN_NODE_COLOR : NODE_COLOR),
+            x: 0,
+            y: 0,
+          });
+        });
+
+        data.edges!.forEach((edge) => {
+          graph.addEdge(edge.source, edge.target, {
+            label: edge.cost,
+            size: 3,
+            color: getCssColorValue(EDGE_COLOR),
           });
         });
       });
-    }
-  }, [data, mainNode, createNetworkGraph]);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      graphCleanup?.();
+    };
+  }, [data, mainNode, createNetworkGraph, resolvedThemeMode]);
 
   // must be below createNetworkGraph useEffect
   // URL -> UI (select graph edge)
@@ -109,9 +123,10 @@ export const ProductMilestoneInterconnectionGraph = ({
   );
 
   return (
-    <div id="sigma-container" className={styles['sigma-container']}>
-      {!!selectedNodesCount && <SelectedNodesInfo selectedNodesCount={selectedNodesCount} unselectAllNodes={unselectAllNodes} />}
+    <>
+      <div id="sigma-container" className={styles['sigma-container']} />
+      <SelectedNodesInfo selectedNodesCount={selectedNodesCount} unselectAllNodes={unselectAllNodes} />
       <LayoutControlButton isLayoutRunning={isLayoutRunning} layoutStart={layoutStart} layoutStop={layoutStop} />
-    </div>
+    </>
   );
 };
