@@ -1,5 +1,7 @@
 import { LabelProps } from '@patternfly/react-core';
 
+export const regularTextColor = '--c--regular--text';
+
 const grayColor = '--pf-t--global--color--nonstatus--gray--default';
 
 const redColor = '--pf-t--global--color--nonstatus--red--default';

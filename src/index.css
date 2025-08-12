@@ -16,7 +16,7 @@ code {
 
 /* Fullscreen background */
 ::backdrop {
-  background-color: #ffffff;
+  background-color: var(--c--regular--background);
 }
 
 /* ====================
@@ -272,6 +272,9 @@ code {
   --c--disabled--text: var(--pf-t--global--text--color--disabled);
   --c--disabled--icon: var(--pf-t--global--icon--color--disabled);
 
+  --c--brand--background: var(--pf-t--global--color--brand--default);
+  --c--regular--background: var(--pf-t--global--background--color--primary--default);
+  --c--secondary--background: var(--pf-t--global--background--color--tertiary--default);
   --c--regular--text: var(--pf-t--global--text--color--regular);
   --c--gray--text: var(--pf-t--global--text--color--subtle);
 

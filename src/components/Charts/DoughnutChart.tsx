@@ -2,11 +2,14 @@ import { Chart, ChartConfiguration } from 'chart.js';
 import { useTheme } from 'contexts/ThemeContext';
 import { useEffect, useRef } from 'react';
 
+import { regularTextColor } from 'common/colorMap';
+
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
-import { getColorValue } from 'components/Charts/common';
 
 import { dougnutCenterPlugin, legendHeightPlugin } from 'libs/chartJsPlugins';
+
+import { getCssColorValue } from 'utils/utils';
 
 export interface IDoughnutChartProps {
   data: number[];
@@ -34,15 +37,13 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
   const { resolvedThemeMode } = useTheme();
 
   useEffect(() => {
-    const style = getComputedStyle(document.body);
-
     const chartConfig: ChartConfiguration = {
       type: 'doughnut',
       data: {
         datasets: [
           {
             data,
-            backgroundColor: colors?.map((color) => getColorValue(style, color)),
+            backgroundColor: colors?.map((color) => getCssColorValue(color)),
           },
         ],
         labels,
@@ -51,6 +52,7 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
         elements: {
           center: {
             text: data.reduce((a, b) => a + b, 0),
+            color: getCssColorValue(regularTextColor),
             fontStyle:
               '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
           },
@@ -64,7 +66,7 @@ export const DoughnutChart = ({ data, labels, colors, id, description, legendHei
             maxHeight: legendHeight * 4,
             labels: {
               padding: 15,
-              color: 'black',
+              color: getCssColorValue(regularTextColor),
               font: {
                 size: 15,
               },

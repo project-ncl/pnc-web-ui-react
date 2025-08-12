@@ -2,11 +2,14 @@ import { Chart, ChartConfiguration } from 'chart.js';
 import { useTheme } from 'contexts/ThemeContext';
 import { useEffect, useRef } from 'react';
 
+import { regularTextColor } from 'common/colorMap';
+
 import { IDescription } from 'components/BoxDescription/BoxDescription';
 import { ChartBox } from 'components/Charts/ChartBox';
-import { getColorValue } from 'components/Charts/common';
 
 import { legendHeightPlugin } from 'libs/chartJsPlugins';
+
+import { getCssColorValue } from 'utils/utils';
 
 /**
  * @example
@@ -46,15 +49,13 @@ export const StackedBarChart = ({ data, labels, colors, id, description, legendH
   const { resolvedThemeMode } = useTheme();
 
   useEffect(() => {
-    const style = getComputedStyle(document.body);
-
     const chartConfig: ChartConfiguration = {
       type: 'bar',
       data: {
         datasets: data.map((dataset: IStackedBarChartDataset, index: number) => {
-          return { ...dataset, backgroundColor: getColorValue(style, colors[index]) };
+          return { ...dataset, backgroundColor: getCssColorValue(colors[index]) };
         }),
-        labels: labels,
+        labels,
       },
       options: {
         indexAxis: 'y',
@@ -80,7 +81,7 @@ export const StackedBarChart = ({ data, labels, colors, id, description, legendH
             maxHeight: legendHeight * 4,
             labels: {
               padding: 15,
-              color: 'black',
+              color: getCssColorValue(regularTextColor),
               font: {
                 size: 15,
               },

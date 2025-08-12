@@ -1,4 +1,4 @@
-.content-box > *:last-child {
+.content-box > *:not(button):last-child {
   width: 100%;
   overflow-x: auto;
 }
