@@ -359,3 +359,9 @@ export const formatBuildMetricsTime = (msTime: number): string => {
     return `${msTime}ms`;
   }
 };
+
+export const getCssColorValue = (color: string) => {
+  const style = getComputedStyle(document.body);
+
+  return color.trim().startsWith('--') ? style.getPropertyValue(color) : color;
+};

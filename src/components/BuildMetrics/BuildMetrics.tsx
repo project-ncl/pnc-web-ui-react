@@ -1,9 +1,12 @@
 import { Popover } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
+import { useTheme } from 'contexts/ThemeContext';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Build } from 'pnc-api-types-ts';
+
+import { regularTextColor } from 'common/colorMap';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
@@ -14,7 +17,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as buildApi from 'services/buildApi';
 
-import { calculateDurationDiff, formatBuildMetricsTime } from 'utils/utils';
+import { calculateDurationDiff, formatBuildMetricsTime, getCssColorValue } from 'utils/utils';
 
 import styles from './BuildMetrics.module.css';
 
@@ -75,73 +78,73 @@ const generateTimeTitle = (metricValueData: number | string): string => {
  */
 const METRICS_DATA: MetricsData = {
   WAITING_FOR_DEPENDENCIES: {
-    color: '#B8BBBE', // black-400
+    color: '--pf-t--color--gray--30',
     label: 'Waiting',
     description: 'Waiting for dependencies',
   },
   ENQUEUED: {
-    color: '#73C5C5', // cyan-200
+    color: '--pf-t--global--color--nonstatus--teal--default',
     label: 'Enqueued',
     description: 'Waiting to be started, the metric ends with the BPM process being started from PNC Orchestrator',
   },
   SCM_CLONE: {
-    color: '#CBC1FF', // purple-100
+    color: '--pf-t--color--purple--20',
     label: 'SCM Clone',
     description: 'Cloning / Syncing from Gerrit',
   },
   STARTING_ALIGNMENT_POD: {
-    color: '#F9E0A2', // gold-100
+    color: '--pf-t--color--yellow--20',
     label: 'Starting Alignment Pod',
     description: 'Starting alignment environment pod',
   },
   ALIGNMENT: {
-    color: '#2B9AF3', // blue-300
+    color: '--pf-t--color--blue--30',
     label: 'Alignment',
     description: 'Alignment stage',
   },
   ALIGNMENT_ADJUST: {
-    color: '#EF9234', // orange-200
+    color: '--pf-t--global--color--nonstatus--orange--default',
     label: 'Alignment Adjust',
     description: 'Alignment adjustment stage',
   },
   BUILD_ENV_SETTING_UP: {
-    color: '#7CDBF3', // light-blue-200
+    color: '--pf-t--color--blue--10',
     label: 'Starting Environment',
     description: 'Requesting to start new Build Environment in OpenShift',
   },
   REPO_SETTING_UP: {
-    color: '#B2A3FF', // purple-200
+    color: '--pf-t--color--purple--30',
     label: 'Artifact Repos Setup',
     description: 'Creating per build artifact repositories in Indy',
   },
   BUILD_SETTING_UP: {
-    color: '#008BAD', // light-blue-500
+    color: '--pf-t--color--blue--20',
     label: 'Building',
     description: 'Uploading the build script, running the build, downloading the results (logs)',
   },
   SEALING_REPOSITORY_MANAGER_RESULTS: {
-    color: '#F4C145', // gold-300
+    color: '--pf-t--color--yellow--30',
     label: 'Sealing',
     description: 'Sealing artifact repository in Indy',
   },
   COLLECTING_RESULTS_FROM_REPOSITORY_MANAGER: {
-    color: '#8476D1', // purple-400
+    color: '--pf-t--color--purple--40',
     label: 'Promotion',
     description: 'Downloading the list of built artifact and dependencies from Indy, promoting them to shared repository in Indy',
   },
   FINALIZING_BUILD: {
-    color: '#5BA352', // green-400
+    color: '--pf-t--global--color--nonstatus--green--default',
     label: 'Finalizing',
     description: 'Completing all other build execution tasks, destroying build environments, invoking the BPM',
   },
   COLLECTING_RESULTS_FROM_BUILD_DRIVER: {
-    color: '#151515', // black-900
+    color: '--pf-t--color--gray--50',
     label: 'Collecting Results From Build Driver',
     description: '',
     skip: true,
   },
   OTHER: {
-    color: '#D2D2D2', // black-300
+    color: '--pf-t--color--gray--40',
     label: 'Other',
     description: 'Other tasks from the time when the build was submitted to the time when the build ends',
   },
@@ -159,7 +162,7 @@ const adaptMetric = (metricName: string): Metrics => {
   } else {
     console.warn(`adaptMetric: Unknown metric name: "${metricName}"`, metricName);
     return {
-      color: 'gray',
+      color: getCssColorValue('--pf-t--color--red-orange--40'),
       label: metricName,
       description: 'Unknown metric',
     };
@@ -254,6 +257,8 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
 
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
+
+  const { resolvedThemeMode } = useTheme();
 
   // Fetch build metrics when builds or navigation selection changes
   useEffect(() => {
@@ -353,13 +358,14 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
       // Adapt datasets for line chart
       datasets.forEach((dataset) => {
         const metric = adaptMetric(dataset.name);
+        const color = getCssColorValue(metric.color);
         Object.assign(dataset, {
           label: metric.label,
           fill: false,
-          borderColor: metric.color,
+          borderColor: color,
           borderWidth: 4,
-          pointBackgroundColor: metric.color,
-          pointBorderColor: 'white',
+          pointBackgroundColor: color,
+          pointBorderColor: getCssColorValue('--pf-t--global--text--color--inverse'),
           pointBorderWidth: 1.5,
           pointRadius: 4,
         });
@@ -374,12 +380,17 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
           scales: {
             y: {
               type: 'logarithmic',
-              title: { display: true, text: 'Logarithmic scale' },
-              ticks: { maxTicksLimit: 8, callback: generateTimeTitle },
+              title: { display: true, text: 'Logarithmic scale', color: getCssColorValue(regularTextColor) },
+              ticks: { maxTicksLimit: 8, callback: generateTimeTitle, color: getCssColorValue(regularTextColor) },
             },
-            x: { reverse: true },
+            x: { reverse: true, ticks: { color: getCssColorValue(regularTextColor) } },
           },
           plugins: {
+            legend: {
+              labels: {
+                color: getCssColorValue(regularTextColor),
+              },
+            },
             tooltip: {
               callbacks: {
                 title: (tooltipItems: TooltipItem<'line'>[]) => tooltipItems[0].label || '',
@@ -399,9 +410,10 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
       // Adapt datasets for horizontal bar chart
       datasets.forEach((dataset) => {
         const metric = adaptMetric(dataset.name);
+        const color = getCssColorValue(metric.color);
         Object.assign(dataset, {
           label: metric.label,
-          backgroundColor: metric.color,
+          backgroundColor: color,
         });
       });
       chartConfig = {
@@ -412,6 +424,11 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
           indexAxis: 'y',
           animation: { duration: 0 }, // disable animation
           plugins: {
+            legend: {
+              labels: {
+                color: getCssColorValue(regularTextColor),
+              },
+            },
             tooltip: {
               position: 'nearest',
               mode: 'index',
@@ -431,13 +448,14 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
             x: {
               min: 0,
               position: 'bottom',
-              ticks: { maxTicksLimit: 30, callback: generateTimeTitle },
+              ticks: { maxTicksLimit: 30, callback: generateTimeTitle, color: getCssColorValue(regularTextColor) },
               stacked: true,
-              title: { display: true, text: 'Linear scale' },
+              title: { display: true, text: 'Linear scale', color: getCssColorValue(regularTextColor) },
             },
             y: {
               reverse: false,
               stacked: true,
+              ticks: { color: getCssColorValue(regularTextColor) },
             },
           },
           layout: { padding: { top: 20, bottom: 20 } },
@@ -469,7 +487,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
       chartInstanceRef.current.destroy();
     }
     chartInstanceRef.current = new Chart(ctx, chartConfig);
-  }, [buildMetrics, chartType, metricsTooltipList]);
+  }, [buildMetrics, chartType, metricsTooltipList, resolvedThemeMode]);
 
   return (
     <ServiceContainerLoading {...serviceContainerBuildMetrics} title="Build Metrics">
