@@ -41,6 +41,10 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
 import { ActionConfirmModal } from 'components/ActionConfirmModal/ActionConfirmModal';
+import {
+  BuildTypeMvnRpmExperimentalDescription,
+  BuildTypeMvnRpmExperimentalIcon,
+} from 'components/BuildTypeMvnRpmExperimental/BuildTypeMvnRpmExperimental';
 import { ConfigsAddList } from 'components/ConfigsEditList/ConfigsAddList';
 import { ConfigsChangesList } from 'components/ConfigsEditList/ConfigsChangesList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -638,27 +642,12 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                   title={
                     buildType === buildTypeData.MVN_RPM.id ? (
                       <>
-                        {buildTypeData.MVN_RPM.id}{' '}
-                        <Icon status="warning">
-                          <ExclamationTriangleIcon />
-                        </Icon>
+                        {buildTypeData.MVN_RPM.id + ' '}
+                        <BuildTypeMvnRpmExperimentalIcon />
                       </>
                     ) : undefined
                   }
-                  description={
-                    buildType === buildTypeData.MVN_RPM.id ? (
-                      <>
-                        This feature is experimental. Feedback is being collected to evaluate and improve it. You may create a new{' '}
-                        <a href={webConfig.userGuideUrl} target="_blank" rel="noopener noreferrer">
-                          feature request <ExternalLinkAltIcon />
-                        </a>{' '}
-                        or contact{' '}
-                        <a href={webConfig.userSupportUrl} target="_blank" rel="noopener noreferrer">
-                          user's support <ExternalLinkAltIcon />
-                        </a>
-                      </>
-                    ) : undefined
-                  }
+                  description={buildType === buildTypeData.MVN_RPM.id ? <BuildTypeMvnRpmExperimentalDescription /> : undefined}
                 />
               ))}
             </Select>
