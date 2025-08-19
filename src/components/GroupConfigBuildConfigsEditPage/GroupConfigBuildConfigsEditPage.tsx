@@ -112,13 +112,7 @@ export const GroupConfigBuildConfigsEditPage = ({
         { entity: breadcrumbData.edit.id, title: PageTitles.buildConfigAddRemove, custom: true },
       ]}
       actions={
-        <>
-          <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
-            <Icon status="warning">
-              <ExclamationTriangleIcon />
-            </Icon>{' '}
-            Submit the changes to apply them
-          </div>
+        <div className="page-header__submit-button">
           <Button
             key="submit-btn"
             variant="primary"
@@ -130,7 +124,13 @@ export const GroupConfigBuildConfigsEditPage = ({
           >
             Submit changes
           </Button>
-        </>
+          <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
+            <Icon status="warning">
+              <ExclamationTriangleIcon />
+            </Icon>{' '}
+            Submit the changes to apply them
+          </div>
+        </div>
       }
     >
       <Grid hasGutter>

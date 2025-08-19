@@ -107,13 +107,7 @@ export const ProductVersionGroupConfigsEditPage = ({
     <PageLayout
       title={`Add and remove Group Configs${productVersion ? ' in ' + productVersion : ''}`}
       actions={
-        <>
-          <div className={css(!groupConfigChanges.length && 'visibility-hidden')}>
-            <Icon status="warning">
-              <ExclamationTriangleIcon />
-            </Icon>{' '}
-            Submit the changes to apply them
-          </div>
+        <div className="page-header__submit-button">
           <Button
             key="submit-btn"
             variant="primary"
@@ -125,7 +119,13 @@ export const ProductVersionGroupConfigsEditPage = ({
           >
             Submit changes
           </Button>
-        </>
+          <div className={css(!groupConfigChanges.length && 'visibility-hidden')}>
+            <Icon status="warning">
+              <ExclamationTriangleIcon />
+            </Icon>{' '}
+            Submit the changes to apply them
+          </div>
+        </div>
       }
       breadcrumbs={[
         { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },
