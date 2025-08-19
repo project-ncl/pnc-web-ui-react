@@ -114,13 +114,7 @@ export const ProductVersionBuildConfigsEditPage = ({
     <PageLayout
       title={`Add and remove Build Configs${productVersion ? ' in ' + productVersion : ''}`}
       actions={
-        <>
-          <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
-            <Icon status="warning">
-              <ExclamationTriangleIcon />
-            </Icon>{' '}
-            Submit the changes to apply them
-          </div>
+        <div className="page-header__submit-button">
           <Button
             key="submit-btn"
             variant="primary"
@@ -132,7 +126,13 @@ export const ProductVersionBuildConfigsEditPage = ({
           >
             Submit changes
           </Button>
-        </>
+          <div className={css(!buildConfigChanges.length && 'visibility-hidden')}>
+            <Icon status="warning">
+              <ExclamationTriangleIcon />
+            </Icon>{' '}
+            Submit the changes to apply them
+          </div>
+        </div>
       }
       breadcrumbs={[
         { entity: breadcrumbData.product.id, title: serviceContainerProductVersion.data?.product?.name },

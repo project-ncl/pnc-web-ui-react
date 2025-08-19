@@ -326,3 +326,15 @@ code {
 .pnc-warning-icon:hover {
   color: var(--c--warning--icon--hover);
 }
+
+.page-header__submit-button {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  text-align: right;
+  gap: 5px;
+}
+
+.page-header__submit-button > :last-child {
+  padding-right: 5px;
+}
