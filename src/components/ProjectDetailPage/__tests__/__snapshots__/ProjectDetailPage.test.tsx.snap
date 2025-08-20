@@ -27,18 +27,19 @@ Object {
             class="page-layout__actions"
           >
             <div
-              title="Keycloak service is not available."
+              style="display: contents;"
             >
-              <div
-                class="disabled-content"
-              >
+               
+              <span>
                 <a
-                  class="pf-v6-c-button pf-m-primary pf-m-small"
+                  aria-disabled="true"
+                  class="pf-v6-c-button pf-m-primary pf-m-disabled pf-m-small"
                   data-discover="true"
                   data-ouia-component-id="OUIA-Generated-Button-primary-2"
                   data-ouia-component-type="PF6/Button"
                   data-ouia-safe="true"
                   href="/edit"
+                  tabindex="-1"
                 >
                   <span
                     class="pf-v6-c-button__text"
@@ -46,7 +47,7 @@ Object {
                     Edit Project
                   </span>
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -95,18 +96,19 @@ Object {
                 class="pf-m-align-right"
               >
                 <div
-                  title="Keycloak service is not available."
+                  style="display: contents;"
                 >
-                  <div
-                    class="disabled-content"
-                  >
+                   
+                  <span>
                     <a
-                      class="pf-v6-c-button pf-m-secondary pf-m-small"
+                      aria-disabled="true"
+                      class="pf-v6-c-button pf-m-secondary pf-m-disabled pf-m-small"
                       data-discover="true"
                       data-ouia-component-id="OUIA-Generated-Button-secondary-2"
                       data-ouia-component-type="PF6/Button"
                       data-ouia-safe="true"
                       href="/build-configs/create"
+                      tabindex="-1"
                     >
                       <span
                         class="pf-v6-c-button__text"
@@ -114,7 +116,7 @@ Object {
                         Create Build Config
                       </span>
                     </a>
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>
@@ -453,18 +455,19 @@ Object {
           class="page-layout__actions"
         >
           <div
-            title="Keycloak service is not available."
+            style="display: contents;"
           >
-            <div
-              class="disabled-content"
-            >
+             
+            <span>
               <a
-                class="pf-v6-c-button pf-m-primary pf-m-small"
+                aria-disabled="true"
+                class="pf-v6-c-button pf-m-primary pf-m-disabled pf-m-small"
                 data-discover="true"
                 data-ouia-component-id="OUIA-Generated-Button-primary-2"
                 data-ouia-component-type="PF6/Button"
                 data-ouia-safe="true"
                 href="/edit"
+                tabindex="-1"
               >
                 <span
                   class="pf-v6-c-button__text"
@@ -472,7 +475,7 @@ Object {
                   Edit Project
                 </span>
               </a>
-            </div>
+            </span>
           </div>
         </div>
       </div>
@@ -521,18 +524,19 @@ Object {
               class="pf-m-align-right"
             >
               <div
-                title="Keycloak service is not available."
+                style="display: contents;"
               >
-                <div
-                  class="disabled-content"
-                >
+                 
+                <span>
                   <a
-                    class="pf-v6-c-button pf-m-secondary pf-m-small"
+                    aria-disabled="true"
+                    class="pf-v6-c-button pf-m-secondary pf-m-disabled pf-m-small"
                     data-discover="true"
                     data-ouia-component-id="OUIA-Generated-Button-secondary-2"
                     data-ouia-component-type="PF6/Button"
                     data-ouia-safe="true"
                     href="/build-configs/create"
+                    tabindex="-1"
                   >
                     <span
                       class="pf-v6-c-button__text"
@@ -540,7 +544,7 @@ Object {
                       Create Build Config
                     </span>
                   </a>
-                </div>
+                </span>
               </div>
             </div>
           </div>
