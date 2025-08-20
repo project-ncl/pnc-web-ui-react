@@ -299,6 +299,14 @@ code {
   background-color: var(--pf-t--global--background--color--secondary--hover) !important;
 }
 
+.pf-v6-c-table thead th > button {
+  margin-bottom: 1px !important;
+}
+
+.pf-v6-c-table thead th:not(:has(button)) {
+  padding-bottom: 17px !important;
+}
+
 .pf-v6-c-table__tr {
   position: static !important;
 }

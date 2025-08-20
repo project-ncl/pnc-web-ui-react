@@ -47,20 +47,20 @@ export const SortGroup = ({ title, sort, isDropdownOpen, onDropdownToggle }: ISo
           isExpanded={isDropdownOpen}
           onClick={onDropdownToggle}
         >
-          <span className={styles['sort-title']}>{title}</span>
+          <span className={styles['sort-toggle__title']}>{title}</span>
 
           {isSortGroupActive ? (
             sort.activeSortDirection === 'asc' ? (
-              <LongArrowAltUpIcon className={styles['sort-icon']} />
+              <LongArrowAltUpIcon className={styles['sort-toggle__icon']} />
             ) : (
-              <LongArrowAltDownIcon className={styles['sort-icon']} />
+              <LongArrowAltDownIcon className={styles['sort-toggle__icon']} />
             )
           ) : (
-            <ArrowsAltVIcon className={styles['sort-icon']} />
+            <ArrowsAltVIcon className={styles['sort-toggle__icon']} />
           )}
 
           {isSortGroupActive && (
-            <span className={styles['sort-icon-title']}>{sort.sortAttributes[sort.activeSortAttribute!].title}</span>
+            <span className={styles['sort-toggle__direction']}>{sort.sortAttributes[sort.activeSortAttribute!].title}</span>
           )}
         </MenuToggle>
       )}
