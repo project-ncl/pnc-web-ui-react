@@ -69,10 +69,10 @@ Object {
       >
         <div>
           <div
-            class="m-b-global"
+            class="m-b-global--sm"
           >
             <div
-              class="pf-v6-l-flex pf-m-gap-md"
+              class="pf-v6-l-flex pf-m-gap-sm"
             >
               <div
                 class=""
@@ -863,10 +863,10 @@ Object {
     >
       <div>
         <div
-          class="m-b-global"
+          class="m-b-global--sm"
         >
           <div
-            class="pf-v6-l-flex pf-m-gap-md"
+            class="pf-v6-l-flex pf-m-gap-sm"
           >
             <div
               class=""
