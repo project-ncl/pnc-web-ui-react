@@ -5,6 +5,8 @@ import { buildTypeData } from 'common/buildTypeData';
 
 import * as webConfigService from 'services/webConfigService';
 
+import styles from './BuildTypeMvnRpmExperimental.module.css';
+
 export const BuildTypeMvnRpmExperimentalIcon = () => {
   return (
     <Icon status="warning">
@@ -34,7 +36,7 @@ export const BuildTypeMvnRpmExperimentalDescription = () => {
 export const BuildTypeMvnRpmExperimentalTooltip = () => {
   return (
     <span className="p-l-5">
-      <Tooltip content={<BuildTypeMvnRpmExperimentalDescription />}>
+      <Tooltip content={<BuildTypeMvnRpmExperimentalDescription />} className={styles['mvn-rpm-experimental__tooltip']}>
         <BuildTypeMvnRpmExperimentalIcon />
       </Tooltip>
     </span>
