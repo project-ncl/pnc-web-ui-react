@@ -308,7 +308,7 @@ export const TypeaheadSelect = ({
           isAriaDisabled={isViewMoreDisabled}
           isLoadButton={!isViewMoreDisabled}
           onClick={() => onViewMore(filterValue)}
-          tooltipProps={viewMoreButtonTooltipProps}
+          tooltipProps={isViewMoreDisabled ? viewMoreButtonTooltipProps : undefined}
         >
           View more
         </SelectOption>
