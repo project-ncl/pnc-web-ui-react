@@ -55,7 +55,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
           </ToolbarItem>
         </Toolbar>
 
-        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 42px)`}>
+        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 34px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.filename.title}>
               {serviceContainerArtifact.data?.filename}
@@ -86,7 +86,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
             <PageSectionHeader title="Checksums and Build" />
           </ToolbarItem>
         </Toolbar>
-        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 42px)`}>
+        <ContentBox padding isResponsive contentBoxHeight={`calc(100% - 34px)`}>
           <Attributes>
             <AttributesItem title={artifactEntityAttributes.md5.title}>
               <CopyToClipboard isInline>{serviceContainerArtifact.data?.md5}</CopyToClipboard>

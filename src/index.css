@@ -171,6 +171,10 @@ code {
   margin-right: var(--global-gutter) !important;
 }
 
+.m-b-global--sm {
+  margin-bottom: var(--global-spacer--sm) !important;
+}
+
 .b-radius-0 {
   border-radius: 0 !important;
 }
