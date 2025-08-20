@@ -84,13 +84,13 @@ Object {
       >
         <div>
           <div
-            class="m-b-global"
+            class="m-b-global--sm"
           >
             <div
-              class="pf-v6-l-flex pf-m-column pf-m-gap-md"
+              class="pf-v6-l-flex pf-m-column pf-m-gap-sm"
             >
               <div
-                class="pf-v6-l-flex pf-m-space-items-md"
+                class="pf-v6-l-flex pf-m-space-items-sm"
               >
                 <div
                   class=""
@@ -163,7 +163,7 @@ Object {
                 </div>
               </div>
               <div
-                class="pf-v6-l-flex pf-m-space-items-md"
+                class="pf-v6-l-flex pf-m-space-items-sm"
               >
                 <div
                   class=""
@@ -1101,13 +1101,13 @@ Object {
     >
       <div>
         <div
-          class="m-b-global"
+          class="m-b-global--sm"
         >
           <div
-            class="pf-v6-l-flex pf-m-column pf-m-gap-md"
+            class="pf-v6-l-flex pf-m-column pf-m-gap-sm"
           >
             <div
-              class="pf-v6-l-flex pf-m-space-items-md"
+              class="pf-v6-l-flex pf-m-space-items-sm"
             >
               <div
                 class=""
@@ -1180,7 +1180,7 @@ Object {
               </div>
             </div>
             <div
-              class="pf-v6-l-flex pf-m-space-items-md"
+              class="pf-v6-l-flex pf-m-space-items-sm"
             >
               <div
                 class=""
