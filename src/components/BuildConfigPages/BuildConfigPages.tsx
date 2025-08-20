@@ -13,16 +13,15 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { BuildConfigCloneModal } from 'components/BuildConfigCloneModal/BuildConfigCloneModal';
 import { BuildConfigCloneModalButton } from 'components/BuildConfigCloneModal/BuildConfigCloneModalButton';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
-import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
+import { ProtectedBuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildConfigApi from 'services/buildConfigApi';
@@ -163,15 +162,11 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
         breadcrumbs={[{ entity: breadcrumbData.buildConfig.id, title: serviceContainerBuildConfig.data?.name }]}
         tabs={pageTabs}
         actions={[
-          <ProtectedComponent key="build-start-button">
-            <BuildStartButton buildConfig={serviceContainerBuildConfig.data!} />
-          </ProtectedComponent>,
+          <ProtectedBuildStartButton key="build-start-button" buildConfig={serviceContainerBuildConfig.data!} />,
           <BuildConfigCloneModalButton key="config-clone-button" toggleModal={toggleCloneModal} variant="detail" />,
-          <ProtectedComponent key="edit-config-button">
-            <ActionButton variant="primary" link="edit">
-              Edit Build Config
-            </ActionButton>
-          </ProtectedComponent>,
+          <ProtectedActionButton key="edit-config-button" variant="primary" link="edit">
+            Edit Build Config
+          </ProtectedActionButton>,
         ]}
         sidebar={{
           title: 'Build History',

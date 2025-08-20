@@ -1,7 +1,6 @@
-import { Button } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { ProtectedButton } from 'components/Button/Button';
 
 interface IAnalyzeDeliverablesModalButtonProps {
   toggleModal: () => void;
@@ -12,15 +11,13 @@ export const AnalyzeDeliverablesModalButton = ({ toggleModal, variant }: IAnalyz
   const isListVariant = variant === 'list';
 
   return (
-    <ProtectedComponent>
-      <Button
-        variant={isListVariant ? 'plain' : 'secondary'}
-        onClick={toggleModal}
-        className={css(isListVariant && 'full-width b-radius-0')}
-        size={isListVariant ? 'default' : 'sm'}
-      >
-        Analyze Deliverables
-      </Button>
-    </ProtectedComponent>
+    <ProtectedButton
+      variant={isListVariant ? 'plain' : 'secondary'}
+      onClick={toggleModal}
+      className={css(isListVariant && 'full-width b-radius-0')}
+      size={isListVariant ? 'default' : 'sm'}
+    >
+      Analyze Deliverables
+    </ProtectedButton>
   );
 };

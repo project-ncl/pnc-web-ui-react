@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@patternfly/react-core';
+import { ButtonProps } from '@patternfly/react-core';
 import {
   CopyIcon,
   ExternalLinkAltIcon,
@@ -9,7 +9,11 @@ import {
   TagIcon,
   TrashIcon,
 } from '@patternfly/react-icons';
+import { PropsWithChildren } from 'react';
 import { Link } from 'react-router';
+
+import { Button } from 'components/Button/Button';
+import { withProtection } from 'components/ProtectedContent/ProtectedComponent';
 
 const iconDictionary = {
   create: <FileIcon />,
@@ -22,11 +26,13 @@ const iconDictionary = {
   mark: <FlagIcon />,
 } as const;
 
-export interface IActionButtonProps {
+export interface IActionButtonProps extends PropsWithChildren {
   iconType?: keyof typeof iconDictionary;
   variant: ButtonProps['variant'];
   link?: string;
   action?: React.MouseEventHandler<HTMLButtonElement>;
+  tooltip?: string;
+  isDisabled?: boolean;
 }
 
 /**
@@ -38,16 +44,22 @@ export interface IActionButtonProps {
  * @param variant - button style variant
  * @param link - optional prop if the button should serve as a link component (will redirect to the specified link)
  * @param action - function to perform on clicking the button
+ * @param tooltip - optional tooltip text
+ * @param isDisabled - whether the button is disabled
  * @param children - the inner components of the button (usually a textual description)
  */
-export const ActionButton = ({ iconType, variant, link, action, children }: React.PropsWithChildren<IActionButtonProps>) => (
+export const ActionButton = ({ iconType, variant, link, action, tooltip, isDisabled, children }: IActionButtonProps) => (
   <Button
     variant={variant}
     size="sm"
     icon={iconType ? iconDictionary[iconType] : null}
     component={link ? (props: any) => <Link {...props} to={link} /> : undefined}
     onClick={action}
+    tooltip={tooltip}
+    isDisabled={isDisabled}
   >
     {children}
   </Button>
 );
+
+export const ProtectedActionButton = withProtection(ActionButton, 'tooltip');

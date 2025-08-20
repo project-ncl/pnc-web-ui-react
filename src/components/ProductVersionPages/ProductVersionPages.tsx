@@ -10,12 +10,11 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as productVersionApi from 'services/productVersionApi';
@@ -107,11 +106,9 @@ export const ProductVersionPages = () => {
           { entity: breadcrumbData.productVersion.id, title: serviceContainerProductVersion.data?.version },
         ]}
         actions={
-          <ProtectedComponent>
-            <ActionButton variant="primary" link="edit">
-              Edit Product Version
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="primary" link="edit">
+            Edit Product Version
+          </ProtectedActionButton>
         }
       >
         <Outlet context={{ serviceContainerProductVersion }} />

@@ -6,10 +6,9 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProjectsList } from 'components/ProjectsList/ProjectsList';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
 import * as projectApi from 'services/projectApi';
 
@@ -34,11 +33,9 @@ export const ProjectsPage = ({ componentId = 'p1' }: IProjectPage) => {
         </>
       }
       actions={
-        <ProtectedComponent>
-          <ActionButton variant="primary" link="create">
-            Create Project
-          </ActionButton>
-        </ProtectedComponent>
+        <ProtectedActionButton variant="primary" link="create">
+          Create Project
+        </ProtectedActionButton>
       }
     >
       <ProjectsList {...{ serviceContainerProjects, componentId }} />

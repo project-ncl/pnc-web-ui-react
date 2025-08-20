@@ -4,8 +4,7 @@ import { ButtonTitles } from 'common/constants';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
-import { ProgressButton } from 'components/ProgressButton/ProgressButton';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { ProtectedProgressButton } from 'components/ProgressButton/ProgressButton';
 
 type IDeliverableAnalysisAddLabelModalButtonProps = {
   toggleModal: () => void;
@@ -26,17 +25,15 @@ export const DeliverableAnalysisAddLabelModalButton = ({
   const isDisabled = !!disabledButtonReason || !!serviceContainerDeliverableAnalysisReport.error;
 
   return (
-    <ProtectedComponent>
-      <ProgressButton
-        variant="secondary"
-        onClick={toggleModal}
-        isDisabled={isDisabled}
-        serviceContainer={serviceContainerDeliverableAnalysisReport}
-        disabledTooltip={disabledButtonReason}
-        isSmall
-      >
-        {ButtonTitles.add} label
-      </ProgressButton>
-    </ProtectedComponent>
+    <ProtectedProgressButton
+      variant="secondary"
+      onClick={toggleModal}
+      isDisabled={isDisabled}
+      serviceContainer={serviceContainerDeliverableAnalysisReport}
+      disabledTooltip={disabledButtonReason}
+      isSmall
+    >
+      {ButtonTitles.add} label
+    </ProtectedProgressButton>
   );
 };

@@ -40,7 +40,7 @@ import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { AppLogo } from 'components/AppLogo/AppLogo';
 import { DropdownLinkItem } from 'components/Dropdown/DropdownLinkItem';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { RestrictedContent } from 'components/ProtectedContent/RestrictedContent';
 import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
@@ -121,9 +121,9 @@ export const AppLayout = () => {
         <DropdownLinkItem key="variables" to="/admin/variables">
           Variables
         </DropdownLinkItem>
-        <ProtectedComponent role={AUTH_ROLE.Admin} hide key="administration">
+        <RestrictedContent key="administration" role={AUTH_ROLE.Admin}>
           <DropdownLinkItem to="/admin/administration">Administration</DropdownLinkItem>
-        </ProtectedComponent>
+        </RestrictedContent>
         {process.env.REACT_APP_PNC_OLD_UI_WEB && (
           <DropdownLinkItem key="old-ui" to={process.env.REACT_APP_PNC_OLD_UI_WEB}>
             Old UI Version <ExternalLinkAltIcon />

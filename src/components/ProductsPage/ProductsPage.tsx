@@ -6,10 +6,9 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ProductsList } from 'components/ProductsList/ProductsList';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
 import * as productApi from 'services/productApi';
 
@@ -34,11 +33,9 @@ export const ProductsPage = ({ componentId = 'p1' }: IProductsPageProps) => {
         </>
       }
       actions={
-        <ProtectedComponent>
-          <ActionButton variant="primary" link="create">
-            Create Product
-          </ActionButton>
-        </ProtectedComponent>
+        <ProtectedActionButton variant="primary" link="create">
+          Create Product
+        </ProtectedActionButton>
       }
     >
       <ProductsList {...{ serviceContainerProducts, componentId }} />

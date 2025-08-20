@@ -1,6 +1,7 @@
 import { Label as LabelPF, LabelProps as LabelPropsPF } from '@patternfly/react-core';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import { uiLogger } from 'services/uiLogger';
 
@@ -16,6 +17,8 @@ export type ILabelMapper<Types> = {
 interface ILabelMapperProps {
   mapperItem?: ILabelMapperItem;
   onRemove?: () => void;
+  tooltip?: string;
+  isDisabled?: boolean;
 }
 
 /**
@@ -23,8 +26,10 @@ interface ILabelMapperProps {
  *
  * @param mapperItem - the mapper item that will be used to generate the label
  * @param onRemove - if passed, displays remove icon inside label
+ * @param tooltip - tooltip text
+ * @param isDisabled - is 'onRemove' disabled?
  */
-export const LabelMapper = ({ mapperItem, onRemove }: ILabelMapperProps) => {
+export const LabelMapper = ({ mapperItem, onRemove, tooltip, isDisabled }: ILabelMapperProps) => {
   if (!mapperItem) {
     uiLogger.error(`Error attempting to get mapper item: mapper item undefined`);
     return <EmptyStateSymbol text={false} />;
@@ -34,8 +39,18 @@ export const LabelMapper = ({ mapperItem, onRemove }: ILabelMapperProps) => {
   const safeColor = color ?? 'grey';
 
   return (
-    <LabelPF color={safeColor} onClose={onRemove}>
-      {text}
-    </LabelPF>
+    // onClick needs to be defined for the disabled styling
+    <TooltipWrapper tooltip={tooltip}>
+      <span>
+        <LabelPF
+          color={safeColor}
+          onClose={onRemove}
+          onClick={isDisabled && onRemove ? () => {} : undefined} // onClose is not enough to get disabled styling
+          isDisabled={isDisabled}
+        >
+          {text}
+        </LabelPF>
+      </span>
+    </TooltipWrapper>
   );
 };

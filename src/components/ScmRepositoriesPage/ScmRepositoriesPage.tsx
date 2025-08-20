@@ -6,9 +6,8 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoriesList } from 'components/ScmRepositoriesList/ScmRepositoriesList';
 
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
@@ -33,11 +32,9 @@ export const ScmRepositoriesPage = ({ componentId = 's1' }: IScmRepositoriesPage
         </>
       }
       actions={
-        <ProtectedComponent>
-          <ActionButton variant="primary" link="create">
-            Create SCM Repository
-          </ActionButton>
-        </ProtectedComponent>
+        <ProtectedActionButton variant="primary" link="create">
+          Create SCM Repository
+        </ProtectedActionButton>
       }
     >
       <ScmRepositoriesList {...{ serviceContainerScmRepositories, componentId }} />

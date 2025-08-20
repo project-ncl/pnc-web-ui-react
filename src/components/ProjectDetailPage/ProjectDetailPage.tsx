@@ -9,14 +9,13 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -71,11 +70,9 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
       description={serviceContainerProject.data?.description}
       breadcrumbs={[{ entity: breadcrumbData.project.id, title: serviceContainerProject.data?.name }]}
       actions={
-        <ProtectedComponent>
-          <ActionButton variant="primary" link="edit">
-            Edit Project
-          </ActionButton>
-        </ProtectedComponent>
+        <ProtectedActionButton variant="primary" link="edit">
+          Edit Project
+        </ProtectedActionButton>
       }
     >
       <ContentBox padding marginBottom isResponsive>
@@ -110,11 +107,9 @@ export const ProjectDetailPage = ({ componentId = 'c1' }: IProjectDetailPageProp
           <PageSectionHeader title="Build Configs" />
         </ToolbarItem>
         <ToolbarItem alignRight>
-          <ProtectedComponent>
-            <ActionButton variant="secondary" link="build-configs/create">
-              Create Build Config
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="secondary" link="build-configs/create">
+            Create Build Config
+          </ProtectedActionButton>
         </ToolbarItem>
       </Toolbar>
 

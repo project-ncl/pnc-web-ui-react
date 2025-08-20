@@ -1,7 +1,4 @@
-import { Button } from '@patternfly/react-core';
-
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { ProtectedButton } from 'components/Button/Button';
 
 interface IBuildConfigRestoreModalButtonProps {
   toggleModal: () => void;
@@ -9,11 +6,13 @@ interface IBuildConfigRestoreModalButtonProps {
 }
 
 export const BuildConfigRestoreModalButton = ({ toggleModal, disabledButtonReason }: IBuildConfigRestoreModalButtonProps) => (
-  <ProtectedComponent>
-    <TooltipWrapper tooltip={disabledButtonReason}>
-      <Button variant="tertiary" onClick={toggleModal} size="sm" isAriaDisabled={!!disabledButtonReason}>
-        Restore
-      </Button>
-    </TooltipWrapper>
-  </ProtectedComponent>
+  <ProtectedButton
+    variant="tertiary"
+    onClick={toggleModal}
+    size="sm"
+    tooltip={disabledButtonReason}
+    isDisabled={!!disabledButtonReason}
+  >
+    Restore
+  </ProtectedButton>
 );

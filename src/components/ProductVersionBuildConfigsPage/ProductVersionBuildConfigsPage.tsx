@@ -4,10 +4,9 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -38,11 +37,9 @@ export const ProductVersionBuildConfigsPage = ({ componentId = 'b1' }: IProductV
           <PageSectionHeader title="Build Configs" />
         </ToolbarItem>
         <ToolbarItem alignRight>
-          <ProtectedComponent>
-            <ActionButton variant="secondary" link="edit">
-              Edit list
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="secondary" link="edit">
+            Edit list
+          </ProtectedActionButton>
         </ToolbarItem>
       </Toolbar>
 

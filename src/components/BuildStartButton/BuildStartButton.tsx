@@ -8,6 +8,8 @@ import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ProgressButton } from 'components/ProgressButton/ProgressButton';
+import { withProtection } from 'components/ProtectedContent/ProtectedComponent';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as groupConfigApi from 'services/groupConfigApi';
@@ -120,6 +122,8 @@ interface IBuildStartButtonProp {
   buildConfig?: BuildConfiguration;
   groupConfig?: GroupConfiguration;
   isCompact?: boolean;
+  isDisabled?: boolean;
+  disabledTooltip?: string;
 }
 
 /**
@@ -128,8 +132,16 @@ interface IBuildStartButtonProp {
  * @param buildConfig - Build Config data
  * @param groupConfig - Group Config data
  * @param isCompact - Compact variant is smaller in size
+ * @param isDisabled - Whether the button is disabled
+ * @param disabledTooltip - The tooltip message to be displayed when button is disabled
  */
-export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }: IBuildStartButtonProp) => {
+export const BuildStartButton = ({
+  buildConfig,
+  groupConfig,
+  isCompact = false,
+  isDisabled,
+  disabledTooltip,
+}: IBuildStartButtonProp) => {
   const [isTempBuild, setIsTempBuild] = useState<boolean>(false);
   const [alignmentPreference, setAlignmentPreference] = useState<IParamOption | undefined>(undefined);
   const [rebuildMode, setRebuildMode] = useState<IParamOption>(rebuildModes[REBUILD_MODE_DEFAULT_INDEX]);
@@ -176,27 +188,33 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
       <Dropdown
         popperProps={dropdownPopperProps}
         toggle={(toggleRef) => (
-          <MenuToggle
-            ref={toggleRef}
-            id="dropdown-toggle"
-            onClick={() => setIsDropdownOpen((isDropdownOpen) => !isDropdownOpen)}
-            isExpanded={isDropdownOpen}
-            size="sm"
-            splitButtonItems={[
-              <ProgressButton
-                key="build-button"
-                onClick={triggerBuild}
-                serviceContainer={serviceContainer}
-                icon={<BuildIcon />}
-                isSmall
-                className={styles['build-button']}
+          <TooltipWrapper tooltip={disabledTooltip}>
+            <div>
+              <MenuToggle
+                ref={toggleRef}
+                id="dropdown-toggle"
+                onClick={() => setIsDropdownOpen((isDropdownOpen) => !isDropdownOpen)}
+                isExpanded={isDropdownOpen}
+                size="sm"
+                isDisabled={isDisabled}
+                splitButtonItems={[
+                  <ProgressButton
+                    key="build-button"
+                    onClick={triggerBuild}
+                    serviceContainer={serviceContainer}
+                    icon={<BuildIcon />}
+                    isSmall
+                    className={styles['build-button']}
+                    isDisabled={isDisabled}
+                  >
+                    Build
+                  </ProgressButton>,
+                ]}
               >
-                Build
-              </ProgressButton>,
-            ]}
-          >
-            {!isCompact && (isTempBuild ? 'Temporary' : 'Persistent')}
-          </MenuToggle>
+                {!isCompact && (isTempBuild ? 'Temporary' : 'Persistent')}
+              </MenuToggle>
+            </div>
+          </TooltipWrapper>
         )}
         onOpenChange={(isOpen: boolean) => setIsDropdownOpen(isOpen)}
         isOpen={isDropdownOpen}
@@ -387,3 +405,5 @@ export const BuildStartButton = ({ buildConfig, groupConfig, isCompact = false }
 };
 
 const dropdownPopperProps = { position: 'right' } as const;
+
+export const ProtectedBuildStartButton = withProtection(BuildStartButton, 'disabledTooltip');
