@@ -12,7 +12,7 @@ import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
-import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
+import { ProtectedBuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
@@ -20,7 +20,6 @@ import { WarningIcon } from 'components/Icons/WarningIcon';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -208,9 +207,7 @@ export const BuildConfigsList = ({
                     )}
                   {columns.includes(buildConfigEntityAttributes.actions.id) && (
                     <Td>
-                      <ProtectedComponent>
-                        <BuildStartButton buildConfig={buildConfig} isCompact />
-                      </ProtectedComponent>
+                      <ProtectedBuildStartButton buildConfig={buildConfig} isCompact />
                     </Td>
                   )}
                 </Tr>

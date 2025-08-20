@@ -1,10 +1,8 @@
-import { Button } from '@patternfly/react-core';
 import { LevelUpAltIcon } from '@patternfly/react-icons';
 
 import { BuildConfiguration } from 'pnc-api-types-ts';
 
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { ProtectedButton } from 'components/Button/Button';
 
 interface IUpgradeEnvironmentModalButtonButtonProps {
   toggleModal: () => void;
@@ -17,18 +15,15 @@ export const UpgradeEnvironmentModalButton = ({ toggleModal, buildConfig }: IUpg
     : '';
 
   return (
-    <ProtectedComponent>
-      <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button
-          variant="tertiary"
-          onClick={toggleModal}
-          isAriaDisabled={!!disabledButtonReason}
-          size="sm"
-          icon={<LevelUpAltIcon />}
-        >
-          Upgrade
-        </Button>
-      </TooltipWrapper>
-    </ProtectedComponent>
+    <ProtectedButton
+      variant="tertiary"
+      onClick={toggleModal}
+      isDisabled={!!disabledButtonReason}
+      size="sm"
+      icon={<LevelUpAltIcon />}
+      tooltip={disabledButtonReason}
+    >
+      Upgrade
+    </ProtectedButton>
   );
 };

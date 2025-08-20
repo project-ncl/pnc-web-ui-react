@@ -1,10 +1,8 @@
-import { Button } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 
 import { ProductMilestone } from 'pnc-api-types-ts';
 
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { ProtectedButton } from 'components/Button/Button';
 
 interface IProductMilestoneCloseModalButtonProps {
   toggleModal: () => void;
@@ -22,18 +20,15 @@ export const ProductMilestoneCloseModalButton = ({
   const isListVariant = variant === 'list';
 
   return (
-    <ProtectedComponent>
-      <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button
-          variant={isListVariant ? 'plain' : 'secondary'}
-          onClick={toggleModal}
-          isAriaDisabled={!!disabledButtonReason}
-          className={css(isListVariant && 'full-width b-radius-0')}
-          size={isListVariant ? 'default' : 'sm'}
-        >
-          Close Milestone
-        </Button>
-      </TooltipWrapper>
-    </ProtectedComponent>
+    <ProtectedButton
+      variant={isListVariant ? 'plain' : 'secondary'}
+      onClick={toggleModal}
+      isDisabled={!!disabledButtonReason}
+      className={css(isListVariant && 'full-width b-radius-0')}
+      size={isListVariant ? 'default' : 'sm'}
+      tooltip={disabledButtonReason}
+    >
+      Close Milestone
+    </ProtectedButton>
   );
 };

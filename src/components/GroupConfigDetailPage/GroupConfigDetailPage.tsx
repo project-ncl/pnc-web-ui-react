@@ -13,17 +13,16 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { DataValues, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
-import { BuildStartButton } from 'components/BuildStartButton/BuildStartButton';
+import { ProtectedBuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionLink } from 'components/ProductVersionLink/ProductVersionLink';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -132,14 +131,10 @@ export const GroupConfigDetailPage = ({
         title={serviceContainerGroupConfig.data?.name}
         breadcrumbs={[{ entity: breadcrumbData.groupConfig.id, title: serviceContainerGroupConfig.data?.name }]}
         actions={[
-          <ProtectedComponent key="group-build-start-button">
-            <BuildStartButton groupConfig={serviceContainerGroupConfig.data!} />
-          </ProtectedComponent>,
-          <ProtectedComponent key="edit-group-config-button">
-            <ActionButton variant="primary" link="edit">
-              Edit Group Config
-            </ActionButton>
-          </ProtectedComponent>,
+          <ProtectedBuildStartButton key="group-build-start-button" groupConfig={serviceContainerGroupConfig.data!} />,
+          <ProtectedActionButton key="edit-group-config-button" variant="primary" link="edit">
+            Edit Group Config
+          </ProtectedActionButton>,
         ]}
         sidebar={{
           title: 'Build History',
@@ -176,11 +171,9 @@ export const GroupConfigDetailPage = ({
             <PageSectionHeader title="Build Configs" />
           </ToolbarItem>
           <ToolbarItem alignRight>
-            <ProtectedComponent>
-              <ActionButton variant="secondary" link="build-configs/edit">
-                Edit list
-              </ActionButton>
-            </ProtectedComponent>
+            <ProtectedActionButton variant="secondary" link="build-configs/edit">
+              Edit list
+            </ProtectedActionButton>
           </ToolbarItem>
         </Toolbar>
 

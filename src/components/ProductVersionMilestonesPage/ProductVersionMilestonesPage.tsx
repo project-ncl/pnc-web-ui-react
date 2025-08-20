@@ -7,12 +7,11 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { ProductVersionMilestonesList } from 'components/ProductVersionMilestonesList/ProductVersionMilestonesList';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -86,11 +85,9 @@ export const ProductVersionMilestonesPage = ({ componentId = 'm1' }: IProductVer
           />
         </ToolbarItem>
         <ToolbarItem alignRight>
-          <ProtectedComponent>
-            <ActionButton variant="secondary" link="create">
-              Create Milestone
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="secondary" link="create">
+            Create Milestone
+          </ProtectedActionButton>
         </ToolbarItem>
       </Toolbar>
 

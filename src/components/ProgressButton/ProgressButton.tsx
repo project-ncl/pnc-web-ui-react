@@ -4,6 +4,7 @@ import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
+import { withProtection } from 'components/ProtectedContent/ProtectedComponent';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface IProgressButtonProps {
@@ -94,3 +95,5 @@ export const ProgressButton = ({
     </TooltipWrapper>
   );
 };
+
+export const ProtectedProgressButton = withProtection(ProgressButton, 'disabledTooltip');

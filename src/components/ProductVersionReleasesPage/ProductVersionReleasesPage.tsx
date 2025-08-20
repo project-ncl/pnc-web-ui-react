@@ -5,10 +5,9 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionReleasesList } from 'components/ProductVersionReleasesList/ProductVersionReleasesList';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -48,11 +47,9 @@ export const ProductVersionReleasesPage = ({ componentId = 'r1' }: IProductVersi
           />
         </ToolbarItem>
         <ToolbarItem alignRight>
-          <ProtectedComponent>
-            <ActionButton variant="secondary" link="create">
-              Create Release
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="secondary" link="create">
+            Create Release
+          </ProtectedActionButton>
         </ToolbarItem>
       </Toolbar>
       <ProductVersionReleasesList {...{ serviceContainerProductReleases, componentId }} />

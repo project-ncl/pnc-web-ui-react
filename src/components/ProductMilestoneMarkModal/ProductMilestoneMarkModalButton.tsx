@@ -1,14 +1,12 @@
-import { Button } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 
 import { ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
 
 import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 
+import { ProtectedButton } from 'components/Button/Button';
 import { IProductMilestoneMarkModalProps } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 interface IProductMilestoneMarkModalButtonProps {
   toggleModal: () => void;
@@ -38,20 +36,17 @@ export const ProductMilestoneMarkModalButton = ({
 
   return (
     <>
-      <ProtectedComponent>
-        <TooltipWrapper tooltip={disabledButtonReason}>
-          {/* TODO: progress button - NCL-8010 */}
-          <Button
-            variant={isListVariant ? 'plain' : 'secondary'}
-            onClick={toggleModal}
-            isAriaDisabled={isDisabled}
-            className={css(isListVariant && 'full-width b-radius-0')}
-            size={isListVariant ? 'default' : 'sm'}
-          >
-            <ServiceContainerLoading {...serviceContainerProductVersion} variant="icon" title="Product Version" /> Mark as current
-          </Button>
-        </TooltipWrapper>
-      </ProtectedComponent>
+      {/* TODO: progress button - NCL-8010 */}
+      <ProtectedButton
+        variant={isListVariant ? 'plain' : 'secondary'}
+        onClick={toggleModal}
+        isDisabled={isDisabled}
+        className={css(isListVariant && 'full-width b-radius-0')}
+        size={isListVariant ? 'default' : 'sm'}
+        tooltip={disabledButtonReason}
+      >
+        <ServiceContainerLoading {...serviceContainerProductVersion} variant="icon" title="Product Version" /> Mark as current
+      </ProtectedButton>
     </>
   );
 };

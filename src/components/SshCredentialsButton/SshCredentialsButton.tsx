@@ -10,8 +10,7 @@ import { SSHCredentials } from 'pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
-import { ProgressButton } from 'components/ProgressButton/ProgressButton';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { ProtectedProgressButton } from 'components/ProgressButton/ProgressButton';
 
 export enum BUILD_STATUS {
   InProgress,
@@ -45,7 +44,7 @@ export const SshCredentialsButton = ({
     : undefined;
 
   const button = (
-    <ProgressButton
+    <ProtectedProgressButton
       variant="secondary"
       isSmall
       serviceContainer={serviceContainerSshCredentials}
@@ -53,32 +52,30 @@ export const SshCredentialsButton = ({
       disabledTooltip={disabledReason}
     >
       SSH Credentials
-    </ProgressButton>
+    </ProtectedProgressButton>
   );
 
   if (disabledReason) {
-    return <ProtectedComponent>{button}</ProtectedComponent>;
+    return button;
   }
 
   return (
-    <ProtectedComponent>
-      <Popover
-        position="bottom"
-        bodyContent={
-          <DescriptionList isHorizontal isCompact>
-            <DescriptionListGroup>
-              <DescriptionListTerm>command:</DescriptionListTerm>
-              <DescriptionListDescription>{serviceContainerSshCredentials.data?.command}</DescriptionListDescription>
-            </DescriptionListGroup>
-            <DescriptionListGroup>
-              <DescriptionListTerm>password:</DescriptionListTerm>
-              <DescriptionListDescription>{serviceContainerSshCredentials.data?.password}</DescriptionListDescription>
-            </DescriptionListGroup>
-          </DescriptionList>
-        }
-      >
-        {button}
-      </Popover>
-    </ProtectedComponent>
+    <Popover
+      position="bottom"
+      bodyContent={
+        <DescriptionList isHorizontal isCompact>
+          <DescriptionListGroup>
+            <DescriptionListTerm>command:</DescriptionListTerm>
+            <DescriptionListDescription>{serviceContainerSshCredentials.data?.command}</DescriptionListDescription>
+          </DescriptionListGroup>
+          <DescriptionListGroup>
+            <DescriptionListTerm>password:</DescriptionListTerm>
+            <DescriptionListDescription>{serviceContainerSshCredentials.data?.password}</DescriptionListDescription>
+          </DescriptionListGroup>
+        </DescriptionList>
+      }
+    >
+      {button}
+    </Popover>
   );
 };

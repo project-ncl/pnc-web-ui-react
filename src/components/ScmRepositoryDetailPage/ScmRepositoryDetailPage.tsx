@@ -8,14 +8,13 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigsList } from 'components/BuildConfigsList/BuildConfigsList';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -73,11 +72,9 @@ export const ScmRepositoryDetailPage = ({ componentId = 's2' }: IScmRepositoryDe
           },
         ]}
         actions={
-          <ProtectedComponent>
-            <ActionButton variant="primary" link="edit">
-              Edit SCM Repository
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="primary" link="edit">
+            Edit SCM Repository
+          </ProtectedActionButton>
         }
       >
         <ContentBox padding marginBottom isResponsive>

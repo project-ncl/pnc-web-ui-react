@@ -16,7 +16,7 @@ import {
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { AnalyzeDeliverablesModal } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModal';
 import { AnalyzeDeliverablesModalButton } from 'components/AnalyzeDeliverablesModal/AnalyzeDeliverablesModalButton';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
@@ -29,7 +29,6 @@ import { ProductMilestoneCloseModal } from 'components/ProductMilestoneCloseModa
 import { ProductMilestoneCloseModalButton } from 'components/ProductMilestoneCloseModal/ProductMilestoneCloseModalButton';
 import { ProductMilestoneMarkModal } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModal';
 import { ProductMilestoneMarkModalButton } from 'components/ProductMilestoneMarkModal/ProductMilestoneMarkModalButton';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
@@ -198,11 +197,9 @@ export const ProductMilestonePages = () => {
       variant="detail"
     />,
     <AnalyzeDeliverablesModalButton key="del-analysis-button" toggleModal={toggleAnalyzeDeliverablesModal} variant="detail" />,
-    <ProtectedComponent key="edit-milestone-button">
-      <ActionButton variant="primary" link="edit">
-        Edit Milestone
-      </ActionButton>
-    </ProtectedComponent>,
+    <ProtectedActionButton key="edit-milestone-button" variant="primary" link="edit">
+      Edit Milestone
+    </ProtectedActionButton>,
   ];
 
   return (

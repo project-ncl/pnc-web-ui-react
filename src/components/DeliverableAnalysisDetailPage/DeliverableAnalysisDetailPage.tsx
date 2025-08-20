@@ -25,13 +25,15 @@ import { DateTime } from 'components/DateTime/DateTime';
 import { DeliverableAnalysisLabelsHistoryList } from 'components/DeliverableAnalysisLabelHistoryList/DeliverableAnalysisLabelHistoryList';
 import { DeliverableAnalysisLabelTooltip } from 'components/DeliverableAnalysisLabelTooltip/DeliverableAnalysisLabelTooltip';
 import { DeliverableAnalysisRemoveLabelModal } from 'components/DeliverableAnalysisRemoveLabelModal/DeliverableAnalysisRemoveLabelModal';
-import { DeliverableAnalysisLabelLabelMapper } from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
+import {
+  DeliverableAnalysisLabelLabelMapper,
+  ProtectedDeliverableAnalysisLabelLabelMapper,
+} from 'components/LabelMapper/DeliverableAnalysisLabelLabelMapper';
 import { OperationProgressStatusLabelMapper } from 'components/LabelMapper/OperationProgressStatusLabelMapper';
 import { OperationResultLabelMapper } from 'components/LabelMapper/OperationResultLabelMapper';
 import { LogViewer } from 'components/LogViewer/LogViewer';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -242,9 +244,7 @@ const DeliverableAnalysisLabelLabel = ({ label, deliverableAnalysisReport }: IDe
   return (
     <>
       {canLabelBeChanged ? (
-        <ProtectedComponent>
-          <DeliverableAnalysisLabelLabelMapper label={label} onRemove={toggleRemoveLabelModal} />
-        </ProtectedComponent>
+        <ProtectedDeliverableAnalysisLabelLabelMapper label={label} onRemove={toggleRemoveLabelModal} />
       ) : (
         <DeliverableAnalysisLabelLabelMapper label={label} />
       )}

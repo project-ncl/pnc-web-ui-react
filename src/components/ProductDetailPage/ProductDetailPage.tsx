@@ -9,14 +9,13 @@ import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryPa
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
 import { ProductVersionsList } from 'components/ProductVersionsList/ProductVersionsList';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -61,11 +60,9 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
         description={serviceContainerProduct.data?.description}
         breadcrumbs={[{ entity: breadcrumbData.product.id, title: serviceContainerProduct.data?.name }]}
         actions={
-          <ProtectedComponent>
-            <ActionButton variant="primary" link="edit">
-              Edit Product
-            </ActionButton>
-          </ProtectedComponent>
+          <ProtectedActionButton variant="primary" link="edit">
+            Edit Product
+          </ProtectedActionButton>
         }
       >
         <ContentBox padding marginBottom isResponsive>
@@ -95,11 +92,9 @@ export const ProductDetailPage = ({ componentId = 'v1' }: IProductDetailPageProp
             />
           </ToolbarItem>
           <ToolbarItem alignRight>
-            <ProtectedComponent>
-              <ActionButton variant="secondary" link="versions/create">
-                Create Version
-              </ActionButton>
-            </ProtectedComponent>
+            <ProtectedActionButton variant="secondary" link="versions/create">
+              Create Version
+            </ProtectedActionButton>
           </ToolbarItem>
         </Toolbar>
 

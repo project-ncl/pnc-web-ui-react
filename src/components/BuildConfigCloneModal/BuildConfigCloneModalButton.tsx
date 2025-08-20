@@ -1,6 +1,4 @@
-import { Button } from '@patternfly/react-core';
-
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { ProtectedButton } from 'components/Button/Button';
 
 interface IBuildConfigCloneModalButtonProps {
   toggleModal: () => void;
@@ -8,9 +6,7 @@ interface IBuildConfigCloneModalButtonProps {
 }
 
 export const BuildConfigCloneModalButton = ({ toggleModal, variant }: IBuildConfigCloneModalButtonProps) => (
-  <ProtectedComponent>
-    <Button variant={variant === 'list' ? 'plain' : 'secondary'} onClick={toggleModal} size="sm">
-      Clone
-    </Button>
-  </ProtectedComponent>
+  <ProtectedButton variant={variant === 'list' ? 'plain' : 'secondary'} onClick={toggleModal} size="sm">
+    Clone
+  </ProtectedButton>
 );

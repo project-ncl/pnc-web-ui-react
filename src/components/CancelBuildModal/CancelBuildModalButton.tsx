@@ -1,9 +1,6 @@
-import { Button } from '@patternfly/react-core';
-
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { ProtectedButton } from 'components/Button/Button';
 
 import { isBuildCancelable } from 'utils/utils';
 
@@ -18,12 +15,14 @@ export const CancelBuildModalButton = ({ toggleModal, build, variant }: ICancelB
   const disabledButtonReason = build.status && !isBuildCancelable(build.status) ? `${entityName} is not in progress.` : '';
 
   return (
-    <ProtectedComponent>
-      <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button variant="primary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} size="sm">
-          Abort
-        </Button>
-      </TooltipWrapper>
-    </ProtectedComponent>
+    <ProtectedButton
+      variant="primary"
+      onClick={toggleModal}
+      size="sm"
+      tooltip={disabledButtonReason}
+      isDisabled={!!disabledButtonReason}
+    >
+      Abort
+    </ProtectedButton>
   );
 };

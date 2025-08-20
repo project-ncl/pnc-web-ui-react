@@ -24,7 +24,7 @@ import { DashboardWidget } from 'components/DashboardWidget/DashboardWidget';
 import { GroupBuildsList } from 'components/GroupBuildsList/GroupBuildsList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
+import { RestrictedContent } from 'components/ProtectedContent/RestrictedContent';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -71,7 +71,7 @@ export const DashboardPage = () => {
         <GridItem lg={12} xl2={6}>
           <DashboardWidget title="Service Status Timeline" src={statusMapUrl}></DashboardWidget>
         </GridItem>
-        <ProtectedComponent hide>
+        <RestrictedContent>
           <GridItem lg={12} xl2={6}>
             <Toolbar>
               <ToolbarItem>
@@ -90,7 +90,7 @@ export const DashboardPage = () => {
 
             <MyGroupBuildsList />
           </GridItem>
-        </ProtectedComponent>
+        </RestrictedContent>
       </Grid>
     </PageLayout>
   );

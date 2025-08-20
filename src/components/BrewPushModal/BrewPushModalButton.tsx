@@ -1,9 +1,6 @@
-import { Button } from '@patternfly/react-core';
-
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
-import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+import { ProtectedButton } from 'components/Button/Button';
 
 interface IBrewPushModalButtonProps {
   toggleModal: () => void;
@@ -14,12 +11,14 @@ export const BrewPushModalButton = ({ toggleModal, build }: IBrewPushModalButton
   const disabledButtonReason = build.status !== 'SUCCESS' ? 'Build was not successful.' : '';
 
   return (
-    <ProtectedComponent>
-      <TooltipWrapper tooltip={disabledButtonReason}>
-        <Button variant="primary" onClick={toggleModal} isAriaDisabled={!!disabledButtonReason} size="sm">
-          Push to Brew
-        </Button>
-      </TooltipWrapper>
-    </ProtectedComponent>
+    <ProtectedButton
+      variant="primary"
+      onClick={toggleModal}
+      isDisabled={!!disabledButtonReason}
+      size="sm"
+      tooltip={disabledButtonReason}
+    >
+      Push to Brew
+    </ProtectedButton>
   );
 };

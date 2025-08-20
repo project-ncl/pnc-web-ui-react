@@ -4,10 +4,9 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { GroupConfigsList } from 'components/GroupConfigsList/GroupConfigsList';
 import { PageLayout } from 'components/PageLayout/PageLayout';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 
 import * as groupConfigApi from 'services/groupConfigApi';
 
@@ -30,11 +29,9 @@ export const GroupConfigsPage = ({ componentId = 'g1' }: IGroupConfigsPage) => {
         </>
       }
       actions={
-        <ProtectedComponent>
-          <ActionButton variant="primary" link="create">
-            Create Group Config
-          </ActionButton>
-        </ProtectedComponent>
+        <ProtectedActionButton variant="primary" link="create">
+          Create Group Config
+        </ProtectedActionButton>
       }
     >
       <GroupConfigsList {...{ serviceContainerGroupConfigs, componentId }} />

@@ -1,6 +1,5 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
-import { Link } from 'react-router';
 
 import { ProductReleasePage } from 'pnc-api-types-ts';
 
@@ -11,13 +10,13 @@ import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttri
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
+import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 import { useServiceContainerProductVersion } from 'components/ProductVersionPages/ProductVersionPages';
-import { ProtectedComponent } from 'components/ProtectedContent/ProtectedComponent';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
@@ -104,9 +103,9 @@ export const ProductVersionReleasesList = ({
                   </Td>
                   <Td>{productRelease.supportLevel}</Td>
                   <Td isActionCell>
-                    <ProtectedComponent>
-                      <Link to={`${productRelease.id}/edit`}>edit</Link>
-                    </ProtectedComponent>
+                    <ProtectedActionButton variant="link" link={`${productRelease.id}/edit`}>
+                      edit
+                    </ProtectedActionButton>
                   </Td>
                 </Tr>
               ))}
