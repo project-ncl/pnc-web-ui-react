@@ -828,191 +828,189 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         </Form>
       </ContentBox>
 
-      <div className="m-b-global">
-        <ExpandableSection
-          title="Product Version"
-          isExpanded={showProductVersionSection}
-          onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
-        >
-          <ContentBox padding isResponsive>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
+      <ExpandableSection
+        title="Product Version"
+        isExpanded={showProductVersionSection}
+        onToggle={(isExpanded) => setShowProductVersionSection(isExpanded)}
+        marginBottom
+      >
+        <ContentBox padding isResponsive>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
+              {serviceContainerEditPageGet.data?.productVersion ? (
+                <ServiceContainerLoading
+                  {...serviceContainerProductVersion}
+                  variant="inline"
+                  title={`Product ${productEntityAttributes.name.title}`}
+                >
+                  {productSearchSelect}
+                </ServiceContainerLoading>
+              ) : (
+                productSearchSelect
+              )}
+            </FormGroup>
+
+            <FormGroup
+              isRequired={!!selectedProduct}
+              label={buildConfigEntityAttributes.productVersion.title}
+              fieldId={buildConfigEntityAttributes.productVersion.id}
             >
-              <FormGroup label={`Product ${productEntityAttributes.name.title}`} fieldId={productEntityAttributes.name.id}>
-                {serviceContainerEditPageGet.data?.productVersion ? (
-                  <ServiceContainerLoading
-                    {...serviceContainerProductVersion}
-                    variant="inline"
-                    title={`Product ${productEntityAttributes.name.title}`}
+              {serviceContainerEditPageGet.data?.productVersion ? (
+                <ServiceContainerLoading
+                  {...serviceContainerProductVersion}
+                  variant="inline"
+                  title={buildConfigEntityAttributes.productVersion.title}
+                >
+                  {productVersionSearchSelect}
+                </ServiceContainerLoading>
+              ) : (
+                productVersionSearchSelect
+              )}
+              <FormInputHelperText isHidden={!selectedProduct || !!selectedProductVersion} variant="error">
+                Field must be filled.
+              </FormInputHelperText>
+            </FormGroup>
+          </Form>
+        </ContentBox>
+      </ExpandableSection>
+
+      <ExpandableSection
+        title="Build parameters"
+        isExpanded={showBuildParametersSection}
+        onToggle={(isExpanded) => setShowBuildParametersSection(isExpanded)}
+        marginBottom={!isEditPage}
+      >
+        <ContentBox padding isResponsive>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <ServiceContainerLoading {...serviceContainerParameters} title="Build parameters" variant="inline">
+              <InputGroup>
+                <InputGroupItem isFill>
+                  <TypeaheadSelect
+                    isMenuOpen={isBuildParamSelectOpen}
+                    onMenuToggle={setIsBuildParamSelectOpen}
+                    selectedValue={selectedBuildParamOption}
+                    onSelect={(selection) => {
+                      setSelectedBuildParamOption(selection);
+                      setBuildParamData({
+                        ...buildParamData,
+                        [selection as string]: {
+                          value: '',
+                        },
+                      });
+                    }}
+                    onCreateOption={(newOption) => {
+                      setBuildParamOptions([...buildParamOptions, { title: newOption }]);
+                    }}
+                    creatableOptionText="Create custom Parameter"
+                    onClear={() => {
+                      setSelectedBuildParamOption('');
+                    }}
+                    placeholderText="Select Parameter or type a new one"
+                    selectOptions={useMemo(
+                      () =>
+                        buildParamOptions.map((option) => {
+                          return {
+                            value: option.title,
+                            children: option.title,
+                            isDisabled: !!buildParamData[option.title],
+                            description:
+                              option.title === 'ALIGNMENT_PARAMETERS' ? (
+                                <i>Once selected, more detailed information will be displayed.</i>
+                              ) : (
+                                option.description
+                              ),
+                          };
+                        }),
+                      [buildParamOptions, buildParamData]
+                    )}
+                  />
+                </InputGroupItem>
+              </InputGroup>
+            </ServiceContainerLoading>
+
+            {Object.entries(buildParamData).map(([key, buildParam], index) => (
+              <FormInput<string>
+                key={index}
+                {...register(key)}
+                value={buildParam.value}
+                render={({ onChange, ...rest }) => (
+                  <FormGroup
+                    label={
+                      <>
+                        <TooltipWrapper tooltip="Remove the parameter">
+                          <RemoveItemButton
+                            onRemove={() => {
+                              setSelectedBuildParamOption('');
+                              setBuildParamData(Object.fromEntries(Object.entries(buildParamData).filter(([k]) => k !== key)));
+                              unregister(key);
+                            }}
+                          />
+                        </TooltipWrapper>
+                        {key}
+                      </>
+                    }
+                    fieldId={key}
                   >
-                    {productSearchSelect}
-                  </ServiceContainerLoading>
-                ) : (
-                  productSearchSelect
-                )}
-              </FormGroup>
-
-              <FormGroup
-                isRequired={!!selectedProduct}
-                label={buildConfigEntityAttributes.productVersion.title}
-                fieldId={buildConfigEntityAttributes.productVersion.id}
-              >
-                {serviceContainerEditPageGet.data?.productVersion ? (
-                  <ServiceContainerLoading
-                    {...serviceContainerProductVersion}
-                    variant="inline"
-                    title={buildConfigEntityAttributes.productVersion.title}
-                  >
-                    {productVersionSearchSelect}
-                  </ServiceContainerLoading>
-                ) : (
-                  productVersionSearchSelect
-                )}
-                <FormInputHelperText isHidden={!selectedProduct || !!selectedProductVersion} variant="error">
-                  Field must be filled.
-                </FormInputHelperText>
-              </FormGroup>
-            </Form>
-          </ContentBox>
-        </ExpandableSection>
-      </div>
-
-      <div className="m-b-global">
-        <ExpandableSection
-          title="Build parameters"
-          isExpanded={showBuildParametersSection}
-          onToggle={(isExpanded) => setShowBuildParametersSection(isExpanded)}
-        >
-          <ContentBox padding isResponsive>
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <ServiceContainerLoading {...serviceContainerParameters} title="Build parameters" variant="inline">
-                <InputGroup>
-                  <InputGroupItem isFill>
-                    <TypeaheadSelect
-                      isMenuOpen={isBuildParamSelectOpen}
-                      onMenuToggle={setIsBuildParamSelectOpen}
-                      selectedValue={selectedBuildParamOption}
-                      onSelect={(selection) => {
-                        setSelectedBuildParamOption(selection);
-                        setBuildParamData({
-                          ...buildParamData,
-                          [selection as string]: {
-                            value: '',
-                          },
-                        });
-                      }}
-                      onCreateOption={(newOption) => {
-                        setBuildParamOptions([...buildParamOptions, { title: newOption }]);
-                      }}
-                      creatableOptionText="Create custom Parameter"
-                      onClear={() => {
-                        setSelectedBuildParamOption('');
-                      }}
-                      placeholderText="Select Parameter or type a new one"
-                      selectOptions={useMemo(
-                        () =>
-                          buildParamOptions.map((option) => {
-                            return {
-                              value: option.title,
-                              children: option.title,
-                              isDisabled: !!buildParamData[option.title],
-                              description:
-                                option.title === 'ALIGNMENT_PARAMETERS' ? (
-                                  <i>Once selected, more detailed information will be displayed.</i>
-                                ) : (
-                                  option.description
-                                ),
-                            };
-                          }),
-                        [buildParamOptions, buildParamData]
-                      )}
-                    />
-                  </InputGroupItem>
-                </InputGroup>
-              </ServiceContainerLoading>
-
-              {Object.entries(buildParamData).map(([key, buildParam], index) => (
-                <FormInput<string>
-                  key={index}
-                  {...register(key)}
-                  value={buildParam.value}
-                  render={({ onChange, ...rest }) => (
-                    <FormGroup
-                      label={
-                        <>
-                          <TooltipWrapper tooltip="Remove the parameter">
-                            <RemoveItemButton
-                              onRemove={() => {
-                                setSelectedBuildParamOption('');
-                                setBuildParamData(Object.fromEntries(Object.entries(buildParamData).filter(([k]) => k !== key)));
-                                unregister(key);
-                              }}
-                            />
-                          </TooltipWrapper>
-                          {key}
-                        </>
+                    <FormInputHelperText
+                      variant={
+                        key === 'ALIGNMENT_PARAMETERS' && !getFieldValue(buildConfigEntityAttributes.buildType.id)
+                          ? 'error'
+                          : 'default'
                       }
-                      fieldId={key}
                     >
-                      <FormInputHelperText
-                        variant={
-                          key === 'ALIGNMENT_PARAMETERS' && !getFieldValue(buildConfigEntityAttributes.buildType.id)
-                            ? 'error'
-                            : 'default'
-                        }
-                      >
-                        {key === 'ALIGNMENT_PARAMETERS'
-                          ? generateAlignmentParametersDescription(getFieldValue(buildConfigEntityAttributes.buildType.id))
-                          : buildParamOptions.find((option) => option.title === key)?.description}
-                      </FormInputHelperText>
+                      {key === 'ALIGNMENT_PARAMETERS'
+                        ? generateAlignmentParametersDescription(getFieldValue(buildConfigEntityAttributes.buildType.id))
+                        : buildParamOptions.find((option) => option.title === key)?.description}
+                    </FormInputHelperText>
 
-                      {key === 'BUILD_CATEGORY' ? (
-                        <Select
-                          id={key}
-                          isOpen={isBuildCategorySelectOpen}
-                          onToggle={setIsBuildCategorySelectOpen}
-                          value={rest.value || undefined}
-                          onChange={(event, buildCategory) => {
-                            setBuildParamData({
-                              ...buildParamData,
-                              [key]: { ...buildParamData[key], value: buildCategory as string },
-                            });
-                            onChange(event, buildCategory as string);
-                          }}
-                          validated={rest.validated}
-                          placeholder="Select Build category"
-                          onBlur={rest.onBlur}
-                        >
-                          <SelectOption option="STANDARD" />
-                          <SelectOption option="SERVICE" />
-                        </Select>
-                      ) : (
-                        <TextArea
-                          id={key}
-                          name={key}
-                          height={150}
-                          resizeOrientation="vertical"
-                          onChange={(event, value) => {
-                            setBuildParamData({ ...buildParamData, [key]: { ...buildParamData[key], value } });
-                            onChange(event, value);
-                          }}
-                          {...rest}
-                        />
-                      )}
-                    </FormGroup>
-                  )}
-                />
-              ))}
-            </Form>
-          </ContentBox>
-        </ExpandableSection>
-      </div>
+                    {key === 'BUILD_CATEGORY' ? (
+                      <Select
+                        id={key}
+                        isOpen={isBuildCategorySelectOpen}
+                        onToggle={setIsBuildCategorySelectOpen}
+                        value={rest.value || undefined}
+                        onChange={(event, buildCategory) => {
+                          setBuildParamData({
+                            ...buildParamData,
+                            [key]: { ...buildParamData[key], value: buildCategory as string },
+                          });
+                          onChange(event, buildCategory as string);
+                        }}
+                        validated={rest.validated}
+                        placeholder="Select Build category"
+                        onBlur={rest.onBlur}
+                      >
+                        <SelectOption option="STANDARD" />
+                        <SelectOption option="SERVICE" />
+                      </Select>
+                    ) : (
+                      <TextArea
+                        id={key}
+                        name={key}
+                        height={150}
+                        resizeOrientation="vertical"
+                        onChange={(event, value) => {
+                          setBuildParamData({ ...buildParamData, [key]: { ...buildParamData[key], value } });
+                          onChange(event, value);
+                        }}
+                        {...rest}
+                      />
+                    )}
+                  </FormGroup>
+                )}
+              />
+            ))}
+          </Form>
+        </ContentBox>
+      </ExpandableSection>
 
       {!isEditPage && (
         <ExpandableSection

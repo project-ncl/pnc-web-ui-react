@@ -21,6 +21,7 @@ import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceCon
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { ContentBox } from 'components/ContentBox/ContentBox';
+import { PlainContentBox } from 'components/ContentBox/PlainContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
 import { DeliverableAnalysisLabelsHistoryList } from 'components/DeliverableAnalysisLabelHistoryList/DeliverableAnalysisLabelHistoryList';
 import { DeliverableAnalysisLabelTooltip } from 'components/DeliverableAnalysisLabelTooltip/DeliverableAnalysisLabelTooltip';
@@ -180,19 +181,19 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
         </Attributes>
       </ContentBox>
 
-      <div className="m-b-global">
-        <Toolbar>
-          <ToolbarItem>
-            <PageSectionHeader title={PageTitles.deliverableAnalysisLabelsHistory} />
-          </ToolbarItem>
-        </Toolbar>
-        <DeliverableAnalysisLabelsHistoryList
-          serviceContainerLabelsHistory={serviceContainerLabelsHistory}
-          componentId={componentId}
-        />
-      </div>
+      <Toolbar>
+        <ToolbarItem>
+          <PageSectionHeader title={PageTitles.deliverableAnalysisLabelsHistory} />
+        </ToolbarItem>
+      </Toolbar>
+      <DeliverableAnalysisLabelsHistoryList
+        serviceContainerLabelsHistory={serviceContainerLabelsHistory}
+        componentId={componentId}
+      />
 
-      <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
+      <PlainContentBox marginTop>
+        <LogViewerSection deliverableAnalysis={deliverableAnalysis} />
+      </PlainContentBox>
     </ServiceContainerLoading>
   );
 };
