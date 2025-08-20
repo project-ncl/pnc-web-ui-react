@@ -558,16 +558,19 @@ Object {
                     class="pf-v6-c-table__td"
                     tabindex="-1"
                   >
-                    <span
-                      class="pf-v6-c-label pf-m-purple pf-m-filled"
-                    >
+                     
+                    <span>
                       <span
-                        class="pf-v6-c-label__content"
+                        class="pf-v6-c-label pf-m-purple pf-m-filled"
                       >
                         <span
-                          class="pf-v6-c-label__text"
+                          class="pf-v6-c-label__content"
                         >
-                          NPM
+                          <span
+                            class="pf-v6-c-label__text"
+                          >
+                            NPM
+                          </span>
                         </span>
                       </span>
                     </span>
@@ -631,16 +634,19 @@ Object {
                     class="pf-v6-c-table__td"
                     tabindex="-1"
                   >
-                    <span
-                      class="pf-v6-c-label pf-m-filled"
-                    >
+                     
+                    <span>
                       <span
-                        class="pf-v6-c-label__content"
+                        class="pf-v6-c-label pf-m-filled"
                       >
                         <span
-                          class="pf-v6-c-label__text"
+                          class="pf-v6-c-label__content"
                         >
-                          NEW
+                          <span
+                            class="pf-v6-c-label__text"
+                          >
+                            NEW
+                          </span>
                         </span>
                       </span>
                     </span>
@@ -1569,16 +1575,19 @@ Object {
                   class="pf-v6-c-table__td"
                   tabindex="-1"
                 >
-                  <span
-                    class="pf-v6-c-label pf-m-purple pf-m-filled"
-                  >
+                   
+                  <span>
                     <span
-                      class="pf-v6-c-label__content"
+                      class="pf-v6-c-label pf-m-purple pf-m-filled"
                     >
                       <span
-                        class="pf-v6-c-label__text"
+                        class="pf-v6-c-label__content"
                       >
-                        NPM
+                        <span
+                          class="pf-v6-c-label__text"
+                        >
+                          NPM
+                        </span>
                       </span>
                     </span>
                   </span>
@@ -1642,16 +1651,19 @@ Object {
                   class="pf-v6-c-table__td"
                   tabindex="-1"
                 >
-                  <span
-                    class="pf-v6-c-label pf-m-filled"
-                  >
+                   
+                  <span>
                     <span
-                      class="pf-v6-c-label__content"
+                      class="pf-v6-c-label pf-m-filled"
                     >
                       <span
-                        class="pf-v6-c-label__text"
+                        class="pf-v6-c-label__content"
                       >
-                        NEW
+                        <span
+                          class="pf-v6-c-label__text"
+                        >
+                          NEW
+                        </span>
                       </span>
                     </span>
                   </span>

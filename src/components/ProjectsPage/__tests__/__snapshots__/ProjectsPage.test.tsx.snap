@@ -63,18 +63,19 @@ Object {
             class="page-layout__actions"
           >
             <div
-              title="Keycloak service is not available."
+              style="display: contents;"
             >
-              <div
-                class="disabled-content"
-              >
+               
+              <span>
                 <a
-                  class="pf-v6-c-button pf-m-primary pf-m-small"
+                  aria-disabled="true"
+                  class="pf-v6-c-button pf-m-primary pf-m-disabled pf-m-small"
                   data-discover="true"
                   data-ouia-component-id="OUIA-Generated-Button-primary-2"
                   data-ouia-component-type="PF6/Button"
                   data-ouia-safe="true"
                   href="/create"
+                  tabindex="-1"
                 >
                   <span
                     class="pf-v6-c-button__text"
@@ -82,7 +83,7 @@ Object {
                     Create Project
                   </span>
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -880,18 +881,19 @@ Object {
           class="page-layout__actions"
         >
           <div
-            title="Keycloak service is not available."
+            style="display: contents;"
           >
-            <div
-              class="disabled-content"
-            >
+             
+            <span>
               <a
-                class="pf-v6-c-button pf-m-primary pf-m-small"
+                aria-disabled="true"
+                class="pf-v6-c-button pf-m-primary pf-m-disabled pf-m-small"
                 data-discover="true"
                 data-ouia-component-id="OUIA-Generated-Button-primary-2"
                 data-ouia-component-type="PF6/Button"
                 data-ouia-safe="true"
                 href="/create"
+                tabindex="-1"
               >
                 <span
                   class="pf-v6-c-button__text"
@@ -899,7 +901,7 @@ Object {
                   Create Project
                 </span>
               </a>
-            </div>
+            </span>
           </div>
         </div>
       </div>
