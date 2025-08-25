@@ -49,8 +49,8 @@ const qParamSupportedComparisonOperatorsRegex = new RegExp('(' + qParamSupported
 /**
  * @example
  * {
- *   name: ['"%t1%"', '"%t2%"'],
- *   status: ['CANCELLED', 'SYSTEM_ERROR']
+ *   name: { logicalOperator: 'and', values: ['"%t1%"', '"%t2%"'] } ,
+ *   status: { logicalOperator: 'or', values: ['CANCELLED', 'SYSTEM_ERROR'] }
  * }
  */
 export interface IQParamObject {
@@ -120,7 +120,7 @@ const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamO
 
 /**
  * @param qParamString - Array of strings (RSQL expressions): ['name=like="%a%"', 'name=notlike="%b%"', 'description=like="%c%"', 'name=like="%d%"']
- * @returns Joined RSQL string. Items within one group (same id (key)) are joined with OR operator, groups are joined with AND operator.
+ * @returns Joined RSQL string. Items within one group (same id (key)) are joined with AND or OR operator (based on comparison operator), groups are joined with AND operator.
  * Example output: 'name=like="%a%",name=notlike="%b%",name=like="%d%";description=like="%c%"'
  */
 const joinQParamItems = (qParamItems: string[]): string => {
@@ -204,11 +204,7 @@ export const removeQParamItem = (id: string, value: TQParamValue, operator: IQPa
 
 /**
  * @param qParam - RSQL string: filename=like="%te%t%";status!=CANCELLED
- * @returns Object representing individual RSQL items deeply parsed:
- * {
- *   name: ['"%te%t%"'],
- *   status: ['CANCELLED']
- * }
+ * @returns Object representing individual RSQL items deeply parsed along with logical operators
  */
 export const parseQParamDeep = (qParam: string): IQParamObject => {
   let qParamObject: IQParamObject = {};
