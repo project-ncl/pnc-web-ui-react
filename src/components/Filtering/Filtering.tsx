@@ -30,7 +30,7 @@ import styles from './Filtering.module.css';
  * }
  */
 export interface IAppliedFilters {
-  [key: string]: { logicalOperator: TQParamLogicalOperator; values: string[] };
+  [key: string]: { logicalOperator: TQParamLogicalOperator | undefined; values: string[] };
 }
 
 export type TFilterAttribute = WithRequiredProperty<IEntityAttribute, 'filter'>;
@@ -195,7 +195,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
       if (v.filter.isCustomParam) {
         const customParamValue = getComponentQueryParamValue(location.search, k, componentId);
         if (customParamValue) {
-          appliedFilters[k].values = [customParamValue];
+          appliedFilters[k] = { logicalOperator: undefined, values: [customParamValue] };
         }
       }
     });
