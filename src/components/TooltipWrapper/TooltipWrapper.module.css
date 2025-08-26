@@ -1,7 +1,7 @@
-.mvn-rpm-experimental__tooltip a {
+.tooltip-wrapper__tooltip a {
   color: var(--pf-t--global--text--color--inverse) !important;
 }
 
-.mvn-rpm-experimental__tooltip a:hover {
+.tooltip-wrapper__tooltip a:hover {
   color: var(--pf-t--global--color--nonstatus--gray--hover) !important;
 }

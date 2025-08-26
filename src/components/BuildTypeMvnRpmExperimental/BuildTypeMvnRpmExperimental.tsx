@@ -1,11 +1,11 @@
-import { Icon, Tooltip } from '@patternfly/react-core';
+import { Icon } from '@patternfly/react-core';
 import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
 
 import { buildTypeData } from 'common/buildTypeData';
 
-import * as webConfigService from 'services/webConfigService';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import styles from './BuildTypeMvnRpmExperimental.module.css';
+import * as webConfigService from 'services/webConfigService';
 
 export const BuildTypeMvnRpmExperimentalIcon = () => {
   return (
@@ -36,9 +36,9 @@ export const BuildTypeMvnRpmExperimentalDescription = () => {
 export const BuildTypeMvnRpmExperimentalTooltip = () => {
   return (
     <span className="p-l-5">
-      <Tooltip content={<BuildTypeMvnRpmExperimentalDescription />} className={styles['mvn-rpm-experimental__tooltip']}>
+      <TooltipWrapper tooltip={<BuildTypeMvnRpmExperimentalDescription />}>
         <BuildTypeMvnRpmExperimentalIcon />
-      </Tooltip>
+      </TooltipWrapper>
     </span>
   );
 };
