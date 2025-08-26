@@ -28,8 +28,8 @@ window.pnc = {
 };
 
 const mockMatches = [
-  { id: '0', pathname: '/', data: 'data', handle: '1', params: {} },
-  { id: '0-1', pathname: '/products', data: 'data', handle: '2', params: {} },
+  { id: '0', pathname: '/', data: 'data', loaderData: 'loaderData', handle: '1', params: {} },
+  { id: '0-1', pathname: '/products', data: 'data', loaderData: 'loaderData', handle: '2', params: {} },
 ];
 
 beforeEach(() => {
