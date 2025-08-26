@@ -35,7 +35,7 @@ export const validateUrl = (url: string): boolean => {
 export const urlValidator = { validator: validateUrl, errorMessage: 'Invalid URL format.' };
 
 /**
- * SCM URL validation function.
+ * SCM URL (internal or external) validation function.
  *
  * Checks valid SCM URL format. Accepts empty URL.
  *
@@ -49,6 +49,7 @@ export const validateScmUrl = (url: string): boolean => {
   }
 
   const isInternalUrl = url.includes(webConfigService.getInternalScmAuthority());
+
   const isGitlab = url.includes('gitlab');
 
   // e.g: git@test.me:hello/wo.rld/bo-ss/taa.git
@@ -65,6 +66,18 @@ export const validateScmUrl = (url: string): boolean => {
   }
 
   return true;
+};
+
+/**
+ * External SCM URL validation function.
+ *
+ * Checks valid SCM URL format. Accepts empty URL.
+ *
+ * @param url - URL string
+ * @returns true if valid, false otherwise
+ */
+export const validateExternalScmUrl = (url: string): boolean => {
+  return !url || scmUrlRegex.test(url);
 };
 
 /**

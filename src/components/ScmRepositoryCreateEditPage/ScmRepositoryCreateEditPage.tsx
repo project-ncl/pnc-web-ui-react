@@ -30,7 +30,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 
 import { generateScmRepositoryName } from 'utils/entityNameGenerators';
-import { validateScmUrl } from 'utils/formValidationHelpers';
+import { validateExternalScmUrl, validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
 
@@ -51,7 +51,7 @@ const createFieldConfigs = {
 const editFieldConfigs = {
   externalUrl: {
     validators: [
-      { validator: validateScmUrl, errorMessage: 'Invalid SCM URL format.' },
+      { validator: validateExternalScmUrl, errorMessage: 'Invalid SCM URL format.' },
       {
         validator: validatePreBuildSync,
         errorMessage: 'External SCM URL cannot be empty when Pre-build Sync is enabled.',
