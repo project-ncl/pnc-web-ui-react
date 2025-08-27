@@ -6,6 +6,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ArtifactsList } from 'components/ArtifactsList/ArtifactsList';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
+import { ProductMilestoneDeliveredArtifactListFilteringPresets } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactListFilteringPresets';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 
@@ -41,7 +42,15 @@ export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: I
           />
         </ToolbarItem>
       </Toolbar>
-      <ArtifactsList {...{ serviceContainerArtifacts, componentId }} />
+      <ArtifactsList
+        {...{ serviceContainerArtifacts, componentId }}
+        customFiltering={
+          <ProductMilestoneDeliveredArtifactListFilteringPresets
+            componentId={componentId}
+            productMilestoneId={productMilestoneId}
+          />
+        }
+      />
     </>
   );
 };

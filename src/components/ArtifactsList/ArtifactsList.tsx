@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { BuildIcon } from '@patternfly/react-icons';
 import { ExpandableRowContent, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
-import { useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 
 import { Artifact, ArtifactPage } from 'pnc-api-types-ts';
@@ -47,6 +47,7 @@ interface IArtifactsListProps {
   serviceContainerArtifacts: IServiceContainerState<ArtifactPage>;
   columns?: string[];
   componentId: string;
+  customFiltering?: ReactNode;
 }
 
 const defaultColumns = [
@@ -68,7 +69,12 @@ const defaultColumns = [
  * @param serviceContainerArtifacts - Service Container for Artifacts
  * @param componentId - Component ID
  */
-export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColumns, componentId }: IArtifactsListProps) => {
+export const ArtifactsList = ({
+  serviceContainerArtifacts,
+  columns = defaultColumns,
+  componentId,
+  customFiltering,
+}: IArtifactsListProps) => {
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -120,6 +126,11 @@ export const ArtifactsList = ({ serviceContainerArtifacts, columns = defaultColu
   return (
     <>
       <Toolbar column>
+        {customFiltering && (
+          <ToolbarGroup>
+            <ToolbarItem>{customFiltering}</ToolbarItem>
+          </ToolbarGroup>
+        )}
         <ToolbarGroup>
           <ToolbarItem>
             <Filtering
