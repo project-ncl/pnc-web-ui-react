@@ -1,0 +1,9 @@
+.filtering-presets {
+  display: flex;
+  align-items: center;
+  gap: var(--global-spacer--sm);
+}
+
+.filtering-presets--title {
+  font-weight: 500;
+}
