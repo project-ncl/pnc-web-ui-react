@@ -27,6 +27,10 @@ code {
   scroll-margin: 20px;
 }
 
+.cursor-default {
+  cursor: default !important;
+}
+
 .position-relative {
   position: relative !important;
 }
