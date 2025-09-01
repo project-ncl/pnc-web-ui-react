@@ -107,7 +107,7 @@ export const BuildConfigDetail = ({
                   {serviceContainerBuildConfig.data?.environment?.description}
                   {serviceContainerBuildConfig.data?.environment?.deprecated && (
                     <>
-                      <WarningLabel hasIcon>Deprecated</WarningLabel>
+                      <WarningLabel>Deprecated</WarningLabel>
                       {!isRevisionVariant && (
                         <UpgradeEnvironmentModalButton
                           toggleModal={toggleUpgradeEnvironmentModal}
