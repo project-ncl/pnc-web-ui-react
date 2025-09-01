@@ -1,13 +1,9 @@
 import { Label, LabelProps } from '@patternfly/react-core';
 
-import { WarningIcon } from 'components/Icons/WarningIcon';
+interface IWarningLabelProps extends Exclude<LabelProps, 'color' | 'icon' | 'status'> {}
 
-interface IWarningLabelProps extends Exclude<LabelProps, 'color' | 'icon'> {
-  hasIcon?: boolean;
-}
-
-export const WarningLabel = ({ hasIcon = false, children, ...otherProps }: IWarningLabelProps) => (
-  <Label color="yellow" icon={hasIcon && <WarningIcon />} {...otherProps}>
+export const WarningLabel = ({ children, ...otherProps }: IWarningLabelProps) => (
+  <Label color="yellow" status="warning" {...otherProps}>
     {children}
   </Label>
 );
