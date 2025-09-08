@@ -54,7 +54,7 @@ const qParamSupportedComparisonOperatorsRegex = new RegExp('(' + qParamSupported
  * }
  */
 export interface IQParamObject {
-  [key: string]: { logicalOperator: TQParamLogicalOperator; values: string[] };
+  [key: string]: { operator: IQParamOperators; logicalOperator: TQParamLogicalOperator; values: string[] };
 }
 
 /**
@@ -113,9 +113,17 @@ const constructQParamItem = (id: string, value: TQParamValue, operator: IQParamO
       // value does NOT contain "% characters yet, they need to be added
       // use '=notlike=' when '=like="%!' exists, otherwise use '=like='
       return (id + operator + '"%' + escapedValue + '%"').replace('=like="%!', '=notlike="%');
+    case '==':
+      return constructDefaultQParamItem(id, value, operator)
+        .replace('==!', '!=')
+        .replace(/==null/i, '=isnull=true');
     default:
-      return `${id}${operator}${value}`;
+      return constructDefaultQParamItem(id, value, operator);
   }
+};
+
+const constructDefaultQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators): string => {
+  return `${id}${operator}${value}`;
 };
 
 /**
@@ -186,11 +194,13 @@ export const addQParamItem = (
  */
 export const removeQParamItem = (id: string, value: TQParamValue, operator: IQParamOperators, qParam: string): string => {
   const qParamItems = parseQParamShallow(qParam);
-
-  // #support =notlike=
+  // #support =notlike=, !=, and =isnull=
   // value already contains "% characters
   // use '=notlike=' when '=like=!' exists, otherwise use '=like='
-  const removeItem = (id + operator + value).replace('=like=!', '=notlike=');
+  const removeItem = (id + operator + value)
+    .replace('=like=!', '=notlike=')
+    .replace('==!', '!=')
+    .replace(/==null/i, '=isnull=true');
   const removeItemIndex = qParamItems.indexOf(removeItem);
 
   if (removeItemIndex > -1) {
@@ -218,15 +228,25 @@ export const parseQParamDeep = (qParam: string): IQParamObject => {
 
     if (qParamItemSplitted.length >= 3 && isQParamOperator(qOperator)) {
       // add ! character
-      // #support =notlike=
-      if (qOperator === '=notlike=') {
+      // #support =notlike=, !=, and =isnull=
+      if (qOperator === '=notlike=' || qOperator === '!=') {
         qValue = '!' + qValue;
+        qOperator = qOperator === '=notlike=' ? '=like=' : '==';
+      }
+
+      if (qOperator === '=isnull=') {
+        qValue = 'null';
+        qOperator = '==';
       }
 
       if (qParamObject[qKey]) {
         qParamObject[qKey].values.push(qValue);
       } else {
-        qParamObject[qKey] = { logicalOperator: selectLogicalOperator(qOperator), values: [qValue] };
+        qParamObject[qKey] = {
+          operator: qOperator as IQParamOperators,
+          logicalOperator: selectLogicalOperator(qOperator as IQParamOperators),
+          values: [qValue],
+        };
       }
     } else {
       uiLogger.error(
