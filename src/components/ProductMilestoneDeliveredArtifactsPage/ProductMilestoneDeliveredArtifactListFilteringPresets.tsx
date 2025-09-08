@@ -1,10 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
+import { deliveredArtifactsSourceDescriptions } from 'common/deliveredArtifactsSourceDescriptions';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
-import { FilteringPreset } from 'components/FilteringPreset/FilteringPreset';
+import { FilteringPreset, TFilterPreset } from 'components/FilteringPreset/FilteringPreset';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -13,25 +14,159 @@ import styles from './ProductMilestoneDeliveredArtifactListFilteringPresets.modu
 interface IProductMilestoneDeliveredArtifactListFilteringPresetsProps {
   componentId: string;
   productMilestoneId: string;
+
+  productId: string;
 }
 
-export const ProductMilestoneDeliveredArtifactListFilteringPresets = ({
-  componentId,
-  productMilestoneId,
-}: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+export const ProductMilestoneDeliveredArtifactListFilteringPresets = (
+  props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps
+) => {
   return (
     <div className={styles['filtering-presets']}>
-      <b className={styles['filtering-presets--title']}>Predefined filters:</b>
+      <BuiltInThisMilestoneFilteringPreset {...props} />
 
-      <NotFoundNotBuiltFilteringPreset componentId={componentId} productMilestoneId={productMilestoneId} />
+      <BuiltInOtherMilestonesFilteringPreset {...props} />
 
-      <FoundNotBuiltFilteringPreset componentId={componentId} productMilestoneId={productMilestoneId} />
+      <BuiltInOtherProductsFilteringPreset {...props} />
+
+      <BuiltOutsideMilestoneFilteringPreset {...props} />
+
+      <NotBuiltFilteringPreset {...props} />
+
+      <NotBuiltFoundFilteringPreset {...props} />
+
+      <NotBuiltNotFoundFilteringPreset {...props} />
     </div>
   );
 };
 
-const notFoundNotBuiltFilterPreset = [
-  { id: artifactEntityAttributes.artifactQuality.id, operator: '==' as const, values: ['IMPORTED'] },
+const BuiltInThisMilestoneFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  const builtInThisMilestoneFilterPreset = useMemo(
+    () => [
+      {
+        id: artifactEntityAttributes['build.productMilestone.id'].id,
+        operator: '==' as const,
+        values: [props.productMilestoneId],
+      },
+    ],
+    [props.productMilestoneId]
+  );
+
+  return (
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
+      title="Built in this Milestone"
+      description={`Filter ${deliveredArtifactsSourceDescriptions.thisMilestone.description}`}
+      filterPreset={builtInThisMilestoneFilterPreset}
+      {...props}
+    />
+  );
+};
+
+const BuiltInOtherMilestonesFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  const builtInOtherMilestonesFilterPreset = useMemo(
+    () => [
+      {
+        id: artifactEntityAttributes['build.productMilestone.id'].id,
+        operator: '==' as const,
+        values: [`!${props.productMilestoneId}`],
+      },
+      {
+        id: artifactEntityAttributes['build.productMilestone.productVersion.product.id'].id,
+        operator: '==' as const,
+        values: [props.productId],
+      },
+    ],
+    [props.productMilestoneId, props.productId]
+  );
+
+  return (
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
+      title="Built in other Milestones"
+      description={`Filter ${deliveredArtifactsSourceDescriptions.otherMilestones.description}`}
+      filterPreset={builtInOtherMilestonesFilterPreset}
+      {...props}
+    />
+  );
+};
+
+const BuiltInOtherProductsFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  const builtInOtherProductsFilterPreset = useMemo(
+    () => [
+      {
+        id: artifactEntityAttributes['build.productMilestone.productVersion.product.id'].id,
+        operator: '==' as const,
+        values: [`!${props.productId}`],
+      },
+    ],
+    [props.productId]
+  );
+
+  return (
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
+      title="Built in other Products"
+      description={`Filter ${deliveredArtifactsSourceDescriptions.otherProducts.description}`}
+      filterPreset={builtInOtherProductsFilterPreset}
+      {...props}
+    />
+  );
+};
+
+const builtOutsideMilestoneFilterPreset = [
+  {
+    id: artifactEntityAttributes['build.productMilestone'].id,
+    operator: '==' as const,
+    values: ['null'],
+  },
+];
+
+const BuiltOutsideMilestoneFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  return (
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
+      title="Built outside any Milestone"
+      description={`Filter ${deliveredArtifactsSourceDescriptions.noMilestone.description}`}
+      filterPreset={builtOutsideMilestoneFilterPreset}
+      {...props}
+    />
+  );
+};
+
+const notBuiltFilterPreset = [{ id: artifactEntityAttributes.artifactQuality.id, operator: '==' as const, values: ['IMPORTED'] }];
+
+const NotBuiltFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  return (
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
+      title="Not built"
+      description={`Filter ${deliveredArtifactsSourceDescriptions.noBuild.description}`}
+      filterPreset={notBuiltFilterPreset}
+      isWarningOnGreaterThanZero
+      {...props}
+    />
+  );
+};
+
+const notBuiltFoundFilterPreset = [
+  ...notBuiltFilterPreset,
+  {
+    id: artifactEntityAttributes['targetRepository.repositoryType'].id,
+    operator: '==' as const,
+    values: ['NPM', 'MAVEN', 'GENERIC_PROXY'],
+  },
+];
+
+const NotBuiltFoundFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  return (
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
+      title="Not built, found"
+      description="Filter Delivered Artifacts which were found in the registry, but not produced in any Build."
+      filterPreset={notBuiltFoundFilterPreset}
+      isWarningOnGreaterThanZero
+      {...props}
+    />
+  );
+};
+
+const notBuiltNotFoundFilterPreset = [
+  ...notBuiltFilterPreset,
   {
     id: artifactEntityAttributes['targetRepository.repositoryType'].id,
     operator: '==' as const,
@@ -39,63 +174,48 @@ const notFoundNotBuiltFilterPreset = [
   },
 ];
 
-const NotFoundNotBuiltFilteringPreset = ({
-  componentId,
-  productMilestoneId,
-}: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
-  const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
-  const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
-
-  const isWarning = !!serviceContainerArtifacts.data?.totalHits && serviceContainerArtifacts.data.totalHits > 0;
-
+const NotBuiltNotFoundFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   return (
-    <FilteringPreset
-      componentId={componentId}
+    <ProductMilestoneDeliveredArtifactListFilteringPreset
       title="Not built, not found"
-      description={`Filter artifacts which were NOT found in the registry, their source in unknown. Number higher than 0 might indicate a problem. ${
-        isWarning ? `There are ${serviceContainerArtifacts.data?.totalHits} existing artifacts to be reviewed.` : ''
-      } `}
-      filterPreset={notFoundNotBuiltFilterPreset}
-      serviceContainerEntitiesCount={serviceContainerArtifacts}
-      serviceContainerEntitiesCountRunner={useCallback(
-        (qParam) =>
-          serviceContainerArtifactsRunner({
-            serviceData: { id: productMilestoneId },
-            requestConfig: { params: { pageSize: 0, q: qParam } },
-          }),
-        [serviceContainerArtifactsRunner, productMilestoneId]
-      )}
-      isWarning={isWarning}
+      description="Filter Delivered Artifacts which were not found in the registry, their source in unknown."
+      filterPreset={notBuiltNotFoundFilterPreset}
+      isWarningOnGreaterThanZero
+      {...props}
     />
   );
 };
 
-const foundNotBuiltFilterPreset = [
-  { id: artifactEntityAttributes.artifactQuality.id, operator: '==' as const, values: ['IMPORTED'] },
-  {
-    id: artifactEntityAttributes['targetRepository.repositoryType'].id,
-    operator: '==' as const,
-    values: ['NPM', 'MAVEN', 'COCOA_POD'],
-  },
-];
+interface IProductMilestoneDeliveredArtifactListFilteringPresetProps
+  extends IProductMilestoneDeliveredArtifactListFilteringPresetsProps {
+  filterPreset: TFilterPreset;
+  title: string;
+  description: string;
+  isWarningOnGreaterThanZero?: boolean;
+}
 
-const FoundNotBuiltFilteringPreset = ({
+const ProductMilestoneDeliveredArtifactListFilteringPreset = ({
   componentId,
   productMilestoneId,
-}: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
+  filterPreset,
+  title,
+  description,
+  isWarningOnGreaterThanZero = false,
+}: IProductMilestoneDeliveredArtifactListFilteringPresetProps) => {
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
 
-  const isWarning = !!serviceContainerArtifacts.data?.totalHits && serviceContainerArtifacts.data.totalHits > 0;
+  const isWarning =
+    isWarningOnGreaterThanZero && !!serviceContainerArtifacts.data?.totalHits && serviceContainerArtifacts.data.totalHits > 0;
 
   return (
     <FilteringPreset
       componentId={componentId}
-      title="Not built, found"
-      description={`Filter artifacts which were found in the registry, but not built in PNC. Number higher than 0 might indicate a problem. ${
-        isWarning ? `There are ${serviceContainerArtifacts.data?.totalHits} existing artifacts to be reviewed.` : ''
-      } `}
-      filterPreset={foundNotBuiltFilterPreset}
+      title={title}
+      description={`${description}${isWarningOnGreaterThanZero ? ' Non-zero value may indicate a problem.' : ''}${
+        isWarning ? ` There are ${serviceContainerArtifacts.data?.totalHits} existing artifacts to be reviewed.` : ''
+      }`}
+      filterPreset={filterPreset}
       serviceContainerEntitiesCount={serviceContainerArtifacts}
       serviceContainerEntitiesCountRunner={useCallback(
         (qParam) =>

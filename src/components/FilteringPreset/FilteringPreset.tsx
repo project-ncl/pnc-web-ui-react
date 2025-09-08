@@ -11,18 +11,20 @@ import { ServiceContainerLabel } from 'components/ServiceContainerLabel/ServiceC
 import { IQParamOperators, addQParamItem, parseQParamDeep } from 'utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
-interface IFilteringPresetProps<T extends string> {
+export type TFilterPreset = {
+  id: string;
+  operator: IQParamOperators;
+  values: string[];
+}[];
+
+interface IFilteringPresetProps {
   title: string;
   description: string;
-  filterPreset: {
-    id: string;
-    operator: IQParamOperators;
-    values: T[];
-  }[];
+  filterPreset: TFilterPreset;
   componentId: string;
   serviceContainerEntitiesCount: IServiceContainerState<any>;
   serviceContainerEntitiesCountRunner: (qParam: string) => void;
-  isWarning: boolean;
+  isWarning?: boolean;
 }
 
 /**
@@ -36,15 +38,15 @@ interface IFilteringPresetProps<T extends string> {
  * @param serviceContainerEntitiesCountRunner - Function to fetch the count of entities filtered by the preset.
  * @param isWarning - Optional flag to indicate if a warning icon should be displayed.
  */
-export const FilteringPreset = <T extends string>({
+export const FilteringPreset = ({
   title,
   description,
   filterPreset,
   componentId,
   serviceContainerEntitiesCount,
   serviceContainerEntitiesCountRunner,
-  isWarning,
-}: IFilteringPresetProps<T>) => {
+  isWarning = false,
+}: IFilteringPresetProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -70,15 +72,18 @@ export const FilteringPreset = <T extends string>({
     const appliedFilters = parseQParamDeep(currentQParam);
 
     setIsFilteredByPreset(
-      filterPreset.every((filter) => {
-        const appliedFilterValues = appliedFilters[filter.id]?.values;
+      filterPreset.length === Object.keys(appliedFilters).length &&
+        filterPreset.every((filter) => {
+          const appliedFilter = appliedFilters[filter.id];
+          const appliedFilterValues = appliedFilter?.values;
 
-        return (
-          !!appliedFilterValues &&
-          appliedFilterValues.length === filter.values.length &&
-          filter.values.every((v) => appliedFilterValues.includes(v))
-        );
-      })
+          return (
+            !!appliedFilterValues &&
+            appliedFilter.operator === filter.operator &&
+            appliedFilterValues.length === filter.values.length &&
+            filter.values.every((v) => appliedFilterValues.includes(v))
+          );
+        })
     );
   }, [location, componentId, filterPreset]);
 
