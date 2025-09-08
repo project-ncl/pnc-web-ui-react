@@ -17,7 +17,7 @@ interface IProductMilestoneDeliveredArtifactsPageProps {
 }
 
 export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: IProductMilestoneDeliveredArtifactsPageProps) => {
-  const { productMilestoneId } = useParamsRequired();
+  const { productId, productMilestoneId } = useParamsRequired();
 
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
   const serviceContainerArtifactsRunner = serviceContainerArtifacts.run;
@@ -48,6 +48,7 @@ export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: I
           <ProductMilestoneDeliveredArtifactListFilteringPresets
             componentId={componentId}
             productMilestoneId={productMilestoneId}
+            productId={productId}
           />
         }
       />
