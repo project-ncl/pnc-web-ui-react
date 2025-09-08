@@ -2,6 +2,7 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
 
 import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
+import { deliveredArtifactsSourceDescriptions } from 'common/deliveredArtifactsSourceDescriptions';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
@@ -93,59 +94,63 @@ export const ProductMilestoneDetailPage = () => {
             </CardValue>
             <CardTitle>Artifacts built in this Milestone</CardTitle>
           </CardFlexItem>
-          <CardFlexItem
-            description={<div>The number of Delivered Artifacts produced by Builds contained in this Milestone.</div>}
-          >
+
+          <CardFlexItem description={<div>The number of {deliveredArtifactsSourceDescriptions.thisMilestone.description}</div>}>
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
                 variant="icon"
-                title="Delivered Artifacts built in this Milestone"
+                title={deliveredArtifactsSourceDescriptions.thisMilestone.title}
               >
                 {serviceContainerStatistics.data?.deliveredArtifactsSource.thisMilestone}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Delivered Artifacts built in this Milestone</CardTitle>
+            <CardTitle>{deliveredArtifactsSourceDescriptions.thisMilestone.title}</CardTitle>
           </CardFlexItem>
-          <CardFlexItem
-            description={
-              <div>
-                The number of Delivered Artifacts produced by Builds contained in previous Milestones of the same Product.
-              </div>
-            }
-          >
+
+          <CardFlexItem description={<div>The number of {deliveredArtifactsSourceDescriptions.otherMilestones.description}</div>}>
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
                 variant="icon"
-                title="Delivered Artifacts built in other Milestones"
+                title={deliveredArtifactsSourceDescriptions.otherMilestones.title}
               >
                 {serviceContainerStatistics.data?.deliveredArtifactsSource.otherMilestones}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Delivered Artifacts built in other Milestones</CardTitle>
+            <CardTitle>{deliveredArtifactsSourceDescriptions.otherMilestones.title}</CardTitle>
           </CardFlexItem>
-          <CardFlexItem
-            description={
-              <div>The number of Delivered Artifacts produced by Builds contained in Milestones of other Products.</div>
-            }
-          >
+
+          <CardFlexItem description={<div>The number of {deliveredArtifactsSourceDescriptions.otherProducts.description}</div>}>
             <CardValue>
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
                 variant="icon"
-                title="Delivered Artifacts built in other Products"
+                title={deliveredArtifactsSourceDescriptions.otherProducts.title}
               >
                 {serviceContainerStatistics.data?.deliveredArtifactsSource.otherProducts}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Delivered Artifacts built in other Products</CardTitle>
+            <CardTitle>{deliveredArtifactsSourceDescriptions.otherProducts.title}</CardTitle>
           </CardFlexItem>
+
+          <CardFlexItem description={<div>The number of {deliveredArtifactsSourceDescriptions.noMilestone.description}</div>}>
+            <CardValue>
+              <ServiceContainerLoading
+                {...serviceContainerStatistics}
+                variant="icon"
+                title={deliveredArtifactsSourceDescriptions.noMilestone.title}
+              >
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.noMilestone}
+              </ServiceContainerLoading>
+            </CardValue>
+            <CardTitle>{deliveredArtifactsSourceDescriptions.noMilestone.title}</CardTitle>
+          </CardFlexItem>
+
           <CardFlexItem
             description={
               <div>
-                The number of Delived Artifacts produced by Builds not contained in any Milestone. This may include Artifacts from
-                Brew.
+                The number of {deliveredArtifactsSourceDescriptions.noBuild.description} Non-zero value may indicate a problem.
               </div>
             }
           >
@@ -153,24 +158,12 @@ export const ProductMilestoneDetailPage = () => {
               <ServiceContainerLoading
                 {...serviceContainerStatistics}
                 variant="icon"
-                title="Delivered Artifacts built outside any Milestone"
+                title={deliveredArtifactsSourceDescriptions.noBuild.title}
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.noMilestone}
-              </ServiceContainerLoading>
-            </CardValue>
-            <CardTitle>Delivered Artifacts built outside any Milestone</CardTitle>
-          </CardFlexItem>
-          <CardFlexItem
-            description={
-              <div>The number of Delivered Artifacts not produced in any Build. Non-zero value may indicate a problem.</div>
-            }
-          >
-            <CardValue>
-              <ServiceContainerLoading {...serviceContainerStatistics} variant="icon" title="Not built Delivered Artifacts">
                 {serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild}
               </ServiceContainerLoading>
             </CardValue>
-            <CardTitle>Not built Delivered Artifacts</CardTitle>
+            <CardTitle>{deliveredArtifactsSourceDescriptions.noBuild.title}</CardTitle>
           </CardFlexItem>
         </CardFlex>
       </GridItem>
