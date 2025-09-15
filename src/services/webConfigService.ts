@@ -134,7 +134,7 @@ export const getUILoggerUrl = (): string => {
  */
 export const getPncApiMocksUrl = (): string => {
   // TODO: extract URL from config once available
-  const pncApiMocksUrl = process.env.REACT_APP_PNC_API_MOCKS_URL;
+  const pncApiMocksUrl = import.meta.env.VITE_PNC_API_MOCKS_URL;
 
   if (!pncApiMocksUrl) {
     throw new Error(`PNC API MOCKS URL does not contain any data: #${pncApiMocksUrl}#`);

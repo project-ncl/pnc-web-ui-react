@@ -246,7 +246,7 @@ const BuildSshCredentialsButton = ({ serviceContainerBuild }: IBuildSshCredentia
   );
   const isCurrentUserAdmin = useMemo(() => userService.isAdminUser(), []);
 
-  const areSshCredentialsUnavailable = useMemo(() => process.env.REACT_APP_SSH_CREDENTIALS_UNAVAILABLE === 'true', []);
+  const areSshCredentialsUnavailable = useMemo(() => import.meta.env.VITE_SSH_CREDENTIALS_UNAVAILABLE === 'true', []);
 
   useEffect(() => {
     if (

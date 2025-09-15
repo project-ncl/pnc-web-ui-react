@@ -4,6 +4,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Too see more details about bootstrapping, open [documentation/bootstrapping.md](./documentation/bootstrapping.md)
 
+[2025-09] This project was migrated from Create React App to [Vite](https://vite.dev/). To see more information about migration, open [documentation/vite.md](./documentation/vite.md)
+
 ## Changelog
 
 [Changelog](https://github.com/project-ncl/pnc-web-ui-react/wiki/Changelog)
@@ -22,8 +24,6 @@ Preferred code editor is `Visual Studio Code`. Settings config file is also incl
 
 Contribute using [GitHub flow](https://guides.github.com/introduction/flow/), once new Pull request is created, [GitHub Workflows](https://github.com/project-ncl/pnc-web-ui-react/tree/main/.github/workflows) are started and jobs consisting of building and testing are executed.
 
-To see more details about scripts added by Create React App, open [documentation/README_CRA.md](./documentation/README_CRA.md).
-
 First prepare project locally:
 
 ```bash
@@ -37,13 +37,19 @@ Then choose one of the following options:
 **1) Development**
 
 ```bash
-npm start   # runs the app in the development mode and open http://localhost:3000
+npm start   # runs the app in the development mode on: http://localhost:3000
 ```
 
 **2) Build**
 
 ```bash
-npm run build   # builds the app for production to the build folder
+npm run build   # builds the app for production to the dist folder
+```
+
+**3) Preview**
+
+```bash
+npm run preview  # runs the production build from dist folder (only for testing purposes)
 ```
 
 ## Release
@@ -66,7 +72,7 @@ Snapshot Test was integrated in some components. Update for snapshots is require
 
 To update the snapshops of a component:
 
-**1) Run unit test**
+**1a) Run unit test**
 
 ```bash
 npm run test   # run tests for those components that was modified.
@@ -77,3 +83,11 @@ npm run test   # run tests for those components that was modified.
 **2) Trigger update snapshots**
 
 Press `u` to update failing snapshots.
+
+**1b) Run vitest update**
+
+Alternatively, trigger snapshots update directly.
+
+```bash
+npx vitest --update
+```

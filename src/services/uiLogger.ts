@@ -52,8 +52,8 @@ const getErrorStack = (error?: ExtendedError): string | null => {
 const createData = (message?: string, error?: Error, additionalData?: Object): IUILog => {
   return {
     client: {
-      version: process.env.REACT_APP_VERSION as string,
-      revision: process.env.REACT_APP_GIT_SHORT_SHA as string,
+      version: import.meta.env.VITE_VERSION as string,
+      revision: import.meta.env.VITE_GIT_SHORT_SHA as string,
       name: 'reactjs',
     },
     user: {

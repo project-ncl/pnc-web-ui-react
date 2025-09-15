@@ -10,7 +10,7 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import * as webConfigService from 'services/webConfigService';
 
 // ENVIRONMENTS
-const ProcessEnv = () => <>{JSON.stringify(process.env, null, 2)}</>;
+const ProcessEnv = () => <>{JSON.stringify(import.meta.env, null, 2)}</>;
 
 //  WEB CONFIG
 const WebConfig = () => {
@@ -26,12 +26,12 @@ export const VariablesPage = () => {
         <FlexItem>
           <Toolbar>
             <ToolbarItem>
-              <PageSectionHeader title="process.env" />
+              <PageSectionHeader title="import.meta.env" />
             </ToolbarItem>
           </Toolbar>
           <ContentBox marginBottom>
             <CodeBlock>
-              <CodeBlockCode id="process-env">
+              <CodeBlockCode id="import-meta-env">
                 <ProcessEnv />
               </CodeBlockCode>
             </CodeBlock>
