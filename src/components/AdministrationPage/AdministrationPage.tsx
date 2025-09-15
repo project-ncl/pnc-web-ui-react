@@ -220,11 +220,11 @@ export const AdministrationPage = () => {
         <FlexItem>
           <ContentBox padding marginBottom>
             <Attributes>
-              <AttributesItem title="Deployed commit SHA">{process.env.REACT_APP_GIT_SHORT_SHA}</AttributesItem>
+              <AttributesItem title="Deployed commit SHA">{import.meta.env.VITE_GIT_SHORT_SHA}</AttributesItem>
               <AttributesItem title="Latest commit SHA">
                 <ServiceContainerLoading {...serviceContainerCurrentPncWebUiCommit} variant="icon" title="Latest commit SHA">
                   {serviceContainerCurrentPncWebUiCommit.data?.sha}{' '}
-                  {serviceContainerCurrentPncWebUiCommit.data?.sha.startsWith(process.env.REACT_APP_GIT_SHORT_SHA!) && (
+                  {serviceContainerCurrentPncWebUiCommit.data?.sha.startsWith(import.meta.env.VITE_GIT_SHORT_SHA!) && (
                     <>(currently deployed)</>
                   )}
                 </ServiceContainerLoading>

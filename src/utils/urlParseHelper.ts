@@ -3,8 +3,8 @@ interface IScmRepositoryUrl {
 }
 
 const preDefinedScmsPrefix: { [key: string]: string } = {
-  [process.env.REACT_APP_GERRIT_URL_BASE || 'code']: 'Gerrit',
-  [process.env.REACT_APP_GERRIT_STAGE_URL_BASE || 'code']: 'Gerrit',
+  [import.meta.env.VITE_GERRIT_URL_BASE || 'code']: 'Gerrit',
+  [import.meta.env.VITE_GERRIT_STAGE_URL_BASE || 'code']: 'Gerrit',
   gitlab: 'GitLab',
   github: 'GitHub',
 };

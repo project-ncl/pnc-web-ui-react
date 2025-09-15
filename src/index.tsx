@@ -17,7 +17,6 @@ import { legacyUrlRedirector } from 'utils/legacyUrlRedirector';
 
 import { AppRoutes } from './AppRoutes';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
 
 legacyUrlRedirector();
 
@@ -52,8 +51,8 @@ const App = () => {
     // https://example.com
     !pncUrl.startsWith(window.location.origin) &&
     !(
-      process.env.REACT_APP_WEB_UI_URL === window.location.origin ||
-      process.env.REACT_APP_WEB_SECONDARY_UI_URL === window.location.origin
+      import.meta.env.VITE_WEB_UI_URL === window.location.origin ||
+      import.meta.env.VITE_WEB_SECONDARY_UI_URL === window.location.origin
     ) &&
     // example.com
     window.location.hostname !== 'localhost'
@@ -96,7 +95,7 @@ const App = () => {
   }
 
   // see also https://github.com/remix-run/react-router/issues/8427#issuecomment-1056988913
-  if (process.env.NODE_ENV === 'development' && !window.location.pathname.startsWith(URL_BASE_PATH)) {
+  if (import.meta.env.MODE === 'development' && !window.location.pathname.startsWith(URL_BASE_PATH)) {
     const message = `Redirection to ${URL_BASE_PATH}/...`;
     console.log(message);
     window.location.href = URL_BASE_PATH + window.location.pathname;
@@ -131,8 +130,3 @@ root.render(
     </ThemeProvider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
