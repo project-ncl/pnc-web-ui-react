@@ -1,15 +1,16 @@
 import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
+import { vi } from 'vitest';
 
 import { ScmRepositoriesPage } from 'components/ScmRepositoriesPage/ScmRepositoriesPage';
 
 global.ResizeObserver = ResizeObserver;
 
-jest.mock('services/scmRepositoryApi');
-jest.mock('services/keycloakService');
-jest.mock('services/uiLogger');
-jest.mock('services/webConfigService');
+vi.mock('services/scmRepositoryApi');
+vi.mock('services/keycloakService');
+vi.mock('services/uiLogger');
+vi.mock('services/webConfigService');
 
 describe('display ScmRepositoriesPage component', () => {
   let scmRepositoriesMock: any;

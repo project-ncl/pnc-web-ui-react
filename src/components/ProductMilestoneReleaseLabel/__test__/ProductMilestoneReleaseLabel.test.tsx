@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
 
@@ -8,8 +9,8 @@ import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneRelease
 import productMilestoneMock from './data/product-milestones-mock.json';
 import productReleaseMock from './data/product-releases-mock.json';
 
-jest.mock('services/keycloakService');
-jest.mock('services/webConfigService');
+vi.mock('services/keycloakService');
+vi.mock('services/webConfigService');
 
 describe('display MilestoneReleaseLabel component', () => {
   test('compare snapshot with previous record', () => {
@@ -32,6 +33,6 @@ describe('display MilestoneReleaseLabel component', () => {
         ></ProductMilestoneReleaseLabel>
       </MemoryRouter>
     );
-    expect(tree).toMatchSnapshot();
+    expect(tree.container).toMatchSnapshot();
   });
 });

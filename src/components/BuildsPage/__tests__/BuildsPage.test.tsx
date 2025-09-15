@@ -1,15 +1,16 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
+import { vi } from 'vitest';
 
 import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 
 global.ResizeObserver = ResizeObserver;
 
-jest.mock('services/buildApi');
-jest.mock('services/keycloakService');
-jest.mock('services/uiLogger');
-jest.mock('services/webConfigService');
+vi.mock('services/buildApi');
+vi.mock('services/keycloakService');
+vi.mock('services/uiLogger');
+vi.mock('services/webConfigService');
 
 describe('display BuildsPage component', () => {
   let buildsMock: any;
@@ -37,7 +38,7 @@ describe('display BuildsPage component', () => {
       );
     });
     await waitFor(() => {
-      expect(tree).toMatchSnapshot();
+      expect(tree.container).toMatchSnapshot();
     });
   });
 });

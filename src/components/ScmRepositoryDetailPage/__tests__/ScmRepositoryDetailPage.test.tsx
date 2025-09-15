@@ -1,15 +1,16 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
+import { vi } from 'vitest';
 
 import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmRepositoryDetailPage';
 
 global.ResizeObserver = ResizeObserver;
 
-jest.mock('services/scmRepositoryApi');
-jest.mock('services/keycloakService');
-jest.mock('services/uiLogger');
-jest.mock('services/webConfigService');
+vi.mock('services/scmRepositoryApi');
+vi.mock('services/keycloakService');
+vi.mock('services/uiLogger');
+vi.mock('services/webConfigService');
 
 const mockMatches = [
   { id: '0', pathname: '/', params: { scmRepositoryId: '111' }, data: undefined, handle: undefined },
@@ -23,13 +24,15 @@ const mockMatches = [
   },
 ];
 
-jest.mock('react-router', () => ({
-  ...jest.requireActual('react-router'), // use actual for all non-hook parts
-  useParams: () => ({
-    scmRepositoryId: '111',
-  }),
-  useMatches: () => mockMatches,
-}));
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual<typeof import('react-router')>('react-router');
+  return {
+    __esModule: true,
+    ...actual,
+    useParams: () => ({ scmRepositoryId: '111' }),
+    useMatches: () => mockMatches,
+  };
+});
 
 describe('display ScmRepositoryDetailPage component', () => {
   let scmRepositoryMock: any;
@@ -57,7 +60,7 @@ describe('display ScmRepositoryDetailPage component', () => {
         <ScmRepositoryDetailPage />
       </MemoryRouter>
     );
-    expect(tree).toMatchSnapshot();
+    expect(tree.container).toMatchSnapshot();
   });
 
   test('renders ScmRepositoryDetail to have the right data', async () => {

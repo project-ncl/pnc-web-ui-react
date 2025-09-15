@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 import { Build, GroupBuild } from 'pnc-api-types-ts';
 
@@ -7,8 +8,8 @@ import { BuildName } from 'components/BuildName/BuildName';
 
 import mockBuildData from './data/mock-build-data.json';
 
-jest.mock('services/keycloakService');
-jest.mock('services/webConfigService');
+vi.mock('services/keycloakService');
+vi.mock('services/webConfigService');
 
 describe('display BuildName component', () => {
   test('renders all BuildName variants', () => {

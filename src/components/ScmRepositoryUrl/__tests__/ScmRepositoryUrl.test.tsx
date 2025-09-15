@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 
-jest.mock('services/uiLogger');
+vi.mock('services/uiLogger');
 
 describe('display ScmRepositoryUrl component', () => {
   test('renders ScmRepositoryLink', () => {
@@ -29,6 +30,6 @@ describe('display ScmRepositoryUrl component', () => {
         }}
       />
     );
-    expect(tree).toMatchSnapshot();
+    expect(tree.container).toMatchSnapshot();
   });
 });

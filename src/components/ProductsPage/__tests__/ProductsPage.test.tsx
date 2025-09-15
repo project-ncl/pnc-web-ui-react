@@ -1,15 +1,16 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
+import { vi } from 'vitest';
 
 import { ProductsPage } from 'components/ProductsPage/ProductsPage';
 
 global.ResizeObserver = ResizeObserver;
 
-jest.mock('services/productApi');
-jest.mock('services/keycloakService');
-jest.mock('services/uiLogger');
-jest.mock('services/webConfigService');
+vi.mock('services/productApi');
+vi.mock('services/keycloakService');
+vi.mock('services/uiLogger');
+vi.mock('services/webConfigService');
 
 test('renders ProductsPage', () => {
   render(

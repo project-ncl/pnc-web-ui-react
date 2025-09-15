@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { ILabelMapper, LabelMapper } from 'components/LabelMapper/LabelMapper';
 
-jest.mock('services/uiLogger');
+vi.mock('services/uiLogger');
 
 const TEST_LABEL_MAPPER: ILabelMapper<'TEST_1' | 'TEST_2'> = {
   TEST_1: {

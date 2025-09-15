@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 export const THEME_MODES = {
   SYSTEM: 'system',
   LIGHT: 'light',
@@ -6,6 +8,6 @@ export const THEME_MODES = {
 
 export const useTheme = () => ({
   themeMode: 'light',
-  setThemeMode: jest.fn(),
+  setThemeMode: vi.fn(),
   resolvedThemeMode: 'light',
 });
