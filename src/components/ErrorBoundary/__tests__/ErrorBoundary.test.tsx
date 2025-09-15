@@ -1,9 +1,10 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useState } from 'react';
+import { vi } from 'vitest';
 
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
-jest.mock('services/uiLogger');
+vi.mock('services/uiLogger');
 
 test('renders ErrorBoundary and fire an error', async () => {
   function BuggyCounter() {

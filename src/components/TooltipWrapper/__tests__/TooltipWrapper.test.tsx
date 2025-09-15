@@ -8,5 +8,5 @@ test('renders TooltipText', () => {
 
 test('compare snapshot with previous record', () => {
   const tree = render(<TooltipWrapper tooltip="test tooltip"></TooltipWrapper>);
-  expect(tree).toMatchSnapshot();
+  expect(tree.container).toMatchSnapshot();
 });

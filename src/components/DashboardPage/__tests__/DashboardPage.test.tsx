@@ -1,13 +1,14 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 import { DashboardPage } from 'components/DashboardPage/DashboardPage';
 
-jest.mock('services/webConfigService');
-jest.mock('services/keycloakService');
-jest.mock('services/userService');
-jest.mock('services/buildApi');
-jest.mock('contexts/ThemeContext');
+vi.mock('services/webConfigService');
+vi.mock('services/keycloakService');
+vi.mock('services/userService');
+vi.mock('services/buildApi');
+vi.mock('contexts/ThemeContext');
 
 test('renders DashboardPage', () => {
   render(

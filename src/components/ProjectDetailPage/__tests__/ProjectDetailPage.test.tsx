@@ -1,15 +1,16 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
+import { vi } from 'vitest';
 
 import { ProjectDetailPage } from 'components/ProjectDetailPage/ProjectDetailPage';
 
 global.ResizeObserver = ResizeObserver;
 
-jest.mock('services/projectApi');
-jest.mock('services/keycloakService');
-jest.mock('services/uiLogger');
-jest.mock('services/webConfigService');
+vi.mock('services/projectApi');
+vi.mock('services/keycloakService');
+vi.mock('services/uiLogger');
+vi.mock('services/webConfigService');
 
 const mockMatches = [
   { id: '0', pathname: '/', params: { projectId: '106' }, data: undefined, handle: undefined },
@@ -18,13 +19,15 @@ const mockMatches = [
   { id: '0-2-2-0', pathname: '/projects/106/', params: { projectId: '106' }, data: undefined, handle: undefined }, //proper handle is 'project' but test is failing
 ];
 
-jest.mock('react-router', () => ({
-  ...jest.requireActual('react-router'), // use actual for all non-hook parts
-  useParams: () => ({
-    projectId: '106',
-  }),
-  useMatches: () => mockMatches,
-}));
+vi.mock('react-router', async () => {
+  const actual = await vi.importActual<typeof import('react-router')>('react-router');
+  return {
+    __esModule: true,
+    ...actual,
+    useParams: () => ({ projectId: '106' }),
+    useMatches: () => mockMatches,
+  };
+});
 
 describe('display ProjectDetailPage component', () => {
   let projectMock: any;
@@ -51,7 +54,7 @@ describe('display ProjectDetailPage component', () => {
         <ProjectDetailPage />
       </MemoryRouter>
     );
-    expect(tree).toMatchSnapshot();
+    expect(tree.container).toMatchSnapshot();
   });
 
   test('renders ProjectDetail to have the right data', async () => {

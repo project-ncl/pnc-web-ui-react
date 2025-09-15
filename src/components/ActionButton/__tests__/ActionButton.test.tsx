@@ -1,9 +1,10 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 import { ActionButton } from 'components/ActionButton/ActionButton';
 
-jest.mock('components/ProtectedContent/ProtectedComponent');
+vi.mock('components/ProtectedContent/ProtectedComponent');
 
 test('renders ActionButton', () => {
   render(

@@ -1,19 +1,13 @@
 import { act, render } from '@testing-library/react';
 import * as routeData from 'react-router';
 import { MemoryRouter } from 'react-router';
+import { vi } from 'vitest';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
-jest.mock('services/keycloakService');
-jest.mock('services/genericSettingsApi');
-jest.mock('services/webConfigService');
-
-jest.mock('react-router', () => {
-  return {
-    __esModule: true,
-    ...jest.requireActual('react-router'),
-  };
-});
+vi.mock('services/keycloakService');
+vi.mock('services/genericSettingsApi');
+vi.mock('services/webConfigService');
 
 window.pnc = {
   config: {
@@ -33,7 +27,7 @@ const mockMatches = [
 ];
 
 beforeEach(() => {
-  jest.spyOn(routeData, 'useMatches').mockReturnValue(mockMatches);
+  vi.spyOn(routeData, 'useMatches').mockReturnValue(mockMatches);
 });
 
 test('renders PageLayout', () => {

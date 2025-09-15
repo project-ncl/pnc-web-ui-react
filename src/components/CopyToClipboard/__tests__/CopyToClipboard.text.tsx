@@ -10,5 +10,5 @@ test('renders CopyToClipboard', () => {
 
 test('compare snapshot with previous record', () => {
   const tree = render(<CopyToClipboard>{TEST_CONTENT}</CopyToClipboard>);
-  expect(tree).toMatchSnapshot();
+  expect(tree.container).toMatchSnapshot();
 });

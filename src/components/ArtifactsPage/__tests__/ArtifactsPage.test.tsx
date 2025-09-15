@@ -1,15 +1,16 @@
 import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import ResizeObserver from 'resize-observer-polyfill';
+import { vi } from 'vitest';
 
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 
 global.ResizeObserver = ResizeObserver;
 
-jest.mock('services/artifactApi');
-jest.mock('services/keycloakService');
-jest.mock('services/uiLogger');
-jest.mock('services/webConfigService');
+vi.mock('services/artifactApi');
+vi.mock('services/keycloakService');
+vi.mock('services/uiLogger');
+vi.mock('services/webConfigService');
 
 describe('display ArtifactsPage component', () => {
   let artifactsMock: any;
@@ -40,6 +41,6 @@ describe('display ArtifactsPage component', () => {
         </MemoryRouter>
       );
     });
-    expect(tree).toMatchSnapshot();
+    expect(tree.container).toMatchSnapshot();
   });
 });

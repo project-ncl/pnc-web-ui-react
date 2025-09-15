@@ -1,11 +1,13 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 
-jest.mock('services/buildApi');
-jest.mock('services/genericSettingsApi');
-jest.mock('services/githubApi');
-jest.mock('services/uiLogger');
+vi.mock('services/webConfigService');
+vi.mock('services/buildApi');
+vi.mock('services/genericSettingsApi');
+vi.mock('services/githubApi');
+vi.mock('services/uiLogger');
 
 test('renders AdministrationPage', async () => {
   render(<AdministrationPage></AdministrationPage>);

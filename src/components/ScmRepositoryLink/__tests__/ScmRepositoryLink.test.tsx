@@ -32,6 +32,6 @@ describe('display ScmRepositoryLink component', () => {
         />
       </MemoryRouter>
     );
-    expect(tree).toMatchSnapshot();
+    expect(tree.container).toMatchSnapshot();
   });
 });
