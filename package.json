@@ -23,8 +23,7 @@
     "react-test-renderer": "^18.3.1",
     "resize-observer-polyfill": "^1.5.1",
     "sigma": "^3.0.1",
-    "typescript": "^4.3.2",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.3.2"
   },
   "scripts": {
     "start": "VITE_VERSION=$npm_package_version vite",
