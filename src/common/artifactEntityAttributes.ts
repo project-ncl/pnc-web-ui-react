@@ -1,4 +1,4 @@
-import { Artifact, Build, TargetRepository } from 'pnc-api-types-ts';
+import { Artifact, Build, ProductMilestone, TargetRepository } from 'pnc-api-types-ts';
 
 import { TEntityAttributes } from 'common/entityAttributes';
 
@@ -31,6 +31,10 @@ interface IExtendedArtifact extends Artifact {
   'product.name': any;
   'productMilestone.version': any;
   build: Build;
+  'build.productMilestone': ProductMilestone;
+  'build.productMilestone.id': string;
+  'build.productMilestone.productVersion.id': string;
+  'build.productMilestone.productVersion.product.id': string;
 }
 
 export const artifactEntityAttributes = {
@@ -136,6 +140,34 @@ export const artifactEntityAttributes = {
   build: {
     id: 'build',
     title: 'Build',
+  },
+  'build.productMilestone': {
+    id: 'build.productMilestone',
+    title: 'Build Milestone',
+    filter: {
+      operator: '==',
+    },
+  },
+  'build.productMilestone.id': {
+    id: 'build.productMilestone.id',
+    title: 'Build Milestone ID',
+    filter: {
+      operator: '==',
+    },
+  },
+  'build.productMilestone.productVersion.id': {
+    id: 'build.productMilestone.productVersion.id',
+    title: 'Build Version ID',
+    filter: {
+      operator: '==',
+    },
+  },
+  'build.productMilestone.productVersion.product.id': {
+    id: 'build.productMilestone.productVersion.product.id',
+    title: 'Build Product ID',
+    filter: {
+      operator: '==',
+    },
   },
   purl: {
     id: 'purl',
