@@ -12,7 +12,7 @@ import { kafkaClient } from 'services/kafkaClient';
 import { logEventDurationClient } from 'services/logEventDurationClient';
 import { pncClient } from 'services/pncClient';
 import { repositoryDriverClient } from 'services/repositoryDriverClient';
-import { repourClient } from 'services/repourClient';
+import { reqourClient } from 'services/reqourClient';
 import { rexClient } from 'services/rexClient';
 import { uiLoggerClient } from 'services/uiLoggerClient';
 
@@ -62,12 +62,12 @@ export const getUiLoggerVersion = (requestConfig: AxiosRequestConfig = {}) => {
 };
 
 /**
- * Gets version of Repour.
+ * Gets version of Reqour.
  *
  * @param requestConfig - Axios based request config
  */
-export const getRepourVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  const result = repourClient.getHttpClient();
+export const getReqourVersion = (requestConfig: AxiosRequestConfig = {}) => {
+  const result = reqourClient.getHttpClient();
 
   return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };

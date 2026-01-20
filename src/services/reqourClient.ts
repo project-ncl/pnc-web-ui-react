@@ -8,9 +8,9 @@ import { uiLogger } from 'services/uiLogger';
 import * as webConfigService from './webConfigService';
 
 /**
- * Repour HTTP client.
+ * Reqour HTTP client.
  */
-class RepourClient {
+class ReqourClient {
   private httpClient: AxiosInstance | null;
 
   constructor() {
@@ -23,10 +23,10 @@ class RepourClient {
    * @returns Axios instance
    */
   private createHttpClient = (): AxiosInstance | null => {
-    const url = webConfigService.getRepourUrl();
+    const url = webConfigService.getReqourUrl();
 
     if (!url) {
-      uiLogger.error('Repour URL not available in the config.');
+      uiLogger.error('Reqour URL not available in the config.');
       return null;
     }
 
@@ -44,7 +44,7 @@ class RepourClient {
     if (!this.httpClient) {
       return {
         success: false,
-        error: new HttpClientCreationFailedError({ message: 'Repour HTTP client could not be instantiated.' }),
+        error: new HttpClientCreationFailedError({ message: 'Reqour HTTP client could not be instantiated.' }),
       };
     }
 
@@ -52,4 +52,4 @@ class RepourClient {
   };
 }
 
-export const repourClient = new RepourClient();
+export const reqourClient = new ReqourClient();
