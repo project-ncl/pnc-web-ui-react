@@ -175,8 +175,8 @@ export const AboutPage = () => {
 
           <AttributesItem
             title={
-              <a href={RepositoryUrls.repourRepository} target="_blank" rel="noopener noreferrer">
-                Repour
+              <a href={RepositoryUrls.reqourRepository} target="_blank" rel="noopener noreferrer">
+                Reqour
               </a>
             }
           >

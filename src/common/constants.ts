@@ -74,7 +74,7 @@ export const RepositoryUrls = {
   kafkaRepository: 'https://github.com/project-ncl/kafka-store',
   causewayRepository: 'https://github.com/project-ncl/causeway',
   uiLoggerRepository: 'https://github.com/project-ncl/uilogger',
-  repourRepository: 'https://github.com/project-ncl/repour',
+  reqourRepository: 'https://github.com/project-ncl/reqour',
   bifrostRepository: 'https://github.com/project-ncl/bifrost',
   dependencyAnalyzerRepository: 'https://github.com/project-ncl/dependency-analysis',
   buildDriverRepository: 'https://github.com/project-ncl/build-driver',
