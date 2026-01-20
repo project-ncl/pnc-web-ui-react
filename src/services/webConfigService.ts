@@ -22,7 +22,7 @@ export interface IWebConfig {
   daUrl: string;
   indyUrl: string;
   pncUrl: string;
-  repourUrl: string;
+  reqourUrl: string;
   externalBifrostUrl: string;
   externalBuildDriverUrl: string;
   externalCleanerUrl: string;
@@ -35,7 +35,7 @@ export interface IWebConfig {
   externalLogEventDurationUrl: string;
   externalPncUrl: string;
   externalRepositoryDriverUrl: string;
-  externalRepourUrl: string;
+  externalReqourUrl: string;
   externalRexUrl: string;
   externalSbomerUrl: string;
   externalEttUrl: string;
@@ -168,16 +168,16 @@ export const getCausewayUrl = (): string | null => {
 };
 
 /**
- * Return Repour endpoint URL
+ * Return Reqour endpoint URL
  */
-export const getRepourUrl = (): string | null => {
-  const repourUrl = getWebConfig().externalRepourUrl;
+export const getReqourUrl = (): string | null => {
+  const reqourUrl = getWebConfig().externalReqourUrl;
 
-  if (!repourUrl) {
+  if (!reqourUrl) {
     return null;
   }
 
-  return repourUrl;
+  return reqourUrl;
 };
 
 /**

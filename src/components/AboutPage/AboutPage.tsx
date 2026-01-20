@@ -28,8 +28,8 @@ export const AboutPage = () => {
   const serviceContainerUiLoggerVersion = useServiceContainer(versionApi.getUiLoggerVersion);
   const serviceContainerUiLoggerVersionRunner = serviceContainerUiLoggerVersion.run;
 
-  const serviceContainerRepourVersion = useServiceContainer(versionApi.getRepourVersion);
-  const serviceContainerRepourVersionRunner = serviceContainerRepourVersion.run;
+  const serviceContainerReqourVersion = useServiceContainer(versionApi.getReqourVersion);
+  const serviceContainerReqourVersionRunner = serviceContainerReqourVersion.run;
 
   const serviceContainerBifrostVersion = useServiceContainer(versionApi.getBifrostVersion);
   const serviceContainerBifrostVersionRunner = serviceContainerBifrostVersion.run;
@@ -66,7 +66,7 @@ export const AboutPage = () => {
     serviceContainerKafkaVersionRunner();
     serviceContainerCausewayVersionRunner();
     serviceContainerUiLoggerVersionRunner();
-    serviceContainerRepourVersionRunner();
+    serviceContainerReqourVersionRunner();
     serviceContainerBifrostVersionRunner();
     serviceContainerDependencyAnalyzerVersionRunner();
     serviceContainerBuildDriverVersionRunner();
@@ -82,7 +82,7 @@ export const AboutPage = () => {
     serviceContainerKafkaVersionRunner,
     serviceContainerCausewayVersionRunner,
     serviceContainerUiLoggerVersionRunner,
-    serviceContainerRepourVersionRunner,
+    serviceContainerReqourVersionRunner,
     serviceContainerBifrostVersionRunner,
     serviceContainerDependencyAnalyzerVersionRunner,
     serviceContainerBuildDriverVersionRunner,
@@ -180,12 +180,12 @@ export const AboutPage = () => {
               </a>
             }
           >
-            <ServiceContainerLoading {...serviceContainerRepourVersion} variant="inline" title="Repour version">
+            <ServiceContainerLoading {...serviceContainerReqourVersion} variant="inline" title="Reqour version">
               <VersionText
-                version={serviceContainerRepourVersion.data?.version}
-                revision={serviceContainerRepourVersion.data?.commit}
-                repositoryUrl={RepositoryUrls.repourRepository}
-                builtOn={serviceContainerRepourVersion.data?.builtOn}
+                version={serviceContainerReqourVersion.data?.version}
+                revision={serviceContainerReqourVersion.data?.commit}
+                repositoryUrl={RepositoryUrls.reqourRepository}
+                builtOn={serviceContainerReqourVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
