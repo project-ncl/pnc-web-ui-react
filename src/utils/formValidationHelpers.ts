@@ -50,7 +50,7 @@ export const validateScmUrl = (url: string): boolean => {
 
   const isInternalUrl = url.includes(webConfigService.getInternalScmAuthority());
 
-  const isGitlab = url.includes('gitlab');
+  const isGithub = url.includes('github.ibm.com');
 
   // e.g: git@test.me:hello/wo.rld/bo-ss/taa.git
   const scpRegex = /^[\w.+-]+@[\w.+-]+\.[\w.+-]+(:[/\w.+-]*)?$/;
@@ -61,7 +61,7 @@ export const validateScmUrl = (url: string): boolean => {
 
   // NCL-8685: if url is a valid url, and internal repo, and using gitlab,
   // but not using scp format, then fail
-  if (isInternalUrl && isGitlab && !scpRegex.test(url)) {
+  if (isInternalUrl && isGithub && !scpRegex.test(url)) {
     return false;
   }
 
