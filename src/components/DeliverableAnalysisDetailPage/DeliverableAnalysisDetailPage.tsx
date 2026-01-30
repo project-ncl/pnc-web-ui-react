@@ -139,7 +139,9 @@ export const DeliverableAnalysisDetailPage = ({ componentId = 'da1' }: IDelivera
             )}
           </AttributesItem>
           <AttributesItem title={deliverableAnalysisOperationEntityAttributes.result.title}>
-            {deliverableAnalysis?.result && <OperationResultLabelMapper result={deliverableAnalysis.result} />}
+            {deliverableAnalysis?.outcome?.result && (
+              <OperationResultLabelMapper outcome={deliverableAnalysis.outcome} isDetailed />
+            )}
           </AttributesItem>
           <AttributesItem title={deliverableAnalysisOperationEntityAttributes.submitTime.title}>
             {deliverableAnalysis?.submitTime && <DateTime date={deliverableAnalysis.submitTime} />}

@@ -122,7 +122,9 @@ export const DeliverableAnalysesList = ({ serviceContainerDeliverableAnalyses, c
                       <OperationProgressStatusLabelMapper progressStatus={deliverableAnalysis.progressStatus} />
                     )}
                   </Td>
-                  <Td>{deliverableAnalysis.result && <OperationResultLabelMapper result={deliverableAnalysis.result} />}</Td>
+                  <Td>
+                    {deliverableAnalysis.outcome?.result && <OperationResultLabelMapper outcome={deliverableAnalysis.outcome} />}
+                  </Td>
                   <Td>
                     <TimesList
                       {...deliverableAnalysis}
