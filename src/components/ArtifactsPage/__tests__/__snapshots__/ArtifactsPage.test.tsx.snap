@@ -567,6 +567,7 @@ exports[`display ArtifactsPage component > compare snapshot with previous record
                         class="pf-v6-c-label__text"
                       >
                         NPM
+                         
                       </span>
                     </span>
                   </span>
@@ -643,6 +644,7 @@ exports[`display ArtifactsPage component > compare snapshot with previous record
                         class="pf-v6-c-label__text"
                       >
                         NEW
+                         
                       </span>
                     </span>
                   </span>
