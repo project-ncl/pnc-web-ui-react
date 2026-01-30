@@ -1,0 +1,11 @@
+.box {
+  background-color: var(--pf-t--global--background--color--primary--hover);
+  border-radius: 5px;
+  position: relative;
+  padding: 10px;
+  left: -10px;
+}
+
+.row {
+  padding: 5px 0;
+}
