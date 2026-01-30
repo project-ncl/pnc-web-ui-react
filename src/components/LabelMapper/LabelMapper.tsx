@@ -1,4 +1,5 @@
 import { Label as LabelPF, LabelProps as LabelPropsPF } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
@@ -48,7 +49,9 @@ export const LabelMapper = ({ mapperItem, onRemove, tooltip, isDisabled }: ILabe
           onClick={isDisabled && onRemove ? () => {} : undefined} // onClose is not enough to get disabled styling
           isDisabled={isDisabled}
         >
-          {text}
+          <>
+            {text} {tooltip && <InfoCircleIcon />}
+          </>
         </LabelPF>
       </span>
     </TooltipWrapper>
