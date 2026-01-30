@@ -133,7 +133,7 @@ export const BuildPushesList = ({ serviceContainerBuildPushes, componentId, cust
                   <Td>
                     {buildPush.progressStatus && <OperationProgressStatusLabelMapper progressStatus={buildPush.progressStatus} />}
                   </Td>
-                  <Td>{buildPush.result && <OperationResultLabelMapper result={buildPush.result} />}</Td>
+                  <Td>{buildPush.outcome?.result && <OperationResultLabelMapper outcome={buildPush.outcome} />}</Td>
                   <Td>
                     <TimesList
                       {...buildPush}

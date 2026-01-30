@@ -105,8 +105,8 @@ export const BuildPushPage = () => {
             )}
           </AttributesItem>
           <AttributesItem title={buildPushOperationEntityAttributes.result.title}>
-            {serviceContainerBuildPushOperation.data?.result && (
-              <OperationResultLabelMapper result={serviceContainerBuildPushOperation.data.result} />
+            {serviceContainerBuildPushOperation.data?.outcome?.result && (
+              <OperationResultLabelMapper outcome={serviceContainerBuildPushOperation.data.outcome} isDetailed />
             )}
           </AttributesItem>
           <AttributesItem title={buildPushReportEntityAttributes.brewBuildId.title}>
