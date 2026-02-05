@@ -40,6 +40,7 @@ export interface IWebConfig {
   externalSbomerUrl: string;
   externalEttUrl: string;
   externalUiLoggerUrl: string;
+  externalDingroguUrl: string;
   brewContentUrl: string;
   pncNotificationsUrl: string;
   bifrostWsUrl: string;
@@ -308,6 +309,19 @@ export const getEttUrl = (): string | null => {
   }
 
   return ettUrl;
+};
+
+/**
+ * Return Dingrogu endpoint URL
+ */
+export const getDingroguUrl = (): string | null => {
+  const dingroguUrl = getWebConfig().externalDingroguUrl;
+
+  if (!dingroguUrl) {
+    return null;
+  }
+
+  return dingroguUrl;
 };
 
 /**
