@@ -6,6 +6,7 @@ import { causewayClient } from 'services/causewayClient';
 import { cleanerClient } from 'services/cleanerClient';
 import { deliverableAnalyzerClient } from 'services/deliverableAnalyzerClient';
 import { dependencyAnalyzerClient } from 'services/dependencyAnalyzerClient';
+import { dingroguClient } from 'services/dingroguClient';
 import { environmentDriverClient } from 'services/environmentDriverClient';
 import { ettClient } from 'services/ettClient';
 import { kafkaClient } from 'services/kafkaClient';
@@ -180,4 +181,15 @@ export const getEttVersion = (requestConfig: AxiosRequestConfig = {}) => {
   const result = ettClient.getHttpClient();
 
   return result.success ? result.value.get<ComponentVersion>('/rest/version', requestConfig) : Promise.reject(result.error);
+};
+
+/**
+ * Gets version of Dingrogu.
+ *
+ * @param requestConfig - Axios based request config
+ */
+export const getDingroguVersion = (requestConfig: AxiosRequestConfig = {}) => {
+  const result = dingroguClient.getHttpClient();
+
+  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
 };
