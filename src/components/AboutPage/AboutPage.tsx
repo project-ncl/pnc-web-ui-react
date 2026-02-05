@@ -61,6 +61,9 @@ export const AboutPage = () => {
   const serviceContainerEttVersion = useServiceContainer(versionApi.getEttVersion);
   const serviceContainerEttVersionRunner = serviceContainerEttVersion.run;
 
+  const serviceContainerDingroguVersion = useServiceContainer(versionApi.getDingroguVersion);
+  const serviceContainerDingroguVersionRunner = serviceContainerDingroguVersion.run;
+
   useEffect(() => {
     serviceContainerPncVersionRunner();
     serviceContainerKafkaVersionRunner();
@@ -77,6 +80,7 @@ export const AboutPage = () => {
     serviceContainerRepositoryDriverVersionRunner();
     serviceContainerRexVersionRunner();
     serviceContainerEttVersionRunner();
+    serviceContainerDingroguVersionRunner();
   }, [
     serviceContainerPncVersionRunner,
     serviceContainerKafkaVersionRunner,
@@ -93,6 +97,7 @@ export const AboutPage = () => {
     serviceContainerRepositoryDriverVersionRunner,
     serviceContainerRexVersionRunner,
     serviceContainerEttVersionRunner,
+    serviceContainerDingroguVersionRunner,
   ]);
 
   useTitle('About');
@@ -369,6 +374,23 @@ export const AboutPage = () => {
                 version={serviceContainerEttVersion.data?.version}
                 revision={serviceContainerEttVersion.data?.commit}
                 builtOn={serviceContainerEttVersion.data?.builtOn}
+              />
+            </ServiceContainerLoading>
+          </AttributesItem>
+
+          <AttributesItem
+            title={
+              <a href={RepositoryUrls.dingroguRepository} target="_blank" rel="noopener noreferrer">
+                Dingrogu
+              </a>
+            }
+          >
+            <ServiceContainerLoading {...serviceContainerDingroguVersion} variant="inline" title="Dingrogu version">
+              <VersionText
+                version={serviceContainerDingroguVersion.data?.version}
+                revision={serviceContainerDingroguVersion.data?.commit}
+                repositoryUrl={RepositoryUrls.dingroguRepository}
+                builtOn={serviceContainerDingroguVersion.data?.builtOn}
               />
             </ServiceContainerLoading>
           </AttributesItem>
