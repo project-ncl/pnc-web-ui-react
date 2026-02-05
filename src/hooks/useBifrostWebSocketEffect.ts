@@ -91,6 +91,7 @@ export const useBifrostWebSocketEffect = (
       params: {
         prefixFilters,
         matchFilters,
+        batchDelay: 500,
       },
     };
 
