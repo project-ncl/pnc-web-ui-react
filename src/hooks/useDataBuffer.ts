@@ -20,7 +20,7 @@ type AddLinesFunction = (lines: string[]) => void;
  */
 export const useDataBuffer = (
   preprocessor: PreprocessorFunction = (lines: string[]) => lines,
-  delay: number = 750
+  delay: number = 500
 ): [string[], AddLinesFunction, () => void] => {
   // input to the buffer
   const dataIn = useRef<string[]>([]);
