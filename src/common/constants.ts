@@ -84,6 +84,7 @@ export const RepositoryUrls = {
   logEventDurationRepository: 'https://github.com/project-ncl/log-event-duration',
   repositoryDriverRepository: 'https://github.com/project-ncl/repository-driver',
   rexRepository: 'https://github.com/project-ncl/rex',
+  dingroguRepository: 'https://github.com/project-ncl/dingrogu',
 };
 
 // For getting total item count
