@@ -17,3 +17,7 @@
 .log-viewer__line--wrap-lines-off :global(.pf-v6-c-log-viewer__text) {
   white-space: pre !important;
 }
+
+.tail-mode-switch {
+  padding: 5px 0 20px;
+}

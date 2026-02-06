@@ -1,3 +1,4 @@
+import { Switch } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { ReactNode, useRef, useState } from 'react';
 
@@ -14,6 +15,8 @@ interface ILogViewerProps {
   autofocusSearchBar?: boolean;
   customActions?: ReactNode[];
   data: string | string[];
+  isTailMode?: boolean;
+  tailModeCallback?: (checked: boolean) => void;
 }
 
 /**
@@ -39,6 +42,8 @@ interface ILogViewerProps {
  * @param heightOffset - offset for the responsive height for the LogViewer component
  * @param autofocusSearchBar - If true, activates the search input when the component mounts
  * @param customActions - An array of React nodes that will be rendered as additional actions within the toolbar
+ * @param isTailMode - tail mode state displayed as a switch element
+ * @param tailModeCallback - action triggered when tail mode changes
  */
 export const LogViewer = ({
   isStatic = false,
@@ -46,6 +51,8 @@ export const LogViewer = ({
   heightOffset = 0,
   autofocusSearchBar = false,
   customActions,
+  isTailMode,
+  tailModeCallback,
 }: ILogViewerProps) => {
   const logViewerRef = useRef<any>();
   const logViewerDivRef = useRef<HTMLDivElement>(null);
@@ -66,31 +73,48 @@ export const LogViewer = ({
   const [isPaused, setIsPaused] = useState(true);
 
   return (
-    <div ref={logViewerDivRef} className={css(!areLinesWrapped && styles['log-viewer__line--wrap-lines-off'])}>
-      <LogViewerBase
-        logViewerRef={logViewerRef}
-        data={data}
-        isStatic={isStatic}
-        isPaused={isPaused}
-        setIsPaused={setIsPaused}
-        isFollowing={isFollowing}
-        areLinesWrapped={areLinesWrapped}
-        toolbar={
-          <LogViewerToolbar
-            logViewerRef={logViewerRef}
-            logViewerContainerRef={logViewerDivRef}
-            isStatic={isStatic}
-            setIsPaused={setIsPaused}
-            isFollowing={isFollowing}
-            setIsFollowing={storeIsFollowing}
-            areLinesWrapped={areLinesWrapped}
-            setAreLinesWrapped={storeAreLinesWrapped}
-            autofocusSearchBar={autofocusSearchBar}
-            customActions={customActions}
+    <>
+      {/* Display Tail Mode switch only when state and callback are available */}
+      {isTailMode !== undefined && tailModeCallback && (
+        <div className={styles['tail-mode-switch']}>
+          <Switch
+            name="live-log-tail-mode"
+            id="live-log-tail-mode"
+            label="Load only last 1000 lines and append new entries"
+            isChecked={isTailMode}
+            onChange={(_event, checked) => {
+              tailModeCallback(checked);
+              setIsPaused(false); // when pause is enabled, log reset is not applied = old entries are still displayed
+            }}
           />
-        }
-        heightOffset={heightOffset}
-      />
-    </div>
+        </div>
+      )}
+      <div ref={logViewerDivRef} className={css(!areLinesWrapped && styles['log-viewer__line--wrap-lines-off'])}>
+        <LogViewerBase
+          logViewerRef={logViewerRef}
+          data={data}
+          isStatic={isStatic}
+          isPaused={isPaused}
+          setIsPaused={setIsPaused}
+          isFollowing={isFollowing}
+          areLinesWrapped={areLinesWrapped}
+          toolbar={
+            <LogViewerToolbar
+              logViewerRef={logViewerRef}
+              logViewerContainerRef={logViewerDivRef}
+              isStatic={isStatic}
+              setIsPaused={setIsPaused}
+              isFollowing={isFollowing}
+              setIsFollowing={storeIsFollowing}
+              areLinesWrapped={areLinesWrapped}
+              setAreLinesWrapped={storeAreLinesWrapped}
+              autofocusSearchBar={autofocusSearchBar}
+              customActions={customActions}
+            />
+          }
+          heightOffset={heightOffset}
+        />
+      </div>
+    </>
   );
 };
