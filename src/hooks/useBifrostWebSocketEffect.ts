@@ -50,6 +50,7 @@ interface IWsResponseData {
 }
 
 interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOptions {
+  parameters?: Object;
   filters: {
     prefixFilters: string;
     matchFilters: string;
@@ -62,6 +63,7 @@ interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOption
  *
  * @param callback - Callback method, WebSocket parsed data attribute will be passed in
  * @param options - See {@link IUseBifrostWebSocketEffectOptions}
+ *  - parameters - Additional bifrost parameters like tailLines
  *  - filters - Filtering criteria for the WebSocket messages
  *      - prefixFilters: The prefixFilters for the WebSocket message
  *      - matchFilters: The matchFilters for the WebSocket message
@@ -69,7 +71,7 @@ interface IUseBifrostWebSocketEffectOptions extends IUsePncWebSocketEffectOption
  */
 export const useBifrostWebSocketEffect = (
   callback: (logLines: string[]) => void,
-  { filters, preventListening = false, debug = '', onCleanup }: IUseBifrostWebSocketEffectOptions
+  { parameters, filters, preventListening = false, debug = '', onCleanup }: IUseBifrostWebSocketEffectOptions
 ) => {
   useEffect(() => {
     if (preventListening) return;
@@ -89,6 +91,7 @@ export const useBifrostWebSocketEffect = (
       id: 0,
       method: 'SUBSCRIBE',
       params: {
+        ...parameters,
         prefixFilters,
         matchFilters,
         batchDelay: 500,
@@ -118,5 +121,5 @@ export const useBifrostWebSocketEffect = (
         onCleanup();
       }
     };
-  }, [callback, filters, preventListening, debug, onCleanup]);
+  }, [callback, parameters, filters, preventListening, debug, onCleanup]);
 };
