@@ -52,7 +52,7 @@ export const useDataBuffer = (
   // resets LogBuffer
   const resetLogBuffer = useCallback(() => {
     dataIn.current = [];
-    setDataOut([]);
+    setDataOut([' ']); // ' ' - force update when applying data.length check
     sendDataOutThrottled.cancel();
   }, [sendDataOutThrottled]);
 
