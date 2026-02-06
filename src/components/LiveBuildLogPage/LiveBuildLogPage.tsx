@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { buildLogMatchFiltersPrefix, buildLogPrefixFilters, useBifrostWebSocketEffect } from 'hooks/useBifrostWebSocketEffect';
@@ -18,7 +18,16 @@ export const LiveBuildLogPage = () => {
 
   const { isBuilding } = useServiceContainerBuild();
 
-  const [logBuffer, addLogLines] = useDataBuffer(timestampHiglighter);
+  const [logBuffer, addLogLines, resetLogBuffer] = useDataBuffer(timestampHiglighter);
+
+  const [isTailMode, setIsTailMode] = useState(true);
+
+  const parameters = useMemo(
+    () => ({
+      tailLines: isTailMode ? 1000 : undefined,
+    }),
+    [isTailMode]
+  );
 
   const filters = useMemo(
     () => ({
@@ -35,6 +44,11 @@ export const LiveBuildLogPage = () => {
     }
   }, [isBuilding, navigate, buildId]);
 
+  const tailModeCallback = (checked: boolean) => {
+    resetLogBuffer();
+    setIsTailMode(checked);
+  };
+
   useBifrostWebSocketEffect(
     useCallback(
       (logLines) => {
@@ -42,8 +56,16 @@ export const LiveBuildLogPage = () => {
       },
       [addLogLines]
     ),
-    { filters }
+    { parameters, filters }
   );
 
-  return <LogViewer data={logBuffer} heightOffset={LOG_VIEWER_HEIGHT_OFFSET} autofocusSearchBar />;
+  return (
+    <LogViewer
+      data={logBuffer}
+      heightOffset={LOG_VIEWER_HEIGHT_OFFSET}
+      autofocusSearchBar
+      isTailMode={isTailMode}
+      tailModeCallback={tailModeCallback}
+    />
+  );
 };
