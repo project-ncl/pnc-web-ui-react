@@ -1,5 +1,5 @@
-import { ActionGroup, Button, Form, FormGroup, Label, Popover, Switch } from '@patternfly/react-core';
-import { CheckIcon } from '@patternfly/react-icons';
+import { ActionGroup, Button, Form, FormGroup, Icon, Label, Popover, Switch } from '@patternfly/react-core';
+import { CheckIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 
@@ -19,6 +19,7 @@ import { useTitle } from 'hooks/useTitle';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { FormInput } from 'components/FormInput/FormInput';
 import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
+import { LoadingSpinner } from 'components/LoadingSpinner/LoadingSpinner';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ScmRepositoryUrlAlert } from 'components/ScmRepositoryUrlAlert/ScmRepositoryUrlAlert';
@@ -297,14 +298,24 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
           >
             {isEditPage ? ButtonTitles.update : ButtonTitles.create} {EntityTitles.scmRepository}
           </Button>
+
+          {scmCreatingLoading && (
+            <p className="p-6 p-l-10">
+              This operation may take several minutes <LoadingSpinner isInline />
+            </p>
+          )}
+
           {scmCreatingFinished?.id && (
-            <Button
-              variant="secondary"
-              component={(props) => <Link {...props} to={`/scm-repositories/${scmCreatingFinished.id}`} />}
-              icon={<CheckIcon />}
-            >
-              {ButtonTitles.view} {EntityTitles.scmRepository}
-            </Button>
+            <>
+              <p className="p-6 p-l-10 p-r-0">SCM repository was successfully created</p>
+              <Button
+                variant="secondary"
+                component={(props) => <Link {...props} to={`/scm-repositories/${scmCreatingFinished.id}`} />}
+                icon={<CheckIcon />}
+              >
+                {ButtonTitles.view} {EntityTitles.scmRepository}
+              </Button>
+            </>
           )}
         </ActionGroup>
       </Form>

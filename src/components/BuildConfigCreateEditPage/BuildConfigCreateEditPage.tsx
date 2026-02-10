@@ -1105,7 +1105,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
           {buildConfigCreatingFinished && (
             <>
-              <p className="p-6 p-l-10 p-r-0">Build Config were successfully created</p>
+              <p className="p-6 p-l-10 p-r-0">Build Config was successfully created</p>
               <Button
                 variant="secondary"
                 component={(props) => <Link {...props} to={`/build-configs/${buildConfigCreatingFinished.id}`} />}
