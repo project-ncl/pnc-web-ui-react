@@ -8,7 +8,6 @@ import {
   BuildPushOperationPage,
   BuildsGraph,
   RunningBuildCount,
-  SSHCredentials,
 } from 'pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
@@ -141,17 +140,6 @@ export const getBuildPushes = ({ id }: IBuildApiData, requestConfig: AxiosReques
  */
 export const getBuildMetrics = ({ buildIds }: { buildIds: Array<string> }, requestConfig: AxiosRequestConfig = {}) => {
   return kafkaClient.getHttpClient().post<BuildMetrics>('/builds', { buildIds }, requestConfig);
-};
-
-/**
- * Gets SSH credentials of a Build created by the current user.
- *
- * @param serviceData - object containing:
- *  - id - Build ID
- * @param requestConfig - Axios based request config
- */
-export const getSshCredentials = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
-  return pncClient.getHttpClient().get<SSHCredentials>(`/builds/ssh-credentials/${id}`, requestConfig);
 };
 
 /**

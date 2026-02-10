@@ -30,7 +30,6 @@ import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
 import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
-import { BUILD_STATUS, SshCredentialsButton } from 'components/SshCredentialsButton/SshCredentialsButton';
 
 import * as buildApi from 'services/buildApi';
 import { uiLogger } from 'services/uiLogger';
@@ -117,7 +116,6 @@ export const BuildPages = () => {
   );
 
   const actions = [
-    <BuildSshCredentialsButton key="ssh-credentials" serviceContainerBuild={serviceContainerBuild} />,
     <CancelBuildModalButton
       key="cancel-build-button"
       toggleModal={toggleCancelBuildModal}
@@ -229,62 +227,5 @@ const BuildPageTabs = ({
         </PageTabsItem>
       </ExperimentalContent>
     </PageTabs>
-  );
-};
-
-interface IBuildSshCredentialsButtonProps {
-  serviceContainerBuild: IServiceContainerState<Build>;
-}
-
-const BuildSshCredentialsButton = ({ serviceContainerBuild }: IBuildSshCredentialsButtonProps) => {
-  const serviceContainerBuildSshCredentials = useServiceContainer(buildApi.getSshCredentials);
-  const serviceContainerBuildSshCredentialsRunner = serviceContainerBuildSshCredentials.run;
-
-  const buildBelongToCurrentUser = useMemo(
-    () => userService.getUserId() === serviceContainerBuild.data?.user?.id,
-    [serviceContainerBuild.data]
-  );
-  const isCurrentUserAdmin = useMemo(() => userService.isAdminUser(), []);
-
-  const areSshCredentialsUnavailable = useMemo(() => import.meta.env.VITE_SSH_CREDENTIALS_UNAVAILABLE === 'true', []);
-
-  useEffect(() => {
-    if (
-      areSshCredentialsUnavailable &&
-      (buildBelongToCurrentUser || isCurrentUserAdmin) &&
-      serviceContainerBuild.data?.status &&
-      buildStatusData[serviceContainerBuild.data.status].failed
-    ) {
-      serviceContainerBuildSshCredentialsRunner({ serviceData: { id: serviceContainerBuild.data.id } }).catch((error) => {
-        if (error.response && error.response.status === 403) {
-          uiLogger.error('403 Forbidden: The endpoint blocked your access to SSH credentials of this build.');
-        } else {
-          throw error;
-        }
-      });
-    }
-  }, [
-    areSshCredentialsUnavailable,
-    serviceContainerBuildSshCredentialsRunner,
-    serviceContainerBuild.data,
-    buildBelongToCurrentUser,
-    isCurrentUserAdmin,
-  ]);
-
-  return (
-    <SshCredentialsButton
-      serviceContainerSshCredentials={serviceContainerBuildSshCredentials}
-      buildBelongToCurrentUser={buildBelongToCurrentUser || isCurrentUserAdmin}
-      buildStatus={
-        !serviceContainerBuild.data?.status
-          ? BUILD_STATUS.InProgress
-          : buildStatusData[serviceContainerBuild.data.status].failed
-          ? BUILD_STATUS.Failed
-          : buildStatusData[serviceContainerBuild.data.status].progress !== 'FINISHED'
-          ? BUILD_STATUS.InProgress
-          : BUILD_STATUS.Success
-      }
-      areSshCredentialsUnavailable={areSshCredentialsUnavailable}
-    />
   );
 };
