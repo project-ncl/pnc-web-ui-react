@@ -161,6 +161,12 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
 
     return serviceContainerCreatePage.run({
       serviceData: { data: data as SCMRepository },
+      onSuccess: (result) => {
+        // internal repository already exists, no async action
+        if (result.response.status === 201) {
+          navigate(`/scm-repositories/${result.response.data.repository?.id}`);
+        }
+      },
       onError: (error) => {
         setScmCreatingLoading(false);
         setScmCreatingError(error.errorMessage);
