@@ -9,10 +9,12 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ProgressButton } from 'components/ProgressButton/ProgressButton';
 import { withProtection } from 'components/ProtectedContent/ProtectedComponent';
+import { RestrictedContent } from 'components/ProtectedContent/RestrictedContent';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as groupConfigApi from 'services/groupConfigApi';
+import { AUTH_ROLE } from 'services/keycloakService';
 
 import styles from './BuildStartButton.module.css';
 
@@ -338,22 +340,29 @@ export const BuildStartButton = ({
 
           {buildConfig && (
             <>
-              <div className={styles['dropdown-icon-item']}>
-                <Checkbox
-                  label="keep pod alive"
-                  isChecked={keepPodOnFailure}
-                  onChange={() => setKeepPodOnFailure(!keepPodOnFailure)}
-                  id="keepPodOnFailure-check"
-                  name="keepPodOnFailure-check"
-                />
-                <span className="pnc-warning-icon">
-                  <Popover bodyContent={keepPodOnFailureWarningPopoverText} showClose={false} enableFlip={false} position="auto">
-                    <small>
-                      <WarningTriangleIcon />
-                    </small>
-                  </Popover>
-                </span>
-              </div>
+              <RestrictedContent role={AUTH_ROLE.Admin}>
+                <div className={styles['dropdown-icon-item']}>
+                  <Checkbox
+                    label="keep pod alive"
+                    isChecked={keepPodOnFailure}
+                    onChange={() => setKeepPodOnFailure(!keepPodOnFailure)}
+                    id="keepPodOnFailure-check"
+                    name="keepPodOnFailure-check"
+                  />
+                  <span className="pnc-warning-icon">
+                    <Popover
+                      bodyContent={keepPodOnFailureWarningPopoverText}
+                      showClose={false}
+                      enableFlip={false}
+                      position="auto"
+                    >
+                      <small>
+                        <WarningTriangleIcon />
+                      </small>
+                    </Popover>
+                  </span>
+                </div>
+              </RestrictedContent>
               <div className={styles['dropdown-icon-item']}>
                 <Checkbox
                   label="with dependencies"
