@@ -374,7 +374,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       },
       onSuccess: (result) => {
         // SCM repository already cloned internally
-        if ('buildConfig' in result.response.data) {
+        if (result.response.data.buildConfig) {
           setBuildConfigCreatingLoading(false);
           setBuildConfigCreatingFinished(result.response.data.buildConfig);
         }
