@@ -164,7 +164,8 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
       onSuccess: (result) => {
         // internal repository already exists, no async action
         if (result.response.status === 201) {
-          navigate(`/scm-repositories/${result.response.data.repository?.id}`);
+          setScmCreatingLoading(false);
+          setScmCreatingFinished(result.response.data.repository);
         }
       },
       onError: (error) => {
