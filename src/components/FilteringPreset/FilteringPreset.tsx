@@ -99,7 +99,8 @@ export const FilteringPreset = ({
           : undefined
       }
       className={css(isFilteredByPreset && 'cursor-default')}
-      {...serviceContainerEntitiesCount}
+      loading={serviceContainerEntitiesCount.loading}
+      error={serviceContainerEntitiesCount.error}
     >
       {title}{' '}
       <Badge>
