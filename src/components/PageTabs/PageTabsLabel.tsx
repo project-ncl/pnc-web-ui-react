@@ -14,7 +14,7 @@ interface IPageTabsLabelProps {
 export const PageTabsLabel = ({ serviceContainer, title, children }: PropsWithChildren<IPageTabsLabelProps>) => {
   return (
     <span className={styles['page-section-tabs-label']}>
-      <ServiceContainerLabel {...serviceContainer} title={title}>
+      <ServiceContainerLabel loading={serviceContainer.loading} error={serviceContainer.error} title={title}>
         {children}
       </ServiceContainerLabel>
     </span>
