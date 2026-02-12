@@ -1,8 +1,6 @@
-import { Button, Content } from '@patternfly/react-core';
-import { Modal, ModalProps } from '@patternfly/react-core/deprecated';
-import { TimesIcon } from '@patternfly/react-icons';
+import { Button, Content, ModalBody, ModalFooter, ModalHeader } from '@patternfly/react-core';
+import { Modal, ModalProps } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
-import { css } from '@patternfly/react-styles';
 import { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { useRefresh } from 'hooks/useRefresh';
@@ -11,8 +9,6 @@ import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 import { ServiceContainerCreatingUpdating } from 'components/ServiceContainers/ServiceContainerCreatingUpdating';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
-
-import styles from './ActionModal.module.css';
 
 interface IActionModalProps {
   modalTitle: string;
@@ -81,31 +77,30 @@ export const ActionModal = ({
     }
   };
 
-  const modalContent = (
-    <div className={css('p-t-global', 'p-l-global', 'p-r-global')}>
-      <div className={css('p-b-global', styles['action-modal-header'])}>
-        <Content className={styles['action-modal-title']}>
+  return (
+    <Modal variant={modalVariant} isOpen={isOpen} onClose={onClose} aria-label={modalTitle}>
+      <ModalHeader>
+        <Content>
           <Content component="h1">{modalTitle}</Content>
         </Content>
-        <Button
-          variant="plain"
-          size="sm"
-          onClick={onClose}
-          className={styles['action-modal-close-button']}
-          icon={<TimesIcon />}
-        />
-      </div>
-      {children}
-    </div>
-  );
-
-  return (
-    <Modal
-      variant={modalVariant}
-      isOpen={isOpen}
-      onClose={onClose}
-      actions={[
-        // TODO: NCL-8010
+      </ModalHeader>
+      <ModalBody>
+        {serviceContainer ? (
+          <div className="m-r-0">
+            <ServiceContainerCreatingUpdating
+              {...serviceContainer}
+              error={wereSubmitDataChanged ? '' : serviceContainer.error}
+              title={actionTitle}
+            >
+              {children}
+            </ServiceContainerCreatingUpdating>
+          </div>
+        ) : (
+          <>{children}</>
+        )}
+      </ModalBody>
+      <ModalFooter>
+        {/* TODO: NCL-8010 */}
         <TooltipWrapper
           key="modal-submit-button"
           tooltip={isSubmitDisabled && !wasLastActionSuccessful && !serviceContainer?.loading && submitDisabledTooltip}
@@ -120,30 +115,12 @@ export const ActionModal = ({
             )}{' '}
             {wasLastActionSuccessful && !wereSubmitDataChanged && <CheckIcon />} {actionTitle}
           </Button>
-        </TooltipWrapper>,
-        ...(wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []),
+        </TooltipWrapper>
+        {...wasLastActionSuccessful && onSuccessActions ? onSuccessActions : []}
         <Button key="modal-cancel-button" variant="link" onClick={onClose}>
           {cancelTitle || (wasAnyActionSuccessful ? `Close${refreshOnClose ? ' and refresh' : ''}` : 'Cancel')}
-        </Button>,
-      ]}
-      aria-label={modalTitle}
-      hasNoBodyWrapper
-      // custom close icon is implemented instead
-      showClose={false}
-    >
-      {serviceContainer ? (
-        <div className="m-r-0">
-          <ServiceContainerCreatingUpdating
-            {...serviceContainer}
-            error={wereSubmitDataChanged ? '' : serviceContainer.error}
-            title={actionTitle}
-          >
-            {modalContent}
-          </ServiceContainerCreatingUpdating>
-        </div>
-      ) : (
-        <>{modalContent}</>
-      )}
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };
