@@ -1,6 +1,6 @@
 import { Button, InputGroup, InputGroupItem, Label, LabelGroup, TextInput } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { FILTERING_PLACEHOLDER_DEFAULT } from 'common/constants';
@@ -11,7 +11,7 @@ import { Select } from 'components/Select/Select';
 import { SelectOption } from 'components/Select/SelectOption';
 
 import { constructCustomFilterParam } from 'utils/customParamHelper';
-import { TQParamLogicalOperator, addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
+import { IQParamOperators, TQParamLogicalOperator, addQParamItem, parseQParamDeep, removeQParamItem } from 'utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
 import styles from './Filtering.module.css';
@@ -30,7 +30,7 @@ import styles from './Filtering.module.css';
  * }
  */
 export interface IAppliedFilters {
-  [key: string]: { logicalOperator: TQParamLogicalOperator | undefined; values: string[] };
+  [key: string]: { operator: IQParamOperators; logicalOperator: TQParamLogicalOperator | undefined; values: string[] };
 }
 
 export type TFilterAttribute = WithRequiredProperty<IEntityAttribute, 'filter'>;
@@ -84,7 +84,7 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
   /**
    * Generate user friendly chip title representing applied filter (Q param or custom filter param).
    */
-  const generateChipTitle = (filterAttribute: TFilterAttribute, filterValue: string): string => {
+  const generateChipTitle = (filterAttribute: TFilterAttribute, filterValue: string): ReactNode => {
     if (filterAttribute.filter.operator === '=like=') {
       let isNegated = false;
 
@@ -107,9 +107,28 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
       filterValue = filterValue.replaceAll('\\"', '"');
 
       // abc -> !abc when negated
-      return (isNegated ? '!' : '') + filterValue;
+      return generateChipTitleWithNegation(filterValue, isNegated);
     }
+
+    if (filterAttribute.filter.operator === '==') {
+      if (filterValue === 'null') {
+        return <i>NULL</i>;
+      }
+
+      const isNegated = filterValue.startsWith('!');
+      return generateChipTitleWithNegation(isNegated ? filterValue.substring(1) : filterValue, isNegated);
+    }
+
     return filterValue;
+  };
+
+  const generateChipTitleWithNegation = (filterValue: string, isNegated: boolean): ReactNode => {
+    return (
+      <>
+        {isNegated && <b>!</b>}
+        {filterValue}
+      </>
+    );
   };
 
   /**
@@ -195,7 +214,11 @@ export const Filtering = ({ filterOptions, componentId, onFilter }: IFilteringPr
       if (v.filter.isCustomParam) {
         const customParamValue = getComponentQueryParamValue(location.search, k, componentId);
         if (customParamValue) {
-          appliedFilters[k] = { logicalOperator: undefined, values: [customParamValue] };
+          appliedFilters[k] = {
+            operator: v.filter.operator,
+            logicalOperator: undefined,
+            values: [customParamValue],
+          };
         }
       }
     });

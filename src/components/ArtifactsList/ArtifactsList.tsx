@@ -61,6 +61,10 @@ const defaultColumns = [
   artifactEntityAttributes.sha1.id,
   artifactEntityAttributes.sha256.id,
   artifactEntityAttributes.build.id,
+  artifactEntityAttributes['build.productMilestone'].id,
+  artifactEntityAttributes['build.productMilestone.id'].id,
+  artifactEntityAttributes['build.productMilestone.productVersion.id'].id,
+  artifactEntityAttributes['build.productMilestone.productVersion.product.id'].id,
 ];
 
 /**
