@@ -3,11 +3,13 @@ import { InfoCircleIcon } from '@patternfly/react-icons';
 import Chart, { ChartConfiguration, TooltipItem } from 'chart.js/auto';
 import { useTheme } from 'contexts/ThemeContext';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 
 import { Build } from 'pnc-api-types-ts';
 
 import { regularTextColor } from 'common/colorMap';
 
+import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { calculateBuildName } from 'components/BuildName/BuildName';
@@ -17,6 +19,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as buildApi from 'services/buildApi';
 
+import { updateQueryParamsInURL } from 'utils/queryParamsHelper';
 import { calculateDurationDiff, formatBuildMetricsTime, getCssColorValue } from 'utils/utils';
 
 import styles from './BuildMetrics.module.css';
@@ -187,6 +190,11 @@ const getNavigationIdByName = (name: string): number => {
   return foundOption ? foundOption.id : 1;
 };
 
+const getNavigationNameById = (id: number): string => {
+  const foundOption = navigationOptions.find((option) => option.id === id);
+  return foundOption ? foundOption.name : '1st';
+};
+
 /**
  * Convert builds into an array of build ids as strings
  *
@@ -241,6 +249,9 @@ const sampleBuilds = (buildsArray: Build[], nth: number, max: number = BUILDS_DI
  * <BuildMetrics builds={buildList} chartType="line" componentId="BUILD_CONFIG_METRICS" />
  */
 export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [selectedNavigation, setSelectedNavigation] = useState<string>('1st');
   const [buildMetrics, setBuildMetrics] = useState<IBuildMetrics>();
@@ -259,6 +270,18 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
   const chartInstanceRef = useRef<Chart | null>(null);
 
   const { resolvedThemeMode } = useTheme();
+
+  useQueryParamsEffect(
+    useCallback(
+      ({ requestConfig } = {}) => {
+        if (requestConfig?.params.displayEvery) {
+          setSelectedNavigation(getNavigationNameById(requestConfig.params.displayEvery));
+        }
+      },
+      [setSelectedNavigation]
+    ),
+    { componentId, mandatoryQueryParams: listMandatoryQueryParams.none }
+  );
 
   // Fetch build metrics when builds or navigation selection changes
   useEffect(() => {
@@ -292,10 +315,15 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
     setIsSelectOpen(isOpen);
   }, []);
 
-  const onNavigationSelect = useCallback((event: React.MouseEvent<Element, MouseEvent> | undefined, value: string) => {
-    setSelectedNavigation(value);
-    setIsSelectOpen(false);
-  }, []);
+  const onNavigationSelect = useCallback(
+    (event: React.MouseEvent<Element, MouseEvent> | undefined, value: string) => {
+      setSelectedNavigation(value);
+      setIsSelectOpen(false);
+
+      updateQueryParamsInURL({ displayEvery: getNavigationIdByName(value) }, componentId, location, navigate);
+    },
+    [location, navigate, componentId]
+  );
 
   // Update chart when buildMetrics, chartType, or metricsTooltipList changes
   useEffect(() => {
