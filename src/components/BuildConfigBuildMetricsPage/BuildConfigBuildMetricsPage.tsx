@@ -28,13 +28,13 @@ export const BuildConfigBuildMetricsPage = () => {
     <ServiceContainerLoading {...serviceContainerBuilds} title={PageTitles.buildMetrics}>
       <ContentBox marginBottom>
         {serviceContainerBuilds.data?.content && (
-          <BuildMetrics builds={serviceContainerBuilds.data.content} chartType="line" componentId="bm-l" />
+          <BuildMetrics builds={serviceContainerBuilds.data.content} chartType="line" componentId="bml" />
         )}
       </ContentBox>
 
       <ContentBox>
         {serviceContainerBuilds.data?.content && (
-          <BuildMetrics builds={serviceContainerBuilds.data.content} chartType="horizontalBar" componentId="bm-b" />
+          <BuildMetrics builds={serviceContainerBuilds.data.content} chartType="horizontalBar" componentId="bmb" />
         )}
       </ContentBox>
     </ServiceContainerLoading>
