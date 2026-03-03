@@ -546,7 +546,7 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
             {buildMetrics && buildMetrics.builds && buildMetrics.buildMetricsData && <canvas id={componentId} ref={chartRef} />}
           </div>
         </div>
-        {buildMetrics?.builds?.length && buildMetrics.builds.length > 1 && (
+        {buildMetrics?.builds?.length && (
           <div className={styles['pnc-build-metric-navigation']}>
             <div className="pull-right">
               Display every{' '}
