@@ -12,9 +12,9 @@ import { withProtection } from 'components/ProtectedContent/ProtectedComponent';
 import { RestrictedContent } from 'components/ProtectedContent/RestrictedContent';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
+import { AUTH_ROLE } from 'services/authService';
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as groupConfigApi from 'services/groupConfigApi';
-import { AUTH_ROLE } from 'services/keycloakService';
 
 import styles from './BuildStartButton.module.css';
 

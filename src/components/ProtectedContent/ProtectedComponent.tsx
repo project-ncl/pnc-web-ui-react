@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import { useProtectedContent } from 'hooks/useProtectedContent';
 
-import { AUTH_ROLE } from 'services/keycloakService';
+import { AUTH_ROLE } from 'services/authService';
 
 interface IComponentWithProtectionProps {
   role?: AUTH_ROLE;
@@ -30,9 +30,9 @@ export const withProtection = <ComponentProps extends { isDisabled?: boolean }>(
     const { isDisabled: isDisabledByProtection, reason, state } = useProtectedContent({ role });
 
     const modifiedReason =
-      state === 'KEYCLOAK_UNAVAILABLE' ? (
+      state === 'ERROR' ? (
         <>
-          {reason} See <Link to="/system/keycloak-status">Keycloak status page</Link>
+          {reason} See <Link to="/system/auth-service-status">OIDC Auth Service status page</Link>
         </>
       ) : (
         reason

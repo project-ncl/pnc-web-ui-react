@@ -8,21 +8,14 @@ import { AppLayout } from '../AppLayout';
 
 global.ResizeObserver = ResizeObserver;
 
-vi.mock('services/keycloakService');
 vi.mock('services/genericSettingsApi');
 vi.mock('services/webConfigService');
-vi.mock('services/broadcastService');
 vi.mock('contexts/ThemeContext');
 
 window.pnc = {
   config: {
     userGuideUrl: 'https://localhost:3000/',
     userSupportUrl: 'https://localhost:3000/',
-    keycloak: {
-      url: 'https://localhost:3000/',
-      realm: 'test',
-      clientId: 'test',
-    },
   },
 };
 

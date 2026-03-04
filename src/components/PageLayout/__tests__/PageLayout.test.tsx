@@ -5,7 +5,6 @@ import { vi } from 'vitest';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
-vi.mock('services/keycloakService');
 vi.mock('services/genericSettingsApi');
 vi.mock('services/webConfigService');
 
@@ -13,11 +12,6 @@ window.pnc = {
   config: {
     userGuideUrl: 'https://localhost:3000/',
     userSupportUrl: 'https://localhost:3000/',
-    keycloak: {
-      url: 'https://localhost:3000/',
-      realm: 'test',
-      clientId: 'test',
-    },
   },
 };
 
