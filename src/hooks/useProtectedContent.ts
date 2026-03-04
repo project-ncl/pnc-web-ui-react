@@ -1,4 +1,6 @@
-import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
+import { useAuth } from 'hooks/useAuth';
+
+import { AUTH_ROLE } from 'services/authService';
 
 interface IUseProtectedContentProps {
   role?: AUTH_ROLE;
@@ -12,19 +14,29 @@ interface IUseProtectedContentProps {
 type TUseProtectedContentReturnType = {
   reason?: string;
   isDisabled: boolean;
-  state: 'KEYCLOAK_UNAVAILABLE' | 'NOT_AUTHENTICATED' | 'ROLE_NOT_ALLOWED' | 'ALLOWED';
+  state: 'ERROR' | 'LOADING' | 'NOT_AUTHENTICATED' | 'ROLE_NOT_ALLOWED' | 'ALLOWED';
 };
 
 export const useProtectedContent = ({ role = AUTH_ROLE.User }: IUseProtectedContentProps): TUseProtectedContentReturnType => {
-  if (!keycloakService.isKeycloakAvailable()) {
-    return { reason: 'Keycloak service is not available.', isDisabled: true, state: 'KEYCLOAK_UNAVAILABLE' };
+  const auth = useAuth();
+
+  if (auth.isError) {
+    return {
+      reason: `OIDC Auth Service is currently unavailable: ${auth.error}`,
+      isDisabled: true,
+      state: 'ERROR',
+    };
   }
 
-  if (!keycloakService.isAuthenticated()) {
+  if (auth.isLoading) {
+    return { reason: 'Authenticating...', isDisabled: true, state: 'LOADING' };
+  }
+
+  if (!auth.isAuthenticated) {
     return { reason: 'Login is required.', isDisabled: true, state: 'NOT_AUTHENTICATED' };
   }
 
-  if (role !== AUTH_ROLE.User && !keycloakService.hasRealmRole(role)) {
+  if (role !== AUTH_ROLE.User && !auth.hasRealmRole(role)) {
     return {
       reason: `User not allowed to enter this page, the following permissions are required: ${role}.`,
       isDisabled: true,

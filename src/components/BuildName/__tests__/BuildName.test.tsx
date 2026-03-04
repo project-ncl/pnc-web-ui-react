@@ -8,7 +8,6 @@ import { BuildName } from 'components/BuildName/BuildName';
 
 import mockBuildData from './data/mock-build-data.json';
 
-vi.mock('services/keycloakService');
 vi.mock('services/webConfigService');
 
 describe('display BuildName component', () => {
