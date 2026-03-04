@@ -8,7 +8,6 @@ import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmR
 global.ResizeObserver = ResizeObserver;
 
 vi.mock('services/scmRepositoryApi');
-vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 

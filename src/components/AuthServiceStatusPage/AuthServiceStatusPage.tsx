@@ -1,32 +1,35 @@
 import { MESSAGE_PNC_ADMIN_CONTACT, MESSAGE_WAIT_AND_REFRESH } from 'common/constants';
 
+import { useAuth } from 'hooks/useAuth';
+
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
-import { keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
 
 const webConfig = webConfigService.getWebConfig();
 
-interface IKeycloakStatusPageProps {
-  // If undefined, Keycloak status page will be rendered. Otherwise, the title will be used as the title of the error page that is rendered instead.
+interface IAuthServiceStatusPageProps {
+  // If undefined, Auth Service status page will be rendered. Otherwise, the title will be used as the title of the error page that is rendered instead.
   errorPageTitle?: string;
 }
 
 /**
  * This page can be displayed in two different contexts:
  *  1) Status page:
- *    a) Keycloak service is available
- *    b) Keycloak service is NOT available
- *  2) Error page - requested page (for example projects/create) could not be displayed due to Keycloak
+ *    a) Auth Service service is available
+ *    b) Auth Service service is NOT available
+ *  2) Error page - requested page (for example projects/create) could not be displayed due to Auth Service failure
  */
-export const KeycloakStatusPage = ({ errorPageTitle }: IKeycloakStatusPageProps) => {
+export const AuthServiceStatusPage = ({ errorPageTitle }: IAuthServiceStatusPageProps) => {
+  const auth = useAuth();
+
   const content = (
     <>
       {webConfig.keycloak.url.startsWith('http') ? (
         <>
-          If Keycloak is not available, then login and operations requiring authorization are deactivated.
+          If Auth Service is not available, then login and operations requiring authorization are deactivated.
           <br />
           <br />
           <ul>
@@ -36,7 +39,7 @@ export const KeycloakStatusPage = ({ errorPageTitle }: IKeycloakStatusPageProps)
                 {webConfig.keycloak.url}
               </a>{' '}
               <br />
-              directly; if there is an error, check whether your network, vpn and certificates are configured correctly
+              directly; if there is an error, check whether your network, VPN and certificates are configured correctly
             </li>
             <li>- {MESSAGE_WAIT_AND_REFRESH}</li>
           </ul>
@@ -47,14 +50,14 @@ export const KeycloakStatusPage = ({ errorPageTitle }: IKeycloakStatusPageProps)
     </>
   );
 
-  if (!keycloakService.isKeycloakAvailable()) {
+  if (auth.isError) {
     return errorPageTitle ? (
-      // Error page - requested page (for example projects/create) could not be displayed due to Keycloak
+      // Error page - requested page (for example projects/create) could not be displayed due to Auth Service failure
       <ErrorPage
         pageTitle={errorPageTitle}
         errorDescription={
           <>
-            <b>Keycloak service is not available.</b>
+            <b>Auth Service is not available: {auth.error}</b>
             <br />
             <br />
             {content}
@@ -62,21 +65,24 @@ export const KeycloakStatusPage = ({ errorPageTitle }: IKeycloakStatusPageProps)
         }
       />
     ) : (
-      // Status page - Keycloak service is NOT available
-      <PageLayout title="Keycloak service is not available">
+      // Status page - Auth Service is NOT available
+      <PageLayout title="Auth Service is not available">
         <ContentBox padding isResponsive>
+          <b>Auth Service is not available: {auth.error}</b>
+          <br />
+          <br />
           {content}
         </ContentBox>
       </PageLayout>
     );
   }
 
-  // Status page - Keycloak service is available
+  // Status page - Auth Service service is available
   return (
-    <PageLayout title="Keycloak service is successfully initialized">
+    <PageLayout title="Auth Service is successfully initialized">
       <ContentBox padding isResponsive>
         <b>
-          Keycloak service is available and successfully initialized, if you still have login issues, try to follow the steps
+          Auth Service is available and successfully initialized, but if you still have login issues, try to follow the steps
           below.
         </b>
         <br />

@@ -93,7 +93,7 @@ export const TOTAL_COUNT_REQUEST_CONFIG: AxiosRequestConfig = { params: { pageSi
 export const FILTERING_PLACEHOLDER_DEFAULT: string = 'string | !string | s?ring | st*g';
 
 // universal messages
-export const MESSAGE_PNC_ADMIN_CONTACT = 'PNC administrators on "PNC Users" channel';
+export const MESSAGE_PNC_ADMIN_CONTACT = 'PNC administrators on #forum-pnc-users Slack channel';
 export const MESSAGE_WAIT_AND_REFRESH = 'Wait 5 minutes and try to refresh your browser';
 
 // PNC URL base

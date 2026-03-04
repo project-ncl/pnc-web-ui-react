@@ -13,3 +13,8 @@ export const getKafkaUrl = (): string => webConfigDataMock.kafkaUrl;
 export const getUILoggerUrl = (): string => webConfigDataMock.uiLoggerUrl;
 
 export const getBifrostWsUrl = (): string => webConfigDataMock.bifrostWsUrl;
+
+export const getAuthConfigClientId = (): string => webConfigDataMock.keycloak.clientId;
+
+export const getAuthConfigAuthority = (): string =>
+  webConfigDataMock.keycloak.url + '/realms/' + webConfigDataMock.keycloak.realm;
