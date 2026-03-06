@@ -61,7 +61,7 @@ export const buildConfigEntityAttributes = {
   },
   buildStatus: {
     id: 'buildStatus',
-    title: 'Latest Build Status',
+    title: 'Latest Build',
   },
   actions: {
     id: 'actions',
