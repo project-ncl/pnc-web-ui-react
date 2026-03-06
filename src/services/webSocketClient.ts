@@ -12,7 +12,7 @@ export const createWebSocketClient = (url: string) => {
   const webSocket: WebSocket = new WebSocket(url);
   const messageListeners: Array<TWebSocketListener> = [];
   let messageQueue: string[] = [];
-  const LISTENERS_WARNING_COUNT = 20;
+  const LISTENERS_WARNING_COUNT = 201;
 
   webSocket.onopen = () => {
     console.log('WebSocket open', url);
