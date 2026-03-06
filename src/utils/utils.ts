@@ -363,5 +363,5 @@ export const formatBuildMetricsTime = (msTime: number): string => {
 export const getCssColorValue = (color: string) => {
   const style = getComputedStyle(document.body);
 
-  return color.trim().startsWith('--') ? style.getPropertyValue(color) : color;
+  return color?.trim().startsWith('--') ? style.getPropertyValue(color) : color;
 };
