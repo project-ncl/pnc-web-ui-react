@@ -18,6 +18,7 @@ import { DateTime } from 'components/DateTime/DateTime';
 import { Filtering } from 'components/Filtering/Filtering';
 import { WarningIcon } from 'components/Icons/WarningIcon';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
+import { LatestBuild } from 'components/LatestBuild/LatestBuild';
 import { Pagination } from 'components/Pagination/Pagination';
 import { ProjectLink } from 'components/ProjectLink/ProjectLink';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
@@ -126,17 +127,20 @@ export const BuildConfigsList = ({
                 )}
                 {columns.includes(buildConfigEntityAttributes.creationTime.id) &&
                   columns.includes(buildConfigEntityAttributes.modificationTime.id) && (
-                    <Th width={25} className="overflow-visible">
+                    <Th width={20} className="overflow-visible">
                       <SortGroup
-                        title="Times"
+                        title="Last Update"
                         sort={getSortGroupParams(sortOptions.sortAttributes.creationTime.id)}
                         isDropdownOpen={isTimesSortDropdownOpen}
                         onDropdownToggle={() => setIsTimesSortDropdownOpen(!isTimesSortDropdownOpen)}
                       />
                     </Th>
                   )}
+                {columns.includes(buildConfigEntityAttributes.buildStatus.id) && (
+                  <Th width={20}>{buildConfigEntityAttributes.buildStatus.title}</Th>
+                )}
                 {columns.includes(buildConfigEntityAttributes.actions.id) && (
-                  <Th width={15}>{buildConfigEntityAttributes.actions.title}</Th>
+                  <Th width={10}>{buildConfigEntityAttributes.actions.title}</Th>
                 )}
               </Tr>
             </Thead>
@@ -163,48 +167,21 @@ export const BuildConfigsList = ({
                   {columns.includes(buildConfigEntityAttributes.creationTime.id) &&
                     columns.includes(buildConfigEntityAttributes.modificationTime.id) && (
                       <Td>
-                        <DescriptionList className="gap-0" isHorizontal isCompact>
-                          <DescriptionListGroup>
-                            <DescriptionListTerm>{buildConfigEntityAttributes.creationTime.title}</DescriptionListTerm>
-                            <DescriptionListDescription>
-                              {buildConfig.creationTime && <DateTime date={buildConfig.creationTime} />}
-                              {buildConfig.creationUser?.username && (
-                                <span>
-                                  {' '}
-                                  by{' '}
-                                  <b>
-                                    <Username text={buildConfig.creationUser.username} />
-                                  </b>
-                                </span>
-                              )}
-                            </DescriptionListDescription>
-                          </DescriptionListGroup>
-                          <DescriptionListGroup>
-                            <DescriptionListTerm>{buildConfigEntityAttributes.modificationTime.title}</DescriptionListTerm>
-                            <DescriptionListDescription>
-                              {buildConfig.modificationTime && (
-                                <DateTime
-                                  date={buildConfig.modificationTime}
-                                  displayDate={
-                                    !buildConfig.creationTime ||
-                                    !areDatesEqual(buildConfig.modificationTime, buildConfig.creationTime)
-                                  }
-                                />
-                              )}
-                              {buildConfig.modificationUser?.username && (
-                                <span>
-                                  {' '}
-                                  by{' '}
-                                  <b>
-                                    <Username text={buildConfig.modificationUser.username} />
-                                  </b>
-                                </span>
-                              )}
-                            </DescriptionListDescription>
-                          </DescriptionListGroup>
-                        </DescriptionList>
+                        {buildConfig.modificationTime && <DateTime date={buildConfig.modificationTime} displayDate={true} />}
+                        {buildConfig.modificationUser?.username && (
+                          <span>
+                            {' '}
+                            by{' '}
+                            <b>
+                              <Username text={buildConfig.modificationUser.username} />
+                            </b>
+                          </span>
+                        )}
                       </Td>
                     )}
+                  {columns.includes(buildConfigEntityAttributes.buildStatus.id) && (
+                    <Td height={49}>{!serviceContainerBuildConfigs.loading && <LatestBuild buildConfigId={buildConfig.id} />}</Td>
+                  )}
                   {columns.includes(buildConfigEntityAttributes.actions.id) && (
                     <Td>
                       <ProtectedBuildStartButton buildConfig={buildConfig} isCompact />

@@ -38,6 +38,7 @@ const buildConfigsListColumns = [
   buildConfigEntityAttributes['project.name'].id,
   buildConfigEntityAttributes.creationTime.id,
   buildConfigEntityAttributes.modificationTime.id,
+  buildConfigEntityAttributes.buildStatus.id,
   buildConfigEntityAttributes.actions.id,
   buildConfigEntityAttributes['environment.deprecated'].id,
 ];
