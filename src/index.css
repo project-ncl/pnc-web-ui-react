@@ -75,6 +75,10 @@ code {
   display: flex !important;
 }
 
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
 .flex-wrap {
   flex-wrap: wrap !important;
 }
