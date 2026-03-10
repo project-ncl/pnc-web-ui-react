@@ -5,10 +5,11 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 
+import { produceQParam } from 'components/FilteringPreset/common';
 import { WarningIcon } from 'components/Icons/WarningIcon';
 import { ServiceContainerLabel } from 'components/ServiceContainerLabel/ServiceContainerLabel';
 
-import { IQParamOperators, addQParamItem, parseQParamDeep } from 'utils/qParamHelper';
+import { IQParamOperators, parseQParamDeep } from 'utils/qParamHelper';
 import { getComponentQueryParamValue, updateQueryParamsInURL } from 'utils/queryParamsHelper';
 
 export type TFilterPreset = {
@@ -52,16 +53,9 @@ export const FilteringPreset = ({
 
   const [isFilteredByPreset, setIsFilteredByPreset] = useState(false);
 
-  const qParam = useMemo(
-    () =>
-      filterPreset.reduce((acc, filter) => {
-        return filter.values.reduce(
-          (groupAcc, value) => addQParamItem(filter.id, value, filter.operator, groupAcc, false) || '',
-          acc
-        );
-      }, ''),
-    [filterPreset]
-  );
+  const qParam = useMemo(() => produceQParam(filterPreset), [filterPreset]);
+
+  console.log(qParam);
 
   useEffect(() => {
     serviceContainerEntitiesCountRunner(qParam);
