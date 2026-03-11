@@ -8,10 +8,8 @@ import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 
 import mockBuildData from './data/mock-build-data.json';
 
-vi.mock('services/keycloakService');
 vi.mock('services/genericSettingsApi');
 vi.mock('services/webConfigService');
-vi.mock('services/broadcastService');
 
 describe('display BuildStatusIcon component', () => {
   test('renders all BuildStatusIcon variants', () => {

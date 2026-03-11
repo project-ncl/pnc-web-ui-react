@@ -8,7 +8,6 @@ import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
 global.ResizeObserver = ResizeObserver;
 
 vi.mock('services/artifactApi');
-vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 

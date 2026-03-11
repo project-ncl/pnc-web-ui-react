@@ -336,3 +336,23 @@ export const getInternalScmAuthority = (): string => {
 
   return internalScmAuthority;
 };
+
+export const getOidcConfigClientId = (): string => {
+  const keycloak = getWebConfig().keycloak;
+
+  if (!keycloak) {
+    throw new Error(`Keycloak does not contain any data: #${keycloak}#`);
+  }
+
+  return keycloak.clientId;
+};
+
+export const getOidcConfigAuthority = (): string => {
+  const keycloak = getWebConfig().keycloak;
+
+  if (!keycloak) {
+    throw new Error(`Keycloak does not contain any data: #${keycloak}#`);
+  }
+
+  return keycloak.url + '/realms/' + keycloak.realm;
+};
