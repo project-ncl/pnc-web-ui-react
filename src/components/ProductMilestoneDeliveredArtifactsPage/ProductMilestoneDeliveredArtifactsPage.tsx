@@ -16,7 +16,11 @@ interface IProductMilestoneDeliveredArtifactsPageProps {
   componentId?: string;
 }
 
-export const ProductMilestoneDeliveredArtifactsPage = ({ componentId = 'd1' }: IProductMilestoneDeliveredArtifactsPageProps) => {
+export const productMilestoneDeliveredArtifactsPageComponentId = 'd1';
+
+export const ProductMilestoneDeliveredArtifactsPage = ({
+  componentId = productMilestoneDeliveredArtifactsPageComponentId,
+}: IProductMilestoneDeliveredArtifactsPageProps) => {
   const { productId, productMilestoneId } = useParamsRequired();
 
   const serviceContainerArtifacts = useServiceContainer(productMilestoneApi.getDeliveredArtifacts);
