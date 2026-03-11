@@ -2,6 +2,8 @@ import { ExclamationTriangleIcon, InfoCircleIcon } from '@patternfly/react-icons
 
 import { TopBar } from 'components/TopBar/TopBar';
 
+import { removeComment } from 'utils/commentHelper';
+
 interface ITopBarAnnouncementProps {
   id?: string;
   banner?: string;
@@ -11,7 +13,9 @@ interface ITopBarAnnouncementProps {
 }
 
 export const TopBarAnnouncement = ({ id, banner, isMaintenanceMode, eta, hideCloseButton }: ITopBarAnnouncementProps) => {
-  if (!banner && !isMaintenanceMode) {
+  const newBanner = removeComment(banner);
+
+  if (!newBanner && !isMaintenanceMode) {
     return null;
   }
 
@@ -25,12 +29,12 @@ export const TopBarAnnouncement = ({ id, banner, isMaintenanceMode, eta, hideClo
       {isMaintenanceMode && (
         <>
           Maintenance Mode - PNC system is in the maintenance mode, no new build requests are accepted.{' '}
-          {banner && <>Reason: {banner}.</>} ETA: {eta || 'N/A'}
+          {newBanner && <>Reason: {newBanner}.</>} ETA: {eta || 'N/A'}
         </>
       )}
       {!isMaintenanceMode && (
         <>
-          Announcement: {banner}. {eta && <> ETA: {eta}</>}
+          Announcement: {newBanner}. {eta && <> ETA: {eta}</>}
         </>
       )}
     </TopBar>

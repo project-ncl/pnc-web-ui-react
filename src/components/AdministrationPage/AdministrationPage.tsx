@@ -36,6 +36,7 @@ import * as genericSettingsApi from 'services/genericSettingsApi';
 import * as githubApi from 'services/githubApi';
 import { uiLogger } from 'services/uiLogger';
 
+import { getComment, removeComment } from 'utils/commentHelper';
 import { validateDateTime } from 'utils/formValidationHelpers';
 import { createDateTime } from 'utils/utils';
 
@@ -83,11 +84,13 @@ export const AdministrationPage = () => {
 
   const { register, setFieldValues, getFieldValue, getFieldErrors, handleSubmit, isSubmitDisabled, hasFormChanged } = useForm();
 
+  const [bannerComment, setBannerComment] = useState<string>('');
+
   const submitEdit = (data: IFieldValues) => {
     return serviceContainerPncStatusSet.run({
       serviceData: {
         data: {
-          banner: data.banner,
+          banner: bannerComment + (data.banner ? data.banner : ''),
           isMaintenanceMode: !!data.isMaintenanceMode,
           eta: data.eta ? new Date(data.eta) : null,
         },
@@ -101,7 +104,9 @@ export const AdministrationPage = () => {
       onSuccess: (result) => {
         const pncStatus = result.response.data;
         const eta = pncStatus.eta && createDateTime({ date: pncStatus.eta }).custom;
-        setFieldValues({ ...pncStatus, eta });
+        setBannerComment(getComment(pncStatus.banner));
+        const banner = pncStatus.banner && removeComment(pncStatus.banner);
+        setFieldValues({ ...pncStatus, eta, banner });
       },
     });
 
