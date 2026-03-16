@@ -53,12 +53,22 @@ export const ProductVersionDetailPage = () => {
     [serviceContainerArtifactQualityStatistics.data]
   );
 
+  const stackedBarChartArtifactQualityColors = useMemo(
+    () => (stackedBarChartArtifactQuality.data || []).map((ds) => artifactQualityColorMap[ds.label]?.hexColor),
+    [stackedBarChartArtifactQuality.data]
+  );
+
   const stackedBarChartRepositoryType = useMemo(
     () => ({
       data: stackedBarChartDataTransform(serviceContainerRepositoryTypeStatistics.data?.content, 'repositoryType'),
       labels: stackedBarChartLabelTransform(serviceContainerRepositoryTypeStatistics.data?.content),
     }),
     [serviceContainerRepositoryTypeStatistics.data]
+  );
+
+  const stackedBarChartRepositoryTypeColors = useMemo(
+    () => (stackedBarChartRepositoryType.data || []).map((ds) => repositoryTypeColorMap[ds.label]?.hexColor),
+    [stackedBarChartRepositoryType.data]
   );
 
   useQueryParamsEffect(
@@ -307,7 +317,7 @@ export const ProductVersionDetailPage = () => {
             <StackedBarChart
               data={stackedBarChartArtifactQuality.data}
               labels={stackedBarChartArtifactQuality.labels}
-              colors={(stackedBarChartArtifactQuality.data || []).map((ds) => artifactQualityColorMap[ds.label]?.hexColor)}
+              colors={stackedBarChartArtifactQualityColors}
               description={
                 <div>Chart displays proportion of quality of Delivered Artifacts among Product Milestones of this Version.</div>
               }
@@ -332,7 +342,7 @@ export const ProductVersionDetailPage = () => {
             <StackedBarChart
               data={stackedBarChartRepositoryType.data}
               labels={stackedBarChartRepositoryType.labels}
-              colors={(stackedBarChartRepositoryType.data || []).map((ds) => repositoryTypeColorMap[ds.label]?.hexColor)}
+              colors={stackedBarChartRepositoryTypeColors}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts among Product Milestones of this Version.
