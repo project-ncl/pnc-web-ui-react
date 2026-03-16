@@ -35,7 +35,7 @@ export const ProductMilestoneDetailPage = () => {
   const serviceContainerStatistics = useServiceContainer(productMilestoneApi.getStatistics);
   const serviceContainerStatisticsRunner = serviceContainerStatistics.run;
 
-  const dougnutChartArtifactQuality = useMemo(
+  const doughnutChartArtifactQuality = useMemo(
     () => ({
       data: doughnutChartDataTransform(serviceContainerStatistics.data?.artifactQuality),
       labels: doughnutChartLabelTransform(serviceContainerStatistics.data?.artifactQuality),
@@ -43,12 +43,22 @@ export const ProductMilestoneDetailPage = () => {
     [serviceContainerStatistics.data]
   );
 
-  const dougnutChartRepositoryType = useMemo(
+  const doughnutChartArtifactQualityColors = useMemo(
+    () => doughnutChartArtifactQuality.labels?.map((label) => artifactQualityColorMap[label]?.hexColor),
+    [doughnutChartArtifactQuality.labels]
+  );
+
+  const doughnutChartRepositoryType = useMemo(
     () => ({
       data: doughnutChartDataTransform(serviceContainerStatistics.data?.repositoryType),
       labels: doughnutChartLabelTransform(serviceContainerStatistics.data?.repositoryType),
     }),
     [serviceContainerStatistics.data]
+  );
+
+  const doughnutChartRepositoryTypeColors = useMemo(
+    () => doughnutChartRepositoryType.labels?.map((label) => repositoryTypeColorMap[label]?.hexColor),
+    [doughnutChartRepositoryType.labels]
   );
 
   useEffect(() => {
@@ -177,9 +187,9 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox contentBoxHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Artifact Quality Distribution">
             <DoughnutChart
-              data={dougnutChartArtifactQuality.data}
-              labels={dougnutChartArtifactQuality.labels}
-              colors={dougnutChartArtifactQuality.labels?.map((label) => artifactQualityColorMap[label]?.hexColor)}
+              data={doughnutChartArtifactQuality.data}
+              labels={doughnutChartArtifactQuality.labels}
+              colors={doughnutChartArtifactQualityColors}
               description={<div>Chart displays proportion of quality of Delivered Artifacts.</div>}
             />
           </ServiceContainerLoading>
@@ -195,9 +205,9 @@ export const ProductMilestoneDetailPage = () => {
         <ContentBox contentBoxHeight="500px">
           <ServiceContainerLoading {...serviceContainerStatistics} hasSkeleton title="Repository Type Distribution">
             <DoughnutChart
-              data={dougnutChartRepositoryType.data}
-              labels={dougnutChartRepositoryType.labels}
-              colors={dougnutChartRepositoryType.labels?.map((label) => repositoryTypeColorMap[label]?.hexColor)}
+              data={doughnutChartRepositoryType.data}
+              labels={doughnutChartRepositoryType.labels}
+              colors={doughnutChartRepositoryTypeColors}
               description={
                 <div>
                   Chart displays proportion of repository type of Delivered Artifacts.
