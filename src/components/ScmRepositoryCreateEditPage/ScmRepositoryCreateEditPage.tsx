@@ -134,7 +134,7 @@ export const ScmRepositoryCreateEditPage = ({ isEditPage = false }: IScmReposito
     useCallback(
       (wsData: any) => {
         if (hasScmRepositoryFailed(wsData, { taskId: serviceContainerCreatePageTaskId })) {
-          setScmCreatingError(wsData.notificationType);
+          setScmCreatingError(wsData.message || wsData.notificationType);
           setScmCreatingFinished(undefined);
           setScmCreatingLoading(false);
         } else if (hasScmRepositorySucceeded(wsData, { taskId: serviceContainerCreatePageTaskId })) {
