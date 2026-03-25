@@ -280,7 +280,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
     useCallback(
       (wsData: any) => {
         if (hasBuildConfigFailed(wsData, { taskId: serviceContainerCreateWithScmTaskId })) {
-          setBuildConfigCreatingError(wsData.notificationType);
+          setBuildConfigCreatingError(wsData.message || wsData.notificationType);
           setBuildConfigCreatingFinished(undefined);
           setBuildConfigCreatingLoading(false);
         } else if (hasBuildConfigSucceeded(wsData, { taskId: serviceContainerCreateWithScmTaskId })) {
