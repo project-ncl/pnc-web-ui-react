@@ -84,11 +84,6 @@ jobs:
   check-file-extensions:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        # Each version of Node.js specified in the node-version array creates a job that runs the same steps.
-        node-version: [22.x]
-
     steps:
       - uses: actions/checkout@v4
       - name: Fail if .tsx files are contained in wrong directories
