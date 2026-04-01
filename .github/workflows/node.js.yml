@@ -11,6 +11,9 @@ on:
     - cron: '00 03 * * *'
     - cron: '00 11 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
