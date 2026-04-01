@@ -17,7 +17,17 @@ import { CardValue } from 'components/CardFlex/CardValue';
 import { DoughnutChart } from 'components/Charts/DoughnutChart';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DateTime } from 'components/DateTime/DateTime';
+import { WarningIcon } from 'components/Icons/WarningIcon';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
+import {
+  BuiltInOtherMilestonesFilteringPresetLink,
+  BuiltInOtherProductsFilteringPresetLink,
+  BuiltInThisMilestoneFilteringPresetLink,
+  BuiltOutsideMilestoneFilteringPresetLink,
+  NotBuiltFilteringPresetLink,
+} from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactListFilteringPresetLink';
+import { productMilestoneDeliveredArtifactsPageComponentId } from 'components/ProductMilestoneDeliveredArtifactsPage/ProductMilestoneDeliveredArtifactsPage';
+import { getDeliveredArtifactsNonZeroValueWarning } from 'components/ProductMilestoneDeliveredArtifactsPage/common';
 import { useServiceContainerProductMilestone } from 'components/ProductMilestonePages/ProductMilestonePages';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -27,8 +37,10 @@ import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { doughnutChartDataTransform, doughnutChartLabelTransform } from 'utils/dataTransformHelper';
 
+const PRODUCT_MILESTONE_DELIVERED_ARTIFACTS_PATH = '../delivered-artifacts';
+
 export const ProductMilestoneDetailPage = () => {
-  const { productMilestoneId } = useParamsRequired();
+  const { productMilestoneId, productId } = useParamsRequired();
 
   const { serviceContainerProductMilestone } = useServiceContainerProductMilestone();
 
@@ -112,7 +124,13 @@ export const ProductMilestoneDetailPage = () => {
                 variant="icon"
                 title={deliveredArtifactsSourceDescriptions.thisMilestone.title}
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.thisMilestone}
+                <BuiltInThisMilestoneFilteringPresetLink
+                  componentId={productMilestoneDeliveredArtifactsPageComponentId}
+                  basePath={PRODUCT_MILESTONE_DELIVERED_ARTIFACTS_PATH}
+                  productMilestoneId={productMilestoneId}
+                >
+                  {serviceContainerStatistics.data?.deliveredArtifactsSource.thisMilestone}
+                </BuiltInThisMilestoneFilteringPresetLink>
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>{deliveredArtifactsSourceDescriptions.thisMilestone.title}</CardTitle>
@@ -125,7 +143,14 @@ export const ProductMilestoneDetailPage = () => {
                 variant="icon"
                 title={deliveredArtifactsSourceDescriptions.otherMilestones.title}
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.otherMilestones}
+                <BuiltInOtherMilestonesFilteringPresetLink
+                  componentId={productMilestoneDeliveredArtifactsPageComponentId}
+                  basePath={PRODUCT_MILESTONE_DELIVERED_ARTIFACTS_PATH}
+                  productMilestoneId={productMilestoneId}
+                  productId={productId}
+                >
+                  {serviceContainerStatistics.data?.deliveredArtifactsSource.otherMilestones}
+                </BuiltInOtherMilestonesFilteringPresetLink>
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>{deliveredArtifactsSourceDescriptions.otherMilestones.title}</CardTitle>
@@ -138,7 +163,13 @@ export const ProductMilestoneDetailPage = () => {
                 variant="icon"
                 title={deliveredArtifactsSourceDescriptions.otherProducts.title}
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.otherProducts}
+                <BuiltInOtherProductsFilteringPresetLink
+                  componentId={productMilestoneDeliveredArtifactsPageComponentId}
+                  basePath={PRODUCT_MILESTONE_DELIVERED_ARTIFACTS_PATH}
+                  productId={productId}
+                >
+                  {serviceContainerStatistics.data?.deliveredArtifactsSource.otherProducts}
+                </BuiltInOtherProductsFilteringPresetLink>
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>{deliveredArtifactsSourceDescriptions.otherProducts.title}</CardTitle>
@@ -151,7 +182,12 @@ export const ProductMilestoneDetailPage = () => {
                 variant="icon"
                 title={deliveredArtifactsSourceDescriptions.noMilestone.title}
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.noMilestone}
+                <BuiltOutsideMilestoneFilteringPresetLink
+                  componentId={productMilestoneDeliveredArtifactsPageComponentId}
+                  basePath={PRODUCT_MILESTONE_DELIVERED_ARTIFACTS_PATH}
+                >
+                  {serviceContainerStatistics.data?.deliveredArtifactsSource.noMilestone}
+                </BuiltOutsideMilestoneFilteringPresetLink>
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>{deliveredArtifactsSourceDescriptions.noMilestone.title}</CardTitle>
@@ -160,7 +196,11 @@ export const ProductMilestoneDetailPage = () => {
           <CardFlexItem
             description={
               <div>
-                The number of {deliveredArtifactsSourceDescriptions.noBuild.description} Non-zero value may indicate a problem.
+                The number of {deliveredArtifactsSourceDescriptions.noBuild.description}{' '}
+                {getDeliveredArtifactsNonZeroValueWarning(
+                  false,
+                  serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild
+                )}
               </div>
             }
           >
@@ -170,7 +210,20 @@ export const ProductMilestoneDetailPage = () => {
                 variant="icon"
                 title={deliveredArtifactsSourceDescriptions.noBuild.title}
               >
-                {serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild}
+                <NotBuiltFilteringPresetLink
+                  componentId={productMilestoneDeliveredArtifactsPageComponentId}
+                  basePath={PRODUCT_MILESTONE_DELIVERED_ARTIFACTS_PATH}
+                >
+                  {serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild}
+                </NotBuiltFilteringPresetLink>{' '}
+                {serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild > 0 && (
+                  <WarningIcon
+                    tooltip={getDeliveredArtifactsNonZeroValueWarning(
+                      true,
+                      serviceContainerStatistics.data?.deliveredArtifactsSource.noBuild
+                    )}
+                  />
+                )}
               </ServiceContainerLoading>
             </CardValue>
             <CardTitle>{deliveredArtifactsSourceDescriptions.noBuild.title}</CardTitle>

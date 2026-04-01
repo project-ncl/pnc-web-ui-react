@@ -1,11 +1,20 @@
 import { useCallback, useMemo } from 'react';
 
-import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { deliveredArtifactsSourceDescriptions } from 'common/deliveredArtifactsSourceDescriptions';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { FilteringPreset, TFilterPreset } from 'components/FilteringPreset/FilteringPreset';
+import {
+  builtOutsideMilestoneFilterPreset,
+  getBuiltInOtherMilestonesFilterPreset,
+  getBuiltInOtherProductsFilterPreset,
+  getBuiltInThisMilestoneFilterPreset,
+  getDeliveredArtifactsNonZeroValueWarning,
+  notBuiltFilterPreset,
+  notBuiltFoundFilterPreset,
+  notBuiltNotFoundFilterPreset,
+} from 'components/ProductMilestoneDeliveredArtifactsPage/common';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
@@ -42,13 +51,7 @@ export const ProductMilestoneDeliveredArtifactListFilteringPresets = (
 
 const BuiltInThisMilestoneFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   const builtInThisMilestoneFilterPreset = useMemo(
-    () => [
-      {
-        id: artifactEntityAttributes['build.productMilestone.id'].id,
-        operator: '==' as const,
-        values: [props.productMilestoneId],
-      },
-    ],
+    () => getBuiltInThisMilestoneFilterPreset(props.productMilestoneId),
     [props.productMilestoneId]
   );
 
@@ -64,18 +67,7 @@ const BuiltInThisMilestoneFilteringPreset = (props: IProductMilestoneDeliveredAr
 
 const BuiltInOtherMilestonesFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   const builtInOtherMilestonesFilterPreset = useMemo(
-    () => [
-      {
-        id: artifactEntityAttributes['build.productMilestone.id'].id,
-        operator: '==' as const,
-        values: [`!${props.productMilestoneId}`],
-      },
-      {
-        id: artifactEntityAttributes['build.productMilestone.productVersion.product.id'].id,
-        operator: '==' as const,
-        values: [props.productId],
-      },
-    ],
+    () => getBuiltInOtherMilestonesFilterPreset(props.productMilestoneId, props.productId),
     [props.productMilestoneId, props.productId]
   );
 
@@ -90,16 +82,7 @@ const BuiltInOtherMilestonesFilteringPreset = (props: IProductMilestoneDelivered
 };
 
 const BuiltInOtherProductsFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
-  const builtInOtherProductsFilterPreset = useMemo(
-    () => [
-      {
-        id: artifactEntityAttributes['build.productMilestone.productVersion.product.id'].id,
-        operator: '==' as const,
-        values: [`!${props.productId}`],
-      },
-    ],
-    [props.productId]
-  );
+  const builtInOtherProductsFilterPreset = useMemo(() => getBuiltInOtherProductsFilterPreset(props.productId), [props.productId]);
 
   return (
     <ProductMilestoneDeliveredArtifactListFilteringPreset
@@ -111,14 +94,6 @@ const BuiltInOtherProductsFilteringPreset = (props: IProductMilestoneDeliveredAr
   );
 };
 
-const builtOutsideMilestoneFilterPreset = [
-  {
-    id: artifactEntityAttributes['build.productMilestone'].id,
-    operator: '==' as const,
-    values: ['null'],
-  },
-];
-
 const BuiltOutsideMilestoneFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   return (
     <ProductMilestoneDeliveredArtifactListFilteringPreset
@@ -129,8 +104,6 @@ const BuiltOutsideMilestoneFilteringPreset = (props: IProductMilestoneDeliveredA
     />
   );
 };
-
-const notBuiltFilterPreset = [{ id: artifactEntityAttributes.artifactQuality.id, operator: '==' as const, values: ['IMPORTED'] }];
 
 const NotBuiltFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   return (
@@ -144,15 +117,6 @@ const NotBuiltFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFi
   );
 };
 
-const notBuiltFoundFilterPreset = [
-  ...notBuiltFilterPreset,
-  {
-    id: artifactEntityAttributes['targetRepository.repositoryType'].id,
-    operator: '==' as const,
-    values: ['NPM', 'MAVEN', 'GENERIC_PROXY'],
-  },
-];
-
 const NotBuiltFoundFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   return (
     <ProductMilestoneDeliveredArtifactListFilteringPreset
@@ -164,15 +128,6 @@ const NotBuiltFoundFilteringPreset = (props: IProductMilestoneDeliveredArtifactL
     />
   );
 };
-
-const notBuiltNotFoundFilterPreset = [
-  ...notBuiltFilterPreset,
-  {
-    id: artifactEntityAttributes['targetRepository.repositoryType'].id,
-    operator: '==' as const,
-    values: ['DISTRIBUTION_ARCHIVE'],
-  },
-];
 
 const NotBuiltNotFoundFilteringPreset = (props: IProductMilestoneDeliveredArtifactListFilteringPresetsProps) => {
   return (
@@ -212,8 +167,10 @@ const ProductMilestoneDeliveredArtifactListFilteringPreset = ({
     <FilteringPreset
       componentId={componentId}
       title={title}
-      description={`${description}${isWarningOnGreaterThanZero ? ' Non-zero value may indicate a problem.' : ''}${
-        isWarning ? ` There are ${serviceContainerArtifacts.data?.totalHits} existing artifacts to be reviewed.` : ''
+      description={`${description}${
+        isWarningOnGreaterThanZero
+          ? ` ${getDeliveredArtifactsNonZeroValueWarning(isWarning, serviceContainerArtifacts.data?.totalHits || 0)}`
+          : ''
       }`}
       filterPreset={filterPreset}
       serviceContainerEntitiesCount={serviceContainerArtifacts}
