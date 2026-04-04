@@ -32,8 +32,6 @@ import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildApi from 'services/buildApi';
-import { uiLogger } from 'services/uiLogger';
-import { userService } from 'services/userService';
 
 import { generatePageTitle } from 'utils/titleHelper';
 import { isBuildFinished, isBuildWithArtifacts, isBuildWithLiveLog, isBuildWithStaticLog } from 'utils/utils';

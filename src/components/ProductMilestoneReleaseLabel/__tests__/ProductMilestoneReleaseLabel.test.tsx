@@ -9,7 +9,6 @@ import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneRelease
 import productMilestoneMock from './data/product-milestones-mock.json';
 import productReleaseMock from './data/product-releases-mock.json';
 
-vi.mock('services/keycloakService');
 vi.mock('services/webConfigService');
 
 describe('display MilestoneReleaseLabel component', () => {
