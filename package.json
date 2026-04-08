@@ -15,7 +15,7 @@
     "graphology": "^0.26.0",
     "graphology-layout": "^0.6.1",
     "graphology-layout-forceatlas2": "^0.10.1",
-    "lodash-es": "^4.17.21",
+    "lodash-es": "^4.18.1",
     "pnc-api-types-ts": "project-ncl/pnc-api-types-ts#v3.3.2-SNAPSHOT-pnc-2469bac32",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
