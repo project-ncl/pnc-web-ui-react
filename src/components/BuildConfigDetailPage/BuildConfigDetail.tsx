@@ -104,7 +104,8 @@ export const BuildConfigDetail = ({
               </AttributesItem>
               <AttributesItem title={buildConfigEntityAttributes.environment.title}>
                 <div className="display-flex flex-wrap align-items-center gap-10">
-                  {serviceContainerBuildConfig.data?.environment?.description}
+                  {serviceContainerBuildConfig.data?.environment?.description} [ID:{' '}
+                  {serviceContainerBuildConfig.data?.environment?.id}]
                   {serviceContainerBuildConfig.data?.environment?.deprecated && (
                     <>
                       <WarningLabel>Deprecated</WarningLabel>
