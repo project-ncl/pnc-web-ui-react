@@ -18,6 +18,7 @@ const authConfig: AuthProviderProps = {
   response_type: 'code',
   monitorSession: true,
   userStore: new WebStorageStateStore({ store: window.localStorage }),
+  client_secret: import.meta.env.VITE_CLIENT_SECRET ? import.meta.env.VITE_CLIENT_SECRET : undefined,
 };
 
 export const userManager = new UserManager(authConfig);
