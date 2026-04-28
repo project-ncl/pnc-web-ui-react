@@ -16,6 +16,11 @@ export interface IWebConfigKeycloak {
   clientId: string;
 }
 
+export interface IWebConfigOidc {
+  url: string;
+  clientId: string;
+}
+
 export interface IWebConfig {
   bpmUrl: string;
   cartographerUrl: string;
@@ -48,6 +53,7 @@ export interface IWebConfig {
   userSupportUrl: string;
   ssoTokenLifespan: number;
   keycloak: IWebConfigKeycloak;
+  oidc: IWebConfigOidc;
   grafana: IWebConfigGrafana;
   internalScmAuthority: string;
 }
@@ -338,21 +344,29 @@ export const getInternalScmAuthority = (): string => {
 };
 
 export const getAuthConfigClientId = (): string => {
-  const keycloak = getWebConfig().keycloak;
-
-  if (!keycloak) {
-    throw new Error(`Keycloak does not contain any data: #${keycloak}#`);
+  const oidc = getWebConfig().oidc;
+  if (oidc) {
+    return oidc.clientId;
   }
 
-  return keycloak.clientId;
+  const keycloak = getWebConfig().keycloak;
+  if (keycloak) {
+    return keycloak.clientId;
+  }
+
+  throw new Error(`OIDC and Keycloak do not contain any data: #${oidc}#, #${keycloak}#`);
 };
 
 export const getAuthConfigAuthority = (): string => {
-  const keycloak = getWebConfig().keycloak;
-
-  if (!keycloak) {
-    throw new Error(`Keycloak does not contain any data: #${keycloak}#`);
+  const oidc = getWebConfig().oidc;
+  if (oidc) {
+    return oidc.url;
   }
 
-  return keycloak.url + '/realms/' + keycloak.realm;
+  const keycloak = getWebConfig().keycloak;
+  if (keycloak) {
+    return keycloak.url + '/realms/' + keycloak.realm;
+  }
+
+  throw new Error(`OIDC and Keycloak do not contain any data: #${oidc}#, #${keycloak}#`);
 };

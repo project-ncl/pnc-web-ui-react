@@ -21,6 +21,10 @@ window.pnc = {
       realm: 'test',
       clientId: 'test',
     },
+    oidc: {
+      url: 'https://localhost:3000/oidc/test',
+      clientId: 'test',
+    },
   },
 };
 

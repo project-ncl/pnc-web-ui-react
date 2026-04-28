@@ -25,9 +25,11 @@ interface IAuthServiceStatusPageProps {
 export const AuthServiceStatusPage = ({ errorPageTitle }: IAuthServiceStatusPageProps) => {
   const auth = useAuth();
 
+  const url = webConfig.oidc.url || webConfig.keycloak.url;
+
   const content = (
     <>
-      {webConfig.keycloak.url.startsWith('http') ? (
+      {url.startsWith('http') ? (
         <>
           If Auth Service is not available, then login and operations requiring authorization are deactivated.
           <br />
@@ -35,8 +37,8 @@ export const AuthServiceStatusPage = ({ errorPageTitle }: IAuthServiceStatusPage
           <ul>
             <li>
               - Try to open{' '}
-              <a href={webConfig.keycloak.url} target="_blank" rel="noreferrer">
-                {webConfig.keycloak.url}
+              <a href={url} target="_blank" rel="noreferrer">
+                {url}
               </a>{' '}
               <br />
               directly; if there is an error, check whether your network, VPN and certificates are configured correctly
