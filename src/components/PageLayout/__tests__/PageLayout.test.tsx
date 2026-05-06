@@ -5,6 +5,7 @@ import { vi } from 'vitest';
 
 import { PageLayout } from 'components/PageLayout/PageLayout';
 
+vi.mock('services/keycloakService');
 vi.mock('services/genericSettingsApi');
 vi.mock('services/webConfigService');
 

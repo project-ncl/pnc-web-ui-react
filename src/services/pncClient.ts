@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { authService } from 'services/authService';
-
+import { keycloakService } from './keycloakService';
 import * as webConfigService from './webConfigService';
 
 /**
@@ -9,6 +8,7 @@ import * as webConfigService from './webConfigService';
  */
 class PncClient {
   private httpClient: AxiosInstance;
+  public mathRandom: number = Math.random(); // development and testing purposes
 
   constructor() {
     this.httpClient = this.createHttpClient();
@@ -26,11 +26,9 @@ class PncClient {
 
     // perform actions before request is sent
     httpClient.interceptors.request.use(async (config) => {
-      const token = await authService.getToken();
-
-      if (token) {
+      if (keycloakService.isKeycloakAvailable() && keycloakService.isAuthenticated()) {
         config.headers = config.headers ?? {};
-        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ` + (await keycloakService.getToken());
       }
 
       /*

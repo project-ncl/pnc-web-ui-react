@@ -1,14 +1,13 @@
 import { User } from 'pnc-api-types-ts';
 
+import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as userApi from 'services/userApi';
-
-const anonUser = { id: 'anonymous' };
 
 /**
  * Class managing information about user.
  */
 class UserService {
-  private user: User = anonUser;
+  private user: User = { id: 'anonymous' };
 
   public fetchUser() {
     return userApi
@@ -22,8 +21,8 @@ class UserService {
       });
   }
 
-  public clearUser() {
-    this.user = anonUser;
+  public isAdminUser() {
+    return keycloakService.hasRealmRole(AUTH_ROLE.Admin);
   }
 
   public getUserId() {

@@ -8,6 +8,7 @@ import { ProjectsPage } from 'components/ProjectsPage/ProjectsPage';
 global.ResizeObserver = ResizeObserver;
 
 vi.mock('services/projectApi');
+vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 

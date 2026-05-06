@@ -1,12 +1,11 @@
 import { PropsWithChildren } from 'react';
 
-import { useAuth } from 'hooks/useAuth';
 import { useProtectedContent } from 'hooks/useProtectedContent';
 
-import { AuthServiceStatusPage } from 'components/AuthServiceStatusPage/AuthServiceStatusPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
+import { KeycloakStatusPage } from 'components/KeycloakStatusPage/KeycloakStatusPage';
 
-import { AUTH_ROLE } from 'services/authService';
+import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 
 interface IProtectedRouteProps extends PropsWithChildren {
   role?: AUTH_ROLE;
@@ -19,18 +18,17 @@ interface IProtectedRouteProps extends PropsWithChildren {
  * Error page is displayed when some of the requirements (for example role) are not fulfilled.
  */
 export const ProtectedRoute = ({ children, role = AUTH_ROLE.User, title }: IProtectedRouteProps) => {
-  const auth = useAuth();
   const { reason, state } = useProtectedContent({ role });
 
-  if (state === 'ERROR') {
-    return <AuthServiceStatusPage errorPageTitle={title} />;
+  if (state === 'KEYCLOAK_UNAVAILABLE') {
+    return <KeycloakStatusPage errorPageTitle={title} />;
   }
 
   if (state === 'NOT_AUTHENTICATED') {
-    auth.login().catch(() => {
-      throw new Error('Auth Service login failed.');
+    keycloakService.login().catch(() => {
+      throw new Error('Keycloak login failed.');
     });
-    return <div>Redirecting to Auth Service...</div>;
+    return <div>Redirecting to keycloak...</div>;
   }
 
   if (state === 'ROLE_NOT_ALLOWED') {

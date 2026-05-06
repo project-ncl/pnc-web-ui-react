@@ -6,6 +6,7 @@ import { vi } from 'vitest';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
 
 vi.mock('services/groupConfigApi');
+vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 
