@@ -1007,8 +1007,9 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
                         placeholder="Select Build category"
                         onBlur={rest.onBlur}
                       >
-                        <SelectOption option="STANDARD" />
-                        <SelectOption option="SERVICE" />
+                        {buildParametersBuildCategoryValues?.map((buildCategoryItem) => (
+                          <SelectOption key={buildCategoryItem} option={buildCategoryItem} />
+                        ))}
                       </Select>
                     ) : (
                       <TextArea
