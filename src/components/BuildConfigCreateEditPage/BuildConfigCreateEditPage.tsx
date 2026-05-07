@@ -19,7 +19,15 @@ import { Operation } from 'fast-json-patch';
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
-import { BuildConfiguration, Environment, Product, ProductVersion, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
+import {
+  BuildConfiguration,
+  Environment,
+  Parameter,
+  Product,
+  ProductVersion,
+  SCMRepository,
+  SCMRepositoryPage,
+} from 'pnc-api-types-ts';
 
 import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
@@ -244,6 +252,11 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   const [showDeprecatedEnvironments, setShowDeprecatedEnvironments] = useState<boolean>(false);
   const [isBuildTypeSelectOpen, setIsBuildTypeSelectOpen] = useState<boolean>(false);
+  const [buildParametersBuildCategoryValues, setBuildParametersBuildCategoryValues] = useState<Parameter['values']>([
+    // TODO: default values can be removed once NCL-9665 is fully deployed
+    'STANDARD',
+    'SERVICE',
+  ]);
   const [buildParamOptions, setBuildParamOptions] = useState<IBuildParamOption[]>([]);
   const [selectedBuildParamOption, setSelectedBuildParamOption] = useState<string>();
   const [isBuildParamSelectOpen, setIsBuildParamSelectOpen] = useState<boolean>(false);
@@ -469,10 +482,16 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
 
   useEffect(() => {
     serviceContainerParametersRunner({
-      onSuccess: (result) =>
+      onSuccess: (result) => {
+        const buildCategoryValues = result.response.data?.find((buildParam) => buildParam.name === 'BUILD_CATEGORY')?.values;
+        if (buildCategoryValues?.length) {
+          setBuildParametersBuildCategoryValues(buildCategoryValues);
+        }
+
         setBuildParamOptions(
           result.response.data?.map((parameter) => ({ title: parameter.name!, description: parameter.description }))
-        ),
+        );
+      },
     });
   }, [serviceContainerParametersRunner]);
 
