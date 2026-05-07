@@ -80,6 +80,7 @@ import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 import * as projectApi from 'services/projectApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
+import { uiLogger } from 'services/uiLogger';
 
 import { maxLengthValidator, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
@@ -486,6 +487,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
         const buildCategoryValues = result.response.data?.find((buildParam) => buildParam.name === 'BUILD_CATEGORY')?.values;
         if (buildCategoryValues?.length) {
           setBuildParametersBuildCategoryValues(buildCategoryValues);
+        } else {
+          uiLogger.error('REST API issue: /build-configs/supported-parameters BUILD_CATEGORY values are expected.');
         }
 
         setBuildParamOptions(
