@@ -50,6 +50,7 @@ export const repositoryTypeColorMap: Record<string, LabelConfig> = {
   NPM: { text: 'NPM', color: 'purple', hexColor: purpleColor },
   COCOA_POD: { text: 'COCOA_POD', color: 'teal', hexColor: tealColor },
   DISTRIBUTION_ARCHIVE: { text: 'DISTRIBUTION_ARCHIVE', color: 'red', hexColor: redColor },
+  RPM: { text: 'RPM', color: 'blue', hexColor: blueColor },
 };
 
 export const operationProgressStatusColorMap: Record<string, LabelConfig> = {
