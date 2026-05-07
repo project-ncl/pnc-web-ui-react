@@ -30,4 +30,8 @@ export const buildTypeData: TBuildTypeData = {
     id: 'MVN_RPM',
     title: 'Maven RPM',
   },
+  RPM: {
+    id: 'RPM',
+    title: 'RPM Package Manager (RPM)',
+  },
 } as const;

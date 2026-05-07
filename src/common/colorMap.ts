@@ -30,6 +30,7 @@ export const buildTypeColorMap: Record<string, LabelConfig> = {
   GRADLE: { text: 'GRADLE', color: 'teal', hexColor: tealColor },
   SBT: { text: 'SBT', color: 'grey', hexColor: grayColor },
   MVN_RPM: { text: 'MVN_RPM', color: 'orange', hexColor: orangeColor },
+  RPM: { text: 'RPM', color: 'blue', hexColor: blueColor },
 };
 
 export const artifactQualityColorMap: Record<string, LabelConfig> = {
