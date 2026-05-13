@@ -1,0 +1,32 @@
+# https://docs.github.com/en/actions/guides/building-and-testing-nodejs
+
+name: NPM CI
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: ['*']
+
+jobs:
+  call-npm-ci:
+    uses: project-ncl/shared-github-actions/.github/workflows/npm-ci.yml@153b97777335953545bc8a907eb5f062af66b7f2 # v0.0.18
+    with:
+      test_command: npm test
+      formatter_command: npm run prettier-check
+      upload_artifacts: true
+
+  check-file-extensions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Fail if .tsx files are contained in wrong directories
+        run: |
+          lines=$(find src/common src/hooks src/services src/utils -type f -name '*.tsx')
+          if echo "$lines" | grep -q '.tsx'; then
+            echo ".tsx files are not allowed here:"
+            echo "$lines"
+            exit 1
+          fi
