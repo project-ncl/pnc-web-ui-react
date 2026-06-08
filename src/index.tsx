@@ -1,16 +1,18 @@
 import '@patternfly/react-core/dist/styles/base.css';
 
+import { AuthProvider } from 'contexts/AuthContext';
 import { ThemeProvider } from 'contexts/ThemeContext';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router';
 
 import { URL_BASE_PATH } from 'common/constants';
 
+import { useAuth } from 'hooks/useAuth';
+
 import { AppInit } from 'components/AppInit/AppInit';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 
-import { keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
 
 import { legacyUrlRedirector } from 'utils/legacyUrlRedirector';
@@ -20,30 +22,12 @@ import './index.css';
 
 legacyUrlRedirector();
 
-keycloakService.init();
-
 const router = createBrowserRouter(createRoutesFromElements(AppRoutes), {
   basename: URL_BASE_PATH,
 });
 
 const App = () => {
-  const [isKeycloakInitiated, setIsKeycloakInitiated] = useState<boolean>(false);
-  const [isKeycloakInitFail, setIsKeycloakInitFail] = useState<boolean>(false);
-  const [isKeycloakInitInProcess, setIsKeycloakInitInProcess] = useState<boolean>(true);
-
-  useEffect(() => {
-    keycloakService
-      .isInitialized()
-      .then(() => {
-        setIsKeycloakInitiated(true);
-      })
-      .catch(() => {
-        setIsKeycloakInitFail(true);
-      })
-      .finally(() => {
-        setIsKeycloakInitInProcess(false);
-      });
-  }, []);
+  const auth = useAuth();
 
   // Prevent using incompatible environment and deployment
   const pncUrl = webConfigService.getPncUrl();
@@ -103,7 +87,11 @@ const App = () => {
     return <div>{message}</div>;
   }
 
-  if (isKeycloakInitiated || isKeycloakInitFail) {
+  if (auth.isLoading) {
+    return <AppInit />;
+  }
+
+  if (!auth.isLoading) {
     return (
       <ErrorBoundary>
         <RouterProvider router={router} />
@@ -111,11 +99,7 @@ const App = () => {
     );
   }
 
-  if (isKeycloakInitInProcess) {
-    return <AppInit />;
-  }
-
-  throw new Error('Keycloak initialization state is invalid.');
+  throw new Error('This initialization state is invalid.');
 };
 
 const container = document.getElementById('root');
@@ -125,8 +109,10 @@ if (!container) {
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

@@ -3,7 +3,6 @@ import { vi } from 'vitest';
 import * as projectApi from 'services/projectApi';
 
 vi.mock('services/pncClient');
-vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 

@@ -8,7 +8,6 @@ import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 
 import mockBuildData from './data/mock-build-data.json';
 
-vi.mock('services/keycloakService');
 vi.mock('services/webConfigService');
 
 describe('display BuildStatus component', () => {
