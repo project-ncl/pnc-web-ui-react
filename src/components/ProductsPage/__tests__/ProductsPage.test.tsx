@@ -8,7 +8,6 @@ import { ProductsPage } from 'components/ProductsPage/ProductsPage';
 global.ResizeObserver = ResizeObserver;
 
 vi.mock('services/productApi');
-vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 

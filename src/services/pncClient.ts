@@ -1,6 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { keycloakService } from './keycloakService';
 import * as webConfigService from './webConfigService';
 
 /**
@@ -8,7 +7,6 @@ import * as webConfigService from './webConfigService';
  */
 class PncClient {
   private httpClient: AxiosInstance;
-  public mathRandom: number = Math.random(); // development and testing purposes
 
   constructor() {
     this.httpClient = this.createHttpClient();
@@ -22,15 +20,11 @@ class PncClient {
   private createHttpClient = (): AxiosInstance => {
     const httpClient = axios.create({
       baseURL: webConfigService.getPncUrl(),
+      // send the auth cookie
+      withCredentials: true,
     });
 
-    // perform actions before request is sent
-    httpClient.interceptors.request.use(async (config) => {
-      if (keycloakService.isKeycloakAvailable() && keycloakService.isAuthenticated()) {
-        config.headers = config.headers ?? {};
-        config.headers.Authorization = `Bearer ` + (await keycloakService.getToken());
-      }
-
+    httpClient.interceptors.request.use((config) => {
       /*
        * Convert pageIndex to zero based to be compatible with Orch API
        *  - Orch API first page index value is 0

@@ -8,7 +8,6 @@ import { BuildConfigsPage } from 'components/BuildConfigsPage/BuildConfigsPage';
 global.ResizeObserver = ResizeObserver;
 
 vi.mock('services/buildConfigApi');
-vi.mock('services/keycloakService');
 vi.mock('services/webConfigService');
 
 test('renders BuildConfigsPage', () => {

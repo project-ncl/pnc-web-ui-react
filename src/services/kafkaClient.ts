@@ -7,7 +7,6 @@ import * as webConfigService from './webConfigService';
  */
 class KafkaClient {
   private httpClient: AxiosInstance;
-  public mathRandom: number = Math.random(); // development and testing purposes
 
   constructor() {
     this.httpClient = this.createHttpClient();

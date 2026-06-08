@@ -33,6 +33,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useMatches } from 'react-router';
 
+import { AUTH_ROLE, useAuth } from 'hooks/useAuth';
 import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useResizeObserver } from 'hooks/useResizeObserver';
 import { useServiceContainer } from 'hooks/useServiceContainer';
@@ -44,9 +45,7 @@ import { RestrictedContent } from 'components/ProtectedContent/RestrictedContent
 import { ThemeSwitch } from 'components/ThemeSwitch/ThemeSwitch';
 import { TopBarAnnouncement } from 'components/TopBar/TopBarAnnouncement';
 
-import { IAuthBroadcastMessage, authBroadcastService } from 'services/broadcastService';
 import * as genericSettingsApi from 'services/genericSettingsApi';
-import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
 import * as webConfigService from 'services/webConfigService';
 
 import { createDateTime } from 'utils/utils';
@@ -54,7 +53,7 @@ import { createDateTime } from 'utils/utils';
 export const AppLayout = () => {
   const webConfig = webConfigService.getWebConfig();
 
-  const [user, setUser] = useState(keycloakService.isKeycloakAvailable() ? keycloakService.getUser() : null);
+  const auth = useAuth();
 
   const serviceContainerPncStatus = useServiceContainer(genericSettingsApi.getPncStatus);
   const serviceContainerPncStatusRunner = serviceContainerPncStatus.run;
@@ -77,17 +76,6 @@ export const AppLayout = () => {
       [serviceContainerPncStatusSetter]
     )
   );
-
-  useEffect(() => {
-    const removeAuthListener = authBroadcastService.addMessageListener((event: MessageEvent<IAuthBroadcastMessage>) => {
-      setUser(event.data.user);
-    });
-
-    return () => {
-      removeAuthListener();
-      authBroadcastService.close();
-    };
-  }, []);
 
   const AppHeaderToolbar = () => {
     const pncUserGuideUrl = webConfig.userGuideUrl;
@@ -157,33 +145,31 @@ export const AppLayout = () => {
       );
     }
 
-    const headerUserDropdownItems = (
-      <>
-        <DropdownItem key="logout" onClick={user ? processLogout : processLogin}>
-          {user ? 'Logout' : 'Login'}
-        </DropdownItem>
-      </>
-    );
-
-    const headerKeycloakUnavailableDropdownItems = (
-      <>
-        <DropdownLinkItem key="keycloak-status" to="/system/keycloak-status">
-          Keycloak Status
-        </DropdownLinkItem>
-      </>
-    );
-
-    function processLogin() {
-      keycloakService.login().catch(() => {
-        throw new Error('Keycloak login failed.');
-      });
-    }
-
-    function processLogout() {
-      keycloakService.logout();
+    const handleLogin = () => {
+      auth.login();
       setIsHeaderUserOpen(false);
-    }
+    };
 
+    const handleLogout = () => {
+      auth.logout();
+      setIsHeaderUserOpen(false);
+    };
+
+    const headerUserDropdownItems = auth.isAuthenticated ? (
+      <DropdownItem key="logout" onClick={handleLogout}>
+        Sign Out
+      </DropdownItem>
+    ) : (
+      <DropdownItem key="login" onClick={handleLogin}>
+        Sign In
+      </DropdownItem>
+    );
+
+    const headerAuthServiceUnavailableDropdownItems = (
+      <DropdownLinkItem key="auth-service-status" to="/system/auth-service-status">
+        Auth Service Status
+      </DropdownLinkItem>
+    );
     return (
       <Toolbar isFullHeight isStatic>
         <ToolbarContent>
@@ -239,15 +225,13 @@ export const AppLayout = () => {
                   isExpanded={isHeaderUserOpen}
                   onClick={() => setIsHeaderUserOpen((isHeaderUserOpen) => !isHeaderUserOpen)}
                 >
-                  {keycloakService.isKeycloakAvailable() ? <>{user ? user : 'Not logged in'}</> : <>KEYCLOAK UNAVAILABLE</>}
+                  {auth.isError ? 'AUTH SERVICE UNAVAILABLE' : auth.user || 'Unauthenticated'}
                 </MenuToggle>
               )}
               isOpen={isHeaderUserOpen}
               onOpenChange={(isOpen: boolean) => setIsHeaderUserOpen(isOpen)}
             >
-              <DropdownList>
-                {keycloakService.isKeycloakAvailable() ? headerUserDropdownItems : headerKeycloakUnavailableDropdownItems}
-              </DropdownList>
+              <DropdownList>{auth.isError ? headerAuthServiceUnavailableDropdownItems : headerUserDropdownItems}</DropdownList>
             </Dropdown>
           </ToolbarItem>
         </ToolbarContent>

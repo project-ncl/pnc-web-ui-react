@@ -8,10 +8,8 @@ import { AppLayout } from '../AppLayout';
 
 global.ResizeObserver = ResizeObserver;
 
-vi.mock('services/keycloakService');
 vi.mock('services/genericSettingsApi');
 vi.mock('services/webConfigService');
-vi.mock('services/broadcastService');
 vi.mock('contexts/ThemeContext');
 
 window.pnc = {
