@@ -123,20 +123,6 @@ export const getUILoggerUrl = (): string => {
 };
 
 /**
- * Return PNC API mocks endpoint URL
- */
-export const getPncApiMocksUrl = (): string => {
-  // TODO: extract URL from config once available
-  const pncApiMocksUrl = import.meta.env.VITE_PNC_API_MOCKS_URL;
-
-  if (!pncApiMocksUrl) {
-    throw new Error(`PNC API MOCKS URL does not contain any data: #${pncApiMocksUrl}#`);
-  }
-
-  return pncApiMocksUrl;
-};
-
-/**
  * Return Kafka endpoint URL
  */
 export const getKafkaUrl = (): string => {
