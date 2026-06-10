@@ -1,7 +1,6 @@
-import { BuildConfiguration } from 'pnc-api-types-ts';
-
 import { buildTypeData } from 'common/buildTypeData';
 import { buildTypeColorMap } from 'common/colorMap';
+import { BuildConfiguration } from 'common/pnc-api-types-ts';
 
 import { BuildTypeMvnRpmExperimentalTooltip } from 'components/BuildTypeMvnRpmExperimental/BuildTypeMvnRpmExperimental';
 import { LabelMapper } from 'components/LabelMapper/LabelMapper';

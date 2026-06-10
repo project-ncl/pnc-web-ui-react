@@ -11,8 +11,7 @@ import {
   BuildPage,
   GroupConfigPage,
   Parameter,
-} from 'pnc-api-types-ts';
-
+} from 'common/pnc-api-types-ts';
 import { BuildConfigCreationResponseCustomized } from 'common/types';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';

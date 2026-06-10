@@ -1,4 +1,4 @@
-import { BuildConfiguration } from 'pnc-api-types-ts';
+import { BuildConfiguration } from 'common/pnc-api-types-ts';
 
 export type TBuildType = NonNullable<BuildConfiguration['buildType']>;
 

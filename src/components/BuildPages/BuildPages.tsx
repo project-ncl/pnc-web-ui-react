@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
-import { ArtifactPage, Build, BuildPushOperationPage } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { buildStatusData } from 'common/buildStatusData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
+import { ArtifactPage, Build, BuildPushOperationPage } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import {

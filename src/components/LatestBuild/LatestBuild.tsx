@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
-import { Build, BuildConfiguration } from 'pnc-api-types-ts';
+import { Build, BuildConfiguration } from 'common/pnc-api-types-ts';
 
 import { hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';

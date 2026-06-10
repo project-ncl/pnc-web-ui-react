@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { BuildConfigPage, GroupBuild, GroupBuildPage, GroupConfigPage, GroupConfiguration } from 'pnc-api-types-ts';
+import { BuildConfigPage, GroupBuild, GroupBuildPage, GroupConfigPage, GroupConfiguration } from 'common/pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 

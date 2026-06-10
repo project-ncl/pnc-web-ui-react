@@ -1,10 +1,9 @@
 import { useCallback, useEffect } from 'react';
 
-import { GroupBuild } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
+import { GroupBuild } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';

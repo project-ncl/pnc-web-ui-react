@@ -1,12 +1,11 @@
 import { Form, FormGroup, TextArea } from '@patternfly/react-core';
 
-import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { ButtonTitles } from 'common/constants';
 import {
   DeliverableAnalysisLabel,
   deliverableAnalysisLabelEntryEntityAttributes,
 } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
+import { DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';

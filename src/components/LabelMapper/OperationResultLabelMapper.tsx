@@ -1,6 +1,5 @@
-import { OperationOutcome } from 'pnc-api-types-ts';
-
 import { operationResultColorMap } from 'common/colorMap';
+import { OperationOutcome } from 'common/pnc-api-types-ts';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { LabelMapper } from 'components/LabelMapper/LabelMapper';

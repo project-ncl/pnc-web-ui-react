@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import { Build } from 'pnc-api-types-ts';
+import { Build } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';

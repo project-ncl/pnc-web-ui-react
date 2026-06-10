@@ -2,10 +2,9 @@ import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 
-import { Build } from 'pnc-api-types-ts';
-
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { BuildStatus, buildStatusData } from 'common/buildStatusData';
+import { Build } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';

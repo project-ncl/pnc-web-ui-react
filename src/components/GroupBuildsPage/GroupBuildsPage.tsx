@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 
-import { GroupBuild } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
+import { GroupBuild } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { hasGroupBuildStarted, hasGroupBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';

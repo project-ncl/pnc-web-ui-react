@@ -3,7 +3,7 @@ import { TimesIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 
 import { useFullscreen } from 'hooks/useFullscreen';
 import { useParamsRequired } from 'hooks/useParamsRequired';

@@ -1,12 +1,11 @@
 import { Table, Tbody, Td, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { BuildPage, GroupBuildPage } from 'pnc-api-types-ts';
-
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
+import { BuildPage, GroupBuildPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';

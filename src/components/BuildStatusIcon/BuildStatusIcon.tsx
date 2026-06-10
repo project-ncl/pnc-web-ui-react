@@ -3,9 +3,8 @@ import { ExclamationTriangleIcon, OutlinedClockIcon } from '@patternfly/react-ic
 import { PropsWithChildren, useMemo } from 'react';
 import { Link } from 'react-router';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
-
 import { buildStatusData } from 'common/buildStatusData';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { IconWrapper } from 'components/IconWrapper/IconWrapper';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';

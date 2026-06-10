@@ -2,7 +2,7 @@ import { useTheme } from 'contexts/ThemeContext';
 import Graph from 'graphology';
 import { useCallback, useEffect } from 'react';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 
 import { EDGE_COLOR, MAIN_NODE_COLOR, NODE_COLOR, useNetworkGraph } from 'hooks/useNetworkGraph';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';

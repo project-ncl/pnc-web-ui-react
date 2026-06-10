@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { vi } from 'vitest';
 
-import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
+import { ProductMilestone, ProductRelease } from 'common/pnc-api-types-ts';
 
 import { ProductMilestoneReleaseLabel } from 'components/ProductMilestoneReleaseLabel/ProductMilestoneReleaseLabel';
 

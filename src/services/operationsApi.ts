@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { BuildPushOperation, DeliverableAnalyzerOperation, DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
+import { BuildPushOperation, DeliverableAnalyzerOperation, DeliverableAnalyzerOperationPage } from 'common/pnc-api-types-ts';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 

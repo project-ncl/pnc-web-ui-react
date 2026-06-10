@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { vi } from 'vitest';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 

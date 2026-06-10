@@ -1,10 +1,9 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { SCMRepositoryPage } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { SCMRepositoryPage } from 'common/pnc-api-types-ts';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';

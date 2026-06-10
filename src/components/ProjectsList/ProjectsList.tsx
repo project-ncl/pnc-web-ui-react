@@ -1,10 +1,9 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { ProjectPage } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { ProjectPage } from 'common/pnc-api-types-ts';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';

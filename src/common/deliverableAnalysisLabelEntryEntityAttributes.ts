@@ -1,6 +1,5 @@
-import { DeliverableAnalyzerLabelEntry, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { DeliverableAnalyzerLabelEntry, DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 export type DeliverableAnalysisLabel = NonNullable<DeliverableAnalyzerReport['labels']>[number];
 

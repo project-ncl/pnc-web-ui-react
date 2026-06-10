@@ -1,7 +1,6 @@
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
 import { operationEntityAttributes } from 'common/operationEntityAttributes';
+import { DeliverableAnalyzerOperation } from 'common/pnc-api-types-ts';
 
 interface IExtendedDeliverableAnalyzerOperation extends DeliverableAnalyzerOperation {
   'user.username': string;

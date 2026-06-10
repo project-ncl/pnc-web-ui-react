@@ -1,6 +1,5 @@
-import { MilestoneCloseRequest } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { MilestoneCloseRequest } from 'common/pnc-api-types-ts';
 
 export const productMilestoneCloseRequestEntityAttributes = {
   skipBrewPush: {

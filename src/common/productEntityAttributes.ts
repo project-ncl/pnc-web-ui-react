@@ -1,6 +1,5 @@
-import { Product } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { Product } from 'common/pnc-api-types-ts';
 
 export const productEntityAttributes = {
   id: {

@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { ProductRelease } from 'pnc-api-types-ts';
+import { ProductRelease } from 'common/pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 

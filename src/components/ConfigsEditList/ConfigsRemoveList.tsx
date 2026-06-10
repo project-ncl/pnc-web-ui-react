@@ -2,12 +2,11 @@ import { Button } from '@patternfly/react-core';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo } from 'react';
 
-import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
-
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
+import { BuildConfiguration, GroupConfiguration } from 'common/pnc-api-types-ts';
 import { ConfigPage } from 'common/types';
 
 import { useCheckbox } from 'hooks/useCheckbox';

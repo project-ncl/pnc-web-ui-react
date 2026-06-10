@@ -2,11 +2,10 @@ import { DescriptionList, DescriptionListDescription, DescriptionListGroup, Desc
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
-import { BuildConfigWithLatestPage } from 'pnc-api-types-ts';
-
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { BuildConfigWithLatestPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';

@@ -1,9 +1,8 @@
 import { Button, Form, FormGroup, Switch, TextArea } from '@patternfly/react-core';
 import { Link } from 'react-router';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
-
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';

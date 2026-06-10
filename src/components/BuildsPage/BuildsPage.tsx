@@ -1,8 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
-import { Build } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
+import { Build } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { hasBuildStarted, hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';

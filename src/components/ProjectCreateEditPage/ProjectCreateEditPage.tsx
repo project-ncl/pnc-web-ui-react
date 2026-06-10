@@ -2,11 +2,10 @@ import { ActionGroup, Button, Form, FormGroup, Label, TextArea, TextInput } from
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
-import { Project } from 'pnc-api-types-ts';
-
 import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
+import { Project } from 'common/pnc-api-types-ts';
 import { projectEntityAttributes } from 'common/projectEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';

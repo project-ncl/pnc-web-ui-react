@@ -1,6 +1,5 @@
-import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 export const deliverableAnalysisReportEntityAttributes = {
   id: {

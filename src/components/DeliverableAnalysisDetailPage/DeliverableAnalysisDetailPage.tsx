@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router';
 
-import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { EntityTitles, PageTitles } from 'common/constants';
 import { DeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { deliverableAnalysisReportEntityAttributes } from 'common/deliverableAnalysisReportEntityAttributes';
+import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 import {
   deliverableAnalysisLogMatchFiltersPrefix,

@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
 
-import { ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
+import { ProductMilestone, ProductVersion } from 'common/pnc-api-types-ts';
 
 import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 

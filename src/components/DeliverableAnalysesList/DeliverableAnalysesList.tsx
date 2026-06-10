@@ -3,11 +3,10 @@ import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 
-import { DeliverableAnalyzerOperationPage } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
 import { deliverableAnalysisOperationEntityAttributes } from 'common/deliverableAnalysisOperationEntityAttributes';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { DeliverableAnalyzerOperationPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';

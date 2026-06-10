@@ -19,6 +19,11 @@ import { Operation } from 'fast-json-patch';
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
+import { PncError } from 'common/PncError';
+import { breadcrumbData } from 'common/breadcrumbData';
+import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
+import { buildTypeData } from 'common/buildTypeData';
+import { ButtonTitles, EntityTitles, PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
 import {
   BuildConfiguration,
   Environment,
@@ -27,13 +32,7 @@ import {
   ProductVersion,
   SCMRepository,
   SCMRepositoryPage,
-} from 'pnc-api-types-ts';
-
-import { PncError } from 'common/PncError';
-import { breadcrumbData } from 'common/breadcrumbData';
-import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
-import { buildTypeData } from 'common/buildTypeData';
-import { ButtonTitles, EntityTitles, PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
+} from 'common/pnc-api-types-ts';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 import { BuildConfigCreationResponseCustomized } from 'common/types';

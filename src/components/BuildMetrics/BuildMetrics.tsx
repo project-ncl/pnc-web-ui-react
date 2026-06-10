@@ -5,9 +5,8 @@ import { useTheme } from 'contexts/ThemeContext';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { Build } from 'pnc-api-types-ts';
-
 import { regularTextColor } from 'common/colorMap';
+import { Build } from 'common/pnc-api-types-ts';
 
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';

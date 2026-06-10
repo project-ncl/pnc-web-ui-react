@@ -1,10 +1,9 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { Link } from 'react-router';
 
-import { MilestoneInfoPage } from 'pnc-api-types-ts';
-
 import { artifactProductMilestoneReleaseEntityAttributes } from 'common/artifactProductMilestoneReleaseEntityAttributes';
 import { PageTitles } from 'common/constants';
+import { MilestoneInfoPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 

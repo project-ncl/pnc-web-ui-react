@@ -1,7 +1,7 @@
 import { Flex, FlexItem, FlexProps, Label, LabelProps } from '@patternfly/react-core';
 import { Link } from 'react-router';
 
-import { Artifact } from 'pnc-api-types-ts';
+import { Artifact } from 'common/pnc-api-types-ts';
 
 import { PageIconLink } from 'components/PageIconLink/PageIconLink';
 

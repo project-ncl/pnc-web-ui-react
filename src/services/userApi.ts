@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { User } from 'pnc-api-types-ts';
+import { User } from 'common/pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 

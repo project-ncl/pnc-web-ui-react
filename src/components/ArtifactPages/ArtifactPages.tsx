@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
-import { Artifact } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
+import { Artifact } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildFinished, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';

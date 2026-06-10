@@ -1,8 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { AnalyzedArtifactPage, DeliverableAnalyzerLabelEntryPage, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { DeliverableAnalysisLabel } from 'common/deliverableAnalysisLabelEntryEntityAttributes';
+import { AnalyzedArtifactPage, DeliverableAnalyzerLabelEntryPage, DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 import { pncClient } from 'services/pncClient';
 

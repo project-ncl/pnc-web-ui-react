@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import {

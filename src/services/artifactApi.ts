@@ -1,6 +1,13 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Artifact, ArtifactPage, ArtifactRevision, ArtifactRevisionPage, BuildPage, MilestoneInfoPage } from 'pnc-api-types-ts';
+import {
+  Artifact,
+  ArtifactPage,
+  ArtifactRevision,
+  ArtifactRevisionPage,
+  BuildPage,
+  MilestoneInfoPage,
+} from 'common/pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 

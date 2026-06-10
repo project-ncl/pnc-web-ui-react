@@ -1,6 +1,6 @@
 import { css } from '@patternfly/react-styles';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 
 import { ProtectedButton } from 'components/Button/Button';
 

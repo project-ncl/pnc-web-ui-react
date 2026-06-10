@@ -2,9 +2,8 @@ import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core
 import { useState } from 'react';
 import { Link } from 'react-router';
 
-import { BuildConfiguration, BuildConfigurationRevision, ProductVersion } from 'pnc-api-types-ts';
-
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
+import { BuildConfiguration, BuildConfigurationRevision, ProductVersion } from 'common/pnc-api-types-ts';
 
 import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 

@@ -1,6 +1,5 @@
-import { DeliverableAnalyzerLabelEntry } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { DeliverableAnalyzerLabelEntry } from 'common/pnc-api-types-ts';
 
 interface IExtendedDeliverableAnalyzerLabelEntry extends DeliverableAnalyzerLabelEntry {
   'user.username': any;

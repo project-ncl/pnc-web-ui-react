@@ -11,7 +11,7 @@ import {
   ProductMilestone,
   ProductVersion,
   VertexProductMilestone,
-} from 'pnc-api-types-ts';
+} from 'common/pnc-api-types-ts';
 
 import * as productVersionApi from 'services/productVersionApi';
 

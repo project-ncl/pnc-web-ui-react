@@ -1,10 +1,9 @@
 import { Tab, TabContent, TabContentBody, TabTitleText, Tabs } from '@patternfly/react-core';
 import { createRef, useCallback, useEffect, useState } from 'react';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';

@@ -1,6 +1,5 @@
-import { GroupBuild } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { GroupBuild } from 'common/pnc-api-types-ts';
 
 const statusValues: GroupBuild['status'][] = [
   'SUCCESS',

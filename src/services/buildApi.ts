@@ -8,7 +8,7 @@ import {
   BuildPushOperationPage,
   BuildsGraph,
   RunningBuildCount,
-} from 'pnc-api-types-ts';
+} from 'common/pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 

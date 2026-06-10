@@ -2,8 +2,7 @@ import { Label, Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { Link } from 'react-router';
 
-import { ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
-
+import { ProductMilestone, ProductRelease } from 'common/pnc-api-types-ts';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 

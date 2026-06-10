@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
+import { DeliverableAnalyzerOperation } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { useParamsRequired } from 'hooks/useParamsRequired';

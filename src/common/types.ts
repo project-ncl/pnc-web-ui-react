@@ -4,7 +4,7 @@ import {
   BuildConfiguration,
   GroupConfiguration,
   RepositoryCreationResponse,
-} from 'pnc-api-types-ts';
+} from 'common/pnc-api-types-ts';
 
 export type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
   [Property in Key]-?: Type[Property];

@@ -1,6 +1,5 @@
-import { BuildPushParameters } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { BuildPushParameters } from 'common/pnc-api-types-ts';
 
 export const buildPushParametersEntityAttributes = {
   tagPrefix: {

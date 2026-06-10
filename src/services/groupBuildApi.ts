@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { BuildPage, BuildsGraph, GroupBuild, GroupBuildPage } from 'pnc-api-types-ts';
+import { BuildPage, BuildsGraph, GroupBuild, GroupBuildPage } from 'common/pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 

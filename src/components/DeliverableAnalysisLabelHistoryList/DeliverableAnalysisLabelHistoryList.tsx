@@ -1,9 +1,8 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 
-import { DeliverableAnalyzerLabelEntryPage } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
 import { deliverableAnalyzerLabelEntityAttributes } from 'common/deliverableAnalyzerLabelEntityAttributes';
+import { DeliverableAnalyzerLabelEntryPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 

@@ -3,12 +3,11 @@ import { AxiosRequestConfig } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { GroupConfiguration, Product, ProductVersion } from 'pnc-api-types-ts';
-
 import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
 import { groupConfigEntityAttributes } from 'common/groupConfigEntityAttributes';
+import { GroupConfiguration, Product, ProductVersion } from 'common/pnc-api-types-ts';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';

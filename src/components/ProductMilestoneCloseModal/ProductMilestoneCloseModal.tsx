@@ -1,7 +1,6 @@
 import { Alert, Form, FormAlert, FormGroup, Switch } from '@patternfly/react-core';
 
-import { ProductMilestone } from 'pnc-api-types-ts';
-
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 import { productMilestoneCloseRequestEntityAttributes } from 'common/productMilestoneCloseRequestEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';

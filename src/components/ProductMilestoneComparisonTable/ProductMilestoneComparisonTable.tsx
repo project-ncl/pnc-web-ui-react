@@ -5,9 +5,14 @@ import { AxiosRequestConfig } from 'axios';
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router';
 
-import { DeliveredArtifactInMilestones, ParsedArtifact, Product, ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
-
 import { PageTitles, emptyPaginatedAxiosResponse } from 'common/constants';
+import {
+  DeliveredArtifactInMilestones,
+  ParsedArtifact,
+  Product,
+  ProductMilestone,
+  ProductVersion,
+} from 'common/pnc-api-types-ts';
 
 import { IServiceContainer } from 'hooks/useServiceContainer';
 

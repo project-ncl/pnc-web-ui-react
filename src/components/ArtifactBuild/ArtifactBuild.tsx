@@ -1,8 +1,7 @@
 import { Link } from 'react-router';
 
-import { Build } from 'pnc-api-types-ts';
-
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
+import { Build } from 'common/pnc-api-types-ts';
 
 import { BuildName } from 'components/BuildName/BuildName';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
