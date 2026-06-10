@@ -1,7 +1,6 @@
-import { Build } from 'pnc-api-types-ts';
-
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
 import { TEntityAttributes } from 'common/entityAttributes';
+import { Build } from 'common/pnc-api-types-ts';
 
 const statusValues: Build['status'][] = [
   'SUCCESS',

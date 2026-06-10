@@ -7,8 +7,7 @@ import {
   DescriptionListTerm,
 } from '@patternfly/react-core';
 
-import { SCMRepository } from 'pnc-api-types-ts';
-
+import { SCMRepository } from 'common/pnc-api-types-ts';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';

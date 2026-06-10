@@ -1,6 +1,5 @@
-import { ProductRelease } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { ProductRelease } from 'common/pnc-api-types-ts';
 
 const supportLevelValues: ProductRelease['supportLevel'][] = [
   'UNRELEASED',

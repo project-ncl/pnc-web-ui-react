@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import { SCMRepository } from 'pnc-api-types-ts';
+import { SCMRepository } from 'common/pnc-api-types-ts';
 
 import { generateScmRepositoryName } from 'utils/entityNameGenerators';
 

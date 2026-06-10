@@ -1,7 +1,7 @@
 import { Label } from '@patternfly/react-core';
 import { useCallback } from 'react';
 
-import { ProductMilestoneRef } from 'pnc-api-types-ts';
+import { ProductMilestoneRef } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { listMandatoryQueryParams, useQueryParamsEffect } from 'hooks/useQueryParamsEffect';

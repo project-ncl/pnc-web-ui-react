@@ -2,9 +2,8 @@ import { Button, Form, FormGroup, Switch, TextInput } from '@patternfly/react-co
 import { useMemo } from 'react';
 import { Link } from 'react-router';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
-
 import { buildPushParametersEntityAttributes } from 'common/buildPushParametersEntityAttributes';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';

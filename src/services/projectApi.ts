@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { BuildConfigPage, BuildPage, Project, ProjectPage } from 'pnc-api-types-ts';
+import { BuildConfigPage, BuildPage, Project, ProjectPage } from 'common/pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 

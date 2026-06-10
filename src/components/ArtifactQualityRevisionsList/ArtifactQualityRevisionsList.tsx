@@ -1,9 +1,8 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 
-import { ArtifactRevisionPage } from 'pnc-api-types-ts';
-
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 import { PageTitles } from 'common/constants';
+import { ArtifactRevisionPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 

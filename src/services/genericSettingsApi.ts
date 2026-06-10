@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { Banner } from 'pnc-api-types-ts';
+import { Banner } from 'common/pnc-api-types-ts';
 
 import { pncClient } from './pncClient';
 

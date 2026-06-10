@@ -1,7 +1,7 @@
 import { List, ListItem } from '@patternfly/react-core';
 import { useEffect, useMemo } from 'react';
 
-import { BuildConfiguration } from 'pnc-api-types-ts';
+import { BuildConfiguration } from 'common/pnc-api-types-ts';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 

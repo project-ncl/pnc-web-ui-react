@@ -1,6 +1,5 @@
-import { Artifact } from 'pnc-api-types-ts';
-
 import { artifactQualityColorMap } from 'common/colorMap';
+import { Artifact } from 'common/pnc-api-types-ts';
 
 import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 

@@ -1,6 +1,5 @@
-import { ProductMilestone } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { ProductMilestone } from 'common/pnc-api-types-ts';
 
 interface IExtendedProductMilestone extends ProductMilestone {
   status: any; // derived from endDate

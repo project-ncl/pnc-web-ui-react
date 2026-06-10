@@ -1,7 +1,6 @@
-import { ArtifactRevision } from 'pnc-api-types-ts';
-
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { TEntityAttributes } from 'common/entityAttributes';
+import { ArtifactRevision } from 'common/pnc-api-types-ts';
 
 interface IExtendedArtifactRevision extends ArtifactRevision {
   'modificationUser.username': any;

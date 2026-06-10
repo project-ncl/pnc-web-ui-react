@@ -1,6 +1,5 @@
-import { Project } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { Project } from 'common/pnc-api-types-ts';
 
 interface IExtendedProject extends Project {
   buildConfigsCount: number;

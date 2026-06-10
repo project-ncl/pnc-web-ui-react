@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { BuildPushReport } from 'pnc-api-types-ts';
+import { BuildPushReport } from 'common/pnc-api-types-ts';
 
 import { pncClient } from 'services/pncClient';
 

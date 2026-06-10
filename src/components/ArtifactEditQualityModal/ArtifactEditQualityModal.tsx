@@ -2,11 +2,10 @@ import { Button, Form, FormGroup, TextArea } from '@patternfly/react-core';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
-import { Artifact, Build } from 'pnc-api-types-ts';
-
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { artifactQualityRevisionEntityAttributes } from 'common/artifactQualityRevisionEntityAttributes';
 import { ButtonTitles } from 'common/constants';
+import { Artifact, Build } from 'common/pnc-api-types-ts';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';

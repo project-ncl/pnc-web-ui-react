@@ -14,11 +14,10 @@ import { ExpandableRowContent, Table, Tbody, Td, Th, Thead, Tr } from '@patternf
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 
-import { AnalyzedArtifact, AnalyzedArtifactPage } from 'pnc-api-types-ts';
-
 import { analyzedArtifactEntityAttributes } from 'common/analyzedArtifactEntityAttributes';
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { AnalyzedArtifact, AnalyzedArtifactPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';

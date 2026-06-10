@@ -1,4 +1,4 @@
-import { Build } from 'pnc-api-types-ts';
+import { Build } from 'common/pnc-api-types-ts';
 
 import iconBlue from 'components/BuildStatusIcon/icons/blue.svg';
 import iconError from 'components/BuildStatusIcon/icons/error.svg';

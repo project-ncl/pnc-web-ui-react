@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import { Product, ProductVersion } from 'pnc-api-types-ts';
+import { Product, ProductVersion } from 'common/pnc-api-types-ts';
 
 interface IProductVersionLinkProps {
   productVersion: ProductVersion;

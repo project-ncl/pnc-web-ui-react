@@ -1,7 +1,7 @@
 import { Button } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
-import { SCMRepository } from 'pnc-api-types-ts';
+import { SCMRepository } from 'common/pnc-api-types-ts';
 
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';

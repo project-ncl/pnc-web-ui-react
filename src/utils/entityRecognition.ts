@@ -7,7 +7,7 @@ import {
   Product,
   ProductMilestone,
   ProductVersion,
-} from 'pnc-api-types-ts';
+} from 'common/pnc-api-types-ts';
 
 export const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
 

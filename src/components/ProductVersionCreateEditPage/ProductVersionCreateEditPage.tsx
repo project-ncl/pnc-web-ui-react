@@ -2,11 +2,10 @@ import { ActionGroup, Button, Form, FormGroup, TextInput } from '@patternfly/rea
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
-import { ProductVersion } from 'pnc-api-types-ts';
-
 import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
+import { ProductVersion } from 'common/pnc-api-types-ts';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';

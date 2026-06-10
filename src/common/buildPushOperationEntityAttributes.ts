@@ -1,7 +1,6 @@
-import { BuildPushOperation } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
 import { operationEntityAttributes } from 'common/operationEntityAttributes';
+import { BuildPushOperation } from 'common/pnc-api-types-ts';
 
 interface IExtendedBuildPushOperation extends BuildPushOperation {
   'user.username': string;

@@ -3,9 +3,8 @@ import { MinusCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import { CubesIcon } from '@patternfly/react-icons';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 
-import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
-
 import { buildConfigEntityAttributes } from 'common/buildConfigEntityAttributes';
+import { BuildConfiguration, GroupConfiguration } from 'common/pnc-api-types-ts';
 
 import { IOperation } from 'hooks/usePatchOperation';
 

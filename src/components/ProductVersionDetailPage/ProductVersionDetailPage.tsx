@@ -2,9 +2,8 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { useCallback, useEffect, useMemo } from 'react';
 import { Link } from 'react-router';
 
-import { ProductMilestoneRef, ProductReleaseRef } from 'pnc-api-types-ts';
-
 import { artifactQualityColorMap, repositoryTypeColorMap } from 'common/colorMap';
+import { ProductMilestoneRef, ProductReleaseRef } from 'common/pnc-api-types-ts';
 import { productVersionEntityAttributes } from 'common/productVersionEntityAttributes';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';

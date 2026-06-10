@@ -4,10 +4,9 @@ import { css } from '@patternfly/react-styles';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { GroupConfiguration } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles } from 'common/constants';
+import { GroupConfiguration } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { usePatchOperation } from 'hooks/usePatchOperation';

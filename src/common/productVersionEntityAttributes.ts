@@ -1,6 +1,5 @@
-import { ProductVersion } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { ProductVersion } from 'common/pnc-api-types-ts';
 
 interface IExtendedProductVersion extends ProductVersion {
   // derived from product

@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
-import { ProductVersion } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
+import { ProductVersion } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';

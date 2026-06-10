@@ -1,4 +1,4 @@
-import { Build, GroupBuild } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { ProtectedButton } from 'components/Button/Button';
 

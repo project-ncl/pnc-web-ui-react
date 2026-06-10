@@ -1,6 +1,5 @@
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { DeliverableAnalyzerOperation } from 'common/pnc-api-types-ts';
 
 /*
  * This supertype is not coming from pnc-api-types-ts,

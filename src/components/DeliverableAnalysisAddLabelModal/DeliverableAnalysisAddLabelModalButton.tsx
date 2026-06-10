@@ -1,6 +1,5 @@
-import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { ButtonTitles } from 'common/constants';
+import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 

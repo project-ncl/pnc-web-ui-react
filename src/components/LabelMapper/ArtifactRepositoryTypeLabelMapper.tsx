@@ -1,6 +1,5 @@
-import { TargetRepository } from 'pnc-api-types-ts';
-
 import { repositoryTypeColorMap } from 'common/colorMap';
+import { TargetRepository } from 'common/pnc-api-types-ts';
 
 import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 

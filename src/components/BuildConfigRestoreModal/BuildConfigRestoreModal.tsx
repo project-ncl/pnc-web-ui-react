@@ -1,4 +1,4 @@
-import { BuildConfigurationRevision } from 'pnc-api-types-ts';
+import { BuildConfigurationRevision } from 'common/pnc-api-types-ts';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 

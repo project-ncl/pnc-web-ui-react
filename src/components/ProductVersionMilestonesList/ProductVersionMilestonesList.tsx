@@ -1,10 +1,9 @@
 import { ActionsColumn, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
-import { ProductMilestone, ProductMilestonePage } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
+import { ProductMilestone, ProductMilestonePage } from 'common/pnc-api-types-ts';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';

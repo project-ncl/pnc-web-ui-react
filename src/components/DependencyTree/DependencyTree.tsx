@@ -2,7 +2,7 @@ import { Button, Divider, TreeView, TreeViewDataItem } from '@patternfly/react-c
 import { css } from '@patternfly/react-styles';
 import { useEffect, useState } from 'react';
 
-import { Build, BuildsGraph, GroupBuild } from 'pnc-api-types-ts';
+import { Build, BuildsGraph, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 

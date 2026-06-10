@@ -2,10 +2,9 @@ import { Grid, GridItem } from '@patternfly/react-core';
 import { useTheme } from 'contexts/ThemeContext';
 import { useCallback, useMemo } from 'react';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
-
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
 import { groupBuildEntityAttributes } from 'common/groupBuildEntityAttributes';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import {

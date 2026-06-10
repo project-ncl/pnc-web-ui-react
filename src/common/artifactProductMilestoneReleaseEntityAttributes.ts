@@ -1,6 +1,5 @@
-import { MilestoneInfo } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { MilestoneInfo } from 'common/pnc-api-types-ts';
 import { productEntityAttributes } from 'common/productEntityAttributes';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';

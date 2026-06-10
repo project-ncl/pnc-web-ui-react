@@ -1,4 +1,4 @@
-import { User } from 'pnc-api-types-ts';
+import { User } from 'common/pnc-api-types-ts';
 
 export class UserService {
   public setUser(_user: User) {}

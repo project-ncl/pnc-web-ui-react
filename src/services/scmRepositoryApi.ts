@@ -1,8 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 import { Operation } from 'fast-json-patch';
 
-import { BuildConfigPage, SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
-
+import { BuildConfigPage, SCMRepository, SCMRepositoryPage } from 'common/pnc-api-types-ts';
 import { RepositoryCreationResponseCustomized } from 'common/types';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';

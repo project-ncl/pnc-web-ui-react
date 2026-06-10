@@ -1,6 +1,5 @@
-import { BuildPushReport } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { BuildPushReport } from 'common/pnc-api-types-ts';
 
 export const buildPushReportEntityAttributes = {
   id: {

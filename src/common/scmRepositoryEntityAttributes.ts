@@ -1,6 +1,5 @@
-import { SCMRepository } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { SCMRepository } from 'common/pnc-api-types-ts';
 
 interface IExtendedSCMRepository extends SCMRepository {
   name: string;

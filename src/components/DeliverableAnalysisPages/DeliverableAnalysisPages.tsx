@@ -1,10 +1,9 @@
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { Outlet } from 'react-router';
 
-import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
+import { DeliverableAnalyzerOperation, DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasDeliverableAnalysisChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';

@@ -1,4 +1,4 @@
-import { SCMRepository } from 'pnc-api-types-ts';
+import { SCMRepository } from 'common/pnc-api-types-ts';
 
 interface IGenerateScmRepositoryName {
   scmRepository: SCMRepository;

@@ -1,9 +1,8 @@
 import { Tab, TabTitleText, Tabs } from '@patternfly/react-core';
 import { useLocation, useNavigate } from 'react-router';
 
-import { BuildConfigRevisionPage } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
+import { BuildConfigRevisionPage } from 'common/pnc-api-types-ts';
 
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 

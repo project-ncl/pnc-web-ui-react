@@ -1,8 +1,7 @@
 import { debounce as lodashDebounce } from 'lodash-es';
 
-import { Build, ProductMilestone, ProductRelease } from 'pnc-api-types-ts';
-
 import { buildStatusData } from 'common/buildStatusData';
+import { Build, ProductMilestone, ProductRelease } from 'common/pnc-api-types-ts';
 import { ReasonedBoolean } from 'common/types';
 
 import { uiLogger } from 'services/uiLogger';

@@ -1,7 +1,6 @@
-import { AnalyzedArtifact } from 'pnc-api-types-ts';
-
 import { artifactEntityAttributes } from 'common/artifactEntityAttributes';
 import { TEntityAttributes } from 'common/entityAttributes';
+import { AnalyzedArtifact } from 'common/pnc-api-types-ts';
 
 interface IExtendedAnalyzedArtifact extends AnalyzedArtifact {
   'artifact.id': any;

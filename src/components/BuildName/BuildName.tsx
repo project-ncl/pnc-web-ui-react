@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import { Build, GroupBuild } from 'pnc-api-types-ts';
+import { Build, GroupBuild } from 'common/pnc-api-types-ts';
 
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { GroupConfigLink } from 'components/GroupConfigLink/GroupConfigLink';

@@ -3,7 +3,7 @@ import { BuildIcon, InfoCircleIcon, WarningTriangleIcon } from '@patternfly/reac
 import { css } from '@patternfly/react-styles';
 import { useState } from 'react';
 
-import { BuildConfiguration, GroupConfiguration } from 'pnc-api-types-ts';
+import { BuildConfiguration, GroupConfiguration } from 'common/pnc-api-types-ts';
 
 import { AUTH_ROLE } from 'hooks/useAuth';
 import { useServiceContainer } from 'hooks/useServiceContainer';

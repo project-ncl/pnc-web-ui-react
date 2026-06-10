@@ -11,11 +11,10 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { ProductMilestone, ProductMilestoneRef, ProductRelease, ProductVersionRef } from 'pnc-api-types-ts';
-
 import { PncError } from 'common/PncError';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
+import { ProductMilestone, ProductMilestoneRef, ProductRelease, ProductVersionRef } from 'common/pnc-api-types-ts';
 import { productMilestoneEntityAttributes } from 'common/productMilestoneEntityAttributes';
 import { productReleaseEntityAttributes } from 'common/productReleaseEntityAttributes';
 

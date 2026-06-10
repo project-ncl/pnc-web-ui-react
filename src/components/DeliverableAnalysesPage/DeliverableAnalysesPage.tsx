@@ -1,8 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import { DeliverableAnalyzerOperation } from 'pnc-api-types-ts';
-
 import { PageTitles } from 'common/constants';
+import { DeliverableAnalyzerOperation } from 'common/pnc-api-types-ts';
 
 import { useComponentQueryParams } from 'hooks/useComponentQueryParams';
 import { hasDeliverableAnalysisChanged, hasDeliverableAnalysisStarted, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';

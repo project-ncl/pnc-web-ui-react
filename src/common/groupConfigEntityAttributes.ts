@@ -1,6 +1,5 @@
-import { GroupConfiguration } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { GroupConfiguration } from 'common/pnc-api-types-ts';
 
 interface IExtendedGroupConfig extends GroupConfiguration {
   buildConfigsCount: number;

@@ -1,4 +1,4 @@
-import { BuildPage, GroupBuildPage } from 'pnc-api-types-ts';
+import { BuildPage, GroupBuildPage } from 'common/pnc-api-types-ts';
 
 import { uiLogger } from 'services/uiLogger';
 

@@ -1,6 +1,5 @@
-import { DeliverableAnalyzerReport } from 'pnc-api-types-ts';
-
 import { deliverableAnalysisColorMap } from 'common/colorMap';
+import { DeliverableAnalyzerReport } from 'common/pnc-api-types-ts';
 
 import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 import { withProtection } from 'components/ProtectedContent/ProtectedComponent';

@@ -1,6 +1,6 @@
 import { LevelUpAltIcon } from '@patternfly/react-icons';
 
-import { BuildConfiguration } from 'pnc-api-types-ts';
+import { BuildConfiguration } from 'common/pnc-api-types-ts';
 
 import { ProtectedButton } from 'components/Button/Button';
 

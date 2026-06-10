@@ -1,7 +1,7 @@
 import { Button } from '@patternfly/react-core';
 import { Link } from 'react-router';
 
-import { ProductMilestone, ProductVersion } from 'pnc-api-types-ts';
+import { ProductMilestone, ProductVersion } from 'common/pnc-api-types-ts';
 
 import { useServiceContainer } from 'hooks/useServiceContainer';
 

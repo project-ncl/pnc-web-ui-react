@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { BuildEnvironmentPage, Environment } from 'pnc-api-types-ts';
+import { BuildEnvironmentPage, Environment } from 'common/pnc-api-types-ts';
 
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 

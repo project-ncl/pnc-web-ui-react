@@ -1,6 +1,5 @@
-import { Artifact, Build, ProductMilestone, TargetRepository } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { Artifact, Build, ProductMilestone, TargetRepository } from 'common/pnc-api-types-ts';
 
 const artifactQualityValues: Artifact['artifactQuality'][] = [
   'NEW',

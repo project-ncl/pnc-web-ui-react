@@ -1,6 +1,5 @@
-import { Build, BuildConfiguration } from 'pnc-api-types-ts';
-
 import { TEntityAttributes } from 'common/entityAttributes';
+import { Build, BuildConfiguration } from 'common/pnc-api-types-ts';
 
 const buildTypeValues: BuildConfiguration['buildType'][] = ['MVN', 'NPM', 'GRADLE', 'SBT', 'MVN_RPM'];
 

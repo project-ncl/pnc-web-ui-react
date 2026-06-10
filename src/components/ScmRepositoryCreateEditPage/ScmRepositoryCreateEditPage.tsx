@@ -3,10 +3,9 @@ import { CheckIcon, ExclamationTriangleIcon } from '@patternfly/react-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 
-import { SCMRepository, SCMRepositoryPage } from 'pnc-api-types-ts';
-
 import { breadcrumbData } from 'common/breadcrumbData';
 import { ButtonTitles, EntityTitles, PageTitles } from 'common/constants';
+import { SCMRepository, SCMRepositoryPage } from 'common/pnc-api-types-ts';
 import { scmRepositoryEntityAttributes } from 'common/scmRepositoryEntityAttributes';
 import { RepositoryCreationResponseCustomized } from 'common/types';
 
