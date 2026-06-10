@@ -3,3 +3,4 @@ build
 dist
 package-lock.json
 .husky
+src/common/pnc-api-types-ts.ts
