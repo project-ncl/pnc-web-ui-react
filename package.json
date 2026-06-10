@@ -72,7 +72,7 @@
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --check --ignore-unknown"
   },
   "engines": {
-    "node": "^22.13.0",
-    "npm": "^11.0.0"
+    "node": "^22.22.0",
+    "npm": "^11.16.0"
   }
 }
