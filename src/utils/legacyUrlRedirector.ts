@@ -32,7 +32,9 @@ export const legacyUrlRedirector = () => {
     }
 
     console.log(`Redirecting to new URL: ${newPath}`);
-    window.location.href = URL_BASE_PATH + newPath;
+    const safeUrl = new URL(URL_BASE_PATH + newPath, window.location.origin);
+    // navigate to same-origin path
+    window.location.href = safeUrl.pathname + safeUrl.search;
   }
 
   console.log('G1: legacyUrlRedirector done');
