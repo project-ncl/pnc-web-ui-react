@@ -18,6 +18,7 @@ const statusValues: GroupBuild['status'][] = [
 interface IExtendedGroupBuild extends GroupBuild {
   'groupConfig.name': string; // filtering only
   name: any; // derived from build and groupConfig
+  rebuildMode: any;
   'user.username': any;
 }
 
@@ -76,6 +77,10 @@ export const groupBuildEntityAttributes = {
       operator: '==',
       isToggleable: true,
     },
+  },
+  rebuildMode: {
+    id: 'rebuildMode',
+    title: 'Rebuild Mode',
   },
   groupConfig: {
     id: 'groupConfig',
