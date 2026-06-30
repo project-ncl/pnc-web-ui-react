@@ -19,6 +19,7 @@ const statusValues: Build['status'][] = [
 interface IExtendedBuild extends Build {
   buildConfigName: any; // filtering only
   name: any; // derived from build and buildConfig
+  rebuildMode: any;
   'user.username': any;
   'buildConfigRevision.buildType': string; // from buildConfigEntityAttributes
   'buildConfigRevision.scmRevision': string;
@@ -61,6 +62,10 @@ export const buildEntityAttributes = {
       operator: '==',
       isToggleable: true,
     },
+  },
+  rebuildMode: {
+    id: 'rebuildMode',
+    title: 'Rebuild Mode',
   },
   'user.username': {
     id: 'user.username',
