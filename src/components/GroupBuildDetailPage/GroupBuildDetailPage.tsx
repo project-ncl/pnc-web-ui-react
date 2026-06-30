@@ -22,6 +22,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
 import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
+import { rebuildModePopoverText } from 'components/BuildStartButton/BuildStartButton';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { BuildsList } from 'components/BuildsList/BuildsList';
@@ -31,6 +32,7 @@ import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DependencyTree } from 'components/DependencyTree/DependencyTree';
 import { GroupConfigLink } from 'components/GroupConfigLink/GroupConfigLink';
 import { PageLayout } from 'components/PageLayout/PageLayout';
+import { RebuildModeLabel } from 'components/RebuildModeLabel/RebuildModeLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as groupBuildApi from 'services/groupBuildApi';
@@ -176,6 +178,14 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
             <AttributesItem title={groupBuildEntityAttributes.endTime.title}>
               {serviceContainerGroupBuild.data?.endTime &&
                 createDateTime({ date: serviceContainerGroupBuild.data.endTime }).custom}
+            </AttributesItem>
+            <AttributesItem title={groupBuildEntityAttributes.rebuildMode.title} tooltip={rebuildModePopoverText}>
+              <RebuildModeLabel
+                rebuildMode={
+                  // #pncTypes rebuildMode
+                  (serviceContainerGroupBuild.data as any)?.rebuildMode
+                }
+              />
             </AttributesItem>
           </Attributes>
         </ContentBox>
