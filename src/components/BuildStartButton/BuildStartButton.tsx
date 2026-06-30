@@ -83,7 +83,7 @@ const alignmentPreferencePopoverText = (
 );
 export const rebuildModePopoverText = (
   <>
-    <p>A previously successful Build Config is rebuilt when:</p>
+    <p>A previously successful build config is rebuilt when:</p>
     <br />
     <div>
       <b>Explicit</b>
