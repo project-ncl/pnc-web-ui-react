@@ -15,6 +15,7 @@ import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
+import { rebuildModePopoverText } from 'components/BuildStartButton/BuildStartButton';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
@@ -24,6 +25,7 @@ import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
 import { GroupBuildLink } from 'components/GroupBuildLink/GroupBuildLink';
 import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { PageSectionHeader } from 'components/PageSectionHeader/PageSectionHeader';
+import { RebuildModeLabel } from 'components/RebuildModeLabel/RebuildModeLabel';
 import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
@@ -187,6 +189,15 @@ export const BuildDetailPage = () => {
                   )}
                 </OnceBuildIsFinished>
               )}
+            </AttributesItem>
+
+            <AttributesItem title={buildEntityAttributes.rebuildMode.title} tooltip={rebuildModePopoverText}>
+              <RebuildModeLabel
+                rebuildMode={
+                  // #pncTypes rebuildMode
+                  (serviceContainerBuild.data as any)?.rebuildMode
+                }
+              />
             </AttributesItem>
           </Attributes>
         </ContentBox>
