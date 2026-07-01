@@ -1,4 +1,3 @@
-import { DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm } from '@patternfly/react-core';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useMemo, useState } from 'react';
 
@@ -10,6 +9,7 @@ import { BuildConfigWithLatestPage } from 'common/pnc-api-types-ts';
 import { IServiceContainerState } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { ProtectedBuildStartButton } from 'components/BuildStartButton/BuildStartButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -24,9 +24,9 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import { SortGroup } from 'components/SortGroup/SortGroup';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
-import { Username } from 'components/Username/Username';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
-import { areDatesEqual, checkColumnsCombinations } from 'utils/utils';
+import { checkColumnsCombinations } from 'utils/utils';
 
 type TColumns = Array<keyof typeof buildConfigEntityAttributes>;
 
@@ -115,18 +115,26 @@ export const BuildConfigsList = ({
                   <Th width={15}>{buildConfigEntityAttributes.description.title}</Th>
                 )}
                 {columns.includes(buildConfigEntityAttributes.buildType.id) && (
-                  <Th width={10} sort={getSortParams(sortOptions.sortAttributes.buildType.id)}>
-                    {buildConfigEntityAttributes.buildType.title}
+                  <Th width={15}>
+                    Build Type and Category{' '}
+                    <TooltipWrapper
+                      tooltip={
+                        <>
+                          Build Type <br />
+                          Parameters: BUILD_CATEGORY
+                        </>
+                      }
+                    />
                   </Th>
                 )}
                 {columns.includes(buildConfigEntityAttributes['project.name'].id) && (
-                  <Th width={15} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
+                  <Th width={20} sort={getSortParams(sortOptions.sortAttributes['project.name'].id)}>
                     {buildConfigEntityAttributes['project.name'].title}
                   </Th>
                 )}
                 {columns.includes(buildConfigEntityAttributes.creationTime.id) &&
                   columns.includes(buildConfigEntityAttributes.modificationTime.id) && (
-                    <Th width={20} className="overflow-visible">
+                    <Th width={10} className="overflow-visible">
                       <SortGroup
                         title="Last Update"
                         sort={getSortGroupParams(sortOptions.sortAttributes.creationTime.id)}
@@ -155,7 +163,17 @@ export const BuildConfigsList = ({
                   {columns.includes(buildConfigEntityAttributes.description.id) && <Td>{buildConfig.description}</Td>}
                   {columns.includes(buildConfigEntityAttributes.buildType.id) && (
                     <Td>
-                      <BuildConfigBuildTypeLabelMapper buildType={buildConfig.buildType} />
+                      <span className="inline-block p-b-5">
+                        <BuildConfigBuildTypeLabelMapper buildType={buildConfig.buildType} displayTooltip />
+                      </span>
+                      &nbsp;
+                      <BuildCategoryLabelMapper
+                        buildCategory={
+                          // #pncTypes
+                          buildConfig.parameters?.BUILD_CATEGORY as any
+                        }
+                        displayTooltip
+                      />
                     </Td>
                   )}
                   {columns.includes(buildConfigEntityAttributes['project.name'].id) && (
@@ -167,7 +185,7 @@ export const BuildConfigsList = ({
                     columns.includes(buildConfigEntityAttributes.modificationTime.id) && (
                       <Td>
                         {buildConfig.modificationTime && <DateTime date={buildConfig.modificationTime} displayDate={true} />}
-                        {buildConfig.modificationUser?.username && (
+                        {/*buildConfig.modificationUser?.username && (
                           <span>
                             {' '}
                             by{' '}
@@ -175,7 +193,7 @@ export const BuildConfigsList = ({
                               <Username text={buildConfig.modificationUser.username} />
                             </b>
                           </span>
-                        )}
+                        )*/}
                       </Td>
                     )}
                   {columns.includes(buildConfigEntityAttributes.buildStatus.id) && (
