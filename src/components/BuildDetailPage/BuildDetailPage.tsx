@@ -12,6 +12,7 @@ import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
@@ -33,7 +34,6 @@ import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { Username } from 'components/Username/Username';
 
 import * as buildApi from 'services/buildApi';
-import * as buildConfigApi from 'services/buildConfigApi';
 import * as webConfigService from 'services/webConfigService';
 
 import { calculateDuration } from 'utils/utils';
@@ -86,25 +86,11 @@ const OnceBuildIsFinished = ({ children, buildStatus }: PropsWithChildren<IOnceB
 export const BuildDetailPage = () => {
   const { buildId } = useParamsRequired();
 
-  const { serviceContainerBuild } = useServiceContainerBuild();
-
-  const serviceContainerBuildConfigRev = useServiceContainer(buildConfigApi.getRevision);
-  const serviceContainerBuildConfigRevRunner = serviceContainerBuildConfigRev.run;
+  const { serviceContainerBuild, serviceContainerBuildConfigRev } = useServiceContainerBuild();
 
   const serviceContainerDependencyGraph = useServiceContainer(buildApi.getDependencyGraph);
   const serviceContainerDependencyGraphRunner = serviceContainerDependencyGraph.run;
   const serviceContainerDependencyGraphSetter = serviceContainerDependencyGraph.setData;
-
-  useEffect(() => {
-    if (serviceContainerBuild.data?.buildConfigRevision?.id && serviceContainerBuild.data?.buildConfigRevision.rev) {
-      serviceContainerBuildConfigRevRunner({
-        serviceData: {
-          buildConfigId: serviceContainerBuild.data.buildConfigRevision.id,
-          buildConfigRev: serviceContainerBuild.data.buildConfigRevision.rev,
-        },
-      });
-    }
-  }, [serviceContainerBuildConfigRevRunner, serviceContainerBuild.data?.buildConfigRevision]);
 
   useEffect(() => {
     serviceContainerDependencyGraphRunner({ serviceData: { id: buildId } });
@@ -359,9 +345,14 @@ export const BuildDetailPage = () => {
               <Attributes>
                 {Object.entries(serviceContainerBuildConfigRev.data.parameters).map(([parameterKey, parameter], index) => (
                   <AttributesItem key={index} title={parameterKey}>
-                    <CodeBlock>
-                      <CodeBlockCode>{parameter}</CodeBlockCode>
-                    </CodeBlock>
+                    {parameterKey === 'BUILD_CATEGORY' ? (
+                      // #pncTypes buildCategory
+                      <BuildCategoryLabelMapper buildCategory={parameter as any} />
+                    ) : (
+                      <CodeBlock>
+                        <CodeBlockCode>{parameter}</CodeBlockCode>
+                      </CodeBlock>
+                    )}
                   </AttributesItem>
                 ))}
               </Attributes>
