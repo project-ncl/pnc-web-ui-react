@@ -74,3 +74,11 @@ export const operationResultColorMap: Record<string, LabelConfig> = {
   TIMEOUT: { text: 'TIMEOUT', color: 'grey', hexColor: grayColor },
   SYSTEM_ERROR: { text: 'SYSTEM_ERROR', color: 'red', hexColor: redColor },
 };
+
+export const buildCategoryColorMap: Record<string, LabelConfig> = {
+  STANDARD: { text: 'STANDARD', color: 'blue', hexColor: blueColor },
+  LEGACY_REDHAT: { text: 'LEGACY_REDHAT', color: 'red', hexColor: redColor },
+  SERVICE: { text: 'SERVICE', color: 'grey', hexColor: grayColor },
+  LIGHTWELL: { text: 'LIGHTWELL', color: 'green', hexColor: greenColor },
+  LIGHTWELL_UPSTREAM: { text: 'LIGHTWELL_UPSTREAM', color: 'teal', hexColor: tealColor },
+};
