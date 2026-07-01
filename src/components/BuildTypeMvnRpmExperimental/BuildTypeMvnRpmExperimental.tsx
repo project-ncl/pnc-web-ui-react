@@ -35,7 +35,7 @@ export const BuildTypeMvnRpmExperimentalDescription = () => {
 
 export const BuildTypeMvnRpmExperimentalTooltip = () => {
   return (
-    <span className="p-l-5">
+    <span className="p-l-2 p-r-15">
       <TooltipWrapper tooltip={<BuildTypeMvnRpmExperimentalDescription />}>
         <BuildTypeMvnRpmExperimentalIcon />
       </TooltipWrapper>
