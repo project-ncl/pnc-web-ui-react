@@ -2,9 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { buildStatusData } from 'common/buildStatusData';
 import { TOTAL_COUNT_REQUEST_CONFIG } from 'common/constants';
-import { ArtifactPage, Build, BuildPushOperationPage } from 'common/pnc-api-types-ts';
+import { ArtifactPage, Build, BuildConfigurationRevision, BuildPushOperationPage } from 'common/pnc-api-types-ts';
 
 import { useParamsRequired } from 'hooks/useParamsRequired';
 import {
@@ -18,12 +17,14 @@ import { useTitle } from 'hooks/useTitle';
 
 import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
 import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { CancelBuildModal } from 'components/CancelBuildModal/CancelBuildModal';
 import { CancelBuildModalButton } from 'components/CancelBuildModal/CancelBuildModalButton';
 import { ExperimentalContent } from 'components/ExperimentalContent/ExperimentalContent';
 import { ExperimentalContentMarker } from 'components/ExperimentalContent/ExperimentalContentMarker';
+import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
@@ -31,11 +32,16 @@ import { PageTabsLabel } from 'components/PageTabs/PageTabsLabel';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 
 import * as buildApi from 'services/buildApi';
+import * as buildConfigApi from 'services/buildConfigApi';
 
 import { generatePageTitle } from 'utils/titleHelper';
 import { isBuildFinished, isBuildWithArtifacts, isBuildWithLiveLog, isBuildWithStaticLog } from 'utils/utils';
 
-type ContextType = { serviceContainerBuild: IServiceContainerState<Build>; isBuilding: boolean };
+type ContextType = {
+  serviceContainerBuild: IServiceContainerState<Build>;
+  isBuilding: boolean;
+  serviceContainerBuildConfigRev: IServiceContainerState<BuildConfigurationRevision>;
+};
 
 export const BuildPages = () => {
   const { buildId } = useParamsRequired();
@@ -52,6 +58,9 @@ export const BuildPages = () => {
 
   const serviceContainerBuildPushes = useServiceContainer(buildApi.getBuildPushes);
   const serviceContainerBuildPushesRunner = serviceContainerBuildPushes.run;
+
+  const serviceContainerBuildConfigRev = useServiceContainer(buildConfigApi.getRevision);
+  const serviceContainerBuildConfigRevRunner = serviceContainerBuildConfigRev.run;
 
   const [isBrewPushModalOpen, setIsBrewPushModalOpen] = useState<boolean>(false);
   const [isCancelBuildModalOpen, setIsCancelBuildModalOpen] = useState<boolean>(false);
@@ -74,6 +83,17 @@ export const BuildPages = () => {
     serviceContainerBuildPushesRunner,
     buildId,
   ]);
+
+  useEffect(() => {
+    if (serviceContainerBuild.data?.buildConfigRevision?.id && serviceContainerBuild.data?.buildConfigRevision.rev) {
+      serviceContainerBuildConfigRevRunner({
+        serviceData: {
+          buildConfigId: serviceContainerBuild.data.buildConfigRevision.id,
+          buildConfigRev: serviceContainerBuild.data.buildConfigRevision.rev,
+        },
+      });
+    }
+  }, [serviceContainerBuildConfigRevRunner, serviceContainerBuild.data?.buildConfigRevision]);
 
   usePncWebSocketEffect(
     useCallback(
@@ -124,42 +144,56 @@ export const BuildPages = () => {
 
   return (
     <ServiceContainerLoading {...serviceContainerBuild} title="Build details">
-      <PageLayout
-        title={<BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername includeConfigLink />}
-        breadcrumbs={[
-          { entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id },
-          { entity: breadcrumbData.buildPush.id, title: serviceContainerBuild.data?.id },
-        ]}
-        tabs={
-          <BuildPageTabs
+      <ServiceContainerLoading {...serviceContainerBuildConfigRev} title="Build Config revision details">
+        <PageLayout
+          title={
+            <>
+              <BuildStatus build={serviceContainerBuild.data!} long hideDatetime hideUsername includeConfigLink />
+              <BuildConfigBuildTypeLabelMapper
+                buildType={serviceContainerBuild.data?.buildConfigRevision?.buildType!}
+                displayTooltip
+              />
+              <BuildCategoryLabelMapper
+                buildCategory={serviceContainerBuildConfigRev.data?.parameters?.BUILD_CATEGORY as any}
+                displayTooltip
+              />
+            </>
+          }
+          breadcrumbs={[
+            { entity: breadcrumbData.build.id, title: serviceContainerBuild.data?.id },
+            { entity: breadcrumbData.buildPush.id, title: serviceContainerBuild.data?.id },
+          ]}
+          tabs={
+            <BuildPageTabs
+              build={serviceContainerBuild.data!}
+              serviceContainerArtifacts={serviceContainerArtifacts}
+              serviceContainerDependencies={serviceContainerDependencies}
+              serviceContainerBuildPushes={serviceContainerBuildPushes}
+            />
+          }
+          actions={actions}
+        >
+          <Outlet context={{ serviceContainerBuild, isBuilding, serviceContainerBuildConfigRev }} />
+        </PageLayout>
+
+        {isBrewPushModalOpen && (
+          <BrewPushModal
+            isModalOpen={isBrewPushModalOpen}
+            toggleModal={toggleBewPushModal}
             build={serviceContainerBuild.data!}
-            serviceContainerArtifacts={serviceContainerArtifacts}
-            serviceContainerDependencies={serviceContainerDependencies}
-            serviceContainerBuildPushes={serviceContainerBuildPushes}
+            variant="Build"
           />
-        }
-        actions={actions}
-      >
-        <Outlet context={{ serviceContainerBuild, isBuilding }} />
-      </PageLayout>
+        )}
 
-      {isBrewPushModalOpen && (
-        <BrewPushModal
-          isModalOpen={isBrewPushModalOpen}
-          toggleModal={toggleBewPushModal}
-          build={serviceContainerBuild.data!}
-          variant="Build"
-        />
-      )}
-
-      {isCancelBuildModalOpen && (
-        <CancelBuildModal
-          isModalOpen={isCancelBuildModalOpen}
-          toggleModal={toggleCancelBuildModal}
-          build={serviceContainerBuild.data!}
-          variant="Build"
-        />
-      )}
+        {isCancelBuildModalOpen && (
+          <CancelBuildModal
+            isModalOpen={isCancelBuildModalOpen}
+            toggleModal={toggleCancelBuildModal}
+            build={serviceContainerBuild.data!}
+            variant="Build"
+          />
+        )}
+      </ServiceContainerLoading>
     </ServiceContainerLoading>
   );
 };
