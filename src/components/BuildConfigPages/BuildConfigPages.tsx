@@ -13,10 +13,12 @@ import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceCon
 import { useTitle } from 'hooks/useTitle';
 
 import { ProtectedActionButton } from 'components/ActionButton/ActionButton';
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { BuildConfigCloneModal } from 'components/BuildConfigCloneModal/BuildConfigCloneModal';
 import { BuildConfigCloneModalButton } from 'components/BuildConfigCloneModal/BuildConfigCloneModalButton';
 import { BuildHistoryList } from 'components/BuildHistoryList/BuildHistoryList';
 import { ProtectedBuildStartButton } from 'components/BuildStartButton/BuildStartButton';
+import { BuildConfigBuildTypeLabelMapper } from 'components/LabelMapper/BuildConfigBuildTypeLabelMapper';
 import { PageLayout } from 'components/PageLayout/PageLayout';
 import { PageTabs } from 'components/PageTabs/PageTabs';
 import { PageTabsItem } from 'components/PageTabs/PageTabsItem';
@@ -157,7 +159,20 @@ export const BuildConfigPages = ({ componentIdBuildHistory = 'bh1' }: IBuildConf
   return (
     <ServiceContainerLoading {...serviceContainerBuildConfig} title="Build Config details">
       <PageLayout
-        title={serviceContainerBuildConfig.data?.name}
+        title={
+          <>
+            {serviceContainerBuildConfig.data?.name}
+            <br />
+            <BuildConfigBuildTypeLabelMapper buildType={serviceContainerBuildConfig.data?.buildType!} displayTooltip />
+            <BuildCategoryLabelMapper
+              buildCategory={
+                // #pncTypes
+                serviceContainerBuildConfig.data?.parameters?.BUILD_CATEGORY as any
+              }
+              displayTooltip
+            />
+          </>
+        }
         breadcrumbs={[{ entity: breadcrumbData.buildConfig.id, title: serviceContainerBuildConfig.data?.name }]}
         tabs={pageTabs}
         actions={[

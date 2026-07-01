@@ -9,6 +9,7 @@ import { DataValues, IServiceContainerState } from 'hooks/useServiceContainer';
 
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { BuildConfigRestoreModal } from 'components/BuildConfigRestoreModal/BuildConfigRestoreModal';
 import { BuildConfigRestoreModalButton } from 'components/BuildConfigRestoreModal/BuildConfigRestoreModalButton';
 import { ContentBox } from 'components/ContentBox/ContentBox';
@@ -197,9 +198,18 @@ export const BuildConfigDetail = ({
                       ) : undefined
                     }
                   >
-                    <CodeBlock>
-                      <CodeBlockCode>{parameter}</CodeBlockCode>
-                    </CodeBlock>
+                    {parameterKey === 'BUILD_CATEGORY' ? (
+                      <BuildCategoryLabelMapper
+                        buildCategory={
+                          // #pncTypes buildCategory
+                          parameter as any
+                        }
+                      />
+                    ) : (
+                      <CodeBlock>
+                        <CodeBlockCode>{parameter}</CodeBlockCode>
+                      </CodeBlock>
+                    )}
                   </AttributesItem>
                 ))}
               </Attributes>
