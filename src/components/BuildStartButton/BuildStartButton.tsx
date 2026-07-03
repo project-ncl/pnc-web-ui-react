@@ -62,9 +62,9 @@ const keepPodOnFailureWarningPopoverText =
 const buildDependenciesPopoverText = 'Build also dependencies of this build configuration if they are not built yet';
 const descriptionTextPopoverText =
   'Not implicit (automatically captured) ones - those are used only to determine if the rebuild is required';
-const alignmentPreferencePopoverText = (
+export const alignmentPreferencePopoverText = (
   <>
-    <p>Select temporary build dependency alignment preferences:</p>
+    <p>Temporary build dependency alignment preferences:</p>
     <br />
     <div>
       <b>Persistent</b>
