@@ -10,13 +10,14 @@ import { useParamsRequired } from 'hooks/useParamsRequired';
 import { hasBuildStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
+import { AlignmentPreferenceLabel } from 'components/AlignmentPreferenceLabel/AlignmentPreferenceLabel';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { BuildConfigLink } from 'components/BuildConfigLink/BuildConfigLink';
 import { BuildLogLink } from 'components/BuildLogLink/BuildLogLink';
 import { useServiceContainerBuild } from 'components/BuildPages/BuildPages';
-import { rebuildModePopoverText } from 'components/BuildStartButton/BuildStartButton';
+import { alignmentPreferencePopoverText, rebuildModePopoverText } from 'components/BuildStartButton/BuildStartButton';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
@@ -175,6 +176,13 @@ export const BuildDetailPage = () => {
                   )}
                 </OnceBuildIsFinished>
               )}
+            </AttributesItem>
+
+            <AttributesItem title={buildEntityAttributes.alignmentPreference.title} tooltip={alignmentPreferencePopoverText}>
+              <AlignmentPreferenceLabel
+                alignmentPreference={serviceContainerBuild.data?.alignmentPreference}
+                temporaryBuild={serviceContainerBuild.data?.temporaryBuild}
+              />
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes.rebuildMode.title} tooltip={rebuildModePopoverText}>
