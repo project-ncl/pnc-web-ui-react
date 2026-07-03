@@ -63,6 +63,10 @@ export const buildEntityAttributes = {
       isToggleable: true,
     },
   },
+  alignmentPreference: {
+    id: 'alignmentPreference',
+    title: 'Alignment Preference',
+  },
   rebuildMode: {
     id: 'rebuildMode',
     title: 'Rebuild Mode',
