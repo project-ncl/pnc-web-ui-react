@@ -31,6 +31,7 @@ export const RebuildModeLabel = ({ rebuildMode }: IRebuildModeLabelProps) => {
   }
 
   // invalid state: unknown non-string based value was provided
-  uiLogger.error('REST API: unknown non-string based rebuildMode value was provided: ' + JSON.stringify(rebuildMode));
-  return <EmptyStateSymbol text={JSON.stringify(rebuildMode)} />;
+  const unknownValue = JSON.stringify(rebuildMode);
+  uiLogger.error('REST API: unknown non-string based rebuildMode value was provided: ' + unknownValue);
+  return unknownValue;
 };
