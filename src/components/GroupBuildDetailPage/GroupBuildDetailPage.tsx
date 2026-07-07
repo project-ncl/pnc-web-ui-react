@@ -17,12 +17,13 @@ import { useQueryParamsEffect } from 'hooks/useQueryParamsEffect';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 import { useTitle } from 'hooks/useTitle';
 
+import { AlignmentPreferenceLabel } from 'components/AlignmentPreferenceLabel/AlignmentPreferenceLabel';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
 import { BrewPushModal } from 'components/BrewPushModal/BrewPushModal';
 import { BrewPushModalButton } from 'components/BrewPushModal/BrewPushModalButton';
 import { calculateLongBuildName } from 'components/BuildName/BuildName';
-import { rebuildModePopoverText } from 'components/BuildStartButton/BuildStartButton';
+import { alignmentPreferencePopoverText, rebuildModePopoverText } from 'components/BuildStartButton/BuildStartButton';
 import { BuildStatus } from 'components/BuildStatus/BuildStatus';
 import { BuildStatusIcon } from 'components/BuildStatusIcon/BuildStatusIcon';
 import { BuildsList } from 'components/BuildsList/BuildsList';
@@ -178,6 +179,12 @@ export const GroupBuildDetailPage = ({ componentId = 'gb2' }: IGroupBuildDetailP
             <AttributesItem title={groupBuildEntityAttributes.endTime.title}>
               {serviceContainerGroupBuild.data?.endTime &&
                 createDateTime({ date: serviceContainerGroupBuild.data.endTime }).custom}
+            </AttributesItem>
+            <AttributesItem title={groupBuildEntityAttributes.alignmentPreference.title} tooltip={alignmentPreferencePopoverText}>
+              <AlignmentPreferenceLabel
+                alignmentPreference={serviceContainerGroupBuild.data?.alignmentPreference}
+                temporaryBuild={serviceContainerGroupBuild.data?.temporaryBuild}
+              />
             </AttributesItem>
             <AttributesItem title={groupBuildEntityAttributes.rebuildMode.title} tooltip={rebuildModePopoverText}>
               <RebuildModeLabel
