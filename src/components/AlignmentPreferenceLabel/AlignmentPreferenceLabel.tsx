@@ -23,7 +23,7 @@ export const AlignmentPreferenceLabel = ({ alignmentPreference, temporaryBuild }
     // PERSISTENT BUILD
     // valid state: empty value is expected when Build is persistent
     return (
-      <span title="Empty value is expected, Alignment Preference is available only for temporary Builds.">
+      <span title="Empty value is expected, Alignment Preference is available only for temporary builds.">
         <EmptyStateSymbol />
         <CheckIcon />
       </span>
