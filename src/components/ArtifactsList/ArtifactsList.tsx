@@ -24,6 +24,7 @@ import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
 import { ArtifactBuild } from 'components/ArtifactBuild/ArtifactBuild';
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { DownloadLink } from 'components/DownloadLink/DownloadLink';
 import { EmptyStateSymbol } from 'components/EmptyStateSymbol/EmptyStateSymbol';
@@ -290,7 +291,7 @@ export const ArtifactsList = ({
                   )}
                   {columns.includes(artifactEntityAttributes.buildCategory.id) && (
                     <Td>
-                      <Label color="grey">{artifact.buildCategory}</Label>
+                      <BuildCategoryLabelMapper buildCategory={artifact.buildCategory} />
                     </Td>
                   )}
                   {columns.includes(artifactEntityAttributes.filename.id) && (
