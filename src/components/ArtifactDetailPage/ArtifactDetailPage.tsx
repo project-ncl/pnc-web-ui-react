@@ -12,6 +12,7 @@ import { useServiceContainerArtifact } from 'components/ArtifactPages/ArtifactPa
 import { ArtifactQualityRevisionsList } from 'components/ArtifactQualityRevisionsList/ArtifactQualityRevisionsList';
 import { Attributes } from 'components/Attributes/Attributes';
 import { AttributesItem } from 'components/Attributes/AttributesItem';
+import { BuildCategoryLabelMapper } from 'components/BuildCategoryLabelMapper/BuildCategoryLabelMapper';
 import { ContentBox } from 'components/ContentBox/ContentBox';
 import { CopyToClipboard } from 'components/CopyToClipboard/CopyToClipboard';
 import { DateTime } from 'components/DateTime/DateTime';
@@ -101,7 +102,7 @@ export const ArtifactDetailPage = ({ componentId = 'r1' }: IArtifactDetailPagePr
               {serviceContainerArtifact.data?.build && <ArtifactBuild build={serviceContainerArtifact.data.build} />}
             </AttributesItem>
             <AttributesItem title={artifactEntityAttributes.buildCategory.title}>
-              <Label color="grey">{serviceContainerArtifact.data?.buildCategory}</Label>
+              <BuildCategoryLabelMapper buildCategory={serviceContainerArtifact.data?.buildCategory} />
             </AttributesItem>
           </Attributes>
         </ContentBox>
