@@ -4,9 +4,11 @@ import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 
 interface IBuildCategoryLabelMapper {
   // #pncTypes buildCategory
-  buildCategory: 'STANDARD' | 'LEGACY_REDHAT' | 'SERVICE' | 'LIGHTWELL' | 'LIGHTWELL_UPSTREAM';
+  buildCategory: undefined | 'STANDARD' | 'LEGACY_REDHAT' | 'SERVICE' | 'LIGHTWELL';
   displayTooltip?: boolean;
 }
+
+const LIGHTWELL_GENERIC = 'LIGHTWELL';
 
 export const BuildCategoryLabelMapper = ({ buildCategory, displayTooltip = false }: IBuildCategoryLabelMapper) => {
   if (!buildCategory) {
@@ -14,6 +16,16 @@ export const BuildCategoryLabelMapper = ({ buildCategory, displayTooltip = false
   }
 
   const config = buildCategoryColorMap[buildCategory] ?? { text: buildCategory };
+
+  // Use generic Lightwell colors unless specific colors are defined
+  if (buildCategory.startsWith(LIGHTWELL_GENERIC)) {
+    if (!config.color) {
+      config.color = buildCategoryColorMap[LIGHTWELL_GENERIC].color;
+    }
+    if (!config.hexColor) {
+      config.hexColor = buildCategoryColorMap[LIGHTWELL_GENERIC].hexColor;
+    }
+  }
 
   return (
     <>
