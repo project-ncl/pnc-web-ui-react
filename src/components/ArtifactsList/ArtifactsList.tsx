@@ -19,7 +19,7 @@ import { PageTitles } from 'common/constants';
 import { getFilterOptions, getSortOptions } from 'common/entityAttributes';
 import { Artifact, ArtifactPage } from 'common/pnc-api-types-ts';
 
-import { IServiceContainerState } from 'hooks/useServiceContainer';
+import { IServiceContainerState, useServiceContainer } from 'hooks/useServiceContainer';
 import { ISortOptions, useSorting } from 'hooks/useSorting';
 import { StorageKeys, useStorage } from 'hooks/useStorage';
 
@@ -38,6 +38,8 @@ import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarGroup } from 'components/Toolbar/ToolbarGroup';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
+
+import * as buildConfigApi from 'services/buildConfigApi';
 
 import { isArtifactWithProductMilestone } from 'utils/entityRecognition';
 
@@ -79,6 +81,13 @@ export const ArtifactsList = ({
   componentId,
   customFiltering,
 }: IArtifactsListProps) => {
+  const serviceContainerParameters = useServiceContainer(buildConfigApi.getSupportedParameters);
+  const serviceContainerParametersRunner = serviceContainerParameters.run;
+
+  useEffect(() => {
+    serviceContainerParametersRunner();
+  }, [serviceContainerParametersRunner]);
+
   const sortOptions: ISortOptions = useMemo(
     () =>
       getSortOptions({
@@ -129,62 +138,71 @@ export const ArtifactsList = ({
 
   return (
     <>
-      <Toolbar column>
-        {customFiltering && (
+      <ServiceContainerLoading {...serviceContainerParameters} title="Artifacts toolbar">
+        <Toolbar column>
+          {customFiltering && (
+            <ToolbarGroup>
+              <ToolbarItem>{customFiltering}</ToolbarItem>
+            </ToolbarGroup>
+          )}
           <ToolbarGroup>
-            <ToolbarItem>{customFiltering}</ToolbarItem>
+            <ToolbarItem>
+              <Filtering
+                filterOptions={useMemo(
+                  () =>
+                    getFilterOptions({
+                      entityAttributes: {
+                        ...artifactEntityAttributes,
+                        buildCategory: {
+                          ...artifactEntityAttributes.buildCategory,
+                          values: serviceContainerParameters.data?.find((parameter) => parameter.name === 'BUILD_CATEGORY')
+                            ?.values,
+                        },
+                      },
+                      defaultFiltering: { attribute: artifactEntityAttributes.identifier.id },
+                      customColumns: columns,
+                    }),
+                  [columns, serviceContainerParameters.data]
+                )}
+                componentId={componentId}
+                onFilter={(filterAttribute: TFilterAttribute, _) => {
+                  if (
+                    [artifactEntityAttributes.md5.id, artifactEntityAttributes.sha1.id, artifactEntityAttributes.sha256.id].some(
+                      (hash) => hash === filterAttribute.id
+                    )
+                  ) {
+                    setAreBuildArtifactsExpanded(false);
+                    setAreAllArtifactsExpanded(true);
+                  }
+                }}
+              />
+            </ToolbarItem>
           </ToolbarGroup>
-        )}
-        <ToolbarGroup>
-          <ToolbarItem>
-            <Filtering
-              filterOptions={useMemo(
-                () =>
-                  getFilterOptions({
-                    entityAttributes: artifactEntityAttributes,
-                    defaultFiltering: { attribute: artifactEntityAttributes.identifier.id },
-                    customColumns: columns,
-                  }),
-                [columns]
-              )}
-              componentId={componentId}
-              onFilter={(filterAttribute: TFilterAttribute, _) => {
-                if (
-                  [artifactEntityAttributes.md5.id, artifactEntityAttributes.sha1.id, artifactEntityAttributes.sha256.id].some(
-                    (hash) => hash === filterAttribute.id
-                  )
-                ) {
-                  setAreBuildArtifactsExpanded(false);
-                  setAreAllArtifactsExpanded(true);
-                }
-              }}
-            />
-          </ToolbarItem>
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarItem>
-            <Switch
-              id="toggle-artifact-name-parsed"
-              label="Parse Artifact identifier"
-              isChecked={isArtifactIdentifierParsed}
-              onChange={(_, checked) => {
-                storeIsArtifactIdentifierParsed(checked);
-              }}
-            />
-          </ToolbarItem>
-          <ToolbarItem>
-            <Switch
-              id="toggle-expand-build-associated"
-              label="Expand Build associated Artifacts"
-              isChecked={areBuildArtifactsExpanded}
-              onChange={() => {
-                setAreBuildArtifactsExpanded(!areBuildArtifactsExpanded);
-                setAreAllArtifactsExpanded(areBuildArtifactsExpanded ? false : undefined);
-              }}
-            />
-          </ToolbarItem>
-        </ToolbarGroup>
-      </Toolbar>
+          <ToolbarGroup>
+            <ToolbarItem>
+              <Switch
+                id="toggle-artifact-name-parsed"
+                label="Parse Artifact identifier"
+                isChecked={isArtifactIdentifierParsed}
+                onChange={(_, checked) => {
+                  storeIsArtifactIdentifierParsed(checked);
+                }}
+              />
+            </ToolbarItem>
+            <ToolbarItem>
+              <Switch
+                id="toggle-expand-build-associated"
+                label="Expand Build associated Artifacts"
+                isChecked={areBuildArtifactsExpanded}
+                onChange={() => {
+                  setAreBuildArtifactsExpanded(!areBuildArtifactsExpanded);
+                  setAreAllArtifactsExpanded(areBuildArtifactsExpanded ? false : undefined);
+                }}
+              />
+            </ToolbarItem>
+          </ToolbarGroup>
+        </Toolbar>
+      </ServiceContainerLoading>
 
       <ContentBox>
         <ServiceContainerLoading {...serviceContainerArtifacts} title={PageTitles.artifacts}>
