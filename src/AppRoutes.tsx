@@ -4,8 +4,6 @@ import { Navigate, Route } from 'react-router';
 import { breadcrumbData } from 'common/breadcrumbData';
 import { PageTitles } from 'common/constants';
 
-import { AUTH_ROLE } from 'hooks/useAuth';
-
 import { AboutPage } from 'components/AboutPage/AboutPage';
 import { AdministrationPage } from 'components/AdministrationPage/AdministrationPage';
 import { ArtifactDetailPage } from 'components/ArtifactDetailPage/ArtifactDetailPage';
@@ -13,7 +11,6 @@ import { ArtifactPages } from 'components/ArtifactPages/ArtifactPages';
 import { ArtifactProductMilestonesReleasesPage } from 'components/ArtifactProductMilestonesReleasesPage/ArtifactProductMilestonesReleasesPage';
 import { ArtifactUsagesPage } from 'components/ArtifactUsagesPage/ArtifactUsagesPage';
 import { ArtifactsPage } from 'components/ArtifactsPage/ArtifactsPage';
-import { AuthServiceStatusPage } from 'components/AuthServiceStatusPage/AuthServiceStatusPage';
 import { BuildAlignmentLogPage } from 'components/BuildAlignmentLogPage/BuildAlignmentLogPage';
 import { BuildArtifactsPage } from 'components/BuildArtifactsPage/BuildArtifactsPage';
 import { BuildConfigBuildMetricsPage } from 'components/BuildConfigBuildMetricsPage/BuildConfigBuildMetricsPage';
@@ -49,6 +46,7 @@ import { GroupConfigBuildConfigsEditPage } from 'components/GroupConfigBuildConf
 import { GroupConfigCreateEditPage } from 'components/GroupConfigCreateEditPage/GroupConfigCreateEditPage';
 import { GroupConfigDetailPage } from 'components/GroupConfigDetailPage/GroupConfigDetailPage';
 import { GroupConfigsPage } from 'components/GroupConfigsPage/GroupConfigsPage';
+import { KeycloakStatusPage } from 'components/KeycloakStatusPage/KeycloakStatusPage';
 import { LiveBuildLogPage } from 'components/LiveBuildLogPage/LiveBuildLogPage';
 import { PreferencesPage } from 'components/PreferencesPage/PreferencesPage';
 import { ProductCreateEditPage } from 'components/ProductCreateEditPage/ProductCreateEditPage';
@@ -81,6 +79,8 @@ import { ScmRepositoriesPage } from 'components/ScmRepositoriesPage/ScmRepositor
 import { ScmRepositoryCreateEditPage } from 'components/ScmRepositoryCreateEditPage/ScmRepositoryCreateEditPage';
 import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmRepositoryDetailPage';
 import { VariablesPage } from 'components/VariablesPage/VariablesPage';
+
+import { AUTH_ROLE } from 'services/keycloakService';
 
 export const AppRoutes = (
   <Route element={<AppLayout />}>
@@ -379,7 +379,7 @@ export const AppRoutes = (
 
     {/* special pages */}
     <Route path="system">
-      <Route path="auth-service-status" element={<AuthServiceStatusPage />} />
+      <Route path="keycloak-status" element={<KeycloakStatusPage />} />
     </Route>
     <Route path="admin">
       <Route path="demo" element={<DemoPage />} />

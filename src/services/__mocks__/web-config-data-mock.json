@@ -21,7 +21,6 @@
   "externalRexUrl": "https://localhost/",
   "externalSbomerUrl": "https://localhost/",
   "externalEttUrl": "https://localhost/",
-  "externalDingroguUrl": "https://localhost/",
   "brewContentUrl": "https://localhost/",
   "externalUiLoggerUrl": "https://localhost",
   "bifrostWsUrl": "ws://localhost/",

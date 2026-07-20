@@ -1,5 +1,6 @@
-import { AUTH_ROLE } from 'hooks/useAuth';
 import { useProtectedContent } from 'hooks/useProtectedContent';
+
+import { AUTH_ROLE } from 'services/keycloakService';
 
 const HiddenContent = () => null;
 
