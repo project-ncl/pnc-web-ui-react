@@ -8,6 +8,7 @@ import { BuildsPage } from 'components/BuildsPage/BuildsPage';
 global.ResizeObserver = ResizeObserver;
 
 vi.mock('services/buildApi');
+vi.mock('services/keycloakService');
 vi.mock('services/uiLogger');
 vi.mock('services/webConfigService');
 

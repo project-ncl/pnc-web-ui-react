@@ -1,16 +1,28 @@
 import { User } from 'common/pnc-api-types-ts';
 
-const anonUser: User = { id: 'anonymous' };
+import { AUTH_ROLE, keycloakService } from 'services/keycloakService';
+import * as userApi from 'services/userApi';
 
+/**
+ * Class managing information about user.
+ */
 class UserService {
-  private user: User = anonUser;
+  private user: User = { id: 'anonymous' };
 
-  public setUser(user: User) {
-    this.user = user;
+  public fetchUser() {
+    return userApi
+      .getCurrentUser()
+      .then((response) => {
+        this.user = response.data;
+      })
+      .catch(() => {
+        this.user = { id: 'error' };
+        console.error('User Manager: Could not fetch current user.');
+      });
   }
 
-  public clearUser() {
-    this.user = anonUser;
+  public isAdminUser() {
+    return keycloakService.hasRealmRole(AUTH_ROLE.Admin);
   }
 
   public getUserId() {
@@ -18,4 +30,7 @@ class UserService {
   }
 }
 
+/**
+ * Instance of UserService providing group of User related operations.
+ */
 export const userService = new UserService();

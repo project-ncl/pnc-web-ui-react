@@ -1,9 +1,7 @@
-import { User } from 'common/pnc-api-types-ts';
-
 export class UserService {
-  public setUser(_user: User) {}
-
-  public clearUser() {}
+  public fetchUser() {
+    return import('./user-service-mock.json').then((mockUserRequest) => {}).catch(() => {});
+  }
 
   public getUserId() {
     return '150';

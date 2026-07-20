@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 import { BuildConfiguration, GroupConfiguration } from 'common/pnc-api-types-ts';
 
-import { AUTH_ROLE } from 'hooks/useAuth';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ProgressButton } from 'components/ProgressButton/ProgressButton';
@@ -15,6 +14,7 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as buildConfigApi from 'services/buildConfigApi';
 import * as groupConfigApi from 'services/groupConfigApi';
+import { AUTH_ROLE } from 'services/keycloakService';
 
 import styles from './BuildStartButton.module.css';
 

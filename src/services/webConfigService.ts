@@ -10,6 +10,12 @@ export interface IWebConfigGrafana {
   statusMapUrl: string;
 }
 
+export interface IWebConfigKeycloak {
+  url: string;
+  realm: string;
+  clientId: string;
+}
+
 export interface IWebConfig {
   bpmUrl: string;
   cartographerUrl: string;
@@ -40,6 +46,8 @@ export interface IWebConfig {
   bifrostWsUrl: string;
   userGuideUrl: string;
   userSupportUrl: string;
+  ssoTokenLifespan: number;
+  keycloak: IWebConfigKeycloak;
   grafana: IWebConfigGrafana;
   internalScmAuthority: string;
 }
