@@ -29,3 +29,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .devcontainer/
+
+# local dev TLS certs (mkcert)
+certs/
