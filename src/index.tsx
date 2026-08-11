@@ -34,10 +34,7 @@ const App = () => {
   if (
     // https://example.com
     !pncUrl.startsWith(window.location.origin) &&
-    !(
-      import.meta.env.VITE_WEB_UI_URL === window.location.origin ||
-      import.meta.env.VITE_WEB_SECONDARY_UI_URL === window.location.origin
-    ) &&
+    window.location.origin !== import.meta.env.VITE_WEB_SECONDARY_UI_URL &&
     // example.com
     window.location.hostname !== 'localhost'
   ) {
