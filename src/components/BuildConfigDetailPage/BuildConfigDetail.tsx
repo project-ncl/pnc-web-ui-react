@@ -1,4 +1,5 @@
 import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { useState } from 'react';
 import { Link } from 'react-router';
 
@@ -23,9 +24,12 @@ import { ScmRepositoryLink } from 'components/ScmRepositoryLink/ScmRepositoryLin
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { UpgradeEnvironmentModal } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModal';
 import { UpgradeEnvironmentModalButton } from 'components/UpgradeEnvironmentModal/UpgradeEnvironmentModalButton';
 import { WarningLabel } from 'components/WarningLabel/WarningLabel';
+
+import { BREW } from 'utils/features';
 
 interface IBuildConfigDetailProps {
   serviceContainerBuildConfig: IServiceContainerState<BuildConfiguration | BuildConfigurationRevision>;
@@ -135,7 +139,22 @@ export const BuildConfigDetail = ({
                 )}
               </AttributesItem>
               <AttributesItem title={buildConfigEntityAttributes.brewPullActive.title}>
-                {serviceContainerBuildConfig.data?.brewPullActive + ''}
+                {BREW.isEnabled ? (
+                  serviceContainerBuildConfig.data?.brewPullActive?.toString()
+                ) : (
+                  <TooltipWrapper tooltip={BREW.disabledReason}>
+                    <span>
+                      <InfoCircleIcon />{' '}
+                      <EmptyStateSymbol
+                        text={`Disabled${
+                          serviceContainerBuildConfig.data?.brewPullActive !== undefined
+                            ? ` (original value: ${serviceContainerBuildConfig.data.brewPullActive})`
+                            : ''
+                        }`}
+                      />
+                    </span>
+                  </TooltipWrapper>
+                )}
               </AttributesItem>
               {serviceContainerProductVersion && (
                 <AttributesItem title={buildConfigEntityAttributes.productVersion.title}>

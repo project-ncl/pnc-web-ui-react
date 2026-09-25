@@ -81,7 +81,7 @@ import * as projectApi from 'services/projectApi';
 import * as scmRepositoryApi from 'services/scmRepositoryApi';
 import { uiLogger } from 'services/uiLogger';
 
-import { SERVICE_BUILD_CATEGORY } from 'utils/features';
+import { BREW, SERVICE_BUILD_CATEGORY } from 'utils/features';
 import { maxLengthValidator, validateBuildScript, validateScmUrl } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
@@ -351,7 +351,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       environment: { id: selectedEnvironment!.id },
       buildType: data.buildType,
       buildScript: data.buildScript,
-      brewPullActive: data.brewPullActive,
+      brewPullActive: BREW.isEnabled ? data.brewPullActive : undefined,
       scmRevision: data.scmRevision,
       productVersion: selectedProductVersion ? { id: selectedProductVersion.id } : undefined,
       parameters: Object.fromEntries(Object.entries(buildParamData).map(([k, v]) => [k, v.value])),
@@ -408,7 +408,8 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       environment: selectedEnvironment ? { id: selectedEnvironment.id } : undefined,
       buildType: data.buildType,
       buildScript: data.buildScript,
-      brewPullActive: data.buildType !== buildTypeData.NPM.id && !!data.brewPullActive,
+      // not sent when Brew is disabled, original value is kept
+      brewPullActive: BREW.isEnabled ? data.buildType !== buildTypeData.NPM.id && !!data.brewPullActive : undefined,
       scmRepository: selectedScmRepository ? { id: selectedScmRepository.id } : undefined,
       scmRevision: data.scmRevision,
       productVersion: selectedProductVersion ? { id: selectedProductVersion.id } : undefined,
@@ -710,10 +711,19 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             <FormInput<boolean>
               {...register<boolean>(buildConfigEntityAttributes.brewPullActive.id, fieldConfigs.brewPullActive)}
               render={({ value, onChange, onBlur }) => {
-                const isDisabled = getFieldValue(buildConfigEntityAttributes.buildType.id) === buildTypeData.NPM.id;
+                const isNpmBuildType = getFieldValue(buildConfigEntityAttributes.buildType.id) === buildTypeData.NPM.id;
+                const isDisabled = !BREW.isEnabled || isNpmBuildType;
 
                 return (
-                  <TooltipWrapper tooltip={isDisabled ? 'Cannot set Brew pull active for the NPM build type.' : undefined}>
+                  <TooltipWrapper
+                    tooltip={
+                      !BREW.isEnabled
+                        ? BREW.disabledReason
+                        : isNpmBuildType
+                        ? 'Cannot set Brew pull active for the NPM build type.'
+                        : undefined
+                    }
+                  >
                     <Switch
                       id={buildConfigEntityAttributes.brewPullActive.id}
                       name={buildConfigEntityAttributes.brewPullActive.id}

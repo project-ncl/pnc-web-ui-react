@@ -22,6 +22,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as productApi from 'services/productApi';
 import * as productVersionApi from 'services/productVersionApi';
 
+import { BREW } from 'utils/features';
 import { maxLengthValidator, validateProductVersionName } from 'utils/formValidationHelpers';
 import { createSafePatch } from 'utils/patchHelper';
 import { generatePageTitle } from 'utils/titleHelper';
@@ -38,7 +39,7 @@ const fieldConfigs = {
     ],
   },
   'attributes.brewTagPrefix': {
-    isRequired: true,
+    isRequired: BREW.isEnabled,
     validators: [maxLengthValidator(255)],
   },
 } satisfies IFieldConfigs;
@@ -97,7 +98,7 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
   const submitEdit = (data: IFieldValues) => {
     const patchData = createSafePatch(serviceContainerEditPageGet.data!, {
       version: data.version,
-      attributes: { BREW_TAG_PREFIX: data['attributes.brewTagPrefix'] },
+      attributes: BREW.isEnabled ? { BREW_TAG_PREFIX: data['attributes.brewTagPrefix'] } : undefined,
     });
 
     return serviceContainerEditPagePatch.run({
@@ -146,12 +147,13 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
         </FormGroup>
         {isEditPage && (
           <FormGroup
-            isRequired
+            isRequired={BREW.isEnabled}
             label={productVersionEntityAttributes['attributes.brewTagPrefix'].title}
             fieldId={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
           >
             <TextInput
-              isRequired
+              isRequired={BREW.isEnabled}
+              isDisabled={!BREW.isEnabled}
               type="text"
               id={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
               name={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
@@ -161,6 +163,9 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
                 fieldConfigs['attributes.brewTagPrefix']
               )}
             />
+            <FormInputHelperText variant="default" isHidden={BREW.isEnabled}>
+              {BREW.disabledReason}
+            </FormInputHelperText>
             <FormInputHelperText variant="error">
               {getFieldErrors(productVersionEntityAttributes['attributes.brewTagPrefix'].id)}
             </FormInputHelperText>

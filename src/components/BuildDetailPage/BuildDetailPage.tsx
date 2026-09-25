@@ -1,5 +1,5 @@
 import { CodeBlock, CodeBlockCode, Grid, GridItem } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon, InfoCircleIcon } from '@patternfly/react-icons';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 
 import { buildEntityAttributes } from 'common/buildEntityAttributes';
@@ -32,11 +32,13 @@ import { ScmRepositoryUrl } from 'components/ScmRepositoryUrl/ScmRepositoryUrl';
 import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceContainerLoading';
 import { Toolbar } from 'components/Toolbar/Toolbar';
 import { ToolbarItem } from 'components/Toolbar/ToolbarItem';
+import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 import { Username } from 'components/Username/Username';
 
 import * as buildApi from 'services/buildApi';
 import * as webConfigService from 'services/webConfigService';
 
+import { BREW } from 'utils/features';
 import { calculateDuration } from 'utils/utils';
 
 interface INotAvailableBasedOnProps {
@@ -333,7 +335,22 @@ export const BuildDetailPage = () => {
             </AttributesItem>
 
             <AttributesItem title={buildEntityAttributes['buildConfigRevision.brewPullActive'].title}>
-              {serviceContainerBuild.data?.buildConfigRevision?.brewPullActive ? 'enabled' : 'disabled'}
+              {BREW.isEnabled ? (
+                serviceContainerBuild.data?.buildConfigRevision?.brewPullActive?.toString()
+              ) : (
+                <TooltipWrapper tooltip={BREW.disabledReason}>
+                  <span>
+                    <InfoCircleIcon />{' '}
+                    <EmptyStateSymbol
+                      text={`Disabled${
+                        serviceContainerBuild.data?.buildConfigRevision?.brewPullActive !== undefined
+                          ? ` (original value: ${serviceContainerBuild.data.buildConfigRevision.brewPullActive})`
+                          : ''
+                      }`}
+                    />
+                  </span>
+                </TooltipWrapper>
+              )}
             </AttributesItem>
           </Attributes>
         </ContentBox>
