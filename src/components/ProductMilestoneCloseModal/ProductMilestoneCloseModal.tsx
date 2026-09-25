@@ -12,9 +12,11 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
+import { BREW } from 'utils/features';
+
 const fieldConfigs = {
   skipBrewPush: {
-    value: false,
+    value: !BREW.isEnabled,
   },
 } satisfies IFieldConfigs;
 
@@ -31,7 +33,7 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
 
   const confirmModal = (data: IFieldValues) => {
     return serviceContainerProductMilestoneClose.run({
-      serviceData: { id: productMilestone.id, data: { skipBrewPush: data.skipBrewPush } },
+      serviceData: { id: productMilestone.id, data: { skipBrewPush: !BREW.isEnabled || data.skipBrewPush } },
       onError: () => console.error('Failed to close Product Milestone.'),
     });
   };
@@ -61,13 +63,16 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
           <FormInput<boolean>
             {...register<boolean>(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id, fieldConfigs.skipBrewPush)}
             render={({ value, ...rest }) => (
-              <Switch
-                id={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
-                name={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
-                label="Enabled"
-                isChecked={value}
-                {...rest}
-              />
+              <TooltipWrapper tooltip={!BREW.isEnabled ? BREW.disabledReason : undefined}>
+                <Switch
+                  id={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
+                  name={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
+                  label="Enabled"
+                  isChecked={value}
+                  isDisabled={!BREW.isEnabled}
+                  {...rest}
+                />
+              </TooltipWrapper>
             )}
           />
         </FormGroup>
@@ -78,17 +83,19 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
             title="Milestone end date will be set. If the Milestone is marked as current, the current status will be removed. No more Builds will be added to the Milestone."
           />
         </FormAlert>
-        <FormAlert>
-          <Alert
-            variant={getFieldValue(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id) ? 'warning' : 'info'}
-            isInline
-            title={
-              getFieldValue(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id)
-                ? 'No Build Push will be performed.'
-                : 'New Brew Push will be performed for each successful Build in the Milestone.'
-            }
-          />
-        </FormAlert>
+        {BREW.isEnabled && (
+          <FormAlert>
+            <Alert
+              variant={getFieldValue(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id) ? 'warning' : 'info'}
+              isInline
+              title={
+                getFieldValue(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id)
+                  ? 'No Build Push will be performed.'
+                  : 'New Brew Push will be performed for each successful Build in the Milestone.'
+              }
+            />
+          </FormAlert>
+        )}
       </Form>
     </ActionModal>
   );
