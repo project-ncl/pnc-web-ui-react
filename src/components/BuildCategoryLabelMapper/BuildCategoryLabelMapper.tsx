@@ -4,7 +4,7 @@ import { LabelMapper } from 'components/LabelMapper/LabelMapper';
 
 interface IBuildCategoryLabelMapper {
   // #pncTypes buildCategory
-  buildCategory: undefined | 'STANDARD' | 'LEGACY_REDHAT' | 'SERVICE' | 'LIGHTWELL';
+  buildCategory: undefined | 'STANDARD' | 'SERVICE' | 'LIGHTWELL';
   displayTooltip?: boolean;
 }
 
