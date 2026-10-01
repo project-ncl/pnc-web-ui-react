@@ -28,7 +28,7 @@ export interface AnalyzedDistribution {
 export interface Artifact {
     artifactQuality: "NEW" | "VERIFIED" | "TESTED" | "DEPRECATED" | "BLACKLISTED" | "DELETED" | "TEMPORARY" | "IMPORTED";
     build?: Build;
-    buildCategory: "STANDARD" | "LEGACY_REDHAT" | "SERVICE";
+    buildCategory: "STANDARD" | "SERVICE";
     creationTime?: string; // date-time
     creationUser?: User;
     deployPath?: string;
@@ -51,7 +51,7 @@ export interface Artifact {
 }
 export interface ArtifactInfo {
     artifactQuality?: "NEW" | "VERIFIED" | "TESTED" | "DEPRECATED" | "BLACKLISTED" | "DELETED" | "TEMPORARY" | "IMPORTED";
-    buildCategory?: "STANDARD" | "LEGACY_REDHAT" | "SERVICE";
+    buildCategory?: "STANDARD" | "SERVICE";
     id?: string;
     identifier?: string;
     repositoryType?: "MAVEN" | "NPM" | "COCOA_POD" | "GENERIC_PROXY" | "DISTRIBUTION_ARCHIVE" | "RPM";
@@ -72,7 +72,7 @@ export interface ArtifactPage {
 }
 export interface ArtifactRevision {
     artifactQuality?: "NEW" | "VERIFIED" | "TESTED" | "DEPRECATED" | "BLACKLISTED" | "DELETED" | "TEMPORARY" | "IMPORTED";
-    buildCategory?: "STANDARD" | "LEGACY_REDHAT" | "SERVICE";
+    buildCategory?: "STANDARD" | "SERVICE";
     id: string;
     modificationTime?: string; // date-time
     modificationUser?: User;
@@ -823,7 +823,7 @@ export interface Parameter {
 export namespace Parameters {
     export type AlignmentPreference = "PREFER_PERSISTENT" | "PREFER_TEMPORARY";
     export type Attribute = string[];
-    export type BuildCategories = ("STANDARD" | "LEGACY_REDHAT" | "SERVICE")[];
+    export type BuildCategories = ("STANDARD" | "SERVICE")[];
     export type BuildConfigName = string;
     export type BuildDependencies = boolean;
     export type BuildType = string;

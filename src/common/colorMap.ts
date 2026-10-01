@@ -77,7 +77,6 @@ export const operationResultColorMap: Record<string, LabelConfig> = {
 
 export const buildCategoryColorMap: Record<string, LabelConfig> = {
   STANDARD: { text: 'STANDARD', color: 'blue', hexColor: blueColor },
-  LEGACY_REDHAT: { text: 'LEGACY_REDHAT', color: 'red', hexColor: redColor },
   SERVICE: { text: 'SERVICE', color: 'grey', hexColor: grayColor },
   LIGHTWELL: { text: 'LIGHTWELL', color: 'green', hexColor: greenColor },
 };
