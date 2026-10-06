@@ -109,11 +109,6 @@ export const AppLayout = () => {
         <RestrictedContent key="administration" role={AUTH_ROLE.Admin}>
           <DropdownLinkItem to="/admin/administration">Administration</DropdownLinkItem>
         </RestrictedContent>
-        {import.meta.env.VITE_PNC_OLD_UI_WEB && (
-          <DropdownLinkItem key="old-ui" to={import.meta.env.VITE_PNC_OLD_UI_WEB}>
-            Old UI Version <ExternalLinkAltIcon />
-          </DropdownLinkItem>
-        )}
       </>
     );
 
