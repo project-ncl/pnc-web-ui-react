@@ -1,12 +1,11 @@
+import buildConfigsMock from './build-configs-mock.json';
+import buildConfigsWithLatestBuildMock from './build-configs-with-latest-build-mock.json';
+
 /**
  * Gets all BuildConfigs.
  */
 export const getBuildConfigs = () => {
-  return new Promise((resolve) => {
-    import('./build-configs-mock.json').then((mockBuildsRequest) => {
-      resolve({ data: mockBuildsRequest });
-    });
-  });
+  return Promise.resolve({ data: buildConfigsMock });
 };
 
 /**
@@ -14,9 +13,5 @@ export const getBuildConfigs = () => {
  *
  */
 export const getBuildConfigsWithLatestBuild = () => {
-  return new Promise((resolve) => {
-    import('./build-configs-with-latest-build-mock.json').then((mockBuildsRequest) => {
-      resolve({ data: mockBuildsRequest });
-    });
-  });
+  return Promise.resolve({ data: buildConfigsWithLatestBuildMock });
 };

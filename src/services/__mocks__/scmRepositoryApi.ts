@@ -1,23 +1,15 @@
+import buildConfigsWithLatestBuildMock from './build-configs-with-latest-build-mock.json';
+import scmRepositoriesMock from './scm-repositories-mock.json';
+import scmRepositoryMock from './scm-repository-mock.json';
+
 export const getScmRepository = (id: string) => {
-  return new Promise((resolve) => {
-    import('./scm-repository-mock.json').then((mockScmRepositoryRequest) => {
-      resolve({ data: mockScmRepositoryRequest });
-    });
-  });
+  return Promise.resolve({ data: scmRepositoryMock });
 };
 
 export const getScmRepositories = () => {
-  return new Promise((resolve) => {
-    import('./scm-repositories-mock.json').then((mockScmRepositoriesRequest) => {
-      resolve({ data: mockScmRepositoriesRequest });
-    });
-  });
+  return Promise.resolve({ data: scmRepositoriesMock });
 };
 
 export const getBuildConfigsWithLatestBuild = () => {
-  return new Promise((resolve) => {
-    import('./build-configs-with-latest-build-mock.json').then((mockBuildConfigsRequest) => {
-      resolve({ data: mockBuildConfigsRequest });
-    });
-  });
+  return Promise.resolve({ data: buildConfigsWithLatestBuildMock });
 };
