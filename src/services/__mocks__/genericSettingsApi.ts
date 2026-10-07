@@ -1,21 +1,14 @@
+import announcementMock from './announcement-mock.json';
+import pncStatusMock from './pnc-status-mock.json';
+
 export const getAnnouncementBanner = () => {
-  return new Promise((resolve) => {
-    import('./announcement-mock.json').then((mockProjectsRequest) => {
-      resolve({ data: mockProjectsRequest });
-    });
-  });
+  return Promise.resolve({ data: announcementMock });
 };
 
 export const getPncVersion = () => {
-  return new Promise((resolve) => {
-    resolve({ data: 'test' });
-  });
+  return Promise.resolve({ data: 'test' });
 };
 
 export const getPncStatus = () => {
-  return new Promise((resolve) => {
-    import('./pnc-status-mock.json').then((mockPncStatusRequest) => {
-      resolve({ data: mockPncStatusRequest });
-    });
-  });
+  return Promise.resolve({ data: pncStatusMock });
 };

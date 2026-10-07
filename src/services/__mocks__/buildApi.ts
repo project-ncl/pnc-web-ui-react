@@ -1,17 +1,12 @@
+import buildCountMock from './build-count-mock.json';
+import buildsMock from './builds-mock.json';
+
 export const getBuilds = () => {
-  return new Promise((resolve) => {
-    import('./builds-mock.json').then((mockBuildsRequest) => {
-      resolve({ data: mockBuildsRequest });
-    });
-  });
+  return Promise.resolve({ data: buildsMock });
 };
 
 export const getUserBuilds = () => {
-  return new Promise((resolve) => {
-    import('./builds-mock.json').then((mockBuildsRequest) => {
-      resolve({ data: mockBuildsRequest });
-    });
-  });
+  return Promise.resolve({ data: buildsMock });
 };
 
 export const getBuildMetrics = (buildIds?: Array<string>) => {
@@ -19,9 +14,5 @@ export const getBuildMetrics = (buildIds?: Array<string>) => {
 };
 
 export const getBuildCount = () => {
-  return new Promise((resolve) => {
-    import('./build-count-mock.json').then((mockProjectRequest) => {
-      resolve({ data: mockProjectRequest });
-    });
-  });
+  return Promise.resolve({ data: buildCountMock });
 };

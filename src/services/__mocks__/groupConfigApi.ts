@@ -1,7 +1,5 @@
+import groupConfigsMock from './group-configs-mock.json';
+
 export const getGroupConfigs = () => {
-  return new Promise((resolve) => {
-    import('./group-configs-mock.json').then((mockGroupConfigsRequest) => {
-      resolve({ data: mockGroupConfigsRequest });
-    });
-  });
+  return Promise.resolve({ data: groupConfigsMock });
 };

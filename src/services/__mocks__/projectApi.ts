@@ -1,17 +1,13 @@
+import buildConfigsWithLatestBuildMock from './build-configs-with-latest-build-mock.json';
+import projectMock from './project-mock.json';
+import projectsMock from './projects-mock.json';
+
 export const getProjects = () => {
-  return new Promise((resolve) => {
-    import('./projects-mock.json').then((mockProjectsRequest) => {
-      resolve({ data: mockProjectsRequest });
-    });
-  });
+  return Promise.resolve({ data: projectsMock });
 };
 
 export const getProject = (id: string) => {
-  return new Promise((resolve) => {
-    import('./project-mock.json').then((mockProjectRequest) => {
-      resolve({ data: mockProjectRequest });
-    });
-  });
+  return Promise.resolve({ data: projectMock });
 };
 
 export const getProjectBuilds = (id: string) => {
@@ -19,9 +15,5 @@ export const getProjectBuilds = (id: string) => {
 };
 
 export const getBuildConfigsWithLatestBuild = () => {
-  return new Promise((resolve) => {
-    import('./build-configs-with-latest-build-mock.json').then((mockBuildConfigsRequest) => {
-      resolve({ data: mockBuildConfigsRequest });
-    });
-  });
+  return Promise.resolve({ data: buildConfigsWithLatestBuildMock });
 };
