@@ -4,7 +4,7 @@ import { AuthProvider } from 'contexts/AuthContext';
 import { ThemeProvider } from 'contexts/ThemeContext';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router';
 
 import { URL_BASE_PATH } from 'common/constants';
 
@@ -12,6 +12,7 @@ import { useAuth } from 'hooks/useAuth';
 
 import { AppInit } from 'components/AppInit/AppInit';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
+import { AuthGate } from 'components/ProtectedContent/AuthGate';
 
 import * as webConfigService from 'services/webConfigService';
 
@@ -22,7 +23,8 @@ import './index.css';
 
 legacyUrlRedirector();
 
-const router = createBrowserRouter(createRoutesFromElements(AppRoutes), {
+// AuthGate above ApplicationLayout - no data is requested before the user is logged in
+const router = createBrowserRouter(createRoutesFromElements(<Route element={<AuthGate />}>{AppRoutes}</Route>), {
   basename: URL_BASE_PATH,
 });
 
