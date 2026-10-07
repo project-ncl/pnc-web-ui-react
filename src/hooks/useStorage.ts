@@ -69,4 +69,5 @@ export const StorageKeys = {
   areOnlyLatestBuildPushesShown: 'are-only-latest-build-pushes-shown',
   loggerLabel: 'logger-label',
   themeMode: 'theme-mode',
+  locationBeforeLogin: 'location-before-login',
 } as const;
