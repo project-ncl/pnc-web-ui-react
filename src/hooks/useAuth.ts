@@ -1,5 +1,5 @@
 import { AuthContext } from 'contexts/AuthContext';
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import * as webConfigService from 'services/webConfigService';
 
@@ -19,6 +19,16 @@ export const useAuth = () => {
     return auth.user?.username ?? auth.user?.id ?? null;
   };
 
+  const login = useCallback((): Promise<void> => {
+    window.location.assign(buildLoginUrl(buildRedirectPath()));
+    return Promise.resolve();
+  }, []);
+
+  const logout = useCallback((): Promise<void> => {
+    window.location.assign(buildLogoutUrl(buildRedirectPath()));
+    return Promise.resolve();
+  }, []);
+
   return {
     isLoading: auth.isLoading,
     isAuthenticated: auth.isAuthenticated,
@@ -26,14 +36,8 @@ export const useAuth = () => {
     user: getUserDisplayName(),
     error: auth.error,
     hasRealmRole,
-    login: (): Promise<void> => {
-      window.location.assign(buildLoginUrl(buildRedirectPath()));
-      return Promise.resolve();
-    },
-    logout: (): Promise<void> => {
-      window.location.assign(buildLogoutUrl(buildRedirectPath()));
-      return Promise.resolve();
-    },
+    login,
+    logout,
   };
 };
 
