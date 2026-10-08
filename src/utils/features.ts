@@ -11,5 +11,5 @@ export const SERVICE_BUILD_CATEGORY = {
  */
 export const BREW = {
   isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
-  disabledReason: 'Brew is not supported.',
+  disabledReason: 'Brew is not available in the current system.',
 };

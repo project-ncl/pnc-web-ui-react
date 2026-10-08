@@ -1,24 +1,20 @@
 import { Alert, Form, FormAlert, FormGroup, Switch } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 
 import { ProductMilestone } from 'common/pnc-api-types-ts';
 import { productMilestoneCloseRequestEntityAttributes } from 'common/productMilestoneCloseRequestEntityAttributes';
 
-import { IFieldConfigs, IFieldValues, useForm } from 'hooks/useForm';
+import { IFieldValues, useForm } from 'hooks/useForm';
 import { useServiceContainer } from 'hooks/useServiceContainer';
 
 import { ActionModal } from 'components/ActionModal/ActionModal';
 import { FormInput } from 'components/FormInput/FormInput';
+import { FormInputHelperText } from 'components/FormInputHelperText/FormInputHelperText';
 import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as productMilestoneApi from 'services/productMilestoneApi';
 
 import { BREW } from 'utils/features';
-
-const fieldConfigs = {
-  skipBrewPush: {
-    value: !BREW.isEnabled,
-  },
-} satisfies IFieldConfigs;
 
 export interface IProductMilestoneCloseModalProps {
   isModalOpen: boolean;
@@ -44,7 +40,7 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
       actionTitle="Close Milestone"
       isOpen={isModalOpen}
       onToggle={toggleModal}
-      isSubmitDisabled={isSubmitDisabled}
+      isSubmitDisabled={BREW.isEnabled && isSubmitDisabled}
       wereSubmitDataChanged={hasFormChanged}
       onSubmit={handleSubmit(confirmModal)}
       serviceContainer={serviceContainerProductMilestoneClose}
@@ -60,21 +56,24 @@ export const ProductMilestoneCloseModal = ({ isModalOpen, toggleModal, productMi
           fieldId={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
           labelHelp={<TooltipWrapper tooltip={productMilestoneCloseRequestEntityAttributes.skipBrewPush.tooltip} />}
         >
-          <FormInput<boolean>
-            {...register<boolean>(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id, fieldConfigs.skipBrewPush)}
-            render={({ value, ...rest }) => (
-              <TooltipWrapper tooltip={!BREW.isEnabled ? BREW.disabledReason : undefined}>
+          {BREW.isEnabled ? (
+            <FormInput<boolean>
+              {...register<boolean>(productMilestoneCloseRequestEntityAttributes.skipBrewPush.id)}
+              render={({ value, ...rest }) => (
                 <Switch
                   id={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
                   name={productMilestoneCloseRequestEntityAttributes.skipBrewPush.id}
                   label="Enabled"
                   isChecked={value}
-                  isDisabled={!BREW.isEnabled}
                   {...rest}
                 />
-              </TooltipWrapper>
-            )}
-          />
+              )}
+            />
+          ) : (
+            <FormInputHelperText variant="indeterminate" icon={<InfoCircleIcon />}>
+              {BREW.disabledReason} No Brew Push will be performed.
+            </FormInputHelperText>
+          )}
         </FormGroup>
         <FormAlert>
           <Alert
