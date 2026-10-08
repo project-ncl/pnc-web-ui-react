@@ -13,7 +13,7 @@ import {
   TextArea,
   TextInput,
 } from '@patternfly/react-core';
-import { ExclamationTriangleIcon, ExternalLinkAltIcon } from '@patternfly/react-icons';
+import { ExclamationTriangleIcon, ExternalLinkAltIcon, InfoCircleIcon } from '@patternfly/react-icons';
 import { CheckIcon } from '@patternfly/react-icons';
 import { Operation } from 'fast-json-patch';
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -708,35 +708,32 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
             fieldId={buildConfigEntityAttributes.brewPullActive.id}
             labelHelp={<TooltipWrapper tooltip={buildConfigEntityAttributes.brewPullActive.tooltip} />}
           >
-            <FormInput<boolean>
-              {...register<boolean>(buildConfigEntityAttributes.brewPullActive.id, fieldConfigs.brewPullActive)}
-              render={({ value, onChange, onBlur }) => {
-                const isNpmBuildType = getFieldValue(buildConfigEntityAttributes.buildType.id) === buildTypeData.NPM.id;
-                const isDisabled = !BREW.isEnabled || isNpmBuildType;
+            {BREW.isEnabled ? (
+              <FormInput<boolean>
+                {...register<boolean>(buildConfigEntityAttributes.brewPullActive.id, fieldConfigs.brewPullActive)}
+                render={({ value, onChange, onBlur }) => {
+                  const isNpmBuildType = getFieldValue(buildConfigEntityAttributes.buildType.id) === buildTypeData.NPM.id;
 
-                return (
-                  <TooltipWrapper
-                    tooltip={
-                      !BREW.isEnabled
-                        ? BREW.disabledReason
-                        : isNpmBuildType
-                        ? 'Cannot set Brew pull active for the NPM build type.'
-                        : undefined
-                    }
-                  >
-                    <Switch
-                      id={buildConfigEntityAttributes.brewPullActive.id}
-                      name={buildConfigEntityAttributes.brewPullActive.id}
-                      label="Enabled"
-                      isChecked={!isDisabled ? value : false}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      isDisabled={isDisabled}
-                    />
-                  </TooltipWrapper>
-                );
-              }}
-            />
+                  return (
+                    <TooltipWrapper tooltip={isNpmBuildType ? 'Cannot set Brew pull active for the NPM build type.' : undefined}>
+                      <Switch
+                        id={buildConfigEntityAttributes.brewPullActive.id}
+                        name={buildConfigEntityAttributes.brewPullActive.id}
+                        label="Enabled"
+                        isChecked={!isNpmBuildType ? value : false}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        isDisabled={isNpmBuildType}
+                      />
+                    </TooltipWrapper>
+                  );
+                }}
+              />
+            ) : (
+              <FormInputHelperText variant="indeterminate" icon={<InfoCircleIcon />}>
+                {BREW.disabledReason} No Brew Pull will be performed.
+              </FormInputHelperText>
+            )}
           </FormGroup>
         </Form>
       </ContentBox>

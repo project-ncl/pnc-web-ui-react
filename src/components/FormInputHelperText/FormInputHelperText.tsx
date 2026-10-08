@@ -4,13 +4,21 @@ import { PropsWithChildren } from 'react';
 
 interface IFormInputHelperTextProps {
   variant: HelperTextItemProps['variant'];
+  icon?: HelperTextItemProps['icon'];
   isHidden?: boolean;
 }
 
-export const FormInputHelperText = ({ variant, isHidden = false, children }: PropsWithChildren<IFormInputHelperTextProps>) => (
+export const FormInputHelperText = ({
+  variant,
+  icon,
+  isHidden = false,
+  children,
+}: PropsWithChildren<IFormInputHelperTextProps>) => (
   <FormHelperText className={css((isHidden || !children) && 'display-none')}>
     <HelperText>
-      <HelperTextItem variant={variant}>{children}</HelperTextItem>
+      <HelperTextItem variant={variant} icon={icon}>
+        {children}
+      </HelperTextItem>
     </HelperText>
   </FormHelperText>
 );

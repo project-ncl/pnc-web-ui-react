@@ -1,4 +1,5 @@
 import { ActionGroup, Button, Form, FormGroup, TextInput } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -39,7 +40,7 @@ const fieldConfigs = {
     ],
   },
   'attributes.brewTagPrefix': {
-    isRequired: BREW.isEnabled,
+    isRequired: true,
     validators: [maxLengthValidator(255)],
   },
 } satisfies IFieldConfigs;
@@ -151,24 +152,28 @@ export const ProductVersionCreateEditPage = ({ isEditPage = false }: IProductVer
             label={productVersionEntityAttributes['attributes.brewTagPrefix'].title}
             fieldId={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
           >
-            <TextInput
-              isRequired={BREW.isEnabled}
-              isDisabled={!BREW.isEnabled}
-              type="text"
-              id={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
-              name={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
-              autoComplete="off"
-              {...register<string>(
-                productVersionEntityAttributes['attributes.brewTagPrefix'].id,
-                fieldConfigs['attributes.brewTagPrefix']
-              )}
-            />
-            <FormInputHelperText variant="default" isHidden={BREW.isEnabled}>
-              {BREW.disabledReason}
-            </FormInputHelperText>
-            <FormInputHelperText variant="error">
-              {getFieldErrors(productVersionEntityAttributes['attributes.brewTagPrefix'].id)}
-            </FormInputHelperText>
+            {BREW.isEnabled ? (
+              <>
+                <TextInput
+                  isRequired
+                  type="text"
+                  id={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
+                  name={productVersionEntityAttributes['attributes.brewTagPrefix'].id}
+                  autoComplete="off"
+                  {...register<string>(
+                    productVersionEntityAttributes['attributes.brewTagPrefix'].id,
+                    fieldConfigs['attributes.brewTagPrefix']
+                  )}
+                />
+                <FormInputHelperText variant="error">
+                  {getFieldErrors(productVersionEntityAttributes['attributes.brewTagPrefix'].id)}
+                </FormInputHelperText>
+              </>
+            ) : (
+              <FormInputHelperText variant="indeterminate" icon={<InfoCircleIcon />}>
+                {BREW.disabledReason}
+              </FormInputHelperText>
+            )}
           </FormGroup>
         )}
         <ActionGroup>
