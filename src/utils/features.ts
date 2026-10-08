@@ -13,11 +13,3 @@ export const BREW = {
   isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
   disabledReason: 'Brew is not supported.',
 };
-
-/**
- * Whether app can be accessed anonymously. False redirects to login.
- */
-export const ANONYMOUS_ACCESS = {
-  isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
-  disabledReason: 'Login is required to access the API.',
-};
