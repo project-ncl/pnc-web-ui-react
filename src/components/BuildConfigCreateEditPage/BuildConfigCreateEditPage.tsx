@@ -163,8 +163,8 @@ const generateAlignmentParametersDescription = (buildType: BuildConfiguration['b
       ? { name: 'GME', url: 'https://project-ncl.github.io/gradle-manipulator/#feature-guide' }
       : buildType === buildTypeData.NPM.id
       ? {
-          name: 'Project Manipulator',
-          url: 'https://github.com/project-ncl/project-manipulator?tab=readme-ov-file#java-properties',
+          name: 'NPM Manipulator',
+          url: 'https://github.com/project-ncl/npm-manipulator?tab=readme-ov-file#java-properties',
         }
       : buildType === buildTypeData.SBT.id
       ? { name: 'SMEG', url: 'https://github.com/project-ncl/smeg?tab=readme-ov-file#properties' }
