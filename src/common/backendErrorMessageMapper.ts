@@ -10,16 +10,16 @@ export const backendErrorMessageMapper = (errorStatus: number, backendErrorMessa
   }
 
   if (errorStatus === 409) {
+    if (!backendErrorMessage || backendErrorMessage.trim() === '') {
+      return `Action was not successful due to the conflict with the current state of the target resource. Please, refresh the page and try again. [HTTP 409 Conflict]`;
+    }
+
     if (/SCM Repository.*already exists/.test(backendErrorMessage)) {
       return 'SCM repository with the external URL already exists.';
     }
 
     if (/Artifact.*cannot be changed to another quality level/.test(backendErrorMessage)) {
       return backendErrorMessage.replace(/Artifact \d+/, 'Artifact');
-    }
-
-    if (/Build push.*already in progress/.test(backendErrorMessage)) {
-      return backendErrorMessage;
     }
 
     const labelMatch = backendErrorMessage.match(/Unable to add the label (\w+)/);
@@ -30,7 +30,7 @@ export const backendErrorMessageMapper = (errorStatus: number, backendErrorMessa
       return `Label ${label} cannot be assigned${errorReason ? `: ${errorReason}.` : '.'}`;
     }
 
-    return `Action was not successful due to the conflict with the current state of the target resource. Please, refresh the page and try again. [HTTP 409 Conflict]`;
+    return backendErrorMessage;
   }
 
   return backendErrorMessage;
