@@ -147,6 +147,8 @@ const fieldConfigs = {
   },
 } satisfies IFieldConfigs;
 
+const isBrewPullUnsupported = (buildType: BuildConfiguration['buildType']): boolean => buildType === buildTypeData.NPM.id;
+
 const generateAlignmentParametersDescription = (buildType: BuildConfiguration['buildType']): ReactNode => {
   if (!buildType) {
     return (
@@ -168,6 +170,8 @@ const generateAlignmentParametersDescription = (buildType: BuildConfiguration['b
         }
       : buildType === buildTypeData.SBT.id
       ? { name: 'SMEG', url: 'https://github.com/project-ncl/smeg?tab=readme-ov-file#properties' }
+      : buildType === buildTypeData.ANT.id
+      ? { name: 'Ant Manipulator', url: 'https://github.com/project-ncl/ant-manipulator?tab=readme-ov-file#-d-properties' }
       : null;
 
   return (
@@ -409,7 +413,7 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
       buildType: data.buildType,
       buildScript: data.buildScript,
       // not sent when Brew is disabled, original value is kept
-      brewPullActive: BREW.isEnabled ? data.buildType !== buildTypeData.NPM.id && !!data.brewPullActive : undefined,
+      brewPullActive: BREW.isEnabled ? !isBrewPullUnsupported(data.buildType) && !!data.brewPullActive : undefined,
       scmRepository: selectedScmRepository ? { id: selectedScmRepository.id } : undefined,
       scmRevision: data.scmRevision,
       productVersion: selectedProductVersion ? { id: selectedProductVersion.id } : undefined,
@@ -712,18 +716,21 @@ export const BuildConfigCreateEditPage = ({ isEditPage = false }: IBuildConfigCr
               <FormInput<boolean>
                 {...register<boolean>(buildConfigEntityAttributes.brewPullActive.id, fieldConfigs.brewPullActive)}
                 render={({ value, onChange, onBlur }) => {
-                  const isNpmBuildType = getFieldValue(buildConfigEntityAttributes.buildType.id) === buildTypeData.NPM.id;
+                  const buildType = getFieldValue(buildConfigEntityAttributes.buildType.id);
+                  const isDisabled = isBrewPullUnsupported(buildType);
 
                   return (
-                    <TooltipWrapper tooltip={isNpmBuildType ? 'Cannot set Brew pull active for the NPM build type.' : undefined}>
+                    <TooltipWrapper
+                      tooltip={isDisabled ? `Cannot set Brew pull active for the ${buildType} build type.` : undefined}
+                    >
                       <Switch
                         id={buildConfigEntityAttributes.brewPullActive.id}
                         name={buildConfigEntityAttributes.brewPullActive.id}
                         label="Enabled"
-                        isChecked={!isNpmBuildType ? value : false}
+                        isChecked={!isDisabled ? value : false}
                         onChange={onChange}
                         onBlur={onBlur}
-                        isDisabled={isNpmBuildType}
+                        isDisabled={isDisabled}
                       />
                     </TooltipWrapper>
                   );
