@@ -34,4 +34,8 @@ export const buildTypeData: TBuildTypeData = {
     id: 'RPM',
     title: 'RPM Package Manager (RPM)',
   },
+  ANT: {
+    id: 'ANT',
+    title: 'Apache Ant (ANT)',
+  },
 } as const;
