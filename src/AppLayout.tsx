@@ -31,7 +31,7 @@ import {
   UserIcon,
 } from '@patternfly/react-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, Outlet, useMatches } from 'react-router';
+import { Link, Outlet, useLocation } from 'react-router';
 
 import { AUTH_ROLE, useAuth } from 'hooks/useAuth';
 import { hasPncStatusChanged, usePncWebSocketEffect } from 'hooks/usePncWebSocketEffect';
@@ -260,7 +260,8 @@ export const AppLayout = () => {
   );
 
   const AppNavigation = () => {
-    const pathname = useMatches()[1].pathname; //1 index = 2nd match which contains the first part of the path
+    const { pathname: fullPathname } = useLocation();
+    const pathname = `/${fullPathname.split('/')[1]}`;
 
     return (
       <Nav>
@@ -317,11 +318,11 @@ export const AppLayout = () => {
             <Link to="/deliverable-analyses">Deliverable Analyses</Link>
           </NavItem>
 
-          <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/product-milestone-comparison')}>
+          <NavExpandable title="Insights" groupId="insights" isActive={pathname.includes('/insights')}>
             <NavItem
               groupId="insights"
               itemId="insights_product-milestone-comparison"
-              isActive={pathname.includes('/product-milestone-comparison')}
+              isActive={fullPathname.includes('/product-milestone-comparison')}
             >
               <Link to="/insights/product-milestone-comparison">Product Milestone Comparison</Link>
             </NavItem>
