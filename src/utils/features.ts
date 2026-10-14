@@ -1,3 +1,8 @@
+export type TFeature = {
+  isEnabled: boolean;
+  disabledReason: string;
+};
+
 /**
  * Whether SERVICE Build Category can be used for creating Build Configs and starting Builds.
  */
