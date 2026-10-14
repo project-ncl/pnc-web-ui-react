@@ -11,13 +11,14 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 const DEV_HOST = process.env.VITE_DEV_HOST;
 
 /**
- * Optional locally-trusted TLS cert (git-ignored):
+ * Optional locally-trusted TLS cert for DEV_HOST (git-ignored):
  *   mkcert -install
- *   mkcert -key-file certs/dev-key.pem -cert-file certs/dev-cert.pem <DEV_HOST>
+ *   mkcert -key-file certs/$VITE_DEV_HOST-key.pem -cert-file certs/$VITE_DEV_HOST-cert.pem $VITE_DEV_HOST
  */
-const https = fs.existsSync('certs/dev-cert.pem')
-  ? { key: fs.readFileSync('certs/dev-key.pem'), cert: fs.readFileSync('certs/dev-cert.pem') }
-  : undefined;
+const certPath = `certs/${DEV_HOST}-cert.pem`;
+const keyPath = `certs/${DEV_HOST}-key.pem`;
+const https =
+  DEV_HOST && fs.existsSync(certPath) ? { key: fs.readFileSync(keyPath), cert: fs.readFileSync(certPath) } : undefined;
 
 // https://vitejs.dev/config/
 export default () => {
