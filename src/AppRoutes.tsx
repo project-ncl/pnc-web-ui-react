@@ -2,7 +2,7 @@ import { AppLayout } from 'AppLayout';
 import { Navigate, Route } from 'react-router';
 
 import { breadcrumbData } from 'common/breadcrumbData';
-import { PageTitles } from 'common/constants';
+import { EntityTitles, PageTitles } from 'common/constants';
 
 import { AUTH_ROLE } from 'hooks/useAuth';
 
@@ -43,6 +43,7 @@ import { DeliverableAnalysisDetailPage } from 'components/DeliverableAnalysisDet
 import { DeliverableAnalysisPages } from 'components/DeliverableAnalysisPages/DeliverableAnalysisPages';
 import { DemoPage } from 'components/DemoPage/DemoPage';
 import { ErrorPage } from 'components/ErrorPage/ErrorPage';
+import { FeatureContent } from 'components/FeatureContent/FeatureContent';
 import { GroupBuildDetailPage } from 'components/GroupBuildDetailPage/GroupBuildDetailPage';
 import { GroupBuildsPage } from 'components/GroupBuildsPage/GroupBuildsPage';
 import { GroupConfigBuildConfigsEditPage } from 'components/GroupConfigBuildConfigsEditPage/GroupConfigBuildConfigsEditPage';
@@ -81,6 +82,8 @@ import { ScmRepositoriesPage } from 'components/ScmRepositoriesPage/ScmRepositor
 import { ScmRepositoryCreateEditPage } from 'components/ScmRepositoryCreateEditPage/ScmRepositoryCreateEditPage';
 import { ScmRepositoryDetailPage } from 'components/ScmRepositoryDetailPage/ScmRepositoryDetailPage';
 import { VariablesPage } from 'components/VariablesPage/VariablesPage';
+
+import { BREW } from 'utils/features';
 
 export const AppRoutes = (
   <Route element={<AppLayout />}>
@@ -180,7 +183,14 @@ export const AppRoutes = (
               <Route path=":productMilestoneId" element={<ProductMilestonePages />} handle={breadcrumbData.productMilestone.id}>
                 <Route path="details" element={<ProductMilestoneDetailPage />} />
                 <Route path="builds-performed" element={<ProductMilestoneBuildsPerformedPage />} />
-                <Route path="build-pushes" element={<ProductMilestoneBuildPushesPage />} />
+                <Route
+                  path="build-pushes"
+                  element={
+                    <FeatureContent feature={BREW} title={PageTitles.buildPushes}>
+                      <ProductMilestoneBuildPushesPage />
+                    </FeatureContent>
+                  }
+                />
                 <Route path="deliverable-analyses" element={<ProductMilestoneDeliverableAnalysesPage />} />
                 <Route path="delivered-artifacts" element={<ProductMilestoneDeliveredArtifactsPage />} />
                 <Route path="interconnection-graph" element={<ProductMilestoneInterconnectionGraphPage />} />
@@ -321,8 +331,23 @@ export const AppRoutes = (
         <Route path="artifacts" element={<BuildArtifactsPage />} />
         <Route path="dependencies" element={<BuildDependenciesPage />} />
         <Route path="build-pushes" handle={breadcrumbData.buildPushes.id}>
-          <Route index element={<BuildPushesPage />} />
-          <Route path=":buildPushId" element={<BuildPushPage />} handle={breadcrumbData.buildPush.id} />
+          <Route
+            index
+            element={
+              <FeatureContent feature={BREW} title={PageTitles.buildPushes}>
+                <BuildPushesPage />
+              </FeatureContent>
+            }
+          />
+          <Route
+            path=":buildPushId"
+            element={
+              <FeatureContent feature={BREW} title={EntityTitles.buildPush}>
+                <BuildPushPage />
+              </FeatureContent>
+            }
+            handle={breadcrumbData.buildPush.id}
+          />
         </Route>
         <Route path="build-metrics" element={<BuildMetricsPage />} />
         <Route path="implicit-dependency-graph" element={<BuildImplicitDependencyGraphPage />} />

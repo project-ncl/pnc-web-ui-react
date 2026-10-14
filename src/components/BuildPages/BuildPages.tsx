@@ -34,6 +34,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as buildApi from 'services/buildApi';
 import * as buildConfigApi from 'services/buildConfigApi';
 
+import { BREW } from 'utils/features';
 import { generatePageTitle } from 'utils/titleHelper';
 import { isBuildFinished, isBuildWithArtifacts, isBuildWithLiveLog, isBuildWithStaticLog } from 'utils/utils';
 
@@ -75,7 +76,10 @@ export const BuildPages = () => {
 
     serviceContainerArtifactsRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
     serviceContainerDependenciesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
-    serviceContainerBuildPushesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+
+    if (BREW.isEnabled) {
+      serviceContainerBuildPushesRunner({ serviceData: { id: buildId }, requestConfig: TOTAL_COUNT_REQUEST_CONFIG });
+    }
   }, [
     serviceContainerBuildRunner,
     serviceContainerArtifactsRunner,
@@ -106,7 +110,7 @@ export const BuildPages = () => {
         } else if (hasBuildStatusChanged(wsData, { buildId })) {
           const wsBuild: Build = wsData.build;
           serviceContainerBuildSetter(wsBuild);
-        } else if (hasBuildPushFinished(wsData, { buildId })) {
+        } else if (BREW.isEnabled && hasBuildPushFinished(wsData, { buildId })) {
           serviceContainerBuildPushesRunner({
             serviceData: { id: buildId },
             requestConfig: TOTAL_COUNT_REQUEST_CONFIG,
@@ -243,11 +247,17 @@ const BuildPageTabs = ({
           {serviceContainerDependencies.data?.totalHits}
         </PageTabsLabel>
       </PageTabsItem>
-      <PageTabsItem url="build-pushes" isDisabled={!hasArtifacts.value} tooltip={hasArtifacts.reason}>
+      <PageTabsItem
+        url="build-pushes"
+        isDisabled={!BREW.isEnabled || !hasArtifacts.value}
+        tooltip={!BREW.isEnabled ? BREW.disabledReason : hasArtifacts.reason}
+      >
         Build Pushes{' '}
-        <PageTabsLabel serviceContainer={serviceContainerBuildPushes} title="Build Pushes Count">
-          {serviceContainerBuildPushes.data?.totalHits}
-        </PageTabsLabel>
+        {BREW.isEnabled && (
+          <PageTabsLabel serviceContainer={serviceContainerBuildPushes} title="Build Pushes Count">
+            {serviceContainerBuildPushes.data?.totalHits}
+          </PageTabsLabel>
+        )}
       </PageTabsItem>
       <PageTabsItem url="build-metrics">Build Metrics</PageTabsItem>
       <ExperimentalContent>
