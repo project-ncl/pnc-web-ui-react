@@ -20,6 +20,22 @@ export const BREW = {
 };
 
 /**
+ * Whether Causeway is available, to display its version.
+ */
+export const CAUSEWAY = {
+  isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
+  disabledReason: 'Causeway is not available in the current system.',
+};
+
+/**
+ * Whether ETT is available, to display its version.
+ */
+export const ETT = {
+  isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
+  disabledReason: 'ETT is not available in the current system.',
+};
+
+/**
  * Whether app can be accessed anonymously. False redirects to login.
  */
 export const ANONYMOUS_ACCESS = {
