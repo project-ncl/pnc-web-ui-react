@@ -36,6 +36,14 @@ export const ETT = {
 };
 
 /**
+ * Whether Grafana service status widgets are available on the dashboard.
+ */
+export const SERVICE_STATUS = {
+  isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
+  disabledReason: 'Service status is not available in the current system.',
+};
+
+/**
  * Whether app can be accessed anonymously. False redirects to login.
  */
 export const ANONYMOUS_ACCESS = {

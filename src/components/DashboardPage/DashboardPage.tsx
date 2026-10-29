@@ -32,6 +32,7 @@ import * as groupBuildApi from 'services/groupBuildApi';
 import { userService } from 'services/userService';
 import * as webConfigService from 'services/webConfigService';
 
+import { SERVICE_STATUS } from 'utils/features';
 import { refreshPage } from 'utils/refreshHelper';
 import { updateUrlQueryParamValue } from 'utils/urlParseHelper';
 import { debounce } from 'utils/utils';
@@ -58,18 +59,22 @@ export const DashboardPage = () => {
       title="Dashboard"
       description={
         <>
-          The dashboard page contains the status of relevant services and the list of the builds and group builds triggered by the
-          current user.
+          The dashboard page contains {SERVICE_STATUS.isEnabled && 'the status of relevant services and '}the list of the builds
+          and group builds triggered by the current user.
         </>
       }
     >
       <Grid hasGutter>
-        <GridItem lg={12} xl2={6}>
-          <DashboardWidget title="Service Status" src={trafficLightsUrl}></DashboardWidget>
-        </GridItem>
-        <GridItem lg={12} xl2={6}>
-          <DashboardWidget title="Service Status Timeline" src={statusMapUrl}></DashboardWidget>
-        </GridItem>
+        {SERVICE_STATUS.isEnabled && (
+          <>
+            <GridItem lg={12} xl2={6}>
+              <DashboardWidget title="Service Status" src={trafficLightsUrl}></DashboardWidget>
+            </GridItem>
+            <GridItem lg={12} xl2={6}>
+              <DashboardWidget title="Service Status Timeline" src={statusMapUrl}></DashboardWidget>
+            </GridItem>
+          </>
+        )}
         <RestrictedContent>
           <GridItem lg={12} xl2={6}>
             <Toolbar>
