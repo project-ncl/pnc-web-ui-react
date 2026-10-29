@@ -15,6 +15,8 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 
 import * as versionApi from 'services/versionApi';
 
+import { CAUSEWAY, ETT } from 'utils/features';
+
 export const AboutPage = () => {
   const serviceContainerPncVersion = useServiceContainer(versionApi.getPncVersion);
   const serviceContainerPncVersionRunner = serviceContainerPncVersion.run;
@@ -67,7 +69,9 @@ export const AboutPage = () => {
   useEffect(() => {
     serviceContainerPncVersionRunner();
     serviceContainerKafkaVersionRunner();
-    serviceContainerCausewayVersionRunner();
+    if (CAUSEWAY.isEnabled) {
+      serviceContainerCausewayVersionRunner();
+    }
     serviceContainerUiLoggerVersionRunner();
     serviceContainerReqourVersionRunner();
     serviceContainerBifrostVersionRunner();
@@ -79,7 +83,9 @@ export const AboutPage = () => {
     serviceContainerLogEventDurationVersionRunner();
     serviceContainerRepositoryDriverVersionRunner();
     serviceContainerRexVersionRunner();
-    serviceContainerEttVersionRunner();
+    if (ETT.isEnabled) {
+      serviceContainerEttVersionRunner();
+    }
     serviceContainerDingroguVersionRunner();
   }, [
     serviceContainerPncVersionRunner,
@@ -144,22 +150,24 @@ export const AboutPage = () => {
             </ServiceContainerLoading>
           </AttributesItem>
 
-          <AttributesItem
-            title={
-              <a href={RepositoryUrls.causewayRepository} target="_blank" rel="noopener noreferrer">
-                Causeway
-              </a>
-            }
-          >
-            <ServiceContainerLoading {...serviceContainerCausewayVersion} variant="inline" title="Causeway version">
-              <VersionText
-                version={serviceContainerCausewayVersion.data?.version}
-                revision={serviceContainerCausewayVersion.data?.commit}
-                repositoryUrl={RepositoryUrls.causewayRepository}
-                builtOn={serviceContainerCausewayVersion.data?.builtOn}
-              />
-            </ServiceContainerLoading>
-          </AttributesItem>
+          {CAUSEWAY.isEnabled && (
+            <AttributesItem
+              title={
+                <a href={RepositoryUrls.causewayRepository} target="_blank" rel="noopener noreferrer">
+                  Causeway
+                </a>
+              }
+            >
+              <ServiceContainerLoading {...serviceContainerCausewayVersion} variant="inline" title="Causeway version">
+                <VersionText
+                  version={serviceContainerCausewayVersion.data?.version}
+                  revision={serviceContainerCausewayVersion.data?.commit}
+                  repositoryUrl={RepositoryUrls.causewayRepository}
+                  builtOn={serviceContainerCausewayVersion.data?.builtOn}
+                />
+              </ServiceContainerLoading>
+            </AttributesItem>
+          )}
 
           <AttributesItem
             title={
@@ -368,15 +376,17 @@ export const AboutPage = () => {
             </ServiceContainerLoading>
           </AttributesItem>
 
-          <AttributesItem title="ETT">
-            <ServiceContainerLoading {...serviceContainerEttVersion} variant="inline" title="ETT version">
-              <VersionText
-                version={serviceContainerEttVersion.data?.version}
-                revision={serviceContainerEttVersion.data?.commit}
-                builtOn={serviceContainerEttVersion.data?.builtOn}
-              />
-            </ServiceContainerLoading>
-          </AttributesItem>
+          {ETT.isEnabled && (
+            <AttributesItem title="ETT">
+              <ServiceContainerLoading {...serviceContainerEttVersion} variant="inline" title="ETT version">
+                <VersionText
+                  version={serviceContainerEttVersion.data?.version}
+                  revision={serviceContainerEttVersion.data?.commit}
+                  builtOn={serviceContainerEttVersion.data?.builtOn}
+                />
+              </ServiceContainerLoading>
+            </AttributesItem>
+          )}
 
           <AttributesItem
             title={
