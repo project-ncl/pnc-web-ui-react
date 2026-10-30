@@ -50,3 +50,11 @@ export const ANONYMOUS_ACCESS = {
   isEnabled: import.meta.env.VITE_PNC_INSTANCE !== 'primary',
   disabledReason: 'Login is required to access the API.',
 };
+
+/**
+ * Whether services are behind OAuth proxy.
+ */
+export const OAUTH_PROXY = {
+  isEnabled: import.meta.env.VITE_PNC_INSTANCE === 'primary',
+  disabledReason: 'OAuth proxy is not available in the current system.',
+};
