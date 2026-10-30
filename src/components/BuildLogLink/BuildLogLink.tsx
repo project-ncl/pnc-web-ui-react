@@ -5,6 +5,8 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as webConfigService from 'services/webConfigService';
 
+import { OAUTH_PROXY } from 'utils/features';
+
 interface IBuildLogLinkProps {
   buildId: string;
   isIconVariant?: boolean;
@@ -19,7 +21,9 @@ interface IBuildLogLinkProps {
  * @param title - displayed text on the button/link
  */
 export const BuildLogLink = ({ buildId, isIconVariant = false, title = 'View raw' }: IBuildLogLinkProps) => {
-  const buildLogUrl = `${webConfigService.getPncUrl()}/builds/${buildId}/logs/build`;
+  const buildLogUrl = OAUTH_PROXY.isEnabled
+    ? `${webConfigService.getBifrostUrl()}/final-log/${buildId}/build-log`
+    : `${webConfigService.getPncUrl()}/builds/${buildId}/logs/build`;
 
   return isIconVariant ? (
     <TooltipWrapper tooltip={title}>

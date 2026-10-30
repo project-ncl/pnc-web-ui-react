@@ -10,8 +10,10 @@ import {
   RunningBuildCount,
 } from 'common/pnc-api-types-ts';
 
+import { OAUTH_PROXY } from 'utils/features';
 import { extendRequestConfig } from 'utils/requestConfigHelper';
 
+import { bifrostClient } from './bifrostClient';
 import { kafkaClient } from './kafkaClient';
 import { pncClient } from './pncClient';
 
@@ -86,6 +88,14 @@ export const getBuild = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfi
  * @param requestConfig - Axios based request config
  */
 export const getBuildLog = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  if (OAUTH_PROXY.isEnabled) {
+    const result = bifrostClient.getHttpClient();
+
+    return result.success
+      ? result.value.get<string>(`/final-log/${id}/build-log`, { ...requestConfig, responseType: 'text' })
+      : Promise.reject(result.error);
+  }
+
   return pncClient.getHttpClient().get<string>(`/builds/${id}/logs/build`, { ...requestConfig, responseType: 'text' });
 };
 
@@ -97,6 +107,14 @@ export const getBuildLog = ({ id }: IBuildApiData, requestConfig: AxiosRequestCo
  * @param requestConfig - Axios based request config
  */
 export const getAlignmentLog = ({ id }: IBuildApiData, requestConfig: AxiosRequestConfig = {}) => {
+  if (OAUTH_PROXY.isEnabled) {
+    const result = bifrostClient.getHttpClient();
+
+    return result.success
+      ? result.value.get<string>(`/final-log/${id}/alignment-log`, { ...requestConfig, responseType: 'text' })
+      : Promise.reject(result.error);
+  }
+
   return pncClient.getHttpClient().get<string>(`/builds/${id}/logs/align`, { ...requestConfig, responseType: 'text' });
 };
 
