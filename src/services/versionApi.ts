@@ -17,6 +17,8 @@ import { reqourClient } from 'services/reqourClient';
 import { rexClient } from 'services/rexClient';
 import { uiLoggerClient } from 'services/uiLoggerClient';
 
+import { OAUTH_PROXY } from 'utils/features';
+
 interface ComponentVersion {
   name: string;
   version: string;
@@ -39,7 +41,9 @@ export const getPncVersion = (requestConfig: AxiosRequestConfig = {}) => {
  * @param requestConfig - Axios based request config
  */
 export const getKafkaVersion = (requestConfig: AxiosRequestConfig = {}) => {
-  return kafkaClient.getHttpClient().get<ComponentVersion>('/version', requestConfig);
+  return kafkaClient
+    .getHttpClient()
+    .get<ComponentVersion>(OAUTH_PROXY.isEnabled ? '/kafka-store-version' : '/version', requestConfig);
 };
 
 /**
@@ -81,7 +85,9 @@ export const getReqourVersion = (requestConfig: AxiosRequestConfig = {}) => {
 export const getBifrostVersion = (requestConfig: AxiosRequestConfig = {}) => {
   const result = bifrostClient.getHttpClient();
 
-  return result.success ? result.value.get<ComponentVersion>('/version', requestConfig) : Promise.reject(result.error);
+  return result.success
+    ? result.value.get<ComponentVersion>(OAUTH_PROXY.isEnabled ? '/bifrost-version' : '/version', requestConfig)
+    : Promise.reject(result.error);
 };
 
 /**
