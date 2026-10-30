@@ -5,6 +5,8 @@ import { TooltipWrapper } from 'components/TooltipWrapper/TooltipWrapper';
 
 import * as webConfigService from 'services/webConfigService';
 
+import { OAUTH_PROXY } from 'utils/features';
+
 interface IAlignmentLogLinkProps {
   buildId: string;
   isIconVariant?: boolean;
@@ -19,7 +21,9 @@ interface IAlignmentLogLinkProps {
  * @param title - displayed text on the button/link
  */
 export const AlignmentLogLink = ({ buildId, isIconVariant, title = 'View raw' }: IAlignmentLogLinkProps) => {
-  const alignmentLogUrl = `${webConfigService.getPncUrl()}/builds/${buildId}/logs/align`;
+  const alignmentLogUrl = OAUTH_PROXY.isEnabled
+    ? `${webConfigService.getBifrostUrl()}/final-log/${buildId}/alignment-log`
+    : `${webConfigService.getPncUrl()}/builds/${buildId}/logs/align`;
 
   return isIconVariant ? (
     <TooltipWrapper tooltip={title}>
