@@ -8,6 +8,7 @@ import { GroupConfigLink } from 'components/GroupConfigLink/GroupConfigLink';
 import { uiLogger } from 'services/uiLogger';
 
 import { isBuild, isGroupBuild } from 'utils/entityRecognition';
+import { toDate } from 'utils/utils';
 
 export const calculateBuildName = (build: Build | GroupBuild) => {
   if (!build) return;
@@ -18,7 +19,7 @@ export const calculateBuildName = (build: Build | GroupBuild) => {
   if (isBuild(build)) {
     const buildItem = build as Build;
     if (buildItem.submitTime) {
-      const dateObject = new Date(buildItem.submitTime);
+      const dateObject = toDate(buildItem.submitTime);
       return [
         '#',
         dateObject.getUTCFullYear(),

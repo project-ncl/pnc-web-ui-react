@@ -8,6 +8,11 @@ import { uiLogger } from 'services/uiLogger';
 
 import { isString } from 'utils/entityRecognition';
 
+const MAX_EPOCH_SECONDS = 100_000_000_000; // year 5138 in seconds, 1973 in milliseconds
+
+export const toDate = (date: Date | string | number): Date =>
+  typeof date === 'number' ? new Date(date < MAX_EPOCH_SECONDS ? date * 1000 : date) : new Date(date);
+
 interface ICreateDateTime {
   date: Date | string;
   includeDateInCustom?: boolean;
@@ -48,7 +53,7 @@ export const createDateTime = ({
     };
   }
 
-  const timestamp = isString(date) ? new Date(date) : date;
+  const timestamp = toDate(date);
 
   const year = timestamp.getFullYear();
   const month = timestamp.getMonth() + 1;
@@ -99,8 +104,8 @@ export const parseDate = (date: string): Date | undefined => {
  * @returns True if dates are equal, false otherwise
  */
 export const areDatesEqual = (date1: Date | string, date2: Date | string, includeTime: boolean = false): boolean => {
-  const timestamp1 = isString(date1) ? new Date(date1) : new Date(date1.getTime());
-  const timestamp2 = isString(date2) ? new Date(date2) : new Date(date2.getTime());
+  const timestamp1 = toDate(date1);
+  const timestamp2 = toDate(date2);
 
   if (!includeTime) {
     timestamp1.setHours(0, 0, 0, 0);
@@ -127,8 +132,8 @@ export const calculateDuration = (startTime: Date | string, endTime: Date | stri
     return null;
   }
 
-  const startTimestamp = isString(startTime) ? new Date(startTime) : startTime;
-  const endTimestamp = isString(endTime) ? new Date(endTime) : endTime;
+  const startTimestamp = toDate(startTime);
+  const endTimestamp = toDate(endTime);
 
   const diffMs = Math.abs(startTimestamp.getTime() - endTimestamp.getTime());
 

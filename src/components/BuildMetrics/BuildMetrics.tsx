@@ -19,7 +19,7 @@ import { ServiceContainerLoading } from 'components/ServiceContainers/ServiceCon
 import * as buildApi from 'services/buildApi';
 
 import { updateQueryParamsInURL } from 'utils/queryParamsHelper';
-import { calculateDurationDiff, formatBuildMetricsTime, getCssColorValue } from 'utils/utils';
+import { calculateDurationDiff, formatBuildMetricsTime, getCssColorValue, toDate } from 'utils/utils';
 
 import styles from './BuildMetrics.module.css';
 
@@ -348,8 +348,8 @@ export const BuildMetrics = ({ builds, chartType, componentId }: IBuildMetricsPr
 
     // Compute "Other" metric data for each build
     const otherMetricData: number[] = buildMetrics.builds.map((build, index) => {
-      const submitTime = new Date(build.submitTime!);
-      const endTime = new Date(build.endTime!);
+      const submitTime = toDate(build.submitTime!);
+      const endTime = toDate(build.endTime!);
       const diff = endTime.getTime() - submitTime.getTime() - buildMetricsSum[index];
       return diff > 0 ? diff : 0;
     });
